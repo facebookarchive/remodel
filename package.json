@@ -1,0 +1,40 @@
+{
+  "name": "remodel-gen",
+  "description": "Remodel generates Objective-C models that support coding, value comparison, and immutability.",
+  "version": "1.0.0",
+  "homepage": "https://facebook.github.io/remodel",
+  "bugs": "https://github.com/facebook/remodel/issues",
+  "files": [
+    "bin/",
+    "LICENSE",
+    "PATENTS"
+  ],
+  "main": "bin/generate",
+  "scripts": {
+    "prepublish": "./bin/build",
+    "test": "./bin/runUnitTests && ./bin/runAcceptanceTests"
+  },
+  "bin": {
+    "remodel-gen": "bin/generate"
+  },
+  "repository": "facebook/remodel",
+  "license": "BSD-3-Clause",
+  "dependencies": {
+    "cli-color": "0.3.2",
+    "immutable": "3.6.2",
+    "minimist": "0.0.8",
+    "mkdirp": "0.3.5",
+    "mona": "0.9.1",
+    "ncp": "2.0.0",
+    "promise": "7.1.1",
+    "remove": "0.1.5"
+  },
+  "devDependencies": {
+    "cucumber": "0.3.3",
+    "diff": "1.0.7",
+    "fs-extra": "0.26.7",
+    "jasmine": "2.2",
+    "jsondiffpatch": "0.1.38",
+    "typescript": "1.8"
+  }
+}

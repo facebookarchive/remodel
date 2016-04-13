@@ -1,0 +1,10 @@
+
+.built_on_revision
+
+.nobuildcheck
+
+node_modules/
+
+bin/dist/
+
+tmp/

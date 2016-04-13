@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "preserveConstEnums": true
+  },
+  "exclude": [
+    "__tests__"
+  ]
+}

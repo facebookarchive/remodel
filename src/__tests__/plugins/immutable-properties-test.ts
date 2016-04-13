@@ -1,0 +1,1384 @@
+/**
+ * Copyright (c) 2016-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ */
+
+///<reference path='../../type-defs/jasmine.d.ts'/>
+///<reference path='../../type-defs/jasmine-test-additions.d.ts'/>
+
+import ImmutableProperties = require('../../plugins/immutable-properties');
+import Maybe = require('../../maybe');
+import ObjC = require('../../objc');
+import ValueObject = require('../../value-object');
+
+const Plugin = ImmutableProperties.createPlugin();
+
+describe('Plugins.ImmutableProperties', function() {
+  describe('#instanceMethods', function() {
+    it('is an empty array when there are no attributes', function() {
+      const valueType:ValueObject.Type = {
+        annotations: {},
+        attributes: [],
+        comments: [],
+        typeLookups:[],
+        excludes: [],
+        includes: [],
+        typeName: 'RMSomething',
+        libraryName: Maybe.Nothing<string>()
+      };
+
+      const actualMethods = Plugin.instanceMethods(valueType);
+
+      const expectedMethods = [];
+
+      expect(actualMethods).toEqualJSON(expectedMethods);
+    });
+
+    it('is an initializer with a single property when one attribute is ' +
+       'given', function() {
+      const valueType:ValueObject.Type = {
+        annotations: {},
+        attributes: [
+          {
+            annotations: {},
+            comments: [],
+            name:'value',
+            nullability:ObjC.Nullability.Inherited(),
+            type: {
+              fileTypeIsDefinedIn:Maybe.Nothing<string>(),
+              libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+              name:'NSString',
+              reference: 'NSString *',
+              underlyingType:Maybe.Just<string>('NSObject')
+            }
+          }
+        ],
+        comments: [],
+        typeLookups:[],
+        excludes: [],
+        includes: [],
+        typeName: 'RMSomething',
+        libraryName: Maybe.Nothing<string>()
+      };
+
+      const actualMethods = Plugin.instanceMethods(valueType);
+
+      const expectedMethods:ObjC.Method[] = [
+        {
+          belongsToProtocol:Maybe.Nothing<string>(),
+          code:[
+            'if ((self = [super init])) {',
+            '  _value = [value copy];',
+            '}',
+            '',
+            'return self;'
+          ],
+          comments: [],
+          keywords: [
+            {
+              name:'initWithValue',
+              argument: Maybe.Just({
+                name:'value',
+                modifiers: [],
+                type: {
+                  name:'NSString',
+                  reference: 'NSString *'
+                }
+              })
+            }
+          ],
+          returnType: Maybe.Just({
+            name:'instancetype',
+            reference: 'instancetype'
+          })
+        }
+      ];
+
+      expect(actualMethods).toEqualJSON(expectedMethods);
+    });
+
+    it('is an initializer with multiple properties when many attribtutes are ' +
+       'given', function() {
+      const valueType:ValueObject.Type = {
+        annotations: {},
+        attributes: [
+          {
+            annotations: {},
+            comments: [],
+            name:'value',
+            nullability:ObjC.Nullability.Inherited(),
+            type: {
+              fileTypeIsDefinedIn:null,
+              libraryTypeIsDefinedIn:null,
+              name:'NSString',
+              reference: 'NSString *',
+              underlyingType:Maybe.Just<string>('NSObject')
+            }
+          },
+          {
+            annotations: {},
+            comments: [],
+            name:'value2',
+            nullability:ObjC.Nullability.Inherited(),
+            type: {
+              fileTypeIsDefinedIn:null,
+              libraryTypeIsDefinedIn:null,
+              name:'BOOL',
+              reference: 'BOOL',
+              underlyingType:Maybe.Nothing<string>()
+            }
+          },
+          {
+            annotations: {},
+            comments: [],
+            name:'value3',
+            nullability:ObjC.Nullability.Inherited(),
+            type: {
+              fileTypeIsDefinedIn:null,
+              libraryTypeIsDefinedIn:null,
+              name:'RMAnotherSomething',
+              reference: 'RMAnotherSomething *',
+              underlyingType:Maybe.Just<string>('NSObject')
+            }
+          },
+          {
+            annotations: {},
+            comments: [],
+            name:'value4',
+            nullability:ObjC.Nullability.Inherited(),
+            type: {
+              fileTypeIsDefinedIn:null,
+              libraryTypeIsDefinedIn:null,
+              name:'id',
+              reference: 'id',
+              underlyingType:Maybe.Nothing<string>()
+            }
+          }
+        ],
+        comments: [],
+        typeLookups:[],
+        excludes: [],
+        includes: [],
+        typeName: 'RMSomething',
+        libraryName: null
+      };
+
+      const actualMethods = Plugin.instanceMethods(valueType);
+
+      const expectedMethods:ObjC.Method[] = [
+        {
+          belongsToProtocol:Maybe.Nothing<string>(),
+          code:[
+            'if ((self = [super init])) {',
+            '  _value = [value copy];',
+            '  _value2 = value2;',
+            '  _value3 = [value3 copy];',
+            '  _value4 = [value4 copy];',
+            '}',
+            '',
+            'return self;'
+          ],
+          comments: [],
+          keywords: [
+            {
+              name:'initWithValue',
+              argument: Maybe.Just({
+                name:'value',
+                modifiers: [],
+                type: {
+                  name:'NSString',
+                  reference: 'NSString *'
+                }
+              })
+            },
+            {
+              name:'value2',
+              argument: Maybe.Just({
+                name:'value2',
+                modifiers: [],
+                type: {
+                  name:'BOOL',
+                  reference: 'BOOL'
+                }
+              })
+            },
+            {
+              name:'value3',
+              argument: Maybe.Just({
+                name:'value3',
+                modifiers: [],
+                type: {
+                  name:'RMAnotherSomething',
+                  reference: 'RMAnotherSomething *'
+                }
+              })
+            },
+            {
+              name:'value4',
+              argument: Maybe.Just({
+                name:'value4',
+                modifiers: [],
+                type: {
+                  name:'id',
+                  reference: 'id'
+                }
+              })
+            }
+          ],
+          returnType: Maybe.Just({
+            name:'instancetype',
+            reference: 'instancetype'
+          })
+        }
+      ];
+
+      expect(actualMethods).toEqualJSON(expectedMethods);
+    });
+  });
+
+  describe('#imports', function() {
+    it('includes foundation even when there are no attributes', function() {
+      const valueType:ValueObject.Type = {
+        annotations: {},
+        attributes: [],
+        comments: [],
+        typeLookups:[],
+        excludes: [],
+        includes: [],
+        typeName: 'RMSomething',
+        libraryName: Maybe.Nothing<string>()
+      };
+
+      const actualImports = Plugin.imports(valueType);
+
+      const expectedImport = {
+        file:'Foundation.h',
+        isPublic:true,
+        library:Maybe.Just('Foundation')
+      };
+
+      expect(actualImports).toContain(expectedImport);
+    });
+
+    it('includes an import for itself locally when the type is not inside ' +
+       'of a library', function() {
+      const valueType:ValueObject.Type = {
+        annotations: {},
+        attributes: [],
+        comments: [],
+        typeLookups:[],
+        excludes: [],
+        includes: [],
+        typeName: 'RMSomething',
+        libraryName: Maybe.Nothing<string>()
+      };
+
+      const actualImports = Plugin.imports(valueType);
+
+      const expectedImport = {
+        file:'RMSomething.h',
+        isPublic:false,
+        library:Maybe.Nothing<string>()
+      };
+
+      expect(actualImports).toContain(expectedImport);
+    });
+
+    it('includes an import for itself in a library when the type itself is ' +
+       'inside of a library', function() {
+      const valueType:ValueObject.Type = {
+        annotations: {},
+        attributes: [],
+        comments: [],
+        typeLookups:[],
+        excludes: [],
+        includes: [],
+        typeName: 'RMSomething',
+        libraryName: Maybe.Just('RMSomeLibrary')
+      };
+
+      const actualImports = Plugin.imports(valueType);
+
+      const expectedImport = {
+        file:'RMSomething.h',
+        isPublic:false,
+        library:Maybe.Nothing<string>()
+      };
+
+      expect(actualImports).toContain(expectedImport);
+    });
+
+    it('includes an import for the provided type lookups', function() {
+      const valueType:ValueObject.Type = {
+        annotations: {},
+        attributes: [],
+        comments: [],
+        typeLookups:[
+          {
+            name:'Foo',
+            library:Maybe.Just<string>('Bar'),
+            file:Maybe.Just<string>('Baz'),
+            canForwardDeclare: false,
+          },
+          {
+            name:'Scumbag',
+            library:Maybe.Just<string>('Steve'),
+            file:Maybe.Nothing<string>(),
+            canForwardDeclare: true,
+          }
+        ],
+        excludes: [],
+        includes: [],
+        typeName: 'RMSomething',
+        libraryName: Maybe.Just('RMSomeLibrary')
+      };
+
+      const actualImports = Plugin.imports(valueType);
+
+      expect(actualImports).toContain({
+        file:'Baz.h',
+        isPublic:true,
+        library:Maybe.Just<string>('Bar')
+      });
+
+      expect(actualImports).toContain({
+        file:'Scumbag.h',
+        isPublic:true,
+        library:Maybe.Just<string>('Steve')
+      });
+    });
+
+    it('includes for an attribute that is an NSObject but does not have a ' +
+       'specified library and the value object is in a library', function() {
+      const valueType:ValueObject.Type = {
+        annotations: {},
+        attributes: [
+          {
+            annotations: {},
+            comments: [],
+            name:'something',
+            nullability:ObjC.Nullability.Inherited(),
+            type: {
+              fileTypeIsDefinedIn:Maybe.Nothing<string>(),
+              libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+              name:'RMSomethingElse',
+              reference: 'RMSomethingElse *',
+              underlyingType:Maybe.Just<string>('NSObject')
+            }
+          }
+        ],
+        comments: [],
+        typeLookups:[],
+        excludes: [],
+        includes: [],
+        typeName: 'RMSomething',
+        libraryName: Maybe.Just('RMSomeLibrary')
+      };
+
+      const actualImports = Plugin.imports(valueType);
+
+      const expectedImport = {
+        file:'RMSomethingElse.h',
+        isPublic:true,
+        library:Maybe.Just('RMSomeLibrary')
+      };
+
+      expect(actualImports).toContain(expectedImport);
+    });
+
+    it('includes for an attribute that is an NSObject but does not have a ' +
+       'specified library and the value object is not in a library', function() {
+      const valueType:ValueObject.Type = {
+        annotations: {},
+        attributes: [
+          {
+            annotations: {},
+            comments: [],
+            name:'something',
+            nullability:ObjC.Nullability.Inherited(),
+            type: {
+              fileTypeIsDefinedIn:Maybe.Nothing<string>(),
+              libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+              name:'RMSomethingElse',
+              reference: 'RMSomethingElse *',
+              underlyingType:Maybe.Just<string>('NSObject')
+            }
+          }
+        ],
+        comments: [],
+        typeLookups:[],
+        excludes: [],
+        includes: [],
+        typeName: 'RMSomething',
+        libraryName: Maybe.Nothing<string>()
+      };
+
+      const actualImports = Plugin.imports(valueType);
+
+      const expectedImport = {
+        file:'RMSomethingElse.h',
+        isPublic:true,
+        library:Maybe.Nothing<string>()
+      };
+
+      expect(actualImports).toContain(expectedImport);
+    });
+
+    it('includes for an attribute that is an NSObject but specifies which file ' +
+       'it should be without a library and the value object is not in a library', function() {
+      const valueType:ValueObject.Type = {
+        annotations: {},
+        attributes: [
+          {
+            annotations: {},
+            comments: [],
+            name:'something',
+            nullability:ObjC.Nullability.Inherited(),
+            type: {
+              fileTypeIsDefinedIn:Maybe.Just('RMSomeOtherFile'),
+              libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+              name:'RMSomethingElse',
+              reference: 'RMSomethingElse *',
+              underlyingType:Maybe.Just<string>('NSObject')
+            }
+          }
+        ],
+        comments: [],
+        typeLookups:[],
+        excludes: [],
+        includes: [],
+        typeName: 'RMSomething',
+        libraryName: Maybe.Nothing<string>()
+      };
+
+      const actualImports = Plugin.imports(valueType);
+
+      const expectedImport = {
+        file:'RMSomeOtherFile.h',
+        isPublic:true,
+        library:Maybe.Nothing<string>()
+      };
+
+      expect(actualImports).toContain(expectedImport);
+    });
+
+    it('includes for an attribute that is an NSObject but specifies which file ' +
+       'it should be with a library and the value object is not in a library', function() {
+      const valueType:ValueObject.Type = {
+        annotations: {},
+        attributes: [
+          {
+            annotations: {},
+            comments: [],
+            name:'something',
+            nullability:ObjC.Nullability.Inherited(),
+            type: {
+              fileTypeIsDefinedIn:Maybe.Just('RMSomeOtherFile'),
+              libraryTypeIsDefinedIn:Maybe.Just('RMSomeOtherLibrary'),
+              name:'RMSomethingElse',
+              reference: 'RMSomethingElse *',
+              underlyingType:Maybe.Just<string>('NSObject')
+            }
+          }
+        ],
+        comments: [],
+        typeLookups:[],
+        excludes: [],
+        includes: [],
+        typeName: 'RMSomething',
+        libraryName: Maybe.Nothing<string>()
+      };
+
+      const actualImports = Plugin.imports(valueType);
+
+      const expectedImport = {
+        file:'RMSomeOtherFile.h',
+        isPublic:true,
+        library:Maybe.Just('RMSomeOtherLibrary')
+      };
+
+      expect(actualImports).toContain(expectedImport);
+    });
+
+    it('includes for an attribute that is an NSObject but specifies which file ' +
+       'it should be with a library and the value object is in a library', function() {
+      const valueType:ValueObject.Type = {
+        annotations: {},
+        attributes: [
+          {
+            annotations: {},
+            comments: [],
+            name:'something',
+            nullability:ObjC.Nullability.Inherited(),
+            type: {
+              fileTypeIsDefinedIn:Maybe.Just('RMSomeOtherFile'),
+              libraryTypeIsDefinedIn:Maybe.Just('RMSomeOtherLibrary'),
+              name:'RMSomethingElse',
+              reference: 'RMSomethingElse *',
+              underlyingType:Maybe.Just<string>('NSObject')
+            }
+          }
+        ],
+        comments: [],
+        typeLookups:[],
+        excludes: [],
+        includes: [],
+        typeName: 'RMSomething',
+        libraryName: Maybe.Just('RMSomeLibrary')
+      };
+
+      const actualImports = Plugin.imports(valueType);
+
+      const expectedImport = {
+        file:'RMSomeOtherFile.h',
+        isPublic:true,
+        library:Maybe.Just('RMSomeOtherLibrary')
+      };
+
+      expect(actualImports).toContain(expectedImport);
+    });
+
+    it('includes for an attribute that is an NSObject but specifies which library ' +
+       'it should be and the value object is in a library', function() {
+      const valueType:ValueObject.Type = {
+        annotations: {},
+        attributes: [
+          {
+            annotations: {},
+            comments: [],
+            name:'something',
+            nullability:ObjC.Nullability.Inherited(),
+            type: {
+              fileTypeIsDefinedIn:Maybe.Nothing<string>(),
+              libraryTypeIsDefinedIn:Maybe.Just('RMSomeOtherLibrary'),
+              name:'RMSomethingElse',
+              reference: 'RMSomethingElse *',
+              underlyingType:Maybe.Just<string>('NSObject')
+            }
+          }
+        ],
+        comments: [],
+        typeLookups:[],
+        excludes: [],
+        includes: [],
+        typeName: 'RMSomething',
+        libraryName: Maybe.Just('RMSomeLibrary')
+      };
+
+      const actualImports = Plugin.imports(valueType);
+
+      const expectedImport = {
+        file:'RMSomethingElse.h',
+        isPublic:true,
+        library:Maybe.Just('RMSomeOtherLibrary')
+      };
+
+      expect(actualImports).toContain(expectedImport);
+    });
+
+    it('does not include anything for BOOL type attributes', function() {
+      const valueType:ValueObject.Type = {
+        annotations: {},
+        attributes: [
+          {
+            annotations: {},
+            comments: [],
+            name:'something',
+            nullability:ObjC.Nullability.Inherited(),
+            type: {
+              fileTypeIsDefinedIn:Maybe.Nothing<string>(),
+              libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+              name:'BOOL',
+              reference: 'BOOL',
+              underlyingType:Maybe.Nothing<string>()
+            }
+          }
+        ],
+        comments: [],
+        typeLookups:[],
+        excludes: [],
+        includes: [],
+        typeName: 'RMSomething',
+        libraryName: Maybe.Just('RMSomeLibrary')
+      };
+
+      const actualImports = Plugin.imports(valueType);
+
+      const baseImports = [
+        {file:'Foundation.h', isPublic:true, library:Maybe.Just('Foundation')},
+        {file:valueType.typeName + '.h', isPublic:false, library:Maybe.Nothing<string>()}
+      ];
+
+      expect(actualImports).toEqualJSON(baseImports);
+    });
+
+    it('does not include anything for double type attributes', function() {
+      const valueType:ValueObject.Type = {
+        annotations: {},
+        attributes: [
+          {
+            annotations: {},
+            comments: [],
+            name:'something',
+            nullability:ObjC.Nullability.Inherited(),
+            type: {
+              fileTypeIsDefinedIn:Maybe.Nothing<string>(),
+              libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+              name:'double',
+              reference: 'double',
+              underlyingType:Maybe.Nothing<string>()
+            }
+          }
+        ],
+        comments: [],
+        typeLookups:[],
+        excludes: [],
+        includes: [],
+        typeName: 'RMSomething',
+        libraryName: Maybe.Just('RMSomeLibrary')
+      };
+
+      const actualImports = Plugin.imports(valueType);
+
+      const baseImports = [
+        {file:'Foundation.h', isPublic:true, library:Maybe.Just('Foundation')},
+        {file:valueType.typeName + '.h', isPublic:false, library:Maybe.Nothing<string>()}
+      ];
+
+      expect(actualImports).toEqualJSON(baseImports);
+    });
+
+    it('does not include anything for float type attributes', function() {
+      const valueType:ValueObject.Type = {
+        annotations: {},
+        attributes: [
+          {
+            annotations: {},
+            comments: [],
+            name:'something',
+            nullability:ObjC.Nullability.Inherited(),
+            type: {
+              fileTypeIsDefinedIn:Maybe.Nothing<string>(),
+              libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+              name:'float',
+              reference: 'float',
+              underlyingType:Maybe.Nothing<string>()
+            }
+          }
+        ],
+        comments: [],
+        typeLookups:[],
+        excludes: [],
+        includes: [],
+        typeName: 'RMSomething',
+        libraryName: Maybe.Just('RMSomeLibrary')
+      };
+
+      const actualImports = Plugin.imports(valueType);
+
+      const baseImports = [
+        {file:'Foundation.h', isPublic:true, library:Maybe.Just('Foundation')},
+        {file:valueType.typeName + '.h', isPublic:false, library:Maybe.Nothing<string>()}
+      ];
+
+      expect(actualImports).toEqualJSON(baseImports);
+    });
+
+    it('does not include anything for NSTimeInterval type attributes', function() {
+      const valueType:ValueObject.Type = {
+        annotations: {},
+        attributes: [
+          {
+            annotations: {},
+            comments: [],
+            name:'something',
+            nullability:ObjC.Nullability.Inherited(),
+            type: {
+              fileTypeIsDefinedIn:Maybe.Nothing<string>(),
+              libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+              name:'NSTimeInterval',
+              reference: 'NSTimeInterval',
+              underlyingType:Maybe.Nothing<string>()
+            }
+          }
+        ],
+        comments: [],
+        typeLookups:[],
+        excludes: [],
+        includes: [],
+        typeName: 'RMSomething',
+        libraryName: Maybe.Just('RMSomeLibrary')
+      };
+
+      const actualImports = Plugin.imports(valueType);
+
+      const baseImports = [
+        {file:'Foundation.h', isPublic:true, library:Maybe.Just('Foundation')},
+        {file:valueType.typeName + '.h', isPublic:false, library:Maybe.Nothing<string>()}
+      ];
+
+      expect(actualImports).toEqualJSON(baseImports);
+    });
+
+    it('includes CGBase for CGFloat type attributes', function() {
+      const valueType:ValueObject.Type = {
+        annotations: {},
+        attributes: [
+          {
+            annotations: {},
+            comments: [],
+            name:'something',
+            nullability:ObjC.Nullability.Inherited(),
+            type: {
+              fileTypeIsDefinedIn:Maybe.Nothing<string>(),
+              libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+              name:'CGFloat',
+              reference: 'CGFloat',
+              underlyingType:Maybe.Nothing<string>()
+            }
+          }
+        ],
+        comments: [],
+        typeLookups:[],
+        excludes: [],
+        includes: [],
+        typeName: 'RMSomething',
+        libraryName: Maybe.Just('RMSomeLibrary')
+      };
+
+      const actualImports = Plugin.imports(valueType);
+
+      const baseImports = [
+        {file:'Foundation.h', isPublic:true, library:Maybe.Just('Foundation')},
+        {file:valueType.typeName + '.h', isPublic:false, library:Maybe.Nothing<string>()},
+        {file:'CGBase.h', isPublic:true, library:Maybe.Just('CoreGraphics')},
+      ];
+
+      expect(actualImports).toEqualJSON(baseImports);
+    });
+
+    it('includes CGBase for CGRect type attributes', function() {
+      const valueType:ValueObject.Type = {
+        annotations: {},
+        attributes: [
+          {
+            annotations: {},
+            comments: [],
+            name:'something',
+            nullability:ObjC.Nullability.Inherited(),
+            type: {
+              fileTypeIsDefinedIn:Maybe.Nothing<string>(),
+              libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+              name:'CGRect',
+              reference: 'CGRect',
+              underlyingType:Maybe.Nothing<string>()
+            }
+          }
+        ],
+        comments: [],
+        typeLookups:[],
+        excludes: [],
+        includes: [],
+        typeName: 'RMSomething',
+        libraryName: Maybe.Just('RMSomeLibrary')
+      };
+
+      const actualImports = Plugin.imports(valueType);
+
+      const baseImports = [
+        {file:'Foundation.h', isPublic:true, library:Maybe.Just('Foundation')},
+        {file:valueType.typeName + '.h', isPublic:false, library:Maybe.Nothing<string>()},
+        {file:'CGGeometry.h', isPublic:true, library:Maybe.Just('CoreGraphics')},
+      ];
+
+      expect(actualImports).toEqualJSON(baseImports);
+    });
+
+    it('includes CGBase anything for CGPoint type attributes', function() {
+      const valueType:ValueObject.Type = {
+        annotations: {},
+        attributes: [
+          {
+            annotations: {},
+            comments: [],
+            name:'something',
+            nullability:ObjC.Nullability.Inherited(),
+            type: {
+              fileTypeIsDefinedIn:Maybe.Nothing<string>(),
+              libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+              name:'CGPoint',
+              reference: 'CGPoint',
+              underlyingType:Maybe.Nothing<string>()
+            }
+          }
+        ],
+        comments: [],
+        typeLookups:[],
+        excludes: [],
+        includes: [],
+        typeName: 'RMSomething',
+        libraryName: Maybe.Just('RMSomeLibrary')
+      };
+
+      const actualImports = Plugin.imports(valueType);
+
+      const baseImports = [
+        {file:'Foundation.h', isPublic:true, library:Maybe.Just('Foundation')},
+        {file:valueType.typeName + '.h', isPublic:false, library:Maybe.Nothing<string>()},
+        {file:'CGGeometry.h', isPublic:true, library:Maybe.Just('CoreGraphics')},
+      ];
+
+      expect(actualImports).toEqualJSON(baseImports);
+    });
+
+    it('does not include anything for SEL type attributes', function() {
+      const valueType:ValueObject.Type = {
+        annotations: {},
+        attributes: [
+          {
+            annotations: {},
+            comments: [],
+            name:'something',
+            nullability:ObjC.Nullability.Inherited(),
+            type: {
+              fileTypeIsDefinedIn:Maybe.Nothing<string>(),
+              libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+              name:'SEL',
+              reference: 'SEL',
+              underlyingType:Maybe.Nothing<string>()
+            }
+          }
+        ],
+        comments: [],
+        typeLookups:[],
+        excludes: [],
+        includes: [],
+        typeName: 'RMSomething',
+        libraryName: Maybe.Just('RMSomeLibrary')
+      };
+
+      const actualImports = Plugin.imports(valueType);
+
+      const baseImports = [
+        {file:'Foundation.h', isPublic:true, library:Maybe.Just('Foundation')},
+        {file:valueType.typeName + '.h', isPublic:false, library:Maybe.Nothing<string>()}
+      ];
+
+      expect(actualImports).toEqualJSON(baseImports);
+    });
+
+    it('includes CGBase anything for CGSize type attributes', function() {
+      const valueType:ValueObject.Type = {
+        annotations: {},
+        attributes: [
+          {
+            annotations: {},
+            comments: [],
+            name:'something',
+            nullability:ObjC.Nullability.Inherited(),
+            type: {
+              fileTypeIsDefinedIn:Maybe.Nothing<string>(),
+              libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+              name:'CGSize',
+              reference: 'CGSize',
+              underlyingType:Maybe.Nothing<string>()
+            }
+          }
+        ],
+        comments: [],
+        typeLookups:[],
+        excludes: [],
+        includes: [],
+        typeName: 'RMSomething',
+        libraryName: Maybe.Just('RMSomeLibrary')
+      };
+
+      const actualImports = Plugin.imports(valueType);
+
+      const baseImports = [
+        {file:'Foundation.h', isPublic:true, library:Maybe.Just('Foundation')},
+        {file:valueType.typeName + '.h', isPublic:false, library:Maybe.Nothing<string>()},
+        {file:'CGGeometry.h', isPublic:true, library:Maybe.Just('CoreGraphics')},
+      ];
+
+      expect(actualImports).toEqualJSON(baseImports);
+    });
+
+    it('includes UIGeometry for UIEdgeInsets type attributes', function() {
+      const valueType:ValueObject.Type = {
+        annotations: {},
+        attributes: [
+          {
+            annotations: {},
+            comments: [],
+            name:'something',
+            nullability:ObjC.Nullability.Inherited(),
+            type: {
+              fileTypeIsDefinedIn:Maybe.Nothing<string>(),
+              libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+              name:'UIEdgeInsets',
+              reference: 'UIEdgeInsets',
+              underlyingType:Maybe.Nothing<string>()
+            }
+          }
+        ],
+        comments: [],
+        typeLookups:[],
+        excludes: [],
+        includes: [],
+        typeName: 'RMSomething',
+        libraryName: Maybe.Just('RMSomeLibrary')
+      };
+
+      const actualImports = Plugin.imports(valueType);
+
+      const baseImports = [
+        {file:'Foundation.h', isPublic:true, library:Maybe.Just('Foundation')},
+        {file:valueType.typeName + '.h', isPublic:false, library:Maybe.Nothing<string>()},
+        {file:'UIGeometry.h', isPublic:true, library:Maybe.Just('UIKit')},
+      ];
+
+      expect(actualImports).toEqualJSON(baseImports);
+    });
+
+    it('does not include anything for int32_t type attributes', function() {
+      const valueType:ValueObject.Type = {
+        annotations: {},
+        attributes: [
+          {
+            annotations: {},
+            comments: [],
+            name:'something',
+            nullability:ObjC.Nullability.Inherited(),
+            type: {
+              fileTypeIsDefinedIn:Maybe.Nothing<string>(),
+              libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+              name:'int32_t',
+              reference: 'int32_t',
+              underlyingType:Maybe.Nothing<string>()
+            }
+          }
+        ],
+        comments: [],
+        typeLookups:[],
+        excludes: [],
+        includes: [],
+        typeName: 'RMSomething',
+        libraryName: Maybe.Just('RMSomeLibrary')
+      };
+
+      const actualImports = Plugin.imports(valueType);
+
+      const baseImports = [
+        {file:'Foundation.h', isPublic:true, library:Maybe.Just('Foundation')},
+        {file:valueType.typeName + '.h', isPublic:false, library:Maybe.Nothing<string>()}
+      ];
+
+      expect(actualImports).toEqualJSON(baseImports);
+    });
+
+    it('does not include anything for int64_t type attributes', function() {
+      const valueType:ValueObject.Type = {
+        annotations: {},
+        attributes: [
+          {
+            annotations: {},
+            comments: [],
+            name:'something',
+            nullability:ObjC.Nullability.Inherited(),
+            type: {
+              fileTypeIsDefinedIn:Maybe.Nothing<string>(),
+              libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+              name:'int64_t',
+              reference: 'int64_t',
+              underlyingType:Maybe.Nothing<string>()
+            }
+          }
+        ],
+        comments: [],
+        typeLookups:[],
+        excludes: [],
+        includes: [],
+        typeName: 'RMSomething',
+        libraryName: Maybe.Just('RMSomeLibrary')
+      };
+
+      const actualImports = Plugin.imports(valueType);
+
+      const baseImports = [
+        {file:'Foundation.h', isPublic:true, library:Maybe.Just('Foundation')},
+        {file:valueType.typeName + '.h', isPublic:false, library:Maybe.Nothing<string>()}
+      ];
+
+      expect(actualImports).toEqualJSON(baseImports);
+    });
+
+    it('does not include anything for uint32_t type attributes', function() {
+      const valueType:ValueObject.Type = {
+        annotations: {},
+        attributes: [
+          {
+            annotations: {},
+            comments: [],
+            name:'something',
+            nullability:ObjC.Nullability.Inherited(),
+            type: {
+              fileTypeIsDefinedIn:Maybe.Nothing<string>(),
+              libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+              name:'uint32_t',
+              reference: 'uint32_t',
+              underlyingType:Maybe.Nothing<string>()
+            }
+          }
+        ],
+        comments: [],
+        typeLookups:[],
+        excludes: [],
+        includes: [],
+        typeName: 'RMSomething',
+        libraryName: Maybe.Just('RMSomeLibrary')
+      };
+
+      const actualImports = Plugin.imports(valueType);
+
+      const baseImports = [
+        {file:'Foundation.h', isPublic:true, library:Maybe.Just('Foundation')},
+        {file:valueType.typeName + '.h', isPublic:false, library:Maybe.Nothing<string>()}
+      ];
+
+      expect(actualImports).toEqualJSON(baseImports);
+    });
+
+    it('does not include anything for uint64_t type attributes', function() {
+      const valueType:ValueObject.Type = {
+        annotations: {},
+        attributes: [
+          {
+            annotations: {},
+            comments: [],
+            name:'something',
+            nullability:ObjC.Nullability.Inherited(),
+            type: {
+              fileTypeIsDefinedIn:Maybe.Nothing<string>(),
+              libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+              name:'uint64_t',
+              reference: 'uint64_t',
+              underlyingType:Maybe.Nothing<string>()
+            }
+          }
+        ],
+        comments: [],
+        typeLookups:[],
+        excludes: [],
+        includes: [],
+        typeName: 'RMSomething',
+        libraryName: Maybe.Just('RMSomeLibrary')
+      };
+
+      const actualImports = Plugin.imports(valueType);
+
+      const baseImports = [
+        {file:'Foundation.h', isPublic:true, library:Maybe.Just('Foundation')},
+        {file:valueType.typeName + '.h', isPublic:false, library:Maybe.Nothing<string>()}
+      ];
+
+      expect(actualImports).toEqualJSON(baseImports);
+    });
+
+    it('does not include anything for NSUInteger type attributes', function() {
+      const valueType:ValueObject.Type = {
+        annotations: {},
+        attributes: [
+          {
+            annotations: {},
+            comments: [],
+            name:'something',
+            nullability:ObjC.Nullability.Inherited(),
+            type: {
+              fileTypeIsDefinedIn:Maybe.Nothing<string>(),
+              libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+              name:'NSUInteger',
+              reference: 'NSUInteger',
+              underlyingType:Maybe.Nothing<string>()
+            }
+          }
+        ],
+        comments: [],
+        typeLookups:[],
+        excludes: [],
+        includes: [],
+        typeName: 'RMSomething',
+        libraryName: Maybe.Just('RMSomeLibrary')
+      };
+
+      const actualImports = Plugin.imports(valueType);
+
+      const baseImports = [
+        {file:'Foundation.h', isPublic:true, library:Maybe.Just('Foundation')},
+        {file:valueType.typeName + '.h', isPublic:false, library:Maybe.Nothing<string>()}
+      ];
+
+      expect(actualImports).toEqualJSON(baseImports);
+    });
+
+    it('does not include anything for NSUInteger type attributes', function() {
+      const valueType:ValueObject.Type = {
+        annotations: {},
+        attributes: [
+          {
+            annotations: {},
+            comments: [],
+            name:'something',
+            nullability:ObjC.Nullability.Inherited(),
+            type: {
+              fileTypeIsDefinedIn:Maybe.Nothing<string>(),
+              libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+              name:'NSInteger',
+              reference: 'NSInteger',
+              underlyingType:Maybe.Nothing<string>()
+            }
+          }
+        ],
+        comments: [],
+        typeLookups:[],
+        excludes: [],
+        includes: [],
+        typeName: 'RMSomething',
+        libraryName: Maybe.Just('RMSomeLibrary')
+      };
+
+      const actualImports = Plugin.imports(valueType);
+
+      const baseImports = [
+        {file:'Foundation.h', isPublic:true, library:Maybe.Just('Foundation')},
+        {file:valueType.typeName + '.h', isPublic:false, library:Maybe.Nothing<string>()}
+      ];
+
+      expect(actualImports).toEqualJSON(baseImports);
+    });
+
+    it('does not include anything for NSString type attributes', function() {
+      const valueType:ValueObject.Type = {
+        annotations: {},
+        attributes: [
+          {
+            annotations: {},
+            comments: [],
+            name:'something',
+            nullability:ObjC.Nullability.Inherited(),
+            type: {
+              fileTypeIsDefinedIn:Maybe.Nothing<string>(),
+              libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+              name:'NSString',
+              reference: 'NSString *',
+              underlyingType:Maybe.Just<string>('NSObject')
+            }
+          }
+        ],
+        comments: [],
+        typeLookups:[],
+        excludes: [],
+        includes: [],
+        typeName: 'RMSomething',
+        libraryName: Maybe.Just('RMSomeLibrary')
+      };
+
+      const actualImports = Plugin.imports(valueType);
+
+      const baseImports = [
+        {file:'Foundation.h', isPublic:true, library:Maybe.Just('Foundation')},
+        {file:valueType.typeName + '.h', isPublic:false, library:Maybe.Nothing<string>()}
+      ];
+
+      expect(actualImports).toEqualJSON(baseImports);
+    });
+  });
+
+  describe('#properties', function() {
+    it('includes no properties when there are no attributes', function() {
+      const valueType:ValueObject.Type = {
+        annotations: {},
+        attributes: [],
+        comments: [],
+        typeLookups:[],
+        excludes: [],
+        includes: [],
+        typeName: 'RMSomething',
+        libraryName: Maybe.Nothing<string>()
+      };
+
+      const actualImports = Plugin.properties(valueType);
+
+      expect(actualImports).toEqualJSON([]);
+    });
+
+    it('includes readonly nonatomic properties for non object attributes', function() {
+      const valueType:ValueObject.Type = {
+        annotations: {},
+        attributes: [
+          {
+            annotations: {},
+            comments: [],
+            name:'value',
+            nullability:ObjC.Nullability.Inherited(),
+            type: {
+              fileTypeIsDefinedIn:Maybe.Nothing<string>(),
+              libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+              name:'BOOL',
+              reference: 'BOOL',
+              underlyingType:Maybe.Nothing<string>()
+            }
+          }
+        ],
+        comments: [],
+        typeLookups:[],
+        excludes: [],
+        includes: [],
+        typeName: 'RMSomething',
+        libraryName: Maybe.Nothing<string>()
+      };
+
+      const actualProperties = Plugin.properties(valueType);
+
+      const expectedProperties:ObjC.Property[] = [
+        {
+          comments:[],
+          modifiers:[ObjC.PropertyModifier.Nonatomic(), ObjC.PropertyModifier.Readonly()],
+          access: ObjC.PropertyAccess.Public(),
+          name:'value',
+          returnType: {
+            name: 'BOOL',
+            reference: 'BOOL'
+          }
+        }
+      ];
+
+      expect(actualProperties).toEqualJSON(expectedProperties);
+    });
+    it('includes readonly nonatomic copy properties for object attributes', function() {
+      const valueType:ValueObject.Type = {
+        annotations: {},
+        attributes: [
+          {
+            annotations: {},
+            comments: [],
+            name:'value',
+            nullability:ObjC.Nullability.Inherited(),
+            type: {
+              fileTypeIsDefinedIn:Maybe.Nothing<string>(),
+              libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+              name:'RMSomething',
+              reference: 'RMSomething *',
+              underlyingType:Maybe.Just<string>('NSObject')
+            }
+          }
+        ],
+        comments: [],
+        typeLookups:[],
+        excludes: [],
+        includes: [],
+        typeName: 'RMSomething',
+        libraryName: Maybe.Nothing<string>()
+      };
+
+      const actualProperties = Plugin.properties(valueType);
+
+      const expectedProperties:ObjC.Property[] = [
+        {
+          comments:[],
+          modifiers:[ObjC.PropertyModifier.Nonatomic(), ObjC.PropertyModifier.Readonly(), ObjC.PropertyModifier.Copy()],
+          access: ObjC.PropertyAccess.Public(),
+          name:'value',
+          returnType: {
+            name: 'RMSomething',
+            reference: 'RMSomething *'
+          }
+        }
+      ];
+
+      expect(actualProperties).toEqualJSON(expectedProperties);
+    });
+  });
+
+  describe('#propertyModifiersFromAttribute', function() {
+    it('returns a copyable property for an NSObject attribute', function() {
+      const attribute:ValueObject.Attribute = {
+        annotations: {},
+        comments: [],
+        name:'value',
+        nullability:ObjC.Nullability.Inherited(),
+        type: {
+          fileTypeIsDefinedIn:Maybe.Nothing<string>(),
+          libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+          name:'RMSomething',
+          reference: 'RMSomething *',
+          underlyingType:Maybe.Just<string>('NSObject')
+        }
+      };
+
+      const modifiers:ObjC.PropertyModifier[] = ImmutableProperties.propertyModifiersFromAttribute(attribute);
+      expect(modifiers).toContain(ObjC.PropertyModifier.Copy());
+    });
+
+    it('returns a non-copyable property for an NSObject attribute', function() {
+      const attribute:ValueObject.Attribute = {
+        annotations: {},
+        comments: [],
+        name:'value',
+        nullability:ObjC.Nullability.Inherited(),
+        type: {
+          fileTypeIsDefinedIn:Maybe.Nothing<string>(),
+          libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+          name:'Foo',
+          reference: 'Foo',
+          underlyingType:Maybe.Just<string>('NSUInteger')
+        }
+      };
+
+      const modifiers:ObjC.PropertyModifier[] = ImmutableProperties.propertyModifiersFromAttribute(attribute);
+      expect(modifiers).not.toContain(ObjC.PropertyModifier.Copy());
+    });
+
+    it('returns a nonnull property for a nonnull attribute', function() {
+      const attribute:ValueObject.Attribute = {
+        annotations: {},
+        comments: [],
+        name:'value',
+        nullability:ObjC.Nullability.Nonnull(),
+        type: {
+          fileTypeIsDefinedIn:Maybe.Nothing<string>(),
+          libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+          name:'RMSomething',
+          reference: 'RMSomething *',
+          underlyingType:Maybe.Just<string>('NSObject')
+        }
+      };
+
+      const modifiers:ObjC.PropertyModifier[] = ImmutableProperties.propertyModifiersFromAttribute(attribute);
+      expect(modifiers).toContain(ObjC.PropertyModifier.Nonnull());
+    });
+
+    it('returns a nullable property for an nullable attribute', function() {
+      const attribute:ValueObject.Attribute = {
+        annotations: {},
+        comments: [],
+        name:'value',
+        nullability:ObjC.Nullability.Nullable(),
+        type: {
+          fileTypeIsDefinedIn:Maybe.Nothing<string>(),
+          libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+          name:'RMSomething',
+          reference: 'RMSomething *',
+          underlyingType:Maybe.Just<string>('NSObject')
+        }
+      };
+
+      const modifiers:ObjC.PropertyModifier[] = ImmutableProperties.propertyModifiersFromAttribute(attribute);
+      expect(modifiers).toContain(ObjC.PropertyModifier.Nullable());
+    });
+  });
+});

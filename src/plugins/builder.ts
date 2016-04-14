@@ -278,7 +278,8 @@ function builderFileForValueType(valueType:ValueObject.Type):Code.File {
           builderClassMethodForValueType(valueType),
           builderFromExistingObjectClassMethodForValueType(valueType)
         ],
-        comments: [ ],
+        comments: [],
+        generics: [],
         instanceMethods: [buildObjectInstanceMethodForValueType(valueType)].concat(valueType.attributes.map(withInstanceMethodForAttribute)),
         name: nameOfBuilderForValueTypeWithName(valueType.typeName),
         properties: [],

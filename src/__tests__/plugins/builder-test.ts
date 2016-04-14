@@ -114,6 +114,7 @@ describe('Plugins.Builder', function() {
                 }
               ],
               comments:[],
+              generics:[],
               instanceMethods: [
                 {
                   belongsToProtocol:Maybe.Nothing<string>(),
@@ -239,6 +240,7 @@ describe('Plugins.Builder', function() {
                 }
               ],
               comments:[],
+              generics:[],
               instanceMethods: [
                 {
                   belongsToProtocol:Maybe.Nothing<string>(),
@@ -413,6 +415,7 @@ describe('Plugins.Builder', function() {
                 }
               ],
               comments:[],
+              generics:[],
               instanceMethods: [
                 {
                   belongsToProtocol:Maybe.Nothing<string>(),

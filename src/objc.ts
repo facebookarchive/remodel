@@ -370,6 +370,7 @@ export interface Class {
   baseClassName:string;
   classMethods:Method[];
   comments:Comment[];
+  generics:string[];
   instanceMethods:Method[];
   name:string;
   properties:Property[];

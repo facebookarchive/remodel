@@ -183,6 +183,7 @@ describe('ValueObjectCreation', function() {
                 {
                   baseClassName:'NSObject',
                   classMethods: [],
+                  generics: [],
                   instanceMethods: [],
                   name:'FooMore',
                   comments: [],

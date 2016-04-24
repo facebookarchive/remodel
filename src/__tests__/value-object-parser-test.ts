@@ -69,7 +69,7 @@ describe('ValueObjectParser', function() {
     it('parses a value object with two properties and lots of custom ' +
        'information that is valid', function() {
       const valueFileContents = '%library name=RMSomethingLibrary\n' +
-                              '%type name=Foo library=Bar file=NSObject+Baz canForwardDeclare=false\n'
+                              '%type name=Foo library=Bar file=NSObject+Baz canForwardDeclare=false\n' +
                               '%type name=Scumbag library=Steve\n' +
                               'RMSomething {\n' +
                               '  %import file=RMSomeOtherFile library=RMCustomLibrary\n' +

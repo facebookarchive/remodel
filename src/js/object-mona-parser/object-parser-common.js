@@ -56,7 +56,7 @@ function quotedText() {
 
 function unquotedTextTerminatingWithSpace() {
   return mona.sequence(function(s) {
-    const text = s(mona.text(mona.or(mona.alphanum(), mona.string('_'))));
+    const text = s(mona.text(mona.or(mona.alphanum(), mona.string('_'), mona.string('+'))));
     s(mona.spaces());
     return mona.value(text);
   });

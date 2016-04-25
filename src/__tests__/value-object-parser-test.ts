@@ -69,7 +69,7 @@ describe('ValueObjectParser', function() {
     it('parses a value object with two properties and lots of custom ' +
        'information that is valid', function() {
       const valueFileContents = '%library name=RMSomethingLibrary\n' +
-                              '%type name=Foo library=Bar file=Baz canForwardDeclare=false\n' +
+                              '%type name=Foo library=Bar file=NSObject+Baz canForwardDeclare=false\n' +
                               '%type name=Scumbag library=Steve\n' +
                               'RMSomething {\n' +
                               '  %import file=RMSomeOtherFile library=RMCustomLibrary\n' +
@@ -88,7 +88,7 @@ describe('ValueObjectParser', function() {
             properties: {
               name: 'Foo',
               library: 'Bar',
-              file: 'Baz',
+              file: 'NSObject+Baz',
               canForwardDeclare: 'false'
             }
           },
@@ -139,7 +139,7 @@ describe('ValueObjectParser', function() {
           {
             name:'Foo',
             library:Maybe.Just<string>('Bar'),
-            file:Maybe.Just<string>('Baz'),
+            file:Maybe.Just<string>('NSObject+Baz'),
             canForwardDeclare: false,
           },
           {

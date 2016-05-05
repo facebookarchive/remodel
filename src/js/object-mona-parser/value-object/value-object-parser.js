@@ -18,6 +18,11 @@ const parseCommon = require('../object-parser-common');
 function parse(fileInput) {
   try {
     const parsedType = mona.parse(parseCommon.parseNamedAttributeGroupWithIncludes(), fileInput);
+    return {
+      errorReason: null,
+      isValid: true,
+      foundType: parsedType
+    };
   } catch (e) {
     return {
       errorReason:e.message,
@@ -26,11 +31,6 @@ function parse(fileInput) {
     };
   }
 
-  return {
-    errorReason: null,
-    isValid: true,
-    foundType: parsedType
-  };
 }
 
 module.exports = {

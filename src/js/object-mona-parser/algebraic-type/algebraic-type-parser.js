@@ -61,6 +61,11 @@ function parse(fileInput) {
     if (parsedType == null) {
       throw "parsed type came back as null";
     }
+    return {
+      errorReason: null,
+      isValid: true,
+      type: parsedType
+    };
   } catch (e) {
     return {
       errorReason:e.message,
@@ -68,11 +73,6 @@ function parse(fileInput) {
       type: null
     };
   }
-  return {
-    errorReason: null,
-    isValid: true,
-    type: parsedType
-  };
 }
 
 module.exports = {

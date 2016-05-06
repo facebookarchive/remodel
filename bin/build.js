@@ -212,8 +212,8 @@ function writeBuiltOnRevisionPromise(revision) {
       return Promise.reject({
         value: null,
         error: error,
-        stdout: res.stdout,
-        stderr: res.stderr,
+        stdout: error && error.stdout,
+        stderr: error && error.stderr,
       });
     }
   );

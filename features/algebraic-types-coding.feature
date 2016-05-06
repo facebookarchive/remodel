@@ -61,7 +61,6 @@ Feature: Outputting Algebraic Types
         NSString *_firstSubtype_firstValue;
         NSUInteger _firstSubtype_secondValue;
         BOOL _secondSubtype_something;
-        NSString *_codedSubtype;
       }
 
       + (instancetype)firstSubtypeWithFirstValue:(NSString *)firstValue secondValue:(NSUInteger)secondValue
@@ -84,18 +83,18 @@ Feature: Outputting Algebraic Types
       - (instancetype)initWithCoder:(NSCoder *)aDecoder
       {
         if ((self = [super init])) {
-          _codedSubtype = [aDecoder decodeObjectForKey:kCodedSubtypeKey];
-          if([_codedSubtype isEqualToString:@"SUBTYPE_FIRST_SUBTYPE"]) {
+          NSString *codedSubtype = [aDecoder decodeObjectForKey:kCodedSubtypeKey];
+          if([codedSubtype isEqualToString:@"SUBTYPE_FIRST_SUBTYPE"]) {
             _firstSubtype_firstValue = [aDecoder decodeObjectForKey:kFirstSubtypeFirstValueKey];
             _firstSubtype_secondValue = [aDecoder decodeIntegerForKey:kFirstSubtypeSecondValueKey];
             _subtype = _SimpleADTSubtypesFirstSubtype;
           }
-          else if([_codedSubtype isEqualToString:@"SUBTYPE_SECOND_SUBTYPE"]) {
+          else if([codedSubtype isEqualToString:@"SUBTYPE_SECOND_SUBTYPE"]) {
             _secondSubtype_something = [aDecoder decodeBoolForKey:kSecondSubtypeSomethingKey];
             _subtype = _SimpleADTSubtypesSecondSubtype;
           }
           else {
-            @throw([NSException exceptionWithName:@"InvalidSubtypeException" reason:@"nil or unknown subtype provided" userInfo:@{@"subtype": _codedSubtype}]);
+            @throw([NSException exceptionWithName:@"InvalidSubtypeException" reason:@"nil or unknown subtype provided" userInfo:@{@"subtype": codedSubtype}]);
           }
         }
         return self;

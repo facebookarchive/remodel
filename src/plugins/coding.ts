@@ -48,6 +48,13 @@ export function decodeStatementForAttribute(attribute:CodeableAttribute):string 
   return attribute.valueAccessor + ' = ' + decodedValuePart + ';';
 }
 
+function decodeStatementForSubtype(attribute:CodeableAttribute):string {
+  const codingStatements:CodingUtils.CodingStatements = CodingUtils.codingStatementsForType(attribute.type);
+  const decodedRawValuePart:string = '[aDecoder ' + codingStatements.decodeStatement + ':' + attribute.constantName + ']';
+  const decodedValuePart = codingStatements.decodeValueStatementGenerator(decodedRawValuePart);
+  return 'NSString *' + attribute.valueAccessor + ' = ' + decodedValuePart + ';';
+}
+
 export function encodeStatementForAttribute(attribute:CodeableAttribute):string {
   const codingStatements: CodingUtils.CodingStatements = CodingUtils.codingStatementsForType(attribute.type);
   const encodeValuePart = codingStatements.encodeValueStatementGenerator(attribute.valueAccessor);
@@ -300,7 +307,7 @@ export function createPlugin():ValueObject.Plugin {
 function codeableAttributeForSubtypePropertyOfAlgebraicType():CodeableAttribute {
   return {
     name: 'codedSubtype',
-    valueAccessor: '_codedSubtype',
+    valueAccessor: 'codedSubtype',
     constantName: nameOfConstantForValueName('codedSubtype'),
     type: {
       name: 'NSObject',
@@ -308,20 +315,6 @@ function codeableAttributeForSubtypePropertyOfAlgebraicType():CodeableAttribute 
     }
   };
 }
-
-function propertyForCodedSubtypePropertyOfAlgebraicType():ObjC.Property {
-  return {
-    name:codeableAttributeForSubtypePropertyOfAlgebraicType().name,
-    comments: [],
-    returnType: {
-      name:'NSString',
-      reference:'NSString *'
-     },
-     modifiers:[],
-     access: ObjC.PropertyAccess.Private()
-   }
-}
-
 
 function codeableAttributeForAlgebraicSubtypeAttribute(subtype:AlgebraicType.Subtype, attribute:AlgebraicType.SubtypeAttribute):CodeableAttribute {
   const valueName:string = subtype.match(
@@ -357,7 +350,7 @@ function decodedStatementForSubtypeProperty(algebraicType:AlgebraicType.Type, su
 function decodeCodeForAlgebraicType(algebraicType:AlgebraicType.Type):string[] {
   const codeableAttributeForSubtypeProperty:CodeableAttribute = codeableAttributeForSubtypePropertyOfAlgebraicType();
   const switchStatement:string[] = codeForBranchingOnSubtypeWithSubtypeMapper(algebraicType, codeableAttributeForSubtypeProperty.valueAccessor, decodeStatementsForAlgebraicSubtype);
-  return [decodeStatementForAttribute(codeableAttributeForSubtypeProperty)].concat(switchStatement);
+  return [decodeStatementForSubtype(codeableAttributeForSubtypeProperty)].concat(switchStatement);
 }
 
 function encodeStatementForAlgebraicSubtypeAttribute(subtype:AlgebraicType.Subtype, attribute:AlgebraicType.SubtypeAttribute):string {
@@ -469,7 +462,7 @@ export function createAlgebraicTypePlugin():AlgebraicType.Plugin {
       ];
     },
     internalProperties: function(algebraicType:AlgebraicType.Type):ObjC.Property[] {
-      return [propertyForCodedSubtypePropertyOfAlgebraicType()];
+      return [];
     },
     requiredIncludesToRun: ['RMCoding'],
     staticConstants: function(algebraicType:AlgebraicType.Type):ObjC.Constant[] {

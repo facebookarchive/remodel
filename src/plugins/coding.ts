@@ -299,15 +299,29 @@ export function createPlugin():ValueObject.Plugin {
 
 function codeableAttributeForSubtypePropertyOfAlgebraicType():CodeableAttribute {
   return {
-    name: 'subtype',
-    valueAccessor: '_subtype',
-    constantName: nameOfConstantForValueName('subtype'),
+    name: 'codedSubtype',
+    valueAccessor: '_codedSubtype',
+    constantName: nameOfConstantForValueName('codedSubtype'),
     type: {
-      name: 'NSUInteger',
-      reference: 'NSUInteger'
+      name: 'NSObject',
+      reference: 'NSObject'
     }
   };
 }
+
+function propertyForCodedSubtypePropertyOfAlgebraicType():ObjC.Property {
+  return {
+    name:codeableAttributeForSubtypePropertyOfAlgebraicType().name,
+    comments: [],
+    returnType: {
+      name:'NSString',
+      reference:'NSString *'
+     },
+     modifiers:[],
+     access: ObjC.PropertyAccess.Private()
+   }
+}
+
 
 function codeableAttributeForAlgebraicSubtypeAttribute(subtype:AlgebraicType.Subtype, attribute:AlgebraicType.SubtypeAttribute):CodeableAttribute {
   const valueName:string = subtype.match(
@@ -332,12 +346,17 @@ function decodeStatementForAlgebraicSubtypeAttribute(subtype:AlgebraicType.Subty
 }
 
 function decodeStatementsForAlgebraicSubtype(algebraicType:AlgebraicType.Type, subtype:AlgebraicType.Subtype):string[] {
-  return AlgebraicTypeUtils.attributesFromSubtype(subtype).map(FunctionUtils.pApplyf2(subtype, decodeStatementForAlgebraicSubtypeAttribute));
+  const decodeAttributes:string[] = AlgebraicTypeUtils.attributesFromSubtype(subtype).map(FunctionUtils.pApplyf2(subtype, decodeStatementForAlgebraicSubtypeAttribute));
+  return decodeAttributes.concat(decodedStatementForSubtypeProperty(algebraicType, subtype))
+}
+
+function decodedStatementForSubtypeProperty(algebraicType:AlgebraicType.Type, subtype:AlgebraicType.Subtype):string {
+  return AlgebraicTypeUtils.valueAccessorForInternalPropertyStoringSubtype() + ' = ' + AlgebraicTypeUtils.EnumerationValueNameForSubtype(algebraicType, subtype) + ';';
 }
 
 function decodeCodeForAlgebraicType(algebraicType:AlgebraicType.Type):string[] {
   const codeableAttributeForSubtypeProperty:CodeableAttribute = codeableAttributeForSubtypePropertyOfAlgebraicType();
-  const switchStatement:string[] = AlgebraicTypeUtils.codeForSwitchingOnSubtypeWithSubtypeMapper(algebraicType, codeableAttributeForSubtypeProperty.valueAccessor, decodeStatementsForAlgebraicSubtype);
+  const switchStatement:string[] = codeForBranchingOnSubtypeWithSubtypeMapper(algebraicType, codeableAttributeForSubtypeProperty.valueAccessor, decodeStatementsForAlgebraicSubtype);
   return [decodeStatementForAttribute(codeableAttributeForSubtypeProperty)].concat(switchStatement);
 }
 
@@ -346,14 +365,19 @@ function encodeStatementForAlgebraicSubtypeAttribute(subtype:AlgebraicType.Subty
   return encodeStatementForAttribute(codeableAttribute);
 }
 
+function encodedStatementForSubtypeProperty(subtype:AlgebraicType.Subtype):string {
+  const subtypeAttribute:CodeableAttribute = codeableAttributeForSubtypePropertyOfAlgebraicType();
+  const codingStatements: CodingUtils.CodingStatements = CodingUtils.codingStatementsForType(subtypeAttribute.type);
+  return '[aCoder ' + codingStatements.encodeStatement + ':' + CodingNameForSubtype(subtype) + ' forKey:' + subtypeAttribute.constantName + '];';
+}
+
 function encodeStatementsForAlgebraicSubtype(algebraicType:AlgebraicType.Type, subtype:AlgebraicType.Subtype):string[] {
-  return AlgebraicTypeUtils.attributesFromSubtype(subtype).map(FunctionUtils.pApplyf2(subtype, encodeStatementForAlgebraicSubtypeAttribute));
+  const encodeAttributes:string[] = AlgebraicTypeUtils.attributesFromSubtype(subtype).map(FunctionUtils.pApplyf2(subtype, encodeStatementForAlgebraicSubtypeAttribute));
+  return encodeAttributes.concat(encodedStatementForSubtypeProperty(subtype));
 }
 
 function encodeCodeForAlgebraicType(algebraicType:AlgebraicType.Type):string[] {
-  const codeableAttributeForSubtypeProperty:CodeableAttribute = codeableAttributeForSubtypePropertyOfAlgebraicType();
-  const switchStatement:string[] = AlgebraicTypeUtils.codeForSwitchingOnSubtypeWithSubtypeMapper(algebraicType, codeableAttributeForSubtypeProperty.valueAccessor, encodeStatementsForAlgebraicSubtype);
-  return [encodeStatementForAttribute(codeableAttributeForSubtypeProperty)].concat(switchStatement);
+  return AlgebraicTypeUtils.codeForSwitchingOnSubtypeWithSubtypeMapper(algebraicType, AlgebraicTypeUtils.valueAccessorForInternalPropertyStoringSubtype(), encodeStatementsForAlgebraicSubtype);
 }
 
 function doesAlgebraicAttributeContainAnUnknownType(attribute:AlgebraicType.SubtypeAttribute):boolean {
@@ -379,6 +403,22 @@ function algebraicAttributeToUnsupportedTypeError(algebraicType:AlgebraicType.Ty
   }, function():Error.Error {
     return Error.Error('The Coding plugin does not know how to decode and encode the type "' + attribute.type.name + '" from ' + algebraicType.name + '.' + attribute.name + '. ' + attribute.type.name + ' is not NSCoding-compilant.');
   }, attribute.type.underlyingType);
+}
+
+export function CodingNameForSubtype(subtype:AlgebraicType.Subtype):string {
+  return constantValueForAttributeName('SUBTYPE_' + AlgebraicTypeUtils.subtypeNameFromSubtype(subtype));
+}
+
+function codeForSubtypeBranchesWithSubtypeMapper(algebraicType:AlgebraicType.Type, subtypeValueAccessor:string, subtypeMapper:(algebraicType:AlgebraicType.Type, subtype:AlgebraicType.Subtype) => string[], soFar:string[], subtype:AlgebraicType.Subtype):string[] {
+  const internalCode:string[] = subtypeMapper(algebraicType, subtype);
+  const code:string[] = [(soFar.length ? 'else if([' : 'if([') + subtypeValueAccessor + ' isEqualToString:' + CodingNameForSubtype(subtype) + ']) {'].concat(internalCode.map(StringUtils.indent(2))).concat(['}']);
+  return soFar.concat(code);
+}
+
+function codeForBranchingOnSubtypeWithSubtypeMapper(algebraicType:AlgebraicType.Type, subtypeValueAccessor:string, subtypeMapper:(algebraicType:AlgebraicType.Type, subtype:AlgebraicType.Subtype) => string[]):string[] {
+  const subtypeBranches:string[] = algebraicType.subtypes.reduce(FunctionUtils.pApply3f5(algebraicType, subtypeValueAccessor, subtypeMapper, codeForSubtypeBranchesWithSubtypeMapper), []);
+  const failureCase:string[] = ['else {', StringUtils.indent(2)('@throw([NSException exceptionWithName:@"InvalidSubtypeException" reason:@"nil or unknown subtype provided" userInfo:@{@"subtype": ' + codeableAttributeForSubtypePropertyOfAlgebraicType().valueAccessor +'}]);'), '}'];
+  return subtypeBranches.concat(failureCase);
 }
 
 export function createAlgebraicTypePlugin():AlgebraicType.Plugin {
@@ -429,7 +469,7 @@ export function createAlgebraicTypePlugin():AlgebraicType.Plugin {
       ];
     },
     internalProperties: function(algebraicType:AlgebraicType.Type):ObjC.Property[] {
-      return [];
+      return [propertyForCodedSubtypePropertyOfAlgebraicType()];
     },
     requiredIncludesToRun: ['RMCoding'],
     staticConstants: function(algebraicType:AlgebraicType.Type):ObjC.Constant[] {

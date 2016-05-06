@@ -40,3 +40,11 @@ export function pApplyf5<T,U,V,W,X,Y>(val:T, f:(a:T, b:U, c:V, d:W, e:X) => Y):(
 export function pApply2f3<T,U,V,W>(val1:T, val2:U, f:(a:T, b:U, c:V) => W):(c:V) => W {
   return pApplyf2(val2, pApplyf3(val1, f));
 }
+
+export function pApply2f4<T,U,V,W,X>(val1:T, val2:U, f:(a:T, b:U, c:V, d:W) => X):(c:V, d:W) => X {
+  return pApplyf3(val2, pApplyf4(val1, f));
+}
+
+export function pApply3f5<T,U,V,W,X,Y>(val1:T, val2:U, val3:V, f:(a:T, b:U, c:V, d:W, e:X) => Y):(d:W, e:X) => Y {
+  return pApplyf3(val3, pApplyf4(val2, pApplyf5(val1, f)));
+}

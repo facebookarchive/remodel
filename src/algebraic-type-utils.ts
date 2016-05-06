@@ -99,14 +99,8 @@ function caseStatementForSubtypeWithSubtypeMapper(algebraicType:AlgebraicType.Ty
   return soFar.concat(code);
 }
 
-function p2Applyf4<T,U,V,W,X>(firstVal:T, secondVal:U, f:(a:T, b:U, c:V, d:W) => X):(c:V, d:W) => X {
-  return function(c:V, d:W):X {
-    return f(firstVal, secondVal, c, d);
-  };
-}
-
 export function codeForSwitchingOnSubtypeWithSubtypeMapper(algebraicType:AlgebraicType.Type, subtypeValueAccessor:string, subtypeMapper:(algebraicType:AlgebraicType.Type, subtype:AlgebraicType.Subtype) => string[]):string[] {
-  const caseStatements:string[] = algebraicType.subtypes.reduce(p2Applyf4(algebraicType, subtypeMapper, caseStatementForSubtypeWithSubtypeMapper), []);
+  const caseStatements:string[] = algebraicType.subtypes.reduce(FunctionUtils.pApply2f4(algebraicType, subtypeMapper, caseStatementForSubtypeWithSubtypeMapper), []);
   return ['switch (' + subtypeValueAccessor + ') {'].concat(caseStatements.map(StringUtils.indent(2))).concat('}');
 }
 

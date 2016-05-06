@@ -45,7 +45,7 @@ Feature: Outputting Algebraic Types
       """
       #import "SimpleADT.h"
 
-      static __unsafe_unretained NSString * const kSubtypeKey = @"SUBTYPE";
+      static __unsafe_unretained NSString * const kCodedSubtypeKey = @"CODED_SUBTYPE";
       static __unsafe_unretained NSString * const kFirstSubtypeFirstValueKey = @"FIRST_SUBTYPE_FIRST_VALUE";
       static __unsafe_unretained NSString * const kFirstSubtypeSecondValueKey = @"FIRST_SUBTYPE_SECOND_VALUE";
       static __unsafe_unretained NSString * const kSecondSubtypeSomethingKey = @"SECOND_SUBTYPE_SOMETHING";
@@ -61,6 +61,7 @@ Feature: Outputting Algebraic Types
         NSString *_firstSubtype_firstValue;
         NSUInteger _firstSubtype_secondValue;
         BOOL _secondSubtype_something;
+        NSString *_codedSubtype;
       }
 
       + (instancetype)firstSubtypeWithFirstValue:(NSString *)firstValue secondValue:(NSUInteger)secondValue
@@ -83,17 +84,18 @@ Feature: Outputting Algebraic Types
       - (instancetype)initWithCoder:(NSCoder *)aDecoder
       {
         if ((self = [super init])) {
-          _subtype = [aDecoder decodeIntegerForKey:kSubtypeKey];
-          switch (_subtype) {
-            case _SimpleADTSubtypesFirstSubtype: {
-              _firstSubtype_firstValue = [aDecoder decodeObjectForKey:kFirstSubtypeFirstValueKey];
-              _firstSubtype_secondValue = [aDecoder decodeIntegerForKey:kFirstSubtypeSecondValueKey];
-              break;
-            }
-            case _SimpleADTSubtypesSecondSubtype: {
-              _secondSubtype_something = [aDecoder decodeBoolForKey:kSecondSubtypeSomethingKey];
-              break;
-            }
+          _codedSubtype = [aDecoder decodeObjectForKey:kCodedSubtypeKey];
+          if([_codedSubtype isEqualToString:@"SUBTYPE_FIRST_SUBTYPE"]) {
+            _firstSubtype_firstValue = [aDecoder decodeObjectForKey:kFirstSubtypeFirstValueKey];
+            _firstSubtype_secondValue = [aDecoder decodeIntegerForKey:kFirstSubtypeSecondValueKey];
+            _subtype = _SimpleADTSubtypesFirstSubtype;
+          }
+          else if([_codedSubtype isEqualToString:@"SUBTYPE_SECOND_SUBTYPE"]) {
+            _secondSubtype_something = [aDecoder decodeBoolForKey:kSecondSubtypeSomethingKey];
+            _subtype = _SimpleADTSubtypesSecondSubtype;
+          }
+          else {
+            @throw([NSException exceptionWithName:@"InvalidSubtypeException" reason:@"nil or unknown subtype provided" userInfo:@{@"subtype": _codedSubtype}]);
           }
         }
         return self;
@@ -120,15 +122,16 @@ Feature: Outputting Algebraic Types
 
       - (void)encodeWithCoder:(NSCoder *)aCoder
       {
-        [aCoder encodeInteger:_subtype forKey:kSubtypeKey];
         switch (_subtype) {
           case _SimpleADTSubtypesFirstSubtype: {
             [aCoder encodeObject:_firstSubtype_firstValue forKey:kFirstSubtypeFirstValueKey];
             [aCoder encodeInteger:_firstSubtype_secondValue forKey:kFirstSubtypeSecondValueKey];
+            [aCoder encodeObject:@"SUBTYPE_FIRST_SUBTYPE" forKey:kCodedSubtypeKey];
             break;
           }
           case _SimpleADTSubtypesSecondSubtype: {
             [aCoder encodeBool:_secondSubtype_something forKey:kSecondSubtypeSomethingKey];
+            [aCoder encodeObject:@"SUBTYPE_SECOND_SUBTYPE" forKey:kCodedSubtypeKey];
             break;
           }
         }

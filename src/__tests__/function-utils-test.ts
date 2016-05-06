@@ -74,7 +74,7 @@ describe('FunctionUtils', function() {
   });
 
   describe('#pApplyf5', function() {
-    it('partially applies a function with four parameters', function() {
+    it('partially applies a function with five parameters', function() {
       const f:(a:number, b:number, c:number, d:number, e:number) => number = function(a:number, b:number, c:number, d:number, e:number):number {
         return a + b + c + d + e;
       };
@@ -89,7 +89,7 @@ describe('FunctionUtils', function() {
   });
 
   describe('#pApply2f3', function() {
-    it('partially applies a function with three parameters, currying two along', function() {
+    it('partially applies two parameters to a function with three parameters', function() {
       const f:(a:number, b:number, c:number) => number = function(a:number, b:number, c:number):number {
         return a + b + c;
       };
@@ -98,6 +98,36 @@ describe('FunctionUtils', function() {
 
       const actualVal = pf(8);
       const expectedVal = 14;
+
+      expect(actualVal).toEqualJSON(expectedVal);
+    });
+  });
+
+  describe('#pApply2f4', function() {
+    it('partially applies two parameters to a function with four parameters', function() {
+      const f:(a:number, b:number, c:number, d:number) => number = function(a:number, b:number, c:number, d:number):number {
+        return a + b + c + d;
+      };
+
+      const pf:(c:number, d:number) => number = FunctionUtils.pApply2f4(2, 4, f);
+
+      const actualVal = pf(8, 5);
+      const expectedVal = 19;
+
+      expect(actualVal).toEqualJSON(expectedVal);
+    });
+  });
+
+  describe('#pApply3f5', function() {
+    it('partially applies three parameters to a function with five parameters', function() {
+      const f:(a:number, b:number, c:number, d:number, e:number) => number = function(a:number, b:number, c:number, d:number, e:number):number {
+        return a + b + c + d + e;
+      };
+
+      const pf:(c:number, d:number) => number = FunctionUtils.pApply3f5(2, 4, 5, f);
+
+      const actualVal = pf(8, 13);
+      const expectedVal = 32;
 
       expect(actualVal).toEqualJSON(expectedVal);
     });

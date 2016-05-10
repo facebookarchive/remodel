@@ -43,7 +43,7 @@ function foundAttributeTypeFromParsedAttributeType(type:ObjectMonaParser.ParsedA
 
 function foundAttributeFromParseResultAttribute(attribute:ObjectMonaParser.ParsedAttribute):ValueObject.Attribute {
   return {
-   annotations:foundAnnotationFromParsedAnnotations(attribute.annotations),
+   annotations:ObjectGenerationParsingUtils.foundAnnotationFromParsedAnnotations(attribute.annotations),
    comments:attribute.comments,
    name:attribute.name,
    nullability:ObjectGenerationParsingUtils.nullabilityFromParseResultAnnotations(attribute.annotations),
@@ -51,21 +51,9 @@ function foundAttributeFromParseResultAttribute(attribute:ObjectMonaParser.Parse
   };
 }
 
-function foundAnnotationFromParsedAnnotations(parsedAnnotations:{[name:string]: {[key:string]: string}[]}):{[key:string]:ValueObject.Annotation[]} {
-  const foundAnnotations:{[key:string]:ValueObject.Annotation[]} = {};
-  for (const parsedAnnotationName in parsedAnnotations) {
-    foundAnnotations[parsedAnnotationName] = parsedAnnotations[parsedAnnotationName].map(function(parsedInstance:{[key:string]: string}):ValueObject.Annotation {
-      return {
-        properties:parsedInstance,
-      };
-    });
-  }
-  return foundAnnotations;
-}
-
 function foundTypeFromParsedType(foundType:ObjectMonaParser.ValueObjectParsedType):ValueObject.Type {
   return {
-    annotations:foundAnnotationFromParsedAnnotations(foundType.annotations),
+    annotations:ObjectGenerationParsingUtils.foundAnnotationFromParsedAnnotations(foundType.annotations),
     attributes:foundType.attributes.map(foundAttributeFromParseResultAttribute),
     comments:foundType.comments,
     typeName:foundType.typeName,

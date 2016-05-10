@@ -43,6 +43,7 @@ function subtypeAttributeTypeFromParsedAttribtueType(type:ObjectMonaParser.Parse
 
 function subtypeAttributeFromParseResultAttribute(attribute:ObjectMonaParser.ParsedAttribute):AlgebraicType.SubtypeAttribute {
   return {
+    annotations:ObjectGenerationParsingUtils.foundAnnotationFromParsedAnnotations(attribute.annotations),
     name:attribute.name,
     comments:attribute.comments,
     type:subtypeAttributeTypeFromParsedAttribtueType(attribute.type, attribute.annotations),
@@ -62,6 +63,7 @@ function subtypeFromParsedSubtype(subtype:ObjectMonaParser.AlgebraicParsedSubtyp
 
 function algebraicTypeFromParsedType(type:ObjectMonaParser.AlgebraicParsedType):AlgebraicType.Type {
   return {
+    annotations:ObjectGenerationParsingUtils.foundAnnotationFromParsedAnnotations(type.annotations),
     comments:type.comments,
     name:type.typeName,
     includes:type.includes,

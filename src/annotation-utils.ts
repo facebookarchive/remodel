@@ -8,12 +8,12 @@
  */
 
 import Maybe = require('./maybe');
-import ValueObject = require('./value-object');
+import ObjectGeneration = require('./object-generation');
 
-export function annotationValuesWithName(annotations:{[name:string]: ValueObject.Annotation[];}, annotationName:string):Maybe.Maybe<ValueObject.Annotation[]> {
+export function annotationValuesWithName(annotations:{[name:string]: ObjectGeneration.Annotation[];}, annotationName:string):Maybe.Maybe<ObjectGeneration.Annotation[]> {
   if (annotations && annotations[annotationName]) {
-    return Maybe.Just<ValueObject.Annotation[]>(annotations[annotationName]);
+    return Maybe.Just<ObjectGeneration.Annotation[]>(annotations[annotationName]);
   } else {
-    return Maybe.Nothing<ValueObject.Annotation[]>();
+    return Maybe.Nothing<ObjectGeneration.Annotation[]>();
   }
 }

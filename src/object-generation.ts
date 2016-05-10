@@ -16,3 +16,7 @@ export interface TypeLookup {
   file:Maybe.Maybe<string>;
   canForwardDeclare:boolean;
 }
+
+export interface Annotation {
+  properties: {[name:string]:string};
+}

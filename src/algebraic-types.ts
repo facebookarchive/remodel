@@ -75,6 +75,7 @@ function parseValues(either:Either.Either<Error.Error[], ReadFileUtils.UnparsedO
 
 function typeInformationContainingDefaultIncludes(typeInformation:AlgebraicType.Type, defaultIncludes:List.List<string>):AlgebraicType.Type {
   return {
+    annotations:typeInformation.annotations,
     comments: typeInformation.comments,
     excludes: typeInformation.excludes,
     includes: PluginInclusionUtils.includesContainingDefaultIncludes(typeInformation.includes, typeInformation.excludes, defaultIncludes),

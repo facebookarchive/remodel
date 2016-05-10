@@ -23,19 +23,15 @@ export interface AttributeType {
 }
 
 export interface Attribute {
-  annotations: {[name:string] : Annotation[];};
+  annotations: {[name:string] : ObjectGeneration.Annotation[];};
   comments: string[];
   name: string;
   nullability: ObjC.Nullability;
   type: AttributeType;
 }
 
-export interface Annotation {
-  properties: {[name:string]:string};
-}
-
 export interface Type {
-  annotations: {[name:string]: Annotation[];};
+  annotations: {[name:string]: ObjectGeneration.Annotation[];};
   attributes: Attribute[];
   comments: string[];
   excludes: string[];

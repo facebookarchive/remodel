@@ -136,11 +136,11 @@ export function typeLookupsFromRawAnnotations(annotations:{[name:string]: {[key:
   );
 }
 
-export function typeLookupsFromAnnotations(annotations:Maybe.Maybe<ValueObject.Annotation[]>):Either.Either<Error.Error[], ObjectGeneration.TypeLookup[]> {
+export function typeLookupsFromAnnotations(annotations:Maybe.Maybe<ObjectGeneration.Annotation[]>):Either.Either<Error.Error[], ObjectGeneration.TypeLookup[]> {
   return Maybe.match(
-    function(annotations:ValueObject.Annotation[]) {
+    function(annotations:ObjectGeneration.Annotation[]) {
       const annotationProperties = annotations.map(
-        function(annotation:ValueObject.Annotation):{[key:string]: string} {
+        function(annotation:ObjectGeneration.Annotation):{[key:string]: string} {
           return annotation.properties;
         }
       );
@@ -151,4 +151,16 @@ export function typeLookupsFromAnnotations(annotations:Maybe.Maybe<ValueObject.A
     },
     annotations
   );
+}
+
+export function foundAnnotationFromParsedAnnotations(parsedAnnotations:{[name:string]: {[key:string]: string}[]}):{[key:string]:ObjectGeneration.Annotation[]} {
+  const foundAnnotations:{[key:string]:ObjectGeneration.Annotation[]} = {};
+  for (const parsedAnnotationName in parsedAnnotations) {
+    foundAnnotations[parsedAnnotationName] = parsedAnnotations[parsedAnnotationName].map(function(parsedInstance:{[key:string]: string}):ObjectGeneration.Annotation {
+      return {
+        properties:parsedInstance,
+      };
+    });
+  }
+  return foundAnnotations;
 }

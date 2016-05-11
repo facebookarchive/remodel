@@ -1160,6 +1160,7 @@ describe('AlgebraicTypePlugins.Equality', function() {
   describe('#validationErrors', function() {
     it('returns no validation errors when there are no attributes on the provided subtypes', function() {
       const algebraicType:AlgebraicType.Type = {
+        annotations: {},
         name: 'Foo',
         includes: [],
         typeLookups:[],
@@ -1188,6 +1189,7 @@ describe('AlgebraicTypePlugins.Equality', function() {
 
     it('returns a validation error when there is an attribute with an unknown type', function() {
       const algebraicType:AlgebraicType.Type = {
+        annotations: {},
         name: 'Test',
         includes: [],
         typeLookups:[],
@@ -1197,6 +1199,7 @@ describe('AlgebraicTypePlugins.Equality', function() {
         subtypes: [
           AlgebraicType.Subtype.SingleAttributeSubtypeDefinition(
           {
+            annotations: {},
             name: 'someFoo',
             comments: [],
             nullability:ObjC.Nullability.Inherited(),
@@ -1219,6 +1222,7 @@ describe('AlgebraicTypePlugins.Equality', function() {
 
     it('returns two validation errors when there are two attributes with unknown types', function() {
       const algebraicType:AlgebraicType.Type = {
+        annotations: {},
         name: 'Test',
         includes: [],
         typeLookups:[],
@@ -1232,6 +1236,7 @@ describe('AlgebraicTypePlugins.Equality', function() {
             comments: [],
             attributes: [
               {
+                annotations: {},
                 name: 'someFoo',
                 comments: [],
                 nullability:ObjC.Nullability.Inherited(),
@@ -1251,6 +1256,7 @@ describe('AlgebraicTypePlugins.Equality', function() {
             comments: [],
             attributes: [
               {
+                annotations: {},
                 name: 'someFerr',
                 comments: [],
                 nullability:ObjC.Nullability.Inherited(),
@@ -1276,6 +1282,7 @@ describe('AlgebraicTypePlugins.Equality', function() {
 
     it('returns a validation error when there is an attribute with an unknown underlying type', function() {
       const algebraicType:AlgebraicType.Type = {
+        annotations: {},
         name: 'Test',
         includes: [],
         typeLookups:[],
@@ -1285,6 +1292,7 @@ describe('AlgebraicTypePlugins.Equality', function() {
         subtypes: [
           AlgebraicType.Subtype.SingleAttributeSubtypeDefinition(
           {
+            annotations: {},
             name: 'someFerr',
             comments: [],
             nullability:ObjC.Nullability.Inherited(),

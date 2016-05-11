@@ -22,6 +22,7 @@ describe('Plugins.AlgebraicTypeFunctionMatching', function() {
   describe('#blockTypes', function() {
     it('returns block types for matching an algebraic type', function() {
       const algebraicType:AlgebraicType.Type = {
+        annotations: {},
         name: 'Test',
         includes: [],
         excludes: [],
@@ -35,6 +36,7 @@ describe('Plugins.AlgebraicTypeFunctionMatching', function() {
             comments: [],
             attributes: [
               {
+                annotations: {},
                 name: 'someString',
                 comments: [],
                 nullability:ObjC.Nullability.Inherited(),
@@ -47,6 +49,7 @@ describe('Plugins.AlgebraicTypeFunctionMatching', function() {
                 }
               },
               {
+                annotations: {},
                 name: 'someUnsignedInteger',
                 comments: [],
                 nullability:ObjC.Nullability.Inherited(),
@@ -62,6 +65,7 @@ describe('Plugins.AlgebraicTypeFunctionMatching', function() {
           }),
           AlgebraicType.Subtype.SingleAttributeSubtypeDefinition(
           {
+            annotations: {},
             name: 'singleAttributeSubtype',
             nullability:ObjC.Nullability.Inherited(),
             comments: [],
@@ -125,6 +129,7 @@ describe('Plugins.AlgebraicTypeFunctionMatching', function() {
   describe('#instanceMethods', function() {
     it('returns an instance method for matching the subtypes of an algebraic type', function() {
       const algebraicType:AlgebraicType.Type = {
+        annotations: {},
         name: 'Test',
         includes: [],
         excludes: [],
@@ -138,6 +143,7 @@ describe('Plugins.AlgebraicTypeFunctionMatching', function() {
             comments: [],
             attributes: [
               {
+                annotations: {},
                 name: 'someString',
                 comments: [],
                 nullability:ObjC.Nullability.Inherited(),
@@ -150,6 +156,7 @@ describe('Plugins.AlgebraicTypeFunctionMatching', function() {
                 }
               },
               {
+                annotations: {},
                 name: 'someUnsignedInteger',
                 comments: [],
                 nullability:ObjC.Nullability.Inherited(),
@@ -165,6 +172,7 @@ describe('Plugins.AlgebraicTypeFunctionMatching', function() {
           }),
           AlgebraicType.Subtype.SingleAttributeSubtypeDefinition(
           {
+            annotations: {},
             name: 'singleAttributeSubtype',
             comments: [],
             nullability:ObjC.Nullability.Inherited(),

@@ -23,6 +23,7 @@ describe('Plugins.AlgebraicTypeTemplatedMatching', function() {
   describe('#additionalFiles', function() {
     it ('returns a header and implementation for matching on an algebraic type', function() {
       const algebraicType:AlgebraicType.Type = {
+        annotations: {},
         name: 'RMTest',
         includes: [],
         excludes: [],
@@ -36,6 +37,7 @@ describe('Plugins.AlgebraicTypeTemplatedMatching', function() {
             comments: [],
             attributes: [
               {
+                annotations: {},
                 name: 'someString',
                 comments: [],
                 nullability:ObjC.Nullability.Inherited(),
@@ -48,6 +50,7 @@ describe('Plugins.AlgebraicTypeTemplatedMatching', function() {
                 }
               },
               {
+                annotations: {},
                 name: 'someUnsignedInteger',
                 comments: [],
                 nullability:ObjC.Nullability.Inherited(),
@@ -69,6 +72,7 @@ describe('Plugins.AlgebraicTypeTemplatedMatching', function() {
           }),
           AlgebraicType.Subtype.SingleAttributeSubtypeDefinition(
           {
+            annotations: {},
             name: 'coolSingleAttributeSubtype',
             comments: [],
             nullability:ObjC.Nullability.Inherited(),

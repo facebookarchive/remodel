@@ -23,6 +23,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
   describe('#imports', function() {
     it('includes a public import for Foundation/Foundation.h', function() {
       const algebraicType:AlgebraicType.Type = {
+        annotations: {},
         name: 'Foo',
         includes: [],
         excludes: [],
@@ -50,6 +51,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
 
     it('includes a private import for its own header', function() {
       const algebraicType:AlgebraicType.Type = {
+        annotations: {},
         name: 'Foo',
         includes: [],
         excludes: [],
@@ -77,6 +79,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
 
     it('includes the public imports for some of its attributes', function() {
       const algebraicType:AlgebraicType.Type = {
+        annotations: {},
         name: 'Test',
         includes: [],
         excludes: [],
@@ -90,6 +93,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
             comments: [],
             attributes: [
               {
+                annotations: {},
                 name: 'someFoo',
                 comments: [],
                 nullability:ObjC.Nullability.Inherited(),
@@ -102,6 +106,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
                 }
               },
               {
+                annotations: {},
                 name: 'someBool',
                 comments: [],
                 nullability:ObjC.Nullability.Inherited(),
@@ -117,6 +122,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
           }),
           AlgebraicType.Subtype.SingleAttributeSubtypeDefinition(
           {
+            annotations: {},
             name: 'singleAttributeSubtype',
             comments: [],
             nullability:ObjC.Nullability.Inherited(),
@@ -160,6 +166,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
     it('includes for an attribute that is an NSObject but does not have a ' +
        'specified library and the algebraic type is in a library', function() {
       const algebraicType:AlgebraicType.Type = {
+        annotations: {},
         name: 'Test',
         includes: [],
         excludes: [],
@@ -169,6 +176,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
         subtypes: [
           AlgebraicType.Subtype.SingleAttributeSubtypeDefinition(
           {
+            annotations: {},
             name: 'someFoo',
             comments: [],
             nullability:ObjC.Nullability.Inherited(),
@@ -197,6 +205,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
     it('returns a single class method when there is one subtype ' +
        'with no attributes', function() {
       const algebraicType:AlgebraicType.Type = {
+        annotations: {},
         name: 'Foo',
         includes: [],
         excludes: [],
@@ -241,6 +250,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
     it('returns two class methods when there are two subtypes ' +
        'with some attributes', function() {
       const algebraicType:AlgebraicType.Type = {
+        annotations: {},
         name: 'Test',
         includes: [],
         excludes: [],
@@ -254,6 +264,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
             comments: [],
             attributes: [
               {
+                annotations: {},
                 name: 'someString',
                 comments: [],
                 nullability:ObjC.Nullability.Inherited(),
@@ -266,6 +277,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
                 }
               },
               {
+                annotations: {},
                 name: 'someUnsignedInteger',
                 comments: [],
                 nullability:ObjC.Nullability.Inherited(),
@@ -281,6 +293,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
           }),
           AlgebraicType.Subtype.SingleAttributeSubtypeDefinition(
           {
+            annotations: {},
             name: 'singleAttributeSubtype',
             comments: [],
             nullability:ObjC.Nullability.Inherited(),
@@ -372,6 +385,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
     it('returns internal properties for storing the subtypes attributes as well ' +
        'as the type', function() {
       const algebraicType:AlgebraicType.Type = {
+        annotations: {},
         name: 'Test',
         includes: [],
         excludes: [],
@@ -385,6 +399,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
             comments: [],
             attributes: [
               {
+                annotations: {},
                 name: 'someString',
                 comments: [],
                 nullability:ObjC.Nullability.Inherited(),
@@ -397,6 +412,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
                 }
               },
               {
+                annotations: {},
                 name: 'someUnsignedInteger',
                 comments: [],
                 nullability:ObjC.Nullability.Inherited(),
@@ -412,6 +428,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
           }),
           AlgebraicType.Subtype.SingleAttributeSubtypeDefinition(
           {
+            annotations: {},
             name: 'singleAttributeSubtype',
             comments: [],
             nullability:ObjC.Nullability.Inherited(),
@@ -476,6 +493,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
   describe('#enumerations', function() {
     it('returns an enumeration for its subtypes', function() {
       const algebraicType:AlgebraicType.Type = {
+        annotations: {},
         name: 'Foo',
         includes: [],
         excludes: [],
@@ -489,6 +507,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
             comments: [],
             attributes: [
               {
+                annotations: {},
                 name: 'someString',
                 comments: [],
                 nullability:ObjC.Nullability.Inherited(),
@@ -501,6 +520,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
                 }
               },
               {
+                annotations: {},
                 name: 'someUnsignedInteger',
                 comments: [],
                 nullability:ObjC.Nullability.Inherited(),
@@ -516,6 +536,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
           }),
           AlgebraicType.Subtype.SingleAttributeSubtypeDefinition(
           {
+            annotations: {},
             name: 'singleAttributeSubtype',
             comments: [],
             nullability:ObjC.Nullability.Inherited(),
@@ -547,6 +568,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
   describe('#validationErrors', function() {
     it('returns no validation errors when there are no attributes on the provided subtypes', function() {
       const algebraicType:AlgebraicType.Type = {
+        annotations: {},
         name: 'Foo',
         includes: [],
         excludes: [],
@@ -574,6 +596,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
 
     it('returns a validation error when there are two subtypes with the same name', function() {
       const algebraicType:AlgebraicType.Type = {
+        annotations: {},
         name: 'Test',
         includes: [],
         excludes: [],
@@ -587,6 +610,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
             comments: [],
             attributes: [
               {
+                annotations: {},
                 name: 'someFoo',
                 comments: [],
                 nullability:ObjC.Nullability.Inherited(),
@@ -606,6 +630,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
             comments: [],
             attributes: [
               {
+                annotations: {},
                 name: 'anotherFoo',
                 comments: [],
                 nullability:ObjC.Nullability.Inherited(),
@@ -630,6 +655,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
 
     it('returns a validation error when there are two single attribute subtypes with the same name', function() {
       const algebraicType:AlgebraicType.Type = {
+        annotations: {},
         name: 'Test',
         includes: [],
         excludes: [],
@@ -639,6 +665,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
         subtypes: [
         AlgebraicType.Subtype.SingleAttributeSubtypeDefinition(
         {
+          annotations: {},
           name: 'singleAttributeSubtype',
           comments: [],
           nullability:ObjC.Nullability.Inherited(),
@@ -652,6 +679,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
         }),
         AlgebraicType.Subtype.SingleAttributeSubtypeDefinition(
         {
+          annotations: {},
           name: 'singleAttributeSubtype',
           comments: [],
           nullability:ObjC.Nullability.Inherited(),
@@ -674,6 +702,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
 
     it('returns a validation error when one single attribute subtype and one named subtype have same name', function() {
       const algebraicType:AlgebraicType.Type = {
+        annotations: {},
         name: 'Test',
         includes: [],
         excludes: [],
@@ -687,6 +716,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
           comments: [],
           attributes: [
             {
+              annotations: {},
               name: 'someFoo',
               comments: [],
               nullability:ObjC.Nullability.Inherited(),
@@ -702,6 +732,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
         }),
         AlgebraicType.Subtype.SingleAttributeSubtypeDefinition(
         {
+          annotations: {},
           name: 'someSubtype',
           comments: [],
           nullability:ObjC.Nullability.Inherited(),

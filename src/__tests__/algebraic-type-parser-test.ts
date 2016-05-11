@@ -24,6 +24,7 @@ describe('AlgebraicTypeParser', function() {
       const actualResult:Either.Either<Error.Error[], AlgebraicType.Type> = AlgebraicTypeParser.parse(fileContents);
 
       const expectedADT:AlgebraicType.Type = {
+        annotations: {},
         name: 'RMSomething',
         comments: [],
         includes: [],
@@ -35,6 +36,7 @@ describe('AlgebraicTypeParser', function() {
             comments: [],
             attributes: [
             {
+              annotations: {},
               name: 'someUnsignedInt',
               nullability:ObjC.Nullability.Inherited(),
               type: {
@@ -59,6 +61,7 @@ describe('AlgebraicTypeParser', function() {
       const actualResult:Either.Either<Error.Error[], AlgebraicType.Type> = AlgebraicTypeParser.parse(fileContents);
 
       const expectedADT:AlgebraicType.Type = {
+        annotations: {},
         name: 'RMSomething',
         comments: [],
         includes: [],
@@ -67,6 +70,7 @@ describe('AlgebraicTypeParser', function() {
         subtypes: [
           AlgebraicType.Subtype.SingleAttributeSubtypeDefinition(
             {
+              annotations: {},
               name: 'rmObjectProperty',
               nullability:ObjC.Nullability.Inherited(),
               type: {
@@ -94,6 +98,16 @@ describe('AlgebraicTypeParser', function() {
       const actualResult:Either.Either<Error.Error[], AlgebraicType.Type> = AlgebraicTypeParser.parse(fileContents);
 
       const expectedADT:AlgebraicType.Type = {
+        annotations: {
+          type: [
+            {
+              "properties": {
+                "name": "Scumbag",
+                "library": "Steve"
+              }
+            }
+          ]
+        },
         name: 'RMSomething',
         comments: [],
         includes: [],
@@ -109,6 +123,16 @@ describe('AlgebraicTypeParser', function() {
         subtypes: [
           AlgebraicType.Subtype.SingleAttributeSubtypeDefinition(
             {
+              annotations: {
+                import: [
+                  {
+                    "properties": {
+                      "file": "RMSomeOtherFile",
+                      "library": "RMCustomLibrary"
+                    }
+                  }
+                ]
+              },
               name: 'rmObjectProperty',
               nullability:ObjC.Nullability.Inherited(),
               type: {
@@ -139,6 +163,15 @@ describe('AlgebraicTypeParser', function() {
                          '}';
       const actualResult:Either.Either<Error.Error[], AlgebraicType.Type> = AlgebraicTypeParser.parse(fileContents);
       const expectedADT:AlgebraicType.Type = {
+        annotations: {
+          library: [
+              {
+                "properties": {
+                  "name": "RMSomethingLibrary"
+                }
+              }
+            ]
+        },
         name: 'RMSomething',
         comments: ['My warm something'],
         includes: ['A'],
@@ -151,6 +184,16 @@ describe('AlgebraicTypeParser', function() {
             comments: [],
             attributes: [
               {
+                annotations: {
+                  import: [
+                      {
+                        "properties": {
+                          "file": "RMSomeOtherFile",
+                          "library": "RMCustomLibrary"
+                        }
+                      }
+                    ]
+                },
                 comments: [],
                 name: 'someBlah',
                 nullability:ObjC.Nullability.Inherited(),
@@ -163,6 +206,7 @@ describe('AlgebraicTypeParser', function() {
                 }
               },
               {
+                annotations: {},
                 comments: [],
                 name: 'someValue',
                 nullability:ObjC.Nullability.Inherited(),
@@ -192,6 +236,7 @@ describe('AlgebraicTypeParser', function() {
                          '}';
       const actualResult:Either.Either<Error.Error[], AlgebraicType.Type> = AlgebraicTypeParser.parse(fileContents);
       const expectedADT:AlgebraicType.Type = {
+        annotations: {},
         name: 'RMSomething',
         comments: [],
         includes: [],
@@ -204,6 +249,13 @@ describe('AlgebraicTypeParser', function() {
             comments: [],
             attributes: [
               {
+                annotations: {
+                  nullable: [
+                      {
+                        "properties": {}
+                      }
+                    ]
+                },
                 comments: [],
                 name: 'someBlah',
                 nullability:ObjC.Nullability.Nullable(),
@@ -216,6 +268,13 @@ describe('AlgebraicTypeParser', function() {
                 }
               },
               {
+                annotations: {
+                  nonnull: [
+                      {
+                        "properties": {}
+                      }
+                    ]
+                },
                 comments: [],
                 name: 'someValue',
                 nullability:ObjC.Nullability.Nonnull(),

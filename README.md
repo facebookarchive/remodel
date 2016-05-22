@@ -82,7 +82,7 @@ AddressBookContact {
 #import "PhoneNumber.h"
 ```
 
-Another important annotation is libary. This will make things easier for you if you are using header maps. For example:
+Another important annotation is library. This will make things easier for you if you are using header maps. For example:
 
 ```objc
 %type name="PhoneNumber" library="PhoneNumberLib" file="PhoneNumberTypes"

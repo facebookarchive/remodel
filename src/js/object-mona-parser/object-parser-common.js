@@ -195,7 +195,7 @@ function namedParenSection(sectionName){
 // Name includes(Include) excludes(Exclude)
 function parseTypeNameSectionWithIncludes() {
   return mona.sequence(function(s) {
-    const typeName = s(mona.trim(mona.text(mona.alpha())));
+    const typeName = s(mona.trim(mona.text(mona.alphanum())));
     const includes = s(mona.maybe(namedParenSection('includes')));
     const excludes = s(mona.maybe(namedParenSection('excludes')));
 
@@ -213,7 +213,7 @@ function parseTypeNameSectionWithIncludes() {
 function parseTypeNameSectionWithoutIncludes() {
   return mona.sequence(function(s) {
     s(mona.maybe(mona.spaces()));
-    const typeName = s(mona.text(mona.alpha()));
+    const typeName = s(mona.text(mona.alphanum()));
 
     const typeNameSection = {
       typeName: typeName,

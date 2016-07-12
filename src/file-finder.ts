@@ -31,7 +31,7 @@ export function findFilesAndDirectories(directoryOrFileToScan:File.AbsoluteFileP
   const promise = Promise.pending<Either.Either<Error.Error, FilesAndDirectories>>();
   const fileExtensionPath:string = '\.' + fileExtension;
   const absolutePath:string = File.getAbsolutePathString(directoryOrFileToScan);
-  if (pathIsToFileWithExtensionType(fileExtension, absolutePath)) {
+  if (pathIsToFileWithExtensionType(fileExtensionPath, absolutePath)) {
     fs.stat(absolutePath, function(err, stats) {
       if (err) {
         const message = absolutePath + ' does not exist';

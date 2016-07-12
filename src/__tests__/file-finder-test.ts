@@ -57,6 +57,26 @@ describe('FileFinder', function() {
       }, future);
     });
 
+    it('returns a promise for only a single value when given a path that contains' +
+       'that one value and a substring of the suffix', function(finished) {
+      fsExtra.removeSync(__dirname + '/tmp');
+      fs.mkdirSync(__dirname + '/tmp');
+      fs.writeFileSync(__dirname + '/tmp/suf-test.suf', '');
+      const future:Promise.Future<Either.Either<Error.Error, FileFinder.FilesAndDirectories>> = FileFinder.findFilesAndDirectories(File.getAbsoluteFilePath(__dirname + '/tmp/suf-test.suf'), 'suf');
+      Promise.then(function(result:Either.Either<Error.Error, FileFinder.FilesAndDirectories>) {
+        const expectedResult:Either.Either<Error.Error, FileFinder.FilesAndDirectories> = Either.Right<Error.Error, FileFinder.FilesAndDirectories>({
+          foundPotentialDirectories:[],
+          foundFilePaths:[
+            {absolutePath:__dirname + '/tmp/suf-test.suf'}
+          ]
+        });
+        expect(result).toEqualJSON(expectedResult);
+        fsExtra.removeSync(__dirname + '/tmp');
+        finished();
+      }, future);
+    });
+
+
     it('returns a promise for an error when given a path that contains' +
        'that one value but that value does not exist', function(finished) {
       fsExtra.removeSync(__dirname + '/tmp');

@@ -6,6 +6,8 @@
 
 Remodel is a tool that helps iOS and OS X developers avoid repetitive code by generating Objective-C models that support coding, value comparison, and immutability.
 
+For more on Remodel, see our [blog post](https://code.facebook.com/posts/1154141864616569/building-and-managing-ios-model-objects-with-remodel/).
+
 ## Installation
 
 ```sh
@@ -246,6 +248,10 @@ To generate ADTs, use the `generateAlgebraicDataTypes` command.
 ```sh
 $ remodel-gen Path/To/AddressBookModels/AddressBookContactIdentifier.adtValue
 ```
+
+## Configuring and Customing Remodel
+
+For advanced users, there are few ways to tailor how Remodel works in your repo. These are documented in their own [file](CUSTOMIZATIONS.md).
 
 ## Contributing
 

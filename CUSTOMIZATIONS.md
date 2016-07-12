@@ -1,8 +1,8 @@
 # CUSTOMIZE.md
 
 There are a few ways you can customize how Remodel behaves in your repo. 
-**
-Writing your own plugin**
+
+**Writing your own plugin**
 
 The field information in the `.value` file can be used to generate other useful utilities. For example, support for generating coding methods is built as plugin. To see more about the built-in Remodel plug-ins see here (). An interesting walk through of what a useful plugin might look like can be found in the blog article [here](https://code.facebook.com/posts/1154141864616569/building-and-managing-ios-model-objects-with-remodel/) under ‘Customizing Remodel'.
 

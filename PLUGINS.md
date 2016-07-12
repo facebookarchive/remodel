@@ -34,7 +34,7 @@ Below is a complete list of the plugins available with Remodel. The first three 
 
 * `RMBuilder` including this plugin will cause a separate file to be generated that makes it easier to instantiate the .value file with only a subset of the properties. This will be useful in two cases.
 
-    First;y, inside of your unit tests you generally only want to specify the minimum number of properties that the test particularly depends on. With builders you can avoid directly calling the initializer which means that you will not have to update every one of your tests when you decide to add a new property onto a value object.
+    Firstly, inside of your unit tests you generally only want to specify the minimum number of properties that the test particularly depends on. With builders you can avoid directly calling the initializer which means that you will not have to update every one of your tests when you decide to add a new property onto a value object.
 
     Secondly, sometimes in code you want to make an instance of a Remodel object that has all the fields from a different instance except for maybe one or two properties. The builder enables this scenario as well.
 

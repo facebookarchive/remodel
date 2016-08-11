@@ -165,7 +165,13 @@ function importForAttribute(objectLibrary:Maybe.Maybe<string>, isPublic:boolean,
     }, builtInImportMaybe);
 }
 
-function forwardDeclarationForAttribute(objectLibrary:Maybe.Maybe<string>, attribute:ValueObject.Attribute): ObjC.ForwardDeclaration {
+function shouldForwardDeclareAttribute(valueTypeName:string, makePublicImports:boolean, attribute:ValueObject.Attribute):boolean {
+  const declaringPublicAttributes = !makePublicImports && ObjCImportUtils.canForwardDeclareTypeForAttribute(attribute);
+  const attributeTypeReferencesObjectType = valueTypeName == attribute.type.name;
+  return declaringPublicAttributes || attributeTypeReferencesObjectType;
+}
+
+function forwardDeclarationForAttribute(attribute:ValueObject.Attribute): ObjC.ForwardDeclaration {
   return ObjC.ForwardDeclaration.ForwardClassDeclaration(attribute.type.name);
 }
 
@@ -188,14 +194,10 @@ export function createPlugin():ValueObject.Plugin {
     },
     forwardDeclarations: function(valueType:ValueObject.Type):ObjC.ForwardDeclaration[] {
       const makePublicImports = valueType.includes.indexOf('UseForwardDeclarations') === -1;
-      if (makePublicImports) {
-        return [];
-      } else {
-        const typeLookupForwardDeclarations = ObjCImportUtils.forwardDeclarationsForTypeLookups(valueType.typeLookups);
-        const attributeForwardDeclarations = valueType.attributes.filter(ObjCImportUtils.canForwardDeclareTypeForAttribute)
-                                                               .map(FunctionUtils.pApplyf3(valueType.libraryName, forwardDeclarationForAttribute));
-        return [].concat(typeLookupForwardDeclarations).concat(attributeForwardDeclarations);
-      }
+      const typeLookupForwardDeclarations = !makePublicImports ? ObjCImportUtils.forwardDeclarationsForTypeLookups(valueType.typeLookups) : [];
+      const attributeForwardDeclarations = valueType.attributes.filter(FunctionUtils.pApply2f3(valueType.typeName, makePublicImports, shouldForwardDeclareAttribute))
+                                                               .map(forwardDeclarationForAttribute);
+      return [].concat(typeLookupForwardDeclarations).concat(attributeForwardDeclarations);
     },
     functions: function(valueType:ValueObject.Type):ObjC.Function[] {
       return [];

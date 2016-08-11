@@ -1381,4 +1381,70 @@ describe('Plugins.ImmutableProperties', function() {
       expect(modifiers).toContain(ObjC.PropertyModifier.Nullable());
     });
   });
+
+  describe('#forwardDeclarations', function() {
+    it('returns a forward declaration when the same type being generated ' +
+       'is being used as an attribute type', function() {
+      const valueType:ValueObject.Type = {
+        annotations: {},
+        attributes: [
+          {
+            annotations: {},
+            comments: [],
+            name:'value',
+            nullability:ObjC.Nullability.Inherited(),
+            type: {
+              fileTypeIsDefinedIn:Maybe.Nothing<string>(),
+              libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+              name:'RMSomething',
+              reference: 'RMSomething *',
+              underlyingType:Maybe.Nothing<string>()
+            }
+          }
+        ],
+        comments: [],
+        typeLookups:[],
+        excludes: [],
+        includes: [],
+        typeName: 'RMSomething',
+        libraryName: Maybe.Nothing<string>()
+      };
+      const forwardDeclarations:ObjC.ForwardDeclaration[] = Plugin.forwardDeclarations(valueType);
+      const expectedForwardDeclarations:ObjC.ForwardDeclaration[] = [
+        ObjC.ForwardDeclaration.ForwardClassDeclaration('RMSomething')
+      ];
+      expect(forwardDeclarations).toEqualJSON(expectedForwardDeclarations);
+    });
+
+    it('returns no forward declarations when the same type being generated ' +
+       'is not being referenced in a subtype', function() {
+      const valueType:ValueObject.Type = {
+        annotations: {},
+        attributes: [
+          {
+            annotations: {},
+            comments: [],
+            name:'value',
+            nullability:ObjC.Nullability.Inherited(),
+            type: {
+              fileTypeIsDefinedIn:Maybe.Nothing<string>(),
+              libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+              name:'Foo',
+              reference: 'Foo *',
+              underlyingType:Maybe.Nothing<string>()
+            }
+          }
+        ],
+        comments: [],
+        typeLookups:[],
+        excludes: [],
+        includes: [],
+        typeName: 'RMSomething',
+        libraryName: Maybe.Nothing<string>()
+      };
+      const forwardDeclarations:ObjC.ForwardDeclaration[] = Plugin.forwardDeclarations(valueType);
+      const expectedForwardDeclarations:ObjC.ForwardDeclaration[] = [];
+      expect(forwardDeclarations).toEqualJSON(expectedForwardDeclarations);
+    });
+  });
 });

@@ -172,7 +172,13 @@ function importForAttribute(objectLibrary:Maybe.Maybe<string>, isPublic:boolean,
     }, builtInImportMaybe);
 }
 
-function forwardDeclarationForAttribute(objectLibrary:Maybe.Maybe<string>, attribute:AlgebraicType.SubtypeAttribute): ObjC.ForwardDeclaration {
+function shouldForwardDeclareAttribute(algebraicTypeName:string, makePublicImports:boolean, attribute:AlgebraicType.SubtypeAttribute):boolean {
+  const declaringPublicAttributes = !makePublicImports && ObjCImportUtils.canForwardDeclareTypeForAttribute(attribute);
+  const attributeTypeReferencesObjectType = algebraicTypeName == attribute.type.name;
+  return declaringPublicAttributes || attributeTypeReferencesObjectType;
+}
+
+function forwardDeclarationForAttribute(attribute:AlgebraicType.SubtypeAttribute): ObjC.ForwardDeclaration {
   return ObjC.ForwardDeclaration.ForwardClassDeclaration(attribute.type.name);
 }
 
@@ -229,14 +235,9 @@ export function createAlgebraicTypePlugin():AlgebraicType.Plugin {
     },
     forwardDeclarations: function(algebraicType:AlgebraicType.Type):ObjC.ForwardDeclaration[] {
       const makePublicImports = algebraicType.includes.indexOf('UseForwardDeclarations') === -1;
-      if (makePublicImports) {
-        return [];
-      } else {
-        const attributeForwardDeclarations = AlgebraicTypeUtils.allAttributesFromSubtypes(algebraicType.subtypes)
-                                                             .filter(ObjCImportUtils.canForwardDeclareTypeForAttribute)
-                                                             .map(FunctionUtils.pApplyf3(algebraicType.libraryName, forwardDeclarationForAttribute));
-        return attributeForwardDeclarations;
-      }
+      return AlgebraicTypeUtils.allAttributesFromSubtypes(algebraicType.subtypes)
+                               .filter(FunctionUtils.pApply2f3(algebraicType.name, makePublicImports, shouldForwardDeclareAttribute))
+                               .map(forwardDeclarationForAttribute);
     },
     functions: function(algebraicType:AlgebraicType.Type):ObjC.Function[] {
       return [];

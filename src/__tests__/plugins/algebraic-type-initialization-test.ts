@@ -753,4 +753,84 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
       expect(errors).toEqualJSON(expectedErrors);
     });
   });
+
+  describe('#forwardDeclarations', function() {
+    it('returns a forward declaration when the same type being generated ' +
+       'is being used as an attribute type', function() {
+      const algebraicType:AlgebraicType.Type = {
+        annotations: {},
+        name: 'Test',
+        includes: [],
+        excludes: [],
+        typeLookups:[],
+        libraryName: Maybe.Nothing<string>(),
+        comments: [],
+        subtypes: [
+        AlgebraicType.Subtype.NamedAttributeCollectionDefinition(
+        {
+          name: 'SomeSubtype',
+          comments: [],
+          attributes: [
+            {
+              annotations: {},
+              name: 'someFoo',
+              comments: [],
+              nullability:ObjC.Nullability.Inherited(),
+              type: {
+                name: 'Test',
+                reference: 'Test *',
+                libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+                fileTypeIsDefinedIn: Maybe.Nothing<string>(),
+                underlyingType: Maybe.Nothing<string>()
+              }
+            }
+          ]
+        })
+        ]
+      };
+      const forwardDeclarations:ObjC.ForwardDeclaration[] = AlgebraicTypePlugin.forwardDeclarations(algebraicType);
+      const expectedForwardDeclarations:ObjC.ForwardDeclaration[] = [
+        ObjC.ForwardDeclaration.ForwardClassDeclaration('Test')
+      ];
+      expect(forwardDeclarations).toEqualJSON(expectedForwardDeclarations);
+    });
+
+    it('returns no forward declarations when the same type being generated ' +
+       'is not being referenced in a subtype', function() {
+      const algebraicType:AlgebraicType.Type = {
+        annotations: {},
+        name: 'Test',
+        includes: [],
+        excludes: [],
+        typeLookups:[],
+        libraryName: Maybe.Nothing<string>(),
+        comments: [],
+        subtypes: [
+        AlgebraicType.Subtype.NamedAttributeCollectionDefinition(
+        {
+          name: 'SomeSubtype',
+          comments: [],
+          attributes: [
+            {
+              annotations: {},
+              name: 'someFoo',
+              comments: [],
+              nullability:ObjC.Nullability.Inherited(),
+              type: {
+                name: 'AnotherTest',
+                reference: 'AnotherTest *',
+                libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+                fileTypeIsDefinedIn: Maybe.Nothing<string>(),
+                underlyingType: Maybe.Nothing<string>()
+              }
+            }
+          ]
+        })
+        ]
+      };
+      const forwardDeclarations:ObjC.ForwardDeclaration[] = AlgebraicTypePlugin.forwardDeclarations(algebraicType);
+      const expectedForwardDeclarations:ObjC.ForwardDeclaration[] = [];
+      expect(forwardDeclarations).toEqualJSON(expectedForwardDeclarations);
+    });
+  });
 });

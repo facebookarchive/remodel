@@ -53,6 +53,7 @@ const BASE_INCLUDES:List.List<string> = List.of(
 
 const BASE_PLUGINS:List.List<string> = List.of(
   'algebraic-type-initialization',
+  'assume-nonnull',
   'coding',
   'copying',
   'description',

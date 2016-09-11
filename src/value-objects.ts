@@ -38,6 +38,7 @@ const BASE_INCLUDES:List.List<string> = List.of(
 );
 
 const BASE_PLUGINS:List.List<string> = List.of(
+  'assume-nonnull',
   'builder',
   'coding',
   'copying',

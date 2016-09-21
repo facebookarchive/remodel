@@ -243,14 +243,77 @@ function enumerationIsPublic(isPublic:boolean):(enumeration:ObjC.Enumeration) =>
   };
 }
 
+const NS_ASSUME_NONNULL_BEGIN:string = 'NS_ASSUME_NONNULL_BEGIN';
+const NS_ASSUME_NONNULL_END:string = 'NS_ASSUME_NONNULL_END';
+
+function prefixClassMacros(classInfo:ObjC.Class):string[] {
+  var macros:string[] = [];
+  switch (classInfo.nullability) {
+    case ObjC.ClassNullability.assumeNonnull:
+      macros.push(NS_ASSUME_NONNULL_BEGIN);
+      break;
+    case ObjC.ClassNullability.default:
+      break;
+  }
+  return macros;
+}
+
+function postfixClassMacros(classInfo:ObjC.Class):string[] {
+  var macros:string[] = [];
+  switch (classInfo.nullability) {
+    case ObjC.ClassNullability.assumeNonnull:
+      macros.push(NS_ASSUME_NONNULL_END);
+      break;
+    case ObjC.ClassNullability.default:
+      break;
+  }
+  return macros;
+}
+
+function prefixBlockTypeMacros(blockType:ObjC.BlockType):string[] {
+  var macros:string[] = [];
+  switch (blockType.nullability) {
+    case ObjC.ClassNullability.assumeNonnull:
+      macros.push(NS_ASSUME_NONNULL_BEGIN);
+      break;
+    case ObjC.ClassNullability.default:
+      break;
+  }
+  return macros;
+}
+
+function postfixBlockTypeMacros(blockType:ObjC.BlockType):string[] {
+  var macros:string[] = [];
+  switch (blockType.nullability) {
+    case ObjC.ClassNullability.assumeNonnull:
+      macros.push(NS_ASSUME_NONNULL_END);
+      break;
+    case ObjC.ClassNullability.default:
+      break;
+  }
+  return macros;
+}
+
 export function toBlockTypeParameterString(parameter:ObjC.BlockTypeParameter):string {
-  return renderableTypeReferenceNestingSubsequentToken(parameter.type.reference) + parameter.name;
+  const nullabilityModifier:String = parameter.nullability.match(
+    returnString(''),
+    returnString('_Nonnull '),
+    returnString('_Nullable ')
+  );
+  return renderableTypeReferenceNestingSubsequentToken(parameter.type.reference) + nullabilityModifier + parameter.name;
 }
 
 function toBlockTypeDeclaration(blockType:ObjC.BlockType):string {
+  const prefixBlockTypeMacrosStr:string = prefixBlockTypeMacros(blockType).join('\n');
+  const prefixBlockTypeMacrosSection:string = prefixBlockTypeMacrosStr !== '' ? prefixBlockTypeMacrosStr + '\n' : '';
+
   const blockTypeComments = blockType.comments.map(toCommentString).join('\n');
   const blockTypeCommentsSection = codeSectionForCodeStringWithoutExtraSpace(blockTypeComments);
-  return blockTypeCommentsSection + 'typedef ' + toFunctionReturnTypeString(blockType.returnType) + '(^' + blockType.name + ')(' + blockType.parameters.map(toBlockTypeParameterString).join(', ') + ');';
+
+  const postfixBlockTypeMacrosStr:string = postfixBlockTypeMacros(blockType).join('\n');
+  const postfixBlockTypeMacrosSection:string = postfixBlockTypeMacrosStr !== '' ? '\n' + postfixBlockTypeMacrosStr : '';
+
+  return prefixBlockTypeMacrosSection + blockTypeCommentsSection + 'typedef ' + toFunctionReturnTypeString(blockType.returnType) + '(^' + blockType.name + ')(' + blockType.parameters.map(toBlockTypeParameterString).join(', ') + ');' + postfixBlockTypeMacrosSection;
 }
 
 function blockTypeIsPublic(isPublic:boolean):(blockType:ObjC.BlockType) => boolean {
@@ -325,6 +388,9 @@ function buildInternalPropertiesContainingAccessIdentifiers(soFar:string[], inte
 }
 
 function headerClassSection(classInfo:ObjC.Class):string {
+  const prefixClassMacrosStr:string = prefixClassMacros(classInfo).join('\n');
+  const prefixClassMacrosSection:string = prefixClassMacrosStr !== '' ? prefixClassMacrosStr + '\n\n' : '';
+
   const classComments = classInfo.comments.map(toCommentString).join('\n');
   const classCommentsSection = codeSectionForCodeStringWithoutExtraSpace(classComments);
 
@@ -345,7 +411,10 @@ function headerClassSection(classInfo:ObjC.Class):string {
                                                     .map(toInstanceMethodHeaderString).join('\n\n');
   const instanceMethodsSection = codeSectionForCodeString(instanceMethodsStr);
 
-  return classCommentsSection + classSection + '\n' + internalPropertiesSection + propertiesSection + classMethodsSection + instanceMethodsSection + '@end';
+  const postfixClassMacrosStr:string = postfixClassMacros(classInfo).join('\n');
+  const postfixClassMacrosSection:string = postfixClassMacrosStr !== '' ? '\n\n' + postfixClassMacrosStr : '';
+
+  return prefixClassMacrosSection + classCommentsSection + classSection + '\n' + internalPropertiesSection + propertiesSection + classMethodsSection + instanceMethodsSection + '@end' + postfixClassMacrosSection;
 }
 
 function toDeclarationString(forwardDeclaration:ObjC.ForwardDeclaration) {
@@ -481,13 +550,20 @@ function toDiagnosticIgnoreString(diagnosticIgnore:string):string {
 }
 
 function implementationClassSection(classInfo:ObjC.Class):string {
+  const prefixClassMacrosStr:string = prefixClassMacros(classInfo).join('\n');
+  const prefixClassMacrosSection:string = prefixClassMacrosStr !== '' ? prefixClassMacrosStr + '\n\n' : '';
+
   const classSection:string = '@implementation ' + classInfo.name + '\n';
   const internalPropertiesStr:string = classInfo.internalProperties.filter(implementationNeedsToIncludeInternalProperty).map(toInternalPropertyString).map(StringUtils.indent(2)).join('\n');
   const internalPropertiesSection:string = internalPropertiesStr !== '' ? '{\n' + internalPropertiesStr + '\n}\n\n' : '\n';
   const classMethodsStr:string = classInfo.classMethods.map(toClassMethodImplementationString).join('\n\n');
   const classMethodsSection = codeSectionForCodeString(classMethodsStr);
   const instanceMethodsSection = classInfo.instanceMethods.map(toInstanceMethodImplementationString).join('\n\n');
-  return classSection + internalPropertiesSection + classMethodsSection + instanceMethodsSection + '\n\n@end';
+
+  const postfixClassMacrosStr:string = postfixClassMacros(classInfo).join('\n');
+  const postfixClassMacrosSection:string = postfixClassMacrosStr !== '' ? '\n\n' + postfixClassMacrosStr : '';
+
+  return prefixClassMacrosSection + classSection + internalPropertiesSection + classMethodsSection + instanceMethodsSection + '\n\n@end' + postfixClassMacrosSection;
 }
 
 function codeSectionForCodeString(codeStr:string):string {

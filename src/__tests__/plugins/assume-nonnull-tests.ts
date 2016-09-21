@@ -36,9 +36,28 @@ describe('ValueObjectPlugins.AssumeNonnull', function() {
 
       const imports:ObjC.Import[] = ValueObjectPlugin.imports(valueType);
       const expectedImports:ObjC.Import[] = [
-        { file: 'Foundation2.h', isPublic: true, library: Maybe.Just('Foundation2') },
+        { file: 'Foundation.h', isPublic: true, library: Maybe.Just('Foundation') },
       ];
       expect(imports).toEqualJSON(expectedImports);
+    });
+  });
+
+  describe('#nullability', function() {
+    it('AssumeNonnull macro was found', function() {
+      const valueType:ValueObject.Type = {
+        annotations: {},
+        attributes: [],
+        comments: [],
+        typeLookups:[],
+        excludes: [],
+        includes: ['AssumeNonnull'],
+        libraryName: Maybe.Nothing<string>(),
+        typeName: 'Foo'
+      };
+
+      const nullability:Maybe.Maybe<ObjC.ClassNullability> = ValueObjectPlugin.nullability(valueType);
+      const expectedNullability:Maybe.Maybe<ObjC.ClassNullability> = Maybe.Just(ObjC.ClassNullability.assumeNonnull);
+      expect(nullability).toEqualJSON(expectedNullability);
     });
   });
 });
@@ -59,9 +78,28 @@ describe('AlgebraicTypePlugins.AssumeNonnull', function() {
 
       const imports:ObjC.Import[] = AlgebraicTypePlugin.imports(algebraicType);
       const expectedImports:ObjC.Import[] = [
-        { file: 'Foundation1.h', isPublic: true, library: Maybe.Just('Foundation1') },
+        { file: 'Foundation.h', isPublic: true, library: Maybe.Just('Foundation') },
       ];
       expect(imports).toEqualJSON(expectedImports);
+    });
+  });
+
+  describe('#nullability', function() {
+    it('AssumeNonnull macro was found', function() {
+      const algebraicType:AlgebraicType.Type = {
+        annotations: {},
+        name: 'Foo',
+        includes: ['AssumeNonnull'],
+        typeLookups:[],
+        excludes: [],
+        libraryName: Maybe.Nothing<string>(),
+        comments: [],
+        subtypes: [],
+      };
+
+      const nullability:Maybe.Maybe<ObjC.ClassNullability> = AlgebraicTypePlugin.nullability(algebraicType);
+      const expectedNullability:Maybe.Maybe<ObjC.ClassNullability> = Maybe.Just(ObjC.ClassNullability.assumeNonnull);
+      expect(nullability).toEqualJSON(expectedNullability);
     });
   });
 });

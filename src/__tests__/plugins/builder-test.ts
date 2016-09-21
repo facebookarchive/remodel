@@ -136,7 +136,8 @@ describe('Plugins.Builder', function() {
               name:'FooBarBazBuilder',
               properties: [],
               internalProperties: [],
-              implementedProtocols: []
+              implementedProtocols: [],
+              nullability: ObjC.ClassNullability.default
             }
           ],
           namespaces: []
@@ -261,7 +262,8 @@ describe('Plugins.Builder', function() {
               name:'RMFerrBuilder',
               properties: [],
               internalProperties: [],
-              implementedProtocols: []
+              implementedProtocols: [],
+              nullability: ObjC.ClassNullability.default
             }
           ],
           namespaces: []
@@ -541,7 +543,8 @@ describe('Plugins.Builder', function() {
                   access: ObjC.PropertyAccess.Private()
                 }
               ],
-              implementedProtocols: []
+              implementedProtocols: [],
+              nullability: ObjC.ClassNullability.default
             }
           ],
           namespaces: []

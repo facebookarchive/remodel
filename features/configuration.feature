@@ -77,6 +77,11 @@ Feature: Outputting Value Objects With A Custom Plugin
           },
           validationErrors: function (valueType) {
             return [];
+          },
+          nullability: function (valueType) {
+            return {
+              value: null
+            };
           }
         };
       }

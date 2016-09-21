@@ -300,6 +300,9 @@ export function createPlugin():ValueObject.Plugin {
       const unknownTypeErrors = valueType.attributes.filter(doesValueAttributeContainAnUnknownType).map(FunctionUtils.pApplyf2(valueType, valueAttributeToUnknownTypeError));
       const unsupportedTypeErrors = valueType.attributes.filter(doesValueAttributeContainAnUnsupportedType).map(FunctionUtils.pApplyf2(valueType, valueAttributeToUnsupportedTypeError));
       return unknownTypeErrors.concat(unsupportedTypeErrors);
+    },
+    nullability: function(valueType:ValueObject.Type):Maybe.Maybe<ObjC.ClassNullability> {
+      return Maybe.Nothing<ObjC.ClassNullability>();
     }
   };
 }
@@ -475,6 +478,9 @@ export function createAlgebraicTypePlugin():AlgebraicType.Plugin {
       const unknownTypeErrors = AlgebraicTypeUtils.allAttributesFromSubtypes(algebraicType.subtypes).filter(doesAlgebraicAttributeContainAnUnknownType).map(FunctionUtils.pApplyf2(algebraicType, algebraicAttributeToUnknownTypeError));
       const unsupportedTypeErrors = AlgebraicTypeUtils.allAttributesFromSubtypes(algebraicType.subtypes).filter(doesAlgebraicAttributeContainAnUnsupportedType).map(FunctionUtils.pApplyf2(algebraicType, algebraicAttributeToUnsupportedTypeError));
       return unknownTypeErrors.concat(unsupportedTypeErrors);
+    },
+    nullability: function(algebraicType:AlgebraicType.Type):Maybe.Maybe<ObjC.ClassNullability> {
+      return Maybe.Nothing<ObjC.ClassNullability>();
     }
   };
 }

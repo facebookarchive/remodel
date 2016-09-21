@@ -37,6 +37,7 @@ export interface ObjCGenerationPlugIn<T> {
   protocols: (typeInformation:T) => ObjC.Protocol[];
   staticConstants: (typeInformation:T) => ObjC.Constant[];
   validationErrors: (typeInformation:T) => Error.Error[];
+  nullability: (typeInformation:T) => Maybe.Maybe<ObjC.ClassNullability>;
 }
 
 export interface ObjCGenerationRequest<T> {
@@ -102,6 +103,23 @@ function buildFileType<T>(typeInformation:T, soFar:Either.Either<Error.Error, Ma
       }, plugin.fileType(typeInformation));
     }, function() {
       return Either.Right<Error.Error, Maybe.Maybe<Code.FileType>>(plugin.fileType(typeInformation));
+    }, maybeExistingType);
+  }, soFar);
+}
+
+function buildNullability<T>(typeInformation:T, soFar:Either.Either<Error.Error, Maybe.Maybe<ObjC.ClassNullability>>, plugin:ObjCGenerationPlugIn<T>):Either.Either<Error.Error, Maybe.Maybe<ObjC.ClassNullability>> {
+  return Either.mbind(function(maybeExistingType: Maybe.Maybe<ObjC.ClassNullability>) {
+    return Maybe.match(function(existingType: ObjC.ClassNullability) {
+      return Maybe.match(function(newType: ObjC.ClassNullability) {
+        if (newType === existingType) {
+          return Either.Right<Error.Error, Maybe.Maybe<ObjC.ClassNullability>>(Maybe.Just(newType));
+        }
+        throw Either.Left<Error.Error, Maybe.Maybe<ObjC.ClassNullability>>(Error.Error('conflicting file type requirements'));
+      }, function() {
+        return Either.Right<Error.Error, Maybe.Maybe<ObjC.ClassNullability>>(Maybe.Just(existingType));
+      }, plugin.nullability(typeInformation));
+    }, function() {
+      return Either.Right<Error.Error, Maybe.Maybe<ObjC.ClassNullability>>(plugin.nullability(typeInformation));
     }, maybeExistingType);
   }, soFar);
 }
@@ -183,6 +201,7 @@ function commentListWithPathToValueFile(pathToValueFile:File.AbsoluteFilePath, c
 function classFileCreationFunctionWithBaseClassAndPlugins<T>(baseClassName:string, baseClassLibraryName:Maybe.Maybe<string>, diagnosticIgnores:List.List<string>, pathToValueFile:File.AbsoluteFilePath, plugins:List.List<ObjCGenerationPlugIn<T>>):(typeInformation:T, typeName:string, comments:string[]) => Either.Either<Error.Error, Code.File> {
   return function(typeInformation:T, typeName:string, comments:string[]):Either.Either<Error.Error, Code.File> {
     const fileType = List.foldl<ObjCGenerationPlugIn<T>, Either.Either<Error.Error, Maybe.Maybe<Code.FileType>>>(FunctionUtils.pApplyf3(typeInformation, buildFileType), Either.Right<Error.Error, Maybe.Maybe<Code.FileType>>(Maybe.Nothing<Code.FileType>()), plugins);
+    const nullability = List.foldl<ObjCGenerationPlugIn<T>, Either.Either<Error.Error, Maybe.Maybe<ObjC.ClassNullability>>>(FunctionUtils.pApplyf3(typeInformation, buildNullability), Either.Right<Error.Error, Maybe.Maybe<ObjC.ClassNullability>>(Maybe.Nothing<ObjC.ClassNullability>()), plugins);
     return Either.map(function(maybeFileType) {
       const fileType = Maybe.match(function(fileType: Code.FileType) {
           return fileType;
@@ -212,7 +231,16 @@ function classFileCreationFunctionWithBaseClassAndPlugins<T>(baseClassName:strin
           properties:List.foldl<ObjCGenerationPlugIn<T>, ObjC.Property[]>(FunctionUtils.pApplyf3(typeInformation, buildProperties), [], plugins),
           internalProperties:List.foldl<ObjCGenerationPlugIn<T>, ObjC.Property[]>(FunctionUtils.pApplyf3(typeInformation, buildInternalProperties), [], plugins),
           implementedProtocols:List.foldr<ObjCGenerationPlugIn<T>, ObjC.Protocol[]>(FunctionUtils.pApplyf3(typeInformation, buildProtocols), [], plugins),
-          extensionName:Maybe.Nothing<string>()
+          extensionName:Maybe.Nothing<string>(),
+          nullability:Either.match(function() {
+            return ObjC.ClassNullability.default;
+          }, function(maybeNullability: Maybe.Maybe<ObjC.ClassNullability>) {
+            return Maybe.match(function(nullability: ObjC.ClassNullability) {
+              return nullability;
+            }, function() {
+              return ObjC.ClassNullability.default;
+            }, maybeNullability)
+          }, nullability)
         }
         ],
         namespaces: []

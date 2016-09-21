@@ -1,0 +1,236 @@
+Feature: Outputting Value Objects / Algebraic Types decorated with NS_ASSUME_NONNULL_* macros
+
+  @announce
+  Scenario: Generation header and method files for Value Objects with the NS_ASSUME_NONNULL_* macros
+    Given a file named "project/values/RMFoo.value" with:
+      """
+      RMFoo includes(RMAssumeNonnull) {
+        NSString *aString;
+        %nullable NSString *bString;
+      }
+      """
+    And a file named "project/.valueObjectConfig" with:
+      """
+      { }
+      """
+    When I run `../../bin/generate project`
+    Then the file "project/values/RMFoo.h" should contain:
+      """
+      #import <Foundation/Foundation.h>
+
+      NS_ASSUME_NONNULL_BEGIN
+
+      @interface RMFoo : NSObject <NSCopying>
+
+      @property (nonatomic, readonly, copy) NSString *aString;
+      @property (nonatomic, readonly, copy, nullable) NSString *bString;
+
+      - (instancetype)initWithAString:(NSString *)aString bString:(nullable NSString *)bString;
+
+      @end
+
+      NS_ASSUME_NONNULL_END
+      """
+    And the file "project/values/RMFoo.m" should contain:
+      """
+      #import "RMFoo.h"
+
+      NS_ASSUME_NONNULL_BEGIN
+
+      @implementation RMFoo
+
+      - (instancetype)initWithAString:(NSString *)aString bString:(nullable NSString *)bString
+      {
+        if ((self = [super init])) {
+          _aString = [aString copy];
+          _bString = [bString copy];
+        }
+
+        return self;
+      }
+
+      - (id)copyWithZone:(NSZone *)zone
+      {
+        return self;
+      }
+
+      - (NSString *)description
+      {
+        return [NSString stringWithFormat:@"%@ - \n\t aString: %@; \n\t bString: %@; \n", [super description], _aString, _bString];
+      }
+
+      - (NSUInteger)hash
+      {
+        NSUInteger subhashes[] = {[_aString hash], [_bString hash]};
+        NSUInteger result = subhashes[0];
+        for (int ii = 1; ii < 2; ++ii) {
+          unsigned long long base = (((unsigned long long)result) << 32 | subhashes[ii]);
+          base = (~base) + (base << 18);
+          base ^= (base >> 31);
+          base *=  21;
+          base ^= (base >> 11);
+          base += (base << 6);
+          base ^= (base >> 22);
+          result = base;
+        }
+        return result;
+      }
+
+      - (BOOL)isEqual:(RMFoo *)object
+      {
+        if (self == object) {
+          return YES;
+        } else if (self == nil || object == nil || ![object isKindOfClass:[self class]]) {
+          return NO;
+        }
+        return
+          (_aString == object->_aString ? YES : [_aString isEqual:object->_aString]) &&
+          (_bString == object->_bString ? YES : [_bString isEqual:object->_bString]);
+      }
+
+      @end
+
+      NS_ASSUME_NONNULL_END
+      """
+
+  @announce
+  Scenario: Generation header and method files for Value Objects with the NS_ASSUME_NONNULL_* macros
+    Given a file named "project/values/RMFoo.adtValue" with:
+      """
+      RMFoo includes(RMAssumeNonnull) {
+        Bar
+        Baz {
+          NSString *aString
+          %nullable NSString *bString
+        }
+      }
+      """
+    And a file named "project/.algebraicTypeConfig" with:
+      """
+      { }
+      """
+    When I run `../../bin/generate project`
+    Then the file "project/values/RMFoo.h" should contain:
+      """
+      #import <Foundation/Foundation.h>
+
+      NS_ASSUME_NONNULL_BEGIN
+      typedef void (^RMFooBarMatchHandler)();
+      NS_ASSUME_NONNULL_END
+      NS_ASSUME_NONNULL_BEGIN
+      typedef void (^RMFooBazMatchHandler)(NSString *aString, NSString *_Nullable bString);
+      NS_ASSUME_NONNULL_END
+
+      NS_ASSUME_NONNULL_BEGIN
+
+      @interface RMFoo : NSObject <NSCopying>
+
+      + (instancetype)bar;
+
+      + (instancetype)bazWithAString:(NSString *)aString bString:(nullable NSString *)bString;
+
+      - (void)matchBar:(RMFooBarMatchHandler)barMatchHandler baz:(RMFooBazMatchHandler)bazMatchHandler;
+
+      @end
+
+      NS_ASSUME_NONNULL_END
+      """
+    And the file "project/values/RMFoo.m" should contain:
+      """
+      typedef NS_ENUM(NSUInteger, _RMFooSubtypes) {
+        _RMFooSubtypesBar,
+        _RMFooSubtypesBaz
+      };
+
+      NS_ASSUME_NONNULL_BEGIN
+
+      @implementation RMFoo
+      {
+        _RMFooSubtypes _subtype;
+        NSString *_baz_aString;
+        NSString *_baz_bString;
+      }
+
+      + (instancetype)bar
+      {
+        RMFoo *object = [[RMFoo alloc] init];
+        object->_subtype = _RMFooSubtypesBar;
+        return object;
+      }
+
+      + (instancetype)bazWithAString:(NSString *)aString bString:(nullable NSString *)bString
+      {
+        RMFoo *object = [[RMFoo alloc] init];
+        object->_subtype = _RMFooSubtypesBaz;
+        object->_baz_aString = aString;
+        object->_baz_bString = bString;
+        return object;
+      }
+
+      - (id)copyWithZone:(NSZone *)zone
+      {
+        return self;
+      }
+
+      - (NSString *)description
+      {
+        switch (_subtype) {
+          case _RMFooSubtypesBar: {
+            return [NSString stringWithFormat:@"%@ - Bar \n", [super description]];
+            break;
+          }
+          case _RMFooSubtypesBaz: {
+            return [NSString stringWithFormat:@"%@ - Baz \n\t aString: %@; \n\t bString: %@; \n", [super description], _baz_aString, _baz_bString];
+            break;
+          }
+        }
+      }
+
+      - (NSUInteger)hash
+      {
+        NSUInteger subhashes[] = {_subtype, [_baz_aString hash], [_baz_bString hash]};
+        NSUInteger result = subhashes[0];
+        for (int ii = 1; ii < 3; ++ii) {
+          unsigned long long base = (((unsigned long long)result) << 32 | subhashes[ii]);
+          base = (~base) + (base << 18);
+          base ^= (base >> 31);
+          base *=  21;
+          base ^= (base >> 11);
+          base += (base << 6);
+          base ^= (base >> 22);
+          result = base;
+        }
+        return result;
+      }
+
+      - (BOOL)isEqual:(RMFoo *)object
+      {
+        if (self == object) {
+          return YES;
+        } else if (self == nil || object == nil || ![object isKindOfClass:[self class]]) {
+          return NO;
+        }
+        return
+          _subtype == object->_subtype &&
+          (_baz_aString == object->_baz_aString ? YES : [_baz_aString isEqual:object->_baz_aString]) &&
+          (_baz_bString == object->_baz_bString ? YES : [_baz_bString isEqual:object->_baz_bString]);
+      }
+
+      - (void)matchBar:(RMFooBarMatchHandler)barMatchHandler baz:(RMFooBazMatchHandler)bazMatchHandler
+      {
+        switch (_subtype) {
+          case _RMFooSubtypesBar: {
+            barMatchHandler();
+            break;
+          }
+          case _RMFooSubtypesBaz: {
+            bazMatchHandler(_baz_aString, _baz_bString);
+            break;
+          }
+        }
+      }
+
+      @end
+
+      NS_ASSUME_NONNULL_END
+      """

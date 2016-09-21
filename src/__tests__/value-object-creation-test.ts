@@ -87,6 +87,9 @@ describe('ValueObjectCreation', function() {
         },
         validationErrors: function(valueType:ValueObject.Type):Error.Error[] {
           return [];
+        },
+        nullability: function(valueType:ValueObject.Type):Maybe.Maybe<ObjC.ClassNullability> {
+          return Maybe.Nothing<ObjC.ClassNullability>();
         }
       };
 
@@ -188,7 +191,8 @@ describe('ValueObjectCreation', function() {
                   comments: [],
                   properties: [],
                   internalProperties:[],
-                  implementedProtocols: []
+                  implementedProtocols: [],
+                  nullability: ObjC.ClassNullability.default
                 }
               ],
               namespaces: []
@@ -215,6 +219,9 @@ describe('ValueObjectCreation', function() {
         },
         validationErrors: function(valueType:ValueObject.Type):Error.Error[] {
           return [];
+        },
+        nullability: function(valueType:ValueObject.Type):Maybe.Maybe<ObjC.ClassNullability> {
+          return Maybe.Nothing<ObjC.ClassNullability>();
         }
       };
 
@@ -322,6 +329,9 @@ describe('ValueObjectCreation', function() {
         },
         validationErrors: function(valueType:ValueObject.Type):Error.Error[] {
           return [];
+        },
+        nullability: function(valueType:ValueObject.Type):Maybe.Maybe<ObjC.ClassNullability> {
+          return Maybe.Nothing<ObjC.ClassNullability>();
         }
       };
 
@@ -442,6 +452,9 @@ describe('ValueObjectCreation', function() {
         },
         validationErrors: function(valueType:ValueObject.Type):Error.Error[] {
           return [];
+        },
+        nullability: function(valueType:ValueObject.Type):Maybe.Maybe<ObjC.ClassNullability> {
+          return Maybe.Nothing<ObjC.ClassNullability>();
         }
       };
 
@@ -579,6 +592,9 @@ describe('ValueObjectCreation', function() {
         },
         validationErrors: function(valueType:ValueObject.Type):Error.Error[] {
           return [];
+        },
+        nullability: function(valueType:ValueObject.Type):Maybe.Maybe<ObjC.ClassNullability> {
+          return Maybe.Nothing<ObjC.ClassNullability>();
         }
       };
 
@@ -695,6 +711,9 @@ describe('ValueObjectCreation', function() {
         },
         validationErrors: function(valueType:ValueObject.Type):Error.Error[] {
           return [Error.Error('Some error')];
+        },
+        nullability: function(valueType:ValueObject.Type):Maybe.Maybe<ObjC.ClassNullability> {
+          return Maybe.Nothing<ObjC.ClassNullability>();
         }
       };
 
@@ -769,6 +788,9 @@ describe('ValueObjectCreation', function() {
         },
         validationErrors: function(valueType:ValueObject.Type):Error.Error[] {
           return [Error.Error('Some error'), Error.Error('Another error')];
+        },
+        nullability: function(valueType:ValueObject.Type):Maybe.Maybe<ObjC.ClassNullability> {
+          return Maybe.Nothing<ObjC.ClassNullability>();
         }
       };
       const Plugin2:ValueObject.Plugin = {
@@ -814,6 +836,9 @@ describe('ValueObjectCreation', function() {
         },
         validationErrors: function(valueType:ValueObject.Type):Error.Error[] {
           return [Error.Error('Yet another error')];
+        },
+        nullability: function(valueType:ValueObject.Type):Maybe.Maybe<ObjC.ClassNullability> {
+          return Maybe.Nothing<ObjC.ClassNullability>();
         }
       };
 
@@ -924,6 +949,9 @@ describe('ValueObjectCreation', function() {
         },
         validationErrors: function(valueType:ValueObject.Type):Error.Error[] {
           return [];
+        },
+        nullability: function(valueType:ValueObject.Type):Maybe.Maybe<ObjC.ClassNullability> {
+          return Maybe.Nothing<ObjC.ClassNullability>();
         }
       };
       const Plugin2:ValueObject.Plugin = {
@@ -988,6 +1016,9 @@ describe('ValueObjectCreation', function() {
         },
         validationErrors: function(valueType:ValueObject.Type):Error.Error[] {
           return [];
+        },
+        nullability: function(valueType:ValueObject.Type):Maybe.Maybe<ObjC.ClassNullability> {
+          return Maybe.Nothing<ObjC.ClassNullability>();
         }
       };
 
@@ -1144,6 +1175,9 @@ describe('ValueObjectCreation', function() {
         },
         validationErrors: function(valueType:ValueObject.Type):Error.Error[] {
           return [];
+        },
+        nullability: function(valueType:ValueObject.Type):Maybe.Maybe<ObjC.ClassNullability> {
+          return Maybe.Nothing<ObjC.ClassNullability>();
         }
       };
       const Plugin2:ValueObject.Plugin = {
@@ -1212,6 +1246,9 @@ describe('ValueObjectCreation', function() {
         },
         validationErrors: function(valueType:ValueObject.Type):Error.Error[] {
           return [];
+        },
+        nullability: function(valueType:ValueObject.Type):Maybe.Maybe<ObjC.ClassNullability> {
+          return Maybe.Nothing<ObjC.ClassNullability>();
         }
       };
 

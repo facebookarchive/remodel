@@ -1019,6 +1019,9 @@ export function createPlugin():ValueObject.Plugin {
     },
     validationErrors: function(valueType:ValueObject.Type):Error.Error[] {
       return valueType.attributes.filter(doesValueAttributeContainAnUnknownType).map(FunctionUtils.pApplyf2(valueType, attributeToUnknownTypeError));
+    },
+    nullability: function(valueType:ValueObject.Type):Maybe.Maybe<ObjC.ClassNullability> {
+      return Maybe.Nothing<ObjC.ClassNullability>();
     }
   };
 }
@@ -1117,6 +1120,9 @@ export function createAlgebraicTypePlugin():AlgebraicType.Plugin {
     },
     validationErrors: function(algebraicType:AlgebraicType.Type):Error.Error[] {
       return AlgebraicTypeUtils.allAttributesFromSubtypes(algebraicType.subtypes).filter(doesAlgebraicAttributeContainAnUnknownType).map(FunctionUtils.pApplyf2(algebraicType, algebraicAttributeToUnknownTypeError));
+    },
+    nullability: function(algebraicType:AlgebraicType.Type):Maybe.Maybe<ObjC.ClassNullability> {
+      return Maybe.Nothing<ObjC.ClassNullability>();
     }
   };
 }

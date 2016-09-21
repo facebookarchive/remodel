@@ -92,18 +92,21 @@ describe('Plugins.AlgebraicTypeFunctionMatching', function() {
               type: {
                 name: 'NSString',
                 reference:'NSString *'
-              }
+              },
+              nullability: ObjC.Nullability.Inherited()
             },
             {
               name: 'someUnsignedInteger',
               type: {
                 name: 'NSUInteger',
                 reference:'NSUInteger'
-              }
+              },
+              nullability: ObjC.Nullability.Inherited()
             }
           ],
           returnType: Maybe.Nothing<ObjC.Type>(),
-          isPublic: true
+          isPublic: true,
+          nullability: ObjC.ClassNullability.default
         },
         {
           comments: [],
@@ -114,11 +117,13 @@ describe('Plugins.AlgebraicTypeFunctionMatching', function() {
               type: {
                 name: 'SingleAttributeType',
                 reference: 'SingleAttributeType *'
-              }
+              },
+              nullability: ObjC.Nullability.Inherited()
             }
           ],
           returnType: Maybe.Nothing<ObjC.Type>(),
-          isPublic: true
+          isPublic: true,
+          nullability: ObjC.ClassNullability.default
         }
       ];
 

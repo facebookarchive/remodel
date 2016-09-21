@@ -92,6 +92,9 @@ export function createAlgebraicTypePlugin():AlgebraicType.Plugin {
     },
     validationErrors: function(algebraicType:AlgebraicType.Type):Error.Error[] {
       return [];
+    },
+    nullability: function(algebraicType:AlgebraicType.Type):Maybe.Maybe<ObjC.ClassNullability> {
+      return Maybe.Nothing<ObjC.ClassNullability>();
     }
   };
 }

@@ -88,6 +88,9 @@ export function createPlugin():ValueObject.Plugin {
     },
     validationErrors: function(valueType:ValueObject.Type):Error.Error[] {
       return [];
+    },
+    nullability: function(valueType:ValueObject.Type):Maybe.Maybe<ObjC.ClassNullability> {
+      return Maybe.Nothing<ObjC.ClassNullability>();
     }
   };
 }
@@ -143,6 +146,9 @@ export function createAlgebraicTypePlugin():AlgebraicType.Plugin {
     },
     validationErrors: function(algebraicType:AlgebraicType.Type):Error.Error[] {
       return [];
+    },
+    nullability: function(algebraicType:AlgebraicType.Type):Maybe.Maybe<ObjC.ClassNullability> {
+      return Maybe.Nothing<ObjC.ClassNullability>();
     }
   };
 }

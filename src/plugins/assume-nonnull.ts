@@ -15,33 +15,6 @@ import Maybe = require('../maybe');
 import ObjC = require('../objc');
 import ValueObject = require('../value-object');
 
-function assumeNonnullFileTransformation(request:FileWriter.Request):FileWriter.Request {
-  var contentLines = request.content.split('\n');
-  var classBeginLineNum = -1, classEndLineNum = -1;
-  for (var i = 0; i < contentLines.length; i++) {
-    if (contentLines[i].match(/^@(interface|implementation)/)) {
-      classBeginLineNum = i;
-      break;
-    }
-  }
-  for (var i = contentLines.length - 1; i >= 0; i--) {
-    if (contentLines[i].match(/^@end/)) {
-      classEndLineNum = i;
-      break;
-    }
-  }
-  if (classBeginLineNum == -1 || classEndLineNum == -1) {
-    return request;
-  }
-  contentLines =
-    contentLines.slice(0, classBeginLineNum)
-    .concat(['NS_ASSUME_NONNULL_BEGIN', ''])
-    .concat(contentLines.slice(classBeginLineNum, classEndLineNum + 1))
-    .concat(['', 'NS_ASSUME_NONNULL_END'])
-    .concat(contentLines.slice(classEndLineNum + 1));
-  return FileWriter.Request(request.path, contentLines.join('\n'));
-}
-
 export function createPlugin():ValueObject.Plugin {
   return {
     additionalFiles: function(valueType:ValueObject.Type):Code.File[] {
@@ -54,7 +27,7 @@ export function createPlugin():ValueObject.Plugin {
       return [];
     },
     fileTransformation: function(request:FileWriter.Request):FileWriter.Request {
-      return assumeNonnullFileTransformation(request);
+      return request;
     },
     fileType: function(valueType:ValueObject.Type):Maybe.Maybe<Code.FileType> {
       return Maybe.Nothing<Code.FileType>();
@@ -88,6 +61,9 @@ export function createPlugin():ValueObject.Plugin {
     },
     validationErrors: function(valueType:ValueObject.Type):Error.Error[] {
       return [];
+    },
+    nullability: function(valueType:ValueObject.Type):Maybe.Maybe<ObjC.ClassNullability> {
+      return Maybe.Just(ObjC.ClassNullability.assumeNonnull);
     }
   };
 }
@@ -107,7 +83,7 @@ export function createAlgebraicTypePlugin():AlgebraicType.Plugin {
       return [];
     },
     fileTransformation: function(request:FileWriter.Request):FileWriter.Request {
-      return assumeNonnullFileTransformation(request);
+      return request;
     },
     fileType: function(algebraicType:AlgebraicType.Type):Maybe.Maybe<Code.FileType> {
       return Maybe.Nothing<Code.FileType>();
@@ -141,6 +117,9 @@ export function createAlgebraicTypePlugin():AlgebraicType.Plugin {
     },
     validationErrors: function(algebraicType:AlgebraicType.Type):Error.Error[] {
       return [];
+    },
+    nullability: function(algebraicType:AlgebraicType.Type):Maybe.Maybe<ObjC.ClassNullability> {
+      return Maybe.Just(ObjC.ClassNullability.assumeNonnull);
     }
   };
 }

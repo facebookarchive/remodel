@@ -114,7 +114,8 @@ function blockTypeParameterForSubtypeAttribute(attribute:AlgebraicType.SubtypeAt
     type: {
       name: attribute.type.name,
       reference: attribute.type.reference
-    }
+    },
+    nullability: attribute.nullability
   };
 }
 
@@ -124,7 +125,8 @@ export function blockTypeForSubtype(algebraicType:AlgebraicType.Type, subtype:Al
     name: blockTypeNameForSubtype(algebraicType, subtype),
     parameters: attributesFromSubtype(subtype).map(blockTypeParameterForSubtypeAttribute),
     returnType: Maybe.Nothing<ObjC.Type>(),
-    isPublic: true
+    isPublic: true,
+    nullability: algebraicType.includes.indexOf('RMAssumeNonnull') >= 0 ? ObjC.ClassNullability.assumeNonnull : ObjC.ClassNullability.default 
   };
 }
 

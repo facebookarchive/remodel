@@ -1,7 +1,7 @@
 {
   "name": "remodel-gen",
   "description": "Remodel generates Objective-C models that support coding, value comparison, and immutability.",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "homepage": "https://facebook.github.io/remodel",
   "bugs": "https://github.com/facebook/remodel/issues",
   "files": [

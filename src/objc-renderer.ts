@@ -43,16 +43,20 @@ function libraryImport(file:string, library:string):string {
   return '#import <' + library + '/' + file + '>';
 }
 
-function returnTypeReference(type:ObjC.Type):string {
-  return type.reference;
-}
-
 function returnVoid():string {
   return 'void';
 }
 
+function genericizedType(generics:string[], type:ObjC.Type):string {
+  return generics.indexOf(type.name) > -1 ? 'id' : type.reference;
+}
+
+function toGenericizedTypeString(generics:string[], type:Maybe.Maybe<ObjC.Type>):string {
+  return Maybe.match(FunctionUtils.pApplyf2(generics, genericizedType), returnVoid, type);
+}
+
 function toTypeString(type:Maybe.Maybe<ObjC.Type>):string {
-  return Maybe.match(returnTypeReference, returnVoid, type);
+  return toGenericizedTypeString([], type);
 }
 
 function toImportString(givenImport:ObjC.Import):string {
@@ -147,45 +151,48 @@ function toKeywordArgumentModifierString(argumentModifier:ObjC.KeywordArgumentMo
   );
 }
 
-export function toKeywordArgumentString(argument:ObjC.KeywordArgument):string {
+export function toKeywordArgumentString(generics:string[], argument:ObjC.KeywordArgument):string {
   const modifiers:string = argument.modifiers.map(toKeywordArgumentModifierString).join(' ');
-  const typePart:string = renderableTypeReference(argument.type.reference);
+  const typePart:string = renderableTypeReference(genericizedType(generics, argument.type));
   const innerPart:string = modifiers.length > 0 ? modifiers + ' ' + typePart : typePart;
   return ':(' + innerPart + ')' + argument.name;
 }
 
-function toKeywordString(keyword:ObjC.Keyword):string {
-  return keyword.name + Maybe.match(toKeywordArgumentString, emptyString, keyword.argument);
+function toKeywordString(generics:string[], keyword:ObjC.Keyword):string {
+  return keyword.name + Maybe.match(FunctionUtils.pApplyf2(generics, toKeywordArgumentString), emptyString, keyword.argument);
 }
 
-function toClassMethodHeaderString(method:ObjC.Method):string {
+function toMethodHeaderString(modifier:string, method:ObjC.Method):string {
   const methodComments = method.comments.map(toCommentString).join('\n');
   const methodCommentsSection = codeSectionForCodeStringWithoutExtraSpace(methodComments);
 
-  return methodCommentsSection + '+ (' + toTypeString(method.returnType) + ')' + method.keywords.map(toKeywordString).join(' ') + ';';
+  return methodCommentsSection + modifier + ' (' + toTypeString(method.returnType) + ')' + method.keywords.map(FunctionUtils.pApplyf2([],toKeywordString)).join(' ') + ';';
 }
 
-function toInstanceMethodHeaderString(method:ObjC.Method):string {
-  const methodComments = method.comments.map(toCommentString).join('\n');
-  const methodCommentsSection = codeSectionForCodeStringWithoutExtraSpace(methodComments);
+var toClassMethodHeaderString    = FunctionUtils.pApplyf2('+', toMethodHeaderString);
+var toInstanceMethodHeaderString = FunctionUtils.pApplyf2('-', toMethodHeaderString);
 
-  return methodCommentsSection + '- (' + toTypeString(method.returnType) + ')' + method.keywords.map(toKeywordString).join(' ') + ';';
-}
-
-function toClassMethodImplementationString(method:ObjC.Method):string {
-  const methodStr =  '+ (' + toTypeString(method.returnType) + ')' + method.keywords.map(toKeywordString).join(' ') + '\n' +
+function toMethodImplementationString(modifier:string, generics:string[], method:ObjC.Method):string {
+  const methodStr =  modifier + ' (' + toGenericizedTypeString(generics, method.returnType) + ')' + method.keywords.map(FunctionUtils.pApplyf2(generics,toKeywordString)).join(' ') + '\n' +
                    '{\n' +
                    method.code.map(StringUtils.indent(2)).join('\n') +
                    '\n}';
   return methodStr;
 }
 
-function toInstanceMethodImplementationString(method:ObjC.Method):string {
-  const methodStr =  '- (' + toTypeString(method.returnType) + ')' + method.keywords.map(toKeywordString).join(' ') + '\n' +
-                   '{\n' +
-                   method.code.map(StringUtils.indent(2)).join('\n') +
-                   '\n}';
-  return methodStr;
+var toClassMethodImplementationString    = FunctionUtils.pApplyf3('+', toMethodImplementationString);
+var toInstanceMethodImplementationString = FunctionUtils.pApplyf3('-', toMethodImplementationString);
+
+function toGenericString(generic:string):string {
+  return '__covariant ' + generic;
+}
+
+function genericsString(generics:string[]):string {
+  if (generics.length > 0) {
+    return '<' + generics.map(toGenericString).join(', ') + '>';
+  } else {
+    return '';
+  }
 }
 
 function toProtocolString(protocol:ObjC.Protocol):string {
@@ -328,9 +335,10 @@ function headerClassSection(classInfo:ObjC.Class):string {
   const classComments = classInfo.comments.map(toCommentString).join('\n');
   const classCommentsSection = codeSectionForCodeStringWithoutExtraSpace(classComments);
 
+  const genericsStr = genericsString(classInfo.generics);
   const protocolsStr = protocolsString(classInfo.implementedProtocols);
 
-  const classSection = '@interface ' + classInfo.name + ' : ' + classInfo.baseClassName + protocolsStr;
+  const classSection = '@interface ' + classInfo.name + genericsStr + ' : ' + classInfo.baseClassName + protocolsStr;
 
   const internalPropertiesStr:string = classInfo.internalProperties.filter(headerNeedsToIncludeInternalProperty).reduce(buildInternalPropertiesContainingAccessIdentifiers, []).map(StringUtils.indent(2)).join('\n');
   const internalPropertiesSection:string = internalPropertiesStr !== '' ? '{\n' + internalPropertiesStr + '\n}\n\n' : '\n';
@@ -484,9 +492,9 @@ function implementationClassSection(classInfo:ObjC.Class):string {
   const classSection:string = '@implementation ' + classInfo.name + '\n';
   const internalPropertiesStr:string = classInfo.internalProperties.filter(implementationNeedsToIncludeInternalProperty).map(toInternalPropertyString).map(StringUtils.indent(2)).join('\n');
   const internalPropertiesSection:string = internalPropertiesStr !== '' ? '{\n' + internalPropertiesStr + '\n}\n\n' : '\n';
-  const classMethodsStr:string = classInfo.classMethods.map(toClassMethodImplementationString).join('\n\n');
+  const classMethodsStr:string = classInfo.classMethods.map(FunctionUtils.pApplyf2(classInfo.generics, toClassMethodImplementationString)).join('\n\n');
   const classMethodsSection = codeSectionForCodeString(classMethodsStr);
-  const instanceMethodsSection = classInfo.instanceMethods.map(toInstanceMethodImplementationString).join('\n\n');
+  const instanceMethodsSection = classInfo.instanceMethods.map(FunctionUtils.pApplyf2(classInfo.generics, toInstanceMethodImplementationString)).join('\n\n');
   return classSection + internalPropertiesSection + classMethodsSection + instanceMethodsSection + '\n\n@end';
 }
 

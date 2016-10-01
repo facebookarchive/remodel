@@ -208,6 +208,7 @@ function classFileCreationFunctionWithBaseClassAndPlugins<T>(baseClassName:strin
                             .sort(sortInstanceMethodComparitor),
           instanceMethods:List.foldl<ObjCGenerationPlugIn<T>, ObjC.Method[]>(FunctionUtils.pApplyf3(typeInformation, buildInstanceMethods), [], plugins)
                             .sort(sortInstanceMethodComparitor),
+          generics:[],
           name:typeName,
           properties:List.foldl<ObjCGenerationPlugIn<T>, ObjC.Property[]>(FunctionUtils.pApplyf3(typeInformation, buildProperties), [], plugins),
           internalProperties:List.foldl<ObjCGenerationPlugIn<T>, ObjC.Property[]>(FunctionUtils.pApplyf3(typeInformation, buildInternalProperties), [], plugins),

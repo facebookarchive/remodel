@@ -243,55 +243,39 @@ function enumerationIsPublic(isPublic:boolean):(enumeration:ObjC.Enumeration) =>
   };
 }
 
-const NS_ASSUME_NONNULL_BEGIN:string = 'NS_ASSUME_NONNULL_BEGIN';
-const NS_ASSUME_NONNULL_END:string = 'NS_ASSUME_NONNULL_END';
+class Macro {
+  prefix:string;
+  postfix:string;
 
-function prefixClassMacros(classInfo:ObjC.Class):string[] {
-  var macros:string[] = [];
-  switch (classInfo.nullability) {
-    case ObjC.ClassNullability.assumeNonnull:
-      macros.push(NS_ASSUME_NONNULL_BEGIN);
-      break;
-    case ObjC.ClassNullability.default:
-      break;
+  constructor(prefix:string, postfix:string) {
+    this.prefix = prefix;
+    this.postfix = postfix;
   }
-  return macros;
 }
 
-function postfixClassMacros(classInfo:ObjC.Class):string[] {
-  var macros:string[] = [];
-  switch (classInfo.nullability) {
+function classNullabilityMacro(nullability:ObjC.ClassNullability):Maybe.Maybe<Macro> {
+  switch(nullability) {
     case ObjC.ClassNullability.assumeNonnull:
-      macros.push(NS_ASSUME_NONNULL_END);
-      break;
+      return Maybe.Just(new Macro('NS_ASSUME_NONNULL_BEGIN', 'NS_ASSUME_NONNULL_END'));
     case ObjC.ClassNullability.default:
-      break;
+      return Maybe.Nothing<Macro>();
   }
-  return macros;
 }
 
-function prefixBlockTypeMacros(blockType:ObjC.BlockType):string[] {
-  var macros:string[] = [];
-  switch (blockType.nullability) {
-    case ObjC.ClassNullability.assumeNonnull:
-      macros.push(NS_ASSUME_NONNULL_BEGIN);
-      break;
-    case ObjC.ClassNullability.default:
-      break;
-  }
-  return macros;
+function classMacros(classInfo:ObjC.Class):Macro[] {
+  return Maybe.catMaybes([classNullabilityMacro(classInfo.nullability)]);
 }
 
-function postfixBlockTypeMacros(blockType:ObjC.BlockType):string[] {
-  var macros:string[] = [];
-  switch (blockType.nullability) {
-    case ObjC.ClassNullability.assumeNonnull:
-      macros.push(NS_ASSUME_NONNULL_END);
-      break;
-    case ObjC.ClassNullability.default:
-      break;
-  }
-  return macros;
+function blockMacros(blockType:ObjC.BlockType):Macro[] {
+  return Maybe.catMaybes([classNullabilityMacro(blockType.nullability)]);
+}
+
+function toPrefixMacroString(macro:Macro):string {
+  return macro.prefix;
+}
+
+function toPostfixMacroString(macro:Macro):string {
+  return macro.postfix;
 }
 
 export function toBlockTypeParameterString(parameter:ObjC.BlockTypeParameter):string {
@@ -304,13 +288,15 @@ export function toBlockTypeParameterString(parameter:ObjC.BlockTypeParameter):st
 }
 
 function toBlockTypeDeclaration(blockType:ObjC.BlockType):string {
-  const prefixBlockTypeMacrosStr:string = prefixBlockTypeMacros(blockType).join('\n');
+  const macros = blockMacros(blockType);
+
+  const prefixBlockTypeMacrosStr:string = macros.map(toPrefixMacroString).join('\n');
   const prefixBlockTypeMacrosSection:string = prefixBlockTypeMacrosStr !== '' ? prefixBlockTypeMacrosStr + '\n' : '';
 
   const blockTypeComments = blockType.comments.map(toCommentString).join('\n');
   const blockTypeCommentsSection = codeSectionForCodeStringWithoutExtraSpace(blockTypeComments);
 
-  const postfixBlockTypeMacrosStr:string = postfixBlockTypeMacros(blockType).join('\n');
+  const postfixBlockTypeMacrosStr:string = macros.map(toPostfixMacroString).join('\n');
   const postfixBlockTypeMacrosSection:string = postfixBlockTypeMacrosStr !== '' ? '\n' + postfixBlockTypeMacrosStr : '';
 
   return prefixBlockTypeMacrosSection + blockTypeCommentsSection + 'typedef ' + toFunctionReturnTypeString(blockType.returnType) + '(^' + blockType.name + ')(' + blockType.parameters.map(toBlockTypeParameterString).join(', ') + ');' + postfixBlockTypeMacrosSection;
@@ -388,7 +374,9 @@ function buildInternalPropertiesContainingAccessIdentifiers(soFar:string[], inte
 }
 
 function headerClassSection(classInfo:ObjC.Class):string {
-  const prefixClassMacrosStr:string = prefixClassMacros(classInfo).join('\n');
+  const macros = classMacros(classInfo);
+
+  const prefixClassMacrosStr:string = macros.map(toPrefixMacroString).join('\n');
   const prefixClassMacrosSection:string = prefixClassMacrosStr !== '' ? prefixClassMacrosStr + '\n\n' : '';
 
   const classComments = classInfo.comments.map(toCommentString).join('\n');
@@ -411,7 +399,7 @@ function headerClassSection(classInfo:ObjC.Class):string {
                                                     .map(toInstanceMethodHeaderString).join('\n\n');
   const instanceMethodsSection = codeSectionForCodeString(instanceMethodsStr);
 
-  const postfixClassMacrosStr:string = postfixClassMacros(classInfo).join('\n');
+  const postfixClassMacrosStr:string = macros.map(toPostfixMacroString).join('\n');
   const postfixClassMacrosSection:string = postfixClassMacrosStr !== '' ? '\n\n' + postfixClassMacrosStr : '';
 
   return prefixClassMacrosSection + classCommentsSection + classSection + '\n' + internalPropertiesSection + propertiesSection + classMethodsSection + instanceMethodsSection + '@end' + postfixClassMacrosSection;
@@ -550,7 +538,9 @@ function toDiagnosticIgnoreString(diagnosticIgnore:string):string {
 }
 
 function implementationClassSection(classInfo:ObjC.Class):string {
-  const prefixClassMacrosStr:string = prefixClassMacros(classInfo).join('\n');
+  const macros = classMacros(classInfo);
+
+  const prefixClassMacrosStr:string = macros.map(toPrefixMacroString).join('\n');
   const prefixClassMacrosSection:string = prefixClassMacrosStr !== '' ? prefixClassMacrosStr + '\n\n' : '';
 
   const classSection:string = '@implementation ' + classInfo.name + '\n';
@@ -560,7 +550,7 @@ function implementationClassSection(classInfo:ObjC.Class):string {
   const classMethodsSection = codeSectionForCodeString(classMethodsStr);
   const instanceMethodsSection = classInfo.instanceMethods.map(toInstanceMethodImplementationString).join('\n\n');
 
-  const postfixClassMacrosStr:string = postfixClassMacros(classInfo).join('\n');
+  const postfixClassMacrosStr:string = macros.map(toPostfixMacroString).join('\n');
   const postfixClassMacrosSection:string = postfixClassMacrosStr !== '' ? '\n\n' + postfixClassMacrosStr : '';
 
   return prefixClassMacrosSection + classSection + internalPropertiesSection + classMethodsSection + instanceMethodsSection + '\n\n@end' + postfixClassMacrosSection;

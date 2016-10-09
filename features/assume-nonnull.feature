@@ -6,7 +6,8 @@ Feature: Outputting Value Objects / Algebraic Types decorated with NS_ASSUME_NON
       """
       RMFoo includes(RMAssumeNonnull) {
         NSString *aString;
-        %nullable NSString *bString;
+        %nullable
+        NSString *bString;
       }
       """
     And a file named "project/.valueObjectConfig" with:
@@ -101,7 +102,8 @@ Feature: Outputting Value Objects / Algebraic Types decorated with NS_ASSUME_NON
         Bar
         Baz {
           NSString *aString
-          %nullable NSString *bString
+          %nullable
+          NSString *bString
         }
       }
       """

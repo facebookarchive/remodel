@@ -194,11 +194,15 @@ describe('Plugins.AlgebraicTypeFunctionMatching', function() {
         code: [
           'switch (_subtype) {',
           '  case _TestSubtypesSomeSubtype: {',
-          '    someSubtypeMatchHandler(_someSubtype_someString, _someSubtype_someUnsignedInteger);',
+          '    if (someSubtypeMatchHandler) {',
+          '      someSubtypeMatchHandler(_someSubtype_someString, _someSubtype_someUnsignedInteger);',
+          '    }',
           '    break;',
           '  }',
           '  case _TestSubtypesSingleAttributeSubtype: {',
-          '    singleAttributeSubtypeMatchHandler(_singleAttributeSubtype);',
+          '    if (singleAttributeSubtypeMatchHandler) {',
+          '      singleAttributeSubtypeMatchHandler(_singleAttributeSubtype);',
+          '    }',
           '    break;',
           '  }',
           '}'

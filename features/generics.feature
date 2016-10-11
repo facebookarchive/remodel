@@ -206,11 +206,15 @@ Feature: Outputting Objects With Generic Types
       {
         switch (_subtype) {
           case _SimpleADTSubtypesFirstSubtype: {
-            firstSubtypeMatchHandler(_firstSubtype_namesToAges);
+            if (firstSubtypeMatchHandler) {
+              firstSubtypeMatchHandler(_firstSubtype_namesToAges);
+            }
             break;
           }
           case _SimpleADTSubtypesSomeAttributeSubtype: {
-            someAttributeSubtypeMatchHandler(_someAttributeSubtype);
+            if (someAttributeSubtypeMatchHandler) {
+              someAttributeSubtypeMatchHandler(_someAttributeSubtype);
+            }
             break;
           }
         }

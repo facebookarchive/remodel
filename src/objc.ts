@@ -117,6 +117,7 @@ export interface Function {
 export interface BlockTypeParameter {
   name:string;
   type:Type;
+  nullability:Nullability;
 }
 
 export interface BlockType {
@@ -125,6 +126,7 @@ export interface BlockType {
   parameters:BlockTypeParameter[];
   returnType:Maybe.Maybe<Type>;
   isPublic:boolean;
+  nullability:ClassNullability;
 }
 
 export interface Enumeration {
@@ -139,6 +141,11 @@ enum NullabilityType {
   inherited,
   nonnull,
   nullable
+}
+
+export enum ClassNullability {
+  default,
+  assumeNonnull
 }
 
 export class Nullability {
@@ -375,6 +382,7 @@ export interface Class {
   properties:Property[];
   internalProperties:Property[];
   implementedProtocols:Protocol[];
+  nullability:ClassNullability;
 }
 
 export interface Protocol {

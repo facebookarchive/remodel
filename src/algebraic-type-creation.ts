@@ -91,6 +91,10 @@ function createAlgebraicTypeObjCPlugIn(plugin:AlgebraicType.Plugin) : AlgebraicT
     validationErrors: function(typeInformation:AlgebraicType.Type):Error.Error[] {
       return plugin.validationErrors(typeInformation);
     },
+
+    nullability: function(typeInformation:AlgebraicType.Type):Maybe.Maybe<ObjC.ClassNullability> {
+      return plugin.nullability(typeInformation);
+    },
   };
 }
 

@@ -283,7 +283,8 @@ function builderFileForValueType(valueType:ValueObject.Type):Code.File {
         name: nameOfBuilderForValueTypeWithName(valueType.typeName),
         properties: [],
         internalProperties:valueType.attributes.map(internalPropertyForAttribute),
-        implementedProtocols: []
+        implementedProtocols: [],
+        nullability:ObjC.ClassNullability.default
       }
     ],
     diagnosticIgnores:[],
@@ -337,6 +338,9 @@ export function createPlugin():ValueObject.Plugin {
     },
     validationErrors: function(valueType:ValueObject.Type):Error.Error[] {
       return [];
+    },
+    nullability: function(valueType:ValueObject.Type):Maybe.Maybe<ObjC.ClassNullability> {
+      return Maybe.Nothing<ObjC.ClassNullability>();
     }
   };
 }

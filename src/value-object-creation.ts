@@ -91,6 +91,10 @@ function createValueObjectObjCPlugIn(plugin:ValueObject.Plugin) : ValueObjectObj
     validationErrors: function(typeInformation:ValueObject.Type):Error.Error[] {
       return plugin.validationErrors(typeInformation);
     },
+
+    nullability: function(typeInformation:ValueObject.Type):Maybe.Maybe<ObjC.ClassNullability> {
+      return plugin.nullability(typeInformation);
+    },
   };
 }
 

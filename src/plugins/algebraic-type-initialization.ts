@@ -277,6 +277,9 @@ export function createAlgebraicTypePlugin():AlgebraicType.Plugin {
         seenSubtypeNames: Map.Empty<string, string>()
       };
       return List.toArray(algebraicType.subtypes.reduce(buildAlgebraicTypeValidationErrors, initialReductionTracker).errors);
+    },
+    nullability: function(algebraicType:AlgebraicType.Type):Maybe.Maybe<ObjC.ClassNullability> {
+      return Maybe.Nothing<ObjC.ClassNullability>();
     }
   };
 }

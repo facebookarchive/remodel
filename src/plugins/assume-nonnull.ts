@@ -15,31 +15,6 @@ import Maybe = require('../maybe');
 import ObjC = require('../objc');
 import ValueObject = require('../value-object');
 
-function copyInstanceMethod():ObjC.Method {
-  return {
-    belongsToProtocol:Maybe.Just<string>('NSCopying'),
-    code: ['return self;'],
-    comments:[],
-    keywords: [
-      {
-        name: 'copyWithZone',
-        argument: Maybe.Just<ObjC.KeywordArgument>({
-          name: 'zone',
-          modifiers: [],
-          type: {
-            name: 'NSZone',
-            reference: 'NSZone *'
-          }
-        })
-      }
-    ],
-    returnType: Maybe.Just<ObjC.Type>({
-      name: 'id',
-      reference: 'id'
-    })
-  };
-}
-
 export function createPlugin():ValueObject.Plugin {
   return {
     additionalFiles: function(valueType:ValueObject.Type):Code.File[] {
@@ -67,22 +42,20 @@ export function createPlugin():ValueObject.Plugin {
       return [];
     },
     implementedProtocols: function(valueType:ValueObject.Type):ObjC.Protocol[] {
-      return [
-        {
-          name: 'NSCopying'
-        }
-      ];
-    },
-    imports: function(valueType:ValueObject.Type):ObjC.Import[] {
       return [];
     },
+    imports: function(valueType:ValueObject.Type):ObjC.Import[] {
+      return [
+        { file: 'Foundation.h', isPublic: true, library: Maybe.Just('Foundation') },
+      ];
+    },
     instanceMethods: function(valueType:ValueObject.Type):ObjC.Method[] {
-      return [copyInstanceMethod()];
+      return [];
     },
     properties: function(valueType:ValueObject.Type):ObjC.Property[] {
       return [];
     },
-    requiredIncludesToRun:['RMCopying'],
+    requiredIncludesToRun:['RMAssumeNonnull'],
     staticConstants: function(valueType:ValueObject.Type):ObjC.Constant[] {
       return [];
     },
@@ -90,7 +63,7 @@ export function createPlugin():ValueObject.Plugin {
       return [];
     },
     nullability: function(valueType:ValueObject.Type):Maybe.Maybe<ObjC.ClassNullability> {
-      return Maybe.Nothing<ObjC.ClassNullability>();
+      return Maybe.Just(ObjC.ClassNullability.assumeNonnull);
     }
   };
 }
@@ -125,22 +98,20 @@ export function createAlgebraicTypePlugin():AlgebraicType.Plugin {
       return [];
     },
     implementedProtocols: function(algebraicType:AlgebraicType.Type):ObjC.Protocol[] {
-      return [
-        {
-          name: 'NSCopying'
-        }
-      ];
-    },
-    imports: function(algebraicType:AlgebraicType.Type):ObjC.Import[] {
       return [];
     },
+    imports: function(algebraicType:AlgebraicType.Type):ObjC.Import[] {
+      return [
+        { file: 'Foundation.h', isPublic: true, library: Maybe.Just('Foundation') },
+      ];
+    },
     instanceMethods: function(algebraicType:AlgebraicType.Type):ObjC.Method[] {
-      return [copyInstanceMethod()];
+      return [];
     },
     internalProperties: function(algebraicType:AlgebraicType.Type):ObjC.Property[] {
       return [];
     },
-    requiredIncludesToRun: ['RMCopying'],
+    requiredIncludesToRun: ['RMAssumeNonnull'],
     staticConstants: function(algebraicType:AlgebraicType.Type):ObjC.Constant[] {
       return [];
     },
@@ -148,7 +119,7 @@ export function createAlgebraicTypePlugin():AlgebraicType.Plugin {
       return [];
     },
     nullability: function(algebraicType:AlgebraicType.Type):Maybe.Maybe<ObjC.ClassNullability> {
-      return Maybe.Nothing<ObjC.ClassNullability>();
+      return Maybe.Just(ObjC.ClassNullability.assumeNonnull);
     }
   };
 }

@@ -98,4 +98,5 @@ export interface Plugin {
   requiredIncludesToRun:string[];
   staticConstants: (algebraicType:Type) => ObjC.Constant[];
   validationErrors: (algebraicType:Type) => Error.Error[];
+  nullability: (algebraicType:Type) => Maybe.Maybe<ObjC.ClassNullability>;
 }

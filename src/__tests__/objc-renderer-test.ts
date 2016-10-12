@@ -211,7 +211,8 @@ describe('ObjCRenderer', function() {
               {
                 name: 'NSCoding'
               }
-            ]
+            ],
+            nullability: ObjC.ClassNullability.default
           }
         ],
         namespaces: []
@@ -417,7 +418,8 @@ describe('ObjCRenderer', function() {
               {
                 name: 'NSCoding'
               }
-            ]
+            ],
+            nullability: ObjC.ClassNullability.default
           }
         ],
         namespaces: []
@@ -618,7 +620,8 @@ describe('ObjCRenderer', function() {
               {
                 name: 'NSCoding'
               }
-            ]
+            ],
+            nullability: ObjC.ClassNullability.default
           }
         ],
         namespaces: []
@@ -775,7 +778,8 @@ describe('ObjCRenderer', function() {
               }
             ],
             internalProperties:[],
-            implementedProtocols: []
+            implementedProtocols: [],
+            nullability: ObjC.ClassNullability.default
           }
         ],
         namespaces: []
@@ -885,7 +889,8 @@ describe('ObjCRenderer', function() {
             name:'RMSomeValue',
             properties: [],
             internalProperties:[],
-            implementedProtocols: []
+            implementedProtocols: [],
+            nullability: ObjC.ClassNullability.default
           }
         ],
         namespaces: []
@@ -959,7 +964,8 @@ describe('ObjCRenderer', function() {
               }
             ],
             internalProperties:[],
-            implementedProtocols: []
+            implementedProtocols: [],
+            nullability: ObjC.ClassNullability.default
           }
         ],
         namespaces: []
@@ -1067,7 +1073,8 @@ describe('ObjCRenderer', function() {
             name:'RMSomeValue',
             properties: [],
             internalProperties:[],
-            implementedProtocols: []
+            implementedProtocols: [],
+            nullability: ObjC.ClassNullability.default
           }
         ],
         namespaces: []
@@ -1138,7 +1145,8 @@ describe('ObjCRenderer', function() {
           name:'RMSomeValue',
           properties: [],
           internalProperties:[],
-          implementedProtocols: []
+          implementedProtocols: [],
+          nullability: ObjC.ClassNullability.default
         }
         ],
         namespaces: []
@@ -1183,18 +1191,21 @@ describe('ObjCRenderer', function() {
                 type: {
                   name: 'NSString',
                   reference:'NSString *'
-                }
+                },
+                nullability: ObjC.Nullability.Inherited()
               },
               {
                 name: 'someUnsignedInteger',
                 type: {
                   name: 'NSUInteger',
                   reference:'NSUInteger'
-                }
+                },
+                nullability: ObjC.Nullability.Inherited()
               }
             ],
             returnType: Maybe.Nothing<ObjC.Type>(),
-            isPublic: true
+            isPublic: true,
+            nullability: ObjC.ClassNullability.default
           },
           {
             comments: [],
@@ -1205,14 +1216,16 @@ describe('ObjCRenderer', function() {
                 type: {
                   name: 'BOOL',
                   reference:'BOOL'
-                }
+                },
+                nullability: ObjC.Nullability.Inherited()
               }
             ],
             returnType: Maybe.Just<ObjC.Type>({
               name: 'Foo',
               reference:'Foo *'
             }),
-            isPublic: true
+            isPublic: true,
+            nullability: ObjC.ClassNullability.default
           }
         ],
         comments: [],
@@ -1229,7 +1242,8 @@ describe('ObjCRenderer', function() {
           name:'RMSomeValue',
           properties: [],
           internalProperties:[],
-          implementedProtocols: []
+          implementedProtocols: [],
+          nullability: ObjC.ClassNullability.default
         }
         ],
         namespaces: []
@@ -1293,7 +1307,8 @@ describe('ObjCRenderer', function() {
             name:'RMSomeValue',
             properties: [],
             internalProperties:[],
-            implementedProtocols: []
+            implementedProtocols: [],
+            nullability: ObjC.ClassNullability.default
           }
         ],
         namespaces: []
@@ -1371,7 +1386,8 @@ describe('ObjCRenderer', function() {
             {
               name: 'NSCopying'
             }
-          ]
+          ],
+          nullability: ObjC.ClassNullability.default
           }
         ],
         namespaces: []
@@ -1454,7 +1470,8 @@ describe('ObjCRenderer', function() {
             {
               name: 'NSCopying'
             }
-          ]
+          ],
+          nullability: ObjC.ClassNullability.default
           }
         ],
         namespaces: []
@@ -1544,7 +1561,8 @@ describe('ObjCRenderer', function() {
               }
             ],
             internalProperties:[],
-            implementedProtocols: []
+            implementedProtocols: [],
+            nullability: ObjC.ClassNullability.default
           }
         ],
         namespaces: []
@@ -1809,7 +1827,8 @@ describe('ObjCRenderer', function() {
                 }
               }
             ],
-            implementedProtocols: []
+            implementedProtocols: [],
+            nullability: ObjC.ClassNullability.default
           }
         ],
         namespaces: []
@@ -1970,7 +1989,8 @@ describe('ObjCRenderer', function() {
           }
           ],
           internalProperties:[],
-          implementedProtocols: []
+          implementedProtocols: [],
+          nullability: ObjC.ClassNullability.default
         }
         ],
         namespaces: []
@@ -2077,7 +2097,8 @@ describe('ObjCRenderer', function() {
           name:'RMSomeValue',
           properties: [],
           internalProperties:[],
-          implementedProtocols: []
+          implementedProtocols: [],
+          nullability: ObjC.ClassNullability.default
         }
         ],
         namespaces: []
@@ -2151,7 +2172,8 @@ describe('ObjCRenderer', function() {
           name:'RMSomeValue',
           properties: [],
           internalProperties:[],
-          implementedProtocols: []
+          implementedProtocols: [],
+          nullability: ObjC.ClassNullability.default
         }
         ],
         namespaces: []
@@ -2228,18 +2250,21 @@ describe('ObjCRenderer', function() {
                 type: {
                   name: 'NSString',
                   reference:'NSString *'
-                }
+                },
+                nullability: ObjC.Nullability.Inherited()
               },
               {
                 name: 'someUnsignedInteger',
                 type: {
                   name: 'NSUInteger',
                   reference:'NSUInteger'
-                }
+                },
+                nullability: ObjC.Nullability.Inherited()
               }
             ],
             returnType: Maybe.Nothing<ObjC.Type>(),
-            isPublic: true
+            isPublic: true,
+            nullability: ObjC.ClassNullability.default
           },
           {
             comments: [],
@@ -2250,14 +2275,16 @@ describe('ObjCRenderer', function() {
                 type: {
                   name: 'BOOL',
                   reference:'BOOL'
-                }
+                },
+                nullability: ObjC.Nullability.Inherited()
               }
             ],
             returnType: Maybe.Just<ObjC.Type>({
               name: 'Foo',
               reference:'Foo *'
             }),
-            isPublic: false
+            isPublic: false,
+            nullability: ObjC.ClassNullability.default
           }
         ],
         comments: [],
@@ -2301,18 +2328,21 @@ describe('ObjCRenderer', function() {
                 type: {
                   name: 'NSString',
                   reference:'NSString *'
-                }
+                },
+                nullability: ObjC.Nullability.Inherited()
               },
               {
                 name: 'someUnsignedInteger',
                 type: {
                   name: 'NSUInteger',
                   reference:'NSUInteger'
-                }
+                },
+                nullability: ObjC.Nullability.Inherited()
               }
             ],
             returnType: Maybe.Nothing<ObjC.Type>(),
-            isPublic: true
+            isPublic: true,
+            nullability: ObjC.ClassNullability.default
           }
         ],
         comments: [],
@@ -2353,7 +2383,8 @@ describe('ObjCRenderer', function() {
           name:'RMSomeValue',
           properties: [],
           internalProperties:[],
-          implementedProtocols: []
+          implementedProtocols: [],
+          nullability: ObjC.ClassNullability.default
         }
         ],
         namespaces: []
@@ -2410,7 +2441,8 @@ describe('ObjCRenderer', function() {
               }
             }
           ],
-          implementedProtocols: []
+          implementedProtocols: [],
+          nullability: ObjC.ClassNullability.default
         }
         ],
         namespaces: []

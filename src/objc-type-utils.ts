@@ -32,6 +32,7 @@ export interface TypeMatchers<T> {
   CGSize:() => T;
   UIEdgeInsets:() => T;
   Class:() => T;
+  dispatch_block_t:() => T;
   unmatchedType:() => T;
 }
 
@@ -153,6 +154,8 @@ export function matchType<T>(matchers: TypeMatchers<T>,
     return matchers.UIEdgeInsets();
   } else if (type.name === 'Class') {
     return matchers.Class();
+  } else if (type.name === 'dispatch_block_t') {
+    return matchers.dispatch_block_t();
   } else {
     return matchers.unmatchedType();
   }

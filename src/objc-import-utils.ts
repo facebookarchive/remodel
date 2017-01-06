@@ -51,6 +51,7 @@ const KNOWN_SYSTEM_TYPE_IMPORT_INFO: { [id: string]: Maybe.Maybe<ObjC.Import> } 
   'uint64_t': Maybe.Nothing<ObjC.Import>(),
   'uint32_t': Maybe.Nothing<ObjC.Import>(),
   'Class': Maybe.Nothing<ObjC.Import>(),
+  'dispatch_block_t': Maybe.Nothing<ObjC.Import>(),
 }
 
 function isFoundationType(typeName:string):boolean {
@@ -164,6 +165,9 @@ export function canForwardDeclareType(type:ObjC.Type):boolean {
       return false;
     },
     Class: function() {
+      return false;
+    },
+    dispatch_block_t: function() {
       return false;
     },
     unmatchedType: function() {

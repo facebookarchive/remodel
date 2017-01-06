@@ -529,6 +529,9 @@ function generationGroupForType(type:ObjC.Type):TypeEqualityGenerationGroup {
     Class: function() {
       return NSOBJECT_GENERATION_GROUP;
     },
+    dispatch_block_t: function() {
+      return NSOBJECT_GENERATION_GROUP;
+    },
     unmatchedType: function() {
       return null;
     },

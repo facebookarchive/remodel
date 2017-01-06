@@ -124,6 +124,9 @@ export function propertyOwnershipModifierForAttribute(attribute:ValueObject.Attr
     Class: function() {
       return ObjC.PropertyModifier.UnsafeUnretained();
     },
+    dispatch_block_t: function() {
+      return ObjC.PropertyModifier.Copy();
+    },
     unmatchedType: function() {
       return null;
     }

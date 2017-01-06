@@ -18,6 +18,7 @@ Feature: Outputting Value Objects
         uint32_t numberOfRatings
         RMSomeType *someType
         Class someClass
+        dispatch_block_t someBlock
       }
       """
     And a file named "project/.valueObjectConfig" with:
@@ -45,8 +46,9 @@ Feature: Outputting Value Objects
       @property (nonatomic, readonly) uint32_t numberOfRatings;
       @property (nonatomic, readonly, copy) RMSomeType *someType;
       @property (nonatomic, readonly, unsafe_unretained) Class someClass;
+      @property (nonatomic, readonly, copy) dispatch_block_t someBlock;
 
-      - (instancetype)initWithDoesUserLike:(BOOL)doesUserLike identifier:(NSString *)identifier likeCount:(NSInteger)likeCount numberOfRatings:(uint32_t)numberOfRatings someType:(RMSomeType *)someType someClass:(Class)someClass;
+      - (instancetype)initWithDoesUserLike:(BOOL)doesUserLike identifier:(NSString *)identifier likeCount:(NSInteger)likeCount numberOfRatings:(uint32_t)numberOfRatings someType:(RMSomeType *)someType someClass:(Class)someClass someBlock:(dispatch_block_t)someBlock;
 
       @end
 
@@ -57,7 +59,7 @@ Feature: Outputting Value Objects
 
       @implementation RMPage
 
-      - (instancetype)initWithDoesUserLike:(BOOL)doesUserLike identifier:(NSString *)identifier likeCount:(NSInteger)likeCount numberOfRatings:(uint32_t)numberOfRatings someType:(RMSomeType *)someType someClass:(Class)someClass
+      - (instancetype)initWithDoesUserLike:(BOOL)doesUserLike identifier:(NSString *)identifier likeCount:(NSInteger)likeCount numberOfRatings:(uint32_t)numberOfRatings someType:(RMSomeType *)someType someClass:(Class)someClass someBlock:(dispatch_block_t)someBlock
       {
         if ((self = [super init])) {
           _doesUserLike = doesUserLike;
@@ -66,6 +68,7 @@ Feature: Outputting Value Objects
           _numberOfRatings = numberOfRatings;
           _someType = [someType copy];
           _someClass = someClass;
+          _someBlock = [someBlock copy];
         }
 
         return self;
@@ -78,14 +81,14 @@ Feature: Outputting Value Objects
 
       - (NSString *)description
       {
-        return [NSString stringWithFormat:@"%@ - \n\t doesUserLike: %@; \n\t identifier: %@; \n\t likeCount: %zd; \n\t numberOfRatings: %u; \n\t someType: %@; \n\t someClass: %@; \n", [super description], _doesUserLike ? @"YES" : @"NO", _identifier, _likeCount, _numberOfRatings, _someType, _someClass];
+        return [NSString stringWithFormat:@"%@ - \n\t doesUserLike: %@; \n\t identifier: %@; \n\t likeCount: %zd; \n\t numberOfRatings: %u; \n\t someType: %@; \n\t someClass: %@; \n\t someBlock: %@; \n", [super description], _doesUserLike ? @"YES" : @"NO", _identifier, _likeCount, _numberOfRatings, _someType, _someClass, _someBlock];
       }
 
       - (NSUInteger)hash
       {
-        NSUInteger subhashes[] = {(NSUInteger)_doesUserLike, [_identifier hash], ABS(_likeCount), _numberOfRatings, [_someType hash], [_someClass hash]};
+        NSUInteger subhashes[] = {(NSUInteger)_doesUserLike, [_identifier hash], ABS(_likeCount), _numberOfRatings, [_someType hash], [_someClass hash], [_someBlock hash]};
         NSUInteger result = subhashes[0];
-        for (int ii = 1; ii < 6; ++ii) {
+        for (int ii = 1; ii < 7; ++ii) {
           unsigned long long base = (((unsigned long long)result) << 32 | subhashes[ii]);
           base = (~base) + (base << 18);
           base ^= (base >> 31);
@@ -111,7 +114,8 @@ Feature: Outputting Value Objects
           _numberOfRatings == object->_numberOfRatings &&
           (_identifier == object->_identifier ? YES : [_identifier isEqual:object->_identifier]) &&
           (_someType == object->_someType ? YES : [_someType isEqual:object->_someType]) &&
-          (_someClass == object->_someClass ? YES : [_someClass isEqual:object->_someClass]);
+          (_someClass == object->_someClass ? YES : [_someClass isEqual:object->_someClass]) &&
+          (_someBlock == object->_someBlock ? YES : [_someBlock isEqual:object->_someBlock]);
       }
 
       @end

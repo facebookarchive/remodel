@@ -352,6 +352,35 @@ describe('Plugins.ImmutableProperties', function() {
       });
     });
 
+    it('does not include a public import for itself when it is provided with ' +
+       'a type lookup for itself', function() {
+      const valueType:ValueObject.Type = {
+        annotations: {},
+        attributes: [],
+        comments: [],
+        typeLookups:[
+          {
+            name:'RMSomething',
+            library:Maybe.Nothing<string>(),
+            file:Maybe.Nothing<string>(),
+            canForwardDeclare: true,
+          }
+        ],
+        excludes: [],
+        includes: [],
+        typeName: 'RMSomething',
+        libraryName: Maybe.Just('RMSomeLibrary')
+      };
+
+      const actualImports = Plugin.imports(valueType);
+
+      expect(actualImports).not.toContain({
+        file:'RMSomething.h',
+        isPublic:true,
+        library:Maybe.Just<string>('RMSomeLibrary')
+      });
+    });
+
     it('includes for an attribute that is an NSObject but does not have a ' +
        'specified library and the value object is in a library', function() {
       const valueType:ValueObject.Type = {
@@ -1404,6 +1433,46 @@ describe('Plugins.ImmutableProperties', function() {
         ],
         comments: [],
         typeLookups:[],
+        excludes: [],
+        includes: [],
+        typeName: 'RMSomething',
+        libraryName: Maybe.Nothing<string>()
+      };
+      const forwardDeclarations:ObjC.ForwardDeclaration[] = Plugin.forwardDeclarations(valueType);
+      const expectedForwardDeclarations:ObjC.ForwardDeclaration[] = [
+        ObjC.ForwardDeclaration.ForwardClassDeclaration('RMSomething')
+      ];
+      expect(forwardDeclarations).toEqualJSON(expectedForwardDeclarations);
+    });
+
+    it('returns a forward declaration when the same type being generated ' +
+       'is being used in a type lookup', function() {
+      const valueType:ValueObject.Type = {
+        annotations: {},
+        attributes: [
+          {
+            annotations: {},
+            comments: [],
+            name:'value',
+            nullability:ObjC.Nullability.Inherited(),
+            type: {
+              fileTypeIsDefinedIn:Maybe.Nothing<string>(),
+              libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+              name:'Foo',
+              reference: 'Foo *',
+              underlyingType:Maybe.Nothing<string>()
+            }
+          }
+        ],
+        comments: [],
+        typeLookups:[
+          {
+            name:'RMSomething',
+            library:Maybe.Nothing<string>(),
+            file:Maybe.Nothing<string>(),
+            canForwardDeclare: true,
+          }
+        ],
         excludes: [],
         includes: [],
         typeName: 'RMSomething',

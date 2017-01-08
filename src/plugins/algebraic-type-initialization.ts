@@ -151,6 +151,10 @@ function internalPropertiesForImplementationOfAlgebraicType(algebraicType:Algebr
   return [enumerationProperty].concat(attributeProperties);
 }
 
+function isImportRequiredForTypeLookup(algebraicTypeName:string, typeLookup:ObjectGeneration.TypeLookup):boolean {
+  return !isForwardDeclarationRequiredForTypeLookup(algebraicTypeName, typeLookup);
+}
+
 function isImportRequiredForAttribute(typeLookups:ObjectGeneration.TypeLookup[], attribute:AlgebraicType.SubtypeAttribute):boolean {
   return ObjCImportUtils.shouldIncludeImportForType(typeLookups, attribute.type.name);
 }
@@ -180,6 +184,14 @@ function shouldForwardDeclareAttribute(algebraicTypeName:string, makePublicImpor
 
 function forwardDeclarationForAttribute(attribute:AlgebraicType.SubtypeAttribute): ObjC.ForwardDeclaration {
   return ObjC.ForwardDeclaration.ForwardClassDeclaration(attribute.type.name);
+}
+
+function isForwardDeclarationRequiredForTypeLookup(algebraicTypeName:string, typeLookup:ObjectGeneration.TypeLookup):boolean {
+  return typeLookup.name === algebraicTypeName;
+}
+
+function forwardDeclarationForTypeLookup(typeLookup:ObjectGeneration.TypeLookup):ObjC.ForwardDeclaration {
+  return ObjC.ForwardDeclaration.ForwardClassDeclaration(typeLookup.name);
 }
 
 function enumerationForSubtypesOfAlgebraicType(algebraicType:AlgebraicType.Type):ObjC.Enumeration {
@@ -235,9 +247,12 @@ export function createAlgebraicTypePlugin():AlgebraicType.Plugin {
     },
     forwardDeclarations: function(algebraicType:AlgebraicType.Type):ObjC.ForwardDeclaration[] {
       const makePublicImports = algebraicType.includes.indexOf('UseForwardDeclarations') === -1;
-      return AlgebraicTypeUtils.allAttributesFromSubtypes(algebraicType.subtypes)
-                               .filter(FunctionUtils.pApply2f3(algebraicType.name, makePublicImports, shouldForwardDeclareAttribute))
-                               .map(forwardDeclarationForAttribute);
+      const attributeForwardDeclarations = AlgebraicTypeUtils.allAttributesFromSubtypes(algebraicType.subtypes)
+                                                             .filter(FunctionUtils.pApply2f3(algebraicType.name, makePublicImports, shouldForwardDeclareAttribute))
+                                                             .map(forwardDeclarationForAttribute);
+      const typeLookupForwardDeclarations = algebraicType.typeLookups.filter(FunctionUtils.pApplyf2(algebraicType.name, isForwardDeclarationRequiredForTypeLookup))
+                                                                     .map(forwardDeclarationForTypeLookup);
+      return [].concat(attributeForwardDeclarations).concat(typeLookupForwardDeclarations);
     },
     functions: function(algebraicType:AlgebraicType.Type):ObjC.Function[] {
       return [];
@@ -255,7 +270,8 @@ export function createAlgebraicTypePlugin():AlgebraicType.Plugin {
       ];
 
       const makePublicImports = algebraicType.includes.indexOf('UseForwardDeclarations') === -1;
-      const typeLookupImports = algebraicType.typeLookups.map(FunctionUtils.pApply2f3(algebraicType.libraryName, makePublicImports, ObjCImportUtils.importForTypeLookup));
+      const typeLookupImports = algebraicType.typeLookups.filter(FunctionUtils.pApplyf2(algebraicType.name, isImportRequiredForTypeLookup))
+                                                         .map(FunctionUtils.pApply2f3(algebraicType.libraryName, makePublicImports, ObjCImportUtils.importForTypeLookup));
       const attributeImports:ObjC.Import[] = AlgebraicTypeUtils.allAttributesFromSubtypes(algebraicType.subtypes)
                                                              .filter(FunctionUtils.pApplyf2(algebraicType.typeLookups, isImportRequiredForAttribute))
                                                              .map(FunctionUtils.pApply2f3(algebraicType.libraryName, makePublicImports, importForAttribute));

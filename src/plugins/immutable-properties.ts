@@ -148,6 +148,10 @@ function isImportRequiredForAttribute(typeLookups:ObjectGeneration.TypeLookup[],
   return ObjCImportUtils.shouldIncludeImportForType(typeLookups, attribute.type.name);
 }
 
+function isImportRequiredForTypeLookup(valueType:ValueObject.Type, typeLookup:ObjectGeneration.TypeLookup):boolean {
+  return !isForwardDeclarationRequiredForTypeLookup(valueType, typeLookup);
+}
+
 function importForAttribute(objectLibrary:Maybe.Maybe<string>, isPublic:boolean, attribute:ValueObject.Attribute):ObjC.Import {
   const builtInImportMaybe:Maybe.Maybe<ObjC.Import> = ObjCImportUtils.typeDefinitionImportForKnownSystemType(attribute.type.name);
 
@@ -163,6 +167,18 @@ function importForAttribute(objectLibrary:Maybe.Maybe<string>, isPublic:boolean,
         isPublic: requiresPublicImport
       };
     }, builtInImportMaybe);
+}
+
+function makePublicImportsForValueType(valueType:ValueObject.Type):boolean {
+  return valueType.includes.indexOf('UseForwardDeclarations') === -1;
+}
+
+function isForwardDeclarationRequiredForTypeLookup(valueType:ValueObject.Type, typeLookup:ObjectGeneration.TypeLookup):boolean {
+  return typeLookup.name === valueType.typeName || !makePublicImportsForValueType(valueType);
+}
+
+function forwardDeclarationForTypeLookup(typeLookup:ObjectGeneration.TypeLookup):ObjC.ForwardDeclaration {
+  return ObjC.ForwardDeclaration.ForwardClassDeclaration(typeLookup.name);
 }
 
 function shouldForwardDeclareAttribute(valueTypeName:string, makePublicImports:boolean, attribute:ValueObject.Attribute):boolean {
@@ -193,9 +209,9 @@ export function createPlugin():ValueObject.Plugin {
       return Maybe.Nothing<Code.FileType>();
     },
     forwardDeclarations: function(valueType:ValueObject.Type):ObjC.ForwardDeclaration[] {
-      const makePublicImports = valueType.includes.indexOf('UseForwardDeclarations') === -1;
-      const typeLookupForwardDeclarations = !makePublicImports ? ObjCImportUtils.forwardDeclarationsForTypeLookups(valueType.typeLookups) : [];
-      const attributeForwardDeclarations = valueType.attributes.filter(FunctionUtils.pApply2f3(valueType.typeName, makePublicImports, shouldForwardDeclareAttribute))
+      const typeLookupForwardDeclarations = valueType.typeLookups.filter(FunctionUtils.pApplyf2(valueType, isForwardDeclarationRequiredForTypeLookup))
+                                                                 .map(forwardDeclarationForTypeLookup);
+      const attributeForwardDeclarations = valueType.attributes.filter(FunctionUtils.pApply2f3(valueType.typeName, makePublicImportsForValueType(valueType), shouldForwardDeclareAttribute))
                                                                .map(forwardDeclarationForAttribute);
       return [].concat(typeLookupForwardDeclarations).concat(attributeForwardDeclarations);
     },
@@ -214,7 +230,8 @@ export function createPlugin():ValueObject.Plugin {
         {file:valueType.typeName + '.h', isPublic:false, library:Maybe.Nothing<string>() }
       ];
       const makePublicImports = valueType.includes.indexOf('UseForwardDeclarations') === -1;
-      const typeLookupImports = valueType.typeLookups.map(FunctionUtils.pApply2f3(valueType.libraryName, makePublicImports, ObjCImportUtils.importForTypeLookup));
+      const typeLookupImports = valueType.typeLookups.filter(FunctionUtils.pApplyf2(valueType, isImportRequiredForTypeLookup))
+                                                     .map(FunctionUtils.pApply2f3(valueType.libraryName, makePublicImportsForValueType(valueType), ObjCImportUtils.importForTypeLookup));
       const attributeImports = valueType.attributes.filter(FunctionUtils.pApplyf2(valueType.typeLookups, isImportRequiredForAttribute))
                                                  .map(FunctionUtils.pApply2f3(valueType.libraryName, makePublicImports, importForAttribute));
       return baseImports.concat(typeLookupImports).concat(attributeImports);

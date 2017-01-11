@@ -77,6 +77,42 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
       expect(imports).toContain(expectedImport);
     });
 
+    it('does not include a public import for its own type when it is included ' +
+       'in a type lookup', function() {
+      const algebraicType:AlgebraicType.Type = {
+        annotations: {},
+        name: 'Foo',
+        includes: [],
+        excludes: [],
+        typeLookups:[
+          {
+            name: 'Foo',
+            library: Maybe.Nothing<string>(),
+            file: Maybe.Nothing<string>(),
+            canForwardDeclare: true
+          }
+        ],
+        libraryName: Maybe.Nothing<string>(),
+        comments: [],
+        subtypes: [
+          AlgebraicType.Subtype.NamedAttributeCollectionDefinition(
+          {
+            name: 'ASubType',
+            comments: [],
+            attributes: []
+          })
+        ]
+      };
+
+      const imports:ObjC.Import[] = AlgebraicTypePlugin.imports(algebraicType);
+      const expectedImport:ObjC.Import = {
+        library:Maybe.Nothing<string>(),
+        file:'Foo.h',
+        isPublic:true
+      };
+      expect(imports).not.toContain(expectedImport);
+    });
+
     it('includes the public imports for some of its attributes', function() {
       const algebraicType:AlgebraicType.Type = {
         annotations: {},
@@ -779,6 +815,53 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
               type: {
                 name: 'Test',
                 reference: 'Test *',
+                libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+                fileTypeIsDefinedIn: Maybe.Nothing<string>(),
+                underlyingType: Maybe.Nothing<string>()
+              }
+            }
+          ]
+        })
+        ]
+      };
+      const forwardDeclarations:ObjC.ForwardDeclaration[] = AlgebraicTypePlugin.forwardDeclarations(algebraicType);
+      const expectedForwardDeclarations:ObjC.ForwardDeclaration[] = [
+        ObjC.ForwardDeclaration.ForwardClassDeclaration('Test')
+      ];
+      expect(forwardDeclarations).toEqualJSON(expectedForwardDeclarations);
+    });
+
+    it('returns a forward declaration when the same type being generated ' +
+       'is being used in a type lookup', function() {
+      const algebraicType:AlgebraicType.Type = {
+        annotations: {},
+        name: 'Test',
+        includes: [],
+        excludes: [],
+        typeLookups:[
+          {
+            name: 'Test',
+            library: Maybe.Nothing<string>(),
+            file: Maybe.Nothing<string>(),
+            canForwardDeclare: true
+          }
+        ],
+        libraryName: Maybe.Nothing<string>(),
+        comments: [],
+        subtypes: [
+        AlgebraicType.Subtype.NamedAttributeCollectionDefinition(
+        {
+          name: 'SomeSubtype',
+          comments: [],
+          attributes: [
+            {
+              annotations: {},
+              name: 'someFoo',
+              comments: [],
+              nullability:ObjC.Nullability.Inherited(),
+              type: {
+                name: 'Foo',
+                reference: 'Foo *',
                 libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
                 fileTypeIsDefinedIn: Maybe.Nothing<string>(),
                 underlyingType: Maybe.Nothing<string>()

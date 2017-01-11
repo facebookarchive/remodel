@@ -234,6 +234,9 @@ export function codingStatementsForType(type:ObjC.Type):CodingStatements {
     Class: function() {
      return UNSUPPORTED_TYPE_CODING_STATEMENTS;
     },
+    dispatch_block_t: function() {
+      return UNSUPPORTED_TYPE_CODING_STATEMENTS;
+    },
     unmatchedType: function() {
       return null;
     },

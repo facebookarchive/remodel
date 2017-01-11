@@ -193,7 +193,14 @@ function attributeDescriptionForType(type:ObjC.Type):AttributeDescription {
         descriptionFunctionImport: Maybe.Nothing<ObjC.Import>(),
         token: '%@',
         valueGenerator: useValueAccessor
-      }
+      };
+    },
+    dispatch_block_t: function() {
+      return {
+        descriptionFunctionImport: Maybe.Nothing<ObjC.Import>(),
+        token: '%@',
+        valueGenerator: useValueAccessor
+      };
     },
     unmatchedType: function() {
       return null;

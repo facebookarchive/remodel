@@ -199,6 +199,9 @@ function isTypeNSCodingCompliant(type:ObjC.Type):boolean {
     Class: function() {
       return false;
     },
+    dispatch_block_t: function() {
+      return false;
+    },
     unmatchedType: function() {
       return true;
     }

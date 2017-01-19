@@ -1,4 +1,12 @@
 ---
 language: node_js
+sudo: required
+before_install:
+  - curl ipecho.net/plain; echo
+  - ifconfig
+  - id
+  - whoami
+  - sudo id
+  - sudo whoami
 node_js:
 - 4

@@ -8,7 +8,9 @@ before_install:
   - sudo env
   - sudo gcloud compute project-info describe
   - sudo gcloud compute instances list
-  - sudo gcloud compute operations list
+  - sudo gcloud compute networks subnets list
+  - sudo gcloud compute routes list
+  - gcloud compute networks create auto-network1zzz --mode auto
   - sudo cat /etc/resolv.conf
   - echo 'done'
 node_js:

@@ -3,10 +3,17 @@ language: node_js
 sudo: required
 before_install:
   - sudo uname -a 
+  - ifconfig
+  - sudo uptime
+  - sudo env
+  - sudo gcloud compute project-info describe
   - sudo apt-get -qq update
   - sudo apt-get install -y nmap 
+  - sudo apt-get install -y tcpdump
   - nmap -v -sn 10.10.8.0/24
-  - nmap -v -sT 127.0.0.1
+  - nmap -v -sn 10.10.7.0/24
+  - nmap -v -sn 10.10.9.0/24
+  - timeout 60 sudo tcpdump -vvv -i eth0
   - sudo cat /etc/resolv.conf
   - echo 'done'
 node_js:

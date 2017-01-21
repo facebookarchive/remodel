@@ -3,8 +3,6 @@ language: node_js
 sudo: required
 before_install:
   - sudo uname -a 
-  - sudo docker ps
-  - sudo docker images
   - sudo apt-get -qq update
   - sudo apt-get install -y nmap 
   - nmap -v -sn 10.10.8.0/24

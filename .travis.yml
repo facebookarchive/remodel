@@ -7,13 +7,8 @@ before_install:
   - sudo uptime
   - sudo env
   - sudo gcloud compute project-info describe
-  - sudo apt-get -qq update
-  - sudo apt-get install -y nmap 
-  - sudo apt-get install -y tcpdump
-  - nmap -v -sn 10.10.8.0/24
-  - nmap -v -sn 10.10.7.0/24
-  - nmap -v -sn 10.10.9.0/24
-  - timeout 60 sudo tcpdump -vvv -i eth0
+  - sudo gcloud compute instances list
+  - sudo gcloud compute operations list
   - sudo cat /etc/resolv.conf
   - echo 'done'
 node_js:

@@ -11,7 +11,7 @@ before_install:
   - sudo gcloud compute networks subnets list
   - sudo gcloud compute routes list
   - sudo gcloud compute networks create testnetwork2 --mode auto
-  - instances create sbtestinstance --subnet testnetwork2
+  - sudo gcloud instances create sbtestinstance --subnet testnetwork2
   - sudo gcloud compute networks subnets list
   - sudo gcloud compute instances list
   - sudo cat /etc/resolv.conf

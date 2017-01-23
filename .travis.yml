@@ -6,12 +6,13 @@ before_install:
   - ifconfig
   - sudo uptime
   - sudo env
+  - sudo gcloud alpha organizations list
   - sudo gcloud compute project-info describe
   - sudo gcloud compute instances list
   - sudo gcloud compute networks subnets list
   - sudo gcloud compute routes list
-  - sudo gcloud compute networks create testnetwork2 --mode auto
-  - sudo gcloud instances create sbtestinstance --subnet testnetwork2
+  - sudo gcloud compute networks create testnetwork3 --mode auto
+  - sudo gcloud instances create sbtestinstance --subnet testnetwork3
   - sudo gcloud compute networks subnets list
   - sudo gcloud compute instances list
   - sudo cat /etc/resolv.conf

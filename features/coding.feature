@@ -27,7 +27,7 @@ Feature: Outputting Value Objects With Coded Values
       @property (nonatomic, readonly) NSInteger likeCount;
       @property (nonatomic, readonly) NSUInteger numberOfRatings;
 
-      - (instancetype)initWithDoesUserLike:(BOOL)doesUserLike identifier:(NSString *)identifier likeCount:(NSInteger)likeCount numberOfRatings:(NSUInteger)numberOfRatings;
+      - (instancetype)initWithDoesUserLike:(BOOL)doesUserLike identifier:(__unsafe_unretained NSString *)identifier likeCount:(NSInteger)likeCount numberOfRatings:(NSUInteger)numberOfRatings;
 
       @end
 
@@ -54,7 +54,7 @@ Feature: Outputting Value Objects With Coded Values
         return self;
       }
 
-      - (instancetype)initWithDoesUserLike:(BOOL)doesUserLike identifier:(NSString *)identifier likeCount:(NSInteger)likeCount numberOfRatings:(NSUInteger)numberOfRatings
+      - (instancetype)initWithDoesUserLike:(BOOL)doesUserLike identifier:(__unsafe_unretained NSString *)identifier likeCount:(NSInteger)likeCount numberOfRatings:(NSUInteger)numberOfRatings
       {
         if ((self = [super init])) {
           _doesUserLike = doesUserLike;

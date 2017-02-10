@@ -26,7 +26,7 @@ Feature: Outputting Value Objects / Algebraic Types decorated with NS_ASSUME_NON
       @property (nonatomic, readonly, copy) NSString *aString;
       @property (nonatomic, readonly, copy, nullable) NSString *bString;
 
-      - (instancetype)initWithAString:(NSString *)aString bString:(nullable NSString *)bString;
+      - (instancetype)initWithAString:(__unsafe_unretained NSString *)aString bString:(nullable __unsafe_unretained NSString *)bString;
 
       @end
 
@@ -40,7 +40,7 @@ Feature: Outputting Value Objects / Algebraic Types decorated with NS_ASSUME_NON
 
       @implementation RMFoo
 
-      - (instancetype)initWithAString:(NSString *)aString bString:(nullable NSString *)bString
+      - (instancetype)initWithAString:(__unsafe_unretained NSString *)aString bString:(nullable __unsafe_unretained NSString *)bString
       {
         if ((self = [super init])) {
           _aString = [aString copy];

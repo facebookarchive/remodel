@@ -83,7 +83,7 @@ describe('Plugins.ImmutableProperties', function() {
               name:'initWithValue',
               argument: Maybe.Just({
                 name:'value',
-                modifiers: [],
+                modifiers: [ObjC.KeywordArgumentModifier.UnsafeUnretained()],
                 type: {
                   name:'NSString',
                   reference: 'NSString *'
@@ -188,7 +188,7 @@ describe('Plugins.ImmutableProperties', function() {
               name:'initWithValue',
               argument: Maybe.Just({
                 name:'value',
-                modifiers: [],
+                modifiers: [ObjC.KeywordArgumentModifier.UnsafeUnretained()],
                 type: {
                   name:'NSString',
                   reference: 'NSString *'
@@ -210,7 +210,7 @@ describe('Plugins.ImmutableProperties', function() {
               name:'value3',
               argument: Maybe.Just({
                 name:'value3',
-                modifiers: [],
+                modifiers: [ObjC.KeywordArgumentModifier.UnsafeUnretained()],
                 type: {
                   name:'RMAnotherSomething',
                   reference: 'RMAnotherSomething *'
@@ -221,7 +221,7 @@ describe('Plugins.ImmutableProperties', function() {
               name:'value4',
               argument: Maybe.Just({
                 name:'value4',
-                modifiers: [],
+                modifiers: [ObjC.KeywordArgumentModifier.UnsafeUnretained()],
                 type: {
                   name:'id',
                   reference: 'id'

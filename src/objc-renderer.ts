@@ -143,7 +143,8 @@ function toPropertyString(property:ObjC.Property):string {
 function toKeywordArgumentModifierString(argumentModifier:ObjC.KeywordArgumentModifier):string {
   return argumentModifier.match(
     returnString('nonnull'),
-    returnString('nullable')
+    returnString('nullable'),
+    returnString('__unsafe_unretained')
   );
 }
 

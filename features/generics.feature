@@ -21,7 +21,7 @@ Feature: Outputting Objects With Generic Types
 
       @property (nonatomic, readonly, copy) NSDictionary<NSString *, NSNumber *> *namesToAges;
 
-      - (instancetype)initWithNamesToAges:(NSDictionary<NSString *, NSNumber *> *)namesToAges;
+      - (instancetype)initWithNamesToAges:(__unsafe_unretained NSDictionary<NSString *, NSNumber *> *)namesToAges;
 
       @end
 
@@ -32,7 +32,7 @@ Feature: Outputting Objects With Generic Types
 
       @implementation RMPage
 
-      - (instancetype)initWithNamesToAges:(NSDictionary<NSString *, NSNumber *> *)namesToAges
+      - (instancetype)initWithNamesToAges:(__unsafe_unretained NSDictionary<NSString *, NSNumber *> *)namesToAges
       {
         if ((self = [super init])) {
           _namesToAges = [namesToAges copy];

@@ -288,6 +288,7 @@ function builderFileForValueType(valueType:ValueObject.Type):Code.File {
       }
     ],
     diagnosticIgnores:[],
+    structs: [],
     namespaces: []
   };
 }

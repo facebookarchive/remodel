@@ -243,6 +243,7 @@ function classFileCreationFunctionWithBaseClassAndPlugins<T>(baseClassName:strin
           }, nullability)
         }
         ],
+        structs: [],
         namespaces: []
       };
     }, fileType);

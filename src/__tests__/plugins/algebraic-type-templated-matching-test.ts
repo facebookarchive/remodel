@@ -106,7 +106,7 @@ describe('Plugins.AlgebraicTypeTemplatedMatching', function() {
         functions: [],
         diagnosticIgnores:[],
         classes: [],
-        namespaces: [
+        structs: [
           {
             name: 'RMTestMatching',
             templates: [
@@ -117,60 +117,52 @@ describe('Plugins.AlgebraicTypeTemplatedMatching', function() {
                     value: 'T'
                   }
                 ],
-                code: [
-                  'extern T match(RMTest *test, T(^someSubtypeMatchHandler)(NSString *someString, NSUInteger someUnsignedInteger), T(^greatThingMatchHandler)(), T(^coolSingleAttributeSubtypeMatchHandler)(SingleAttributeType *coolSingleAttributeSubtype)) {',
-                  '  NSCAssert(test != nil, @"The ADT object test is nil");',
-                  '  __block std::shared_ptr<T> result;',
-                  '',
-                  '  RMTestSomeSubtypeMatchHandler matchSomeSubtype = ^(NSString *someString, NSUInteger someUnsignedInteger) {',
-                  '    result = std::make_shared<T>(someSubtypeMatchHandler(someString, someUnsignedInteger));',
-                  '  };',
-                  '',
-                  '  RMTestGreatThingMatchHandler matchGreatThing = ^() {',
-                  '    result = std::make_shared<T>(greatThingMatchHandler());',
-                  '  };',
-                  '',
-                  '  RMTestCoolSingleAttributeSubtypeMatchHandler matchCoolSingleAttributeSubtype = ^(SingleAttributeType *coolSingleAttributeSubtype) {',
-                  '    result = std::make_shared<T>(coolSingleAttributeSubtypeMatchHandler(coolSingleAttributeSubtype));',
-                  '  };',
-                  '',
-                  '  [test matchSomeSubtype:matchSomeSubtype greatThing:matchGreatThing coolSingleAttributeSubtype:matchCoolSingleAttributeSubtype];',
-                  '  return *result;',
-                  '}'
-                ]
-              },
-              {
-                templatedTypes: [
-                  {
-                    type: CPlusPlus.TemplateType.Typename(),
-                    value: 'T'
-                  }
-                ],
-                code: [
-                  'extern T match(T(^someSubtypeMatchHandler)(NSString *someString, NSUInteger someUnsignedInteger), T(^greatThingMatchHandler)(), T(^coolSingleAttributeSubtypeMatchHandler)(SingleAttributeType *coolSingleAttributeSubtype), RMTest *test) {',
-                  '  NSCAssert(test != nil, @"The ADT object test is nil");',
-                  '  __block std::shared_ptr<T> result;',
-                  '',
-                  '  RMTestSomeSubtypeMatchHandler matchSomeSubtype = ^(NSString *someString, NSUInteger someUnsignedInteger) {',
-                  '    result = std::make_shared<T>(someSubtypeMatchHandler(someString, someUnsignedInteger));',
-                  '  };',
-                  '',
-                  '  RMTestGreatThingMatchHandler matchGreatThing = ^() {',
-                  '    result = std::make_shared<T>(greatThingMatchHandler());',
-                  '  };',
-                  '',
-                  '  RMTestCoolSingleAttributeSubtypeMatchHandler matchCoolSingleAttributeSubtype = ^(SingleAttributeType *coolSingleAttributeSubtype) {',
-                  '    result = std::make_shared<T>(coolSingleAttributeSubtypeMatchHandler(coolSingleAttributeSubtype));',
-                  '  };',
-                  '',
-                  '  [test matchSomeSubtype:matchSomeSubtype greatThing:matchGreatThing coolSingleAttributeSubtype:matchCoolSingleAttributeSubtype];',
-                  '  return *result;',
-                  '}'
-                ]
+                code: []
               }
+            ],
+            code: [
+              ['static T match(RMTest *test, T(^someSubtypeMatchHandler)(NSString *someString, NSUInteger someUnsignedInteger), T(^greatThingMatchHandler)(), T(^coolSingleAttributeSubtypeMatchHandler)(SingleAttributeType *coolSingleAttributeSubtype)) {',
+              '  NSCAssert(test != nil, @"The ADT object test is nil");',
+              '  __block std::shared_ptr<T> result;',
+              '',
+              '  RMTestSomeSubtypeMatchHandler matchSomeSubtype = ^(NSString *someString, NSUInteger someUnsignedInteger) {',
+              '    result = std::make_shared<T>(someSubtypeMatchHandler(someString, someUnsignedInteger));',
+              '  };',
+              '',
+              '  RMTestGreatThingMatchHandler matchGreatThing = ^() {',
+              '    result = std::make_shared<T>(greatThingMatchHandler());',
+              '  };',
+              '',
+              '  RMTestCoolSingleAttributeSubtypeMatchHandler matchCoolSingleAttributeSubtype = ^(SingleAttributeType *coolSingleAttributeSubtype) {',
+              '    result = std::make_shared<T>(coolSingleAttributeSubtypeMatchHandler(coolSingleAttributeSubtype));',
+              '  };',
+              '',
+              '  [test matchSomeSubtype:matchSomeSubtype greatThing:matchGreatThing coolSingleAttributeSubtype:matchCoolSingleAttributeSubtype];',
+              '  return *result;',
+              '}'],
+              ['static T match(T(^someSubtypeMatchHandler)(NSString *someString, NSUInteger someUnsignedInteger), T(^greatThingMatchHandler)(), T(^coolSingleAttributeSubtypeMatchHandler)(SingleAttributeType *coolSingleAttributeSubtype), RMTest *test) {',
+              '  NSCAssert(test != nil, @"The ADT object test is nil");',
+              '  __block std::shared_ptr<T> result;',
+              '',
+              '  RMTestSomeSubtypeMatchHandler matchSomeSubtype = ^(NSString *someString, NSUInteger someUnsignedInteger) {',
+              '    result = std::make_shared<T>(someSubtypeMatchHandler(someString, someUnsignedInteger));',
+              '  };',
+              '',
+              '  RMTestGreatThingMatchHandler matchGreatThing = ^() {',
+              '    result = std::make_shared<T>(greatThingMatchHandler());',
+              '  };',
+              '',
+              '  RMTestCoolSingleAttributeSubtypeMatchHandler matchCoolSingleAttributeSubtype = ^(SingleAttributeType *coolSingleAttributeSubtype) {',
+              '    result = std::make_shared<T>(coolSingleAttributeSubtypeMatchHandler(coolSingleAttributeSubtype));',
+              '  };',
+              '',
+              '  [test matchSomeSubtype:matchSomeSubtype greatThing:matchGreatThing coolSingleAttributeSubtype:matchCoolSingleAttributeSubtype];',
+              '  return *result;',
+              '}']
             ]
           }
-        ]
+        ],
+        namespaces: []
       };
 
       expect(additionalFiles).toContain(expectedFile);

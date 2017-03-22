@@ -338,6 +338,16 @@ function buildTemplateContents(soFar:string[], templateContents:string[]):string
   return soFar.concat(templateContents);
 }
 
+function toStructContents(struct) {
+    var structDeclaration = 'struct ' + struct.name + ' {' + '\n';
+    var endStructDeclaration = '};';
+    return struct.templates.map(toTemplateContents).reduce(buildTemplateContents, []).concat(structDeclaration).concat(struct.code.reduce(buildStructContents, []).map(StringUtils.indent(2))).concat(endStructDeclaration).join('\n');
+}
+
+function buildStructContents(soFar, structContents) {
+    return soFar.concat(structContents);
+}
+
 function toNamespaceContents(namespace:CPlusPlus.Namespace):string {
   const namespaceDeclaration:string = 'namespace ' + namespace.name + ' {';
   const endNamespaceDeclaration:string = '}';
@@ -436,11 +446,14 @@ export function renderHeader(file:Code.File):Maybe.Maybe<string> {
   const functionsSection = codeSectionForCodeString(headerFunctionsSection(file.functions));
 
   const classSection = file.classes.map(headerClassSection).join('\n\n');
-
+  
+  const structsStr = file.structs.map(toStructContents).join('\n');
+  const structsSection = codeSectionForCodeString(structsStr);
+  
   const namespacesStr:string = file.namespaces.map(toNamespaceContents).join('\n');
   const namespacesSection:string = codeSectionForCodeString(namespacesStr);
 
-  const contents:string = commentsSection + importsSection + declarationsSection + enumerationsSection + blocksSection + functionsSection + namespacesSection + classSection + '\n\n';
+  const contents:string = commentsSection + importsSection + declarationsSection + enumerationsSection + blocksSection + functionsSection + structsSection + namespacesSection + classSection + '\n\n';
   return Maybe.Just<string>(contents);
 }
 

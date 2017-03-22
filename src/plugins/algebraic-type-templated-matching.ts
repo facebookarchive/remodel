@@ -83,7 +83,7 @@ function functionParameterProviderWithAlgebraicTypeLast(algebraicType:AlgebraicT
 }
 
 function matcherFunctionCodeForAlgebraicType(algebraicType:AlgebraicType.Type, functionParameterProvider:(algebraicType:AlgebraicType.Type) => string[]):string[] {
-  const functionDeclaration:string = 'extern T match(' + functionParameterProvider(algebraicType).join(', ') + ') {';
+  const functionDeclaration:string = 'static T match(' + functionParameterProvider(algebraicType).join(', ') + ') {';
   const matcherFunctionParameterName:string = matcherFunctionParameterNameForAlgebraicType(algebraicType);
   const assertionCode:string = 'NSCAssert(' + matcherFunctionParameterName + ' != nil, @"The ADT object ' + matcherFunctionParameterName + ' is nil");';
   const resultDeclaration:string = '__block std::shared_ptr<T> result;';
@@ -111,12 +111,15 @@ function templateForMatchingAlgebraicTypeWithCode(code:string[]):CPlusPlus.Templ
   };
 }
 
-function namespaceForMatchingAlgebraicType(algebraicType:AlgebraicType.Type):CPlusPlus.Namespace {
+function structForMatchingAlgebraicType(algebraicType:AlgebraicType.Type):CPlusPlus.Struct {
   return {
     name: algebraicType.name + 'Matching',
     templates: [
-      templateForMatchingAlgebraicTypeWithCode(matcherFunctionCodeForAlgebraicType(algebraicType, functionParameterProviderWithAlgebraicTypeFirst)),
-      templateForMatchingAlgebraicTypeWithCode(matcherFunctionCodeForAlgebraicType(algebraicType, functionParameterProviderWithAlgebraicTypeLast))
+      templateForMatchingAlgebraicTypeWithCode([])
+    ],
+    code: [
+      matcherFunctionCodeForAlgebraicType(algebraicType, functionParameterProviderWithAlgebraicTypeFirst),
+      matcherFunctionCodeForAlgebraicType(algebraicType, functionParameterProviderWithAlgebraicTypeLast)
     ]
   };
 }
@@ -139,7 +142,8 @@ function matchingFileForAlgebraicType(algebraicType:AlgebraicType.Type):Code.Fil
     functions: [],
     classes: [],
     diagnosticIgnores:[],
-    namespaces: [namespaceForMatchingAlgebraicType(algebraicType)]
+    structs: [structForMatchingAlgebraicType(algebraicType)],
+    namespaces: []
   };
 }
 

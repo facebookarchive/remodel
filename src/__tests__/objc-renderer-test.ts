@@ -215,6 +215,7 @@ describe('ObjCRenderer', function() {
             nullability: ObjC.ClassNullability.default
           }
         ],
+        structs: [],
         namespaces: []
       };
 
@@ -422,6 +423,7 @@ describe('ObjCRenderer', function() {
             nullability: ObjC.ClassNullability.default
           }
         ],
+        structs: [],
         namespaces: []
       };
 
@@ -624,6 +626,7 @@ describe('ObjCRenderer', function() {
             nullability: ObjC.ClassNullability.default
           }
         ],
+        structs: [],
         namespaces: []
       };
 
@@ -782,6 +785,7 @@ describe('ObjCRenderer', function() {
             nullability: ObjC.ClassNullability.default
           }
         ],
+        structs: [],
         namespaces: []
       };
 
@@ -893,6 +897,7 @@ describe('ObjCRenderer', function() {
             nullability: ObjC.ClassNullability.default
           }
         ],
+        structs: [],
         namespaces: []
       };
 
@@ -968,6 +973,7 @@ describe('ObjCRenderer', function() {
             nullability: ObjC.ClassNullability.default
           }
         ],
+        structs: [],
         namespaces: []
       };
 
@@ -1077,6 +1083,7 @@ describe('ObjCRenderer', function() {
             nullability: ObjC.ClassNullability.default
           }
         ],
+        structs: [],
         namespaces: []
       };
 
@@ -1149,6 +1156,7 @@ describe('ObjCRenderer', function() {
           nullability: ObjC.ClassNullability.default
         }
         ],
+        structs: [],
         namespaces: []
       };
 
@@ -1246,6 +1254,7 @@ describe('ObjCRenderer', function() {
           nullability: ObjC.ClassNullability.default
         }
         ],
+        structs: [],
         namespaces: []
       };
 
@@ -1311,6 +1320,7 @@ describe('ObjCRenderer', function() {
             nullability: ObjC.ClassNullability.default
           }
         ],
+        structs: [],
         namespaces: []
       };
 
@@ -1390,6 +1400,7 @@ describe('ObjCRenderer', function() {
           nullability: ObjC.ClassNullability.default
           }
         ],
+        structs: [],
         namespaces: []
       };
 
@@ -1474,6 +1485,7 @@ describe('ObjCRenderer', function() {
           nullability: ObjC.ClassNullability.default
           }
         ],
+        structs: [],
         namespaces: []
       };
 
@@ -1565,6 +1577,7 @@ describe('ObjCRenderer', function() {
             nullability: ObjC.ClassNullability.default
           }
         ],
+        structs: [],
         namespaces: []
       };
 
@@ -1606,6 +1619,7 @@ describe('ObjCRenderer', function() {
         functions: [],
         diagnosticIgnores:[],
         classes: [],
+        structs: [],
         namespaces: [
           {
             name: 'Something',
@@ -1831,6 +1845,7 @@ describe('ObjCRenderer', function() {
             nullability: ObjC.ClassNullability.default
           }
         ],
+        structs: [],
         namespaces: []
       };
 
@@ -1993,6 +2008,7 @@ describe('ObjCRenderer', function() {
           nullability: ObjC.ClassNullability.default
         }
         ],
+        structs: [],
         namespaces: []
       };
 
@@ -2101,6 +2117,7 @@ describe('ObjCRenderer', function() {
           nullability: ObjC.ClassNullability.default
         }
         ],
+        structs: [],
         namespaces: []
       };
 
@@ -2176,6 +2193,7 @@ describe('ObjCRenderer', function() {
           nullability: ObjC.ClassNullability.default
         }
         ],
+        structs: [],
         namespaces: []
       };
 
@@ -2224,6 +2242,7 @@ describe('ObjCRenderer', function() {
         functions: [],
         diagnosticIgnores:[],
         classes: [],
+        structs: [],
         namespaces: []
       };
 
@@ -2293,6 +2312,7 @@ describe('ObjCRenderer', function() {
         functions: [],
         diagnosticIgnores:[],
         classes: [],
+        structs: [],
         namespaces: []
       };
 
@@ -2351,6 +2371,7 @@ describe('ObjCRenderer', function() {
         functions: [],
         diagnosticIgnores:[],
         classes: [],
+        structs: [],
         namespaces: []
       };
 
@@ -2387,6 +2408,7 @@ describe('ObjCRenderer', function() {
           nullability: ObjC.ClassNullability.default
         }
         ],
+        structs: [],
         namespaces: []
       };
 
@@ -2445,6 +2467,7 @@ describe('ObjCRenderer', function() {
           nullability: ObjC.ClassNullability.default
         }
         ],
+        structs: [],
         namespaces: []
       };
 
@@ -2466,6 +2489,7 @@ describe('ObjCRenderer', function() {
         functions: [],
         diagnosticIgnores:[],
         classes: [],
+        structs: [],
         namespaces: []
       };
 

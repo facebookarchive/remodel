@@ -195,6 +195,7 @@ describe('ValueObjectCreation', function() {
                   nullability: ObjC.ClassNullability.default
                 }
               ],
+              structs: [],
               namespaces: []
             }
           ];

@@ -140,6 +140,7 @@ describe('Plugins.Builder', function() {
               nullability: ObjC.ClassNullability.default
             }
           ],
+          structs: [],
           namespaces: []
         }
       ];
@@ -266,6 +267,7 @@ describe('Plugins.Builder', function() {
               nullability: ObjC.ClassNullability.default
             }
           ],
+          structs: [],
           namespaces: []
         }
       ];
@@ -547,6 +549,7 @@ describe('Plugins.Builder', function() {
               nullability: ObjC.ClassNullability.default
             }
           ],
+          structs: [],
           namespaces: []
         }
       ];

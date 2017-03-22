@@ -51,5 +51,6 @@ export interface File {
   functions:ObjC.Function[];
   classes:ObjC.Class[];
   diagnosticIgnores:string[];
+  structs:CPlusPlus.Struct[];
   namespaces:CPlusPlus.Namespace[];
 }

@@ -46,6 +46,12 @@ export interface Template {
   code:string[];
 }
 
+export interface Struct {
+  name:string;
+  templates:Template[];
+  code:string[][];
+}
+
 export interface Namespace {
   name:string;
   templates:Template[];

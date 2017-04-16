@@ -1,4 +1,4 @@
-#Plugins in Remodel
+# Plugins in Remodel
 
 In Remodel, plugins both act as an extensibility point and provide important default behavior.
 

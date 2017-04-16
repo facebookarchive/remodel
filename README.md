@@ -58,7 +58,7 @@ AddressBookContact {
 }
 
 // AddressBookContact.h
-#import "PhoneNumber.h"
+# import "PhoneNumber.h"
 
 @implemention AddressBookContact
 ...
@@ -79,9 +79,9 @@ AddressBookContact {
 }
 
 // This will generate an import in AddressBookContact.h that looks like:
-#import <PhoneNumberLib/PhoneNumberTypes.h>
+# import <PhoneNumberLib/PhoneNumberTypes.h>
 // instead of:
-#import "PhoneNumber.h"
+# import "PhoneNumber.h"
 ```
 
 Another important annotation is library. This will make things easier for you if you are using header maps. For example:
@@ -97,8 +97,8 @@ AddressBookContact {
 }
 
 // This will generate imports in AddressBookContact.h that looks like:
-#import <PhoneNumberLib/PhoneNumberTypes.h>
-#import <AddressBookContact/ContactActivityState.h>
+# import <PhoneNumberLib/PhoneNumberTypes.h>
+# import <AddressBookContact/ContactActivityState.h>
 ```
 
 ## Handling non-object types

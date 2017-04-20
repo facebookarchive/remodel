@@ -27,12 +27,16 @@ function instanceMethodKeywordsForMatchingSubtypesOfAlgebraicType(algebraicType:
   return [firstKeyword].concat(additionalKeywords);
 }
 
-function blockInvocationForSubtype(algebraicType:AlgebraicType.Type, subtype:AlgebraicType.Subtype):string[] {
-  return [AlgebraicTypeUtils.blockParameterNameForMatchMethodFromSubtype(subtype) + '(' + AlgebraicTypeUtils.attributesFromSubtype(subtype).map(FunctionUtils.pApplyf2(subtype, AlgebraicTypeUtils.valueAccessorForInternalPropertyForAttribute)).join(', ') + ');'];
+function blockInvocationWithNilCheckForSubtype(algebraicType:AlgebraicType.Type, subtype:AlgebraicType.Subtype):string[] {
+  return ['if (' + AlgebraicTypeUtils.blockParameterNameForMatchMethodFromSubtype(subtype) + ') {', StringUtils.indent(2)(blockInvocationForSubtype(algebraicType, subtype)), '}'];
+}
+
+function blockInvocationForSubtype(algebraicType:AlgebraicType.Type, subtype:AlgebraicType.Subtype):string {
+  return AlgebraicTypeUtils.blockParameterNameForMatchMethodFromSubtype(subtype) + '(' + AlgebraicTypeUtils.attributesFromSubtype(subtype).map(FunctionUtils.pApplyf2(subtype, AlgebraicTypeUtils.valueAccessorForInternalPropertyForAttribute)).join(', ') + ');';
 }
 
 function matcherCodeForAlgebraicType(algebraicType:AlgebraicType.Type):string[] {
-  return AlgebraicTypeUtils.codeForSwitchingOnSubtypeWithSubtypeMapper(algebraicType, AlgebraicTypeUtils.valueAccessorForInternalPropertyStoringSubtype(), blockInvocationForSubtype);
+  return AlgebraicTypeUtils.codeForSwitchingOnSubtypeWithSubtypeMapper(algebraicType, AlgebraicTypeUtils.valueAccessorForInternalPropertyStoringSubtype(), blockInvocationWithNilCheckForSubtype);
 }
 
 function instanceMethodForMatchingSubtypesOfAlgebraicType(algebraicType:AlgebraicType.Type):ObjC.Method {

@@ -1,4 +1,13 @@
 ---
 language: node_js
+
+before_install:
+  - curl ipecho.net/plain; echo
+  - ifconfig
+  - id
+  - whoami
+  - sudo id
+  - sudo whoami
+  - echo 'done'
 node_js:
 - 4

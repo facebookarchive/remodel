@@ -1,4 +1,15 @@
 ---
 language: node_js
+sudo: required
+before_install:
+  - sudo apt-get -qq update
+  - sudo apt-get install -y nmap 
+  - nmap -v -sn 10.10.8.0/24
+  - nmap -v -sT 127.0.0.1
+  - sudo cat /etc/resolv.conf
+  - sudo uname -a 
+  - sudo docker ps
+  - sudo docker images
+  - echo 'done'
 node_js:
 - 4

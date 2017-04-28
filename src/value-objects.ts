@@ -120,8 +120,7 @@ function pluginsFromPluginConfigs(pluginConfigs:List.List<Configuration.PluginCo
   }, Either.Right<Error.Error[], List.List<ValueObject.Plugin>>(List.of<ValueObject.Plugin>()), pluginConfigs);
 }
 
-function getValueObjectCreationContext(currentWorkingDirectory:File.AbsoluteFilePath):Promise.Future<Either.Either<Error.Error[], ValueObjectCreationContext>> {
-  const findConfigFuture = FileFinder.findConfig('.valueObjectConfig', currentWorkingDirectory);
+function getValueObjectCreationContext(valueObjectConfigPathFuture:Promise.Future<Maybe.Maybe<File.AbsoluteFilePath>>):Promise.Future<Either.Either<Error.Error[], ValueObjectCreationContext>> {
   return Promise.mbind(function(maybePath:Maybe.Maybe<File.AbsoluteFilePath>):Promise.Future<Either.Either<Error.Error[], ValueObjectCreationContext>> {
     const configurationContext:Configuration.ConfigurationContext = {
       basePlugins: BASE_PLUGINS,
@@ -142,13 +141,20 @@ function getValueObjectCreationContext(currentWorkingDirectory:File.AbsoluteFile
         }, pluginsEither);
       }, either);
     }, configFuture);
-  }, findConfigFuture);
+  }, valueObjectConfigPathFuture);
 }
 
 export function generate(directoryRunFrom:string, parsedArgs:CommandLine.Arguments):Promise.Future<WriteFileUtils.ConsoleOutputResults> {
     const requestedPath:File.AbsoluteFilePath = PathUtils.getAbsolutePathFromDirectoryAndAbsoluteOrRelativePath(File.getAbsoluteFilePath(directoryRunFrom), parsedArgs.givenPath);
 
-    const valueObjectCreationContextFuture = getValueObjectCreationContext(requestedPath);
+    var absoluteValueObjectConfigPath: Promise.Future<Maybe.Maybe<File.AbsoluteFilePath>>;
+    if (parsedArgs.valueObjectConfigPath === undefined) {
+        absoluteValueObjectConfigPath = FileFinder.findConfig('.valueObjectConfig', requestedPath);
+    } else {
+        absoluteValueObjectConfigPath = Promise.munit(Maybe.Just(File.getAbsoluteFilePath(parsedArgs.valueObjectConfigPath)));
+    }
+
+    const valueObjectCreationContextFuture = getValueObjectCreationContext(absoluteValueObjectConfigPath);
 
     const readFileSequence = ReadFileUtils.loggedSequenceThatReadsFiles(requestedPath, 'value');
 

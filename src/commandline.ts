@@ -16,6 +16,7 @@ import minimist = require('minimist');
 
 export interface Arguments {
   givenPath:string;
+  valueObjectConfigPath:string;
   interestedLoggingTypes:List.List<Logging.LoggingType>;
   minimalLevel:number;
   dryRun:boolean;
@@ -47,6 +48,7 @@ export function parseArgs(args:string[]):Maybe.Maybe<Arguments> {
   } else {
     return Maybe.Just({
       givenPath:parsedArgs._[0],
+      valueObjectConfigPath:parsedArgs._[1],
       interestedLoggingTypes:interestedTypesForArgs(parsedArgs),
       minimalLevel:parsedArgs[VERBOSE_FLAG] ? 1 : 10,
       dryRun:parsedArgs[DRY_RUN_FLAG]

@@ -144,17 +144,20 @@ function getValueObjectCreationContext(valueObjectConfigPathFuture:Promise.Futur
   }, valueObjectConfigPathFuture);
 }
 
+function valueObjectConfigPathFuture(requestedPath:File.AbsoluteFilePath, configPathFromArguments:string): Promise.Future<Maybe.Maybe<File.AbsoluteFilePath>> {
+  var absoluteValueObjectConfigPath: Promise.Future<Maybe.Maybe<File.AbsoluteFilePath>>;
+  if (configPathFromArguments === undefined) {
+      absoluteValueObjectConfigPath = FileFinder.findConfig('.valueObjectConfig', requestedPath);
+  } else {
+      absoluteValueObjectConfigPath = Promise.munit(Maybe.Just(File.getAbsoluteFilePath(configPathFromArguments)));
+  }
+  return absoluteValueObjectConfigPath;
+}
+
 export function generate(directoryRunFrom:string, parsedArgs:CommandLine.Arguments):Promise.Future<WriteFileUtils.ConsoleOutputResults> {
     const requestedPath:File.AbsoluteFilePath = PathUtils.getAbsolutePathFromDirectoryAndAbsoluteOrRelativePath(File.getAbsoluteFilePath(directoryRunFrom), parsedArgs.givenPath);
 
-    var absoluteValueObjectConfigPath: Promise.Future<Maybe.Maybe<File.AbsoluteFilePath>>;
-    if (parsedArgs.valueObjectConfigPath === undefined) {
-        absoluteValueObjectConfigPath = FileFinder.findConfig('.valueObjectConfig', requestedPath);
-    } else {
-        absoluteValueObjectConfigPath = Promise.munit(Maybe.Just(File.getAbsoluteFilePath(parsedArgs.valueObjectConfigPath)));
-    }
-
-    const valueObjectCreationContextFuture = getValueObjectCreationContext(absoluteValueObjectConfigPath);
+    const valueObjectCreationContextFuture = getValueObjectCreationContext(valueObjectConfigPathFuture(requestedPath, parsedArgs.valueObjectConfigPath));
 
     const readFileSequence = ReadFileUtils.loggedSequenceThatReadsFiles(requestedPath, 'value');
 

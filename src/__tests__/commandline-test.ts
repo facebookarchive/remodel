@@ -32,6 +32,7 @@ describe('CommandLine', function() {
 
       const expectedResult = Maybe.Just<CommandLine.Arguments>({
         givenPath:'project/to/generate',
+        valueObjectConfigPath:undefined,
         interestedLoggingTypes:List.of(Logging.LoggingType.info, Logging.LoggingType.error),
         minimalLevel:10,
         dryRun: false
@@ -46,6 +47,7 @@ describe('CommandLine', function() {
 
       const expectedResult = Maybe.Just<CommandLine.Arguments>({
         givenPath:'project/to/generate',
+        valueObjectConfigPath:undefined,
         interestedLoggingTypes:List.of(Logging.LoggingType.info, Logging.LoggingType.error),
         minimalLevel:1,
         dryRun:false
@@ -60,6 +62,7 @@ describe('CommandLine', function() {
 
       const expectedResult = Maybe.Just<CommandLine.Arguments>({
         givenPath:'project/to/generate',
+        valueObjectConfigPath:undefined,
         interestedLoggingTypes:List.of(Logging.LoggingType.info, Logging.LoggingType.error, Logging.LoggingType.performance),
         minimalLevel:10,
         dryRun:false
@@ -74,6 +77,7 @@ describe('CommandLine', function() {
 
       const expectedResult = Maybe.Just<CommandLine.Arguments>({
         givenPath:'project/to/generate',
+        valueObjectConfigPath:undefined,
         interestedLoggingTypes:List.of(Logging.LoggingType.info, Logging.LoggingType.error, Logging.LoggingType.debug),
         minimalLevel:10,
         dryRun:false
@@ -88,6 +92,7 @@ describe('CommandLine', function() {
 
       const expectedResult = Maybe.Just<CommandLine.Arguments>({
         givenPath:'project/to/generate',
+        valueObjectConfigPath:undefined,
         interestedLoggingTypes:List.of(Logging.LoggingType.info, Logging.LoggingType.error),
         minimalLevel:10,
         dryRun:true
@@ -102,9 +107,25 @@ describe('CommandLine', function() {
 
       const expectedResult = Maybe.Just<CommandLine.Arguments>({
         givenPath:'project/to/generate',
+        valueObjectConfigPath:undefined,
         interestedLoggingTypes:List.of<Logging.LoggingType>(),
         minimalLevel:10,
         dryRun:false
+      });
+
+      expect(parsedArgs).toEqualJSON(expectedResult);
+    });
+
+    it('includes valueObjectConfigPath', function() {
+      const args:string[] = ['project/to/generate', 'path/to/valueObject/Config'];
+      const parsedArgs:Maybe.Maybe<CommandLine.Arguments> = CommandLine.parseArgs(args);
+
+      const expectedResult = Maybe.Just<CommandLine.Arguments>({
+        givenPath:'project/to/generate',
+        valueObjectConfigPath:'path/to/valueObject/Config',
+        interestedLoggingTypes:List.of(Logging.LoggingType.info, Logging.LoggingType.error),
+        minimalLevel:10,
+        dryRun: false
       });
 
       expect(parsedArgs).toEqualJSON(expectedResult);

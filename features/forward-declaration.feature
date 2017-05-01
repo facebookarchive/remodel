@@ -43,7 +43,7 @@ Feature: Outputting Value Objects With Forward Declarations
       @property (nonatomic, readonly) NSUInteger numberOfRatings;
       @property (nonatomic, readonly, copy) RMProxy *proxy;
 
-      - (instancetype)initWithDoesUserLike:(BOOL)doesUserLike identifier:(NSString *)identifier likeCount:(NSInteger)likeCount numberOfRatings:(NSUInteger)numberOfRatings proxy:(RMProxy *)proxy;
+      - (instancetype)initWithDoesUserLike:(BOOL)doesUserLike identifier:(__unsafe_unretained NSString *)identifier likeCount:(NSInteger)likeCount numberOfRatings:(NSUInteger)numberOfRatings proxy:(__unsafe_unretained RMProxy *)proxy;
 
       @end
 
@@ -55,7 +55,7 @@ Feature: Outputting Value Objects With Forward Declarations
 
       @implementation RMPage
 
-      - (instancetype)initWithDoesUserLike:(BOOL)doesUserLike identifier:(NSString *)identifier likeCount:(NSInteger)likeCount numberOfRatings:(NSUInteger)numberOfRatings proxy:(RMProxy *)proxy
+      - (instancetype)initWithDoesUserLike:(BOOL)doesUserLike identifier:(__unsafe_unretained NSString *)identifier likeCount:(NSInteger)likeCount numberOfRatings:(NSUInteger)numberOfRatings proxy:(__unsafe_unretained RMProxy *)proxy
       {
         if ((self = [super init])) {
           _doesUserLike = doesUserLike;
@@ -161,7 +161,7 @@ Feature: Outputting Value Objects With Forward Declarations
       @property (nonatomic, readonly) NSUInteger numberOfRatings;
       @property (nonatomic, readonly, copy) Foo *foo;
 
-      - (instancetype)initWithDoesUserLike:(BOOL)doesUserLike identifier:(NSString *)identifier likeCount:(NSInteger)likeCount countIconHeight:(CGFloat)countIconHeight countIconWidth:(CGFloat)countIconWidth numberOfRatings:(NSUInteger)numberOfRatings foo:(Foo *)foo;
+      - (instancetype)initWithDoesUserLike:(BOOL)doesUserLike identifier:(__unsafe_unretained NSString *)identifier likeCount:(NSInteger)likeCount countIconHeight:(CGFloat)countIconHeight countIconWidth:(CGFloat)countIconWidth numberOfRatings:(NSUInteger)numberOfRatings foo:(__unsafe_unretained Foo *)foo;
 
       @end
 
@@ -176,7 +176,7 @@ Feature: Outputting Value Objects With Forward Declarations
 
       @implementation RMPage
 
-      - (instancetype)initWithDoesUserLike:(BOOL)doesUserLike identifier:(NSString *)identifier likeCount:(NSInteger)likeCount countIconHeight:(CGFloat)countIconHeight countIconWidth:(CGFloat)countIconWidth numberOfRatings:(NSUInteger)numberOfRatings foo:(Foo *)foo
+      - (instancetype)initWithDoesUserLike:(BOOL)doesUserLike identifier:(__unsafe_unretained NSString *)identifier likeCount:(NSInteger)likeCount countIconHeight:(CGFloat)countIconHeight countIconWidth:(CGFloat)countIconWidth numberOfRatings:(NSUInteger)numberOfRatings foo:(__unsafe_unretained Foo *)foo
       {
         if ((self = [super init])) {
           _doesUserLike = doesUserLike;

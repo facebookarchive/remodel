@@ -25,7 +25,7 @@ Feature: Outputting Objects With Nullability Annotations
       @property (nonatomic, readonly, copy, nullable) NSString *name;
       @property (nonatomic, readonly, copy, nonnull) NSString *identifier;
 
-      - (instancetype)initWithName:(nullable NSString *)name identifier:(nonnull NSString *)identifier;
+      - (instancetype)initWithName:(nullable __unsafe_unretained NSString *)name identifier:(nonnull __unsafe_unretained NSString *)identifier;
 
       @end
 
@@ -36,7 +36,7 @@ Feature: Outputting Objects With Nullability Annotations
 
       @implementation RMPage
 
-      - (instancetype)initWithName:(nullable NSString *)name identifier:(nonnull NSString *)identifier
+      - (instancetype)initWithName:(nullable __unsafe_unretained NSString *)name identifier:(nonnull __unsafe_unretained NSString *)identifier
       {
         if ((self = [super init])) {
           _name = [name copy];

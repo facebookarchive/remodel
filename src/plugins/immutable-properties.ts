@@ -21,10 +21,21 @@ import ObjectGeneration = require('../object-generation');
 import ValueObject = require('../value-object');
 import ValueObjectCodeUtils = require('../value-object-code-utils');
 
+function arcConstructorModifiersForAttribute(attribute:ValueObject.Attribute): ObjC.KeywordArgumentModifier[] {
+  const type = ValueObjectCodeUtils.computeTypeOfAttribute(attribute);
+  if (type === null) {
+    return [];
+  }
+  if (type.name === 'id' || type.name === 'NSObject') {
+     return [ObjC.KeywordArgumentModifier.UnsafeUnretained()];
+  }
+  return [];
+}
+
 function keywordArgumentFromAttribute(attribute:ValueObject.Attribute):Maybe.Maybe<ObjC.KeywordArgument> {
   return Maybe.Just({
     name:attribute.name,
-    modifiers: ObjCNullabilityUtils.keywordArgumentModifiersForNullability(attribute.nullability),
+    modifiers: ObjCNullabilityUtils.keywordArgumentModifiersForNullability(attribute.nullability).concat(arcConstructorModifiersForAttribute(attribute)),
     type: {
       name:attribute.type.name,
       reference:attribute.type.reference

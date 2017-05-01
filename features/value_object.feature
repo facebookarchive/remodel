@@ -48,7 +48,7 @@ Feature: Outputting Value Objects
       @property (nonatomic, readonly, unsafe_unretained) Class someClass;
       @property (nonatomic, readonly, copy) dispatch_block_t someBlock;
 
-      - (instancetype)initWithDoesUserLike:(BOOL)doesUserLike identifier:(NSString *)identifier likeCount:(NSInteger)likeCount numberOfRatings:(uint32_t)numberOfRatings someType:(RMSomeType *)someType someClass:(Class)someClass someBlock:(dispatch_block_t)someBlock;
+      - (instancetype)initWithDoesUserLike:(BOOL)doesUserLike identifier:(__unsafe_unretained NSString *)identifier likeCount:(NSInteger)likeCount numberOfRatings:(uint32_t)numberOfRatings someType:(__unsafe_unretained RMSomeType *)someType someClass:(Class)someClass someBlock:(dispatch_block_t)someBlock;
 
       @end
 
@@ -59,7 +59,7 @@ Feature: Outputting Value Objects
 
       @implementation RMPage
 
-      - (instancetype)initWithDoesUserLike:(BOOL)doesUserLike identifier:(NSString *)identifier likeCount:(NSInteger)likeCount numberOfRatings:(uint32_t)numberOfRatings someType:(RMSomeType *)someType someClass:(Class)someClass someBlock:(dispatch_block_t)someBlock
+      - (instancetype)initWithDoesUserLike:(BOOL)doesUserLike identifier:(__unsafe_unretained NSString *)identifier likeCount:(NSInteger)likeCount numberOfRatings:(uint32_t)numberOfRatings someType:(__unsafe_unretained RMSomeType *)someType someClass:(Class)someClass someBlock:(dispatch_block_t)someBlock
       {
         if ((self = [super init])) {
           _doesUserLike = doesUserLike;
@@ -165,7 +165,7 @@ Feature: Outputting Value Objects
       @property (nonatomic, readonly) CGFloat countIconWidth;
       @property (nonatomic, readonly) NSUInteger numberOfRatings;
 
-      - (instancetype)initWithDoesUserLike:(BOOL)doesUserLike identifier:(NSString *)identifier likeCount:(NSInteger)likeCount countIconHeight:(CGFloat)countIconHeight countIconWidth:(CGFloat)countIconWidth numberOfRatings:(NSUInteger)numberOfRatings;
+      - (instancetype)initWithDoesUserLike:(BOOL)doesUserLike identifier:(__unsafe_unretained NSString *)identifier likeCount:(NSInteger)likeCount countIconHeight:(CGFloat)countIconHeight countIconWidth:(CGFloat)countIconWidth numberOfRatings:(NSUInteger)numberOfRatings;
 
       @end
 
@@ -179,7 +179,7 @@ Feature: Outputting Value Objects
 
       @implementation RMPage
 
-      - (instancetype)initWithDoesUserLike:(BOOL)doesUserLike identifier:(NSString *)identifier likeCount:(NSInteger)likeCount countIconHeight:(CGFloat)countIconHeight countIconWidth:(CGFloat)countIconWidth numberOfRatings:(NSUInteger)numberOfRatings
+      - (instancetype)initWithDoesUserLike:(BOOL)doesUserLike identifier:(__unsafe_unretained NSString *)identifier likeCount:(NSInteger)likeCount countIconHeight:(CGFloat)countIconHeight countIconWidth:(CGFloat)countIconWidth numberOfRatings:(NSUInteger)numberOfRatings
       {
         if ((self = [super init])) {
           _doesUserLike = doesUserLike;

@@ -55,6 +55,7 @@ export interface Import {
 enum KeywordArgumentModifierType {
   nonnull,
   nullable,
+  unsafe_unretained,
 }
 
 export class KeywordArgumentModifier {
@@ -71,12 +72,18 @@ export class KeywordArgumentModifier {
     return new KeywordArgumentModifier(KeywordArgumentModifierType.nullable);
   }
 
-  match<T>(nonnull:() => T, nullable:() => T) {
+  static UnsafeUnretained() {
+    return new KeywordArgumentModifier(KeywordArgumentModifierType.unsafe_unretained);
+  }
+
+  match<T>(nonnull:() => T, nullable:() => T, unsafe_unretained: () => T) {
     switch(this.modifierType) {
       case KeywordArgumentModifierType.nonnull:
         return nonnull();
       case KeywordArgumentModifierType.nullable:
         return nullable();
+      case KeywordArgumentModifierType.unsafe_unretained:
+        return unsafe_unretained();
     }
   }
 }

@@ -136,14 +136,8 @@ function pluginsFromPluginConfigs(pluginConfigs:List.List<Configuration.PluginCo
   }, Either.Right<Error.Error[], List.List<ObjectSpec.Plugin>>(List.of<ObjectSpec.Plugin>()), pluginConfigs);
 }
 
-<<<<<<< 7116507dc5ff8366eaf574df10a6acaa57aa0d58
-function getValueObjectCreationContext(valueObjectConfigPathFuture:Promise.Future<Maybe.Maybe<File.AbsoluteFilePath>>):Promise.Future<Either.Either<Error.Error[], ValueObjectCreationContext>> {
-  return Promise.mbind(function(maybePath:Maybe.Maybe<File.AbsoluteFilePath>):Promise.Future<Either.Either<Error.Error[], ValueObjectCreationContext>> {
-=======
-function getObjectSpecCreationContext(currentWorkingDirectory:File.AbsoluteFilePath):Promise.Future<Either.Either<Error.Error[], ObjectSpecCreationContext>> {
-  const findConfigFuture = FileFinder.findConfig('.valueObjectConfig', currentWorkingDirectory);
+function getObjectSpecCreationContext(valueObjectConfigPathFuture:Promise.Future<Maybe.Maybe<File.AbsoluteFilePath>>):Promise.Future<Either.Either<Error.Error[], ObjectSpecCreationContext>> {
   return Promise.mbind(function(maybePath:Maybe.Maybe<File.AbsoluteFilePath>):Promise.Future<Either.Either<Error.Error[], ObjectSpecCreationContext>> {
->>>>>>> ValueObjectCreation -> ObjectSpecCreation
     const configurationContext:Configuration.ConfigurationContext = {
       basePlugins: BASE_PLUGINS,
       baseIncludes: BASE_INCLUDES

@@ -57,22 +57,38 @@ interface ValueObjectCreationContext {
   defaultIncludes:List.List<string>;
 }
 
+type ObjectSpecExtension =
+    "value" |
+    "object";
+
 interface PathAndTypeInfo {
   path: File.AbsoluteFilePath;
   typeInformation: ObjectSpec.Type;
 }
 
-function evaluateUnparsedValueObjectCreationRequest(request:ReadFileUtils.UnparsedObjectCreationRequest):Either.Either<Error.Error[], PathAndTypeInfo> {
+function modifyFoundTypeBasedOnExtension(foundType:ObjectSpec.Type, extension:ObjectSpecExtension):ObjectSpec.Type {
+  switch (extension) {
+    case "value":
+      foundType.includes.concat(ObjectSpec.VALUE_OBJECT_SEMANTICS);
+      break
+    case "object":
+      foundType.excludes.concat(ObjectSpec.VALUE_OBJECT_SEMANTICS);
+      break
+  }
+  return foundType;
+}
+
+function evaluateUnparsedValueObjectCreationRequest(extension: ObjectSpecExtension, request:ReadFileUtils.UnparsedObjectCreationRequest):Either.Either<Error.Error[], PathAndTypeInfo> {
   const parseResult:Either.Either<Error.Error[], ObjectSpec.Type> = ValueObjectParser.parse(File.getContents(request.fileContents));
   return Either.match(function(errors:Error.Error[]) {
     return Either.Left<Error.Error[], PathAndTypeInfo>(errors.map(function(error:Error.Error) { return Error.Error('[' + File.getAbsolutePathString(request.path) + '] ' + Error.getReason(error)); }));
   }, function(foundType:ObjectSpec.Type) {
-    return Either.Right<Error.Error[], PathAndTypeInfo>({path:request.path, typeInformation:foundType});
+    return Either.Right<Error.Error[], PathAndTypeInfo>({path:request.path, typeInformation:modifyFoundTypeBasedOnExtension(foundType, extension)});
   }, parseResult);
 }
 
-function parseValues(either:Either.Either<Error.Error[], ReadFileUtils.UnparsedObjectCreationRequest>):Promise.Future<Logging.Context<Either.Either<Error.Error[], PathAndTypeInfo>>> {
-  return Promise.munit(Logging.munit(Either.mbind(evaluateUnparsedValueObjectCreationRequest, either)));
+function parseValues(extension: ObjectSpecExtension, either:Either.Either<Error.Error[], ReadFileUtils.UnparsedObjectCreationRequest>):Promise.Future<Logging.Context<Either.Either<Error.Error[], PathAndTypeInfo>>> {
+  return Promise.munit(Logging.munit(Either.mbind(FunctionUtils.pApplyf2(extension, evaluateUnparsedValueObjectCreationRequest), either)));
 }
 
 function typeInformationContainingDefaultIncludes(typeInformation:ObjectSpec.Type, defaultIncludes:List.List<string>):ObjectSpec.Type {
@@ -154,15 +170,16 @@ function valueObjectConfigPathFuture(requestedPath:File.AbsoluteFilePath, config
   return absoluteValueObjectConfigPath;
 }
 
-export function generate(directoryRunFrom:string, parsedArgs:CommandLine.Arguments):Promise.Future<WriteFileUtils.ConsoleOutputResults> {
+export function generate(directoryRunFrom:string, extension:ObjectSpecExtension, parsedArgs:CommandLine.Arguments):Promise.Future<WriteFileUtils.ConsoleOutputResults> {
     const requestedPath:File.AbsoluteFilePath = PathUtils.getAbsolutePathFromDirectoryAndAbsoluteOrRelativePath(File.getAbsoluteFilePath(directoryRunFrom), parsedArgs.givenPath);
 
     const valueObjectCreationContextFuture = getValueObjectCreationContext(valueObjectConfigPathFuture(requestedPath, parsedArgs.valueObjectConfigPath));
 
-    const readFileSequence = ReadFileUtils.loggedSequenceThatReadsFiles(requestedPath, 'value');
+    const extensionString:string = extension;
+    const readFileSequence = ReadFileUtils.loggedSequenceThatReadsFiles(requestedPath, extensionString);
 
     const parsedSequence = LoggingSequenceUtils.mapLoggedSequence(readFileSequence,
-                                                                  parseValues);
+                                                                  FunctionUtils.pApplyf2(extension, parseValues));
 
     const pluginProcessedSequence = LoggingSequenceUtils.mapLoggedSequence(parsedSequence,
                                                                            FunctionUtils.pApplyf2(valueObjectCreationContextFuture, processValueObjectCreationRequest));

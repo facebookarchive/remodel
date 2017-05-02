@@ -24,6 +24,7 @@ function aggregateResults(results) {
 
 const Maybe = require('./dist/maybe');
 const CommandLine = require('./dist/commandline');
+const ObjectSpecs = require('./dist/object-specs');
 
 const parsedArgs = CommandLine.parseArgs(process.argv.slice(2));
 Maybe.match(function(args) {
@@ -31,10 +32,11 @@ Maybe.match(function(args) {
     const Promise = require('./dist/promise');
     const List = require('./dist/list');
 
-    const valueObjectsFuture = require('./dist/object-specs').generate(process.cwd(), args);
+    const valueObjectsFuture = ObjectSpecs.generate(process.cwd(), 'value', args);
+    const objectsFuture = ObjectSpecs.generate(process.cwd(), 'object', args);
     const algebraicTypesFuture = require('./dist/algebraic-types').generate(process.cwd(), args);
 
-    const promise = Promise.all(List.of(valueObjectsFuture, algebraicTypesFuture));
+    const promise = Promise.all(List.of(valueObjectsFuture, objectsFuture, algebraicTypesFuture));
 
     Promise.then(function(results) {
       const aggregatedResult = aggregateResults(results);

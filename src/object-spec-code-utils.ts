@@ -46,6 +46,15 @@ function typeForUnderlyingType(underlyingType:string):ObjC.Type {
   };
 }
 
+function propertyModifierForCopyable(supportsValueSemantics: boolean):ObjC.PropertyModifier {
+  // If generated object supports value semantics we should return Copy attribute.
+  // Otherwise we want it to be assigned
+  if (supportsValueSemantics) {
+    return ObjC.PropertyModifier.Copy();
+  }
+  return ObjC.PropertyModifier.Assign();
+}
+
 export function computeTypeOfAttribute(attribute:ObjectSpec.Attribute):ObjC.Type {
   return Maybe.match(typeForUnderlyingType, function():ObjC.Type {
     return {
@@ -55,17 +64,17 @@ export function computeTypeOfAttribute(attribute:ObjectSpec.Attribute):ObjC.Type
   }, attribute.type.underlyingType);
 }
 
-export function propertyOwnershipModifierForAttribute(attribute:ObjectSpec.Attribute):ObjC.PropertyModifier {
+export function propertyOwnershipModifierForAttribute(supportsValueSemantics:boolean, attribute:ObjectSpec.Attribute):ObjC.PropertyModifier {
   const type = computeTypeOfAttribute(attribute);
   if (type === null) {
     return ObjC.PropertyModifier.Assign();
   }
   return ObjCTypeUtils.matchType({
     id: function() {
-     return ObjC.PropertyModifier.Copy();
+      return propertyModifierForCopyable(supportsValueSemantics)
     },
     NSObject: function() {
-      return ObjC.PropertyModifier.Copy();
+      return propertyModifierForCopyable(supportsValueSemantics)
     },
     BOOL: function() {
       return ObjC.PropertyModifier.Assign();
@@ -125,7 +134,7 @@ export function propertyOwnershipModifierForAttribute(attribute:ObjectSpec.Attri
       return ObjC.PropertyModifier.UnsafeUnretained();
     },
     dispatch_block_t: function() {
-      return ObjC.PropertyModifier.Copy();
+      return propertyModifierForCopyable(supportsValueSemantics)
     },
     unmatchedType: function() {
       return null;
@@ -133,8 +142,8 @@ export function propertyOwnershipModifierForAttribute(attribute:ObjectSpec.Attri
   }, type);
 }
 
-export function shouldCopyIncomingValueForAttribute(attribute:ObjectSpec.Attribute):boolean {
-  const modifier = propertyOwnershipModifierForAttribute(attribute);
+export function shouldCopyIncomingValueForAttribute(supportsValueSemantics:boolean, attribute:ObjectSpec.Attribute):boolean {
+  const modifier = propertyOwnershipModifierForAttribute(supportsValueSemantics, attribute);
   if (modifier === null) {
     return false;
   }

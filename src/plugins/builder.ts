@@ -146,20 +146,20 @@ function keywordNameForAttribute(attribute:ObjectSpec.Attribute):string {
   return 'with' + StringUtils.capitalize(keywordArgumentNameForAttribute(attribute));
 }
 
-function valueToAssignIntoInternalStateForAttribute(attribute:ObjectSpec.Attribute):string {
+function valueToAssignIntoInternalStateForAttribute(supportsValueSemantics:boolean, attribute:ObjectSpec.Attribute):string {
   const keywordArgumentName:string = keywordArgumentNameForAttribute(attribute);
-  if (ObjectSpecCodeUtils.shouldCopyIncomingValueForAttribute(attribute)) {
+  if (ObjectSpecCodeUtils.shouldCopyIncomingValueForAttribute(supportsValueSemantics, attribute)) {
     return '[' + keywordArgumentName + ' copy]';
   } else {
     return keywordArgumentName;
   }
 }
 
-function withInstanceMethodForAttribute(attribute:ObjectSpec.Attribute):ObjC.Method {
+function withInstanceMethodForAttribute(supportsValueSemantics:boolean, attribute:ObjectSpec.Attribute):ObjC.Method {
   return {
     belongsToProtocol:Maybe.Nothing<string>(),
     code:[
-      ObjectSpecCodeUtils.ivarForAttribute(attribute) + ' = ' + valueToAssignIntoInternalStateForAttribute(attribute) + ';',
+      ObjectSpecCodeUtils.ivarForAttribute(attribute) + ' = ' + valueToAssignIntoInternalStateForAttribute(supportsValueSemantics, attribute) + ';',
       'return self;'
     ],
     comments:[],
@@ -279,7 +279,7 @@ function builderFileForValueType(objectType:ObjectSpec.Type):Code.File {
           builderFromExistingObjectClassMethodForValueType(objectType)
         ],
         comments: [ ],
-        instanceMethods: [buildObjectInstanceMethodForValueType(objectType)].concat(objectType.attributes.map(withInstanceMethodForAttribute)),
+        instanceMethods: [buildObjectInstanceMethodForValueType(objectType)].concat(objectType.attributes.map(FunctionUtils.pApplyf2(ObjectSpecUtils.typeSupportsValueObjectSemantics(objectType), withInstanceMethodForAttribute))),
         name: nameOfBuilderForValueTypeWithName(objectType.typeName),
         properties: [],
         internalProperties:objectType.attributes.map(internalPropertyForAttribute),

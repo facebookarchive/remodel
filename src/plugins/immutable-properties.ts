@@ -19,6 +19,7 @@ import ObjCNullabilityUtils = require('../objc-nullability-utils');
 import ObjCImportUtils = require('../objc-import-utils');
 import ObjectGeneration = require('../object-generation');
 import ObjectSpec = require('../object-spec');
+import ObjectSpecUtils = require('../object-spec-utils')
 import ObjectSpecCodeUtils = require('../object-spec-code-utils');
 
 function keywordArgumentFromAttribute(attribute:ObjectSpec.Attribute):Maybe.Maybe<ObjC.KeywordArgument> {
@@ -46,22 +47,22 @@ function attributeToKeyword(attribute:ObjectSpec.Attribute):ObjC.Keyword {
   };
 }
 
-function valueOrCopy(attribute:ObjectSpec.Attribute):string {
-  if (ObjectSpecCodeUtils.shouldCopyIncomingValueForAttribute(attribute)) {
+function valueOrCopy(supportsValueSemantics:boolean, attribute:ObjectSpec.Attribute):string {
+  if (ObjectSpecCodeUtils.shouldCopyIncomingValueForAttribute(supportsValueSemantics, attribute)) {
     return '[' + attribute.name + ' copy];';
   } else {
     return attribute.name + ';';
   }
 }
 
-function toIvarAssignment(attribute:ObjectSpec.Attribute):string {
-  return '_' + attribute.name + ' = ' + valueOrCopy(attribute);
+function toIvarAssignment(supportsValueSemantics:boolean, attribute:ObjectSpec.Attribute):string {
+  return '_' + attribute.name + ' = ' + valueOrCopy(supportsValueSemantics, attribute);
 }
 
-function initializerCodeFromAttributes(attributes:ObjectSpec.Attribute[]):string[] {
+function initializerCodeFromAttributes(supportsValueSemantics:boolean, attributes:ObjectSpec.Attribute[]):string[] {
   const result = [
     'if ((self = [super init])) {',
-  ].concat(attributes.map(toIvarAssignment).map(StringUtils.indent(2)))
+].concat(attributes.map(FunctionUtils.pApplyf2(supportsValueSemantics, toIvarAssignment)).map(StringUtils.indent(2)))
    .concat([
     '}',
     '',
@@ -70,11 +71,11 @@ function initializerCodeFromAttributes(attributes:ObjectSpec.Attribute[]):string
   return result;
 }
 
-function initializerFromAttributes(attributes:ObjectSpec.Attribute[]):ObjC.Method {
+function initializerFromAttributes(supportsValueSemantics:boolean, attributes:ObjectSpec.Attribute[]):ObjC.Method {
   const keywords = [firstInitializerKeyword(attributes[0])].concat(attributes.slice(1).map(attributeToKeyword));
   return {
     belongsToProtocol: Maybe.Nothing<string>(),
-    code: initializerCodeFromAttributes(attributes),
+    code: initializerCodeFromAttributes(supportsValueSemantics, attributes),
     comments:[],
     keywords: keywords,
     returnType: Maybe.Just({
@@ -84,8 +85,8 @@ function initializerFromAttributes(attributes:ObjectSpec.Attribute[]):ObjC.Metho
   };
 }
 
-function propertyModifiersForCopyingFromAttribute(attribute: ObjectSpec.Attribute): ObjC.PropertyModifier[] {
-  const type = ObjectSpecCodeUtils.propertyOwnershipModifierForAttribute(attribute);
+function propertyModifiersForCopyingFromAttribute(supportsValueSemantics:boolean, attribute: ObjectSpec.Attribute): ObjC.PropertyModifier[] {
+  const type = ObjectSpecCodeUtils.propertyOwnershipModifierForAttribute(supportsValueSemantics, attribute);
   if (type === null) {
     return [];
   }
@@ -125,16 +126,16 @@ function propertyModifiersForCopyingFromAttribute(attribute: ObjectSpec.Attribut
     });
 }
 
-export function propertyModifiersFromAttribute(attribute:ObjectSpec.Attribute):ObjC.PropertyModifier[] {
+export function propertyModifiersFromAttribute(supportsValueSemantics:boolean, attribute:ObjectSpec.Attribute):ObjC.PropertyModifier[] {
   return [].concat([ObjC.PropertyModifier.Nonatomic(), ObjC.PropertyModifier.Readonly()])
-           .concat(propertyModifiersForCopyingFromAttribute(attribute))
+           .concat(propertyModifiersForCopyingFromAttribute(supportsValueSemantics, attribute))
            .concat(ObjCNullabilityUtils.propertyModifiersForNullability(attribute.nullability));
 }
 
-function propertyFromAttribute(attribute:ObjectSpec.Attribute):ObjC.Property {
+function propertyFromAttribute(supportsValueSemantics:boolean, attribute:ObjectSpec.Attribute):ObjC.Property {
   return {
     comments: ObjCCommentUtils.commentsAsBlockFromStringArray(attribute.comments),
-    modifiers:propertyModifiersFromAttribute(attribute),
+    modifiers:propertyModifiersFromAttribute(supportsValueSemantics, attribute),
     name:attribute.name,
     returnType: {
       name:attribute.type.name,
@@ -238,13 +239,14 @@ export function createPlugin():ObjectSpec.Plugin {
     },
     instanceMethods: function(objectType:ObjectSpec.Type):ObjC.Method[] {
       if (objectType.attributes.length > 0) {
-        return [initializerFromAttributes(objectType.attributes)];
+        return [initializerFromAttributes(ObjectSpecUtils.typeSupportsValueObjectSemantics(objectType), objectType.attributes)];
       } else {
         return [];
       }
     },
     properties: function(objectType:ObjectSpec.Type):ObjC.Property[] {
-      return objectType.attributes.map(propertyFromAttribute);
+      const supportsValueSemantics:boolean = ObjectSpecUtils.typeSupportsValueObjectSemantics(objectType);
+      return objectType.attributes.map(FunctionUtils.pApplyf2(supportsValueSemantics, propertyFromAttribute));
     },
     requiredIncludesToRun:['RMImmutableProperties'],
     staticConstants: function(objectType:ObjectSpec.Type):ObjC.Constant[] {

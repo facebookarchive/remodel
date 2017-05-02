@@ -60,7 +60,7 @@ describe('Plugins.ImmutableProperties', function() {
         comments: [],
         typeLookups:[],
         excludes: [],
-        includes: [],
+        includes: [ObjectSpec.VALUE_OBJECT_SEMANTICS],
         typeName: 'RMSomething',
         libraryName: Maybe.Nothing<string>()
       };
@@ -162,7 +162,7 @@ describe('Plugins.ImmutableProperties', function() {
         comments: [],
         typeLookups:[],
         excludes: [],
-        includes: [],
+        includes: [ObjectSpec.VALUE_OBJECT_SEMANTICS],
         typeName: 'RMSomething',
         libraryName: null
       };
@@ -1309,7 +1309,7 @@ describe('Plugins.ImmutableProperties', function() {
         comments: [],
         typeLookups:[],
         excludes: [],
-        includes: [],
+        includes: [ObjectSpec.VALUE_OBJECT_SEMANTICS],
         typeName: 'RMSomething',
         libraryName: Maybe.Nothing<string>()
       };
@@ -1349,7 +1349,7 @@ describe('Plugins.ImmutableProperties', function() {
         }
       };
 
-      const modifiers:ObjC.PropertyModifier[] = ImmutableProperties.propertyModifiersFromAttribute(attribute);
+      const modifiers:ObjC.PropertyModifier[] = ImmutableProperties.propertyModifiersFromAttribute(true, attribute);
       expect(modifiers).toContain(ObjC.PropertyModifier.Copy());
     });
 
@@ -1368,7 +1368,7 @@ describe('Plugins.ImmutableProperties', function() {
         }
       };
 
-      const modifiers:ObjC.PropertyModifier[] = ImmutableProperties.propertyModifiersFromAttribute(attribute);
+      const modifiers:ObjC.PropertyModifier[] = ImmutableProperties.propertyModifiersFromAttribute(true, attribute);
       expect(modifiers).not.toContain(ObjC.PropertyModifier.Copy());
     });
 
@@ -1387,7 +1387,7 @@ describe('Plugins.ImmutableProperties', function() {
         }
       };
 
-      const modifiers:ObjC.PropertyModifier[] = ImmutableProperties.propertyModifiersFromAttribute(attribute);
+      const modifiers:ObjC.PropertyModifier[] = ImmutableProperties.propertyModifiersFromAttribute(true, attribute);
       expect(modifiers).toContain(ObjC.PropertyModifier.Nonnull());
     });
 
@@ -1406,7 +1406,7 @@ describe('Plugins.ImmutableProperties', function() {
         }
       };
 
-      const modifiers:ObjC.PropertyModifier[] = ImmutableProperties.propertyModifiersFromAttribute(attribute);
+      const modifiers:ObjC.PropertyModifier[] = ImmutableProperties.propertyModifiersFromAttribute(true, attribute);
       expect(modifiers).toContain(ObjC.PropertyModifier.Nullable());
     });
   });

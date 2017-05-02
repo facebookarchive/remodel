@@ -69,10 +69,10 @@ interface PathAndTypeInfo {
 function modifyFoundTypeBasedOnExtension(foundType:ObjectSpec.Type, extension:ObjectSpecExtension):ObjectSpec.Type {
   switch (extension) {
     case "value":
-      foundType.includes.concat(ObjectSpec.VALUE_OBJECT_SEMANTICS);
+      foundType.includes = foundType.includes.concat(ObjectSpec.VALUE_OBJECT_SEMANTICS);
       break
     case "object":
-      foundType.excludes.concat(ObjectSpec.VALUE_OBJECT_SEMANTICS);
+      foundType.excludes = foundType.excludes.concat(ObjectSpec.VALUE_OBJECT_SEMANTICS);
       break
   }
   return foundType;

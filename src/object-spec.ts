@@ -14,7 +14,7 @@ import Maybe = require('./maybe');
 import ObjC = require('./objc');
 import ObjectGeneration = require('./object-generation');
 
-export const VALUE_OBJECT_SEMANTICS:string = 'ObjectSpecSemantics';
+export const VALUE_OBJECT_SEMANTICS:string = 'ValueObjectSemantics';
 
 export interface AttributeType {
   fileTypeIsDefinedIn:Maybe.Maybe<string>;

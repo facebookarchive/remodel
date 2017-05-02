@@ -13,6 +13,6 @@ export function typeReferenceForValueTypeWithName(name:string):string {
   return name + ' *';
 }
 
-export function typeSupportsValueObjectSemantics(objectSpec:ObjectSpec.Type):boolean {
+export function typeSupportsObjectSpecSemantics(objectSpec:ObjectSpec.Type):boolean {
   return objectSpec.includes.indexOf(ObjectSpec.VALUE_OBJECT_SEMANTICS) >= 0;
 }

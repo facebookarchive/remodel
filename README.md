@@ -39,7 +39,7 @@ $ remodel-gen Path/To/AddressBookModels/AddressBookContact.value
 $ remodel-gen Path/To/AddressBookModels/
 ```
 
-The script should output the following line for each model object it generates: "Generating <ValueObjectName>".
+The script should output the following line for each model object it generates: "Generating <ObjectSpecName>".
 
 If there are any obvious typos the system should detect it and give an error message.
 

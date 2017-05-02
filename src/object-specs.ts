@@ -27,7 +27,7 @@ import PluginInclusionUtils = require('./plugin-inclusion-utils');
 import Promise = require('./promise');
 import ObjectSpec = require('./object-spec');
 import ObjectSpecCreation = require('./object-spec-creation');
-import ValueObjectParser = require('./object-spec-parser');
+import ObjectSpecParser = require('./object-spec-parser');
 import WriteFileUtils = require('./file-logged-sequence-write-utils');
 
 const BASE_INCLUDES:List.List<string> = List.of(
@@ -79,7 +79,7 @@ function modifyFoundTypeBasedOnExtension(foundType:ObjectSpec.Type, extension:Ob
 }
 
 function evaluateUnparsedObjectSpecCreationRequest(extension: ObjectSpecExtension, request:ReadFileUtils.UnparsedObjectCreationRequest):Either.Either<Error.Error[], PathAndTypeInfo> {
-  const parseResult:Either.Either<Error.Error[], ObjectSpec.Type> = ValueObjectParser.parse(File.getContents(request.fileContents));
+  const parseResult:Either.Either<Error.Error[], ObjectSpec.Type> = ObjectSpecParser.parse(File.getContents(request.fileContents));
   return Either.match(function(errors:Error.Error[]) {
     return Either.Left<Error.Error[], PathAndTypeInfo>(errors.map(function(error:Error.Error) { return Error.Error('[' + File.getAbsolutePathString(request.path) + '] ' + Error.getReason(error)); }));
   }, function(foundType:ObjectSpec.Type) {
@@ -131,7 +131,7 @@ function pluginsFromPluginConfigs(pluginConfigs:List.List<Configuration.PluginCo
                             },function() {
                               return list;
                             }, maybePlugin);
-                          }, RequirePlugin.requireValueObjectPlugin(config.absolutePath));
+                          }, RequirePlugin.requireObjectSpecPlugin(config.absolutePath));
     }, soFar);
   }, Either.Right<Error.Error[], List.List<ObjectSpec.Plugin>>(List.of<ObjectSpec.Plugin>()), pluginConfigs);
 }

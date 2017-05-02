@@ -19,8 +19,8 @@ import ObjCTypeUtils = require('../objc-type-utils');
 import ObjectGeneration = require('../object-generation');
 import StringUtils = require('../string-utils');
 import ObjectSpec = require('../object-spec');
-import ValueObjectUtils = require('../object-spec-utils');
-import ValueObjectCodeUtils = require('../object-spec-code-utils');
+import ObjectSpecUtils = require('../object-spec-utils');
+import ObjectSpecCodeUtils = require('../object-spec-code-utils');
 
 function nameOfBuilderForValueTypeWithName(valueTypeName: string):string {
   return valueTypeName + 'Builder';
@@ -102,7 +102,7 @@ function builderFromExistingObjectClassMethodForValueType(objectType:ObjectSpec.
           modifiers: [],
           type: {
             name: objectType.typeName,
-            reference: ValueObjectUtils.typeReferenceForValueTypeWithName(objectType.typeName)
+            reference: ObjectSpecUtils.typeReferenceForValueTypeWithName(objectType.typeName)
           }
         })
       }
@@ -115,14 +115,14 @@ function builderFromExistingObjectClassMethodForValueType(objectType:ObjectSpec.
 }
 
 function valueGeneratorForInvokingInitializerWithAttribute(attribute:ObjectSpec.Attribute):string {
-  return ValueObjectCodeUtils.ivarForAttribute(attribute);
+  return ObjectSpecCodeUtils.ivarForAttribute(attribute);
 }
 
 function buildObjectInstanceMethodForValueType(objectType:ObjectSpec.Type):ObjC.Method {
   return {
     belongsToProtocol:Maybe.Nothing<string>(),
     code:[
-      'return ' + ValueObjectCodeUtils.methodInvocationForConstructor(objectType, valueGeneratorForInvokingInitializerWithAttribute) + ';'
+      'return ' + ObjectSpecCodeUtils.methodInvocationForConstructor(objectType, valueGeneratorForInvokingInitializerWithAttribute) + ';'
     ],
     comments:[],
     keywords: [
@@ -133,7 +133,7 @@ function buildObjectInstanceMethodForValueType(objectType:ObjectSpec.Type):ObjC.
     ],
     returnType: Maybe.Just({
       name: objectType.typeName,
-      reference: ValueObjectUtils.typeReferenceForValueTypeWithName(objectType.typeName)
+      reference: ObjectSpecUtils.typeReferenceForValueTypeWithName(objectType.typeName)
     })
   };
 }
@@ -148,7 +148,7 @@ function keywordNameForAttribute(attribute:ObjectSpec.Attribute):string {
 
 function valueToAssignIntoInternalStateForAttribute(attribute:ObjectSpec.Attribute):string {
   const keywordArgumentName:string = keywordArgumentNameForAttribute(attribute);
-  if (ValueObjectCodeUtils.shouldCopyIncomingValueForAttribute(attribute)) {
+  if (ObjectSpecCodeUtils.shouldCopyIncomingValueForAttribute(attribute)) {
     return '[' + keywordArgumentName + ' copy]';
   } else {
     return keywordArgumentName;
@@ -159,7 +159,7 @@ function withInstanceMethodForAttribute(attribute:ObjectSpec.Attribute):ObjC.Met
   return {
     belongsToProtocol:Maybe.Nothing<string>(),
     code:[
-      ValueObjectCodeUtils.ivarForAttribute(attribute) + ' = ' + valueToAssignIntoInternalStateForAttribute(attribute) + ';',
+      ObjectSpecCodeUtils.ivarForAttribute(attribute) + ' = ' + valueToAssignIntoInternalStateForAttribute(attribute) + ';',
       'return self;'
     ],
     comments:[],
@@ -204,7 +204,7 @@ function importForAttribute(objectLibrary:Maybe.Maybe<string>, isPublic:boolean,
       return builtInImport;
     },
     function() {
-      const requiresPublicImport = isPublic || ObjCImportUtils.requiresPublicImportForType(attribute.type.name, ValueObjectCodeUtils.computeTypeOfAttribute(attribute));
+      const requiresPublicImport = isPublic || ObjCImportUtils.requiresPublicImportForType(attribute.type.name, ObjectSpecCodeUtils.computeTypeOfAttribute(attribute));
       return {
         library: ObjCImportUtils.libraryForImport(attribute.type.libraryTypeIsDefinedIn, objectLibrary),
         file: ObjCImportUtils.fileForImport(attribute.type.fileTypeIsDefinedIn, attribute.type.name),

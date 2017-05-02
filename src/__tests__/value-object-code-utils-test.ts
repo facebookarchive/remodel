@@ -12,14 +12,14 @@
 
 import Maybe = require('../maybe');
 import ObjectSpec = require('../object-spec');
-import ValueObjectCodeUtils = require('../object-spec-code-utils');
+import ObjectSpecCodeUtils = require('../object-spec-code-utils');
 import ObjC = require('../objc');
 
 function valueGenerator(attribute:ObjectSpec.Attribute):string {
   return attribute.name;
 }
 
-describe('ValueObjectCodeUtils', function() {
+describe('ObjectSpecCodeUtils', function() {
   describe('#methodInvocationForConstructor', function() {
     it('returns a constructor with no parameters when there are no attributes', function() {
       const objectType:ObjectSpec.Type = {
@@ -33,7 +33,7 @@ describe('ValueObjectCodeUtils', function() {
         typeName: 'Foo'
       };
 
-      const methodInvocation:string = ValueObjectCodeUtils.methodInvocationForConstructor(objectType, valueGenerator);
+      const methodInvocation:string = ObjectSpecCodeUtils.methodInvocationForConstructor(objectType, valueGenerator);
       const expectedMethodInvocation:string = '[[Foo alloc] init]';
       expect(methodInvocation).toEqualJSON(expectedMethodInvocation);
     });
@@ -51,7 +51,7 @@ describe('ValueObjectCodeUtils', function() {
         typeName: 'Test'
       };
 
-      const methodInvocation:string = ValueObjectCodeUtils.methodInvocationForConstructor(objectType, valueGenerator);
+      const methodInvocation:string = ObjectSpecCodeUtils.methodInvocationForConstructor(objectType, valueGenerator);
       const expectedMethodInvocation:string = '[[Test alloc] init]';
       expect(methodInvocation).toEqualJSON(expectedMethodInvocation);
     });
@@ -82,7 +82,7 @@ describe('ValueObjectCodeUtils', function() {
         typeName: 'Test'
       };
 
-      const methodInvocation:string = ValueObjectCodeUtils.methodInvocationForConstructor(objectType, valueGenerator);
+      const methodInvocation:string = ObjectSpecCodeUtils.methodInvocationForConstructor(objectType, valueGenerator);
       const expectedMethodInvocation:string = '[[Test alloc] initWithName:name]';
       expect(methodInvocation).toEqualJSON(expectedMethodInvocation);
     });
@@ -113,7 +113,7 @@ describe('ValueObjectCodeUtils', function() {
         typeName: 'Test'
       };
 
-      const methodInvocation:string = ValueObjectCodeUtils.methodInvocationForConstructor(objectType, valueGenerator);
+      const methodInvocation:string = ObjectSpecCodeUtils.methodInvocationForConstructor(objectType, valueGenerator);
       const expectedMethodInvocation:string = '[[Test alloc] initWithAge:age]';
       expect(methodInvocation).toEqualJSON(expectedMethodInvocation);
     });
@@ -157,7 +157,7 @@ describe('ValueObjectCodeUtils', function() {
         typeName: 'Test'
       };
 
-      const methodInvocation:string = ValueObjectCodeUtils.methodInvocationForConstructor(objectType, valueGenerator);
+      const methodInvocation:string = ObjectSpecCodeUtils.methodInvocationForConstructor(objectType, valueGenerator);
       const expectedMethodInvocation:string = '[[Test alloc] initWithName:name age:age]';
       expect(methodInvocation).toEqualJSON(expectedMethodInvocation);
     });

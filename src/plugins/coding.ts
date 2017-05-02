@@ -18,7 +18,7 @@ import ObjC = require('../objc');
 import ObjCTypeUtils = require('../objc-type-utils');
 import StringUtils = require('../string-utils');
 import ObjectSpec = require('../object-spec');
-import ValueObjectCodeUtils = require('../object-spec-code-utils');
+import ObjectSpecCodeUtils = require('../object-spec-code-utils');
 import CodingUtils = require('./coding-utils')
 
 function underscored(str: string): string {
@@ -35,9 +35,9 @@ export interface CodeableAttribute {
 function codingAttributeForValueAttribute(attribute:ObjectSpec.Attribute):CodeableAttribute {
   return {
     name: attribute.name,
-    valueAccessor: ValueObjectCodeUtils.ivarForAttribute(attribute),
+    valueAccessor: ObjectSpecCodeUtils.ivarForAttribute(attribute),
     constantName: nameOfConstantForValueName(attribute.name),
-    type: ValueObjectCodeUtils.computeTypeOfAttribute(attribute)
+    type: ObjectSpecCodeUtils.computeTypeOfAttribute(attribute)
   };
 }
 
@@ -216,7 +216,7 @@ function doesValueAttributeContainAnUnknownType(attribute:ObjectSpec.Attribute):
 }
 
 function doesValueAttributeContainAnUnsupportedType(attribute:ObjectSpec.Attribute):boolean {
-  return isTypeNSCodingCompliant(ValueObjectCodeUtils.computeTypeOfAttribute(attribute)) === false;
+  return isTypeNSCodingCompliant(ObjectSpecCodeUtils.computeTypeOfAttribute(attribute)) === false;
 }
 
 function valueAttributeToUnknownTypeError(objectType:ObjectSpec.Type, attribute:ObjectSpec.Attribute):Error.Error {

@@ -19,7 +19,7 @@ import ObjCNullabilityUtils = require('../objc-nullability-utils');
 import ObjCImportUtils = require('../objc-import-utils');
 import ObjectGeneration = require('../object-generation');
 import ObjectSpec = require('../object-spec');
-import ValueObjectCodeUtils = require('../object-spec-code-utils');
+import ObjectSpecCodeUtils = require('../object-spec-code-utils');
 
 function keywordArgumentFromAttribute(attribute:ObjectSpec.Attribute):Maybe.Maybe<ObjC.KeywordArgument> {
   return Maybe.Just({
@@ -47,7 +47,7 @@ function attributeToKeyword(attribute:ObjectSpec.Attribute):ObjC.Keyword {
 }
 
 function valueOrCopy(attribute:ObjectSpec.Attribute):string {
-  if (ValueObjectCodeUtils.shouldCopyIncomingValueForAttribute(attribute)) {
+  if (ObjectSpecCodeUtils.shouldCopyIncomingValueForAttribute(attribute)) {
     return '[' + attribute.name + ' copy];';
   } else {
     return attribute.name + ';';
@@ -85,7 +85,7 @@ function initializerFromAttributes(attributes:ObjectSpec.Attribute[]):ObjC.Metho
 }
 
 function propertyModifiersForCopyingFromAttribute(attribute: ObjectSpec.Attribute): ObjC.PropertyModifier[] {
-  const type = ValueObjectCodeUtils.propertyOwnershipModifierForAttribute(attribute);
+  const type = ObjectSpecCodeUtils.propertyOwnershipModifierForAttribute(attribute);
   if (type === null) {
     return [];
   }
@@ -160,7 +160,7 @@ function importForAttribute(objectLibrary:Maybe.Maybe<string>, isPublic:boolean,
       return builtInImport;
     },
     function() {
-      const requiresPublicImport = isPublic || ObjCImportUtils.requiresPublicImportForType(attribute.type.name, ValueObjectCodeUtils.computeTypeOfAttribute(attribute));
+      const requiresPublicImport = isPublic || ObjCImportUtils.requiresPublicImportForType(attribute.type.name, ObjectSpecCodeUtils.computeTypeOfAttribute(attribute));
       return {
         library: ObjCImportUtils.libraryForImport(attribute.type.libraryTypeIsDefinedIn, objectLibrary),
         file: ObjCImportUtils.fileForImport(attribute.type.fileTypeIsDefinedIn, attribute.type.name),

@@ -14,7 +14,7 @@ import Maybe = require('../maybe');
 import ObjC = require('../objc');
 import StringUtils = require('../string-utils');
 import ObjectSpec = require('../object-spec');
-import ValueObjectUtils = require('../object-spec-utils');
+import ObjectSpecUtils = require('../object-spec-utils');
 
 function nameOfFetchStatusForValueTypeWithName(valueTypeName: string):string {
   return valueTypeName + 'FetchStatus';
@@ -75,7 +75,7 @@ function fetchStatusAttributeForValueType(objectType:ObjectSpec.Type):ObjectSpec
       fileTypeIsDefinedIn:Maybe.Nothing<string>(),
       libraryTypeIsDefinedIn:objectType.libraryName,
       name:fetchStatusTypeName,
-      reference:ValueObjectUtils.typeReferenceForValueTypeWithName(fetchStatusTypeName),
+      reference:ObjectSpecUtils.typeReferenceForValueTypeWithName(fetchStatusTypeName),
       underlyingType:Maybe.Just<string>('NSObject')
     }
   };

@@ -23,9 +23,9 @@ import ObjectSpec = require('./object-spec');
 
 export interface Request extends PluggableObjCFileCreation.ObjCGenerationRequest<ObjectSpec.Type> { }
 
-interface ValueObjectObjCPlugIn extends PluggableObjCFileCreation.ObjCGenerationPlugIn<ObjectSpec.Type> { }
+interface ObjectSpecObjCPlugIn extends PluggableObjCFileCreation.ObjCGenerationPlugIn<ObjectSpec.Type> { }
 
-function createValueObjectObjCPlugIn(plugin:ObjectSpec.Plugin) : ValueObjectObjCPlugIn
+function createObjectSpecObjCPlugIn(plugin:ObjectSpec.Plugin) : ObjectSpecObjCPlugIn
 {
   return {
     additionalFiles: function(typeInformation:ObjectSpec.Type): Code.File[] {
@@ -137,8 +137,8 @@ function pluginsToRunForValueType(plugins:List.List<ObjectSpec.Plugin>, objectTy
   return List.filter(FunctionUtils.pApplyf2(objectType.includes, shouldRunPluginForIncludes), plugins);
 }
 
-function objcPluginForValueObjectPlugin(plugin:ObjectSpec.Plugin):ValueObjectObjCPlugIn {
-  return createValueObjectObjCPlugIn(plugin);
+function objcPluginForObjectSpecPlugin(plugin:ObjectSpec.Plugin):ObjectSpecObjCPlugIn {
+  return createObjectSpecObjCPlugIn(plugin);
 }
 
 function additionalTypesForType(plugins:List.List<ObjectSpec.Plugin>, typeInformation:ObjectSpec.Type):ObjectSpec.Type[] {
@@ -155,7 +155,7 @@ function commentsForType(typeInformation:ObjectSpec.Type):string[] {
 
 export function fileWriteRequest(request:Request, plugins:List.List<ObjectSpec.Plugin>):Either.Either<Error.Error[], FileWriter.FileWriteRequest> {
   const pluginsToRun = pluginsToRunForValueType(plugins, request.typeInformation);
-  const wrappedPlugins:List.List<ValueObjectObjCPlugIn> = List.map(objcPluginForValueObjectPlugin, pluginsToRun);
+  const wrappedPlugins:List.List<ObjectSpecObjCPlugIn> = List.map(objcPluginForObjectSpecPlugin, pluginsToRun);
 
   const typeInfoProvider:PluggableObjCFileCreation.ObjCGenerationTypeInfoProvider<ObjectSpec.Type> = {
     additionalTypesForType: FunctionUtils.pApplyf2(pluginsToRun, additionalTypesForType),

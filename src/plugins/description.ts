@@ -17,7 +17,7 @@ import Maybe = require('../maybe');
 import ObjC = require('../objc');
 import ObjCTypeUtils = require('../objc-type-utils');
 import ObjectSpec = require('../object-spec');
-import ValueObjectCodeUtils = require('../object-spec-code-utils');
+import ObjectSpecCodeUtils = require('../object-spec-code-utils');
 
 interface AttributeDescription {
   descriptionFunctionImport: Maybe.Maybe<ObjC.Import>;
@@ -215,12 +215,12 @@ function computedAttributeDescriptionFromAttributeDescription(attributeDescripti
   };
 }
 
-function attributeDescriptionForValueObjectAttribute(attribute:ObjectSpec.Attribute):AttributeDescription {
-  return attributeDescriptionForType(ValueObjectCodeUtils.computeTypeOfAttribute(attribute));
+function attributeDescriptionForObjectSpecAttribute(attribute:ObjectSpec.Attribute):AttributeDescription {
+  return attributeDescriptionForType(ObjectSpecCodeUtils.computeTypeOfAttribute(attribute));
 }
 
-function attributeDescriptionImportMaybeForValueObjectAttribute(attribute:ObjectSpec.Attribute):Maybe.Maybe<ObjC.Import> {
-  return attributeDescriptionForType(ValueObjectCodeUtils.computeTypeOfAttribute(attribute)).descriptionFunctionImport;
+function attributeDescriptionImportMaybeForObjectSpecAttribute(attribute:ObjectSpec.Attribute):Maybe.Maybe<ObjC.Import> {
+  return attributeDescriptionForType(ObjectSpecCodeUtils.computeTypeOfAttribute(attribute)).descriptionFunctionImport;
 }
 
 function attributeDescriptionImportMaybeForAlgebraicAttribute(attribute:AlgebraicType.SubtypeAttribute):Maybe.Maybe<ObjC.Import> {
@@ -228,8 +228,8 @@ function attributeDescriptionImportMaybeForAlgebraicAttribute(attribute:Algebrai
 }
 
 function computedAttributeDescriptionFromAttribute(attribute:ObjectSpec.Attribute):ComputedAttributeDescription {
-  const attributeDescription:AttributeDescription = attributeDescriptionForValueObjectAttribute(attribute);
-  return computedAttributeDescriptionFromAttributeDescription(attributeDescription, attribute.name, ValueObjectCodeUtils.ivarForAttribute(attribute));
+  const attributeDescription:AttributeDescription = attributeDescriptionForObjectSpecAttribute(attribute);
+  return computedAttributeDescriptionFromAttributeDescription(attributeDescription, attribute.name, ObjectSpecCodeUtils.ivarForAttribute(attribute));
 }
 
 function selectToken(attributeDescription:ComputedAttributeDescription):string {
@@ -267,7 +267,7 @@ function descriptionInstanceMethodWithCode(code:string[]):ObjC.Method {
 }
 
 function doesValueAttributeContainAnUnknownType(attribute:ObjectSpec.Attribute):boolean {
-  const attributeDescription:AttributeDescription = attributeDescriptionForValueObjectAttribute(attribute);
+  const attributeDescription:AttributeDescription = attributeDescriptionForObjectSpecAttribute(attribute);
   return attributeDescription == null;
 }
 
@@ -309,7 +309,7 @@ export function createPlugin():ObjectSpec.Plugin {
       return [];
     },
     imports: function(objectType:ObjectSpec.Type):ObjC.Import[] {
-      const attributeDescriptionImportMaybes:Maybe.Maybe<ObjC.Import>[] = objectType.attributes.map(attributeDescriptionImportMaybeForValueObjectAttribute);
+      const attributeDescriptionImportMaybes:Maybe.Maybe<ObjC.Import>[] = objectType.attributes.map(attributeDescriptionImportMaybeForObjectSpecAttribute);
 
       return Maybe.catMaybes(attributeDescriptionImportMaybes);
     },

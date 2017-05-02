@@ -15,16 +15,16 @@ import Error = require('../error');
 import Maybe = require('../maybe');
 import ObjC = require('../objc');
 import ObjectSpec = require('../object-spec');
-import ValueObjectParser = require('../object-spec-parser');
+import ObjectSpecParser = require('../object-spec-parser');
 
-describe('ValueObjectParser', function() {
+describe('ObjectSpecParser', function() {
   describe('#parse', function() {
     it('parses a value object with two properties that are valid', function() {
       const valueFileContents = 'RMSomething {\n' +
                                 'NSArray *someArray\n '+
                                 'BOOL someBoolean\n' +
                               '}';
-      const actualResult:Either.Either<Error.Error[], ObjectSpec.Type> = ValueObjectParser.parse(valueFileContents);
+      const actualResult:Either.Either<Error.Error[], ObjectSpec.Type> = ObjectSpecParser.parse(valueFileContents);
       const expectedFoundType:ObjectSpec.Type = {
         annotations: {},
         attributes: [
@@ -76,7 +76,7 @@ describe('ValueObjectParser', function() {
                               '  RMBlah *someBlah\n' +
                               '  RMSomeValue(BOOL) someValue\n' +
                               '}';
-      const actualResult:Either.Either<Error.Error[], ObjectSpec.Type> = ValueObjectParser.parse(valueFileContents);
+      const actualResult:Either.Either<Error.Error[], ObjectSpec.Type> = ObjectSpecParser.parse(valueFileContents);
       const expectedFoundType:ObjectSpec.Type = {
         annotations: {
           library: [{
@@ -166,7 +166,7 @@ describe('ValueObjectParser', function() {
                               '  %nonnull\n' +
                               '  RMBlah *someValue\n' +
                               '}';
-      const actualResult:Either.Either<Error.Error[], ObjectSpec.Type> = ValueObjectParser.parse(valueFileContents);
+      const actualResult:Either.Either<Error.Error[], ObjectSpec.Type> = ObjectSpecParser.parse(valueFileContents);
       const expectedFoundType:ObjectSpec.Type = {
         annotations: {
           library: [{
@@ -224,7 +224,7 @@ describe('ValueObjectParser', function() {
 
     it('parses a value object which is invalid', function() {
       const valueFileContents = 'RMSomething {{}';
-      const actualResult:Either.Either<Error.Error[], ObjectSpec.Type> = ValueObjectParser.parse(valueFileContents);
+      const actualResult:Either.Either<Error.Error[], ObjectSpec.Type> = ObjectSpecParser.parse(valueFileContents);
       const expectedResult:Either.Either<Error.Error[], ObjectSpec.Type> = Either.Left<Error.Error[], ObjectSpec.Type>(
                             [Error.Error('(line 1, column 14) expected string matching {}}')]);
       expect(actualResult).toEqualJSON(expectedResult);

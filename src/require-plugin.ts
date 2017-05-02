@@ -50,7 +50,7 @@ function algebraicTypePluginFromModule(module:any): Maybe.Maybe<AlgebraicType.Pl
     Maybe.Nothing<AlgebraicType.Plugin>();
 }
 
-export function requireValueObjectPlugin(absolutePath:File.AbsoluteFilePath):Either.Either<Error.Error[], Maybe.Maybe<ObjectSpec.Plugin>> {
+export function requireObjectSpecPlugin(absolutePath:File.AbsoluteFilePath):Either.Either<Error.Error[], Maybe.Maybe<ObjectSpec.Plugin>> {
   return requirePlugin<ObjectSpec.Plugin>(absolutePath, valueObjectPluginFromModule);
 }
 

@@ -13,7 +13,7 @@ import ObjC = require('./objc');
 import ObjCTypeUtils = require('./objc-type-utils');
 import ObjectGeneration = require('./object-generation');
 import ObjectSpec = require('./object-spec');
-import ValueObjectCodeUtils = require('./object-spec-code-utils');
+import ObjectSpecCodeUtils = require('./object-spec-code-utils');
 
 const KNOWN_SYSTEM_TYPE_IMPORT_INFO: { [id: string]: Maybe.Maybe<ObjC.Import> } = {
   'BOOL': Maybe.Nothing<ObjC.Import>(),
@@ -178,7 +178,7 @@ export function canForwardDeclareType(type:ObjC.Type):boolean {
 }
 
 export function canForwardDeclareTypeForAttributeConsideringType(attribute:ObjectSpec.Attribute):boolean {
-  const type:ObjC.Type = ValueObjectCodeUtils.computeTypeOfAttribute(attribute);
+  const type:ObjC.Type = ObjectSpecCodeUtils.computeTypeOfAttribute(attribute);
   return canForwardDeclareType(type);
 }
 

@@ -17,10 +17,10 @@ import Maybe = require('../../maybe');
 import ObjC = require('../../objc');
 import ObjectSpec = require('../../object-spec');
 
-const ValueObjectPlugin = AssumeNonnull.createPlugin();
+const ObjectSpecPlugin = AssumeNonnull.createPlugin();
 const AlgebraicTypePlugin = AssumeNonnull.createAlgebraicTypePlugin();
 
-describe('ValueObjectPlugins.AssumeNonnull', function() {
+describe('ObjectSpecPlugins.AssumeNonnull', function() {
   describe('#imports', function() {
     it('Foundation was found', function() {
       const objectType:ObjectSpec.Type = {
@@ -34,7 +34,7 @@ describe('ValueObjectPlugins.AssumeNonnull', function() {
         typeName: 'Foo'
       };
 
-      const imports:ObjC.Import[] = ValueObjectPlugin.imports(objectType);
+      const imports:ObjC.Import[] = ObjectSpecPlugin.imports(objectType);
       const expectedImports:ObjC.Import[] = [
         { file: 'Foundation.h', isPublic: true, library: Maybe.Just('Foundation') },
       ];
@@ -55,7 +55,7 @@ describe('ValueObjectPlugins.AssumeNonnull', function() {
         typeName: 'Foo'
       };
 
-      const nullability:Maybe.Maybe<ObjC.ClassNullability> = ValueObjectPlugin.nullability(objectType);
+      const nullability:Maybe.Maybe<ObjC.ClassNullability> = ObjectSpecPlugin.nullability(objectType);
       const expectedNullability:Maybe.Maybe<ObjC.ClassNullability> = Maybe.Just(ObjC.ClassNullability.assumeNonnull);
       expect(nullability).toEqualJSON(expectedNullability);
     });

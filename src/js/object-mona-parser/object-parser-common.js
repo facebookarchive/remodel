@@ -69,11 +69,11 @@ function annotationKeyValue() {
     const key = s(mona.text(mona.alphanum()));
     s(mona.string('='));
     const value = s(mona.or(quotedText(), unquotedTextTerminatingWithSpace()));
-    const annotatedKeyValueObject = {
+    const annotatedKeyObjectSpec = {
       key: key,
       value: value
     };
-    return mona.value(annotatedKeyValueObject);
+    return mona.value(annotatedKeyObjectSpec);
   });
 }
 

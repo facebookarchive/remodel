@@ -17,8 +17,8 @@ import Maybe = require('../maybe');
 import ObjC = require('../objc');
 import ObjCTypeUtils = require('../objc-type-utils');
 import ObjectSpec = require('../object-spec');
-import ValueObjectUtils = require('../object-spec-utils');
-import ValueObjectCodeUtils = require('../object-spec-code-utils');
+import ObjectSpecUtils = require('../object-spec-utils');
+import ObjectSpecCodeUtils = require('../object-spec-code-utils');
 
 enum EqualityFunctionType {
   compareFloats,
@@ -565,9 +565,9 @@ interface GeneratedTypeEqualityInformation {
 }
 
 function generatedTypeEqualityInformationForAttribute(attribute:ObjectSpec.Attribute):GeneratedTypeEqualityInformation {
-  const type:ObjC.Type = ValueObjectCodeUtils.computeTypeOfAttribute(attribute);
+  const type:ObjC.Type = ObjectSpecCodeUtils.computeTypeOfAttribute(attribute);
   const generationGroup:TypeEqualityGenerationGroup = generationGroupForType(type);
-  const attributeValueAccessor:string = ValueObjectCodeUtils.ivarForAttribute(attribute);
+  const attributeValueAccessor:string = ObjectSpecCodeUtils.ivarForAttribute(attribute);
   return generatedTypeEqualityInformationForGenerationGroup(generationGroup, attributeValueAccessor);
 }
 
@@ -627,7 +627,7 @@ function isEqualInstanceMethod(typeName:string, generatedTypeEqualityInformation
           modifiers: [],
           type: {
             name: typeName,
-            reference: ValueObjectUtils.typeReferenceForValueTypeWithName(typeName)
+            reference: ObjectSpecUtils.typeReferenceForValueTypeWithName(typeName)
           }
         })
       }
@@ -947,7 +947,7 @@ function functionsToIncludeForGeneratedTypeEqualityInformation(generatedTypeEqua
 }
 
 function doesValueAttributeContainAnUnknownType(attribute:ObjectSpec.Attribute):boolean {
-  const type:ObjC.Type = ValueObjectCodeUtils.computeTypeOfAttribute(attribute);
+  const type:ObjC.Type = ObjectSpecCodeUtils.computeTypeOfAttribute(attribute);
   const generationGroup:TypeEqualityGenerationGroup = generationGroupForType(type);
   return generationGroup == null;
 }

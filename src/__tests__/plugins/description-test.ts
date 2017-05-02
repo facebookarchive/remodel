@@ -18,9 +18,9 @@ import ObjC = require('../../objc');
 import ObjectSpec = require('../../object-spec');
 
 const AlgebraicTypePlugin = Description.createAlgebraicTypePlugin();
-const ValueObjectPlugin = Description.createPlugin();
+const ObjectSpecPlugin = Description.createPlugin();
 
-describe('ValueObjectPlugins.Description', function() {
+describe('ObjectSpecPlugins.Description', function() {
   describe('Value Object', function() {
     describe('#validationErrors', function() {
       it('returns no validation errors when there are no attributes on the found type', function() {
@@ -34,7 +34,7 @@ describe('ValueObjectPlugins.Description', function() {
           typeLookups:[],
           typeName: 'Foo'
         };
-        const errors:Error.Error[] = ValueObjectPlugin.validationErrors(objectType);
+        const errors:Error.Error[] = ObjectSpecPlugin.validationErrors(objectType);
         expect(errors).toEqualJSON([]);
       });
 
@@ -76,7 +76,7 @@ describe('ValueObjectPlugins.Description', function() {
           typeLookups:[],
           typeName: 'Foo'
         };
-        const errors:Error.Error[] = ValueObjectPlugin.validationErrors(objectType);
+        const errors:Error.Error[] = ObjectSpecPlugin.validationErrors(objectType);
         const expectedErrors:Error.Error[] = [
           Error.Error('The Description plugin does not know how to format the type "LikeStatus" from Foo.likeStatus. Did you forget to declare a backing type?')
         ];
@@ -121,7 +121,7 @@ describe('ValueObjectPlugins.Description', function() {
           typeLookups:[],
           typeName: 'Foo'
         };
-        const errors:Error.Error[] = ValueObjectPlugin.validationErrors(objectType);
+        const errors:Error.Error[] = ObjectSpecPlugin.validationErrors(objectType);
         const expectedErrors:Error.Error[] = [
           Error.Error('The Description plugin does not know how to format the type "Name" from Foo.name. Did you forget to declare a backing type?'),
           Error.Error('The Description plugin does not know how to format the type "LikeStatus" from Foo.likeStatus. Did you forget to declare a backing type?')
@@ -154,7 +154,7 @@ describe('ValueObjectPlugins.Description', function() {
           typeLookups:[],
           typeName: 'Foo'
         };
-        const errors:Error.Error[] = ValueObjectPlugin.validationErrors(objectType);
+        const errors:Error.Error[] = ObjectSpecPlugin.validationErrors(objectType);
         const expectedErrors:Error.Error[] = [
           Error.Error('The Description plugin does not know how to format the backing type "Baz" from Foo.name. Did you declare the wrong backing type?')
         ];
@@ -188,7 +188,7 @@ describe('ValueObjectPlugins.Description', function() {
           typeLookups:[],
           typeName: 'Foo'
         };
-        const imports:ObjC.Import[] = ValueObjectPlugin.imports(objectType);
+        const imports:ObjC.Import[] = ObjectSpecPlugin.imports(objectType);
         const expectedImports:ObjC.Import[] = [{
           file:'UIGeometry.h',
           isPublic:false,
@@ -210,7 +210,7 @@ describe('ValueObjectPlugins.Description', function() {
           typeLookups:[],
           typeName: 'Foo'
         };
-        const instanceMethods:ObjC.Method[] = ValueObjectPlugin.instanceMethods(objectType);
+        const instanceMethods:ObjC.Method[] = ObjectSpecPlugin.instanceMethods(objectType);
         expect(instanceMethods).toEqualJSON([]);
       });
 
@@ -240,7 +240,7 @@ describe('ValueObjectPlugins.Description', function() {
           typeName: 'Foo'
         };
 
-        const instanceMethods:ObjC.Method[] = ValueObjectPlugin.instanceMethods(objectType);
+        const instanceMethods:ObjC.Method[] = ObjectSpecPlugin.instanceMethods(objectType);
 
         const expectedInstanceMethods:ObjC.Method[] = [
           {
@@ -291,7 +291,7 @@ describe('ValueObjectPlugins.Description', function() {
           typeName: 'Foo'
         };
 
-        const instanceMethods:ObjC.Method[] = ValueObjectPlugin.instanceMethods(objectType);
+        const instanceMethods:ObjC.Method[] = ObjectSpecPlugin.instanceMethods(objectType);
 
         const expectedInstanceMethods:ObjC.Method[] = [
           {
@@ -342,7 +342,7 @@ describe('ValueObjectPlugins.Description', function() {
           typeName: 'Foo'
         };
 
-        const instanceMethods:ObjC.Method[] = ValueObjectPlugin.instanceMethods(objectType);
+        const instanceMethods:ObjC.Method[] = ObjectSpecPlugin.instanceMethods(objectType);
 
         const expectedInstanceMethods:ObjC.Method[] = [
           {
@@ -393,7 +393,7 @@ describe('ValueObjectPlugins.Description', function() {
           typeName: 'Foo'
         };
 
-        const instanceMethods:ObjC.Method[] = ValueObjectPlugin.instanceMethods(objectType);
+        const instanceMethods:ObjC.Method[] = ObjectSpecPlugin.instanceMethods(objectType);
 
         const expectedInstanceMethods:ObjC.Method[] = [
           {
@@ -444,7 +444,7 @@ describe('ValueObjectPlugins.Description', function() {
           typeName: 'Foo'
         };
 
-        const instanceMethods:ObjC.Method[] = ValueObjectPlugin.instanceMethods(objectType);
+        const instanceMethods:ObjC.Method[] = ObjectSpecPlugin.instanceMethods(objectType);
 
         const expectedInstanceMethods:ObjC.Method[] = [
           {
@@ -495,7 +495,7 @@ describe('ValueObjectPlugins.Description', function() {
           typeName: 'Foo'
         };
 
-        const instanceMethods:ObjC.Method[] = ValueObjectPlugin.instanceMethods(objectType);
+        const instanceMethods:ObjC.Method[] = ObjectSpecPlugin.instanceMethods(objectType);
 
         const expectedInstanceMethods:ObjC.Method[] = [
           {
@@ -546,7 +546,7 @@ describe('ValueObjectPlugins.Description', function() {
           typeName: 'Foo'
         };
 
-        const instanceMethods:ObjC.Method[] = ValueObjectPlugin.instanceMethods(objectType);
+        const instanceMethods:ObjC.Method[] = ObjectSpecPlugin.instanceMethods(objectType);
 
         const expectedInstanceMethods:ObjC.Method[] = [
           {
@@ -597,7 +597,7 @@ describe('ValueObjectPlugins.Description', function() {
           typeName: 'Foo'
         };
 
-        const instanceMethods:ObjC.Method[] = ValueObjectPlugin.instanceMethods(objectType);
+        const instanceMethods:ObjC.Method[] = ObjectSpecPlugin.instanceMethods(objectType);
 
         const expectedInstanceMethods:ObjC.Method[] = [
           {
@@ -648,7 +648,7 @@ describe('ValueObjectPlugins.Description', function() {
           typeName: 'Foo'
         };
 
-        const instanceMethods:ObjC.Method[] = ValueObjectPlugin.instanceMethods(objectType);
+        const instanceMethods:ObjC.Method[] = ObjectSpecPlugin.instanceMethods(objectType);
 
         const expectedInstanceMethods:ObjC.Method[] = [
           {
@@ -699,7 +699,7 @@ describe('ValueObjectPlugins.Description', function() {
           typeName: 'Foo'
         };
 
-        const instanceMethods:ObjC.Method[] = ValueObjectPlugin.instanceMethods(objectType);
+        const instanceMethods:ObjC.Method[] = ObjectSpecPlugin.instanceMethods(objectType);
 
         const expectedInstanceMethods:ObjC.Method[] = [
           {
@@ -750,7 +750,7 @@ describe('ValueObjectPlugins.Description', function() {
           typeName: 'Foo'
         };
 
-        const instanceMethods:ObjC.Method[] = ValueObjectPlugin.instanceMethods(objectType);
+        const instanceMethods:ObjC.Method[] = ObjectSpecPlugin.instanceMethods(objectType);
 
         const expectedInstanceMethods:ObjC.Method[] = [
           {
@@ -801,7 +801,7 @@ describe('ValueObjectPlugins.Description', function() {
           typeName: 'Foo'
         };
 
-        const instanceMethods:ObjC.Method[] = ValueObjectPlugin.instanceMethods(objectType);
+        const instanceMethods:ObjC.Method[] = ObjectSpecPlugin.instanceMethods(objectType);
 
         const expectedInstanceMethods:ObjC.Method[] = [
           {
@@ -852,7 +852,7 @@ describe('ValueObjectPlugins.Description', function() {
           typeName: 'Foo'
         };
 
-        const instanceMethods:ObjC.Method[] = ValueObjectPlugin.instanceMethods(objectType);
+        const instanceMethods:ObjC.Method[] = ObjectSpecPlugin.instanceMethods(objectType);
 
         const expectedInstanceMethods:ObjC.Method[] = [
           {
@@ -904,7 +904,7 @@ describe('ValueObjectPlugins.Description', function() {
           typeName: 'Foo'
         };
 
-        const instanceMethods:ObjC.Method[] = ValueObjectPlugin.instanceMethods(objectType);
+        const instanceMethods:ObjC.Method[] = ObjectSpecPlugin.instanceMethods(objectType);
 
         const expectedInstanceMethods:ObjC.Method[] = [
           {
@@ -955,7 +955,7 @@ describe('ValueObjectPlugins.Description', function() {
           typeName: 'Foo'
         };
 
-        const instanceMethods:ObjC.Method[] = ValueObjectPlugin.instanceMethods(objectType);
+        const instanceMethods:ObjC.Method[] = ObjectSpecPlugin.instanceMethods(objectType);
 
         const expectedInstanceMethods:ObjC.Method[] = [
           {
@@ -1006,7 +1006,7 @@ describe('ValueObjectPlugins.Description', function() {
           typeName: 'Foo'
         };
 
-        const instanceMethods:ObjC.Method[] = ValueObjectPlugin.instanceMethods(objectType);
+        const instanceMethods:ObjC.Method[] = ObjectSpecPlugin.instanceMethods(objectType);
 
         const expectedInstanceMethods:ObjC.Method[] = [
           {
@@ -1057,7 +1057,7 @@ describe('ValueObjectPlugins.Description', function() {
           typeName: 'Foo'
         };
 
-        const instanceMethods:ObjC.Method[] = ValueObjectPlugin.instanceMethods(objectType);
+        const instanceMethods:ObjC.Method[] = ObjectSpecPlugin.instanceMethods(objectType);
 
         const expectedInstanceMethods:ObjC.Method[] = [
           {
@@ -1108,7 +1108,7 @@ describe('ValueObjectPlugins.Description', function() {
           typeName: 'Foo'
         };
 
-        const instanceMethods:ObjC.Method[] = ValueObjectPlugin.instanceMethods(objectType);
+        const instanceMethods:ObjC.Method[] = ObjectSpecPlugin.instanceMethods(objectType);
 
         const expectedInstanceMethods:ObjC.Method[] = [
           {
@@ -1159,7 +1159,7 @@ describe('ValueObjectPlugins.Description', function() {
           typeName: 'Foo'
         };
 
-        const instanceMethods:ObjC.Method[] = ValueObjectPlugin.instanceMethods(objectType);
+        const instanceMethods:ObjC.Method[] = ObjectSpecPlugin.instanceMethods(objectType);
 
         const expectedInstanceMethods:ObjC.Method[] = [
           {
@@ -1209,7 +1209,7 @@ describe('ValueObjectPlugins.Description', function() {
           typeLookups:[],
           typeName: 'Foo'
         };
-        const instanceMethods:ObjC.Method[] = ValueObjectPlugin.instanceMethods(objectType);
+        const instanceMethods:ObjC.Method[] = ObjectSpecPlugin.instanceMethods(objectType);
 
         const expectedInstanceMethods:ObjC.Method[] = [
           {

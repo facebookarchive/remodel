@@ -17,10 +17,10 @@ import Maybe = require('../../maybe');
 import ObjC = require('../../objc');
 import ObjectSpec = require('../../object-spec');
 
-const ValueObjectPlugin = Coding.createPlugin();
+const ObjectSpecPlugin = Coding.createPlugin();
 const AlgebraicTypePlugin = Coding.createAlgebraicTypePlugin();
 
-describe('ValueObjectPlugins.Coding', function() {
+describe('ObjectSpecPlugins.Coding', function() {
   describe('#validationErrors', function() {
     it('returns no validation errors when there are no attributes on the found type', function() {
       const objectType:ObjectSpec.Type = {
@@ -33,7 +33,7 @@ describe('ValueObjectPlugins.Coding', function() {
         libraryName: Maybe.Nothing<string>(),
         typeName: 'Foo'
       };
-      const errors:Error.Error[] = ValueObjectPlugin.validationErrors(objectType);
+      const errors:Error.Error[] = ObjectSpecPlugin.validationErrors(objectType);
       expect(errors).toEqualJSON([]);
     });
 
@@ -75,7 +75,7 @@ describe('ValueObjectPlugins.Coding', function() {
         libraryName: Maybe.Nothing<string>(),
         typeName: 'Foo'
       };
-      const errors:Error.Error[] = ValueObjectPlugin.validationErrors(objectType);
+      const errors:Error.Error[] = ObjectSpecPlugin.validationErrors(objectType);
       const expectedErrors:Error.Error[] = [
         Error.Error('The Coding plugin does not know how to decode and encode the type "LikeStatus" from Foo.likeStatus. Did you forget to declare a backing type?')
       ];
@@ -120,7 +120,7 @@ describe('ValueObjectPlugins.Coding', function() {
         libraryName: Maybe.Nothing<string>(),
         typeName: 'Foo'
       };
-      const errors:Error.Error[] = ValueObjectPlugin.validationErrors(objectType);
+      const errors:Error.Error[] = ObjectSpecPlugin.validationErrors(objectType);
       const expectedErrors:Error.Error[] = [
         Error.Error('The Coding plugin does not know how to decode and encode the type "Name" from Foo.name. Did you forget to declare a backing type?'),
         Error.Error('The Coding plugin does not know how to decode and encode the type "LikeStatus" from Foo.likeStatus. Did you forget to declare a backing type?')
@@ -153,7 +153,7 @@ describe('ValueObjectPlugins.Coding', function() {
         libraryName: Maybe.Nothing<string>(),
         typeName: 'Foo'
       };
-      const errors:Error.Error[] = ValueObjectPlugin.validationErrors(objectType);
+      const errors:Error.Error[] = ObjectSpecPlugin.validationErrors(objectType);
       const expectedErrors:Error.Error[] = [
         Error.Error('The Coding plugin does not know how to decode and encode the backing type "Baz" from Foo.name. Did you declare the wrong backing type?')
       ];
@@ -173,7 +173,7 @@ describe('ValueObjectPlugins.Coding', function() {
         libraryName: Maybe.Nothing<string>(),
         typeName: 'Foo'
       };
-      const instanceMethods:ObjC.Method[] = ValueObjectPlugin.instanceMethods(objectType);
+      const instanceMethods:ObjC.Method[] = ObjectSpecPlugin.instanceMethods(objectType);
       expect(instanceMethods).toEqualJSON([]);
     });
 
@@ -229,7 +229,7 @@ describe('ValueObjectPlugins.Coding', function() {
         typeName: 'Foo'
       };
 
-      const instanceMethods:ObjC.Method[] = ValueObjectPlugin.instanceMethods(objectType);
+      const instanceMethods:ObjC.Method[] = ObjectSpecPlugin.instanceMethods(objectType);
 
       const expectedInstanceMethods:ObjC.Method[] = [
         {
@@ -317,7 +317,7 @@ describe('ValueObjectPlugins.Coding', function() {
         typeName: 'Foo'
       };
 
-      const imports:ObjC.Import[] = ValueObjectPlugin.imports(objectType);
+      const imports:ObjC.Import[] = ObjectSpecPlugin.imports(objectType);
       const expectedImports:ObjC.Import[] = [{
         file:'UIGeometry.h',
         isPublic:false,
@@ -339,7 +339,7 @@ describe('ValueObjectPlugins.Coding', function() {
         libraryName: Maybe.Nothing<string>(),
         typeName: 'Foo'
       };
-      const staticConstants:ObjC.Constant[] = ValueObjectPlugin.staticConstants(objectType);
+      const staticConstants:ObjC.Constant[] = ObjectSpecPlugin.staticConstants(objectType);
       expect(staticConstants).toEqualJSON([]);
     });
 
@@ -370,7 +370,7 @@ describe('ValueObjectPlugins.Coding', function() {
         typeName: 'Foo'
       };
 
-      const staticConstants:ObjC.Constant[] = ValueObjectPlugin.staticConstants(objectType);
+      const staticConstants:ObjC.Constant[] = ObjectSpecPlugin.staticConstants(objectType);
       const expectedStaticConstants:ObjC.Constant[] = [
         {
           type: {
@@ -414,7 +414,7 @@ describe('ValueObjectPlugins.Coding', function() {
         typeName: 'Foo'
       };
 
-      const staticConstants:ObjC.Constant[] = ValueObjectPlugin.staticConstants(objectType);
+      const staticConstants:ObjC.Constant[] = ObjectSpecPlugin.staticConstants(objectType);
       const expectedStaticConstants:ObjC.Constant[] = [
         {
           comments: [],
@@ -471,7 +471,7 @@ describe('ValueObjectPlugins.Coding', function() {
         typeName: 'Foo'
       };
 
-      const staticConstants:ObjC.Constant[] = ValueObjectPlugin.staticConstants(objectType);
+      const staticConstants:ObjC.Constant[] = ObjectSpecPlugin.staticConstants(objectType);
       const expectedStaticConstants:ObjC.Constant[] = [
         {
           comments: [],

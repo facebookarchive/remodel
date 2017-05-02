@@ -15,7 +15,7 @@ import Coding = require('../../plugins/coding');
 import Error = require('../../error');
 import Maybe = require('../../maybe');
 import ObjC = require('../../objc');
-import ValueObject = require('../../value-object');
+import ObjectSpec = require('../../object-spec');
 
 const ValueObjectPlugin = Coding.createPlugin();
 const AlgebraicTypePlugin = Coding.createAlgebraicTypePlugin();
@@ -23,7 +23,7 @@ const AlgebraicTypePlugin = Coding.createAlgebraicTypePlugin();
 describe('ValueObjectPlugins.Coding', function() {
   describe('#validationErrors', function() {
     it('returns no validation errors when there are no attributes on the found type', function() {
-      const valueType:ValueObject.Type = {
+      const objectType:ObjectSpec.Type = {
         annotations: {},
         attributes: [],
         comments: [],
@@ -33,12 +33,12 @@ describe('ValueObjectPlugins.Coding', function() {
         libraryName: Maybe.Nothing<string>(),
         typeName: 'Foo'
       };
-      const errors:Error.Error[] = ValueObjectPlugin.validationErrors(valueType);
+      const errors:Error.Error[] = ValueObjectPlugin.validationErrors(objectType);
       expect(errors).toEqualJSON([]);
     });
 
     it('returns a validation error when there is an attribute with an unknown type', function() {
-      const valueType:ValueObject.Type = {
+      const objectType:ObjectSpec.Type = {
         annotations: {},
         attributes: [
           {
@@ -75,7 +75,7 @@ describe('ValueObjectPlugins.Coding', function() {
         libraryName: Maybe.Nothing<string>(),
         typeName: 'Foo'
       };
-      const errors:Error.Error[] = ValueObjectPlugin.validationErrors(valueType);
+      const errors:Error.Error[] = ValueObjectPlugin.validationErrors(objectType);
       const expectedErrors:Error.Error[] = [
         Error.Error('The Coding plugin does not know how to decode and encode the type "LikeStatus" from Foo.likeStatus. Did you forget to declare a backing type?')
       ];
@@ -83,7 +83,7 @@ describe('ValueObjectPlugins.Coding', function() {
     });
 
     it('returns two validation errors when there are two attributes with unknown types', function() {
-      const valueType:ValueObject.Type = {
+      const objectType:ObjectSpec.Type = {
         annotations: {},
         attributes: [
           {
@@ -120,7 +120,7 @@ describe('ValueObjectPlugins.Coding', function() {
         libraryName: Maybe.Nothing<string>(),
         typeName: 'Foo'
       };
-      const errors:Error.Error[] = ValueObjectPlugin.validationErrors(valueType);
+      const errors:Error.Error[] = ValueObjectPlugin.validationErrors(objectType);
       const expectedErrors:Error.Error[] = [
         Error.Error('The Coding plugin does not know how to decode and encode the type "Name" from Foo.name. Did you forget to declare a backing type?'),
         Error.Error('The Coding plugin does not know how to decode and encode the type "LikeStatus" from Foo.likeStatus. Did you forget to declare a backing type?')
@@ -129,7 +129,7 @@ describe('ValueObjectPlugins.Coding', function() {
     });
 
     it('returns a validation error when there is an attribute with an unknown underlying type', function() {
-      const valueType:ValueObject.Type = {
+      const objectType:ObjectSpec.Type = {
         annotations: {},
         attributes: [
           {
@@ -153,7 +153,7 @@ describe('ValueObjectPlugins.Coding', function() {
         libraryName: Maybe.Nothing<string>(),
         typeName: 'Foo'
       };
-      const errors:Error.Error[] = ValueObjectPlugin.validationErrors(valueType);
+      const errors:Error.Error[] = ValueObjectPlugin.validationErrors(objectType);
       const expectedErrors:Error.Error[] = [
         Error.Error('The Coding plugin does not know how to decode and encode the backing type "Baz" from Foo.name. Did you declare the wrong backing type?')
       ];
@@ -163,7 +163,7 @@ describe('ValueObjectPlugins.Coding', function() {
 
   describe('#instanceMethods', function() {
     it('returns no instance methods when there are no attributes on the found type', function() {
-      const valueType:ValueObject.Type = {
+      const objectType:ObjectSpec.Type = {
         annotations: {},
         attributes: [],
         comments: [],
@@ -173,12 +173,12 @@ describe('ValueObjectPlugins.Coding', function() {
         libraryName: Maybe.Nothing<string>(),
         typeName: 'Foo'
       };
-      const instanceMethods:ObjC.Method[] = ValueObjectPlugin.instanceMethods(valueType);
+      const instanceMethods:ObjC.Method[] = ValueObjectPlugin.instanceMethods(objectType);
       expect(instanceMethods).toEqualJSON([]);
     });
 
     it('returns two instance methods which will encode and decode two values when called', function() {
-      const valueType:ValueObject.Type = {
+      const objectType:ObjectSpec.Type = {
         annotations: {},
         attributes: [
           {
@@ -229,7 +229,7 @@ describe('ValueObjectPlugins.Coding', function() {
         typeName: 'Foo'
       };
 
-      const instanceMethods:ObjC.Method[] = ValueObjectPlugin.instanceMethods(valueType);
+      const instanceMethods:ObjC.Method[] = ValueObjectPlugin.instanceMethods(objectType);
 
       const expectedInstanceMethods:ObjC.Method[] = [
         {
@@ -292,7 +292,7 @@ describe('ValueObjectPlugins.Coding', function() {
 
   describe('#imports', function() {
     it('A correct import the found type', function() {
-      const valueType:ValueObject.Type = {
+      const objectType:ObjectSpec.Type = {
         annotations: {},
         attributes: [
           {
@@ -317,7 +317,7 @@ describe('ValueObjectPlugins.Coding', function() {
         typeName: 'Foo'
       };
 
-      const imports:ObjC.Import[] = ValueObjectPlugin.imports(valueType);
+      const imports:ObjC.Import[] = ValueObjectPlugin.imports(objectType);
       const expectedImports:ObjC.Import[] = [{
         file:'UIGeometry.h',
         isPublic:false,
@@ -329,7 +329,7 @@ describe('ValueObjectPlugins.Coding', function() {
 
   describe('#staticConstants', function() {
     it('returns no constants when there are no attributes on the found type', function() {
-      const valueType:ValueObject.Type = {
+      const objectType:ObjectSpec.Type = {
         annotations: {},
         attributes: [],
         comments: [],
@@ -339,13 +339,13 @@ describe('ValueObjectPlugins.Coding', function() {
         libraryName: Maybe.Nothing<string>(),
         typeName: 'Foo'
       };
-      const staticConstants:ObjC.Constant[] = ValueObjectPlugin.staticConstants(valueType);
+      const staticConstants:ObjC.Constant[] = ValueObjectPlugin.staticConstants(objectType);
       expect(staticConstants).toEqualJSON([]);
     });
 
     it('returns a constant referencing to the key for coding when the found type ' +
       'has a single attribute', function() {
-      const valueType:ValueObject.Type = {
+      const objectType:ObjectSpec.Type = {
         annotations: {},
         attributes: [
           {
@@ -370,7 +370,7 @@ describe('ValueObjectPlugins.Coding', function() {
         typeName: 'Foo'
       };
 
-      const staticConstants:ObjC.Constant[] = ValueObjectPlugin.staticConstants(valueType);
+      const staticConstants:ObjC.Constant[] = ValueObjectPlugin.staticConstants(objectType);
       const expectedStaticConstants:ObjC.Constant[] = [
         {
           type: {
@@ -389,7 +389,7 @@ describe('ValueObjectPlugins.Coding', function() {
 
     it('returns a constant referencing to the key for coding when the found type ' +
       'has a single attribute of a different name', function() {
-      const valueType:ValueObject.Type = {
+      const objectType:ObjectSpec.Type = {
         annotations: {},
         attributes: [
           {
@@ -414,7 +414,7 @@ describe('ValueObjectPlugins.Coding', function() {
         typeName: 'Foo'
       };
 
-      const staticConstants:ObjC.Constant[] = ValueObjectPlugin.staticConstants(valueType);
+      const staticConstants:ObjC.Constant[] = ValueObjectPlugin.staticConstants(objectType);
       const expectedStaticConstants:ObjC.Constant[] = [
         {
           comments: [],
@@ -433,7 +433,7 @@ describe('ValueObjectPlugins.Coding', function() {
 
     it('returns two constants referencing to the key for coding when the found type ' +
       'has two attributes', function() {
-      const valueType:ValueObject.Type = {
+      const objectType:ObjectSpec.Type = {
         annotations: {},
         attributes: [
           {
@@ -471,7 +471,7 @@ describe('ValueObjectPlugins.Coding', function() {
         typeName: 'Foo'
       };
 
-      const staticConstants:ObjC.Constant[] = ValueObjectPlugin.staticConstants(valueType);
+      const staticConstants:ObjC.Constant[] = ValueObjectPlugin.staticConstants(objectType);
       const expectedStaticConstants:ObjC.Constant[] = [
         {
           comments: [],

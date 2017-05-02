@@ -17,8 +17,8 @@ import Maybe = require('../maybe');
 import ObjC = require('../objc');
 import ObjCTypeUtils = require('../objc-type-utils');
 import StringUtils = require('../string-utils');
-import ValueObject = require('../value-object');
-import ValueObjectCodeUtils = require('../value-object-code-utils');
+import ObjectSpec = require('../object-spec');
+import ValueObjectCodeUtils = require('../object-spec-code-utils');
 import CodingUtils = require('./coding-utils')
 
 function underscored(str: string): string {
@@ -32,7 +32,7 @@ export interface CodeableAttribute {
   type:ObjC.Type;
 }
 
-function codingAttributeForValueAttribute(attribute:ValueObject.Attribute):CodeableAttribute {
+function codingAttributeForValueAttribute(attribute:ObjectSpec.Attribute):CodeableAttribute {
   return {
     name: attribute.name,
     valueAccessor: ValueObjectCodeUtils.ivarForAttribute(attribute),
@@ -209,79 +209,79 @@ function isTypeNSCodingCompliant(type:ObjC.Type):boolean {
   type);
 }
 
-function doesValueAttributeContainAnUnknownType(attribute:ValueObject.Attribute):boolean {
+function doesValueAttributeContainAnUnknownType(attribute:ObjectSpec.Attribute):boolean {
   const codeableAttribute:CodeableAttribute = codingAttributeForValueAttribute(attribute);
   const codingStatements:CodingUtils.CodingStatements = CodingUtils.codingStatementsForType(codeableAttribute.type);
   return codingStatements == null;
 }
 
-function doesValueAttributeContainAnUnsupportedType(attribute:ValueObject.Attribute):boolean {
+function doesValueAttributeContainAnUnsupportedType(attribute:ObjectSpec.Attribute):boolean {
   return isTypeNSCodingCompliant(ValueObjectCodeUtils.computeTypeOfAttribute(attribute)) === false;
 }
 
-function valueAttributeToUnknownTypeError(valueType:ValueObject.Type, attribute:ValueObject.Attribute):Error.Error {
+function valueAttributeToUnknownTypeError(objectType:ObjectSpec.Type, attribute:ObjectSpec.Attribute):Error.Error {
   return Maybe.match(function(underlyingType: string):Error.Error {
-    return Error.Error('The Coding plugin does not know how to decode and encode the backing type "' + underlyingType + '" from ' + valueType.typeName + '.' + attribute.name + '. Did you declare the wrong backing type?');
+    return Error.Error('The Coding plugin does not know how to decode and encode the backing type "' + underlyingType + '" from ' + objectType.typeName + '.' + attribute.name + '. Did you declare the wrong backing type?');
   }, function():Error.Error {
-    return Error.Error('The Coding plugin does not know how to decode and encode the type "' + attribute.type.name + '" from ' + valueType.typeName + '.' + attribute.name + '. Did you forget to declare a backing type?');
+    return Error.Error('The Coding plugin does not know how to decode and encode the type "' + attribute.type.name + '" from ' + objectType.typeName + '.' + attribute.name + '. Did you forget to declare a backing type?');
   }, attribute.type.underlyingType);
 }
 
-function valueAttributeToUnsupportedTypeError(valueType:ValueObject.Type, attribute:ValueObject.Attribute):Error.Error {
+function valueAttributeToUnsupportedTypeError(objectType:ObjectSpec.Type, attribute:ObjectSpec.Attribute):Error.Error {
    return Maybe.match(function(underlyingType: string):Error.Error {
-    return Error.Error('The Coding plugin does not know how to decode and encode the backing type "' + underlyingType + '" from ' + valueType.typeName + '.' + attribute.name + '. ' + attribute.type.name + ' is not NSCoding-compilant.');
+    return Error.Error('The Coding plugin does not know how to decode and encode the backing type "' + underlyingType + '" from ' + objectType.typeName + '.' + attribute.name + '. ' + attribute.type.name + ' is not NSCoding-compilant.');
   }, function():Error.Error {
-    return Error.Error('The Coding plugin does not know how to decode and encode the type "' + attribute.type.name + '" from ' + valueType.typeName + '.' + attribute.name + '. ' + attribute.type.name + ' is not NSCoding-compilant.');
+    return Error.Error('The Coding plugin does not know how to decode and encode the type "' + attribute.type.name + '" from ' + objectType.typeName + '.' + attribute.name + '. ' + attribute.type.name + ' is not NSCoding-compilant.');
   }, attribute.type.underlyingType);
 }
 
-function importForAttributeCodingMethod(attribute:ValueObject.Attribute):Maybe.Maybe<ObjC.Import> {
+function importForAttributeCodingMethod(attribute:ObjectSpec.Attribute):Maybe.Maybe<ObjC.Import> {
   const codeableAttribute:CodeableAttribute = codingAttributeForValueAttribute(attribute);
   const codingStatements:CodingUtils.CodingStatements = CodingUtils.codingStatementsForType(codeableAttribute.type);
   return codingStatements.codingFunctionImport;
 }
 
-export function createPlugin():ValueObject.Plugin {
+export function createPlugin():ObjectSpec.Plugin {
   return {
-    additionalFiles: function(valueType:ValueObject.Type):Code.File[] {
+    additionalFiles: function(objectType:ObjectSpec.Type):Code.File[] {
       return [];
     },
-    additionalTypes: function(valueType:ValueObject.Type):ValueObject.Type[] {
+    additionalTypes: function(objectType:ObjectSpec.Type):ObjectSpec.Type[] {
       return [];
     },
-    attributes: function(valueType:ValueObject.Type):ValueObject.Attribute[] {
+    attributes: function(objectType:ObjectSpec.Type):ObjectSpec.Attribute[] {
       return [];
     },
     fileTransformation: function(request:FileWriter.Request):FileWriter.Request {
       return request;
     },
-    fileType: function(valueType:ValueObject.Type):Maybe.Maybe<Code.FileType> {
+    fileType: function(objectType:ObjectSpec.Type):Maybe.Maybe<Code.FileType> {
       return Maybe.Nothing<Code.FileType>();
     },
-    forwardDeclarations: function(valueType:ValueObject.Type):ObjC.ForwardDeclaration[] {
+    forwardDeclarations: function(objectType:ObjectSpec.Type):ObjC.ForwardDeclaration[] {
       return [];
     },
-    functions: function(valueType:ValueObject.Type):ObjC.Function[] {
+    functions: function(objectType:ObjectSpec.Type):ObjC.Function[] {
       return [];
     },
-    headerComments: function(valueType:ValueObject.Type):ObjC.Comment[] {
+    headerComments: function(objectType:ObjectSpec.Type):ObjC.Comment[] {
       return [];
     },
-    implementedProtocols: function(valueType:ValueObject.Type):ObjC.Protocol[] {
+    implementedProtocols: function(objectType:ObjectSpec.Type):ObjC.Protocol[] {
       return [
         {
           name: 'NSCoding'
         }
       ];
     },
-    imports: function(valueType:ValueObject.Type):ObjC.Import[] {
-      const codingImportMaybes:Maybe.Maybe<ObjC.Import>[] = valueType.attributes.map(importForAttributeCodingMethod);
+    imports: function(objectType:ObjectSpec.Type):ObjC.Import[] {
+      const codingImportMaybes:Maybe.Maybe<ObjC.Import>[] = objectType.attributes.map(importForAttributeCodingMethod);
 
       return Maybe.catMaybes(codingImportMaybes);
     },
-    instanceMethods: function(valueType:ValueObject.Type):ObjC.Method[] {
-      if (valueType.attributes.length > 0) {
-        const codingAttributes:CodeableAttribute[] = valueType.attributes.map(codingAttributeForValueAttribute);
+    instanceMethods: function(objectType:ObjectSpec.Type):ObjC.Method[] {
+      if (objectType.attributes.length > 0) {
+        const codingAttributes:CodeableAttribute[] = objectType.attributes.map(codingAttributeForValueAttribute);
         const decodeCode:string[] = codingAttributes.map(decodeStatementForAttribute);
         const encodeCode:string[] = codingAttributes.map(encodeStatementForAttribute);
         return [
@@ -292,19 +292,19 @@ export function createPlugin():ValueObject.Plugin {
         return [];
       }
     },
-    properties: function(valueType:ValueObject.Type):ObjC.Property[] {
+    properties: function(objectType:ObjectSpec.Type):ObjC.Property[] {
       return [];
     },
     requiredIncludesToRun:['RMCoding'],
-    staticConstants: function(valueType:ValueObject.Type):ObjC.Constant[] {
-      return valueType.attributes.map(codingAttributeForValueAttribute).map(staticConstantForAttribute);
+    staticConstants: function(objectType:ObjectSpec.Type):ObjC.Constant[] {
+      return objectType.attributes.map(codingAttributeForValueAttribute).map(staticConstantForAttribute);
     },
-    validationErrors: function(valueType:ValueObject.Type):Error.Error[] {
-      const unknownTypeErrors = valueType.attributes.filter(doesValueAttributeContainAnUnknownType).map(FunctionUtils.pApplyf2(valueType, valueAttributeToUnknownTypeError));
-      const unsupportedTypeErrors = valueType.attributes.filter(doesValueAttributeContainAnUnsupportedType).map(FunctionUtils.pApplyf2(valueType, valueAttributeToUnsupportedTypeError));
+    validationErrors: function(objectType:ObjectSpec.Type):Error.Error[] {
+      const unknownTypeErrors = objectType.attributes.filter(doesValueAttributeContainAnUnknownType).map(FunctionUtils.pApplyf2(objectType, valueAttributeToUnknownTypeError));
+      const unsupportedTypeErrors = objectType.attributes.filter(doesValueAttributeContainAnUnsupportedType).map(FunctionUtils.pApplyf2(objectType, valueAttributeToUnsupportedTypeError));
       return unknownTypeErrors.concat(unsupportedTypeErrors);
     },
-    nullability: function(valueType:ValueObject.Type):Maybe.Maybe<ObjC.ClassNullability> {
+    nullability: function(objectType:ObjectSpec.Type):Maybe.Maybe<ObjC.ClassNullability> {
       return Maybe.Nothing<ObjC.ClassNullability>();
     }
   };

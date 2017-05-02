@@ -8,7 +8,7 @@ The field information in the `.value` file can be used to generate other useful 
 
 To build a plugin:
 
-* Create a js file that implements the following for [valueObjects](https://github.com/facebook/remodel/blob/master/src/value-object.ts#L44), and the following for [algebraicDataTypes](https://github.com/facebook/remodel/blob/master/src/algebraic-type.ts#L84).
+* Create a js file that implements the following for [valueObjects](https://github.com/facebook/remodel/blob/master/src/object-spec.ts#L44), and the following for [algebraicDataTypes](https://github.com/facebook/remodel/blob/master/src/algebraic-type.ts#L84).
 * Update your `.valueObjectConfig` or `.algebraicTypeConfig`  like so:
 
 ```

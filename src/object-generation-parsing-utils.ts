@@ -12,7 +12,7 @@ import Error = require('./error');
 import Maybe = require('./maybe');
 import ObjC = require('./objc');
 import ObjectGeneration = require('./object-generation');
-import ValueObject = require('./value-object');
+import ObjectSpec = require('./object-spec');
 
 export function possiblyUndefinedStringToMaybe(str:string):Maybe.Maybe<string> {
   if (str === undefined) {

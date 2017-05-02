@@ -25,9 +25,9 @@ import RequirePlugin = require('./require-plugin');
 import PathUtils = require('./path-utils');
 import PluginInclusionUtils = require('./plugin-inclusion-utils');
 import Promise = require('./promise');
-import ValueObject = require('./value-object');
-import ValueObjectCreation = require('./value-object-creation');
-import ValueObjectParser = require('./value-object-parser');
+import ObjectSpec = require('./object-spec');
+import ValueObjectCreation = require('./object-spec-creation');
+import ValueObjectParser = require('./object-spec-parser');
 import WriteFileUtils = require('./file-logged-sequence-write-utils');
 
 const BASE_INCLUDES:List.List<string> = List.of(
@@ -53,20 +53,20 @@ interface ValueObjectCreationContext {
   baseClassName:string;
   baseClassLibraryName:Maybe.Maybe<string>;
   diagnosticIgnores:List.List<string>;
-  plugins:List.List<ValueObject.Plugin>;
+  plugins:List.List<ObjectSpec.Plugin>;
   defaultIncludes:List.List<string>;
 }
 
 interface PathAndTypeInfo {
   path: File.AbsoluteFilePath;
-  typeInformation: ValueObject.Type;
+  typeInformation: ObjectSpec.Type;
 }
 
 function evaluateUnparsedValueObjectCreationRequest(request:ReadFileUtils.UnparsedObjectCreationRequest):Either.Either<Error.Error[], PathAndTypeInfo> {
-  const parseResult:Either.Either<Error.Error[], ValueObject.Type> = ValueObjectParser.parse(File.getContents(request.fileContents));
+  const parseResult:Either.Either<Error.Error[], ObjectSpec.Type> = ValueObjectParser.parse(File.getContents(request.fileContents));
   return Either.match(function(errors:Error.Error[]) {
     return Either.Left<Error.Error[], PathAndTypeInfo>(errors.map(function(error:Error.Error) { return Error.Error('[' + File.getAbsolutePathString(request.path) + '] ' + Error.getReason(error)); }));
-  }, function(foundType:ValueObject.Type) {
+  }, function(foundType:ObjectSpec.Type) {
     return Either.Right<Error.Error[], PathAndTypeInfo>({path:request.path, typeInformation:foundType});
   }, parseResult);
 }
@@ -75,7 +75,7 @@ function parseValues(either:Either.Either<Error.Error[], ReadFileUtils.UnparsedO
   return Promise.munit(Logging.munit(Either.mbind(evaluateUnparsedValueObjectCreationRequest, either)));
 }
 
-function typeInformationContainingDefaultIncludes(typeInformation:ValueObject.Type, defaultIncludes:List.List<string>):ValueObject.Type {
+function typeInformationContainingDefaultIncludes(typeInformation:ObjectSpec.Type, defaultIncludes:List.List<string>):ObjectSpec.Type {
   return {
     annotations: typeInformation.annotations,
     attributes: typeInformation.attributes,
@@ -106,18 +106,18 @@ function processValueObjectCreationRequest(future:Promise.Future<Either.Either<E
   }, future);
 }
 
-function pluginsFromPluginConfigs(pluginConfigs:List.List<Configuration.PluginConfig>):Either.Either<Error.Error[], List.List<ValueObject.Plugin>> {
-  return List.foldr(function(soFar:Either.Either<Error.Error[], List.List<ValueObject.Plugin>>, config:Configuration.PluginConfig):Either.Either<Error.Error[], List.List<ValueObject.Plugin>> {
-    return Either.mbind(function(list:List.List<ValueObject.Plugin>):Either.Either<Error.Error[], List.List<ValueObject.Plugin>> {
-      return Either.map(function(maybePlugin:Maybe.Maybe<ValueObject.Plugin>):List.List<ValueObject.Plugin> {
-        return Maybe.match(function(plugin:ValueObject.Plugin) {
+function pluginsFromPluginConfigs(pluginConfigs:List.List<Configuration.PluginConfig>):Either.Either<Error.Error[], List.List<ObjectSpec.Plugin>> {
+  return List.foldr(function(soFar:Either.Either<Error.Error[], List.List<ObjectSpec.Plugin>>, config:Configuration.PluginConfig):Either.Either<Error.Error[], List.List<ObjectSpec.Plugin>> {
+    return Either.mbind(function(list:List.List<ObjectSpec.Plugin>):Either.Either<Error.Error[], List.List<ObjectSpec.Plugin>> {
+      return Either.map(function(maybePlugin:Maybe.Maybe<ObjectSpec.Plugin>):List.List<ObjectSpec.Plugin> {
+        return Maybe.match(function(plugin:ObjectSpec.Plugin) {
                               return List.cons(plugin, list);
                             },function() {
                               return list;
                             }, maybePlugin);
                           }, RequirePlugin.requireValueObjectPlugin(config.absolutePath));
     }, soFar);
-  }, Either.Right<Error.Error[], List.List<ValueObject.Plugin>>(List.of<ValueObject.Plugin>()), pluginConfigs);
+  }, Either.Right<Error.Error[], List.List<ObjectSpec.Plugin>>(List.of<ObjectSpec.Plugin>()), pluginConfigs);
 }
 
 function getValueObjectCreationContext(valueObjectConfigPathFuture:Promise.Future<Maybe.Maybe<File.AbsoluteFilePath>>):Promise.Future<Either.Either<Error.Error[], ValueObjectCreationContext>> {
@@ -130,7 +130,7 @@ function getValueObjectCreationContext(valueObjectConfigPathFuture:Promise.Futur
     return Promise.map(function(either:Either.Either<Error.Error[], Configuration.GenerationConfig>) {
       return Either.mbind(function(configuration:Configuration.GenerationConfig):Either.Either<Error.Error[], ValueObjectCreationContext> {
         const pluginsEither = pluginsFromPluginConfigs(configuration.pluginConfigs);
-        return Either.map(function(plugins:List.List<ValueObject.Plugin>):ValueObjectCreationContext {
+        return Either.map(function(plugins:List.List<ObjectSpec.Plugin>):ValueObjectCreationContext {
           return {
             baseClassName:configuration.baseClassName,
             baseClassLibraryName:configuration.baseClassLibraryName,

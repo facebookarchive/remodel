@@ -12,8 +12,8 @@ import Maybe = require('./maybe');
 import ObjC = require('./objc');
 import ObjCTypeUtils = require('./objc-type-utils');
 import ObjectGeneration = require('./object-generation');
-import ValueObject = require('./value-object');
-import ValueObjectCodeUtils = require('./value-object-code-utils');
+import ObjectSpec = require('./object-spec');
+import ValueObjectCodeUtils = require('./object-spec-code-utils');
 
 const KNOWN_SYSTEM_TYPE_IMPORT_INFO: { [id: string]: Maybe.Maybe<ObjC.Import> } = {
   'BOOL': Maybe.Nothing<ObjC.Import>(),
@@ -177,7 +177,7 @@ export function canForwardDeclareType(type:ObjC.Type):boolean {
   type);
 }
 
-export function canForwardDeclareTypeForAttributeConsideringType(attribute:ValueObject.Attribute):boolean {
+export function canForwardDeclareTypeForAttributeConsideringType(attribute:ObjectSpec.Attribute):boolean {
   const type:ObjC.Type = ValueObjectCodeUtils.computeTypeOfAttribute(attribute);
   return canForwardDeclareType(type);
 }
@@ -186,7 +186,7 @@ export function requiresPublicImportForType(typeName:string, computedType:ObjC.T
   return isImportRequiredForTypeWithName(typeName) && !canForwardDeclareType(computedType);
 }
 
-export function canForwardDeclareTypeForAttribute(attribute:ValueObject.Attribute):boolean {
+export function canForwardDeclareTypeForAttribute(attribute:ObjectSpec.Attribute):boolean {
   const customFileDefined:boolean = Maybe.match(
     function(fileName:string) {
       return true;

@@ -7,7 +7,7 @@
  * of patent rights can be found in the PATENTS file in the same directory.
  */
 
-import ValueObject = require('./value-object');
+import ObjectSpec = require('./object-spec');
 
 export function typeReferenceForValueTypeWithName(name:string):string {
   return name + ' *';

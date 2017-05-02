@@ -16,8 +16,8 @@ import FunctionUtils = require('../function-utils');
 import Maybe = require('../maybe');
 import ObjC = require('../objc');
 import ObjCTypeUtils = require('../objc-type-utils');
-import ValueObject = require('../value-object');
-import ValueObjectCodeUtils = require('../value-object-code-utils');
+import ObjectSpec = require('../object-spec');
+import ValueObjectCodeUtils = require('../object-spec-code-utils');
 
 interface AttributeDescription {
   descriptionFunctionImport: Maybe.Maybe<ObjC.Import>;
@@ -215,11 +215,11 @@ function computedAttributeDescriptionFromAttributeDescription(attributeDescripti
   };
 }
 
-function attributeDescriptionForValueObjectAttribute(attribute:ValueObject.Attribute):AttributeDescription {
+function attributeDescriptionForValueObjectAttribute(attribute:ObjectSpec.Attribute):AttributeDescription {
   return attributeDescriptionForType(ValueObjectCodeUtils.computeTypeOfAttribute(attribute));
 }
 
-function attributeDescriptionImportMaybeForValueObjectAttribute(attribute:ValueObject.Attribute):Maybe.Maybe<ObjC.Import> {
+function attributeDescriptionImportMaybeForValueObjectAttribute(attribute:ObjectSpec.Attribute):Maybe.Maybe<ObjC.Import> {
   return attributeDescriptionForType(ValueObjectCodeUtils.computeTypeOfAttribute(attribute)).descriptionFunctionImport;
 }
 
@@ -227,7 +227,7 @@ function attributeDescriptionImportMaybeForAlgebraicAttribute(attribute:Algebrai
   return attributeDescriptionForType(AlgebraicTypeUtils.computeTypeOfAttribute(attribute)).descriptionFunctionImport;
 }
 
-function computedAttributeDescriptionFromAttribute(attribute:ValueObject.Attribute):ComputedAttributeDescription {
+function computedAttributeDescriptionFromAttribute(attribute:ObjectSpec.Attribute):ComputedAttributeDescription {
   const attributeDescription:AttributeDescription = attributeDescriptionForValueObjectAttribute(attribute);
   return computedAttributeDescriptionFromAttributeDescription(attributeDescription, attribute.name, ValueObjectCodeUtils.ivarForAttribute(attribute));
 }
@@ -266,73 +266,73 @@ function descriptionInstanceMethodWithCode(code:string[]):ObjC.Method {
   };
 }
 
-function doesValueAttributeContainAnUnknownType(attribute:ValueObject.Attribute):boolean {
+function doesValueAttributeContainAnUnknownType(attribute:ObjectSpec.Attribute):boolean {
   const attributeDescription:AttributeDescription = attributeDescriptionForValueObjectAttribute(attribute);
   return attributeDescription == null;
 }
 
-function valueAttributeToUnknownTypeError(valueType:ValueObject.Type, attribute:ValueObject.Attribute):Error.Error {
+function valueAttributeToUnknownTypeError(objectType:ObjectSpec.Type, attribute:ObjectSpec.Attribute):Error.Error {
   return Maybe.match(function(underlyingType: string):Error.Error {
-    return Error.Error('The Description plugin does not know how to format the backing type "' + underlyingType + '" from ' + valueType.typeName + '.' + attribute.name + '. Did you declare the wrong backing type?');
+    return Error.Error('The Description plugin does not know how to format the backing type "' + underlyingType + '" from ' + objectType.typeName + '.' + attribute.name + '. Did you declare the wrong backing type?');
   }, function():Error.Error {
-    return Error.Error('The Description plugin does not know how to format the type "' + attribute.type.name + '" from ' + valueType.typeName + '.' + attribute.name + '. Did you forget to declare a backing type?');
+    return Error.Error('The Description plugin does not know how to format the type "' + attribute.type.name + '" from ' + objectType.typeName + '.' + attribute.name + '. Did you forget to declare a backing type?');
   }, attribute.type.underlyingType);
 }
 
-export function createPlugin():ValueObject.Plugin {
+export function createPlugin():ObjectSpec.Plugin {
   return {
-    additionalFiles: function(valueType:ValueObject.Type):Code.File[] {
+    additionalFiles: function(objectType:ObjectSpec.Type):Code.File[] {
       return [];
     },
-    additionalTypes: function(valueType:ValueObject.Type):ValueObject.Type[] {
+    additionalTypes: function(objectType:ObjectSpec.Type):ObjectSpec.Type[] {
       return [];
     },
-    attributes: function(valueType:ValueObject.Type):ValueObject.Attribute[] {
+    attributes: function(objectType:ObjectSpec.Type):ObjectSpec.Attribute[] {
       return [];
     },
     fileTransformation: function(request:FileWriter.Request):FileWriter.Request {
       return request;
     },
-    fileType: function(valueType:ValueObject.Type):Maybe.Maybe<Code.FileType> {
+    fileType: function(objectType:ObjectSpec.Type):Maybe.Maybe<Code.FileType> {
       return Maybe.Nothing<Code.FileType>();
     },
-    forwardDeclarations: function(valueType:ValueObject.Type):ObjC.ForwardDeclaration[] {
+    forwardDeclarations: function(objectType:ObjectSpec.Type):ObjC.ForwardDeclaration[] {
       return [];
     },
-    functions: function(valueType:ValueObject.Type):ObjC.Function[] {
+    functions: function(objectType:ObjectSpec.Type):ObjC.Function[] {
       return [];
     },
-    headerComments: function(valueType:ValueObject.Type):ObjC.Comment[] {
+    headerComments: function(objectType:ObjectSpec.Type):ObjC.Comment[] {
       return [];
     },
-    implementedProtocols: function(valueType:ValueObject.Type):ObjC.Protocol[] {
+    implementedProtocols: function(objectType:ObjectSpec.Type):ObjC.Protocol[] {
       return [];
     },
-    imports: function(valueType:ValueObject.Type):ObjC.Import[] {
-      const attributeDescriptionImportMaybes:Maybe.Maybe<ObjC.Import>[] = valueType.attributes.map(attributeDescriptionImportMaybeForValueObjectAttribute);
+    imports: function(objectType:ObjectSpec.Type):ObjC.Import[] {
+      const attributeDescriptionImportMaybes:Maybe.Maybe<ObjC.Import>[] = objectType.attributes.map(attributeDescriptionImportMaybeForValueObjectAttribute);
 
       return Maybe.catMaybes(attributeDescriptionImportMaybes);
     },
-    instanceMethods: function(valueType:ValueObject.Type):ObjC.Method[] {
-      if (valueType.attributes.length > 0) {
-        const attributeDescriptions:ComputedAttributeDescription[] = valueType.attributes.map(computedAttributeDescriptionFromAttribute);
+    instanceMethods: function(objectType:ObjectSpec.Type):ObjC.Method[] {
+      if (objectType.attributes.length > 0) {
+        const attributeDescriptions:ComputedAttributeDescription[] = objectType.attributes.map(computedAttributeDescriptionFromAttribute);
         const code:string[] = [returnStatementForAttributeDescriptions(attributeDescriptions)];
         return [descriptionInstanceMethodWithCode(code)];
       } else {
         return [];
       }
     },
-    properties: function(valueType:ValueObject.Type):ObjC.Property[] {
+    properties: function(objectType:ObjectSpec.Type):ObjC.Property[] {
       return [];
     },
     requiredIncludesToRun:['RMDescription'],
-    staticConstants: function(valueType:ValueObject.Type):ObjC.Constant[] {
+    staticConstants: function(objectType:ObjectSpec.Type):ObjC.Constant[] {
       return [];
     },
-    validationErrors: function(valueType:ValueObject.Type):Error.Error[] {
-      return valueType.attributes.filter(doesValueAttributeContainAnUnknownType).map(FunctionUtils.pApplyf2(valueType, valueAttributeToUnknownTypeError));
+    validationErrors: function(objectType:ObjectSpec.Type):Error.Error[] {
+      return objectType.attributes.filter(doesValueAttributeContainAnUnknownType).map(FunctionUtils.pApplyf2(objectType, valueAttributeToUnknownTypeError));
     },
-    nullability: function(valueType:ValueObject.Type):Maybe.Maybe<ObjC.ClassNullability> {
+    nullability: function(objectType:ObjectSpec.Type):Maybe.Maybe<ObjC.ClassNullability> {
       return Maybe.Nothing<ObjC.ClassNullability>();
     }
   };

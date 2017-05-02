@@ -11,17 +11,17 @@ import Maybe = require('./maybe');
 import ObjC = require('./objc');
 import ObjCTypeUtils = require('./objc-type-utils');
 import StringUtils = require('./string-utils');
-import ValueObject = require('./value-object');
+import ObjectSpec = require('./object-spec');
 
 function allocationPartOfConstructorInvocationForTypeName(typeName: string): string {
   return typeName + ' alloc';
 }
 
-function invocationPartForAttribute(valueGenerator:(attribute:ValueObject.Attribute) => string, attribute: ValueObject.Attribute): string {
+function invocationPartForAttribute(valueGenerator:(attribute:ObjectSpec.Attribute) => string, attribute: ObjectSpec.Attribute): string {
   return attribute.name + ':' + valueGenerator(attribute);
 }
 
-function invocationPartOfConstructorInvocationForAttributes(attributes: ValueObject.Attribute[], valueGenerator:(attribute:ValueObject.Attribute) => string): string {
+function invocationPartOfConstructorInvocationForAttributes(attributes: ObjectSpec.Attribute[], valueGenerator:(attribute:ObjectSpec.Attribute) => string): string {
   if (attributes.length > 0) {
     return 'initWith' + StringUtils.capitalize(attributes.map(invocationPartForAttribute.bind(null, valueGenerator)).join(' '));
   } else {
@@ -29,13 +29,13 @@ function invocationPartOfConstructorInvocationForAttributes(attributes: ValueObj
   }
 }
 
-export function methodInvocationForConstructor(valueType: ValueObject.Type, valueGenerator:(attribute:ValueObject.Attribute) => string): string {
-  const allocationPart = allocationPartOfConstructorInvocationForTypeName(valueType.typeName);
-  const invocationPart = invocationPartOfConstructorInvocationForAttributes(valueType.attributes, valueGenerator);
+export function methodInvocationForConstructor(objectType: ObjectSpec.Type, valueGenerator:(attribute:ObjectSpec.Attribute) => string): string {
+  const allocationPart = allocationPartOfConstructorInvocationForTypeName(objectType.typeName);
+  const invocationPart = invocationPartOfConstructorInvocationForAttributes(objectType.attributes, valueGenerator);
   return '[[' + allocationPart + '] ' + invocationPart + ']';
 }
 
-export  function ivarForAttribute(attribute:ValueObject.Attribute):string {
+export  function ivarForAttribute(attribute:ObjectSpec.Attribute):string {
   return '_' + attribute.name;
 }
 
@@ -46,7 +46,7 @@ function typeForUnderlyingType(underlyingType:string):ObjC.Type {
   };
 }
 
-export function computeTypeOfAttribute(attribute:ValueObject.Attribute):ObjC.Type {
+export function computeTypeOfAttribute(attribute:ObjectSpec.Attribute):ObjC.Type {
   return Maybe.match(typeForUnderlyingType, function():ObjC.Type {
     return {
       name: attribute.type.name,
@@ -55,7 +55,7 @@ export function computeTypeOfAttribute(attribute:ValueObject.Attribute):ObjC.Typ
   }, attribute.type.underlyingType);
 }
 
-export function propertyOwnershipModifierForAttribute(attribute:ValueObject.Attribute):ObjC.PropertyModifier {
+export function propertyOwnershipModifierForAttribute(attribute:ObjectSpec.Attribute):ObjC.PropertyModifier {
   const type = computeTypeOfAttribute(attribute);
   if (type === null) {
     return ObjC.PropertyModifier.Assign();
@@ -133,7 +133,7 @@ export function propertyOwnershipModifierForAttribute(attribute:ValueObject.Attr
   }, type);
 }
 
-export function shouldCopyIncomingValueForAttribute(attribute:ValueObject.Attribute):boolean {
+export function shouldCopyIncomingValueForAttribute(attribute:ObjectSpec.Attribute):boolean {
   const modifier = propertyOwnershipModifierForAttribute(attribute);
   if (modifier === null) {
     return false;

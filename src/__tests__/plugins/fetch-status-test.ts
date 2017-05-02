@@ -12,7 +12,7 @@
 
 import FetchStatus = require('../../plugins/fetch-status');
 import Maybe = require('../../maybe');
-import ValueObject = require('../../value-object');
+import ObjectSpec = require('../../object-spec');
 import ObjC = require('../../objc');
 
 const Plugin = FetchStatus.createPlugin();
@@ -20,7 +20,7 @@ const Plugin = FetchStatus.createPlugin();
 describe('Plugins.FetchStatus', function() {
   describe('#attributes', function() {
     it('returns a fetch status attribute', function() {
-      const valueType:ValueObject.Type = {
+      const objectType:ObjectSpec.Type = {
         annotations: {},
         attributes: [],
         comments: [],
@@ -31,9 +31,9 @@ describe('Plugins.FetchStatus', function() {
         typeName: 'Foo'
       };
 
-      const attributes:ValueObject.Attribute[] = Plugin.attributes(valueType);
+      const attributes:ObjectSpec.Attribute[] = Plugin.attributes(objectType);
 
-      const expectedAttributes:ValueObject.Attribute[] = [
+      const expectedAttributes:ObjectSpec.Attribute[] = [
       {
         annotations: {},
         comments: [],
@@ -53,7 +53,7 @@ describe('Plugins.FetchStatus', function() {
   });
   describe('#additionalTypes', function() {
     it('returns a fetch-status type with correct attributes', function() {
-      const valueType:ValueObject.Type = {
+      const objectType:ObjectSpec.Type = {
         annotations: {},
         attributes: [
         {
@@ -78,9 +78,9 @@ describe('Plugins.FetchStatus', function() {
         typeName: 'Foo'
       };
 
-      const additionalType:ValueObject.Type = Plugin.additionalTypes(valueType)[0];
+      const additionalType:ObjectSpec.Type = Plugin.additionalTypes(objectType)[0];
 
-      const expectedValueType:ValueObject.Type = {
+      const expectedValueType:ObjectSpec.Type = {
         annotations: {},
         attributes: [
         {

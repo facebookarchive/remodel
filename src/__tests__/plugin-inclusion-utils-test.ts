@@ -13,7 +13,7 @@
 import List = require('../list');
 import Maybe = require('../maybe');
 import PluginInclusionUtils = require('../plugin-inclusion-utils');
-import ValueObject = require('../value-object');
+import ObjectSpec = require('../object-spec');
 
 describe('PluginInclusionUtils', function() {
   describe('#includesContainingDefaultIncludes', function() {

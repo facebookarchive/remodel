@@ -31,7 +31,7 @@ Maybe.match(function(args) {
     const Promise = require('./dist/promise');
     const List = require('./dist/list');
 
-    const valueObjectsFuture = require('./dist/value-objects').generate(process.cwd(), args);
+    const valueObjectsFuture = require('./dist/object-specs').generate(process.cwd(), args);
     const algebraicTypesFuture = require('./dist/algebraic-types').generate(process.cwd(), args);
 
     const promise = Promise.all(List.of(valueObjectsFuture, algebraicTypesFuture));

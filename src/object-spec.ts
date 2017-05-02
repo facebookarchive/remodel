@@ -42,20 +42,20 @@ export interface Type {
 }
 
 export interface Plugin {
-  additionalFiles: (valueType:Type) => Code.File[];
-  additionalTypes: (valueType:Type) => Type[];
-  attributes: (valueType:Type) => Attribute[];
+  additionalFiles: (objectType:Type) => Code.File[];
+  additionalTypes: (objectType:Type) => Type[];
+  attributes: (objectType:Type) => Attribute[];
   fileTransformation:(writeRequest:FileWriter.Request) => FileWriter.Request;
-  fileType: (valueType:Type) => Maybe.Maybe<Code.FileType>;
-  forwardDeclarations: (valueType:Type) => ObjC.ForwardDeclaration[];
-  functions: (valueType:Type) => ObjC.Function[];
-  headerComments: (valueType:Type) => ObjC.Comment[];
-  imports: (valueType:Type) => ObjC.Import[];
-  implementedProtocols: (valueType:Type) => ObjC.Protocol[];
-  instanceMethods: (valueType:Type) => ObjC.Method[];
-  properties: (valueType:Type) => ObjC.Property[];
+  fileType: (objectType:Type) => Maybe.Maybe<Code.FileType>;
+  forwardDeclarations: (objectType:Type) => ObjC.ForwardDeclaration[];
+  functions: (objectType:Type) => ObjC.Function[];
+  headerComments: (objectType:Type) => ObjC.Comment[];
+  imports: (objectType:Type) => ObjC.Import[];
+  implementedProtocols: (objectType:Type) => ObjC.Protocol[];
+  instanceMethods: (objectType:Type) => ObjC.Method[];
+  properties: (objectType:Type) => ObjC.Property[];
   requiredIncludesToRun:string[];
-  staticConstants: (valueType:Type) => ObjC.Constant[];
-  validationErrors: (valueType:Type) => Error.Error[];
-  nullability: (valueType:Type) => Maybe.Maybe<ObjC.ClassNullability>;
+  staticConstants: (objectType:Type) => ObjC.Constant[];
+  validationErrors: (objectType:Type) => Error.Error[];
+  nullability: (objectType:Type) => Maybe.Maybe<ObjC.ClassNullability>;
 }

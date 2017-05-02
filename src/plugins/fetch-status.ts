@@ -13,8 +13,8 @@ import FileWriter = require('../file-writer');
 import Maybe = require('../maybe');
 import ObjC = require('../objc');
 import StringUtils = require('../string-utils');
-import ValueObject = require('../value-object');
-import ValueObjectUtils = require('../value-object-utils');
+import ObjectSpec = require('../object-spec');
+import ValueObjectUtils = require('../object-spec-utils');
 
 function nameOfFetchStatusForValueTypeWithName(valueTypeName: string):string {
   return valueTypeName + 'FetchStatus';
@@ -24,11 +24,11 @@ function nameOfFetchStatusAttributeForAttribute(attributeName: string): string {
   return 'hasFetched' + StringUtils.capitalize(attributeName);
 }
 
-function isFetchStatusAttribute(attribute:ValueObject.Attribute, valueType:ValueObject.Type):boolean {
-  return attribute.type.name !== nameOfFetchStatusForValueTypeWithName(valueType.typeName);
+function isFetchStatusAttribute(attribute:ObjectSpec.Attribute, objectType:ObjectSpec.Type):boolean {
+  return attribute.type.name !== nameOfFetchStatusForValueTypeWithName(objectType.typeName);
 }
 
-function fetchStatusAttributeForAttribute(attribute:ValueObject.Attribute):ValueObject.Attribute {
+function fetchStatusAttributeForAttribute(attribute:ObjectSpec.Attribute):ObjectSpec.Attribute {
   return {
     annotations: {},
     comments: [],
@@ -44,27 +44,27 @@ function fetchStatusAttributeForAttribute(attribute:ValueObject.Attribute):Value
   };
 }
 
-function fetchedAttributesForValueType(valueType:ValueObject.Type) {
-  return valueType.attributes.filter(function(attribute:ValueObject.Attribute) {
-      return isFetchStatusAttribute(attribute, valueType);
+function fetchedAttributesForValueType(objectType:ObjectSpec.Type) {
+  return objectType.attributes.filter(function(attribute:ObjectSpec.Attribute) {
+      return isFetchStatusAttribute(attribute, objectType);
     }).map(fetchStatusAttributeForAttribute);
 }
 
-function fetchStatusValueTypeForValueType(valueType:ValueObject.Type):ValueObject.Type {
+function fetchStatusValueTypeForValueType(objectType:ObjectSpec.Type):ObjectSpec.Type {
   return {
     annotations:{},
-    attributes: fetchedAttributesForValueType(valueType),
+    attributes: fetchedAttributesForValueType(objectType),
     comments: [],
     excludes: [],
     includes: [],
-    libraryName: valueType.libraryName,
+    libraryName: objectType.libraryName,
     typeLookups:[],
-    typeName: nameOfFetchStatusForValueTypeWithName(valueType.typeName)
+    typeName: nameOfFetchStatusForValueTypeWithName(objectType.typeName)
   };
 }
 
-function fetchStatusAttributeForValueType(valueType:ValueObject.Type):ValueObject.Attribute {
-  const fetchStatusTypeName:string = nameOfFetchStatusForValueTypeWithName(valueType.typeName);
+function fetchStatusAttributeForValueType(objectType:ObjectSpec.Type):ObjectSpec.Attribute {
+  const fetchStatusTypeName:string = nameOfFetchStatusForValueTypeWithName(objectType.typeName);
 
   return {
     annotations: {},
@@ -73,7 +73,7 @@ function fetchStatusAttributeForValueType(valueType:ValueObject.Type):ValueObjec
     nullability:ObjC.Nullability.Inherited(),
     type: {
       fileTypeIsDefinedIn:Maybe.Nothing<string>(),
-      libraryTypeIsDefinedIn:valueType.libraryName,
+      libraryTypeIsDefinedIn:objectType.libraryName,
       name:fetchStatusTypeName,
       reference:ValueObjectUtils.typeReferenceForValueTypeWithName(fetchStatusTypeName),
       underlyingType:Maybe.Just<string>('NSObject')
@@ -81,56 +81,56 @@ function fetchStatusAttributeForValueType(valueType:ValueObject.Type):ValueObjec
   };
 }
 
-export function createPlugin():ValueObject.Plugin {
+export function createPlugin():ObjectSpec.Plugin {
   return {
-    additionalFiles: function(valueType:ValueObject.Type):Code.File[] {
+    additionalFiles: function(objectType:ObjectSpec.Type):Code.File[] {
       return [];
     },
-    additionalTypes: function(valueType:ValueObject.Type):ValueObject.Type[] {
+    additionalTypes: function(objectType:ObjectSpec.Type):ObjectSpec.Type[] {
       return [
-        fetchStatusValueTypeForValueType(valueType)
+        fetchStatusValueTypeForValueType(objectType)
       ];
     },
-    attributes: function(valueType:ValueObject.Type):ValueObject.Attribute[] {
+    attributes: function(objectType:ObjectSpec.Type):ObjectSpec.Attribute[] {
       return [
-        fetchStatusAttributeForValueType(valueType)
+        fetchStatusAttributeForValueType(objectType)
       ];
     },
     fileTransformation: function(request:FileWriter.Request):FileWriter.Request {
       return request;
     },
-    fileType: function(valueType:ValueObject.Type):Maybe.Maybe<Code.FileType> {
+    fileType: function(objectType:ObjectSpec.Type):Maybe.Maybe<Code.FileType> {
       return Maybe.Nothing<Code.FileType>();
     },
-    forwardDeclarations: function(valueType:ValueObject.Type):ObjC.ForwardDeclaration[] {
+    forwardDeclarations: function(objectType:ObjectSpec.Type):ObjC.ForwardDeclaration[] {
       return [];
     },
-    functions: function(valueType:ValueObject.Type):ObjC.Function[] {
+    functions: function(objectType:ObjectSpec.Type):ObjC.Function[] {
       return [];
     },
-    headerComments: function(valueType:ValueObject.Type):ObjC.Comment[] {
+    headerComments: function(objectType:ObjectSpec.Type):ObjC.Comment[] {
       return [];
     },
-    implementedProtocols: function(valueType:ValueObject.Type):ObjC.Protocol[] {
+    implementedProtocols: function(objectType:ObjectSpec.Type):ObjC.Protocol[] {
       return [];
     },
-    imports: function(valueType:ValueObject.Type):ObjC.Import[] {
+    imports: function(objectType:ObjectSpec.Type):ObjC.Import[] {
       return [];
     },
-    instanceMethods: function(valueType:ValueObject.Type):ObjC.Method[] {
+    instanceMethods: function(objectType:ObjectSpec.Type):ObjC.Method[] {
       return [];
     },
-    properties: function(valueType:ValueObject.Type):ObjC.Property[] {
+    properties: function(objectType:ObjectSpec.Type):ObjC.Property[] {
       return [];
     },
     requiredIncludesToRun:['RMFetchStatus'],
-    staticConstants: function(valueType:ValueObject.Type):ObjC.Constant[] {
+    staticConstants: function(objectType:ObjectSpec.Type):ObjC.Constant[] {
       return [];
     },
-    validationErrors: function(valueType:ValueObject.Type):Error.Error[] {
+    validationErrors: function(objectType:ObjectSpec.Type):Error.Error[] {
       return [];
     },
-    nullability: function(valueType:ValueObject.Type):Maybe.Maybe<ObjC.ClassNullability> {
+    nullability: function(objectType:ObjectSpec.Type):Maybe.Maybe<ObjC.ClassNullability> {
       return Maybe.Nothing<ObjC.ClassNullability>();
     }
   };

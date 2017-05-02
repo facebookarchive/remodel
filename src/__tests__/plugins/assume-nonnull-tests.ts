@@ -15,7 +15,7 @@ import AssumeNonnull = require('../../plugins/assume-nonnull');
 import FileWriter = require('../../file-writer');
 import Maybe = require('../../maybe');
 import ObjC = require('../../objc');
-import ValueObject = require('../../value-object');
+import ObjectSpec = require('../../object-spec');
 
 const ValueObjectPlugin = AssumeNonnull.createPlugin();
 const AlgebraicTypePlugin = AssumeNonnull.createAlgebraicTypePlugin();
@@ -23,7 +23,7 @@ const AlgebraicTypePlugin = AssumeNonnull.createAlgebraicTypePlugin();
 describe('ValueObjectPlugins.AssumeNonnull', function() {
   describe('#imports', function() {
     it('Foundation was found', function() {
-      const valueType:ValueObject.Type = {
+      const objectType:ObjectSpec.Type = {
         annotations: {},
         attributes: [],
         comments: [],
@@ -34,7 +34,7 @@ describe('ValueObjectPlugins.AssumeNonnull', function() {
         typeName: 'Foo'
       };
 
-      const imports:ObjC.Import[] = ValueObjectPlugin.imports(valueType);
+      const imports:ObjC.Import[] = ValueObjectPlugin.imports(objectType);
       const expectedImports:ObjC.Import[] = [
         { file: 'Foundation.h', isPublic: true, library: Maybe.Just('Foundation') },
       ];
@@ -44,7 +44,7 @@ describe('ValueObjectPlugins.AssumeNonnull', function() {
 
   describe('#nullability', function() {
     it('AssumeNonnull macro was found', function() {
-      const valueType:ValueObject.Type = {
+      const objectType:ObjectSpec.Type = {
         annotations: {},
         attributes: [],
         comments: [],
@@ -55,7 +55,7 @@ describe('ValueObjectPlugins.AssumeNonnull', function() {
         typeName: 'Foo'
       };
 
-      const nullability:Maybe.Maybe<ObjC.ClassNullability> = ValueObjectPlugin.nullability(valueType);
+      const nullability:Maybe.Maybe<ObjC.ClassNullability> = ValueObjectPlugin.nullability(objectType);
       const expectedNullability:Maybe.Maybe<ObjC.ClassNullability> = Maybe.Just(ObjC.ClassNullability.assumeNonnull);
       expect(nullability).toEqualJSON(expectedNullability);
     });

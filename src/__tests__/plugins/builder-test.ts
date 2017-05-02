@@ -15,7 +15,7 @@ import Code = require('../../code');
 import Maybe = require('../../maybe');
 import ObjC = require('../../objc');
 import ObjectGeneration = require('../../object-generation');
-import ValueObject = require('../../value-object');
+import ObjectSpec = require('../../object-spec');
 
 const Plugin = Builder.createPlugin();
 
@@ -23,7 +23,7 @@ describe('Plugins.Builder', function() {
   describe('#additionalFiles', function() {
     it('returns a header and an implementation for a builder when provided a ' +
        'value type that has no attributes', function() {
-      const valueType:ValueObject.Type = {
+      const objectType:ObjectSpec.Type = {
         annotations: {},
         attributes: [],
         comments: [],
@@ -34,7 +34,7 @@ describe('Plugins.Builder', function() {
         typeName: 'FooBarBaz'
       };
 
-      const additionalFiles:Code.File[] = Plugin.additionalFiles(valueType);
+      const additionalFiles:Code.File[] = Plugin.additionalFiles(objectType);
 
       const expectedAdditionalFiles:Code.File[] = [
         {
@@ -150,7 +150,7 @@ describe('Plugins.Builder', function() {
 
     it('returns a header and an implementation for a builder when provided a ' +
        'value type that has no attributes and a different name', function() {
-      const valueType:ValueObject.Type = {
+      const objectType:ObjectSpec.Type = {
         annotations: {},
         attributes: [],
         comments: [],
@@ -161,7 +161,7 @@ describe('Plugins.Builder', function() {
         typeName: 'RMFerr'
       };
 
-      const additionalFiles:Code.File[] = Plugin.additionalFiles(valueType);
+      const additionalFiles:Code.File[] = Plugin.additionalFiles(objectType);
 
       const expectedAdditionalFiles:Code.File[] = [
         {
@@ -277,7 +277,7 @@ describe('Plugins.Builder', function() {
 
     it('returns a header and an implementation for a builder when provided a ' +
        'value type that has a bunch of attributes', function() {
-      const valueType:ValueObject.Type = {
+      const objectType:ObjectSpec.Type = {
         annotations: {},
         attributes: [
           {
@@ -328,7 +328,7 @@ describe('Plugins.Builder', function() {
         typeName: 'RMFerr'
       };
 
-      const additionalFiles:Code.File[] = Plugin.additionalFiles(valueType);
+      const additionalFiles:Code.File[] = Plugin.additionalFiles(objectType);
 
       const expectedAdditionalFiles:Code.File[] = [
         {

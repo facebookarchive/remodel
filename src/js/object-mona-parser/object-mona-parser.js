@@ -11,10 +11,10 @@
  * Legacy value object parser written using mona and pure js. This should
  * eventually be moved into a more effecient and typed parser.
  */
-const valueObject = require('./value-object/value-object-parser');
+const objectSpec = require('./object-spec/object-spec-parser');
 const algebraicType = require('./algebraic-type/algebraic-type-parser');
 
 module.exports = {
-  parseValueObject: valueObject.parse,
+  parseObjectSpec: objectSpec.parse,
   parseAlgebraicType: algebraicType.parse,
 };

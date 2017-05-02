@@ -15,7 +15,7 @@ import Description = require('../../plugins/description');
 import Error = require('../../error');
 import Maybe = require('../../maybe');
 import ObjC = require('../../objc');
-import ValueObject = require('../../value-object');
+import ObjectSpec = require('../../object-spec');
 
 const AlgebraicTypePlugin = Description.createAlgebraicTypePlugin();
 const ValueObjectPlugin = Description.createPlugin();
@@ -24,7 +24,7 @@ describe('ValueObjectPlugins.Description', function() {
   describe('Value Object', function() {
     describe('#validationErrors', function() {
       it('returns no validation errors when there are no attributes on the found type', function() {
-        const valueType:ValueObject.Type = {
+        const objectType:ObjectSpec.Type = {
           annotations: {},
           attributes: [],
           comments: [],
@@ -34,12 +34,12 @@ describe('ValueObjectPlugins.Description', function() {
           typeLookups:[],
           typeName: 'Foo'
         };
-        const errors:Error.Error[] = ValueObjectPlugin.validationErrors(valueType);
+        const errors:Error.Error[] = ValueObjectPlugin.validationErrors(objectType);
         expect(errors).toEqualJSON([]);
       });
 
       it('returns a validation error when there is an attribute with an unknown type', function() {
-        const valueType:ValueObject.Type = {
+        const objectType:ObjectSpec.Type = {
           annotations: {},
           attributes: [
             {
@@ -76,7 +76,7 @@ describe('ValueObjectPlugins.Description', function() {
           typeLookups:[],
           typeName: 'Foo'
         };
-        const errors:Error.Error[] = ValueObjectPlugin.validationErrors(valueType);
+        const errors:Error.Error[] = ValueObjectPlugin.validationErrors(objectType);
         const expectedErrors:Error.Error[] = [
           Error.Error('The Description plugin does not know how to format the type "LikeStatus" from Foo.likeStatus. Did you forget to declare a backing type?')
         ];
@@ -84,7 +84,7 @@ describe('ValueObjectPlugins.Description', function() {
       });
 
       it('returns two validation errors when there are two attributes with unknown types', function() {
-        const valueType:ValueObject.Type = {
+        const objectType:ObjectSpec.Type = {
           annotations: {},
           attributes: [
             {
@@ -121,7 +121,7 @@ describe('ValueObjectPlugins.Description', function() {
           typeLookups:[],
           typeName: 'Foo'
         };
-        const errors:Error.Error[] = ValueObjectPlugin.validationErrors(valueType);
+        const errors:Error.Error[] = ValueObjectPlugin.validationErrors(objectType);
         const expectedErrors:Error.Error[] = [
           Error.Error('The Description plugin does not know how to format the type "Name" from Foo.name. Did you forget to declare a backing type?'),
           Error.Error('The Description plugin does not know how to format the type "LikeStatus" from Foo.likeStatus. Did you forget to declare a backing type?')
@@ -130,7 +130,7 @@ describe('ValueObjectPlugins.Description', function() {
       });
 
       it('returns a validation error when there is an attribute with an unknown underlying type', function() {
-        const valueType:ValueObject.Type = {
+        const objectType:ObjectSpec.Type = {
           annotations: {},
           attributes: [
             {
@@ -154,7 +154,7 @@ describe('ValueObjectPlugins.Description', function() {
           typeLookups:[],
           typeName: 'Foo'
         };
-        const errors:Error.Error[] = ValueObjectPlugin.validationErrors(valueType);
+        const errors:Error.Error[] = ValueObjectPlugin.validationErrors(objectType);
         const expectedErrors:Error.Error[] = [
           Error.Error('The Description plugin does not know how to format the backing type "Baz" from Foo.name. Did you declare the wrong backing type?')
         ];
@@ -164,7 +164,7 @@ describe('ValueObjectPlugins.Description', function() {
 
     describe('#imports', function() {
       it('correctly finds imports for description functions that require them', function() {
-        const valueType:ValueObject.Type = {
+        const objectType:ObjectSpec.Type = {
           annotations: {},
           attributes: [
             {
@@ -188,7 +188,7 @@ describe('ValueObjectPlugins.Description', function() {
           typeLookups:[],
           typeName: 'Foo'
         };
-        const imports:ObjC.Import[] = ValueObjectPlugin.imports(valueType);
+        const imports:ObjC.Import[] = ValueObjectPlugin.imports(objectType);
         const expectedImports:ObjC.Import[] = [{
           file:'UIGeometry.h',
           isPublic:false,
@@ -200,7 +200,7 @@ describe('ValueObjectPlugins.Description', function() {
 
     describe('#instanceMethods', function() {
       it('returns no instance methods when there are no attributes on the found type', function() {
-        const valueType:ValueObject.Type = {
+        const objectType:ObjectSpec.Type = {
           annotations: {},
           attributes: [],
           comments: [],
@@ -210,12 +210,12 @@ describe('ValueObjectPlugins.Description', function() {
           typeLookups:[],
           typeName: 'Foo'
         };
-        const instanceMethods:ObjC.Method[] = ValueObjectPlugin.instanceMethods(valueType);
+        const instanceMethods:ObjC.Method[] = ValueObjectPlugin.instanceMethods(objectType);
         expect(instanceMethods).toEqualJSON([]);
       });
 
       it('returns an instance method which will output a BOOL attribute when called', function() {
-        const valueType:ValueObject.Type = {
+        const objectType:ObjectSpec.Type = {
           annotations: {},
           attributes: [
             {
@@ -240,7 +240,7 @@ describe('ValueObjectPlugins.Description', function() {
           typeName: 'Foo'
         };
 
-        const instanceMethods:ObjC.Method[] = ValueObjectPlugin.instanceMethods(valueType);
+        const instanceMethods:ObjC.Method[] = ValueObjectPlugin.instanceMethods(objectType);
 
         const expectedInstanceMethods:ObjC.Method[] = [
           {
@@ -266,7 +266,7 @@ describe('ValueObjectPlugins.Description', function() {
       });
 
       it('returns an instance method which will output an NSString* attribute when called', function() {
-        const valueType:ValueObject.Type = {
+        const objectType:ObjectSpec.Type = {
           annotations: {},
           attributes: [
             {
@@ -291,7 +291,7 @@ describe('ValueObjectPlugins.Description', function() {
           typeName: 'Foo'
         };
 
-        const instanceMethods:ObjC.Method[] = ValueObjectPlugin.instanceMethods(valueType);
+        const instanceMethods:ObjC.Method[] = ValueObjectPlugin.instanceMethods(objectType);
 
         const expectedInstanceMethods:ObjC.Method[] = [
           {
@@ -317,7 +317,7 @@ describe('ValueObjectPlugins.Description', function() {
       });
 
       it('returns an instance method which will output an id attribute when called', function() {
-        const valueType:ValueObject.Type = {
+        const objectType:ObjectSpec.Type = {
           annotations: {},
           attributes: [
             {
@@ -342,7 +342,7 @@ describe('ValueObjectPlugins.Description', function() {
           typeName: 'Foo'
         };
 
-        const instanceMethods:ObjC.Method[] = ValueObjectPlugin.instanceMethods(valueType);
+        const instanceMethods:ObjC.Method[] = ValueObjectPlugin.instanceMethods(objectType);
 
         const expectedInstanceMethods:ObjC.Method[] = [
           {
@@ -368,7 +368,7 @@ describe('ValueObjectPlugins.Description', function() {
       });
 
       it('returns an instance method which will output an NSInteger attribute when called', function() {
-        const valueType:ValueObject.Type = {
+        const objectType:ObjectSpec.Type = {
           annotations: {},
           attributes: [
             {
@@ -393,7 +393,7 @@ describe('ValueObjectPlugins.Description', function() {
           typeName: 'Foo'
         };
 
-        const instanceMethods:ObjC.Method[] = ValueObjectPlugin.instanceMethods(valueType);
+        const instanceMethods:ObjC.Method[] = ValueObjectPlugin.instanceMethods(objectType);
 
         const expectedInstanceMethods:ObjC.Method[] = [
           {
@@ -419,7 +419,7 @@ describe('ValueObjectPlugins.Description', function() {
       });
 
       it('returns an instance method which will output an NSUInteger attribute when called', function() {
-        const valueType:ValueObject.Type = {
+        const objectType:ObjectSpec.Type = {
           annotations: {},
           attributes: [
             {
@@ -444,7 +444,7 @@ describe('ValueObjectPlugins.Description', function() {
           typeName: 'Foo'
         };
 
-        const instanceMethods:ObjC.Method[] = ValueObjectPlugin.instanceMethods(valueType);
+        const instanceMethods:ObjC.Method[] = ValueObjectPlugin.instanceMethods(objectType);
 
         const expectedInstanceMethods:ObjC.Method[] = [
           {
@@ -470,7 +470,7 @@ describe('ValueObjectPlugins.Description', function() {
       });
 
       it('returns an instance method which will output a double attribute when called', function() {
-        const valueType:ValueObject.Type = {
+        const objectType:ObjectSpec.Type = {
           annotations: {},
           attributes: [
             {
@@ -495,7 +495,7 @@ describe('ValueObjectPlugins.Description', function() {
           typeName: 'Foo'
         };
 
-        const instanceMethods:ObjC.Method[] = ValueObjectPlugin.instanceMethods(valueType);
+        const instanceMethods:ObjC.Method[] = ValueObjectPlugin.instanceMethods(objectType);
 
         const expectedInstanceMethods:ObjC.Method[] = [
           {
@@ -521,7 +521,7 @@ describe('ValueObjectPlugins.Description', function() {
       });
 
       it('returns an instance method which will output a float attribute when called', function() {
-        const valueType:ValueObject.Type = {
+        const objectType:ObjectSpec.Type = {
           annotations: {},
           attributes: [
             {
@@ -546,7 +546,7 @@ describe('ValueObjectPlugins.Description', function() {
           typeName: 'Foo'
         };
 
-        const instanceMethods:ObjC.Method[] = ValueObjectPlugin.instanceMethods(valueType);
+        const instanceMethods:ObjC.Method[] = ValueObjectPlugin.instanceMethods(objectType);
 
         const expectedInstanceMethods:ObjC.Method[] = [
           {
@@ -572,7 +572,7 @@ describe('ValueObjectPlugins.Description', function() {
       });
 
       it('returns an instance method which will output a CGFloat attribute when called', function() {
-        const valueType:ValueObject.Type = {
+        const objectType:ObjectSpec.Type = {
           annotations: {},
           attributes: [
             {
@@ -597,7 +597,7 @@ describe('ValueObjectPlugins.Description', function() {
           typeName: 'Foo'
         };
 
-        const instanceMethods:ObjC.Method[] = ValueObjectPlugin.instanceMethods(valueType);
+        const instanceMethods:ObjC.Method[] = ValueObjectPlugin.instanceMethods(objectType);
 
         const expectedInstanceMethods:ObjC.Method[] = [
           {
@@ -623,7 +623,7 @@ describe('ValueObjectPlugins.Description', function() {
       });
 
       it('returns an instance method which will output an NSTimeInterval attribute when called', function() {
-        const valueType:ValueObject.Type = {
+        const objectType:ObjectSpec.Type = {
         annotations: {},
           attributes: [
             {
@@ -648,7 +648,7 @@ describe('ValueObjectPlugins.Description', function() {
           typeName: 'Foo'
         };
 
-        const instanceMethods:ObjC.Method[] = ValueObjectPlugin.instanceMethods(valueType);
+        const instanceMethods:ObjC.Method[] = ValueObjectPlugin.instanceMethods(objectType);
 
         const expectedInstanceMethods:ObjC.Method[] = [
           {
@@ -674,7 +674,7 @@ describe('ValueObjectPlugins.Description', function() {
       });
 
       it('returns an instance method which will output a uintptr_t attribute when called', function() {
-        const valueType:ValueObject.Type = {
+        const objectType:ObjectSpec.Type = {
           annotations: {},
           attributes: [
             {
@@ -699,7 +699,7 @@ describe('ValueObjectPlugins.Description', function() {
           typeName: 'Foo'
         };
 
-        const instanceMethods:ObjC.Method[] = ValueObjectPlugin.instanceMethods(valueType);
+        const instanceMethods:ObjC.Method[] = ValueObjectPlugin.instanceMethods(objectType);
 
         const expectedInstanceMethods:ObjC.Method[] = [
           {
@@ -725,7 +725,7 @@ describe('ValueObjectPlugins.Description', function() {
       });
 
       it('returns an instance method which will output an uint64_t attribute when called', function() {
-        const valueType:ValueObject.Type = {
+        const objectType:ObjectSpec.Type = {
           annotations: {},
           attributes: [
             {
@@ -750,7 +750,7 @@ describe('ValueObjectPlugins.Description', function() {
           typeName: 'Foo'
         };
 
-        const instanceMethods:ObjC.Method[] = ValueObjectPlugin.instanceMethods(valueType);
+        const instanceMethods:ObjC.Method[] = ValueObjectPlugin.instanceMethods(objectType);
 
         const expectedInstanceMethods:ObjC.Method[] = [
           {
@@ -776,7 +776,7 @@ describe('ValueObjectPlugins.Description', function() {
       });
 
       it('returns an instance method which will output an int32_t attribute when called', function() {
-        const valueType:ValueObject.Type = {
+        const objectType:ObjectSpec.Type = {
           annotations: {},
           attributes: [
             {
@@ -801,7 +801,7 @@ describe('ValueObjectPlugins.Description', function() {
           typeName: 'Foo'
         };
 
-        const instanceMethods:ObjC.Method[] = ValueObjectPlugin.instanceMethods(valueType);
+        const instanceMethods:ObjC.Method[] = ValueObjectPlugin.instanceMethods(objectType);
 
         const expectedInstanceMethods:ObjC.Method[] = [
           {
@@ -827,7 +827,7 @@ describe('ValueObjectPlugins.Description', function() {
       });
 
       it('returns an instance method which will output an int64_t attribute when called', function() {
-        const valueType:ValueObject.Type = {
+        const objectType:ObjectSpec.Type = {
           annotations: {},
           attributes: [
             {
@@ -852,7 +852,7 @@ describe('ValueObjectPlugins.Description', function() {
           typeName: 'Foo'
         };
 
-        const instanceMethods:ObjC.Method[] = ValueObjectPlugin.instanceMethods(valueType);
+        const instanceMethods:ObjC.Method[] = ValueObjectPlugin.instanceMethods(objectType);
 
         const expectedInstanceMethods:ObjC.Method[] = [
           {
@@ -879,7 +879,7 @@ describe('ValueObjectPlugins.Description', function() {
 
       it('returns an instance method which will output an NSUInteger attribute ' +
          'when called and the attribute type has an underlying type of NSUInteger', function() {
-        const valueType:ValueObject.Type = {
+        const objectType:ObjectSpec.Type = {
           annotations: {},
           attributes: [
             {
@@ -904,7 +904,7 @@ describe('ValueObjectPlugins.Description', function() {
           typeName: 'Foo'
         };
 
-        const instanceMethods:ObjC.Method[] = ValueObjectPlugin.instanceMethods(valueType);
+        const instanceMethods:ObjC.Method[] = ValueObjectPlugin.instanceMethods(objectType);
 
         const expectedInstanceMethods:ObjC.Method[] = [
           {
@@ -930,7 +930,7 @@ describe('ValueObjectPlugins.Description', function() {
       });
 
       it('returns an instance method which will output a selector attribute when called', function() {
-        const valueType:ValueObject.Type = {
+        const objectType:ObjectSpec.Type = {
           annotations: {},
           attributes: [
             {
@@ -955,7 +955,7 @@ describe('ValueObjectPlugins.Description', function() {
           typeName: 'Foo'
         };
 
-        const instanceMethods:ObjC.Method[] = ValueObjectPlugin.instanceMethods(valueType);
+        const instanceMethods:ObjC.Method[] = ValueObjectPlugin.instanceMethods(objectType);
 
         const expectedInstanceMethods:ObjC.Method[] = [
           {
@@ -981,7 +981,7 @@ describe('ValueObjectPlugins.Description', function() {
       });
 
       it('returns an instance method which will output an NSRange attribute when called', function() {
-        const valueType:ValueObject.Type = {
+        const objectType:ObjectSpec.Type = {
           annotations: {},
           attributes: [
             {
@@ -1006,7 +1006,7 @@ describe('ValueObjectPlugins.Description', function() {
           typeName: 'Foo'
         };
 
-        const instanceMethods:ObjC.Method[] = ValueObjectPlugin.instanceMethods(valueType);
+        const instanceMethods:ObjC.Method[] = ValueObjectPlugin.instanceMethods(objectType);
 
         const expectedInstanceMethods:ObjC.Method[] = [
           {
@@ -1032,7 +1032,7 @@ describe('ValueObjectPlugins.Description', function() {
       });
 
       it('returns an instance method which will output a CGRect attribute when called', function() {
-        const valueType:ValueObject.Type = {
+        const objectType:ObjectSpec.Type = {
           annotations: {},
           attributes: [
             {
@@ -1057,7 +1057,7 @@ describe('ValueObjectPlugins.Description', function() {
           typeName: 'Foo'
         };
 
-        const instanceMethods:ObjC.Method[] = ValueObjectPlugin.instanceMethods(valueType);
+        const instanceMethods:ObjC.Method[] = ValueObjectPlugin.instanceMethods(objectType);
 
         const expectedInstanceMethods:ObjC.Method[] = [
           {
@@ -1083,7 +1083,7 @@ describe('ValueObjectPlugins.Description', function() {
       });
 
       it('returns an instance method which will output a CGPoint attribute when called', function() {
-        const valueType:ValueObject.Type = {
+        const objectType:ObjectSpec.Type = {
           annotations: {},
           attributes: [
             {
@@ -1108,7 +1108,7 @@ describe('ValueObjectPlugins.Description', function() {
           typeName: 'Foo'
         };
 
-        const instanceMethods:ObjC.Method[] = ValueObjectPlugin.instanceMethods(valueType);
+        const instanceMethods:ObjC.Method[] = ValueObjectPlugin.instanceMethods(objectType);
 
         const expectedInstanceMethods:ObjC.Method[] = [
           {
@@ -1134,7 +1134,7 @@ describe('ValueObjectPlugins.Description', function() {
       });
 
       it('returns an instance method which will output a CGSize attribute when called', function() {
-        const valueType:ValueObject.Type = {
+        const objectType:ObjectSpec.Type = {
           annotations: {},
           attributes: [
             {
@@ -1159,7 +1159,7 @@ describe('ValueObjectPlugins.Description', function() {
           typeName: 'Foo'
         };
 
-        const instanceMethods:ObjC.Method[] = ValueObjectPlugin.instanceMethods(valueType);
+        const instanceMethods:ObjC.Method[] = ValueObjectPlugin.instanceMethods(objectType);
 
         const expectedInstanceMethods:ObjC.Method[] = [
           {
@@ -1185,7 +1185,7 @@ describe('ValueObjectPlugins.Description', function() {
       });
 
       it('returns an instance method which will output a UIEdgeInsets attribute when called', function() {
-        const valueType:ValueObject.Type = {
+        const objectType:ObjectSpec.Type = {
           annotations: {},
           attributes: [
             {
@@ -1209,7 +1209,7 @@ describe('ValueObjectPlugins.Description', function() {
           typeLookups:[],
           typeName: 'Foo'
         };
-        const instanceMethods:ObjC.Method[] = ValueObjectPlugin.instanceMethods(valueType);
+        const instanceMethods:ObjC.Method[] = ValueObjectPlugin.instanceMethods(objectType);
 
         const expectedInstanceMethods:ObjC.Method[] = [
           {

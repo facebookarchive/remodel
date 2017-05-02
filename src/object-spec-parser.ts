@@ -12,7 +12,7 @@
 import Either = require('./either');
 import Error = require('./error');
 import Maybe = require('./maybe');
-import ValueObject = require('./value-object');
+import ObjectSpec = require('./object-spec');
 import ObjC = require('./objc');
 import ObjectGeneration = require('./object-generation');
 import ObjectGenerationParsingUtils = require('./object-generation-parsing-utils');
@@ -30,7 +30,7 @@ function underlyingTypeForType(providedUnderlyingType:string, typeReference:stri
 }
 
 /* tslint:disable:max-line-length */
-function foundAttributeTypeFromParsedAttributeType(type:ObjectMonaParser.ParsedAttributeType, annotations:{[name:string]: {[key:string]: string}[]}):ValueObject.AttributeType {
+function foundAttributeTypeFromParsedAttributeType(type:ObjectMonaParser.ParsedAttributeType, annotations:{[name:string]: {[key:string]: string}[]}):ObjectSpec.AttributeType {
 /* tsline:enable:max-line-length */
   return {
     fileTypeIsDefinedIn:ObjectGenerationParsingUtils.valueFromImportAnnotationFromAnnotations(annotations, 'file'),
@@ -41,7 +41,7 @@ function foundAttributeTypeFromParsedAttributeType(type:ObjectMonaParser.ParsedA
   };
 }
 
-function foundAttributeFromParseResultAttribute(attribute:ObjectMonaParser.ParsedAttribute):ValueObject.Attribute {
+function foundAttributeFromParseResultAttribute(attribute:ObjectMonaParser.ParsedAttribute):ObjectSpec.Attribute {
   return {
    annotations:ObjectGenerationParsingUtils.foundAnnotationFromParsedAnnotations(attribute.annotations),
    comments:attribute.comments,
@@ -51,7 +51,7 @@ function foundAttributeFromParseResultAttribute(attribute:ObjectMonaParser.Parse
   };
 }
 
-function foundTypeFromParsedType(foundType:ObjectMonaParser.ValueObjectParsedType):ValueObject.Type {
+function foundTypeFromParsedType(foundType:ObjectMonaParser.ObjectSpecParsedType):ObjectSpec.Type {
   return {
     annotations:ObjectGenerationParsingUtils.foundAnnotationFromParsedAnnotations(foundType.annotations),
     attributes:foundType.attributes.map(foundAttributeFromParseResultAttribute),
@@ -72,13 +72,13 @@ function foundTypeFromParsedType(foundType:ObjectMonaParser.ValueObjectParsedTyp
   };
 }
 
-export function parse(input:string):Either.Either<Error.Error[], ValueObject.Type> {
-  const result:ObjectMonaParser.ValueObjectParseResult = ObjectMonaParser.parseValueObject(input);
+export function parse(input:string):Either.Either<Error.Error[], ObjectSpec.Type> {
+  const result:ObjectMonaParser.ObjectSpecParseResult = ObjectMonaParser.parseObjectSpec(input);
 
   if (result.isValid) {
-    const foundType:ValueObject.Type = foundTypeFromParsedType(result.foundType);
-    return Either.Right<Error.Error[], ValueObject.Type>(foundType);
+    const foundType:ObjectSpec.Type = foundTypeFromParsedType(result.foundType);
+    return Either.Right<Error.Error[], ObjectSpec.Type>(foundType);
   } else {
-    return Either.Left<Error.Error[], ValueObject.Type>([Error.Error(result.errorReason)]);
+    return Either.Left<Error.Error[], ObjectSpec.Type>([Error.Error(result.errorReason)]);
   }
 }

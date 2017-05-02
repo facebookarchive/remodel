@@ -13,14 +13,14 @@
 import ImmutableProperties = require('../../plugins/immutable-properties');
 import Maybe = require('../../maybe');
 import ObjC = require('../../objc');
-import ValueObject = require('../../value-object');
+import ObjectSpec = require('../../object-spec');
 
 const Plugin = ImmutableProperties.createPlugin();
 
 describe('Plugins.ImmutableProperties', function() {
   describe('#instanceMethods', function() {
     it('is an empty array when there are no attributes', function() {
-      const valueType:ValueObject.Type = {
+      const objectType:ObjectSpec.Type = {
         annotations: {},
         attributes: [],
         comments: [],
@@ -31,7 +31,7 @@ describe('Plugins.ImmutableProperties', function() {
         libraryName: Maybe.Nothing<string>()
       };
 
-      const actualMethods = Plugin.instanceMethods(valueType);
+      const actualMethods = Plugin.instanceMethods(objectType);
 
       const expectedMethods = [];
 
@@ -40,7 +40,7 @@ describe('Plugins.ImmutableProperties', function() {
 
     it('is an initializer with a single property when one attribute is ' +
        'given', function() {
-      const valueType:ValueObject.Type = {
+      const objectType:ObjectSpec.Type = {
         annotations: {},
         attributes: [
           {
@@ -65,7 +65,7 @@ describe('Plugins.ImmutableProperties', function() {
         libraryName: Maybe.Nothing<string>()
       };
 
-      const actualMethods = Plugin.instanceMethods(valueType);
+      const actualMethods = Plugin.instanceMethods(objectType);
 
       const expectedMethods:ObjC.Method[] = [
         {
@@ -103,7 +103,7 @@ describe('Plugins.ImmutableProperties', function() {
 
     it('is an initializer with multiple properties when many attribtutes are ' +
        'given', function() {
-      const valueType:ValueObject.Type = {
+      const objectType:ObjectSpec.Type = {
         annotations: {},
         attributes: [
           {
@@ -167,7 +167,7 @@ describe('Plugins.ImmutableProperties', function() {
         libraryName: null
       };
 
-      const actualMethods = Plugin.instanceMethods(valueType);
+      const actualMethods = Plugin.instanceMethods(objectType);
 
       const expectedMethods:ObjC.Method[] = [
         {
@@ -242,7 +242,7 @@ describe('Plugins.ImmutableProperties', function() {
 
   describe('#imports', function() {
     it('includes foundation even when there are no attributes', function() {
-      const valueType:ValueObject.Type = {
+      const objectType:ObjectSpec.Type = {
         annotations: {},
         attributes: [],
         comments: [],
@@ -253,7 +253,7 @@ describe('Plugins.ImmutableProperties', function() {
         libraryName: Maybe.Nothing<string>()
       };
 
-      const actualImports = Plugin.imports(valueType);
+      const actualImports = Plugin.imports(objectType);
 
       const expectedImport = {
         file:'Foundation.h',
@@ -266,7 +266,7 @@ describe('Plugins.ImmutableProperties', function() {
 
     it('includes an import for itself locally when the type is not inside ' +
        'of a library', function() {
-      const valueType:ValueObject.Type = {
+      const objectType:ObjectSpec.Type = {
         annotations: {},
         attributes: [],
         comments: [],
@@ -277,7 +277,7 @@ describe('Plugins.ImmutableProperties', function() {
         libraryName: Maybe.Nothing<string>()
       };
 
-      const actualImports = Plugin.imports(valueType);
+      const actualImports = Plugin.imports(objectType);
 
       const expectedImport = {
         file:'RMSomething.h',
@@ -290,7 +290,7 @@ describe('Plugins.ImmutableProperties', function() {
 
     it('includes an import for itself in a library when the type itself is ' +
        'inside of a library', function() {
-      const valueType:ValueObject.Type = {
+      const objectType:ObjectSpec.Type = {
         annotations: {},
         attributes: [],
         comments: [],
@@ -301,7 +301,7 @@ describe('Plugins.ImmutableProperties', function() {
         libraryName: Maybe.Just('RMSomeLibrary')
       };
 
-      const actualImports = Plugin.imports(valueType);
+      const actualImports = Plugin.imports(objectType);
 
       const expectedImport = {
         file:'RMSomething.h',
@@ -313,7 +313,7 @@ describe('Plugins.ImmutableProperties', function() {
     });
 
     it('includes an import for the provided type lookups', function() {
-      const valueType:ValueObject.Type = {
+      const objectType:ObjectSpec.Type = {
         annotations: {},
         attributes: [],
         comments: [],
@@ -337,7 +337,7 @@ describe('Plugins.ImmutableProperties', function() {
         libraryName: Maybe.Just('RMSomeLibrary')
       };
 
-      const actualImports = Plugin.imports(valueType);
+      const actualImports = Plugin.imports(objectType);
 
       expect(actualImports).toContain({
         file:'Baz.h',
@@ -354,7 +354,7 @@ describe('Plugins.ImmutableProperties', function() {
 
     it('does not include a public import for itself when it is provided with ' +
        'a type lookup for itself', function() {
-      const valueType:ValueObject.Type = {
+      const objectType:ObjectSpec.Type = {
         annotations: {},
         attributes: [],
         comments: [],
@@ -372,7 +372,7 @@ describe('Plugins.ImmutableProperties', function() {
         libraryName: Maybe.Just('RMSomeLibrary')
       };
 
-      const actualImports = Plugin.imports(valueType);
+      const actualImports = Plugin.imports(objectType);
 
       expect(actualImports).not.toContain({
         file:'RMSomething.h',
@@ -383,7 +383,7 @@ describe('Plugins.ImmutableProperties', function() {
 
     it('includes for an attribute that is an NSObject but does not have a ' +
        'specified library and the value object is in a library', function() {
-      const valueType:ValueObject.Type = {
+      const objectType:ObjectSpec.Type = {
         annotations: {},
         attributes: [
           {
@@ -408,7 +408,7 @@ describe('Plugins.ImmutableProperties', function() {
         libraryName: Maybe.Just('RMSomeLibrary')
       };
 
-      const actualImports = Plugin.imports(valueType);
+      const actualImports = Plugin.imports(objectType);
 
       const expectedImport = {
         file:'RMSomethingElse.h',
@@ -421,7 +421,7 @@ describe('Plugins.ImmutableProperties', function() {
 
     it('includes for an attribute that is an NSObject but does not have a ' +
        'specified library and the value object is not in a library', function() {
-      const valueType:ValueObject.Type = {
+      const objectType:ObjectSpec.Type = {
         annotations: {},
         attributes: [
           {
@@ -446,7 +446,7 @@ describe('Plugins.ImmutableProperties', function() {
         libraryName: Maybe.Nothing<string>()
       };
 
-      const actualImports = Plugin.imports(valueType);
+      const actualImports = Plugin.imports(objectType);
 
       const expectedImport = {
         file:'RMSomethingElse.h',
@@ -459,7 +459,7 @@ describe('Plugins.ImmutableProperties', function() {
 
     it('includes for an attribute that is an NSObject but specifies which file ' +
        'it should be without a library and the value object is not in a library', function() {
-      const valueType:ValueObject.Type = {
+      const objectType:ObjectSpec.Type = {
         annotations: {},
         attributes: [
           {
@@ -484,7 +484,7 @@ describe('Plugins.ImmutableProperties', function() {
         libraryName: Maybe.Nothing<string>()
       };
 
-      const actualImports = Plugin.imports(valueType);
+      const actualImports = Plugin.imports(objectType);
 
       const expectedImport = {
         file:'RMSomeOtherFile.h',
@@ -497,7 +497,7 @@ describe('Plugins.ImmutableProperties', function() {
 
     it('includes for an attribute that is an NSObject but specifies which file ' +
        'it should be with a library and the value object is not in a library', function() {
-      const valueType:ValueObject.Type = {
+      const objectType:ObjectSpec.Type = {
         annotations: {},
         attributes: [
           {
@@ -522,7 +522,7 @@ describe('Plugins.ImmutableProperties', function() {
         libraryName: Maybe.Nothing<string>()
       };
 
-      const actualImports = Plugin.imports(valueType);
+      const actualImports = Plugin.imports(objectType);
 
       const expectedImport = {
         file:'RMSomeOtherFile.h',
@@ -535,7 +535,7 @@ describe('Plugins.ImmutableProperties', function() {
 
     it('includes for an attribute that is an NSObject but specifies which file ' +
        'it should be with a library and the value object is in a library', function() {
-      const valueType:ValueObject.Type = {
+      const objectType:ObjectSpec.Type = {
         annotations: {},
         attributes: [
           {
@@ -560,7 +560,7 @@ describe('Plugins.ImmutableProperties', function() {
         libraryName: Maybe.Just('RMSomeLibrary')
       };
 
-      const actualImports = Plugin.imports(valueType);
+      const actualImports = Plugin.imports(objectType);
 
       const expectedImport = {
         file:'RMSomeOtherFile.h',
@@ -573,7 +573,7 @@ describe('Plugins.ImmutableProperties', function() {
 
     it('includes for an attribute that is an NSObject but specifies which library ' +
        'it should be and the value object is in a library', function() {
-      const valueType:ValueObject.Type = {
+      const objectType:ObjectSpec.Type = {
         annotations: {},
         attributes: [
           {
@@ -598,7 +598,7 @@ describe('Plugins.ImmutableProperties', function() {
         libraryName: Maybe.Just('RMSomeLibrary')
       };
 
-      const actualImports = Plugin.imports(valueType);
+      const actualImports = Plugin.imports(objectType);
 
       const expectedImport = {
         file:'RMSomethingElse.h',
@@ -610,7 +610,7 @@ describe('Plugins.ImmutableProperties', function() {
     });
 
     it('does not include anything for BOOL type attributes', function() {
-      const valueType:ValueObject.Type = {
+      const objectType:ObjectSpec.Type = {
         annotations: {},
         attributes: [
           {
@@ -635,18 +635,18 @@ describe('Plugins.ImmutableProperties', function() {
         libraryName: Maybe.Just('RMSomeLibrary')
       };
 
-      const actualImports = Plugin.imports(valueType);
+      const actualImports = Plugin.imports(objectType);
 
       const baseImports = [
         {file:'Foundation.h', isPublic:true, library:Maybe.Just('Foundation')},
-        {file:valueType.typeName + '.h', isPublic:false, library:Maybe.Nothing<string>()}
+        {file:objectType.typeName + '.h', isPublic:false, library:Maybe.Nothing<string>()}
       ];
 
       expect(actualImports).toEqualJSON(baseImports);
     });
 
     it('does not include anything for double type attributes', function() {
-      const valueType:ValueObject.Type = {
+      const objectType:ObjectSpec.Type = {
         annotations: {},
         attributes: [
           {
@@ -671,18 +671,18 @@ describe('Plugins.ImmutableProperties', function() {
         libraryName: Maybe.Just('RMSomeLibrary')
       };
 
-      const actualImports = Plugin.imports(valueType);
+      const actualImports = Plugin.imports(objectType);
 
       const baseImports = [
         {file:'Foundation.h', isPublic:true, library:Maybe.Just('Foundation')},
-        {file:valueType.typeName + '.h', isPublic:false, library:Maybe.Nothing<string>()}
+        {file:objectType.typeName + '.h', isPublic:false, library:Maybe.Nothing<string>()}
       ];
 
       expect(actualImports).toEqualJSON(baseImports);
     });
 
     it('does not include anything for float type attributes', function() {
-      const valueType:ValueObject.Type = {
+      const objectType:ObjectSpec.Type = {
         annotations: {},
         attributes: [
           {
@@ -707,18 +707,18 @@ describe('Plugins.ImmutableProperties', function() {
         libraryName: Maybe.Just('RMSomeLibrary')
       };
 
-      const actualImports = Plugin.imports(valueType);
+      const actualImports = Plugin.imports(objectType);
 
       const baseImports = [
         {file:'Foundation.h', isPublic:true, library:Maybe.Just('Foundation')},
-        {file:valueType.typeName + '.h', isPublic:false, library:Maybe.Nothing<string>()}
+        {file:objectType.typeName + '.h', isPublic:false, library:Maybe.Nothing<string>()}
       ];
 
       expect(actualImports).toEqualJSON(baseImports);
     });
 
     it('does not include anything for NSTimeInterval type attributes', function() {
-      const valueType:ValueObject.Type = {
+      const objectType:ObjectSpec.Type = {
         annotations: {},
         attributes: [
           {
@@ -743,18 +743,18 @@ describe('Plugins.ImmutableProperties', function() {
         libraryName: Maybe.Just('RMSomeLibrary')
       };
 
-      const actualImports = Plugin.imports(valueType);
+      const actualImports = Plugin.imports(objectType);
 
       const baseImports = [
         {file:'Foundation.h', isPublic:true, library:Maybe.Just('Foundation')},
-        {file:valueType.typeName + '.h', isPublic:false, library:Maybe.Nothing<string>()}
+        {file:objectType.typeName + '.h', isPublic:false, library:Maybe.Nothing<string>()}
       ];
 
       expect(actualImports).toEqualJSON(baseImports);
     });
 
     it('includes CGBase for CGFloat type attributes', function() {
-      const valueType:ValueObject.Type = {
+      const objectType:ObjectSpec.Type = {
         annotations: {},
         attributes: [
           {
@@ -779,11 +779,11 @@ describe('Plugins.ImmutableProperties', function() {
         libraryName: Maybe.Just('RMSomeLibrary')
       };
 
-      const actualImports = Plugin.imports(valueType);
+      const actualImports = Plugin.imports(objectType);
 
       const baseImports = [
         {file:'Foundation.h', isPublic:true, library:Maybe.Just('Foundation')},
-        {file:valueType.typeName + '.h', isPublic:false, library:Maybe.Nothing<string>()},
+        {file:objectType.typeName + '.h', isPublic:false, library:Maybe.Nothing<string>()},
         {file:'CGBase.h', isPublic:true, library:Maybe.Just('CoreGraphics')},
       ];
 
@@ -791,7 +791,7 @@ describe('Plugins.ImmutableProperties', function() {
     });
 
     it('includes CGBase for CGRect type attributes', function() {
-      const valueType:ValueObject.Type = {
+      const objectType:ObjectSpec.Type = {
         annotations: {},
         attributes: [
           {
@@ -816,11 +816,11 @@ describe('Plugins.ImmutableProperties', function() {
         libraryName: Maybe.Just('RMSomeLibrary')
       };
 
-      const actualImports = Plugin.imports(valueType);
+      const actualImports = Plugin.imports(objectType);
 
       const baseImports = [
         {file:'Foundation.h', isPublic:true, library:Maybe.Just('Foundation')},
-        {file:valueType.typeName + '.h', isPublic:false, library:Maybe.Nothing<string>()},
+        {file:objectType.typeName + '.h', isPublic:false, library:Maybe.Nothing<string>()},
         {file:'CGGeometry.h', isPublic:true, library:Maybe.Just('CoreGraphics')},
       ];
 
@@ -828,7 +828,7 @@ describe('Plugins.ImmutableProperties', function() {
     });
 
     it('includes CGBase anything for CGPoint type attributes', function() {
-      const valueType:ValueObject.Type = {
+      const objectType:ObjectSpec.Type = {
         annotations: {},
         attributes: [
           {
@@ -853,11 +853,11 @@ describe('Plugins.ImmutableProperties', function() {
         libraryName: Maybe.Just('RMSomeLibrary')
       };
 
-      const actualImports = Plugin.imports(valueType);
+      const actualImports = Plugin.imports(objectType);
 
       const baseImports = [
         {file:'Foundation.h', isPublic:true, library:Maybe.Just('Foundation')},
-        {file:valueType.typeName + '.h', isPublic:false, library:Maybe.Nothing<string>()},
+        {file:objectType.typeName + '.h', isPublic:false, library:Maybe.Nothing<string>()},
         {file:'CGGeometry.h', isPublic:true, library:Maybe.Just('CoreGraphics')},
       ];
 
@@ -865,7 +865,7 @@ describe('Plugins.ImmutableProperties', function() {
     });
 
     it('does not include anything for SEL type attributes', function() {
-      const valueType:ValueObject.Type = {
+      const objectType:ObjectSpec.Type = {
         annotations: {},
         attributes: [
           {
@@ -890,18 +890,18 @@ describe('Plugins.ImmutableProperties', function() {
         libraryName: Maybe.Just('RMSomeLibrary')
       };
 
-      const actualImports = Plugin.imports(valueType);
+      const actualImports = Plugin.imports(objectType);
 
       const baseImports = [
         {file:'Foundation.h', isPublic:true, library:Maybe.Just('Foundation')},
-        {file:valueType.typeName + '.h', isPublic:false, library:Maybe.Nothing<string>()}
+        {file:objectType.typeName + '.h', isPublic:false, library:Maybe.Nothing<string>()}
       ];
 
       expect(actualImports).toEqualJSON(baseImports);
     });
 
     it('includes CGBase anything for CGSize type attributes', function() {
-      const valueType:ValueObject.Type = {
+      const objectType:ObjectSpec.Type = {
         annotations: {},
         attributes: [
           {
@@ -926,11 +926,11 @@ describe('Plugins.ImmutableProperties', function() {
         libraryName: Maybe.Just('RMSomeLibrary')
       };
 
-      const actualImports = Plugin.imports(valueType);
+      const actualImports = Plugin.imports(objectType);
 
       const baseImports = [
         {file:'Foundation.h', isPublic:true, library:Maybe.Just('Foundation')},
-        {file:valueType.typeName + '.h', isPublic:false, library:Maybe.Nothing<string>()},
+        {file:objectType.typeName + '.h', isPublic:false, library:Maybe.Nothing<string>()},
         {file:'CGGeometry.h', isPublic:true, library:Maybe.Just('CoreGraphics')},
       ];
 
@@ -938,7 +938,7 @@ describe('Plugins.ImmutableProperties', function() {
     });
 
     it('includes UIGeometry for UIEdgeInsets type attributes', function() {
-      const valueType:ValueObject.Type = {
+      const objectType:ObjectSpec.Type = {
         annotations: {},
         attributes: [
           {
@@ -963,11 +963,11 @@ describe('Plugins.ImmutableProperties', function() {
         libraryName: Maybe.Just('RMSomeLibrary')
       };
 
-      const actualImports = Plugin.imports(valueType);
+      const actualImports = Plugin.imports(objectType);
 
       const baseImports = [
         {file:'Foundation.h', isPublic:true, library:Maybe.Just('Foundation')},
-        {file:valueType.typeName + '.h', isPublic:false, library:Maybe.Nothing<string>()},
+        {file:objectType.typeName + '.h', isPublic:false, library:Maybe.Nothing<string>()},
         {file:'UIGeometry.h', isPublic:true, library:Maybe.Just('UIKit')},
       ];
 
@@ -975,7 +975,7 @@ describe('Plugins.ImmutableProperties', function() {
     });
 
     it('does not include anything for int32_t type attributes', function() {
-      const valueType:ValueObject.Type = {
+      const objectType:ObjectSpec.Type = {
         annotations: {},
         attributes: [
           {
@@ -1000,18 +1000,18 @@ describe('Plugins.ImmutableProperties', function() {
         libraryName: Maybe.Just('RMSomeLibrary')
       };
 
-      const actualImports = Plugin.imports(valueType);
+      const actualImports = Plugin.imports(objectType);
 
       const baseImports = [
         {file:'Foundation.h', isPublic:true, library:Maybe.Just('Foundation')},
-        {file:valueType.typeName + '.h', isPublic:false, library:Maybe.Nothing<string>()}
+        {file:objectType.typeName + '.h', isPublic:false, library:Maybe.Nothing<string>()}
       ];
 
       expect(actualImports).toEqualJSON(baseImports);
     });
 
     it('does not include anything for int64_t type attributes', function() {
-      const valueType:ValueObject.Type = {
+      const objectType:ObjectSpec.Type = {
         annotations: {},
         attributes: [
           {
@@ -1036,18 +1036,18 @@ describe('Plugins.ImmutableProperties', function() {
         libraryName: Maybe.Just('RMSomeLibrary')
       };
 
-      const actualImports = Plugin.imports(valueType);
+      const actualImports = Plugin.imports(objectType);
 
       const baseImports = [
         {file:'Foundation.h', isPublic:true, library:Maybe.Just('Foundation')},
-        {file:valueType.typeName + '.h', isPublic:false, library:Maybe.Nothing<string>()}
+        {file:objectType.typeName + '.h', isPublic:false, library:Maybe.Nothing<string>()}
       ];
 
       expect(actualImports).toEqualJSON(baseImports);
     });
 
     it('does not include anything for uint32_t type attributes', function() {
-      const valueType:ValueObject.Type = {
+      const objectType:ObjectSpec.Type = {
         annotations: {},
         attributes: [
           {
@@ -1072,18 +1072,18 @@ describe('Plugins.ImmutableProperties', function() {
         libraryName: Maybe.Just('RMSomeLibrary')
       };
 
-      const actualImports = Plugin.imports(valueType);
+      const actualImports = Plugin.imports(objectType);
 
       const baseImports = [
         {file:'Foundation.h', isPublic:true, library:Maybe.Just('Foundation')},
-        {file:valueType.typeName + '.h', isPublic:false, library:Maybe.Nothing<string>()}
+        {file:objectType.typeName + '.h', isPublic:false, library:Maybe.Nothing<string>()}
       ];
 
       expect(actualImports).toEqualJSON(baseImports);
     });
 
     it('does not include anything for uint64_t type attributes', function() {
-      const valueType:ValueObject.Type = {
+      const objectType:ObjectSpec.Type = {
         annotations: {},
         attributes: [
           {
@@ -1108,18 +1108,18 @@ describe('Plugins.ImmutableProperties', function() {
         libraryName: Maybe.Just('RMSomeLibrary')
       };
 
-      const actualImports = Plugin.imports(valueType);
+      const actualImports = Plugin.imports(objectType);
 
       const baseImports = [
         {file:'Foundation.h', isPublic:true, library:Maybe.Just('Foundation')},
-        {file:valueType.typeName + '.h', isPublic:false, library:Maybe.Nothing<string>()}
+        {file:objectType.typeName + '.h', isPublic:false, library:Maybe.Nothing<string>()}
       ];
 
       expect(actualImports).toEqualJSON(baseImports);
     });
 
     it('does not include anything for NSUInteger type attributes', function() {
-      const valueType:ValueObject.Type = {
+      const objectType:ObjectSpec.Type = {
         annotations: {},
         attributes: [
           {
@@ -1144,18 +1144,18 @@ describe('Plugins.ImmutableProperties', function() {
         libraryName: Maybe.Just('RMSomeLibrary')
       };
 
-      const actualImports = Plugin.imports(valueType);
+      const actualImports = Plugin.imports(objectType);
 
       const baseImports = [
         {file:'Foundation.h', isPublic:true, library:Maybe.Just('Foundation')},
-        {file:valueType.typeName + '.h', isPublic:false, library:Maybe.Nothing<string>()}
+        {file:objectType.typeName + '.h', isPublic:false, library:Maybe.Nothing<string>()}
       ];
 
       expect(actualImports).toEqualJSON(baseImports);
     });
 
     it('does not include anything for NSUInteger type attributes', function() {
-      const valueType:ValueObject.Type = {
+      const objectType:ObjectSpec.Type = {
         annotations: {},
         attributes: [
           {
@@ -1180,18 +1180,18 @@ describe('Plugins.ImmutableProperties', function() {
         libraryName: Maybe.Just('RMSomeLibrary')
       };
 
-      const actualImports = Plugin.imports(valueType);
+      const actualImports = Plugin.imports(objectType);
 
       const baseImports = [
         {file:'Foundation.h', isPublic:true, library:Maybe.Just('Foundation')},
-        {file:valueType.typeName + '.h', isPublic:false, library:Maybe.Nothing<string>()}
+        {file:objectType.typeName + '.h', isPublic:false, library:Maybe.Nothing<string>()}
       ];
 
       expect(actualImports).toEqualJSON(baseImports);
     });
 
     it('does not include anything for NSString type attributes', function() {
-      const valueType:ValueObject.Type = {
+      const objectType:ObjectSpec.Type = {
         annotations: {},
         attributes: [
           {
@@ -1216,11 +1216,11 @@ describe('Plugins.ImmutableProperties', function() {
         libraryName: Maybe.Just('RMSomeLibrary')
       };
 
-      const actualImports = Plugin.imports(valueType);
+      const actualImports = Plugin.imports(objectType);
 
       const baseImports = [
         {file:'Foundation.h', isPublic:true, library:Maybe.Just('Foundation')},
-        {file:valueType.typeName + '.h', isPublic:false, library:Maybe.Nothing<string>()}
+        {file:objectType.typeName + '.h', isPublic:false, library:Maybe.Nothing<string>()}
       ];
 
       expect(actualImports).toEqualJSON(baseImports);
@@ -1229,7 +1229,7 @@ describe('Plugins.ImmutableProperties', function() {
 
   describe('#properties', function() {
     it('includes no properties when there are no attributes', function() {
-      const valueType:ValueObject.Type = {
+      const objectType:ObjectSpec.Type = {
         annotations: {},
         attributes: [],
         comments: [],
@@ -1240,13 +1240,13 @@ describe('Plugins.ImmutableProperties', function() {
         libraryName: Maybe.Nothing<string>()
       };
 
-      const actualImports = Plugin.properties(valueType);
+      const actualImports = Plugin.properties(objectType);
 
       expect(actualImports).toEqualJSON([]);
     });
 
     it('includes readonly nonatomic properties for non object attributes', function() {
-      const valueType:ValueObject.Type = {
+      const objectType:ObjectSpec.Type = {
         annotations: {},
         attributes: [
           {
@@ -1271,7 +1271,7 @@ describe('Plugins.ImmutableProperties', function() {
         libraryName: Maybe.Nothing<string>()
       };
 
-      const actualProperties = Plugin.properties(valueType);
+      const actualProperties = Plugin.properties(objectType);
 
       const expectedProperties:ObjC.Property[] = [
         {
@@ -1289,7 +1289,7 @@ describe('Plugins.ImmutableProperties', function() {
       expect(actualProperties).toEqualJSON(expectedProperties);
     });
     it('includes readonly nonatomic copy properties for object attributes', function() {
-      const valueType:ValueObject.Type = {
+      const objectType:ObjectSpec.Type = {
         annotations: {},
         attributes: [
           {
@@ -1314,7 +1314,7 @@ describe('Plugins.ImmutableProperties', function() {
         libraryName: Maybe.Nothing<string>()
       };
 
-      const actualProperties = Plugin.properties(valueType);
+      const actualProperties = Plugin.properties(objectType);
 
       const expectedProperties:ObjC.Property[] = [
         {
@@ -1335,7 +1335,7 @@ describe('Plugins.ImmutableProperties', function() {
 
   describe('#propertyModifiersFromAttribute', function() {
     it('returns a copyable property for an NSObject attribute', function() {
-      const attribute:ValueObject.Attribute = {
+      const attribute:ObjectSpec.Attribute = {
         annotations: {},
         comments: [],
         name:'value',
@@ -1354,7 +1354,7 @@ describe('Plugins.ImmutableProperties', function() {
     });
 
     it('returns a non-copyable property for an NSObject attribute', function() {
-      const attribute:ValueObject.Attribute = {
+      const attribute:ObjectSpec.Attribute = {
         annotations: {},
         comments: [],
         name:'value',
@@ -1373,7 +1373,7 @@ describe('Plugins.ImmutableProperties', function() {
     });
 
     it('returns a nonnull property for a nonnull attribute', function() {
-      const attribute:ValueObject.Attribute = {
+      const attribute:ObjectSpec.Attribute = {
         annotations: {},
         comments: [],
         name:'value',
@@ -1392,7 +1392,7 @@ describe('Plugins.ImmutableProperties', function() {
     });
 
     it('returns a nullable property for an nullable attribute', function() {
-      const attribute:ValueObject.Attribute = {
+      const attribute:ObjectSpec.Attribute = {
         annotations: {},
         comments: [],
         name:'value',
@@ -1414,7 +1414,7 @@ describe('Plugins.ImmutableProperties', function() {
   describe('#forwardDeclarations', function() {
     it('returns a forward declaration when the same type being generated ' +
        'is being used as an attribute type', function() {
-      const valueType:ValueObject.Type = {
+      const objectType:ObjectSpec.Type = {
         annotations: {},
         attributes: [
           {
@@ -1438,7 +1438,7 @@ describe('Plugins.ImmutableProperties', function() {
         typeName: 'RMSomething',
         libraryName: Maybe.Nothing<string>()
       };
-      const forwardDeclarations:ObjC.ForwardDeclaration[] = Plugin.forwardDeclarations(valueType);
+      const forwardDeclarations:ObjC.ForwardDeclaration[] = Plugin.forwardDeclarations(objectType);
       const expectedForwardDeclarations:ObjC.ForwardDeclaration[] = [
         ObjC.ForwardDeclaration.ForwardClassDeclaration('RMSomething')
       ];
@@ -1447,7 +1447,7 @@ describe('Plugins.ImmutableProperties', function() {
 
     it('returns a forward declaration when the same type being generated ' +
        'is being used in a type lookup', function() {
-      const valueType:ValueObject.Type = {
+      const objectType:ObjectSpec.Type = {
         annotations: {},
         attributes: [
           {
@@ -1478,7 +1478,7 @@ describe('Plugins.ImmutableProperties', function() {
         typeName: 'RMSomething',
         libraryName: Maybe.Nothing<string>()
       };
-      const forwardDeclarations:ObjC.ForwardDeclaration[] = Plugin.forwardDeclarations(valueType);
+      const forwardDeclarations:ObjC.ForwardDeclaration[] = Plugin.forwardDeclarations(objectType);
       const expectedForwardDeclarations:ObjC.ForwardDeclaration[] = [
         ObjC.ForwardDeclaration.ForwardClassDeclaration('RMSomething')
       ];
@@ -1487,7 +1487,7 @@ describe('Plugins.ImmutableProperties', function() {
 
     it('returns no forward declarations when the same type being generated ' +
        'is not being referenced in a subtype', function() {
-      const valueType:ValueObject.Type = {
+      const objectType:ObjectSpec.Type = {
         annotations: {},
         attributes: [
           {
@@ -1511,7 +1511,7 @@ describe('Plugins.ImmutableProperties', function() {
         typeName: 'RMSomething',
         libraryName: Maybe.Nothing<string>()
       };
-      const forwardDeclarations:ObjC.ForwardDeclaration[] = Plugin.forwardDeclarations(valueType);
+      const forwardDeclarations:ObjC.ForwardDeclaration[] = Plugin.forwardDeclarations(objectType);
       const expectedForwardDeclarations:ObjC.ForwardDeclaration[] = [];
       expect(forwardDeclarations).toEqualJSON(expectedForwardDeclarations);
     });

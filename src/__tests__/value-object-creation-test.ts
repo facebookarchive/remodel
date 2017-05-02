@@ -19,9 +19,9 @@ import List = require('../list');
 import Maybe = require('../maybe');
 import ObjC = require('../objc');
 import ObjectSpec = require('../object-spec');
-import ValueObjectCreation = require('../object-spec-creation');
+import ObjectSpecCreation = require('../object-spec-creation');
 
-describe('ValueObjectCreation', function() {
+describe('ObjectSpecCreation', function() {
   describe('#fileWriteRequests', function() {
     it('returns a header and implementation including the instance methods ' +
        'when there is a single plugin that returns instance methods', function() {
@@ -112,7 +112,7 @@ describe('ValueObjectCreation', function() {
         typeInformation:objectType
       };
 
-      const writeRequest = ValueObjectCreation.fileWriteRequest(generationRequest, List.of(Plugin));
+      const writeRequest = ObjectSpecCreation.fileWriteRequest(generationRequest, List.of(Plugin));
 
       const expectedRequests = List.of<FileWriter.Request>(
         FileWriter.Request(File.getAbsoluteFilePath('Foo.h'),
@@ -245,7 +245,7 @@ describe('ValueObjectCreation', function() {
         typeInformation:objectType
       };
 
-      const writeRequest = ValueObjectCreation.fileWriteRequest(generationRequest, List.of(Plugin));
+      const writeRequest = ObjectSpecCreation.fileWriteRequest(generationRequest, List.of(Plugin));
 
       const expectedRequests = List.of<FileWriter.Request>(
         FileWriter.Request(File.getAbsoluteFilePath('Foo.h'),
@@ -355,7 +355,7 @@ describe('ValueObjectCreation', function() {
         typeInformation:objectType
       };
 
-      const writeRequest = ValueObjectCreation.fileWriteRequest(generationRequest, List.of(Plugin));
+      const writeRequest = ObjectSpecCreation.fileWriteRequest(generationRequest, List.of(Plugin));
 
       const expectedRequests = List.of<FileWriter.Request>(
         FileWriter.Request(File.getAbsoluteFilePath('ExistingType.h'),
@@ -478,7 +478,7 @@ describe('ValueObjectCreation', function() {
         typeInformation:objectType
       };
 
-      const writeRequest = ValueObjectCreation.fileWriteRequest(generationRequest, List.of(Plugin));
+      const writeRequest = ObjectSpecCreation.fileWriteRequest(generationRequest, List.of(Plugin));
 
       const expectedRequests = List.of<FileWriter.Request>(
         FileWriter.Request(File.getAbsoluteFilePath('Foo.h'),
@@ -618,7 +618,7 @@ describe('ValueObjectCreation', function() {
         typeInformation:objectType
       };
 
-      const writeRequest = ValueObjectCreation.fileWriteRequest(generationRequest, List.of(Plugin));
+      const writeRequest = ObjectSpecCreation.fileWriteRequest(generationRequest, List.of(Plugin));
 
       const expectedRequests = List.of<FileWriter.Request>(
         FileWriter.Request(File.getAbsoluteFilePath('Foo.h'),
@@ -737,7 +737,7 @@ describe('ValueObjectCreation', function() {
         typeInformation:objectType
       };
 
-      const writeRequest:Either.Either<Error.Error[], FileWriter.FileWriteRequest> = ValueObjectCreation.fileWriteRequest(generationRequest, List.of(Plugin));
+      const writeRequest:Either.Either<Error.Error[], FileWriter.FileWriteRequest> = ObjectSpecCreation.fileWriteRequest(generationRequest, List.of(Plugin));
 
       const expectedRequest:Either.Either<Error.Error[], FileWriter.FileWriteRequest> = Either.Left<Error.Error[], FileWriter.FileWriteRequest>([Error.Error('[something.value]Some error')]);
 
@@ -862,7 +862,7 @@ describe('ValueObjectCreation', function() {
         typeInformation:objectType
       };
 
-      const writeRequest:Either.Either<Error.Error[], FileWriter.FileWriteRequest> = ValueObjectCreation.fileWriteRequest(generationRequest, List.of(Plugin1, Plugin2));
+      const writeRequest:Either.Either<Error.Error[], FileWriter.FileWriteRequest> = ObjectSpecCreation.fileWriteRequest(generationRequest, List.of(Plugin1, Plugin2));
 
       const expectedRequest:Either.Either<Error.Error[], FileWriter.FileWriteRequest> = Either.Left<Error.Error[], FileWriter.FileWriteRequest>([Error.Error('[something.value]Some error'), Error.Error('[something.value]Another error'), Error.Error('[something.value]Yet another error')]);
 
@@ -1042,7 +1042,7 @@ describe('ValueObjectCreation', function() {
         typeInformation:objectType
       };
 
-      const writeRequest = ValueObjectCreation.fileWriteRequest(generationRequest, List.of(Plugin1, Plugin2));
+      const writeRequest = ObjectSpecCreation.fileWriteRequest(generationRequest, List.of(Plugin1, Plugin2));
 
       const expectedRequests = List.of<FileWriter.Request>(
         FileWriter.Request(File.getAbsoluteFilePath('Foo.h'),
@@ -1272,7 +1272,7 @@ describe('ValueObjectCreation', function() {
         typeInformation:objectType
       };
 
-      const writeRequest = ValueObjectCreation.fileWriteRequest(generationRequest, List.of(Plugin1, Plugin2));
+      const writeRequest = ObjectSpecCreation.fileWriteRequest(generationRequest, List.of(Plugin1, Plugin2));
 
       const expectedRequests = List.of<FileWriter.Request>(
         FileWriter.Request(File.getAbsoluteFilePath('Foo.h'),

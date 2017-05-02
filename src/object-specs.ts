@@ -26,7 +26,7 @@ import PathUtils = require('./path-utils');
 import PluginInclusionUtils = require('./plugin-inclusion-utils');
 import Promise = require('./promise');
 import ObjectSpec = require('./object-spec');
-import ValueObjectCreation = require('./object-spec-creation');
+import ObjectSpecCreation = require('./object-spec-creation');
 import ValueObjectParser = require('./object-spec-parser');
 import WriteFileUtils = require('./file-logged-sequence-write-utils');
 
@@ -49,7 +49,7 @@ const BASE_PLUGINS:List.List<string> = List.of(
   'use-cpp'
 );
 
-interface ValueObjectCreationContext {
+interface ObjectSpecCreationContext {
   baseClassName:string;
   baseClassLibraryName:Maybe.Maybe<string>;
   diagnosticIgnores:List.List<string>;
@@ -78,7 +78,7 @@ function modifyFoundTypeBasedOnExtension(foundType:ObjectSpec.Type, extension:Ob
   return foundType;
 }
 
-function evaluateUnparsedValueObjectCreationRequest(extension: ObjectSpecExtension, request:ReadFileUtils.UnparsedObjectCreationRequest):Either.Either<Error.Error[], PathAndTypeInfo> {
+function evaluateUnparsedObjectSpecCreationRequest(extension: ObjectSpecExtension, request:ReadFileUtils.UnparsedObjectCreationRequest):Either.Either<Error.Error[], PathAndTypeInfo> {
   const parseResult:Either.Either<Error.Error[], ObjectSpec.Type> = ValueObjectParser.parse(File.getContents(request.fileContents));
   return Either.match(function(errors:Error.Error[]) {
     return Either.Left<Error.Error[], PathAndTypeInfo>(errors.map(function(error:Error.Error) { return Error.Error('[' + File.getAbsolutePathString(request.path) + '] ' + Error.getReason(error)); }));
@@ -88,7 +88,7 @@ function evaluateUnparsedValueObjectCreationRequest(extension: ObjectSpecExtensi
 }
 
 function parseValues(extension: ObjectSpecExtension, either:Either.Either<Error.Error[], ReadFileUtils.UnparsedObjectCreationRequest>):Promise.Future<Logging.Context<Either.Either<Error.Error[], PathAndTypeInfo>>> {
-  return Promise.munit(Logging.munit(Either.mbind(FunctionUtils.pApplyf2(extension, evaluateUnparsedValueObjectCreationRequest), either)));
+  return Promise.munit(Logging.munit(Either.mbind(FunctionUtils.pApplyf2(extension, evaluateUnparsedObjectSpecCreationRequest), either)));
 }
 
 function typeInformationContainingDefaultIncludes(typeInformation:ObjectSpec.Type, defaultIncludes:List.List<string>):ObjectSpec.Type {
@@ -104,11 +104,11 @@ function typeInformationContainingDefaultIncludes(typeInformation:ObjectSpec.Typ
   };
 }
 
-function processValueObjectCreationRequest(future:Promise.Future<Either.Either<Error.Error[], ValueObjectCreationContext>>, either:Either.Either<Error.Error[], PathAndTypeInfo>):Promise.Future<Logging.Context<Either.Either<Error.Error[], FileWriter.FileWriteRequest>>> {
-  return Promise.map(function(creationContextEither:Either.Either<Error.Error[], ValueObjectCreationContext>) {
+function processObjectSpecCreationRequest(future:Promise.Future<Either.Either<Error.Error[], ObjectSpecCreationContext>>, either:Either.Either<Error.Error[], PathAndTypeInfo>):Promise.Future<Logging.Context<Either.Either<Error.Error[], FileWriter.FileWriteRequest>>> {
+  return Promise.map(function(creationContextEither:Either.Either<Error.Error[], ObjectSpecCreationContext>) {
     return Logging.munit(Either.mbind(function(pathAndTypeInfo:PathAndTypeInfo) {
-      return Either.mbind(function(creationContext:ValueObjectCreationContext) {
-        const request:ValueObjectCreation.Request = {
+      return Either.mbind(function(creationContext:ObjectSpecCreationContext) {
+        const request:ObjectSpecCreation.Request = {
           diagnosticIgnores:creationContext.diagnosticIgnores,
           baseClassLibraryName:creationContext.baseClassLibraryName,
           baseClassName:creationContext.baseClassName,
@@ -116,7 +116,7 @@ function processValueObjectCreationRequest(future:Promise.Future<Either.Either<E
           typeInformation:typeInformationContainingDefaultIncludes(pathAndTypeInfo.typeInformation, creationContext.defaultIncludes)
         };
 
-        return ValueObjectCreation.fileWriteRequest(request, creationContext.plugins);
+        return ObjectSpecCreation.fileWriteRequest(request, creationContext.plugins);
       }, creationContextEither);
     }, either));
   }, future);
@@ -136,17 +136,23 @@ function pluginsFromPluginConfigs(pluginConfigs:List.List<Configuration.PluginCo
   }, Either.Right<Error.Error[], List.List<ObjectSpec.Plugin>>(List.of<ObjectSpec.Plugin>()), pluginConfigs);
 }
 
+<<<<<<< 7116507dc5ff8366eaf574df10a6acaa57aa0d58
 function getValueObjectCreationContext(valueObjectConfigPathFuture:Promise.Future<Maybe.Maybe<File.AbsoluteFilePath>>):Promise.Future<Either.Either<Error.Error[], ValueObjectCreationContext>> {
   return Promise.mbind(function(maybePath:Maybe.Maybe<File.AbsoluteFilePath>):Promise.Future<Either.Either<Error.Error[], ValueObjectCreationContext>> {
+=======
+function getObjectSpecCreationContext(currentWorkingDirectory:File.AbsoluteFilePath):Promise.Future<Either.Either<Error.Error[], ObjectSpecCreationContext>> {
+  const findConfigFuture = FileFinder.findConfig('.valueObjectConfig', currentWorkingDirectory);
+  return Promise.mbind(function(maybePath:Maybe.Maybe<File.AbsoluteFilePath>):Promise.Future<Either.Either<Error.Error[], ObjectSpecCreationContext>> {
+>>>>>>> ValueObjectCreation -> ObjectSpecCreation
     const configurationContext:Configuration.ConfigurationContext = {
       basePlugins: BASE_PLUGINS,
       baseIncludes: BASE_INCLUDES
     };
     const configFuture:Promise.Future<Either.Either<Error.Error[], Configuration.GenerationConfig>> = Configuration.generateConfig(maybePath, configurationContext);
     return Promise.map(function(either:Either.Either<Error.Error[], Configuration.GenerationConfig>) {
-      return Either.mbind(function(configuration:Configuration.GenerationConfig):Either.Either<Error.Error[], ValueObjectCreationContext> {
+      return Either.mbind(function(configuration:Configuration.GenerationConfig):Either.Either<Error.Error[], ObjectSpecCreationContext> {
         const pluginsEither = pluginsFromPluginConfigs(configuration.pluginConfigs);
-        return Either.map(function(plugins:List.List<ObjectSpec.Plugin>):ValueObjectCreationContext {
+        return Either.map(function(plugins:List.List<ObjectSpec.Plugin>):ObjectSpecCreationContext {
           return {
             baseClassName:configuration.baseClassName,
             baseClassLibraryName:configuration.baseClassLibraryName,
@@ -173,7 +179,7 @@ function valueObjectConfigPathFuture(requestedPath:File.AbsoluteFilePath, config
 export function generate(directoryRunFrom:string, extension:ObjectSpecExtension, parsedArgs:CommandLine.Arguments):Promise.Future<WriteFileUtils.ConsoleOutputResults> {
     const requestedPath:File.AbsoluteFilePath = PathUtils.getAbsolutePathFromDirectoryAndAbsoluteOrRelativePath(File.getAbsoluteFilePath(directoryRunFrom), parsedArgs.givenPath);
 
-    const valueObjectCreationContextFuture = getValueObjectCreationContext(valueObjectConfigPathFuture(requestedPath, parsedArgs.valueObjectConfigPath));
+    const valueObjectCreationContextFuture = getObjectSpecCreationContext(valueObjectConfigPathFuture(requestedPath, parsedArgs.valueObjectConfigPath));
 
     const extensionString:string = extension;
     const readFileSequence = ReadFileUtils.loggedSequenceThatReadsFiles(requestedPath, extensionString);
@@ -182,7 +188,7 @@ export function generate(directoryRunFrom:string, extension:ObjectSpecExtension,
                                                                   FunctionUtils.pApplyf2(extension, parseValues));
 
     const pluginProcessedSequence = LoggingSequenceUtils.mapLoggedSequence(parsedSequence,
-                                                                           FunctionUtils.pApplyf2(valueObjectCreationContextFuture, processValueObjectCreationRequest));
+                                                                           FunctionUtils.pApplyf2(valueObjectCreationContextFuture, processObjectSpecCreationRequest));
 
     return WriteFileUtils.evaluateObjectFileWriteRequestSequence(parsedArgs, pluginProcessedSequence);
 }

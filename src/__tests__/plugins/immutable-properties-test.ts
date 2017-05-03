@@ -60,7 +60,7 @@ describe('Plugins.ImmutableProperties', function() {
         comments: [],
         typeLookups:[],
         excludes: [],
-        includes: [ObjectSpec.VALUE_OBJECT_SEMANTICS],
+        includes: ['RMValueObjectSemantics'],
         typeName: 'RMSomething',
         libraryName: Maybe.Nothing<string>()
       };
@@ -162,7 +162,7 @@ describe('Plugins.ImmutableProperties', function() {
         comments: [],
         typeLookups:[],
         excludes: [],
-        includes: [ObjectSpec.VALUE_OBJECT_SEMANTICS],
+        includes: ['RMValueObjectSemantics'],
         typeName: 'RMSomething',
         libraryName: null
       };
@@ -1309,7 +1309,7 @@ describe('Plugins.ImmutableProperties', function() {
         comments: [],
         typeLookups:[],
         excludes: [],
-        includes: [ObjectSpec.VALUE_OBJECT_SEMANTICS],
+        includes: ['RMValueObjectSemantics'],
         typeName: 'RMSomething',
         libraryName: Maybe.Nothing<string>()
       };

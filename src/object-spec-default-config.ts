@@ -12,7 +12,6 @@ import List = require('./list')
 
 export const OBJECT_SPEC_DEFAULT_CONFIG = {
   baseIncludes: List.of(
-    'RMCopying',
     'RMDescription',
     'RMImmutableProperties'
   ),

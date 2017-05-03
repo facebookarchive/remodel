@@ -28,7 +28,7 @@ describe('Plugins.Builder', function() {
         attributes: [],
         comments: [],
         excludes: [],
-        includes: [ObjectSpec.VALUE_OBJECT_SEMANTICS],
+        includes: ['RMValueObjectSemantics'],
         libraryName: Maybe.Nothing<string>(),
         typeLookups:[],
         typeName: 'FooBarBaz'
@@ -155,7 +155,7 @@ describe('Plugins.Builder', function() {
         attributes: [],
         comments: [],
         excludes: [],
-        includes: [ObjectSpec.VALUE_OBJECT_SEMANTICS],
+        includes: ['RMValueObjectSemantics'],
         libraryName: Maybe.Just<string>('RMSomeLibrary'),
         typeLookups:[],
         typeName: 'RMFerr'
@@ -322,7 +322,7 @@ describe('Plugins.Builder', function() {
         ],
         comments: [],
         excludes: [],
-        includes: [ObjectSpec.VALUE_OBJECT_SEMANTICS],
+        includes: ['RMValueObjectSemantics'],
         libraryName: Maybe.Nothing<string>(),
         typeLookups:[],
         typeName: 'RMFerr'

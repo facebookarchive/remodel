@@ -2,7 +2,7 @@ Feature: Outputting Objects
 
   @announce
   Scenario: Generating Header Files with no includes or excludes
-    Given a file named "project/values/RMPage.object" with:
+    Given a file named "project/objects/RMPage.object" with:
       """
       # Important and gripping comment
       # that takes up two lines.
@@ -26,7 +26,7 @@ Feature: Outputting Objects
       { }
       """
     When I run `../../bin/generate project`
-    Then the file "project/values/RMPage.h" should contain:
+    Then the file "project/objects/RMPage.h" should contain:
       """
       #import <Foundation/Foundation.h>
       #import <SomeLib/AnotherFile.h>
@@ -38,7 +38,7 @@ Feature: Outputting Objects
        * Important and gripping comment
        * that takes up two lines.
        */
-      @interface RMPage : NSObject <NSCopying>
+      @interface RMPage : NSObject
 
       @property (nonatomic, readonly) BOOL doesUserLike;
       @property (nonatomic, readonly) NSString *identifier;
@@ -53,7 +53,7 @@ Feature: Outputting Objects
       @end
 
       """
-   And the file "project/values/RMPage.m" should contain:
+   And the file "project/objects/RMPage.m" should contain:
       """
       #import "RMPage.h"
 
@@ -84,7 +84,7 @@ Feature: Outputting Objects
       """
   @announce
   Scenario: Generating Files with no equality and a custom base type
-    Given a file named "project/values/RMPage.object" with:
+    Given a file named "project/objects/RMPage.object" with:
       """
       RMPage {
         BOOL doesUserLike
@@ -99,11 +99,11 @@ Feature: Outputting Objects
       """
       {
         "customBaseClass": { "className": "RMProxy", "libraryName": "RMProxyLib" },
-        "diagnosticIgnores": ["-Wprotocol"],
+        "diagnosticIgnores": ["-Wprotocol"]
       }
       """
     When I run `../../bin/generate project`
-    Then the file "project/values/RMPage.h" should contain:
+    Then the file "project/objects/RMPage.h" should contain:
       """
       /**
        * This file is generated using the remodel generation script.
@@ -128,7 +128,7 @@ Feature: Outputting Objects
       @end
 
       """
-   And the file "project/values/RMPage.m" should contain:
+   And the file "project/objects/RMPage.m" should contain:
       """
       #import "RMPage.h"
 

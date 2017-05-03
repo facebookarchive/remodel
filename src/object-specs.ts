@@ -122,20 +122,20 @@ function getObjectSpecCreationContext(valueObjectConfigPathFuture:Promise.Future
   }, valueObjectConfigPathFuture);
 }
 
-function valueObjectConfigPathFuture(requestedPath:File.AbsoluteFilePath, configPathFromArguments:string): Promise.Future<Maybe.Maybe<File.AbsoluteFilePath>> {
+function valueObjectConfigPathFuture(configFileName:string, requestedPath:File.AbsoluteFilePath, configPathFromArguments:string): Promise.Future<Maybe.Maybe<File.AbsoluteFilePath>> {
   var absoluteValueObjectConfigPath: Promise.Future<Maybe.Maybe<File.AbsoluteFilePath>>;
   if (configPathFromArguments === undefined) {
-      absoluteValueObjectConfigPath = FileFinder.findConfig('.valueObjectConfig', requestedPath);
+      absoluteValueObjectConfigPath = FileFinder.findConfig(configFileName, requestedPath);
   } else {
       absoluteValueObjectConfigPath = Promise.munit(Maybe.Just(File.getAbsoluteFilePath(configPathFromArguments)));
   }
   return absoluteValueObjectConfigPath;
 }
 
-export function generate(directoryRunFrom:string, extension:string, configurationContext:Configuration.ConfigurationContext, parsedArgs:CommandLine.Arguments):Promise.Future<WriteFileUtils.ConsoleOutputResults> {
+export function generate(directoryRunFrom:string, extension:string, configFileName:string, configurationContext:Configuration.ConfigurationContext, parsedArgs:CommandLine.Arguments):Promise.Future<WriteFileUtils.ConsoleOutputResults> {
     const requestedPath:File.AbsoluteFilePath = PathUtils.getAbsolutePathFromDirectoryAndAbsoluteOrRelativePath(File.getAbsoluteFilePath(directoryRunFrom), parsedArgs.givenPath);
 
-    const valueObjectCreationContextFuture = getObjectSpecCreationContext(valueObjectConfigPathFuture(requestedPath, parsedArgs.valueObjectConfigPath), configurationContext);
+    const valueObjectCreationContextFuture = getObjectSpecCreationContext(valueObjectConfigPathFuture(configFileName, requestedPath, parsedArgs.valueObjectConfigPath), configurationContext);
 
     const readFileSequence = ReadFileUtils.loggedSequenceThatReadsFiles(requestedPath, extension);
 

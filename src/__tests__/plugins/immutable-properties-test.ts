@@ -101,6 +101,69 @@ describe('Plugins.ImmutableProperties', function() {
       expect(actualMethods).toEqualJSON(expectedMethods);
     });
 
+    it('is an initializer with a single property when one attribute is ' +
+       'given and value semantics are turned off', function() {
+      const objectType:ObjectSpec.Type = {
+        annotations: {},
+        attributes: [
+          {
+            annotations: {},
+            comments: [],
+            name:'value',
+            nullability:ObjC.Nullability.Inherited(),
+            type: {
+              fileTypeIsDefinedIn:Maybe.Nothing<string>(),
+              libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+              name:'NSString',
+              reference: 'NSString *',
+              underlyingType:Maybe.Just<string>('NSObject')
+            }
+          }
+        ],
+        comments: [],
+        typeLookups:[],
+        excludes: [],
+        includes: [],
+        typeName: 'RMSomething',
+        libraryName: Maybe.Nothing<string>()
+      };
+
+      const actualMethods = Plugin.instanceMethods(objectType);
+
+      const expectedMethods:ObjC.Method[] = [
+        {
+          belongsToProtocol:Maybe.Nothing<string>(),
+          code:[
+            'if ((self = [super init])) {',
+            '  _value = value;',
+            '}',
+            '',
+            'return self;'
+          ],
+          comments: [],
+          keywords: [
+            {
+              name:'initWithValue',
+              argument: Maybe.Just({
+                name:'value',
+                modifiers: [],
+                type: {
+                  name:'NSString',
+                  reference: 'NSString *'
+                }
+              })
+            }
+          ],
+          returnType: Maybe.Just({
+            name:'instancetype',
+            reference: 'instancetype'
+          })
+        }
+      ];
+
+      expect(actualMethods).toEqualJSON(expectedMethods);
+    });
+
     it('is an initializer with multiple properties when many attribtutes are ' +
        'given', function() {
       const objectType:ObjectSpec.Type = {
@@ -178,6 +241,144 @@ describe('Plugins.ImmutableProperties', function() {
             '  _value2 = value2;',
             '  _value3 = [value3 copy];',
             '  _value4 = [value4 copy];',
+            '}',
+            '',
+            'return self;'
+          ],
+          comments: [],
+          keywords: [
+            {
+              name:'initWithValue',
+              argument: Maybe.Just({
+                name:'value',
+                modifiers: [],
+                type: {
+                  name:'NSString',
+                  reference: 'NSString *'
+                }
+              })
+            },
+            {
+              name:'value2',
+              argument: Maybe.Just({
+                name:'value2',
+                modifiers: [],
+                type: {
+                  name:'BOOL',
+                  reference: 'BOOL'
+                }
+              })
+            },
+            {
+              name:'value3',
+              argument: Maybe.Just({
+                name:'value3',
+                modifiers: [],
+                type: {
+                  name:'RMAnotherSomething',
+                  reference: 'RMAnotherSomething *'
+                }
+              })
+            },
+            {
+              name:'value4',
+              argument: Maybe.Just({
+                name:'value4',
+                modifiers: [],
+                type: {
+                  name:'id',
+                  reference: 'id'
+                }
+              })
+            }
+          ],
+          returnType: Maybe.Just({
+            name:'instancetype',
+            reference: 'instancetype'
+          })
+        }
+      ];
+
+      expect(actualMethods).toEqualJSON(expectedMethods);
+    });
+
+    it('is an initializer with multiple properties when many attribtutes are ' +
+       'given and value semantics are off', function() {
+      const objectType:ObjectSpec.Type = {
+        annotations: {},
+        attributes: [
+          {
+            annotations: {},
+            comments: [],
+            name:'value',
+            nullability:ObjC.Nullability.Inherited(),
+            type: {
+              fileTypeIsDefinedIn:null,
+              libraryTypeIsDefinedIn:null,
+              name:'NSString',
+              reference: 'NSString *',
+              underlyingType:Maybe.Just<string>('NSObject')
+            }
+          },
+          {
+            annotations: {},
+            comments: [],
+            name:'value2',
+            nullability:ObjC.Nullability.Inherited(),
+            type: {
+              fileTypeIsDefinedIn:null,
+              libraryTypeIsDefinedIn:null,
+              name:'BOOL',
+              reference: 'BOOL',
+              underlyingType:Maybe.Nothing<string>()
+            }
+          },
+          {
+            annotations: {},
+            comments: [],
+            name:'value3',
+            nullability:ObjC.Nullability.Inherited(),
+            type: {
+              fileTypeIsDefinedIn:null,
+              libraryTypeIsDefinedIn:null,
+              name:'RMAnotherSomething',
+              reference: 'RMAnotherSomething *',
+              underlyingType:Maybe.Just<string>('NSObject')
+            }
+          },
+          {
+            annotations: {},
+            comments: [],
+            name:'value4',
+            nullability:ObjC.Nullability.Inherited(),
+            type: {
+              fileTypeIsDefinedIn:null,
+              libraryTypeIsDefinedIn:null,
+              name:'id',
+              reference: 'id',
+              underlyingType:Maybe.Nothing<string>()
+            }
+          }
+        ],
+        comments: [],
+        typeLookups:[],
+        excludes: [],
+        includes: [],
+        typeName: 'RMSomething',
+        libraryName: null
+      };
+
+      const actualMethods = Plugin.instanceMethods(objectType);
+
+      const expectedMethods:ObjC.Method[] = [
+        {
+          belongsToProtocol:Maybe.Nothing<string>(),
+          code:[
+            'if ((self = [super init])) {',
+            '  _value = value;',
+            '  _value2 = value2;',
+            '  _value3 = value3;',
+            '  _value4 = value4;',
             '}',
             '',
             'return self;'
@@ -1288,6 +1489,7 @@ describe('Plugins.ImmutableProperties', function() {
 
       expect(actualProperties).toEqualJSON(expectedProperties);
     });
+
     it('includes readonly nonatomic copy properties for object attributes', function() {
       const objectType:ObjectSpec.Type = {
         annotations: {},
@@ -1331,10 +1533,55 @@ describe('Plugins.ImmutableProperties', function() {
 
       expect(actualProperties).toEqualJSON(expectedProperties);
     });
+
+    it('includes readonly nonatomic properties for object attributes when ' +
+       'value semantics are off', function() {
+      const objectType:ObjectSpec.Type = {
+        annotations: {},
+        attributes: [
+          {
+            annotations: {},
+            comments: [],
+            name:'value',
+            nullability:ObjC.Nullability.Inherited(),
+            type: {
+              fileTypeIsDefinedIn:Maybe.Nothing<string>(),
+              libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+              name:'RMSomething',
+              reference: 'RMSomething *',
+              underlyingType:Maybe.Just<string>('NSObject')
+            }
+          }
+        ],
+        comments: [],
+        typeLookups:[],
+        excludes: [],
+        includes: [],
+        typeName: 'RMSomething',
+        libraryName: Maybe.Nothing<string>()
+      };
+
+      const actualProperties = Plugin.properties(objectType);
+
+      const expectedProperties:ObjC.Property[] = [
+        {
+          comments:[],
+          modifiers:[ObjC.PropertyModifier.Nonatomic(), ObjC.PropertyModifier.Readonly()],
+          access: ObjC.PropertyAccess.Public(),
+          name:'value',
+          returnType: {
+            name: 'RMSomething',
+            reference: 'RMSomething *'
+          }
+        }
+      ];
+
+      expect(actualProperties).toEqualJSON(expectedProperties);
+    });
   });
 
   describe('#propertyModifiersFromAttribute', function() {
-    it('returns a copyable property for an NSObject attribute', function() {
+    it('returns a copyable property for an NSObject attribute with value semantics enabled', function() {
       const attribute:ObjectSpec.Attribute = {
         annotations: {},
         comments: [],
@@ -1351,6 +1598,25 @@ describe('Plugins.ImmutableProperties', function() {
 
       const modifiers:ObjC.PropertyModifier[] = ImmutableProperties.propertyModifiersFromAttribute(true, attribute);
       expect(modifiers).toContain(ObjC.PropertyModifier.Copy());
+    });
+
+    it('returns a copyable property for an NSObject attribute with value semantics disabled', function() {
+      const attribute:ObjectSpec.Attribute = {
+        annotations: {},
+        comments: [],
+        name:'value',
+        nullability:ObjC.Nullability.Inherited(),
+        type: {
+          fileTypeIsDefinedIn:Maybe.Nothing<string>(),
+          libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+          name:'RMSomething',
+          reference: 'RMSomething *',
+          underlyingType:Maybe.Just<string>('NSObject')
+        }
+      };
+
+      const modifiers:ObjC.PropertyModifier[] = ImmutableProperties.propertyModifiersFromAttribute(false, attribute);
+      expect(modifiers).not.toContain(ObjC.PropertyModifier.Copy());
     });
 
     it('returns a non-copyable property for an NSObject attribute', function() {

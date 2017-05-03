@@ -14,5 +14,5 @@ export function typeReferenceForValueTypeWithName(name:string):string {
 }
 
 export function typeSupportsValueObjectSemantics(objectSpec:ObjectSpec.Type):boolean {
-  return objectSpec.includes.indexOf(ObjectSpec.VALUE_OBJECT_SEMANTICS) >= 0;
+  return objectSpec.includes.indexOf('RMValueObjectSemantics') >= 0;
 }

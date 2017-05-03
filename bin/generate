@@ -31,9 +31,10 @@ Maybe.match(function(args) {
     const ParallelProcessQueue = require('./dist/parallel-process-queue');
     const Promise = require('./dist/promise');
     const List = require('./dist/list');
-
-    const valueObjectsFuture = ObjectSpecs.generate(process.cwd(), 'value', args);
-    const objectsFuture = ObjectSpecs.generate(process.cwd(), 'object', args);
+    const ValueObjectDefaultConfig = require('./dist/value-object-default-config');
+    const valueObjectsFuture = ObjectSpecs.generate(process.cwd(), 'value', ValueObjectDefaultConfig.VALUE_OBJECT_DEFAULT_CONFIG, args);
+    const ObjectSpecDefaultConfig = require('./dist/object-spec-default-config');
+    const objectsFuture = ObjectSpecs.generate(process.cwd(), 'object', ObjectSpecDefaultConfig.OBJECT_SPEC_DEFAULT_CONFIG, args);
     const algebraicTypesFuture = require('./dist/algebraic-types').generate(process.cwd(), args);
 
     const promise = Promise.all(List.of(valueObjectsFuture, objectsFuture, algebraicTypesFuture));

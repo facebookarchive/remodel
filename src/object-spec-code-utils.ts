@@ -51,8 +51,9 @@ function propertyModifierForCopyable(supportsValueSemantics: boolean):ObjC.Prope
   // Otherwise we want it to be assigned
   if (supportsValueSemantics) {
     return ObjC.PropertyModifier.Copy();
+  } else {
+    return ObjC.PropertyModifier.Assign();
   }
-  return ObjC.PropertyModifier.Assign();
 }
 
 export function computeTypeOfAttribute(attribute:ObjectSpec.Attribute):ObjC.Type {

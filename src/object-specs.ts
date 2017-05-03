@@ -13,6 +13,7 @@ import Either = require('./either');
 import Error = require('./error');
 import File = require('./file');
 import FileFinder = require('./file-finder');
+import FileReader = require('./file-reader');
 import FileWriter = require('./file-writer');
 import FunctionUtils = require('./function-utils');
 import List = require('./list');
@@ -30,25 +31,6 @@ import ObjectSpecCreation = require('./object-spec-creation');
 import ObjectSpecParser = require('./object-spec-parser');
 import WriteFileUtils = require('./file-logged-sequence-write-utils');
 
-const BASE_INCLUDES:List.List<string> = List.of(
-  'RMCopying',
-  'RMDescription',
-  'RMEquality',
-  'RMImmutableProperties'
-);
-
-const BASE_PLUGINS:List.List<string> = List.of(
-  'assume-nonnull',
-  'builder',
-  'coding',
-  'copying',
-  'description',
-  'equality',
-  'fetch-status',
-  'immutable-properties',
-  'use-cpp'
-);
-
 interface ObjectSpecCreationContext {
   baseClassName:string;
   baseClassLibraryName:Maybe.Maybe<string>;
@@ -57,38 +39,22 @@ interface ObjectSpecCreationContext {
   defaultIncludes:List.List<string>;
 }
 
-type ObjectSpecExtension =
-    "value" |
-    "object";
-
 interface PathAndTypeInfo {
   path: File.AbsoluteFilePath;
   typeInformation: ObjectSpec.Type;
 }
 
-function modifyFoundTypeBasedOnExtension(foundType:ObjectSpec.Type, extension:ObjectSpecExtension):ObjectSpec.Type {
-  switch (extension) {
-    case "value":
-      foundType.includes = foundType.includes.concat(ObjectSpec.VALUE_OBJECT_SEMANTICS);
-      break
-    case "object":
-      foundType.excludes = foundType.excludes.concat(ObjectSpec.VALUE_OBJECT_SEMANTICS);
-      break
-  }
-  return foundType;
-}
-
-function evaluateUnparsedObjectSpecCreationRequest(extension: ObjectSpecExtension, request:ReadFileUtils.UnparsedObjectCreationRequest):Either.Either<Error.Error[], PathAndTypeInfo> {
+function evaluateUnparsedObjectSpecCreationRequest(request:ReadFileUtils.UnparsedObjectCreationRequest):Either.Either<Error.Error[], PathAndTypeInfo> {
   const parseResult:Either.Either<Error.Error[], ObjectSpec.Type> = ObjectSpecParser.parse(File.getContents(request.fileContents));
   return Either.match(function(errors:Error.Error[]) {
     return Either.Left<Error.Error[], PathAndTypeInfo>(errors.map(function(error:Error.Error) { return Error.Error('[' + File.getAbsolutePathString(request.path) + '] ' + Error.getReason(error)); }));
   }, function(foundType:ObjectSpec.Type) {
-    return Either.Right<Error.Error[], PathAndTypeInfo>({path:request.path, typeInformation:modifyFoundTypeBasedOnExtension(foundType, extension)});
+    return Either.Right<Error.Error[], PathAndTypeInfo>({path:request.path, typeInformation:foundType});
   }, parseResult);
 }
 
-function parseValues(extension: ObjectSpecExtension, either:Either.Either<Error.Error[], ReadFileUtils.UnparsedObjectCreationRequest>):Promise.Future<Logging.Context<Either.Either<Error.Error[], PathAndTypeInfo>>> {
-  return Promise.munit(Logging.munit(Either.mbind(FunctionUtils.pApplyf2(extension, evaluateUnparsedObjectSpecCreationRequest), either)));
+function parseValues(either:Either.Either<Error.Error[], ReadFileUtils.UnparsedObjectCreationRequest>):Promise.Future<Logging.Context<Either.Either<Error.Error[], PathAndTypeInfo>>> {
+  return Promise.munit(Logging.munit(Either.mbind(evaluateUnparsedObjectSpecCreationRequest, either)));
 }
 
 function typeInformationContainingDefaultIncludes(typeInformation:ObjectSpec.Type, defaultIncludes:List.List<string>):ObjectSpec.Type {
@@ -136,12 +102,8 @@ function pluginsFromPluginConfigs(pluginConfigs:List.List<Configuration.PluginCo
   }, Either.Right<Error.Error[], List.List<ObjectSpec.Plugin>>(List.of<ObjectSpec.Plugin>()), pluginConfigs);
 }
 
-function getObjectSpecCreationContext(valueObjectConfigPathFuture:Promise.Future<Maybe.Maybe<File.AbsoluteFilePath>>):Promise.Future<Either.Either<Error.Error[], ObjectSpecCreationContext>> {
+function getObjectSpecCreationContext(valueObjectConfigPathFuture:Promise.Future<Maybe.Maybe<File.AbsoluteFilePath>>, configurationContext:Configuration.ConfigurationContext):Promise.Future<Either.Either<Error.Error[], ObjectSpecCreationContext>> {
   return Promise.mbind(function(maybePath:Maybe.Maybe<File.AbsoluteFilePath>):Promise.Future<Either.Either<Error.Error[], ObjectSpecCreationContext>> {
-    const configurationContext:Configuration.ConfigurationContext = {
-      basePlugins: BASE_PLUGINS,
-      baseIncludes: BASE_INCLUDES
-    };
     const configFuture:Promise.Future<Either.Either<Error.Error[], Configuration.GenerationConfig>> = Configuration.generateConfig(maybePath, configurationContext);
     return Promise.map(function(either:Either.Either<Error.Error[], Configuration.GenerationConfig>) {
       return Either.mbind(function(configuration:Configuration.GenerationConfig):Either.Either<Error.Error[], ObjectSpecCreationContext> {
@@ -170,16 +132,15 @@ function valueObjectConfigPathFuture(requestedPath:File.AbsoluteFilePath, config
   return absoluteValueObjectConfigPath;
 }
 
-export function generate(directoryRunFrom:string, extension:ObjectSpecExtension, parsedArgs:CommandLine.Arguments):Promise.Future<WriteFileUtils.ConsoleOutputResults> {
+export function generate(directoryRunFrom:string, extension:string, configurationContext:Configuration.ConfigurationContext, parsedArgs:CommandLine.Arguments):Promise.Future<WriteFileUtils.ConsoleOutputResults> {
     const requestedPath:File.AbsoluteFilePath = PathUtils.getAbsolutePathFromDirectoryAndAbsoluteOrRelativePath(File.getAbsoluteFilePath(directoryRunFrom), parsedArgs.givenPath);
 
-    const valueObjectCreationContextFuture = getObjectSpecCreationContext(valueObjectConfigPathFuture(requestedPath, parsedArgs.valueObjectConfigPath));
+    const valueObjectCreationContextFuture = getObjectSpecCreationContext(valueObjectConfigPathFuture(requestedPath, parsedArgs.valueObjectConfigPath), configurationContext);
 
-    const extensionString:string = extension;
-    const readFileSequence = ReadFileUtils.loggedSequenceThatReadsFiles(requestedPath, extensionString);
+    const readFileSequence = ReadFileUtils.loggedSequenceThatReadsFiles(requestedPath, extension);
 
     const parsedSequence = LoggingSequenceUtils.mapLoggedSequence(readFileSequence,
-                                                                  FunctionUtils.pApplyf2(extension, parseValues));
+                                                                  parseValues);
 
     const pluginProcessedSequence = LoggingSequenceUtils.mapLoggedSequence(parsedSequence,
                                                                            FunctionUtils.pApplyf2(valueObjectCreationContextFuture, processObjectSpecCreationRequest));

@@ -16,7 +16,9 @@ import minimist = require('minimist');
 
 export interface Arguments {
   givenPath:string;
+  adtConfigPath:string;
   valueObjectConfigPath:string;
+  objectConfigPath:string;
   interestedLoggingTypes:List.List<Logging.LoggingType>;
   minimalLevel:number;
   dryRun:boolean;
@@ -27,6 +29,10 @@ const PERF_LOGGING_FLAG:string = 'perf-log';
 const DEBUG_LOGGING_FLAG:string = 'debug';
 const SILENT_LOGGING_FLAG:string = 'silent';
 const DRY_RUN_FLAG:string = 'dry-run';
+
+const ADT_CONFIG_PATH:string = 'adt-config-path';
+const VALUE_OBJECT_CONFIG_PATH:string = 'value-object-config-path';
+const OBJECT_CONFIG_PATH:string = 'object-config-path';
 
 function interestedTypesForArgs(args:minimist.ParsedArgs):List.List<Logging.LoggingType> {
   if (args[SILENT_LOGGING_FLAG]) {
@@ -41,14 +47,19 @@ function interestedTypesForArgs(args:minimist.ParsedArgs):List.List<Logging.Logg
 }
 
 export function parseArgs(args:string[]):Maybe.Maybe<Arguments> {
-  const opts = {boolean:[VERBOSE_FLAG, PERF_LOGGING_FLAG, DEBUG_LOGGING_FLAG, SILENT_LOGGING_FLAG, DRY_RUN_FLAG]};
+  const opts = {
+    boolean:[VERBOSE_FLAG, PERF_LOGGING_FLAG, DEBUG_LOGGING_FLAG, SILENT_LOGGING_FLAG, DRY_RUN_FLAG],
+    string:[ADT_CONFIG_PATH, VALUE_OBJECT_CONFIG_PATH, OBJECT_CONFIG_PATH]
+  };
   const parsedArgs = minimist(args, opts);
   if (parsedArgs._.length === 0) {
     return Maybe.Nothing<Arguments>();
   } else {
     return Maybe.Just({
       givenPath:parsedArgs._[0],
-      valueObjectConfigPath:parsedArgs._[1],
+      adtConfigPath:parsedArgs[ADT_CONFIG_PATH],
+      valueObjectConfigPath:parsedArgs[VALUE_OBJECT_CONFIG_PATH],
+      objectConfigPath:parsedArgs[OBJECT_CONFIG_PATH],
       interestedLoggingTypes:interestedTypesForArgs(parsedArgs),
       minimalLevel:parsedArgs[VERBOSE_FLAG] ? 1 : 10,
       dryRun:parsedArgs[DRY_RUN_FLAG]

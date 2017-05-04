@@ -132,10 +132,10 @@ function valueObjectConfigPathFuture(configFileName:string, requestedPath:File.A
   return absoluteValueObjectConfigPath;
 }
 
-export function generate(directoryRunFrom:string, extension:string, configFileName:string, configurationContext:Configuration.ConfigurationContext, parsedArgs:CommandLine.Arguments):Promise.Future<WriteFileUtils.ConsoleOutputResults> {
+export function generate(directoryRunFrom:string, extension:string, configFileName:string, optionalConfigPath:string, configurationContext:Configuration.ConfigurationContext, parsedArgs:CommandLine.Arguments):Promise.Future<WriteFileUtils.ConsoleOutputResults> {
     const requestedPath:File.AbsoluteFilePath = PathUtils.getAbsolutePathFromDirectoryAndAbsoluteOrRelativePath(File.getAbsoluteFilePath(directoryRunFrom), parsedArgs.givenPath);
 
-    const valueObjectCreationContextFuture = getObjectSpecCreationContext(valueObjectConfigPathFuture(configFileName, requestedPath, parsedArgs.valueObjectConfigPath), configurationContext);
+    const valueObjectCreationContextFuture = getObjectSpecCreationContext(valueObjectConfigPathFuture(configFileName, requestedPath, optionalConfigPath), configurationContext);
 
     const readFileSequence = ReadFileUtils.loggedSequenceThatReadsFiles(requestedPath, extension);
 

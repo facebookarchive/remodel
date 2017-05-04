@@ -558,7 +558,7 @@ describe('Plugins.Builder', function() {
     });
 
     it('returns a header and an implementation for a builder when provided a ' +
-       'value type that has a bunch of attributes and supports value semantics', function() {
+       'value type that has a bunch of attributes and does not supports value semantics', function() {
       const objectType:ObjectSpec.Type = {
         annotations: {},
         attributes: [

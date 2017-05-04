@@ -47,8 +47,6 @@ function typeForUnderlyingType(underlyingType:string):ObjC.Type {
 }
 
 function propertyModifierForCopyable(supportsValueSemantics: boolean):ObjC.PropertyModifier {
-  // If generated object supports value semantics we should return Copy attribute.
-  // Otherwise we want it to be assigned
   if (supportsValueSemantics) {
     return ObjC.PropertyModifier.Copy();
   } else {

@@ -150,7 +150,7 @@ function isImportRequiredForAttribute(typeLookups:ObjectGeneration.TypeLookup[],
 }
 
 function isImportRequiredForTypeLookup(objectType:ObjectSpec.Type, typeLookup:ObjectGeneration.TypeLookup):boolean {
-  return !isForwardDeclarationRequiredForTypeLookup(objectType, typeLookup);
+  return typeLookup.name !== objectType.typeName;
 }
 
 function importForAttribute(objectLibrary:Maybe.Maybe<string>, isPublic:boolean, attribute:ObjectSpec.Attribute):ObjC.Import {

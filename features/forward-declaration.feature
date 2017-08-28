@@ -6,6 +6,7 @@ Feature: Outputting Value Objects With Forward Declarations
       """
       # Important and gripping comment
       # that takes up two lines.
+      %type name=RMSomeType library=FooLibrary
       RMPage includes(UseForwardDeclarations) {
         BOOL doesUserLike
         NSString* identifier
@@ -14,6 +15,7 @@ Feature: Outputting Value Objects With Forward Declarations
         NSInteger likeCount
         NSUInteger numberOfRatings
         RMProxy* proxy
+        NSArray<RMSomeType *>* followers
       }
       """
     And a file named "project/.valueObjectConfig" with:
@@ -25,6 +27,7 @@ Feature: Outputting Value Objects With Forward Declarations
       """
       #import <Foundation/Foundation.h>
 
+      @class RMSomeType;
       @class RMProxy;
 
       /**
@@ -42,8 +45,9 @@ Feature: Outputting Value Objects With Forward Declarations
       @property (nonatomic, readonly) NSInteger likeCount;
       @property (nonatomic, readonly) NSUInteger numberOfRatings;
       @property (nonatomic, readonly, copy) RMProxy *proxy;
+      @property (nonatomic, readonly, copy) NSArray<RMSomeType *> *followers;
 
-      - (instancetype)initWithDoesUserLike:(BOOL)doesUserLike identifier:(NSString *)identifier likeCount:(NSInteger)likeCount numberOfRatings:(NSUInteger)numberOfRatings proxy:(RMProxy *)proxy;
+      - (instancetype)initWithDoesUserLike:(BOOL)doesUserLike identifier:(NSString *)identifier likeCount:(NSInteger)likeCount numberOfRatings:(NSUInteger)numberOfRatings proxy:(RMProxy *)proxy followers:(NSArray<RMSomeType *> *)followers;
 
       @end
 
@@ -51,11 +55,12 @@ Feature: Outputting Value Objects With Forward Declarations
    And the file "project/values/RMPage.m" should contain:
       """
       #import "RMPage.h"
+      #import <FooLibrary/RMSomeType.h>
       #import "RMProxy.h"
 
       @implementation RMPage
 
-      - (instancetype)initWithDoesUserLike:(BOOL)doesUserLike identifier:(NSString *)identifier likeCount:(NSInteger)likeCount numberOfRatings:(NSUInteger)numberOfRatings proxy:(RMProxy *)proxy
+      - (instancetype)initWithDoesUserLike:(BOOL)doesUserLike identifier:(NSString *)identifier likeCount:(NSInteger)likeCount numberOfRatings:(NSUInteger)numberOfRatings proxy:(RMProxy *)proxy followers:(NSArray<RMSomeType *> *)followers
       {
         if ((self = [super init])) {
           _doesUserLike = doesUserLike;
@@ -63,6 +68,7 @@ Feature: Outputting Value Objects With Forward Declarations
           _likeCount = likeCount;
           _numberOfRatings = numberOfRatings;
           _proxy = [proxy copy];
+          _followers = [followers copy];
         }
 
         return self;
@@ -75,14 +81,14 @@ Feature: Outputting Value Objects With Forward Declarations
 
       - (NSString *)description
       {
-        return [NSString stringWithFormat:@"%@ - \n\t doesUserLike: %@; \n\t identifier: %@; \n\t likeCount: %zd; \n\t numberOfRatings: %tu; \n\t proxy: %@; \n", [super description], _doesUserLike ? @"YES" : @"NO", _identifier, _likeCount, _numberOfRatings, _proxy];
+        return [NSString stringWithFormat:@"%@ - \n\t doesUserLike: %@; \n\t identifier: %@; \n\t likeCount: %zd; \n\t numberOfRatings: %tu; \n\t proxy: %@; \n\t followers: %@; \n", [super description], _doesUserLike ? @"YES" : @"NO", _identifier, _likeCount, _numberOfRatings, _proxy, _followers];
       }
 
       - (NSUInteger)hash
       {
-        NSUInteger subhashes[] = {(NSUInteger)_doesUserLike, [_identifier hash], ABS(_likeCount), _numberOfRatings, [_proxy hash]};
+        NSUInteger subhashes[] = {(NSUInteger)_doesUserLike, [_identifier hash], ABS(_likeCount), _numberOfRatings, [_proxy hash], [_followers hash]};
         NSUInteger result = subhashes[0];
-        for (int ii = 1; ii < 5; ++ii) {
+        for (int ii = 1; ii < 6; ++ii) {
           unsigned long long base = (((unsigned long long)result) << 32 | subhashes[ii]);
           base = (~base) + (base << 18);
           base ^= (base >> 31);
@@ -107,7 +113,8 @@ Feature: Outputting Value Objects With Forward Declarations
           _likeCount == object->_likeCount &&
           _numberOfRatings == object->_numberOfRatings &&
           (_identifier == object->_identifier ? YES : [_identifier isEqual:object->_identifier]) &&
-          (_proxy == object->_proxy ? YES : [_proxy isEqual:object->_proxy]);
+          (_proxy == object->_proxy ? YES : [_proxy isEqual:object->_proxy]) &&
+          (_followers == object->_followers ? YES : [_followers isEqual:object->_followers]);
       }
 
       @end

@@ -181,6 +181,10 @@ function makePublicImportsForValueType(objectType:ObjectSpec.Type):boolean {
   return objectType.includes.indexOf('UseForwardDeclarations') === -1;
 }
 
+function skipAttributePrivateImportsForValueType(objectType:ObjectSpec.Type):boolean {
+  return objectType.includes.indexOf('SkipAttributePrivateImports') !== -1
+}
+
 function isForwardDeclarationRequiredForTypeLookup(objectType:ObjectSpec.Type, typeLookup:ObjectGeneration.TypeLookup):boolean {
   return typeLookup.name === objectType.typeName || !makePublicImportsForValueType(objectType);
 }
@@ -261,11 +265,14 @@ export function createPlugin():ObjectSpec.Plugin {
         {file:'Foundation.h', isPublic:true, library:Maybe.Just('Foundation')},
         {file:objectType.typeName + '.h', isPublic:false, library:Maybe.Nothing<string>() }
       ];
-      const makePublicImports = objectType.includes.indexOf('UseForwardDeclarations') === -1;
+      const makePublicImports = makePublicImportsForValueType(objectType);
+      const skipAttributeImports = !makePublicImports && skipAttributePrivateImportsForValueType(objectType);
       const typeLookupImports = objectType.typeLookups.filter(FunctionUtils.pApplyf2(objectType, isImportRequiredForTypeLookup))
-                                                      .map(FunctionUtils.pApply2f3(objectType.libraryName, makePublicImportsForValueType(objectType), ObjCImportUtils.importForTypeLookup));
-      const attributeImports = objectType.attributes.filter(FunctionUtils.pApplyf2(objectType.typeLookups, isImportRequiredForAttribute))
-                                                    .map(FunctionUtils.pApply2f3(objectType.libraryName, makePublicImports, importForAttribute));
+                                                      .map(FunctionUtils.pApply2f3(objectType.libraryName, makePublicImports, ObjCImportUtils.importForTypeLookup));
+      const attributeImports = skipAttributeImports
+        ? []
+        : objectType.attributes.filter(FunctionUtils.pApplyf2(objectType.typeLookups, isImportRequiredForAttribute))
+                               .map(FunctionUtils.pApply2f3(objectType.libraryName, makePublicImports, importForAttribute));
       return baseImports.concat(typeLookupImports).concat(attributeImports);
     },
     instanceMethods: function(objectType:ObjectSpec.Type):ObjC.Method[] {

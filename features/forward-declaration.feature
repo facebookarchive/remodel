@@ -229,3 +229,26 @@ Feature: Outputting Value Objects With Forward Declarations
       #pragma clang diagnostic pop
 
       """
+  @announce
+  Scenario: Generating Files with SkipAttributePrivateImports results in no additional imports
+    Given a file named "project/values/RMPage.value" with:
+      """
+      RMPage includes(UseForwardDeclarations, SkipAttributePrivateImports) {
+        UIViewController<WorldProtocol> *worldVc
+        RMProxy* proxy
+        HelloClass *helloObj
+        NSArray<RMSomeType *>* followers
+      }
+      """
+    And a file named "project/.valueObjectConfig" with:
+      """
+      { }
+      """
+    When I run `../../bin/generate project`
+    Then the file "project/values/RMPage.m" should contain:
+      """
+      #import "RMPage.h"
+
+      @implementation RMPage
+
+      """

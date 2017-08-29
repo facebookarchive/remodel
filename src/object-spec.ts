@@ -20,6 +20,7 @@ export interface AttributeType {
   name:string;
   reference:string;
   underlyingType:Maybe.Maybe<string>;
+  conformingProtocol:Maybe.Maybe<string>;
 }
 
 export interface Attribute {

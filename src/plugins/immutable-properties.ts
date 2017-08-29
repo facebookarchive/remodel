@@ -146,7 +146,14 @@ function propertyFromAttribute(supportsValueSemantics:boolean, attribute:ObjectS
 }
 
 function isImportRequiredForAttribute(typeLookups:ObjectGeneration.TypeLookup[], attribute:ObjectSpec.Attribute):boolean {
-  return ObjCImportUtils.shouldIncludeImportForType(typeLookups, attribute.type.name);
+  const shouldIncludeImportForTypeName = ObjCImportUtils.shouldIncludeImportForType(typeLookups, attribute.type.name);
+  return Maybe.match(
+    function (protocol) {
+      return shouldIncludeImportForTypeName || ObjCImportUtils.shouldIncludeImportForType(typeLookups, protocol);
+    },
+    function () {
+      return shouldIncludeImportForTypeName;
+    }, attribute.type.conformingProtocol);
 }
 
 function isImportRequiredForTypeLookup(objectType:ObjectSpec.Type, typeLookup:ObjectGeneration.TypeLookup):boolean {
@@ -182,14 +189,34 @@ function forwardDeclarationForTypeLookup(typeLookup:ObjectGeneration.TypeLookup)
   return ObjC.ForwardDeclaration.ForwardClassDeclaration(typeLookup.name);
 }
 
-function shouldForwardDeclareAttribute(valueTypeName:string, makePublicImports:boolean, attribute:ObjectSpec.Attribute):boolean {
+function shouldForwardClassDeclareAttribute(valueTypeName:string, makePublicImports:boolean, attribute:ObjectSpec.Attribute):boolean {
   const declaringPublicAttributes = !makePublicImports && ObjCImportUtils.canForwardDeclareTypeForAttribute(attribute);
   const attributeTypeReferencesObjectType = valueTypeName == attribute.type.name;
   return declaringPublicAttributes || attributeTypeReferencesObjectType;
 }
 
-function forwardDeclarationForAttribute(attribute:ObjectSpec.Attribute): ObjC.ForwardDeclaration {
+function shouldForwardProtocolDeclareAttribute(attribute:ObjectSpec.Attribute):boolean {
+  return Maybe.match(
+    function (protocol) {
+      return true;
+    },
+    function () {
+      return false;
+    }, attribute.type.conformingProtocol);
+}
+
+function forwardClassDeclarationForAttribute(attribute:ObjectSpec.Attribute): ObjC.ForwardDeclaration {
   return ObjC.ForwardDeclaration.ForwardClassDeclaration(attribute.type.name);
+}
+
+function forwardProtocolDeclarationForAttribute(attribute:ObjectSpec.Attribute): ObjC.ForwardDeclaration {
+  return Maybe.match(
+    function (protocol) {
+      return ObjC.ForwardDeclaration.ForwardProtocolDeclaration(protocol);
+    },
+    function () {
+      return undefined;
+    }, attribute.type.conformingProtocol);
 }
 
 export function createPlugin():ObjectSpec.Plugin {
@@ -210,11 +237,15 @@ export function createPlugin():ObjectSpec.Plugin {
       return Maybe.Nothing<Code.FileType>();
     },
     forwardDeclarations: function(objectType:ObjectSpec.Type):ObjC.ForwardDeclaration[] {
+      const makePublicImports = makePublicImportsForValueType(objectType);
       const typeLookupForwardDeclarations = objectType.typeLookups.filter(FunctionUtils.pApplyf2(objectType, isForwardDeclarationRequiredForTypeLookup))
-                                                                 .map(forwardDeclarationForTypeLookup);
-      const attributeForwardDeclarations = objectType.attributes.filter(FunctionUtils.pApply2f3(objectType.typeName, makePublicImportsForValueType(objectType), shouldForwardDeclareAttribute))
-                                                               .map(forwardDeclarationForAttribute);
-      return [].concat(typeLookupForwardDeclarations).concat(attributeForwardDeclarations);
+                                                                  .map(forwardDeclarationForTypeLookup);
+      const attributeForwardClassDeclarations = objectType.attributes.filter(FunctionUtils.pApply2f3(objectType.typeName, makePublicImports, shouldForwardClassDeclareAttribute))
+                                                                     .map(forwardClassDeclarationForAttribute);
+      const attributeForwardProtocolDeclarations = makePublicImports
+        ? []
+        : objectType.attributes.filter(shouldForwardProtocolDeclareAttribute).map(forwardProtocolDeclarationForAttribute);
+      return [].concat(typeLookupForwardDeclarations).concat(attributeForwardClassDeclarations).concat(attributeForwardProtocolDeclarations);
     },
     functions: function(objectType:ObjectSpec.Type):ObjC.Function[] {
       return [];
@@ -232,9 +263,9 @@ export function createPlugin():ObjectSpec.Plugin {
       ];
       const makePublicImports = objectType.includes.indexOf('UseForwardDeclarations') === -1;
       const typeLookupImports = objectType.typeLookups.filter(FunctionUtils.pApplyf2(objectType, isImportRequiredForTypeLookup))
-                                                     .map(FunctionUtils.pApply2f3(objectType.libraryName, makePublicImportsForValueType(objectType), ObjCImportUtils.importForTypeLookup));
+                                                      .map(FunctionUtils.pApply2f3(objectType.libraryName, makePublicImportsForValueType(objectType), ObjCImportUtils.importForTypeLookup));
       const attributeImports = objectType.attributes.filter(FunctionUtils.pApplyf2(objectType.typeLookups, isImportRequiredForAttribute))
-                                                 .map(FunctionUtils.pApply2f3(objectType.libraryName, makePublicImports, importForAttribute));
+                                                    .map(FunctionUtils.pApply2f3(objectType.libraryName, makePublicImports, importForAttribute));
       return baseImports.concat(typeLookupImports).concat(attributeImports);
     },
     instanceMethods: function(objectType:ObjectSpec.Type):ObjC.Method[] {

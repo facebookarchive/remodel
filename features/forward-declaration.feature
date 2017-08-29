@@ -7,6 +7,7 @@ Feature: Outputting Value Objects With Forward Declarations
       # Important and gripping comment
       # that takes up two lines.
       %type name=RMSomeType library=FooLibrary
+      %type name=UIViewController library=UIKit
       RMPage includes(UseForwardDeclarations) {
         BOOL doesUserLike
         NSString* identifier
@@ -16,6 +17,10 @@ Feature: Outputting Value Objects With Forward Declarations
         NSUInteger numberOfRatings
         RMProxy* proxy
         NSArray<RMSomeType *>* followers
+        %import library=HelloKit file=HelloProtocol
+        id<HelloProtocol> helloObj
+        %import library=WorldKit file=HWorldProtocol
+        UIViewController<WorldProtocol> *worldVc
       }
       """
     And a file named "project/.valueObjectConfig" with:
@@ -28,7 +33,10 @@ Feature: Outputting Value Objects With Forward Declarations
       #import <Foundation/Foundation.h>
 
       @class RMSomeType;
+      @class UIViewController;
       @class RMProxy;
+      @protocol HelloProtocol;
+      @protocol WorldProtocol;
 
       /**
        * Important and gripping comment
@@ -46,8 +54,10 @@ Feature: Outputting Value Objects With Forward Declarations
       @property (nonatomic, readonly) NSUInteger numberOfRatings;
       @property (nonatomic, readonly, copy) RMProxy *proxy;
       @property (nonatomic, readonly, copy) NSArray<RMSomeType *> *followers;
+      @property (nonatomic, readonly, copy) id<HelloProtocol> helloObj;
+      @property (nonatomic, readonly, copy) UIViewController<WorldProtocol> *worldVc;
 
-      - (instancetype)initWithDoesUserLike:(BOOL)doesUserLike identifier:(NSString *)identifier likeCount:(NSInteger)likeCount numberOfRatings:(NSUInteger)numberOfRatings proxy:(RMProxy *)proxy followers:(NSArray<RMSomeType *> *)followers;
+      - (instancetype)initWithDoesUserLike:(BOOL)doesUserLike identifier:(NSString *)identifier likeCount:(NSInteger)likeCount numberOfRatings:(NSUInteger)numberOfRatings proxy:(RMProxy *)proxy followers:(NSArray<RMSomeType *> *)followers helloObj:(id<HelloProtocol>)helloObj worldVc:(UIViewController<WorldProtocol> *)worldVc;
 
       @end
 
@@ -56,11 +66,14 @@ Feature: Outputting Value Objects With Forward Declarations
       """
       #import "RMPage.h"
       #import <FooLibrary/RMSomeType.h>
+      #import <UIKit/UIViewController.h>
       #import "RMProxy.h"
+      #import <HelloKit/HelloProtocol.h>
+      #import <WorldKit/HWorldProtocol.h>
 
       @implementation RMPage
 
-      - (instancetype)initWithDoesUserLike:(BOOL)doesUserLike identifier:(NSString *)identifier likeCount:(NSInteger)likeCount numberOfRatings:(NSUInteger)numberOfRatings proxy:(RMProxy *)proxy followers:(NSArray<RMSomeType *> *)followers
+      - (instancetype)initWithDoesUserLike:(BOOL)doesUserLike identifier:(NSString *)identifier likeCount:(NSInteger)likeCount numberOfRatings:(NSUInteger)numberOfRatings proxy:(RMProxy *)proxy followers:(NSArray<RMSomeType *> *)followers helloObj:(id<HelloProtocol>)helloObj worldVc:(UIViewController<WorldProtocol> *)worldVc
       {
         if ((self = [super init])) {
           _doesUserLike = doesUserLike;
@@ -69,6 +82,8 @@ Feature: Outputting Value Objects With Forward Declarations
           _numberOfRatings = numberOfRatings;
           _proxy = [proxy copy];
           _followers = [followers copy];
+          _helloObj = [helloObj copy];
+          _worldVc = [worldVc copy];
         }
 
         return self;
@@ -81,14 +96,14 @@ Feature: Outputting Value Objects With Forward Declarations
 
       - (NSString *)description
       {
-        return [NSString stringWithFormat:@"%@ - \n\t doesUserLike: %@; \n\t identifier: %@; \n\t likeCount: %zd; \n\t numberOfRatings: %tu; \n\t proxy: %@; \n\t followers: %@; \n", [super description], _doesUserLike ? @"YES" : @"NO", _identifier, _likeCount, _numberOfRatings, _proxy, _followers];
+        return [NSString stringWithFormat:@"%@ - \n\t doesUserLike: %@; \n\t identifier: %@; \n\t likeCount: %zd; \n\t numberOfRatings: %tu; \n\t proxy: %@; \n\t followers: %@; \n\t helloObj: %@; \n\t worldVc: %@; \n", [super description], _doesUserLike ? @"YES" : @"NO", _identifier, _likeCount, _numberOfRatings, _proxy, _followers, _helloObj, _worldVc];
       }
 
       - (NSUInteger)hash
       {
-        NSUInteger subhashes[] = {(NSUInteger)_doesUserLike, [_identifier hash], ABS(_likeCount), _numberOfRatings, [_proxy hash], [_followers hash]};
+        NSUInteger subhashes[] = {(NSUInteger)_doesUserLike, [_identifier hash], ABS(_likeCount), _numberOfRatings, [_proxy hash], [_followers hash], [_helloObj hash], [_worldVc hash]};
         NSUInteger result = subhashes[0];
-        for (int ii = 1; ii < 6; ++ii) {
+        for (int ii = 1; ii < 8; ++ii) {
           unsigned long long base = (((unsigned long long)result) << 32 | subhashes[ii]);
           base = (~base) + (base << 18);
           base ^= (base >> 31);
@@ -114,7 +129,9 @@ Feature: Outputting Value Objects With Forward Declarations
           _numberOfRatings == object->_numberOfRatings &&
           (_identifier == object->_identifier ? YES : [_identifier isEqual:object->_identifier]) &&
           (_proxy == object->_proxy ? YES : [_proxy isEqual:object->_proxy]) &&
-          (_followers == object->_followers ? YES : [_followers isEqual:object->_followers]);
+          (_followers == object->_followers ? YES : [_followers isEqual:object->_followers]) &&
+          (_helloObj == object->_helloObj ? YES : [_helloObj isEqual:object->_helloObj]) &&
+          (_worldVc == object->_worldVc ? YES : [_worldVc isEqual:object->_worldVc]);
       }
 
       @end

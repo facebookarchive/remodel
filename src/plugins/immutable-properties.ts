@@ -160,6 +160,10 @@ function isImportRequiredForTypeLookup(objectType:ObjectSpec.Type, typeLookup:Ob
   return typeLookup.name !== objectType.typeName;
 }
 
+function importForTypeLookup(objectLibrary:Maybe.Maybe<string>, isPublic:boolean, typeLookup:ObjectGeneration.TypeLookup):ObjC.Import {
+  return ObjCImportUtils.importForTypeLookup(objectLibrary, isPublic || !typeLookup.canForwardDeclare, typeLookup);
+}
+
 function importForAttribute(objectLibrary:Maybe.Maybe<string>, isPublic:boolean, attribute:ObjectSpec.Attribute):ObjC.Import {
   const builtInImportMaybe:Maybe.Maybe<ObjC.Import> = ObjCImportUtils.typeDefinitionImportForKnownSystemType(attribute.type.name);
 
@@ -186,7 +190,7 @@ function skipAttributePrivateImportsForValueType(objectType:ObjectSpec.Type):boo
 }
 
 function isForwardDeclarationRequiredForTypeLookup(objectType:ObjectSpec.Type, typeLookup:ObjectGeneration.TypeLookup):boolean {
-  return typeLookup.name === objectType.typeName || !makePublicImportsForValueType(objectType);
+  return typeLookup.name === objectType.typeName || (typeLookup.canForwardDeclare && !makePublicImportsForValueType(objectType));
 }
 
 function forwardDeclarationForTypeLookup(typeLookup:ObjectGeneration.TypeLookup):ObjC.ForwardDeclaration {
@@ -268,7 +272,7 @@ export function createPlugin():ObjectSpec.Plugin {
       const makePublicImports = makePublicImportsForValueType(objectType);
       const skipAttributeImports = !makePublicImports && skipAttributePrivateImportsForValueType(objectType);
       const typeLookupImports = objectType.typeLookups.filter(FunctionUtils.pApplyf2(objectType, isImportRequiredForTypeLookup))
-                                                      .map(FunctionUtils.pApply2f3(objectType.libraryName, makePublicImports, ObjCImportUtils.importForTypeLookup));
+                                                      .map(FunctionUtils.pApply2f3(objectType.libraryName, makePublicImports, importForTypeLookup));
       const attributeImports = skipAttributeImports
         ? []
         : objectType.attributes.filter(FunctionUtils.pApplyf2(objectType.typeLookups, isImportRequiredForAttribute))

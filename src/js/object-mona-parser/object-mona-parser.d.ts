@@ -8,7 +8,7 @@
  */
 
 // Value object parse result types
-export interface ValueObjectParsedType {
+export interface ObjectSpecParsedType {
   annotations:{[name:string]: {[key:string]: string}[];};
   attributes:ParsedAttribute[];
   comments:string[];
@@ -17,10 +17,10 @@ export interface ValueObjectParsedType {
   excludes:string[];
 }
 
-export interface ValueObjectParseResult {
+export interface ObjectSpecParseResult {
   errorReason:string;
   isValid:boolean;
-  foundType:ValueObjectParsedType;
+  foundType:ObjectSpecParsedType;
 }
 
 // Algebraic type parse result types
@@ -67,5 +67,5 @@ export interface ParsedAttribute {
   type:ParsedAttributeType;
 }
 
-export function parseValueObject(input:string):ValueObjectParseResult;
+export function parseObjectSpec(input:string):ObjectSpecParseResult;
 export function parseAlgebraicType(input:string):AlgebraicTypeParseResult;

@@ -15,7 +15,7 @@ import Error = require('./error');
 import File = require('./file');
 import Maybe = require('./maybe');
 import requireJsPlugin = require('./js/require-plugin/require-plugin');
-import ValueObject = require('./value-object');
+import ObjectSpec = require('./object-spec');
 
 function requiredModuleForPath(absolutePath:File.AbsoluteFilePath):Maybe.Maybe<any> {
   try {
@@ -38,10 +38,10 @@ function requirePlugin<T>(absolutePath:File.AbsoluteFilePath, loadPlugin:(requir
   );
 }
 
-function valueObjectPluginFromModule(module:any): Maybe.Maybe<ValueObject.Plugin> {
+function valueObjectPluginFromModule(module:any): Maybe.Maybe<ObjectSpec.Plugin> {
   return module.createPlugin !== undefined ?
-    Maybe.Just<ValueObject.Plugin>(module.createPlugin()) :
-    Maybe.Nothing<ValueObject.Plugin>();
+    Maybe.Just<ObjectSpec.Plugin>(module.createPlugin()) :
+    Maybe.Nothing<ObjectSpec.Plugin>();
 }
 
 function algebraicTypePluginFromModule(module:any): Maybe.Maybe<AlgebraicType.Plugin> {
@@ -50,8 +50,8 @@ function algebraicTypePluginFromModule(module:any): Maybe.Maybe<AlgebraicType.Pl
     Maybe.Nothing<AlgebraicType.Plugin>();
 }
 
-export function requireValueObjectPlugin(absolutePath:File.AbsoluteFilePath):Either.Either<Error.Error[], Maybe.Maybe<ValueObject.Plugin>> {
-  return requirePlugin<ValueObject.Plugin>(absolutePath, valueObjectPluginFromModule);
+export function requireObjectSpecPlugin(absolutePath:File.AbsoluteFilePath):Either.Either<Error.Error[], Maybe.Maybe<ObjectSpec.Plugin>> {
+  return requirePlugin<ObjectSpec.Plugin>(absolutePath, valueObjectPluginFromModule);
 }
 
 export function requireAlgebraicTypePlugin(absolutePath:File.AbsoluteFilePath):Either.Either<Error.Error[], Maybe.Maybe<AlgebraicType.Plugin>> {

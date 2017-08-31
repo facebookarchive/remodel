@@ -9,12 +9,12 @@
 
 const parser = require('object-mona-parser');
 
-describe('ValueObjectMonaParser', function() {
+describe('ObjectSpecMonaParser', function() {
   describe('#parse', function() {
     it('parses a uint64_t which has a numeric value and underscore in the type name', function() {
       const valueFileContents = 'RMSomething { uint64_t someUnsignedInt }';
-      const actualValueObject = parser.parseValueObject(valueFileContents);
-      const expectedValueObject = {
+      const actualObjectSpec = parser.parseObjectSpec(valueFileContents);
+      const expectedObjectSpec = {
         errorReason: null,
         isValid: true,
         foundType: {
@@ -36,13 +36,13 @@ describe('ValueObjectMonaParser', function() {
           ]
         }
       };
-      expect(actualValueObject).toEqualJSON(expectedValueObject);
+      expect(actualObjectSpec).toEqualJSON(expectedObjectSpec);
     });
 
     it('parses a variable name with an underscore', function() {
       const valueFileContents = 'RMSomething { uint64_t some_UnsignedInt }';
-      const actualValueObject = parser.parseValueObject(valueFileContents);
-      const expectedValueObject = {
+      const actualObjectSpec = parser.parseObjectSpec(valueFileContents);
+      const expectedObjectSpec = {
         errorReason: null,
         isValid: true,
         foundType: {
@@ -64,14 +64,14 @@ describe('ValueObjectMonaParser', function() {
           ]
         }
       };
-      expect(actualValueObject).toEqualJSON(expectedValueObject);
+      expect(actualObjectSpec).toEqualJSON(expectedObjectSpec);
     });
 
     it('parses a value object with two properties one an NSArray and the other' +
        ' a BOOL', function() {
       const valueFileContents = 'RMSomething {\n NSArray *someArray\n BOOL someBoolean\n}';
-      const actualValueObject = parser.parseValueObject(valueFileContents);
-      const expectedValueObject = {
+      const actualObjectSpec = parser.parseObjectSpec(valueFileContents);
+      const expectedObjectSpec = {
         errorReason: null,
         isValid: true,
         foundType: {
@@ -102,14 +102,14 @@ describe('ValueObjectMonaParser', function() {
           ]
         }
       };
-      expect(actualValueObject).toEqualJSON(expectedValueObject);
+      expect(actualObjectSpec).toEqualJSON(expectedObjectSpec);
     });
 
     it('parses a value object with a single property that is an NSArray but ' +
        'has the pointer on the side of the type name', function() {
       const valueFileContents = 'RMSomething{NSArray* someArray }';
-      const actualValueObject = parser.parseValueObject(valueFileContents);
-      const expectedValueObject = {
+      const actualObjectSpec = parser.parseObjectSpec(valueFileContents);
+      const expectedObjectSpec = {
         errorReason: null,
         isValid: true,
         foundType: {
@@ -131,13 +131,13 @@ describe('ValueObjectMonaParser', function() {
           ]
         }
       };
-      expect(actualValueObject).toEqualJSON(expectedValueObject);
+      expect(actualObjectSpec).toEqualJSON(expectedObjectSpec);
     });
 
     it('parses a value object with a single property that is a generic type', function() {
       const valueFileContents = 'RMSomething{NSDictionary<NSString *, NSArray *> *someArray }';
-      const actualValueObject = parser.parseValueObject(valueFileContents);
-      const expectedValueObject = {
+      const actualObjectSpec = parser.parseObjectSpec(valueFileContents);
+      const expectedObjectSpec = {
         errorReason: null,
         isValid: true,
         foundType: {
@@ -159,13 +159,13 @@ describe('ValueObjectMonaParser', function() {
           ]
         }
       };
-      expect(actualValueObject).toEqualJSON(expectedValueObject);
+      expect(actualObjectSpec).toEqualJSON(expectedObjectSpec);
     });
 
     it('parses a value object with a single property that is an id', function() {
       const valueFileContents = 'RMSomething{ id someValue }';
-      const actualValueObject = parser.parseValueObject(valueFileContents);
-      const expectedValueObject = {
+      const actualObjectSpec = parser.parseObjectSpec(valueFileContents);
+      const expectedObjectSpec = {
         errorReason: null,
         isValid: true,
         foundType: {
@@ -187,14 +187,14 @@ describe('ValueObjectMonaParser', function() {
           ]
         }
       };
-      expect(actualValueObject).toEqualJSON(expectedValueObject);
+      expect(actualObjectSpec).toEqualJSON(expectedObjectSpec);
     });
 
     it('parses a value object with a single property that is an NSArray but ' +
        'has a semi-colon at the end of the definition', function() {
       const valueFileContents = 'RMSomething{NSArray* someArray; }';
-      const actualValueObject = parser.parseValueObject(valueFileContents);
-      const expectedValueObject = {
+      const actualObjectSpec = parser.parseObjectSpec(valueFileContents);
+      const expectedObjectSpec = {
         errorReason: null,
         isValid: true,
         foundType: {
@@ -216,14 +216,14 @@ describe('ValueObjectMonaParser', function() {
           ]
         }
       };
-      expect(actualValueObject).toEqualJSON(expectedValueObject);
+      expect(actualObjectSpec).toEqualJSON(expectedObjectSpec);
     });
 
     it('parses a value object with a single property that is an NSArray but ' +
        'has no new lines and no spaces', function() {
       const valueFileContents = 'RMSomething{NSArray *someArray }';
-      const actualValueObject = parser.parseValueObject(valueFileContents);
-      const expectedValueObject = {
+      const actualObjectSpec = parser.parseObjectSpec(valueFileContents);
+      const expectedObjectSpec = {
         errorReason: null,
         isValid: true,
         foundType: {
@@ -245,13 +245,13 @@ describe('ValueObjectMonaParser', function() {
           ]
         }
       };
-      expect(actualValueObject).toEqualJSON(expectedValueObject);
+      expect(actualObjectSpec).toEqualJSON(expectedObjectSpec);
     });
 
     it('parses a value object with two properties but no spaces', function() {
       const valueFileContents = 'RMSomething{NSArray *someArray BOOL someBoolean }';
-      const actualValueObject = parser.parseValueObject(valueFileContents);
-      const expectedValueObject = {
+      const actualObjectSpec = parser.parseObjectSpec(valueFileContents);
+      const expectedObjectSpec = {
         errorReason: null,
         isValid: true,
         foundType: {
@@ -282,14 +282,14 @@ describe('ValueObjectMonaParser', function() {
           ]
         }
       };
-      expect(actualValueObject).toEqualJSON(expectedValueObject);
+      expect(actualObjectSpec).toEqualJSON(expectedObjectSpec);
     });
 
     it('parses a value object with a single property that is a custom non-' +
        'object type', function() {
       const valueFileContents = 'RMSomething{ RMSomeEnum someEnum }';
-      const actualValueObject = parser.parseValueObject(valueFileContents);
-      const expectedValueObject = {
+      const actualObjectSpec = parser.parseObjectSpec(valueFileContents);
+      const expectedObjectSpec = {
         errorReason: null,
         isValid: true,
         foundType: {
@@ -311,14 +311,14 @@ describe('ValueObjectMonaParser', function() {
           ]
         }
       };
-      expect(actualValueObject).toEqualJSON(expectedValueObject);
+      expect(actualObjectSpec).toEqualJSON(expectedObjectSpec);
     });
 
     it('parses a value object with a single property that is a custom non-' +
        'object type with a backing type of BOOL', function() {
       const valueFileContents = 'RMSomething { RMSomeValue(BOOL) someValue }';
-      const actualValueObject = parser.parseValueObject(valueFileContents);
-      const expectedValueObject = {
+      const actualObjectSpec = parser.parseObjectSpec(valueFileContents);
+      const expectedObjectSpec = {
         errorReason: null,
         isValid: true,
         foundType: {
@@ -340,14 +340,14 @@ describe('ValueObjectMonaParser', function() {
           ]
         }
       };
-      expect(actualValueObject).toEqualJSON(expectedValueObject);
+      expect(actualObjectSpec).toEqualJSON(expectedObjectSpec);
     });
 
     it('parses a value object with a single property that is a custom non-' +
        'object type with a backing type of uintptr_t', function() {
       const valueFileContents = 'RMSomething { RMSomeValue(uintptr_t) someValue }';
-      const actualValueObject = parser.parseValueObject(valueFileContents);
-      const expectedValueObject = {
+      const actualObjectSpec = parser.parseObjectSpec(valueFileContents);
+      const expectedObjectSpec = {
         errorReason: null,
         isValid: true,
         foundType: {
@@ -369,15 +369,15 @@ describe('ValueObjectMonaParser', function() {
           ]
         }
       };
-      expect(actualValueObject).toEqualJSON(expectedValueObject);
+      expect(actualObjectSpec).toEqualJSON(expectedObjectSpec);
     });
 
     it('parses comments for an empty type', function() {
       const valueFileContents = '\n  # First line\n' +
                               '# Second line\n' +
                               'RMSomething {}';
-      const actualValueObject = parser.parseValueObject(valueFileContents);
-      const expectedValueObject = {
+      const actualObjectSpec = parser.parseObjectSpec(valueFileContents);
+      const expectedObjectSpec = {
         errorReason: null,
         isValid: true,
         foundType: {
@@ -390,15 +390,15 @@ describe('ValueObjectMonaParser', function() {
           ]
         }
       };
-      expect(actualValueObject).toEqualJSON(expectedValueObject);
+      expect(actualObjectSpec).toEqualJSON(expectedObjectSpec);
     });
 
     it('parses comments for an empty type with symbols marks in them', function() {
       const valueFileContents = '\n  # "-}*^@#:;\n' +
                               '# Second line\n' +
                               'RMSomething {}';
-      const actualValueObject = parser.parseValueObject(valueFileContents);
-      const expectedValueObject = {
+      const actualObjectSpec = parser.parseObjectSpec(valueFileContents);
+      const expectedObjectSpec = {
         errorReason: null,
         isValid: true,
         foundType: {
@@ -411,7 +411,7 @@ describe('ValueObjectMonaParser', function() {
           ]
         }
       };
-      expect(actualValueObject).toEqualJSON(expectedValueObject);
+      expect(actualObjectSpec).toEqualJSON(expectedObjectSpec);
     });
 
     it('parses a value object with two properties each of which have some ' +
@@ -424,8 +424,8 @@ describe('ValueObjectMonaParser', function() {
                               '  # Second comment line 2\n' +
                               '  BOOL someBoolean\n' +
                               '}';
-      const actualValueObject = parser.parseValueObject(valueFileContents);
-      const expectedValueObject = {
+      const actualObjectSpec = parser.parseObjectSpec(valueFileContents);
+      const expectedObjectSpec = {
         errorReason: null,
         isValid: true,
         foundType: {
@@ -456,7 +456,7 @@ describe('ValueObjectMonaParser', function() {
           ]
         }
       };
-      expect(actualValueObject).toEqualJSON(expectedValueObject);
+      expect(actualObjectSpec).toEqualJSON(expectedObjectSpec);
     });
 
     it('parses a value object with an attribute with an annotation for ' +
@@ -465,8 +465,8 @@ describe('ValueObjectMonaParser', function() {
                               '  %import file=RMSomeOtherFile\n' +
                               '  RMLibType *customLibObject\n' +
                               '}';
-      const actualValueObject = parser.parseValueObject(valueFileContents);
-      const expectedValueObject = {
+      const actualObjectSpec = parser.parseObjectSpec(valueFileContents);
+      const expectedObjectSpec = {
         errorReason: null,
         isValid: true,
         foundType: {
@@ -494,7 +494,7 @@ describe('ValueObjectMonaParser', function() {
           ]
         }
       };
-      expect(actualValueObject).toEqualJSON(expectedValueObject);
+      expect(actualObjectSpec).toEqualJSON(expectedObjectSpec);
     });
 
     it('parses a value object with an attribute with an annotation for ' +
@@ -503,8 +503,8 @@ describe('ValueObjectMonaParser', function() {
                               '  %import library=RMCustomLibrary\n' +
                               '  RMLibType *customLibObject\n' +
                               '}';
-      const actualValueObject = parser.parseValueObject(valueFileContents);
-      const expectedValueObject = {
+      const actualObjectSpec = parser.parseObjectSpec(valueFileContents);
+      const expectedObjectSpec = {
         errorReason: null,
         isValid: true,
         foundType: {
@@ -532,7 +532,7 @@ describe('ValueObjectMonaParser', function() {
           ]
         }
       };
-      expect(actualValueObject).toEqualJSON(expectedValueObject);
+      expect(actualObjectSpec).toEqualJSON(expectedObjectSpec);
     });
 
     it('parses a value object with an attribute with an annotation for ' +
@@ -541,8 +541,8 @@ describe('ValueObjectMonaParser', function() {
                               '  %import library=RMCustomLibrary file=RMSomeOtherFile\n' +
                               '  RMLibType *customLibObject\n' +
                               '}';
-      const actualValueObject = parser.parseValueObject(valueFileContents);
-      const expectedValueObject = {
+      const actualObjectSpec = parser.parseObjectSpec(valueFileContents);
+      const expectedObjectSpec = {
         errorReason: null,
         isValid: true,
         foundType: {
@@ -571,7 +571,7 @@ describe('ValueObjectMonaParser', function() {
           ]
         }
       };
-      expect(actualValueObject).toEqualJSON(expectedValueObject);
+      expect(actualObjectSpec).toEqualJSON(expectedObjectSpec);
     });
 
     it('parses a value object with an attribute with an annotation for ' +
@@ -581,8 +581,8 @@ describe('ValueObjectMonaParser', function() {
                               '  %import library=RMCustomLibrary file=_RMSomeOtherFile\n' +
                               '  RMLibType *customLibObject\n' +
                               '}';
-      const actualValueObject = parser.parseValueObject(valueFileContents);
-      const expectedValueObject = {
+      const actualObjectSpec = parser.parseObjectSpec(valueFileContents);
+      const expectedObjectSpec = {
         errorReason: null,
         isValid: true,
         foundType: {
@@ -611,7 +611,7 @@ describe('ValueObjectMonaParser', function() {
           ]
         }
       };
-      expect(actualValueObject).toEqualJSON(expectedValueObject);
+      expect(actualObjectSpec).toEqualJSON(expectedObjectSpec);
     });
 
     it('parses a value object with an attribute with an annotation for ' +
@@ -622,8 +622,8 @@ describe('ValueObjectMonaParser', function() {
                               '  %import library=RMCustomLibrary file=RMSomeOtherFile\n' +
                               '  RMLibType *customLibObject\n' +
                               '}';
-      const actualValueObject = parser.parseValueObject(valueFileContents);
-      const expectedValueObject = {
+      const actualObjectSpec = parser.parseObjectSpec(valueFileContents);
+      const expectedObjectSpec = {
         errorReason: null,
         isValid: true,
         foundType: {
@@ -652,7 +652,7 @@ describe('ValueObjectMonaParser', function() {
           ]
         }
       };
-      expect(actualValueObject).toEqualJSON(expectedValueObject);
+      expect(actualObjectSpec).toEqualJSON(expectedObjectSpec);
     });
 
     it('parses a value object with an annotation specifying the library of the value class', function() {
@@ -660,8 +660,8 @@ describe('ValueObjectMonaParser', function() {
                               'RMSomething {\n' +
                               '  RMLibType *customLibObject\n' +
                               '}';
-      const actualValueObject = parser.parseValueObject(valueFileContents);
-      const expectedValueObject = {
+      const actualObjectSpec = parser.parseObjectSpec(valueFileContents);
+      const expectedObjectSpec = {
         errorReason: null,
         isValid: true,
         foundType: {
@@ -689,7 +689,7 @@ describe('ValueObjectMonaParser', function() {
           ]
         }
       };
-      expect(actualValueObject).toEqualJSON(expectedValueObject);
+      expect(actualObjectSpec).toEqualJSON(expectedObjectSpec);
     });
 
     it('parses a value object with an annotation', function() {
@@ -697,8 +697,8 @@ describe('ValueObjectMonaParser', function() {
                               '  %foo\n' +
                               '  RMLibType *customLibObject\n' +
                               '}';
-      const actualValueObject = parser.parseValueObject(valueFileContents);
-      const expectedValueObject = {
+      const actualObjectSpec = parser.parseObjectSpec(valueFileContents);
+      const expectedObjectSpec = {
         errorReason: null,
         isValid: true,
         foundType: {
@@ -724,13 +724,13 @@ describe('ValueObjectMonaParser', function() {
           ]
         }
       };
-      expect(actualValueObject).toEqualJSON(expectedValueObject);
+      expect(actualObjectSpec).toEqualJSON(expectedObjectSpec);
     });
 
     it('parses an empty type which excludes builders', function() {
       const valueFileContents = 'RMSomething excludes(Builder) {}';
-      const actualValueObject = parser.parseValueObject(valueFileContents);
-      const expectedValueObject = {
+      const actualObjectSpec = parser.parseObjectSpec(valueFileContents);
+      const expectedObjectSpec = {
         errorReason: null,
         isValid: true,
         foundType: {
@@ -742,13 +742,13 @@ describe('ValueObjectMonaParser', function() {
           excludes: ['Builder'],
         }
       };
-      expect(actualValueObject).toEqualJSON(expectedValueObject);
+      expect(actualObjectSpec).toEqualJSON(expectedObjectSpec);
     });
 
     it('parses an empty type which excludes builders and something', function() {
       const valueFileContents = 'RMSomething excludes(Builder, Something) {}';
-      const actualValueObject = parser.parseValueObject(valueFileContents);
-      const expectedValueObject = {
+      const actualObjectSpec = parser.parseObjectSpec(valueFileContents);
+      const expectedObjectSpec = {
         errorReason: null,
         isValid: true,
         foundType: {
@@ -760,13 +760,13 @@ describe('ValueObjectMonaParser', function() {
           excludes: ['Builder', 'Something'],
         }
       };
-      expect(actualValueObject).toEqualJSON(expectedValueObject);
+      expect(actualObjectSpec).toEqualJSON(expectedObjectSpec);
     });
 
     it('parses an empty type which excludes builders and includes something else', function() {
       const valueFileContents = 'RMSomething includes(FetchStatus) excludes(Builder) {}';
-      const actualValueObject = parser.parseValueObject(valueFileContents);
-      const expectedValueObject = {
+      const actualObjectSpec = parser.parseObjectSpec(valueFileContents);
+      const expectedObjectSpec = {
         errorReason: null,
         isValid: true,
         foundType: {
@@ -778,13 +778,13 @@ describe('ValueObjectMonaParser', function() {
           excludes: ['Builder']
         }
       };
-      expect(actualValueObject).toEqualJSON(expectedValueObject);
+      expect(actualObjectSpec).toEqualJSON(expectedObjectSpec);
     });
 
     it('parses an empty type which includes fetch status', function() {
       const valueFileContents = 'RMSomething includes(FetchStatus) {}';
-      const actualValueObject = parser.parseValueObject(valueFileContents);
-      const expectedValueObject = {
+      const actualObjectSpec = parser.parseObjectSpec(valueFileContents);
+      const expectedObjectSpec = {
         errorReason: null,
         isValid: true,
         foundType: {
@@ -797,14 +797,14 @@ describe('ValueObjectMonaParser', function() {
           excludes: []
         }
       };
-      expect(actualValueObject).toEqualJSON(expectedValueObject);
+      expect(actualObjectSpec).toEqualJSON(expectedObjectSpec);
     });
 
     it('parses an empty type which includes fetch status and something ' +
        'else', function() {
       const valueFileContents = 'RMSomething includes(FetchStatus, Coding) {}';
-      const actualValueObject = parser.parseValueObject(valueFileContents);
-      const expectedValueObject = {
+      const actualObjectSpec = parser.parseObjectSpec(valueFileContents);
+      const expectedObjectSpec = {
         errorReason: null,
         isValid: true,
         foundType: {
@@ -817,14 +817,14 @@ describe('ValueObjectMonaParser', function() {
           excludes: []
         }
       };
-      expect(actualValueObject).toEqualJSON(expectedValueObject);
+      expect(actualObjectSpec).toEqualJSON(expectedObjectSpec);
     });
 
     it('parses an empty type which includes fetch status and something ' +
        'else with no spaces', function() {
       const valueFileContents = 'RMSomething includes(FetchStatus,AnotherValue) {}';
-      const actualValueObject = parser.parseValueObject(valueFileContents);
-      const expectedValueObject = {
+      const actualObjectSpec = parser.parseObjectSpec(valueFileContents);
+      const expectedObjectSpec = {
         errorReason: null,
         isValid: true,
         foundType: {
@@ -837,18 +837,18 @@ describe('ValueObjectMonaParser', function() {
           excludes: []
         }
       };
-      expect(actualValueObject).toEqualJSON(expectedValueObject);
+      expect(actualObjectSpec).toEqualJSON(expectedObjectSpec);
     });
 
     it('catches an error in parsing and reports it', function() {
       const valueFileContents = 'RMSomething {{}';
-      const actualValueObject = parser.parseValueObject(valueFileContents);
-      const expectedValueObject = {
+      const actualObjectSpec = parser.parseObjectSpec(valueFileContents);
+      const expectedObjectSpec = {
         errorReason: '(line 1, column 14) expected string matching {}}',
         isValid: false,
         foundType:null
       };
-      expect(actualValueObject).toEqualJSON(expectedValueObject);
+      expect(actualObjectSpec).toEqualJSON(expectedObjectSpec);
     });
   });
 });

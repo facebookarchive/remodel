@@ -13,7 +13,7 @@ import Error = require('../error');
 import FileWriter = require('../file-writer');
 import Maybe = require('../maybe');
 import ObjC = require('../objc');
-import ValueObject = require('../value-object');
+import ObjectSpec = require('../object-spec');
 
 function copyInstanceMethod():ObjC.Method {
   return {
@@ -40,56 +40,56 @@ function copyInstanceMethod():ObjC.Method {
   };
 }
 
-export function createPlugin():ValueObject.Plugin {
+export function createPlugin():ObjectSpec.Plugin {
   return {
-    additionalFiles: function(valueType:ValueObject.Type):Code.File[] {
+    additionalFiles: function(objectType:ObjectSpec.Type):Code.File[] {
       return [];
     },
-    additionalTypes: function(valueType:ValueObject.Type):ValueObject.Type[] {
+    additionalTypes: function(objectType:ObjectSpec.Type):ObjectSpec.Type[] {
       return [];
     },
-    attributes: function(valueType:ValueObject.Type):ValueObject.Attribute[] {
+    attributes: function(objectType:ObjectSpec.Type):ObjectSpec.Attribute[] {
       return [];
     },
     fileTransformation: function(request:FileWriter.Request):FileWriter.Request {
       return request;
     },
-    fileType: function(valueType:ValueObject.Type):Maybe.Maybe<Code.FileType> {
+    fileType: function(objectType:ObjectSpec.Type):Maybe.Maybe<Code.FileType> {
       return Maybe.Nothing<Code.FileType>();
     },
-    forwardDeclarations: function(valueType:ValueObject.Type):ObjC.ForwardDeclaration[] {
+    forwardDeclarations: function(objectType:ObjectSpec.Type):ObjC.ForwardDeclaration[] {
       return [];
     },
-    functions: function(valueType:ValueObject.Type):ObjC.Function[] {
+    functions: function(objectType:ObjectSpec.Type):ObjC.Function[] {
       return [];
     },
-    headerComments: function(valueType:ValueObject.Type):ObjC.Comment[] {
+    headerComments: function(objectType:ObjectSpec.Type):ObjC.Comment[] {
       return [];
     },
-    implementedProtocols: function(valueType:ValueObject.Type):ObjC.Protocol[] {
+    implementedProtocols: function(objectType:ObjectSpec.Type):ObjC.Protocol[] {
       return [
         {
           name: 'NSCopying'
         }
       ];
     },
-    imports: function(valueType:ValueObject.Type):ObjC.Import[] {
+    imports: function(objectType:ObjectSpec.Type):ObjC.Import[] {
       return [];
     },
-    instanceMethods: function(valueType:ValueObject.Type):ObjC.Method[] {
+    instanceMethods: function(objectType:ObjectSpec.Type):ObjC.Method[] {
       return [copyInstanceMethod()];
     },
-    properties: function(valueType:ValueObject.Type):ObjC.Property[] {
+    properties: function(objectType:ObjectSpec.Type):ObjC.Property[] {
       return [];
     },
     requiredIncludesToRun:['RMCopying'],
-    staticConstants: function(valueType:ValueObject.Type):ObjC.Constant[] {
+    staticConstants: function(objectType:ObjectSpec.Type):ObjC.Constant[] {
       return [];
     },
-    validationErrors: function(valueType:ValueObject.Type):Error.Error[] {
+    validationErrors: function(objectType:ObjectSpec.Type):Error.Error[] {
       return [];
     },
-    nullability: function(valueType:ValueObject.Type):Maybe.Maybe<ObjC.ClassNullability> {
+    nullability: function(objectType:ObjectSpec.Type):Maybe.Maybe<ObjC.ClassNullability> {
       return Maybe.Nothing<ObjC.ClassNullability>();
     }
   };

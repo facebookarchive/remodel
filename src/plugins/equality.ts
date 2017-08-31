@@ -16,9 +16,9 @@ import FunctionUtils = require('../function-utils');
 import Maybe = require('../maybe');
 import ObjC = require('../objc');
 import ObjCTypeUtils = require('../objc-type-utils');
-import ValueObject = require('../value-object');
-import ValueObjectUtils = require('../value-object-utils');
-import ValueObjectCodeUtils = require('../value-object-code-utils');
+import ObjectSpec = require('../object-spec');
+import ObjectSpecUtils = require('../object-spec-utils');
+import ObjectSpecCodeUtils = require('../object-spec-code-utils');
 
 enum EqualityFunctionType {
   compareFloats,
@@ -564,10 +564,10 @@ interface GeneratedTypeEqualityInformation {
   hashValues:TypeEqualityValue[];
 }
 
-function generatedTypeEqualityInformationForAttribute(attribute:ValueObject.Attribute):GeneratedTypeEqualityInformation {
-  const type:ObjC.Type = ValueObjectCodeUtils.computeTypeOfAttribute(attribute);
+function generatedTypeEqualityInformationForAttribute(attribute:ObjectSpec.Attribute):GeneratedTypeEqualityInformation {
+  const type:ObjC.Type = ObjectSpecCodeUtils.computeTypeOfAttribute(attribute);
   const generationGroup:TypeEqualityGenerationGroup = generationGroupForType(type);
-  const attributeValueAccessor:string = ValueObjectCodeUtils.ivarForAttribute(attribute);
+  const attributeValueAccessor:string = ObjectSpecCodeUtils.ivarForAttribute(attribute);
   return generatedTypeEqualityInformationForGenerationGroup(generationGroup, attributeValueAccessor);
 }
 
@@ -627,7 +627,7 @@ function isEqualInstanceMethod(typeName:string, generatedTypeEqualityInformation
           modifiers: [],
           type: {
             name: typeName,
-            reference: ValueObjectUtils.typeReferenceForValueTypeWithName(typeName)
+            reference: ObjectSpecUtils.typeReferenceForValueTypeWithName(typeName)
           }
         })
       }
@@ -946,84 +946,84 @@ function functionsToIncludeForGeneratedTypeEqualityInformation(generatedTypeEqua
   return tracker.equalityFunctionsToInclude.map(functionDefinitionForEqualityFunction);
 }
 
-function doesValueAttributeContainAnUnknownType(attribute:ValueObject.Attribute):boolean {
-  const type:ObjC.Type = ValueObjectCodeUtils.computeTypeOfAttribute(attribute);
+function doesValueAttributeContainAnUnknownType(attribute:ObjectSpec.Attribute):boolean {
+  const type:ObjC.Type = ObjectSpecCodeUtils.computeTypeOfAttribute(attribute);
   const generationGroup:TypeEqualityGenerationGroup = generationGroupForType(type);
   return generationGroup == null;
 }
 
-function attributeToUnknownTypeError(valueType:ValueObject.Type, attribute:ValueObject.Attribute):Error.Error {
+function attributeToUnknownTypeError(objectType:ObjectSpec.Type, attribute:ObjectSpec.Attribute):Error.Error {
   return Maybe.match(function(underlyingType: string):Error.Error {
-    return Error.Error('The Equality plugin does not know how to compare or hash the backing type "' + underlyingType + '" from ' + valueType.typeName + '.' + attribute.name + '. Did you declare the wrong backing type?');
+    return Error.Error('The Equality plugin does not know how to compare or hash the backing type "' + underlyingType + '" from ' + objectType.typeName + '.' + attribute.name + '. Did you declare the wrong backing type?');
   }, function():Error.Error {
-    return Error.Error('The Equality plugin does not know how to compare or hash the type "' + attribute.type.name + '" from ' + valueType.typeName + '.' + attribute.name + '. Did you forget to declare a backing type?');
+    return Error.Error('The Equality plugin does not know how to compare or hash the type "' + attribute.type.name + '" from ' + objectType.typeName + '.' + attribute.name + '. Did you forget to declare a backing type?');
   }, attribute.type.underlyingType);
 }
 
-export function createPlugin():ValueObject.Plugin {
+export function createPlugin():ObjectSpec.Plugin {
   return {
-    additionalFiles: function(valueType:ValueObject.Type):Code.File[] {
+    additionalFiles: function(objectType:ObjectSpec.Type):Code.File[] {
       return [];
     },
-    additionalTypes: function(valueType:ValueObject.Type):ValueObject.Type[] {
+    additionalTypes: function(objectType:ObjectSpec.Type):ObjectSpec.Type[] {
       return [];
     },
-    attributes: function(valueType:ValueObject.Type):ValueObject.Attribute[] {
+    attributes: function(objectType:ObjectSpec.Type):ObjectSpec.Attribute[] {
       return [];
     },
     fileTransformation: function(request:FileWriter.Request):FileWriter.Request {
       return request;
     },
-    fileType: function(valueType:ValueObject.Type):Maybe.Maybe<Code.FileType> {
+    fileType: function(objectType:ObjectSpec.Type):Maybe.Maybe<Code.FileType> {
       return Maybe.Nothing<Code.FileType>();
     },
-    forwardDeclarations: function(valueType:ValueObject.Type):ObjC.ForwardDeclaration[] {
+    forwardDeclarations: function(objectType:ObjectSpec.Type):ObjC.ForwardDeclaration[] {
       return [];
     },
-    functions: function(valueType:ValueObject.Type):ObjC.Function[] {
-      if (valueType.attributes.length > 0) {
-        const generatedTypeEqualityInformation:GeneratedTypeEqualityInformation[] = valueType.attributes.map(generatedTypeEqualityInformationForAttribute);
+    functions: function(objectType:ObjectSpec.Type):ObjC.Function[] {
+      if (objectType.attributes.length > 0) {
+        const generatedTypeEqualityInformation:GeneratedTypeEqualityInformation[] = objectType.attributes.map(generatedTypeEqualityInformationForAttribute);
         return functionsToIncludeForGeneratedTypeEqualityInformation(generatedTypeEqualityInformation);
       } else {
         return [];
       }
     },
-    headerComments: function(valueType:ValueObject.Type):ObjC.Comment[] {
+    headerComments: function(objectType:ObjectSpec.Type):ObjC.Comment[] {
       return [];
     },
-    imports: function(valueType:ValueObject.Type):ObjC.Import[] {
-      if (valueType.attributes.length > 0) {
-        const generatedTypeEqualityInformation:GeneratedTypeEqualityInformation[] = valueType.attributes.map(generatedTypeEqualityInformationForAttribute);
+    imports: function(objectType:ObjectSpec.Type):ObjC.Import[] {
+      if (objectType.attributes.length > 0) {
+        const generatedTypeEqualityInformation:GeneratedTypeEqualityInformation[] = objectType.attributes.map(generatedTypeEqualityInformationForAttribute);
         return generatedTypeEqualityInformation.reduce(buildImportsToInclude, []);
       } else {
         return [];
       }
     },
-    implementedProtocols: function(valueType:ValueObject.Type):ObjC.Protocol[] {
+    implementedProtocols: function(objectType:ObjectSpec.Type):ObjC.Protocol[] {
       return [];
     },
-    instanceMethods: function(valueType:ValueObject.Type):ObjC.Method[] {
-      if (valueType.attributes.length > 0) {
-        const generatedTypeEqualityInformation:GeneratedTypeEqualityInformation[] = valueType.attributes.map(generatedTypeEqualityInformationForAttribute);
+    instanceMethods: function(objectType:ObjectSpec.Type):ObjC.Method[] {
+      if (objectType.attributes.length > 0) {
+        const generatedTypeEqualityInformation:GeneratedTypeEqualityInformation[] = objectType.attributes.map(generatedTypeEqualityInformationForAttribute);
         return [
-          isEqualInstanceMethod(valueType.typeName, generatedTypeEqualityInformation),
+          isEqualInstanceMethod(objectType.typeName, generatedTypeEqualityInformation),
           hashInstanceMethod(generatedTypeEqualityInformation)
         ];
       } else {
         return [];
       }
     },
-    properties: function(valueType:ValueObject.Type):ObjC.Property[] {
+    properties: function(objectType:ObjectSpec.Type):ObjC.Property[] {
       return [];
     },
     requiredIncludesToRun:['RMEquality'],
-    staticConstants: function(valueType:ValueObject.Type):ObjC.Constant[] {
+    staticConstants: function(objectType:ObjectSpec.Type):ObjC.Constant[] {
       return [];
     },
-    validationErrors: function(valueType:ValueObject.Type):Error.Error[] {
-      return valueType.attributes.filter(doesValueAttributeContainAnUnknownType).map(FunctionUtils.pApplyf2(valueType, attributeToUnknownTypeError));
+    validationErrors: function(objectType:ObjectSpec.Type):Error.Error[] {
+      return objectType.attributes.filter(doesValueAttributeContainAnUnknownType).map(FunctionUtils.pApplyf2(objectType, attributeToUnknownTypeError));
     },
-    nullability: function(valueType:ValueObject.Type):Maybe.Maybe<ObjC.ClassNullability> {
+    nullability: function(objectType:ObjectSpec.Type):Maybe.Maybe<ObjC.ClassNullability> {
       return Maybe.Nothing<ObjC.ClassNullability>();
     }
   };

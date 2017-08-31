@@ -18,12 +18,12 @@ import fs = require('fs');
 import Maybe = require('../maybe');
 import PathUtils = require('../path-utils');
 import RequirePlugin = require('../require-plugin');
-import ValueObject = require('../value-object');
+import ObjectSpec = require('../object-spec');
 
 const ABSOLUTE_PATH_OF_CURRENT_DIRECTORY = File.getAbsoluteFilePath(__dirname);
 
-describe('requireValueObjectPlugin', function() {
-  describe('#requireValueObjectPlugin', function() {
+describe('requireObjectSpecPlugin', function() {
+  describe('#requireObjectSpecPlugin', function() {
     it('correctly imports a valid plugin', function() {
       const pluginFileContents =
       'function createPlugin() {\n' +
@@ -44,14 +44,14 @@ describe('requireValueObjectPlugin', function() {
       fs.mkdirSync(__dirname + '/tmp');
       fs.writeFileSync(__dirname + '/tmp/somePlugin.js', pluginFileContents);
 
-      const either:Either.Either<Error.Error[], Maybe.Maybe<ValueObject.Plugin>> = RequirePlugin.requireValueObjectPlugin(PathUtils.getAbsolutePathFromDirectoryAndRelativePath(ABSOLUTE_PATH_OF_CURRENT_DIRECTORY, '/tmp/somePlugin'));
+      const either:Either.Either<Error.Error[], Maybe.Maybe<ObjectSpec.Plugin>> = RequirePlugin.requireObjectSpecPlugin(PathUtils.getAbsolutePathFromDirectoryAndRelativePath(ABSOLUTE_PATH_OF_CURRENT_DIRECTORY, '/tmp/somePlugin'));
 
       Either.match(function(errors:Error.Error[]) {
         expect(true).toBe(false); // should not be an error
-      }, function(maybePlugin:Maybe.Maybe<ValueObject.Plugin>) {
+      }, function(maybePlugin:Maybe.Maybe<ObjectSpec.Plugin>) {
         Maybe.match(
-          function(plugin:ValueObject.Plugin) {
-            const typeInformation:ValueObject.Type = {
+          function(plugin:ObjectSpec.Plugin) {
+            const typeInformation:ObjectSpec.Type = {
               annotations: {},
               attributes:[],
               comments: [],
@@ -90,15 +90,15 @@ describe('requireValueObjectPlugin', function() {
       fs.mkdirSync(__dirname + '/tmp');
       fs.writeFileSync(__dirname + '/tmp/somePlugin1.js', pluginFileContents);
 
-      const either:Either.Either<Error.Error[], Maybe.Maybe<ValueObject.Plugin>> = RequirePlugin.requireValueObjectPlugin(PathUtils.getAbsolutePathFromDirectoryAndRelativePath(ABSOLUTE_PATH_OF_CURRENT_DIRECTORY, '/tmp/somePlugin1'));
+      const either:Either.Either<Error.Error[], Maybe.Maybe<ObjectSpec.Plugin>> = RequirePlugin.requireObjectSpecPlugin(PathUtils.getAbsolutePathFromDirectoryAndRelativePath(ABSOLUTE_PATH_OF_CURRENT_DIRECTORY, '/tmp/somePlugin1'));
 
       Either.match(
         function(errors:Error.Error[]) {
           expect(errors).toBe(false);
         },
-        function(maybePlugin:Maybe.Maybe<ValueObject.Plugin>) {
+        function(maybePlugin:Maybe.Maybe<ObjectSpec.Plugin>) {
           Maybe.match(
-            function(plugin:ValueObject.Plugin) {
+            function(plugin:ObjectSpec.Plugin) {
               expect("should not be an real value").toBe(false);
             }, function() {
 
@@ -110,9 +110,9 @@ describe('requireValueObjectPlugin', function() {
       fs.rmdirSync(__dirname + '/tmp');
     });
     it('returns an error when the module does not actually exist', function() {
-      const plugin:Either.Either<Error.Error[], Maybe.Maybe<ValueObject.Plugin>> = RequirePlugin.requireValueObjectPlugin(PathUtils.getAbsolutePathFromDirectoryAndRelativePath(ABSOLUTE_PATH_OF_CURRENT_DIRECTORY, '/tmp/somePlugin2'));
+      const plugin:Either.Either<Error.Error[], Maybe.Maybe<ObjectSpec.Plugin>> = RequirePlugin.requireObjectSpecPlugin(PathUtils.getAbsolutePathFromDirectoryAndRelativePath(ABSOLUTE_PATH_OF_CURRENT_DIRECTORY, '/tmp/somePlugin2'));
 
-      const expectedPlugin = Either.Left<Error.Error[], Maybe.Maybe<ValueObject.Plugin>>([Error.Error('Plugin registred at ' + __dirname + '/tmp/somePlugin2 does not exist')]);
+      const expectedPlugin = Either.Left<Error.Error[], Maybe.Maybe<ObjectSpec.Plugin>>([Error.Error('Plugin registred at ' + __dirname + '/tmp/somePlugin2 does not exist')]);
 
       expect(plugin).toEqualJSON(expectedPlugin);
     });

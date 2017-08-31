@@ -18,9 +18,9 @@ import ObjCNullabilityUtils = require('../objc-nullability-utils');
 import ObjCTypeUtils = require('../objc-type-utils');
 import ObjectGeneration = require('../object-generation');
 import StringUtils = require('../string-utils');
-import ValueObject = require('../value-object');
-import ValueObjectUtils = require('../value-object-utils');
-import ValueObjectCodeUtils = require('../value-object-code-utils');
+import ObjectSpec = require('../object-spec');
+import ObjectSpecUtils = require('../object-spec-utils');
+import ObjectSpecCodeUtils = require('../object-spec-code-utils');
 
 function nameOfBuilderForValueTypeWithName(valueTypeName: string):string {
   return valueTypeName + 'Builder';
@@ -30,16 +30,16 @@ function shortNameOfObjectToBuildForValueTypeWithName(valueTypeName: string):str
   return StringUtils.lowercased(StringUtils.stringRemovingCapitalizedPrefix(valueTypeName));
 }
 
-function builderClassMethodForValueType(valueType:ValueObject.Type):ObjC.Method {
+function builderClassMethodForValueType(objectType:ObjectSpec.Type):ObjC.Method {
   return {
     belongsToProtocol:Maybe.Nothing<string>(),
     code:[
-      'return [[' + nameOfBuilderForValueTypeWithName(valueType.typeName) + ' alloc] init];'
+      'return [[' + nameOfBuilderForValueTypeWithName(objectType.typeName) + ' alloc] init];'
     ],
     comments:[],
     keywords: [
       {
-        name: shortNameOfObjectToBuildForValueTypeWithName(valueType.typeName),
+        name: shortNameOfObjectToBuildForValueTypeWithName(objectType.typeName),
         argument:Maybe.Nothing<ObjC.KeywordArgument>()
       }
     ],
@@ -50,8 +50,8 @@ function builderClassMethodForValueType(valueType:ValueObject.Type):ObjC.Method 
   };
 }
 
-function keywordArgumentNameForBuilderFromExistingObjectClassMethodForValueType(valueType:ValueObject.Type):string {
-  return 'existing' + StringUtils.capitalize(shortNameOfObjectToBuildForValueTypeWithName(valueType.typeName));
+function keywordArgumentNameForBuilderFromExistingObjectClassMethodForValueType(objectType:ObjectSpec.Type):string {
+  return 'existing' + StringUtils.capitalize(shortNameOfObjectToBuildForValueTypeWithName(objectType.typeName));
 }
 
 function openingBrace():string {
@@ -65,7 +65,7 @@ function indentationForItemAtIndexWithOffset(offset:number):(index:number) => st
   };
 }
 
-function toWithInvocationCallForBuilderFromExistingObjectClassMethodForAttribute(indentationProvider:(index:number) => string, existingObjectName:string, soFar:string[], attribute:ValueObject.Attribute, index:number, array:ValueObject.Attribute[]):string[] {
+function toWithInvocationCallForBuilderFromExistingObjectClassMethodForAttribute(indentationProvider:(index:number) => string, existingObjectName:string, soFar:string[], attribute:ObjectSpec.Attribute, index:number, array:ObjectSpec.Attribute[]):string[] {
   return soFar.concat(indentationProvider(index) + keywordNameForAttribute(attribute) + ':' + existingObjectName + '.' + attribute.name + ']');
 }
 
@@ -75,34 +75,34 @@ function stringsWithLastItemContainingStringAtEnd(strings:string[], stringToIncl
   return updatedStrings;
 }
 
-function codeForBuilderFromExistingObjectClassMethodForValueType(valueType:ValueObject.Type):string[] {
+function codeForBuilderFromExistingObjectClassMethodForValueType(objectType:ObjectSpec.Type):string[] {
   const returnOpening:string = 'return ';
-  const openingBracesForWithMethodInvocations:string[] = valueType.attributes.map(openingBrace);
-  const builderCreationCall:string = '[' + nameOfBuilderForValueTypeWithName(valueType.typeName) + ' ' + shortNameOfObjectToBuildForValueTypeWithName(valueType.typeName) + ']';
+  const openingBracesForWithMethodInvocations:string[] = objectType.attributes.map(openingBrace);
+  const builderCreationCall:string = '[' + nameOfBuilderForValueTypeWithName(objectType.typeName) + ' ' + shortNameOfObjectToBuildForValueTypeWithName(objectType.typeName) + ']';
   const openingLine:string = returnOpening + openingBracesForWithMethodInvocations.join('') + builderCreationCall;
 
   const indentationProvider:(index:number) => string = indentationForItemAtIndexWithOffset(returnOpening.length + openingBracesForWithMethodInvocations.length);
-  const existingObjectName:string = keywordArgumentNameForBuilderFromExistingObjectClassMethodForValueType(valueType);
-  const linesForBuildingValuesIntoBuilder:string[] = valueType.attributes.reduce(toWithInvocationCallForBuilderFromExistingObjectClassMethodForAttribute.bind(null, indentationProvider, existingObjectName), []);
+  const existingObjectName:string = keywordArgumentNameForBuilderFromExistingObjectClassMethodForValueType(objectType);
+  const linesForBuildingValuesIntoBuilder:string[] = objectType.attributes.reduce(toWithInvocationCallForBuilderFromExistingObjectClassMethodForAttribute.bind(null, indentationProvider, existingObjectName), []);
 
   const code:string[] = [openingLine].concat(linesForBuildingValuesIntoBuilder);
   return stringsWithLastItemContainingStringAtEnd(code, ';');
 }
 
-function builderFromExistingObjectClassMethodForValueType(valueType:ValueObject.Type):ObjC.Method {
+function builderFromExistingObjectClassMethodForValueType(objectType:ObjectSpec.Type):ObjC.Method {
   return {
     belongsToProtocol:Maybe.Just('NSObject'),
-    code: codeForBuilderFromExistingObjectClassMethodForValueType(valueType),
+    code: codeForBuilderFromExistingObjectClassMethodForValueType(objectType),
     comments:[],
     keywords: [
       {
-        name: shortNameOfObjectToBuildForValueTypeWithName(valueType.typeName) + 'FromExisting' + StringUtils.capitalize(shortNameOfObjectToBuildForValueTypeWithName(valueType.typeName)),
+        name: shortNameOfObjectToBuildForValueTypeWithName(objectType.typeName) + 'FromExisting' + StringUtils.capitalize(shortNameOfObjectToBuildForValueTypeWithName(objectType.typeName)),
         argument:Maybe.Just<ObjC.KeywordArgument>({
-          name: keywordArgumentNameForBuilderFromExistingObjectClassMethodForValueType(valueType),
+          name: keywordArgumentNameForBuilderFromExistingObjectClassMethodForValueType(objectType),
           modifiers: [],
           type: {
-            name: valueType.typeName,
-            reference: ValueObjectUtils.typeReferenceForValueTypeWithName(valueType.typeName)
+            name: objectType.typeName,
+            reference: ObjectSpecUtils.typeReferenceForValueTypeWithName(objectType.typeName)
           }
         })
       }
@@ -114,15 +114,15 @@ function builderFromExistingObjectClassMethodForValueType(valueType:ValueObject.
   };
 }
 
-function valueGeneratorForInvokingInitializerWithAttribute(attribute:ValueObject.Attribute):string {
-  return ValueObjectCodeUtils.ivarForAttribute(attribute);
+function valueGeneratorForInvokingInitializerWithAttribute(attribute:ObjectSpec.Attribute):string {
+  return ObjectSpecCodeUtils.ivarForAttribute(attribute);
 }
 
-function buildObjectInstanceMethodForValueType(valueType:ValueObject.Type):ObjC.Method {
+function buildObjectInstanceMethodForValueType(objectType:ObjectSpec.Type):ObjC.Method {
   return {
     belongsToProtocol:Maybe.Nothing<string>(),
     code:[
-      'return ' + ValueObjectCodeUtils.methodInvocationForConstructor(valueType, valueGeneratorForInvokingInitializerWithAttribute) + ';'
+      'return ' + ObjectSpecCodeUtils.methodInvocationForConstructor(objectType, valueGeneratorForInvokingInitializerWithAttribute) + ';'
     ],
     comments:[],
     keywords: [
@@ -132,34 +132,34 @@ function buildObjectInstanceMethodForValueType(valueType:ValueObject.Type):ObjC.
       }
     ],
     returnType: Maybe.Just({
-      name: valueType.typeName,
-      reference: ValueObjectUtils.typeReferenceForValueTypeWithName(valueType.typeName)
+      name: objectType.typeName,
+      reference: ObjectSpecUtils.typeReferenceForValueTypeWithName(objectType.typeName)
     })
   };
 }
 
-function keywordArgumentNameForAttribute(attribute:ValueObject.Attribute):string {
+function keywordArgumentNameForAttribute(attribute:ObjectSpec.Attribute):string {
   return attribute.name;
 }
 
-function keywordNameForAttribute(attribute:ValueObject.Attribute):string {
+function keywordNameForAttribute(attribute:ObjectSpec.Attribute):string {
   return 'with' + StringUtils.capitalize(keywordArgumentNameForAttribute(attribute));
 }
 
-function valueToAssignIntoInternalStateForAttribute(attribute:ValueObject.Attribute):string {
+function valueToAssignIntoInternalStateForAttribute(supportsValueSemantics:boolean, attribute:ObjectSpec.Attribute):string {
   const keywordArgumentName:string = keywordArgumentNameForAttribute(attribute);
-  if (ValueObjectCodeUtils.shouldCopyIncomingValueForAttribute(attribute)) {
+  if (ObjectSpecCodeUtils.shouldCopyIncomingValueForAttribute(supportsValueSemantics, attribute)) {
     return '[' + keywordArgumentName + ' copy]';
   } else {
     return keywordArgumentName;
   }
 }
 
-function withInstanceMethodForAttribute(attribute:ValueObject.Attribute):ObjC.Method {
+function withInstanceMethodForAttribute(supportsValueSemantics:boolean, attribute:ObjectSpec.Attribute):ObjC.Method {
   return {
     belongsToProtocol:Maybe.Nothing<string>(),
     code:[
-      ValueObjectCodeUtils.ivarForAttribute(attribute) + ' = ' + valueToAssignIntoInternalStateForAttribute(attribute) + ';',
+      ObjectSpecCodeUtils.ivarForAttribute(attribute) + ' = ' + valueToAssignIntoInternalStateForAttribute(supportsValueSemantics, attribute) + ';',
       'return self;'
     ],
     comments:[],
@@ -183,7 +183,7 @@ function withInstanceMethodForAttribute(attribute:ValueObject.Attribute):ObjC.Me
   };
 }
 
-function internalPropertyForAttribute(attribute:ValueObject.Attribute):ObjC.Property {
+function internalPropertyForAttribute(attribute:ObjectSpec.Attribute):ObjC.Property {
   return {
     name: attribute.name,
     comments: [],
@@ -196,7 +196,7 @@ function internalPropertyForAttribute(attribute:ValueObject.Attribute):ObjC.Prop
   };
 }
 
-function importForAttribute(objectLibrary:Maybe.Maybe<string>, isPublic:boolean, attribute:ValueObject.Attribute):ObjC.Import {
+function importForAttribute(objectLibrary:Maybe.Maybe<string>, isPublic:boolean, attribute:ObjectSpec.Attribute):ObjC.Import {
   const builtInImportMaybe:Maybe.Maybe<ObjC.Import> = ObjCImportUtils.typeDefinitionImportForKnownSystemType(attribute.type.name);
 
   return Maybe.match(
@@ -204,7 +204,7 @@ function importForAttribute(objectLibrary:Maybe.Maybe<string>, isPublic:boolean,
       return builtInImport;
     },
     function() {
-      const requiresPublicImport = isPublic || ObjCImportUtils.requiresPublicImportForType(attribute.type.name, ValueObjectCodeUtils.computeTypeOfAttribute(attribute));
+      const requiresPublicImport = isPublic || ObjCImportUtils.requiresPublicImportForType(attribute.type.name, ObjectSpecCodeUtils.computeTypeOfAttribute(attribute));
       return {
         library: ObjCImportUtils.libraryForImport(attribute.type.libraryTypeIsDefinedIn, objectLibrary),
         file: ObjCImportUtils.fileForImport(attribute.type.fileTypeIsDefinedIn, attribute.type.name),
@@ -226,46 +226,46 @@ export function importsForTypeLookups(typeLookups:ObjectGeneration.TypeLookup[],
                     .map(FunctionUtils.pApply2f3(defaultLibrary, true, ObjCImportUtils.importForTypeLookup));
 }
 
-function importsForBuilder(valueType:ValueObject.Type):ObjC.Import[] {
-  const typeLookupImports:ObjC.Import[] = importsForTypeLookups(valueType.typeLookups, valueType.libraryName);
+function importsForBuilder(objectType:ObjectSpec.Type):ObjC.Import[] {
+  const typeLookupImports:ObjC.Import[] = importsForTypeLookups(objectType.typeLookups, objectType.libraryName);
 
-  const attributeImports:ObjC.Import[] = valueType.attributes.filter(FunctionUtils.pApplyf2(valueType.typeLookups, mustDeclareImportForAttribute))
-                                                           .map(function(attribute:ValueObject.Attribute):ObjC.Import {
-                                                             return importForAttribute(valueType.libraryName, false, attribute);
+  const attributeImports:ObjC.Import[] = objectType.attributes.filter(FunctionUtils.pApplyf2(objectType.typeLookups, mustDeclareImportForAttribute))
+                                                           .map(function(attribute:ObjectSpec.Attribute):ObjC.Import {
+                                                             return importForAttribute(objectType.libraryName, false, attribute);
                                                            });
 
   return [
     {file:'Foundation.h', isPublic:true, library:Maybe.Just('Foundation')},
-    {file:valueType.typeName + '.h', isPublic:false, library:valueType.libraryName},
-    {file:nameOfBuilderForValueTypeWithName(valueType.typeName) + '.h', isPublic:false, library:Maybe.Nothing<string>()}
+    {file:objectType.typeName + '.h', isPublic:false, library:objectType.libraryName},
+    {file:nameOfBuilderForValueTypeWithName(objectType.typeName) + '.h', isPublic:false, library:Maybe.Nothing<string>()}
   ].concat(typeLookupImports).concat(attributeImports);
 }
 
-function mustDeclareImportForAttribute(typeLookups:ObjectGeneration.TypeLookup[], attribute:ValueObject.Attribute):boolean {
+function mustDeclareImportForAttribute(typeLookups:ObjectGeneration.TypeLookup[], attribute:ObjectSpec.Attribute):boolean {
   return ObjCImportUtils.shouldIncludeImportForType(typeLookups, attribute.type.name);
 }
 
-function forwardDeclarationsForBuilder(valueType:ValueObject.Type):ObjC.ForwardDeclaration[] {
-  const typeLookupForwardDeclarations:ObjC.ForwardDeclaration[] = valueType.typeLookups.filter(canUseForwardDeclarationForTypeLookup)
+function forwardDeclarationsForBuilder(objectType:ObjectSpec.Type):ObjC.ForwardDeclaration[] {
+  const typeLookupForwardDeclarations:ObjC.ForwardDeclaration[] = objectType.typeLookups.filter(canUseForwardDeclarationForTypeLookup)
                                                                                      .map(function (typeLookup:ObjectGeneration.TypeLookup):ObjC.ForwardDeclaration {
                                                                                        return ObjC.ForwardDeclaration.ForwardClassDeclaration(typeLookup.name);
                                                                                      });
 
-  const attributeDeclarations:ObjC.ForwardDeclaration[] = valueType.attributes.filter(ObjCImportUtils.canForwardDeclareTypeForAttribute).map(function(attribute:ValueObject.Attribute):ObjC.ForwardDeclaration {
+  const attributeDeclarations:ObjC.ForwardDeclaration[] = objectType.attributes.filter(ObjCImportUtils.canForwardDeclareTypeForAttribute).map(function(attribute:ObjectSpec.Attribute):ObjC.ForwardDeclaration {
     return ObjC.ForwardDeclaration.ForwardClassDeclaration(attribute.type.name);
   });
 
   return [
-    ObjC.ForwardDeclaration.ForwardClassDeclaration(valueType.typeName)
+    ObjC.ForwardDeclaration.ForwardClassDeclaration(objectType.typeName)
   ].concat(typeLookupForwardDeclarations).concat(attributeDeclarations);
 }
 
-function builderFileForValueType(valueType:ValueObject.Type):Code.File {
+function builderFileForValueType(objectType:ObjectSpec.Type):Code.File {
   return {
-    name: nameOfBuilderForValueTypeWithName(valueType.typeName),
+    name: nameOfBuilderForValueTypeWithName(objectType.typeName),
     type: Code.FileType.ObjectiveC(),
-    imports:importsForBuilder(valueType),
-    forwardDeclarations:forwardDeclarationsForBuilder(valueType),
+    imports:importsForBuilder(objectType),
+    forwardDeclarations:forwardDeclarationsForBuilder(objectType),
     comments:[],
     enumerations: [],
     blockTypes:[],
@@ -275,14 +275,14 @@ function builderFileForValueType(valueType:ValueObject.Type):Code.File {
       {
         baseClassName:'NSObject',
         classMethods: [
-          builderClassMethodForValueType(valueType),
-          builderFromExistingObjectClassMethodForValueType(valueType)
+          builderClassMethodForValueType(objectType),
+          builderFromExistingObjectClassMethodForValueType(objectType)
         ],
         comments: [ ],
-        instanceMethods: [buildObjectInstanceMethodForValueType(valueType)].concat(valueType.attributes.map(withInstanceMethodForAttribute)),
-        name: nameOfBuilderForValueTypeWithName(valueType.typeName),
+        instanceMethods: [buildObjectInstanceMethodForValueType(objectType)].concat(objectType.attributes.map(FunctionUtils.pApplyf2(ObjectSpecUtils.typeSupportsValueObjectSemantics(objectType), withInstanceMethodForAttribute))),
+        name: nameOfBuilderForValueTypeWithName(objectType.typeName),
         properties: [],
-        internalProperties:valueType.attributes.map(internalPropertyForAttribute),
+        internalProperties:objectType.attributes.map(internalPropertyForAttribute),
         implementedProtocols: [],
         nullability:ObjC.ClassNullability.default
       }
@@ -293,54 +293,54 @@ function builderFileForValueType(valueType:ValueObject.Type):Code.File {
   };
 }
 
-export function createPlugin():ValueObject.Plugin {
+export function createPlugin():ObjectSpec.Plugin {
   return {
-    additionalFiles: function(valueType:ValueObject.Type):Code.File[] {
+    additionalFiles: function(objectType:ObjectSpec.Type):Code.File[] {
       return [
-        builderFileForValueType(valueType)
+        builderFileForValueType(objectType)
       ];
     },
-    additionalTypes: function(valueType:ValueObject.Type):ValueObject.Type[] {
+    additionalTypes: function(objectType:ObjectSpec.Type):ObjectSpec.Type[] {
       return [];
     },
-    attributes: function(valueType:ValueObject.Type):ValueObject.Attribute[] {
+    attributes: function(objectType:ObjectSpec.Type):ObjectSpec.Attribute[] {
       return [];
     },
     fileTransformation: function(request:FileWriter.Request):FileWriter.Request {
       return request;
     },
-    fileType: function(valueType:ValueObject.Type):Maybe.Maybe<Code.FileType> {
+    fileType: function(objectType:ObjectSpec.Type):Maybe.Maybe<Code.FileType> {
       return Maybe.Nothing<Code.FileType>();
     },
-    forwardDeclarations: function(valueType:ValueObject.Type):ObjC.ForwardDeclaration[] {
+    forwardDeclarations: function(objectType:ObjectSpec.Type):ObjC.ForwardDeclaration[] {
       return [];
     },
-    functions: function(valueType:ValueObject.Type):ObjC.Function[] {
+    functions: function(objectType:ObjectSpec.Type):ObjC.Function[] {
       return [];
     },
-    headerComments: function(valueType:ValueObject.Type):ObjC.Comment[] {
+    headerComments: function(objectType:ObjectSpec.Type):ObjC.Comment[] {
       return [];
     },
-    implementedProtocols: function(valueType:ValueObject.Type):ObjC.Protocol[] {
+    implementedProtocols: function(objectType:ObjectSpec.Type):ObjC.Protocol[] {
       return [];
     },
-    imports: function(valueType:ValueObject.Type):ObjC.Import[] {
+    imports: function(objectType:ObjectSpec.Type):ObjC.Import[] {
       return [];
     },
-    instanceMethods: function(valueType:ValueObject.Type):ObjC.Method[] {
+    instanceMethods: function(objectType:ObjectSpec.Type):ObjC.Method[] {
       return [];
     },
-    properties: function(valueType:ValueObject.Type):ObjC.Property[] {
+    properties: function(objectType:ObjectSpec.Type):ObjC.Property[] {
       return [];
     },
     requiredIncludesToRun:['RMBuilder'],
-    staticConstants: function(valueType:ValueObject.Type):ObjC.Constant[] {
+    staticConstants: function(objectType:ObjectSpec.Type):ObjC.Constant[] {
       return [];
     },
-    validationErrors: function(valueType:ValueObject.Type):Error.Error[] {
+    validationErrors: function(objectType:ObjectSpec.Type):Error.Error[] {
       return [];
     },
-    nullability: function(valueType:ValueObject.Type):Maybe.Maybe<ObjC.ClassNullability> {
+    nullability: function(objectType:ObjectSpec.Type):Maybe.Maybe<ObjC.ClassNullability> {
       return Maybe.Nothing<ObjC.ClassNullability>();
     }
   };

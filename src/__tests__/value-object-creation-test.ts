@@ -18,31 +18,31 @@ import FileWriter = require('../file-writer');
 import List = require('../list');
 import Maybe = require('../maybe');
 import ObjC = require('../objc');
-import ValueObject = require('../value-object');
-import ValueObjectCreation = require('../value-object-creation');
+import ObjectSpec = require('../object-spec');
+import ObjectSpecCreation = require('../object-spec-creation');
 
-describe('ValueObjectCreation', function() {
+describe('ObjectSpecCreation', function() {
   describe('#fileWriteRequests', function() {
     it('returns a header and implementation including the instance methods ' +
        'when there is a single plugin that returns instance methods', function() {
-      const Plugin:ValueObject.Plugin = {
+      const Plugin:ObjectSpec.Plugin = {
         requiredIncludesToRun: [],
-        imports:function(valueType:ValueObject.Type):ObjC.Import[] {
+        imports:function(objectType:ObjectSpec.Type):ObjC.Import[] {
           return [];
         },
         fileTransformation:function(request:FileWriter.Request):FileWriter.Request {
           return request;
         },
-        fileType: function(valueType:ValueObject.Type):Maybe.Maybe<Code.FileType> {
+        fileType: function(objectType:ObjectSpec.Type):Maybe.Maybe<Code.FileType> {
           return Maybe.Nothing<Code.FileType>();
         },
-        forwardDeclarations: function(valueType:ValueObject.Type):ObjC.ForwardDeclaration[] {
+        forwardDeclarations: function(objectType:ObjectSpec.Type):ObjC.ForwardDeclaration[] {
           return [];
         },
-        headerComments:function(valueType:ValueObject.Type):ObjC.Comment[] {
+        headerComments:function(objectType:ObjectSpec.Type):ObjC.Comment[] {
           return [{content:'// Copyright something something. All Rights Reserved.'}];
         },
-        instanceMethods:function(valueType:ValueObject.Type):ObjC.Method[] {
+        instanceMethods:function(objectType:ObjectSpec.Type):ObjC.Method[] {
           const instanceMethods:ObjC.Method[] = [
             {
               belongsToProtocol:Maybe.Just('NSObject'),
@@ -64,36 +64,36 @@ describe('ValueObjectCreation', function() {
           ];
           return instanceMethods;
         },
-        additionalFiles:function(valueType:ValueObject.Type):Code.File[] {
+        additionalFiles:function(objectType:ObjectSpec.Type):Code.File[] {
           return [];
         },
-        additionalTypes:function(valueType:ValueObject.Type):ValueObject.Type[] {
+        additionalTypes:function(objectType:ObjectSpec.Type):ObjectSpec.Type[] {
           return [];
         },
-        attributes:function(valueType:ValueObject.Type):ValueObject.Attribute[] {
+        attributes:function(objectType:ObjectSpec.Type):ObjectSpec.Attribute[] {
           return [];
         },
-        properties:function(valueType:ValueObject.Type):ObjC.Property[] {
+        properties:function(objectType:ObjectSpec.Type):ObjC.Property[] {
           return [];
         },
-        staticConstants:function(valueType:ValueObject.Type):ObjC.Constant[] {
+        staticConstants:function(objectType:ObjectSpec.Type):ObjC.Constant[] {
           return [];
         },
-        implementedProtocols:function(valueType:ValueObject.Type):ObjC.Protocol[] {
+        implementedProtocols:function(objectType:ObjectSpec.Type):ObjC.Protocol[] {
           return [];
         },
-        functions:function(valueType:ValueObject.Type):ObjC.Function[] {
+        functions:function(objectType:ObjectSpec.Type):ObjC.Function[] {
           return [];
         },
-        validationErrors: function(valueType:ValueObject.Type):Error.Error[] {
+        validationErrors: function(objectType:ObjectSpec.Type):Error.Error[] {
           return [];
         },
-        nullability: function(valueType:ValueObject.Type):Maybe.Maybe<ObjC.ClassNullability> {
+        nullability: function(objectType:ObjectSpec.Type):Maybe.Maybe<ObjC.ClassNullability> {
           return Maybe.Nothing<ObjC.ClassNullability>();
         }
       };
 
-      const valueType:ValueObject.Type = {
+      const objectType:ObjectSpec.Type = {
         annotations: {},
         attributes: [],
         comments: [],
@@ -109,10 +109,10 @@ describe('ValueObjectCreation', function() {
         baseClassLibraryName:Maybe.Nothing<string>(),
         diagnosticIgnores:List.of<string>(),
         path:File.getAbsoluteFilePath('something.value'),
-        typeInformation:valueType
+        typeInformation:objectType
       };
 
-      const writeRequest = ValueObjectCreation.fileWriteRequest(generationRequest, List.of(Plugin));
+      const writeRequest = ObjectSpecCreation.fileWriteRequest(generationRequest, List.of(Plugin));
 
       const expectedRequests = List.of<FileWriter.Request>(
         FileWriter.Request(File.getAbsoluteFilePath('Foo.h'),
@@ -149,27 +149,27 @@ describe('ValueObjectCreation', function() {
 
     it('returns two headers and implementations when there is a single plugin ' +
        'which returns an additional header and implementation', function() {
-      const Plugin:ValueObject.Plugin = {
+      const Plugin:ObjectSpec.Plugin = {
         requiredIncludesToRun: [],
-        imports:function(valueType:ValueObject.Type):ObjC.Import[] {
+        imports:function(objectType:ObjectSpec.Type):ObjC.Import[] {
           return [];
         },
         fileTransformation:function(request:FileWriter.Request):FileWriter.Request {
           return request;
         },
-        fileType: function(valueType:ValueObject.Type):Maybe.Maybe<Code.FileType> {
+        fileType: function(objectType:ObjectSpec.Type):Maybe.Maybe<Code.FileType> {
           return Maybe.Nothing<Code.FileType>();
         },
-        forwardDeclarations: function(valueType:ValueObject.Type):ObjC.ForwardDeclaration[] {
+        forwardDeclarations: function(objectType:ObjectSpec.Type):ObjC.ForwardDeclaration[] {
           return [];
         },
-        instanceMethods:function(valueType:ValueObject.Type):ObjC.Method[] {
+        instanceMethods:function(objectType:ObjectSpec.Type):ObjC.Method[] {
           return [];
         },
-        headerComments:function(valueType:ValueObject.Type):ObjC.Comment[] {
+        headerComments:function(objectType:ObjectSpec.Type):ObjC.Comment[] {
           return [];
         },
-        additionalFiles:function(valueType:ValueObject.Type):Code.File[] {
+        additionalFiles:function(objectType:ObjectSpec.Type):Code.File[] {
           return [
             {
               name: 'FooMore',
@@ -200,33 +200,33 @@ describe('ValueObjectCreation', function() {
             }
           ];
         },
-        additionalTypes:function(valueType:ValueObject.Type):ValueObject.Type[] {
+        additionalTypes:function(objectType:ObjectSpec.Type):ObjectSpec.Type[] {
           return [];
         },
-        attributes:function(valueType:ValueObject.Type):ValueObject.Attribute[] {
+        attributes:function(objectType:ObjectSpec.Type):ObjectSpec.Attribute[] {
           return [];
         },
-        properties:function(valueType:ValueObject.Type):ObjC.Property[] {
+        properties:function(objectType:ObjectSpec.Type):ObjC.Property[] {
           return [];
         },
-        staticConstants:function(valueType:ValueObject.Type):ObjC.Constant[] {
+        staticConstants:function(objectType:ObjectSpec.Type):ObjC.Constant[] {
           return [];
         },
-        implementedProtocols:function(valueType:ValueObject.Type):ObjC.Protocol[] {
+        implementedProtocols:function(objectType:ObjectSpec.Type):ObjC.Protocol[] {
           return [];
         },
-        functions:function(valueType:ValueObject.Type):ObjC.Function[] {
+        functions:function(objectType:ObjectSpec.Type):ObjC.Function[] {
           return [];
         },
-        validationErrors: function(valueType:ValueObject.Type):Error.Error[] {
+        validationErrors: function(objectType:ObjectSpec.Type):Error.Error[] {
           return [];
         },
-        nullability: function(valueType:ValueObject.Type):Maybe.Maybe<ObjC.ClassNullability> {
+        nullability: function(objectType:ObjectSpec.Type):Maybe.Maybe<ObjC.ClassNullability> {
           return Maybe.Nothing<ObjC.ClassNullability>();
         }
       };
 
-      const valueType:ValueObject.Type = {
+      const objectType:ObjectSpec.Type = {
         annotations: {},
         attributes: [],
         comments: [],
@@ -242,10 +242,10 @@ describe('ValueObjectCreation', function() {
         baseClassLibraryName:Maybe.Nothing<string>(),
         diagnosticIgnores:List.of<string>(),
         path:File.getAbsoluteFilePath('something.value'),
-        typeInformation:valueType
+        typeInformation:objectType
       };
 
-      const writeRequest = ValueObjectCreation.fileWriteRequest(generationRequest, List.of(Plugin));
+      const writeRequest = ObjectSpecCreation.fileWriteRequest(generationRequest, List.of(Plugin));
 
       const expectedRequests = List.of<FileWriter.Request>(
         FileWriter.Request(File.getAbsoluteFilePath('Foo.h'),
@@ -268,30 +268,30 @@ describe('ValueObjectCreation', function() {
 
     it('returns multiple types when there is ' +
       'a single plugin that returns multiple methods', function() {
-      const Plugin:ValueObject.Plugin = {
+      const Plugin:ObjectSpec.Plugin = {
         requiredIncludesToRun: [],
-        imports:function(valueType:ValueObject.Type):ObjC.Import[] {
+        imports:function(objectType:ObjectSpec.Type):ObjC.Import[] {
           return [];
         },
         fileTransformation:function(request:FileWriter.Request):FileWriter.Request {
           return request;
         },
-        fileType: function(valueType:ValueObject.Type):Maybe.Maybe<Code.FileType> {
+        fileType: function(objectType:ObjectSpec.Type):Maybe.Maybe<Code.FileType> {
           return Maybe.Nothing<Code.FileType>();
         },
-        forwardDeclarations: function(valueType:ValueObject.Type):ObjC.ForwardDeclaration[] {
+        forwardDeclarations: function(objectType:ObjectSpec.Type):ObjC.ForwardDeclaration[] {
           return [];
         },
-        headerComments:function(valueType:ValueObject.Type):ObjC.Comment[] {
+        headerComments:function(objectType:ObjectSpec.Type):ObjC.Comment[] {
           return [];
         },
-        instanceMethods:function(valueType:ValueObject.Type):ObjC.Method[] {
+        instanceMethods:function(objectType:ObjectSpec.Type):ObjC.Method[] {
           return [];
         },
-        additionalFiles:function(valueType:ValueObject.Type):Code.File[] {
+        additionalFiles:function(objectType:ObjectSpec.Type):Code.File[] {
           return [];
         },
-        additionalTypes:function(valueType:ValueObject.Type):ValueObject.Type[] {
+        additionalTypes:function(objectType:ObjectSpec.Type):ObjectSpec.Type[] {
           return [{
             annotations: {},
             attributes: [],
@@ -313,30 +313,30 @@ describe('ValueObjectCreation', function() {
             typeName: 'AddedType2'
           }];
         },
-        attributes:function(valueType:ValueObject.Type):ValueObject.Attribute[] {
+        attributes:function(objectType:ObjectSpec.Type):ObjectSpec.Attribute[] {
           return [];
         },
-        properties:function(valueType:ValueObject.Type):ObjC.Property[] {
+        properties:function(objectType:ObjectSpec.Type):ObjC.Property[] {
           return [];
         },
-        staticConstants:function(valueType:ValueObject.Type):ObjC.Constant[] {
+        staticConstants:function(objectType:ObjectSpec.Type):ObjC.Constant[] {
           return [];
         },
-        implementedProtocols:function(valueType:ValueObject.Type):ObjC.Protocol[] {
+        implementedProtocols:function(objectType:ObjectSpec.Type):ObjC.Protocol[] {
           return [];
         },
-        functions:function(valueType:ValueObject.Type):ObjC.Function[] {
+        functions:function(objectType:ObjectSpec.Type):ObjC.Function[] {
           return [];
         },
-        validationErrors: function(valueType:ValueObject.Type):Error.Error[] {
+        validationErrors: function(objectType:ObjectSpec.Type):Error.Error[] {
           return [];
         },
-        nullability: function(valueType:ValueObject.Type):Maybe.Maybe<ObjC.ClassNullability> {
+        nullability: function(objectType:ObjectSpec.Type):Maybe.Maybe<ObjC.ClassNullability> {
           return Maybe.Nothing<ObjC.ClassNullability>();
         }
       };
 
-      const valueType:ValueObject.Type = {
+      const objectType:ObjectSpec.Type = {
         annotations: {},
         attributes: [],
         comments: [],
@@ -352,10 +352,10 @@ describe('ValueObjectCreation', function() {
         baseClassLibraryName:Maybe.Nothing<string>(),
         diagnosticIgnores:List.of<string>(),
         path:File.getAbsoluteFilePath('something.value'),
-        typeInformation:valueType
+        typeInformation:objectType
       };
 
-      const writeRequest = ValueObjectCreation.fileWriteRequest(generationRequest, List.of(Plugin));
+      const writeRequest = ObjectSpecCreation.fileWriteRequest(generationRequest, List.of(Plugin));
 
       const expectedRequests = List.of<FileWriter.Request>(
         FileWriter.Request(File.getAbsoluteFilePath('ExistingType.h'),
@@ -391,24 +391,24 @@ describe('ValueObjectCreation', function() {
 
     it('returns a header not including the instance methods ' +
     'from a plugin does not have its required includes fulfilled', function() {
-      const Plugin:ValueObject.Plugin = {
+      const Plugin:ObjectSpec.Plugin = {
         requiredIncludesToRun: ['Test'],
-        imports:function(valueType:ValueObject.Type):ObjC.Import[] {
+        imports:function(objectType:ObjectSpec.Type):ObjC.Import[] {
           return [];
         },
         fileTransformation:function(request:FileWriter.Request):FileWriter.Request {
           return request;
         },
-        fileType: function(valueType:ValueObject.Type):Maybe.Maybe<Code.FileType> {
+        fileType: function(objectType:ObjectSpec.Type):Maybe.Maybe<Code.FileType> {
           return Maybe.Nothing<Code.FileType>();
         },
-        forwardDeclarations: function(valueType:ValueObject.Type):ObjC.ForwardDeclaration[] {
+        forwardDeclarations: function(objectType:ObjectSpec.Type):ObjC.ForwardDeclaration[] {
           return [];
         },
-        headerComments:function(valueType:ValueObject.Type):ObjC.Comment[] {
+        headerComments:function(objectType:ObjectSpec.Type):ObjC.Comment[] {
           return [];
         },
-        instanceMethods:function(valueType:ValueObject.Type):ObjC.Method[] {
+        instanceMethods:function(objectType:ObjectSpec.Type):ObjC.Method[] {
           const instanceMethods:ObjC.Method[] = [
           {
             belongsToProtocol:Maybe.Nothing<string>(),
@@ -430,36 +430,36 @@ describe('ValueObjectCreation', function() {
           ];
           return instanceMethods;
         },
-        additionalFiles:function(valueType:ValueObject.Type):Code.File[] {
+        additionalFiles:function(objectType:ObjectSpec.Type):Code.File[] {
           return [];
         },
-        additionalTypes:function(valueType:ValueObject.Type):ValueObject.Type[] {
+        additionalTypes:function(objectType:ObjectSpec.Type):ObjectSpec.Type[] {
           return [];
         },
-        attributes:function(valueType:ValueObject.Type):ValueObject.Attribute[] {
+        attributes:function(objectType:ObjectSpec.Type):ObjectSpec.Attribute[] {
           return [];
         },
-        properties:function(valueType:ValueObject.Type):ObjC.Property[] {
+        properties:function(objectType:ObjectSpec.Type):ObjC.Property[] {
           return [];
         },
-        staticConstants:function(valueType:ValueObject.Type):ObjC.Constant[] {
+        staticConstants:function(objectType:ObjectSpec.Type):ObjC.Constant[] {
           return [];
         },
-        implementedProtocols:function(valueType:ValueObject.Type):ObjC.Protocol[] {
+        implementedProtocols:function(objectType:ObjectSpec.Type):ObjC.Protocol[] {
           return [];
         },
-        functions:function(valueType:ValueObject.Type):ObjC.Function[] {
+        functions:function(objectType:ObjectSpec.Type):ObjC.Function[] {
           return [];
         },
-        validationErrors: function(valueType:ValueObject.Type):Error.Error[] {
+        validationErrors: function(objectType:ObjectSpec.Type):Error.Error[] {
           return [];
         },
-        nullability: function(valueType:ValueObject.Type):Maybe.Maybe<ObjC.ClassNullability> {
+        nullability: function(objectType:ObjectSpec.Type):Maybe.Maybe<ObjC.ClassNullability> {
           return Maybe.Nothing<ObjC.ClassNullability>();
         }
       };
 
-      const valueType:ValueObject.Type = {
+      const objectType:ObjectSpec.Type = {
         annotations: {},
         attributes: [],
         comments: [],
@@ -475,10 +475,10 @@ describe('ValueObjectCreation', function() {
         baseClassLibraryName:Maybe.Nothing<string>(),
         diagnosticIgnores:List.of<string>(),
         path:File.getAbsoluteFilePath('something.value'),
-        typeInformation:valueType
+        typeInformation:objectType
       };
 
-      const writeRequest = ValueObjectCreation.fileWriteRequest(generationRequest, List.of(Plugin));
+      const writeRequest = ObjectSpecCreation.fileWriteRequest(generationRequest, List.of(Plugin));
 
       const expectedRequests = List.of<FileWriter.Request>(
         FileWriter.Request(File.getAbsoluteFilePath('Foo.h'),
@@ -497,24 +497,24 @@ describe('ValueObjectCreation', function() {
 
     it('orders the initilizers at the top and the rest of the methods ' +
        'alphabetically there are multiple initializers and methods', function() {
-      const Plugin:ValueObject.Plugin = {
+      const Plugin:ObjectSpec.Plugin = {
         requiredIncludesToRun: [],
-        imports:function(valueType:ValueObject.Type):ObjC.Import[] {
+        imports:function(objectType:ObjectSpec.Type):ObjC.Import[] {
           return [];
         },
         fileTransformation:function(request:FileWriter.Request):FileWriter.Request {
           return request;
         },
-        fileType: function(valueType:ValueObject.Type):Maybe.Maybe<Code.FileType> {
+        fileType: function(objectType:ObjectSpec.Type):Maybe.Maybe<Code.FileType> {
           return Maybe.Nothing<Code.FileType>();
         },
-        forwardDeclarations: function(valueType:ValueObject.Type):ObjC.ForwardDeclaration[] {
+        forwardDeclarations: function(objectType:ObjectSpec.Type):ObjC.ForwardDeclaration[] {
           return [];
         },
-        headerComments:function(valueType:ValueObject.Type):ObjC.Comment[] {
+        headerComments:function(objectType:ObjectSpec.Type):ObjC.Comment[] {
           return [];
         },
-        instanceMethods:function(valueType:ValueObject.Type):ObjC.Method[] {
+        instanceMethods:function(objectType:ObjectSpec.Type):ObjC.Method[] {
           const instanceMethods:ObjC.Method[] = [
             {
               belongsToProtocol:Maybe.Nothing<string>(),
@@ -570,36 +570,36 @@ describe('ValueObjectCreation', function() {
           ];
           return instanceMethods;
         },
-        additionalFiles:function(valueType:ValueObject.Type):Code.File[] {
+        additionalFiles:function(objectType:ObjectSpec.Type):Code.File[] {
           return [];
         },
-        additionalTypes:function(valueType:ValueObject.Type):ValueObject.Type[] {
+        additionalTypes:function(objectType:ObjectSpec.Type):ObjectSpec.Type[] {
           return [];
         },
-        attributes:function(valueType:ValueObject.Type):ValueObject.Attribute[] {
+        attributes:function(objectType:ObjectSpec.Type):ObjectSpec.Attribute[] {
           return [];
         },
-        properties:function(valueType:ValueObject.Type):ObjC.Property[] {
+        properties:function(objectType:ObjectSpec.Type):ObjC.Property[] {
           return [];
         },
-        staticConstants:function(valueType:ValueObject.Type):ObjC.Constant[] {
+        staticConstants:function(objectType:ObjectSpec.Type):ObjC.Constant[] {
           return [];
         },
-        implementedProtocols:function(valueType:ValueObject.Type):ObjC.Protocol[] {
+        implementedProtocols:function(objectType:ObjectSpec.Type):ObjC.Protocol[] {
           return [];
         },
-        functions:function(valueType:ValueObject.Type):ObjC.Function[] {
+        functions:function(objectType:ObjectSpec.Type):ObjC.Function[] {
           return [];
         },
-        validationErrors: function(valueType:ValueObject.Type):Error.Error[] {
+        validationErrors: function(objectType:ObjectSpec.Type):Error.Error[] {
           return [];
         },
-        nullability: function(valueType:ValueObject.Type):Maybe.Maybe<ObjC.ClassNullability> {
+        nullability: function(objectType:ObjectSpec.Type):Maybe.Maybe<ObjC.ClassNullability> {
           return Maybe.Nothing<ObjC.ClassNullability>();
         }
       };
 
-      const valueType:ValueObject.Type = {
+      const objectType:ObjectSpec.Type = {
         annotations: {},
         attributes: [],
         comments: [],
@@ -615,10 +615,10 @@ describe('ValueObjectCreation', function() {
         baseClassLibraryName:Maybe.Nothing<string>(),
         diagnosticIgnores:List.of<string>(),
         path:File.getAbsoluteFilePath('something.value'),
-        typeInformation:valueType
+        typeInformation:objectType
       };
 
-      const writeRequest = ValueObjectCreation.fileWriteRequest(generationRequest, List.of(Plugin));
+      const writeRequest = ObjectSpecCreation.fileWriteRequest(generationRequest, List.of(Plugin));
 
       const expectedRequests = List.of<FileWriter.Request>(
         FileWriter.Request(File.getAbsoluteFilePath('Foo.h'),
@@ -669,56 +669,56 @@ describe('ValueObjectCreation', function() {
 
     it('returns errors returned from the plugin if it returns a ' +
        'validation error', function() {
-      const Plugin:ValueObject.Plugin = {
+      const Plugin:ObjectSpec.Plugin = {
         requiredIncludesToRun: [],
-        additionalTypes:function(valueType:ValueObject.Type):ValueObject.Type[] {
+        additionalTypes:function(objectType:ObjectSpec.Type):ObjectSpec.Type[] {
           return [];
         },
-        attributes:function(valueType:ValueObject.Type):ValueObject.Attribute[] {
+        attributes:function(objectType:ObjectSpec.Type):ObjectSpec.Attribute[] {
           return [];
         },
-        imports:function(valueType:ValueObject.Type):ObjC.Import[] {
+        imports:function(objectType:ObjectSpec.Type):ObjC.Import[] {
           return [];
         },
         fileTransformation:function(request:FileWriter.Request):FileWriter.Request {
           return request;
         },
-        fileType: function(valueType:ValueObject.Type):Maybe.Maybe<Code.FileType> {
+        fileType: function(objectType:ObjectSpec.Type):Maybe.Maybe<Code.FileType> {
           return Maybe.Nothing<Code.FileType>();
         },
-        forwardDeclarations: function(valueType:ValueObject.Type):ObjC.ForwardDeclaration[] {
+        forwardDeclarations: function(objectType:ObjectSpec.Type):ObjC.ForwardDeclaration[] {
           return [];
         },
-        headerComments:function(valueType:ValueObject.Type):ObjC.Comment[] {
+        headerComments:function(objectType:ObjectSpec.Type):ObjC.Comment[] {
           return [];
         },
-        instanceMethods:function(valueType:ValueObject.Type):ObjC.Method[] {
+        instanceMethods:function(objectType:ObjectSpec.Type):ObjC.Method[] {
           return [];
         },
-        additionalFiles:function(valueType:ValueObject.Type):Code.File[] {
+        additionalFiles:function(objectType:ObjectSpec.Type):Code.File[] {
           return [];
         },
-        properties:function(valueType:ValueObject.Type):ObjC.Property[] {
+        properties:function(objectType:ObjectSpec.Type):ObjC.Property[] {
           return [];
         },
-        staticConstants:function(valueType:ValueObject.Type):ObjC.Constant[] {
+        staticConstants:function(objectType:ObjectSpec.Type):ObjC.Constant[] {
           return [];
         },
-        implementedProtocols:function(valueType:ValueObject.Type):ObjC.Protocol[] {
+        implementedProtocols:function(objectType:ObjectSpec.Type):ObjC.Protocol[] {
           return [];
         },
-        functions:function(valueType:ValueObject.Type):ObjC.Function[] {
+        functions:function(objectType:ObjectSpec.Type):ObjC.Function[] {
           return [];
         },
-        validationErrors: function(valueType:ValueObject.Type):Error.Error[] {
+        validationErrors: function(objectType:ObjectSpec.Type):Error.Error[] {
           return [Error.Error('Some error')];
         },
-        nullability: function(valueType:ValueObject.Type):Maybe.Maybe<ObjC.ClassNullability> {
+        nullability: function(objectType:ObjectSpec.Type):Maybe.Maybe<ObjC.ClassNullability> {
           return Maybe.Nothing<ObjC.ClassNullability>();
         }
       };
 
-      const valueType:ValueObject.Type = {
+      const objectType:ObjectSpec.Type = {
         annotations: {},
         attributes: [],
         comments: [],
@@ -734,10 +734,10 @@ describe('ValueObjectCreation', function() {
         baseClassLibraryName:Maybe.Nothing<string>(),
         diagnosticIgnores:List.of<string>(),
         path:File.getAbsoluteFilePath('something.value'),
-        typeInformation:valueType
+        typeInformation:objectType
       };
 
-      const writeRequest:Either.Either<Error.Error[], FileWriter.FileWriteRequest> = ValueObjectCreation.fileWriteRequest(generationRequest, List.of(Plugin));
+      const writeRequest:Either.Either<Error.Error[], FileWriter.FileWriteRequest> = ObjectSpecCreation.fileWriteRequest(generationRequest, List.of(Plugin));
 
       const expectedRequest:Either.Either<Error.Error[], FileWriter.FileWriteRequest> = Either.Left<Error.Error[], FileWriter.FileWriteRequest>([Error.Error('[something.value]Some error')]);
 
@@ -746,104 +746,104 @@ describe('ValueObjectCreation', function() {
 
     it('returns errors returned from two plugins if both return ' +
        'validation errors', function() {
-      const Plugin1:ValueObject.Plugin = {
+      const Plugin1:ObjectSpec.Plugin = {
         requiredIncludesToRun: [],
-        additionalTypes:function(valueType:ValueObject.Type):ValueObject.Type[] {
+        additionalTypes:function(objectType:ObjectSpec.Type):ObjectSpec.Type[] {
           return [];
         },
-        attributes:function(valueType:ValueObject.Type):ValueObject.Attribute[] {
+        attributes:function(objectType:ObjectSpec.Type):ObjectSpec.Attribute[] {
           return [];
         },
-        imports:function(valueType:ValueObject.Type):ObjC.Import[] {
+        imports:function(objectType:ObjectSpec.Type):ObjC.Import[] {
           return [];
         },
         fileTransformation:function(request:FileWriter.Request):FileWriter.Request {
           return request;
         },
-        fileType: function(valueType:ValueObject.Type):Maybe.Maybe<Code.FileType> {
+        fileType: function(objectType:ObjectSpec.Type):Maybe.Maybe<Code.FileType> {
           return Maybe.Nothing<Code.FileType>();
         },
-        forwardDeclarations: function(valueType:ValueObject.Type):ObjC.ForwardDeclaration[] {
+        forwardDeclarations: function(objectType:ObjectSpec.Type):ObjC.ForwardDeclaration[] {
           return [];
         },
-        headerComments:function(valueType:ValueObject.Type):ObjC.Comment[] {
+        headerComments:function(objectType:ObjectSpec.Type):ObjC.Comment[] {
           return [];
         },
-        instanceMethods:function(valueType:ValueObject.Type):ObjC.Method[] {
+        instanceMethods:function(objectType:ObjectSpec.Type):ObjC.Method[] {
           return [];
         },
-        additionalFiles:function(valueType:ValueObject.Type):Code.File[] {
+        additionalFiles:function(objectType:ObjectSpec.Type):Code.File[] {
           return [];
         },
-        properties:function(valueType:ValueObject.Type):ObjC.Property[] {
+        properties:function(objectType:ObjectSpec.Type):ObjC.Property[] {
           return [];
         },
-        staticConstants:function(valueType:ValueObject.Type):ObjC.Constant[] {
+        staticConstants:function(objectType:ObjectSpec.Type):ObjC.Constant[] {
           return [];
         },
-        implementedProtocols:function(valueType:ValueObject.Type):ObjC.Protocol[] {
+        implementedProtocols:function(objectType:ObjectSpec.Type):ObjC.Protocol[] {
           return [];
         },
-        functions:function(valueType:ValueObject.Type):ObjC.Function[] {
+        functions:function(objectType:ObjectSpec.Type):ObjC.Function[] {
           return [];
         },
-        validationErrors: function(valueType:ValueObject.Type):Error.Error[] {
+        validationErrors: function(objectType:ObjectSpec.Type):Error.Error[] {
           return [Error.Error('Some error'), Error.Error('Another error')];
         },
-        nullability: function(valueType:ValueObject.Type):Maybe.Maybe<ObjC.ClassNullability> {
+        nullability: function(objectType:ObjectSpec.Type):Maybe.Maybe<ObjC.ClassNullability> {
           return Maybe.Nothing<ObjC.ClassNullability>();
         }
       };
-      const Plugin2:ValueObject.Plugin = {
+      const Plugin2:ObjectSpec.Plugin = {
         requiredIncludesToRun: [],
-        additionalTypes:function(valueType:ValueObject.Type):ValueObject.Type[] {
+        additionalTypes:function(objectType:ObjectSpec.Type):ObjectSpec.Type[] {
           return [];
         },
-        attributes:function(valueType:ValueObject.Type):ValueObject.Attribute[] {
+        attributes:function(objectType:ObjectSpec.Type):ObjectSpec.Attribute[] {
           return [];
         },
-        imports:function(valueType:ValueObject.Type):ObjC.Import[] {
+        imports:function(objectType:ObjectSpec.Type):ObjC.Import[] {
           return [];
         },
         fileTransformation:function(request:FileWriter.Request):FileWriter.Request {
           return request;
         },
-        fileType: function(valueType:ValueObject.Type):Maybe.Maybe<Code.FileType> {
+        fileType: function(objectType:ObjectSpec.Type):Maybe.Maybe<Code.FileType> {
           return Maybe.Nothing<Code.FileType>();
         },
-        forwardDeclarations: function(valueType:ValueObject.Type):ObjC.ForwardDeclaration[] {
+        forwardDeclarations: function(objectType:ObjectSpec.Type):ObjC.ForwardDeclaration[] {
           return [];
         },
-        headerComments:function(valueType:ValueObject.Type):ObjC.Comment[] {
+        headerComments:function(objectType:ObjectSpec.Type):ObjC.Comment[] {
           return [];
         },
-        instanceMethods:function(valueType:ValueObject.Type):ObjC.Method[] {
+        instanceMethods:function(objectType:ObjectSpec.Type):ObjC.Method[] {
           return [];
         },
-        additionalFiles:function(valueType:ValueObject.Type):Code.File[] {
+        additionalFiles:function(objectType:ObjectSpec.Type):Code.File[] {
           return [];
         },
-        properties:function(valueType:ValueObject.Type):ObjC.Property[] {
+        properties:function(objectType:ObjectSpec.Type):ObjC.Property[] {
           return [];
         },
-        staticConstants:function(valueType:ValueObject.Type):ObjC.Constant[] {
+        staticConstants:function(objectType:ObjectSpec.Type):ObjC.Constant[] {
           return [];
         },
-        implementedProtocols:function(valueType:ValueObject.Type):ObjC.Protocol[] {
+        implementedProtocols:function(objectType:ObjectSpec.Type):ObjC.Protocol[] {
           return [];
         },
-        functions:function(valueType:ValueObject.Type):ObjC.Function[] {
+        functions:function(objectType:ObjectSpec.Type):ObjC.Function[] {
           return [];
         },
-        validationErrors: function(valueType:ValueObject.Type):Error.Error[] {
+        validationErrors: function(objectType:ObjectSpec.Type):Error.Error[] {
           return [Error.Error('Yet another error')];
         },
-        nullability: function(valueType:ValueObject.Type):Maybe.Maybe<ObjC.ClassNullability> {
+        nullability: function(objectType:ObjectSpec.Type):Maybe.Maybe<ObjC.ClassNullability> {
           return Maybe.Nothing<ObjC.ClassNullability>();
         }
       };
 
-      const valueType:ValueObject.Type = {
+      const objectType:ObjectSpec.Type = {
         annotations: {},
         attributes: [],
         comments: [],
@@ -859,10 +859,10 @@ describe('ValueObjectCreation', function() {
         baseClassLibraryName:Maybe.Nothing<string>(),
         diagnosticIgnores:List.of<string>(),
         path:File.getAbsoluteFilePath('something.value'),
-        typeInformation:valueType
+        typeInformation:objectType
       };
 
-      const writeRequest:Either.Either<Error.Error[], FileWriter.FileWriteRequest> = ValueObjectCreation.fileWriteRequest(generationRequest, List.of(Plugin1, Plugin2));
+      const writeRequest:Either.Either<Error.Error[], FileWriter.FileWriteRequest> = ObjectSpecCreation.fileWriteRequest(generationRequest, List.of(Plugin1, Plugin2));
 
       const expectedRequest:Either.Either<Error.Error[], FileWriter.FileWriteRequest> = Either.Left<Error.Error[], FileWriter.FileWriteRequest>([Error.Error('[something.value]Some error'), Error.Error('[something.value]Another error'), Error.Error('[something.value]Yet another error')]);
 
@@ -871,24 +871,24 @@ describe('ValueObjectCreation', function() {
 
     it('combines the initilizers of multiple plugins when given multiple plugins ' +
        'to create an object from', function() {
-      const Plugin1:ValueObject.Plugin = {
+      const Plugin1:ObjectSpec.Plugin = {
         requiredIncludesToRun: [],
-        imports:function(valueType:ValueObject.Type):ObjC.Import[] {
+        imports:function(objectType:ObjectSpec.Type):ObjC.Import[] {
           return [];
         },
         fileTransformation:function(request:FileWriter.Request):FileWriter.Request {
           return request;
         },
-        fileType: function(valueType:ValueObject.Type):Maybe.Maybe<Code.FileType> {
+        fileType: function(objectType:ObjectSpec.Type):Maybe.Maybe<Code.FileType> {
           return Maybe.Nothing<Code.FileType>();
         },
-        forwardDeclarations: function(valueType:ValueObject.Type):ObjC.ForwardDeclaration[] {
+        forwardDeclarations: function(objectType:ObjectSpec.Type):ObjC.ForwardDeclaration[] {
           return [];
         },
-        headerComments:function(valueType:ValueObject.Type):ObjC.Comment[] {
+        headerComments:function(objectType:ObjectSpec.Type):ObjC.Comment[] {
           return [];
         },
-        instanceMethods:function(valueType:ValueObject.Type):ObjC.Method[] {
+        instanceMethods:function(objectType:ObjectSpec.Type):ObjC.Method[] {
           const instanceMethods:ObjC.Method[] = [
             {
               belongsToProtocol:Maybe.Nothing<string>(),
@@ -927,52 +927,52 @@ describe('ValueObjectCreation', function() {
           ];
           return instanceMethods;
         },
-        additionalFiles:function(valueType:ValueObject.Type):Code.File[] {
+        additionalFiles:function(objectType:ObjectSpec.Type):Code.File[] {
           return [];
         },
-        additionalTypes:function(valueType:ValueObject.Type):ValueObject.Type[] {
+        additionalTypes:function(objectType:ObjectSpec.Type):ObjectSpec.Type[] {
           return [];
         },
-        attributes:function(valueType:ValueObject.Type):ValueObject.Attribute[] {
+        attributes:function(objectType:ObjectSpec.Type):ObjectSpec.Attribute[] {
           return [];
         },
-        properties:function(valueType:ValueObject.Type):ObjC.Property[] {
+        properties:function(objectType:ObjectSpec.Type):ObjC.Property[] {
           return [];
         },
-        staticConstants:function(valueType:ValueObject.Type):ObjC.Constant[] {
+        staticConstants:function(objectType:ObjectSpec.Type):ObjC.Constant[] {
           return [];
         },
-        implementedProtocols:function(valueType:ValueObject.Type):ObjC.Protocol[] {
+        implementedProtocols:function(objectType:ObjectSpec.Type):ObjC.Protocol[] {
           return [];
         },
-        functions:function(valueType:ValueObject.Type):ObjC.Function[] {
+        functions:function(objectType:ObjectSpec.Type):ObjC.Function[] {
           return [];
         },
-        validationErrors: function(valueType:ValueObject.Type):Error.Error[] {
+        validationErrors: function(objectType:ObjectSpec.Type):Error.Error[] {
           return [];
         },
-        nullability: function(valueType:ValueObject.Type):Maybe.Maybe<ObjC.ClassNullability> {
+        nullability: function(objectType:ObjectSpec.Type):Maybe.Maybe<ObjC.ClassNullability> {
           return Maybe.Nothing<ObjC.ClassNullability>();
         }
       };
-      const Plugin2:ValueObject.Plugin = {
+      const Plugin2:ObjectSpec.Plugin = {
         requiredIncludesToRun: [],
-        imports:function(valueType:ValueObject.Type):ObjC.Import[] {
+        imports:function(objectType:ObjectSpec.Type):ObjC.Import[] {
           return [];
         },
         fileTransformation:function(request:FileWriter.Request):FileWriter.Request {
           return request;
         },
-        fileType: function(valueType:ValueObject.Type):Maybe.Maybe<Code.FileType> {
+        fileType: function(objectType:ObjectSpec.Type):Maybe.Maybe<Code.FileType> {
           return Maybe.Nothing<Code.FileType>();
         },
-        forwardDeclarations: function(valueType:ValueObject.Type):ObjC.ForwardDeclaration[] {
+        forwardDeclarations: function(objectType:ObjectSpec.Type):ObjC.ForwardDeclaration[] {
           return [];
         },
-        headerComments:function(valueType:ValueObject.Type):ObjC.Comment[] {
+        headerComments:function(objectType:ObjectSpec.Type):ObjC.Comment[] {
           return [];
         },
-        instanceMethods:function(valueType:ValueObject.Type):ObjC.Method[] {
+        instanceMethods:function(objectType:ObjectSpec.Type):ObjC.Method[] {
           const instanceMethods:ObjC.Method[] = [
             {
               belongsToProtocol:Maybe.Nothing<string>(),
@@ -994,36 +994,36 @@ describe('ValueObjectCreation', function() {
           ];
           return instanceMethods;
         },
-        additionalFiles:function(valueType:ValueObject.Type):Code.File[] {
+        additionalFiles:function(objectType:ObjectSpec.Type):Code.File[] {
           return [];
         },
-        additionalTypes:function(valueType:ValueObject.Type):ValueObject.Type[] {
+        additionalTypes:function(objectType:ObjectSpec.Type):ObjectSpec.Type[] {
           return [];
         },
-        attributes:function(valueType:ValueObject.Type):ValueObject.Attribute[] {
+        attributes:function(objectType:ObjectSpec.Type):ObjectSpec.Attribute[] {
           return [];
         },
-        properties:function(valueType:ValueObject.Type):ObjC.Property[] {
+        properties:function(objectType:ObjectSpec.Type):ObjC.Property[] {
           return [];
         },
-        staticConstants:function(valueType:ValueObject.Type):ObjC.Constant[] {
+        staticConstants:function(objectType:ObjectSpec.Type):ObjC.Constant[] {
           return [];
         },
-        implementedProtocols:function(valueType:ValueObject.Type):ObjC.Protocol[] {
+        implementedProtocols:function(objectType:ObjectSpec.Type):ObjC.Protocol[] {
           return [];
         },
-        functions:function(valueType:ValueObject.Type):ObjC.Function[] {
+        functions:function(objectType:ObjectSpec.Type):ObjC.Function[] {
           return [];
         },
-        validationErrors: function(valueType:ValueObject.Type):Error.Error[] {
+        validationErrors: function(objectType:ObjectSpec.Type):Error.Error[] {
           return [];
         },
-        nullability: function(valueType:ValueObject.Type):Maybe.Maybe<ObjC.ClassNullability> {
+        nullability: function(objectType:ObjectSpec.Type):Maybe.Maybe<ObjC.ClassNullability> {
           return Maybe.Nothing<ObjC.ClassNullability>();
         }
       };
 
-      const valueType:ValueObject.Type = {
+      const objectType:ObjectSpec.Type = {
         annotations: {},
         attributes: [],
         comments: [],
@@ -1039,10 +1039,10 @@ describe('ValueObjectCreation', function() {
         baseClassLibraryName:Maybe.Nothing<string>(),
         diagnosticIgnores:List.of<string>(),
         path:File.getAbsoluteFilePath('something.value'),
-        typeInformation:valueType
+        typeInformation:objectType
       };
 
-      const writeRequest = ValueObjectCreation.fileWriteRequest(generationRequest, List.of(Plugin1, Plugin2));
+      const writeRequest = ObjectSpecCreation.fileWriteRequest(generationRequest, List.of(Plugin1, Plugin2));
 
       const expectedRequests = List.of<FileWriter.Request>(
         FileWriter.Request(File.getAbsoluteFilePath('Foo.h'),
@@ -1093,9 +1093,9 @@ describe('ValueObjectCreation', function() {
 
     it('combines multiple file transformations when given multiple plugins ' +
        'that each transform the file write request', function() {
-      const Plugin1:ValueObject.Plugin = {
+      const Plugin1:ObjectSpec.Plugin = {
         requiredIncludesToRun: [],
-        imports:function(valueType:ValueObject.Type):ObjC.Import[] {
+        imports:function(objectType:ObjectSpec.Type):ObjC.Import[] {
           return [];
         },
         fileTransformation:function(request:FileWriter.Request):FileWriter.Request {
@@ -1105,16 +1105,16 @@ describe('ValueObjectCreation', function() {
           };
           return newRequest;
         },
-        fileType: function(valueType:ValueObject.Type):Maybe.Maybe<Code.FileType> {
+        fileType: function(objectType:ObjectSpec.Type):Maybe.Maybe<Code.FileType> {
           return Maybe.Nothing<Code.FileType>();
         },
-        forwardDeclarations: function(valueType:ValueObject.Type):ObjC.ForwardDeclaration[] {
+        forwardDeclarations: function(objectType:ObjectSpec.Type):ObjC.ForwardDeclaration[] {
           return [];
         },
-        headerComments:function(valueType:ValueObject.Type):ObjC.Comment[] {
+        headerComments:function(objectType:ObjectSpec.Type):ObjC.Comment[] {
           return [];
         },
-        instanceMethods:function(valueType:ValueObject.Type):ObjC.Method[] {
+        instanceMethods:function(objectType:ObjectSpec.Type):ObjC.Method[] {
           const instanceMethods:ObjC.Method[] = [
             {
               belongsToProtocol:Maybe.Nothing<string>(),
@@ -1153,37 +1153,37 @@ describe('ValueObjectCreation', function() {
           ];
           return instanceMethods;
         },
-        additionalFiles:function(valueType:ValueObject.Type):Code.File[] {
+        additionalFiles:function(objectType:ObjectSpec.Type):Code.File[] {
           return [];
         },
-        additionalTypes:function(valueType:ValueObject.Type):ValueObject.Type[] {
+        additionalTypes:function(objectType:ObjectSpec.Type):ObjectSpec.Type[] {
           return [];
         },
-        attributes:function(valueType:ValueObject.Type):ValueObject.Attribute[] {
+        attributes:function(objectType:ObjectSpec.Type):ObjectSpec.Attribute[] {
           return [];
         },
-        properties:function(valueType:ValueObject.Type):ObjC.Property[] {
+        properties:function(objectType:ObjectSpec.Type):ObjC.Property[] {
           return [];
         },
-        staticConstants:function(valueType:ValueObject.Type):ObjC.Constant[] {
+        staticConstants:function(objectType:ObjectSpec.Type):ObjC.Constant[] {
           return [];
         },
-        implementedProtocols:function(valueType:ValueObject.Type):ObjC.Protocol[] {
+        implementedProtocols:function(objectType:ObjectSpec.Type):ObjC.Protocol[] {
           return [];
         },
-        functions:function(valueType:ValueObject.Type):ObjC.Function[] {
+        functions:function(objectType:ObjectSpec.Type):ObjC.Function[] {
           return [];
         },
-        validationErrors: function(valueType:ValueObject.Type):Error.Error[] {
+        validationErrors: function(objectType:ObjectSpec.Type):Error.Error[] {
           return [];
         },
-        nullability: function(valueType:ValueObject.Type):Maybe.Maybe<ObjC.ClassNullability> {
+        nullability: function(objectType:ObjectSpec.Type):Maybe.Maybe<ObjC.ClassNullability> {
           return Maybe.Nothing<ObjC.ClassNullability>();
         }
       };
-      const Plugin2:ValueObject.Plugin = {
+      const Plugin2:ObjectSpec.Plugin = {
         requiredIncludesToRun: [],
-        imports:function(valueType:ValueObject.Type):ObjC.Import[] {
+        imports:function(objectType:ObjectSpec.Type):ObjC.Import[] {
           return [];
         },
         fileTransformation:function(request:FileWriter.Request):FileWriter.Request {
@@ -1193,16 +1193,16 @@ describe('ValueObjectCreation', function() {
           };
           return newRequest;
         },
-        fileType: function(valueType:ValueObject.Type):Maybe.Maybe<Code.FileType> {
+        fileType: function(objectType:ObjectSpec.Type):Maybe.Maybe<Code.FileType> {
           return Maybe.Nothing<Code.FileType>();
         },
-        forwardDeclarations: function(valueType:ValueObject.Type):ObjC.ForwardDeclaration[] {
+        forwardDeclarations: function(objectType:ObjectSpec.Type):ObjC.ForwardDeclaration[] {
           return [];
         },
-        headerComments:function(valueType:ValueObject.Type):ObjC.Comment[] {
+        headerComments:function(objectType:ObjectSpec.Type):ObjC.Comment[] {
           return [];
         },
-        instanceMethods:function(valueType:ValueObject.Type):ObjC.Method[] {
+        instanceMethods:function(objectType:ObjectSpec.Type):ObjC.Method[] {
           const instanceMethods:ObjC.Method[] = [
             {
               belongsToProtocol:Maybe.Nothing<string>(),
@@ -1224,36 +1224,36 @@ describe('ValueObjectCreation', function() {
           ];
           return instanceMethods;
         },
-        additionalFiles:function(valueType:ValueObject.Type):Code.File[] {
+        additionalFiles:function(objectType:ObjectSpec.Type):Code.File[] {
           return [];
         },
-        additionalTypes:function(valueType:ValueObject.Type):ValueObject.Type[] {
+        additionalTypes:function(objectType:ObjectSpec.Type):ObjectSpec.Type[] {
           return [];
         },
-        attributes:function(valueType:ValueObject.Type):ValueObject.Attribute[] {
+        attributes:function(objectType:ObjectSpec.Type):ObjectSpec.Attribute[] {
           return [];
         },
-        properties:function(valueType:ValueObject.Type):ObjC.Property[] {
+        properties:function(objectType:ObjectSpec.Type):ObjC.Property[] {
           return [];
         },
-        staticConstants:function(valueType:ValueObject.Type):ObjC.Constant[] {
+        staticConstants:function(objectType:ObjectSpec.Type):ObjC.Constant[] {
           return [];
         },
-        implementedProtocols:function(valueType:ValueObject.Type):ObjC.Protocol[] {
+        implementedProtocols:function(objectType:ObjectSpec.Type):ObjC.Protocol[] {
           return [];
         },
-        functions:function(valueType:ValueObject.Type):ObjC.Function[] {
+        functions:function(objectType:ObjectSpec.Type):ObjC.Function[] {
           return [];
         },
-        validationErrors: function(valueType:ValueObject.Type):Error.Error[] {
+        validationErrors: function(objectType:ObjectSpec.Type):Error.Error[] {
           return [];
         },
-        nullability: function(valueType:ValueObject.Type):Maybe.Maybe<ObjC.ClassNullability> {
+        nullability: function(objectType:ObjectSpec.Type):Maybe.Maybe<ObjC.ClassNullability> {
           return Maybe.Nothing<ObjC.ClassNullability>();
         }
       };
 
-      const valueType:ValueObject.Type = {
+      const objectType:ObjectSpec.Type = {
         annotations: {},
         attributes: [],
         comments: [],
@@ -1269,10 +1269,10 @@ describe('ValueObjectCreation', function() {
         baseClassLibraryName:Maybe.Nothing<string>(),
         diagnosticIgnores:List.of<string>(),
         path:File.getAbsoluteFilePath('something.value'),
-        typeInformation:valueType
+        typeInformation:objectType
       };
 
-      const writeRequest = ValueObjectCreation.fileWriteRequest(generationRequest, List.of(Plugin1, Plugin2));
+      const writeRequest = ObjectSpecCreation.fileWriteRequest(generationRequest, List.of(Plugin1, Plugin2));
 
       const expectedRequests = List.of<FileWriter.Request>(
         FileWriter.Request(File.getAbsoluteFilePath('Foo.h'),

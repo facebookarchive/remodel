@@ -19,32 +19,32 @@ import List = require('./list');
 import Maybe = require('./maybe');
 import ObjC = require('./objc');
 import PluggableObjCFileCreation = require('./pluggable-objc-file-creation');
-import ValueObject = require('./value-object');
+import ObjectSpec = require('./object-spec');
 
-export interface Request extends PluggableObjCFileCreation.ObjCGenerationRequest<ValueObject.Type> { }
+export interface Request extends PluggableObjCFileCreation.ObjCGenerationRequest<ObjectSpec.Type> { }
 
-interface ValueObjectObjCPlugIn extends PluggableObjCFileCreation.ObjCGenerationPlugIn<ValueObject.Type> { }
+interface ObjectSpecObjCPlugIn extends PluggableObjCFileCreation.ObjCGenerationPlugIn<ObjectSpec.Type> { }
 
-function createValueObjectObjCPlugIn(plugin:ValueObject.Plugin) : ValueObjectObjCPlugIn
+function createObjectSpecObjCPlugIn(plugin:ObjectSpec.Plugin) : ObjectSpecObjCPlugIn
 {
   return {
-    additionalFiles: function(typeInformation:ValueObject.Type): Code.File[] {
+    additionalFiles: function(typeInformation:ObjectSpec.Type): Code.File[] {
       return plugin.additionalFiles(typeInformation);
     },
 
-    blockTypes: function(typeInformation:ValueObject.Type):ObjC.BlockType[] {
+    blockTypes: function(typeInformation:ObjectSpec.Type):ObjC.BlockType[] {
       return [];
     },
 
-    classMethods: function(typeInformation:ValueObject.Type):ObjC.Method[] {
+    classMethods: function(typeInformation:ObjectSpec.Type):ObjC.Method[] {
       return [];
     },
 
-    comments: function(typeInformation:ValueObject.Type):ObjC.Comment[] {
+    comments: function(typeInformation:ObjectSpec.Type):ObjC.Comment[] {
       return plugin.headerComments(typeInformation);
     },
 
-    enumerations: function(typeInformation:ValueObject.Type):ObjC.Enumeration[] {
+    enumerations: function(typeInformation:ObjectSpec.Type):ObjC.Enumeration[] {
       return [];
     },
 
@@ -52,62 +52,62 @@ function createValueObjectObjCPlugIn(plugin:ValueObject.Plugin) : ValueObjectObj
       return plugin.fileTransformation(writeRequest);
     },
 
-    fileType: function(typeInformation:ValueObject.Type):Maybe.Maybe<Code.FileType> {
+    fileType: function(typeInformation:ObjectSpec.Type):Maybe.Maybe<Code.FileType> {
       return plugin.fileType(typeInformation);
     },
 
-    forwardDeclarations: function(typeInformation:ValueObject.Type):ObjC.ForwardDeclaration[] {
+    forwardDeclarations: function(typeInformation:ObjectSpec.Type):ObjC.ForwardDeclaration[] {
       return plugin.forwardDeclarations(typeInformation);
     },
 
-    functions: function(typeInformation:ValueObject.Type):ObjC.Function[] {
+    functions: function(typeInformation:ObjectSpec.Type):ObjC.Function[] {
       return plugin.functions(typeInformation);
     },
 
-    imports: function(typeInformation:ValueObject.Type):ObjC.Import[] {
+    imports: function(typeInformation:ObjectSpec.Type):ObjC.Import[] {
       return plugin.imports(typeInformation);
     },
 
-    internalProperties: function(typeInformation:ValueObject.Type):ObjC.Property[] {
+    internalProperties: function(typeInformation:ObjectSpec.Type):ObjC.Property[] {
       return [];
     },
 
-    instanceMethods: function(typeInformation:ValueObject.Type):ObjC.Method[] {
+    instanceMethods: function(typeInformation:ObjectSpec.Type):ObjC.Method[] {
       return plugin.instanceMethods(typeInformation);
     },
 
-    properties: function(typeInformation:ValueObject.Type):ObjC.Property[] {
+    properties: function(typeInformation:ObjectSpec.Type):ObjC.Property[] {
       return plugin.properties(typeInformation);
     },
 
-    protocols: function(typeInformation:ValueObject.Type):ObjC.Protocol[] {
+    protocols: function(typeInformation:ObjectSpec.Type):ObjC.Protocol[] {
       return plugin.implementedProtocols(typeInformation);
     },
 
-    staticConstants: function(typeInformation:ValueObject.Type):ObjC.Constant[] {
+    staticConstants: function(typeInformation:ObjectSpec.Type):ObjC.Constant[] {
       return plugin.staticConstants(typeInformation);
     },
 
-    validationErrors: function(typeInformation:ValueObject.Type):Error.Error[] {
+    validationErrors: function(typeInformation:ObjectSpec.Type):Error.Error[] {
       return plugin.validationErrors(typeInformation);
     },
 
-    nullability: function(typeInformation:ValueObject.Type):Maybe.Maybe<ObjC.ClassNullability> {
+    nullability: function(typeInformation:ObjectSpec.Type):Maybe.Maybe<ObjC.ClassNullability> {
       return plugin.nullability(typeInformation);
     },
   };
 }
 
-function buildExtraAttributes(typeInformation:ValueObject.Type, soFar:ValueObject.Attribute[], plugin:ValueObject.Plugin):ValueObject.Attribute[] {
+function buildExtraAttributes(typeInformation:ObjectSpec.Type, soFar:ObjectSpec.Attribute[], plugin:ObjectSpec.Plugin):ObjectSpec.Attribute[] {
   return soFar.concat(plugin.attributes(typeInformation));
 }
 
-function buildExtraTypes(typeInformation:ValueObject.Type, soFar:ValueObject.Type[], plugin:ValueObject.Plugin):ValueObject.Type[] {
+function buildExtraTypes(typeInformation:ObjectSpec.Type, soFar:ObjectSpec.Type[], plugin:ObjectSpec.Plugin):ObjectSpec.Type[] {
   return soFar.concat(plugin.additionalTypes(typeInformation));
 }
 
-function typeInformationWithAllAttributesFromPlugins(typeInformation:ValueObject.Type, plugins:List.List<ValueObject.Plugin>):ValueObject.Type {
-  const pluginAttributes:ValueObject.Attribute[] = List.foldl(FunctionUtils.pApplyf3(typeInformation, buildExtraAttributes), [], plugins);
+function typeInformationWithAllAttributesFromPlugins(typeInformation:ObjectSpec.Type, plugins:List.List<ObjectSpec.Plugin>):ObjectSpec.Type {
+  const pluginAttributes:ObjectSpec.Attribute[] = List.foldl(FunctionUtils.pApplyf3(typeInformation, buildExtraAttributes), [], plugins);
 
   return {
     annotations: typeInformation.annotations,
@@ -121,7 +121,7 @@ function typeInformationWithAllAttributesFromPlugins(typeInformation:ValueObject
   };
 }
 
-function additionalTypesFromPlugins(typeInformation:ValueObject.Type, plugins:List.List<ValueObject.Plugin>):ValueObject.Type[] {
+function additionalTypesFromPlugins(typeInformation:ObjectSpec.Type, plugins:List.List<ObjectSpec.Plugin>):ObjectSpec.Type[] {
   return List.foldl(FunctionUtils.pApplyf3(typeInformation, buildExtraTypes), [], plugins);
 }
 
@@ -129,35 +129,35 @@ function shouldRunPluginForInclude(includes:string[], requiredIncludeToRun:strin
   return includes.indexOf(requiredIncludeToRun) !== -1;
 }
 
-function shouldRunPluginForIncludes(includes:string[], plugin:ValueObject.Plugin):boolean {
+function shouldRunPluginForIncludes(includes:string[], plugin:ObjectSpec.Plugin):boolean {
   return plugin.requiredIncludesToRun.every(FunctionUtils.pApplyf2(includes, shouldRunPluginForInclude));
 }
 
-function pluginsToRunForValueType(plugins:List.List<ValueObject.Plugin>, valueType:ValueObject.Type):List.List<ValueObject.Plugin> {
-  return List.filter(FunctionUtils.pApplyf2(valueType.includes, shouldRunPluginForIncludes), plugins);
+function pluginsToRunForValueType(plugins:List.List<ObjectSpec.Plugin>, objectType:ObjectSpec.Type):List.List<ObjectSpec.Plugin> {
+  return List.filter(FunctionUtils.pApplyf2(objectType.includes, shouldRunPluginForIncludes), plugins);
 }
 
-function objcPluginForValueObjectPlugin(plugin:ValueObject.Plugin):ValueObjectObjCPlugIn {
-  return createValueObjectObjCPlugIn(plugin);
+function objcPluginForObjectSpecPlugin(plugin:ObjectSpec.Plugin):ObjectSpecObjCPlugIn {
+  return createObjectSpecObjCPlugIn(plugin);
 }
 
-function additionalTypesForType(plugins:List.List<ValueObject.Plugin>, typeInformation:ValueObject.Type):ValueObject.Type[] {
+function additionalTypesForType(plugins:List.List<ObjectSpec.Plugin>, typeInformation:ObjectSpec.Type):ObjectSpec.Type[] {
   return additionalTypesFromPlugins(typeInformation, plugins);
 }
 
-function typeNameForType(typeInformation:ValueObject.Type):string {
+function typeNameForType(typeInformation:ObjectSpec.Type):string {
   return typeInformation.typeName;
 }
 
-function commentsForType(typeInformation:ValueObject.Type):string[] {
+function commentsForType(typeInformation:ObjectSpec.Type):string[] {
   return typeInformation.comments;
 }
 
-export function fileWriteRequest(request:Request, plugins:List.List<ValueObject.Plugin>):Either.Either<Error.Error[], FileWriter.FileWriteRequest> {
+export function fileWriteRequest(request:Request, plugins:List.List<ObjectSpec.Plugin>):Either.Either<Error.Error[], FileWriter.FileWriteRequest> {
   const pluginsToRun = pluginsToRunForValueType(plugins, request.typeInformation);
-  const wrappedPlugins:List.List<ValueObjectObjCPlugIn> = List.map(objcPluginForValueObjectPlugin, pluginsToRun);
+  const wrappedPlugins:List.List<ObjectSpecObjCPlugIn> = List.map(objcPluginForObjectSpecPlugin, pluginsToRun);
 
-  const typeInfoProvider:PluggableObjCFileCreation.ObjCGenerationTypeInfoProvider<ValueObject.Type> = {
+  const typeInfoProvider:PluggableObjCFileCreation.ObjCGenerationTypeInfoProvider<ObjectSpec.Type> = {
     additionalTypesForType: FunctionUtils.pApplyf2(pluginsToRun, additionalTypesForType),
     typeNameForType: typeNameForType,
     commentsForType: commentsForType,

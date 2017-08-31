@@ -457,7 +457,7 @@ describe('ObjCRenderer', function() {
         imports:[
           {file:'RMSomething.h', isPublic:true, library:Maybe.Just('RMLibrary')},
           {file:'RMSomethingElse.h', isPublic:false, library:Maybe.Just('RMLibrary')},
-          {file:'RMValueObjectBase.h', isPublic:true, library:Maybe.Just('RMValueObject')}
+          {file:'RMObjectSpecBase.h', isPublic:true, library:Maybe.Just('RMObjectSpec')}
         ],
         comments:[
           {content:'// Copyright something something. All Rights Reserved.'}
@@ -475,7 +475,7 @@ describe('ObjCRenderer', function() {
         diagnosticIgnores:[],
         classes: [
           {
-            baseClassName:'RMValueObjectBase',
+            baseClassName:'RMObjectSpecBase',
             classMethods: [
               {
                 belongsToProtocol:Maybe.Nothing<string>(),
@@ -635,9 +635,9 @@ describe('ObjCRenderer', function() {
       const expectedOutput:Maybe.Maybe<string> = Maybe.Just<string>(
         '// Copyright something something. All Rights Reserved.\n\n' +
         '#import <RMLibrary/RMSomething.h>\n' +
-        '#import <RMValueObject/RMValueObjectBase.h>\n' +
+        '#import <RMObjectSpec/RMObjectSpecBase.h>\n' +
         '\n' +
-        '@interface RMSomeValue : RMValueObjectBase <NSCoding>\n' +
+        '@interface RMSomeValue : RMObjectSpecBase <NSCoding>\n' +
         '\n' +
         '@property (nonatomic, readonly) RMSomething *value1;\n' +
         '@property (nonatomic, readonly) RMSomething *value2;\n' +

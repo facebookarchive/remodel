@@ -14,18 +14,18 @@ import Either = require('../either');
 import Error = require('../error');
 import Maybe = require('../maybe');
 import ObjC = require('../objc');
-import ValueObject = require('../value-object');
-import ValueObjectParser = require('../value-object-parser');
+import ObjectSpec = require('../object-spec');
+import ObjectSpecParser = require('../object-spec-parser');
 
-describe('ValueObjectParser', function() {
+describe('ObjectSpecParser', function() {
   describe('#parse', function() {
     it('parses a value object with two properties that are valid', function() {
       const valueFileContents = 'RMSomething {\n' +
                                 'NSArray *someArray\n '+
                                 'BOOL someBoolean\n' +
                               '}';
-      const actualResult:Either.Either<Error.Error[], ValueObject.Type> = ValueObjectParser.parse(valueFileContents);
-      const expectedFoundType:ValueObject.Type = {
+      const actualResult:Either.Either<Error.Error[], ObjectSpec.Type> = ObjectSpecParser.parse(valueFileContents);
+      const expectedFoundType:ObjectSpec.Type = {
         annotations: {},
         attributes: [
           {
@@ -62,7 +62,7 @@ describe('ValueObjectParser', function() {
         typeName: 'RMSomething',
         libraryName: Maybe.Nothing<string>()
       };
-      const expectedResult:Either.Either<Error.Error[], ValueObject.Type> = Either.Right<Error.Error[], ValueObject.Type>(expectedFoundType);
+      const expectedResult:Either.Either<Error.Error[], ObjectSpec.Type> = Either.Right<Error.Error[], ObjectSpec.Type>(expectedFoundType);
       expect(actualResult).toEqualJSON(expectedResult);
     });
 
@@ -76,8 +76,8 @@ describe('ValueObjectParser', function() {
                               '  RMBlah *someBlah\n' +
                               '  RMSomeValue(BOOL) someValue\n' +
                               '}';
-      const actualResult:Either.Either<Error.Error[], ValueObject.Type> = ValueObjectParser.parse(valueFileContents);
-      const expectedFoundType:ValueObject.Type = {
+      const actualResult:Either.Either<Error.Error[], ObjectSpec.Type> = ObjectSpecParser.parse(valueFileContents);
+      const expectedFoundType:ObjectSpec.Type = {
         annotations: {
           library: [{
             properties: {
@@ -154,7 +154,7 @@ describe('ValueObjectParser', function() {
         typeName: 'RMSomething',
         libraryName: Maybe.Just('RMSomethingLibrary')
       };
-      const expectedResult:Either.Either<Error.Error[], ValueObject.Type> = Either.Right<Error.Error[], ValueObject.Type>(expectedFoundType);
+      const expectedResult:Either.Either<Error.Error[], ObjectSpec.Type> = Either.Right<Error.Error[], ObjectSpec.Type>(expectedFoundType);
       expect(actualResult).toEqualJSON(expectedResult);
     });
 
@@ -166,8 +166,8 @@ describe('ValueObjectParser', function() {
                               '  %nonnull\n' +
                               '  RMBlah *someValue\n' +
                               '}';
-      const actualResult:Either.Either<Error.Error[], ValueObject.Type> = ValueObjectParser.parse(valueFileContents);
-      const expectedFoundType:ValueObject.Type = {
+      const actualResult:Either.Either<Error.Error[], ObjectSpec.Type> = ObjectSpecParser.parse(valueFileContents);
+      const expectedFoundType:ObjectSpec.Type = {
         annotations: {
           library: [{
             properties: {
@@ -218,14 +218,14 @@ describe('ValueObjectParser', function() {
         typeName: 'RMSomething',
         libraryName: Maybe.Just('RMSomethingLibrary')
       };
-      const expectedResult:Either.Either<Error.Error[], ValueObject.Type> = Either.Right<Error.Error[], ValueObject.Type>(expectedFoundType);
+      const expectedResult:Either.Either<Error.Error[], ObjectSpec.Type> = Either.Right<Error.Error[], ObjectSpec.Type>(expectedFoundType);
       expect(actualResult).toEqualJSON(expectedResult);
     });
 
     it('parses a value object which is invalid', function() {
       const valueFileContents = 'RMSomething {{}';
-      const actualResult:Either.Either<Error.Error[], ValueObject.Type> = ValueObjectParser.parse(valueFileContents);
-      const expectedResult:Either.Either<Error.Error[], ValueObject.Type> = Either.Left<Error.Error[], ValueObject.Type>(
+      const actualResult:Either.Either<Error.Error[], ObjectSpec.Type> = ObjectSpecParser.parse(valueFileContents);
+      const expectedResult:Either.Either<Error.Error[], ObjectSpec.Type> = Either.Left<Error.Error[], ObjectSpec.Type>(
                             [Error.Error('(line 1, column 14) expected string matching {}}')]);
       expect(actualResult).toEqualJSON(expectedResult);
     });

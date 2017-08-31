@@ -36,7 +36,7 @@ function findFilesSequence(directoryToScan:File.AbsoluteFilePath, fileExtension:
   });
 }
 
-function readFileForFoundValueObject(path:File.AbsoluteFilePath):Promise.Future<Logging.Context<Either.Either<Error.Error[], UnparsedObjectCreationRequest>>> {
+function readFileForFoundObjectSpec(path:File.AbsoluteFilePath):Promise.Future<Logging.Context<Either.Either<Error.Error[], UnparsedObjectCreationRequest>>> {
   return FileReader.read(path).map(function(either:Either.Either<Error.Error[], File.Contents>) {
     return Logging.munit(Either.map(function(contents:File.Contents) {
       return {path:path, fileContents:contents};
@@ -46,5 +46,5 @@ function readFileForFoundValueObject(path:File.AbsoluteFilePath):Promise.Future<
 
 export function loggedSequenceThatReadsFiles(requestedPath:File.AbsoluteFilePath, suffix:string):LazySequence.Sequence<Promise.Future<Logging.Context<Either.Either<Error.Error[], UnparsedObjectCreationRequest>>>> {
   return LoggingSequenceUtils.mapLoggedSequence(findFilesSequence(requestedPath, suffix),
-                                                   readFileForFoundValueObject);
+                                                   readFileForFoundObjectSpec);
 }

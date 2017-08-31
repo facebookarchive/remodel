@@ -32,7 +32,9 @@ describe('CommandLine', function() {
 
       const expectedResult = Maybe.Just<CommandLine.Arguments>({
         givenPath:'project/to/generate',
+        adtConfigPath:undefined,
         valueObjectConfigPath:undefined,
+        objectConfigPath:undefined,
         interestedLoggingTypes:List.of(Logging.LoggingType.info, Logging.LoggingType.error),
         minimalLevel:10,
         dryRun: false
@@ -47,7 +49,9 @@ describe('CommandLine', function() {
 
       const expectedResult = Maybe.Just<CommandLine.Arguments>({
         givenPath:'project/to/generate',
+        adtConfigPath:undefined,
         valueObjectConfigPath:undefined,
+        objectConfigPath:undefined,
         interestedLoggingTypes:List.of(Logging.LoggingType.info, Logging.LoggingType.error),
         minimalLevel:1,
         dryRun:false
@@ -62,7 +66,9 @@ describe('CommandLine', function() {
 
       const expectedResult = Maybe.Just<CommandLine.Arguments>({
         givenPath:'project/to/generate',
+        adtConfigPath:undefined,
         valueObjectConfigPath:undefined,
+        objectConfigPath:undefined,
         interestedLoggingTypes:List.of(Logging.LoggingType.info, Logging.LoggingType.error, Logging.LoggingType.performance),
         minimalLevel:10,
         dryRun:false
@@ -77,7 +83,9 @@ describe('CommandLine', function() {
 
       const expectedResult = Maybe.Just<CommandLine.Arguments>({
         givenPath:'project/to/generate',
+        adtConfigPath:undefined,
         valueObjectConfigPath:undefined,
+        objectConfigPath:undefined,
         interestedLoggingTypes:List.of(Logging.LoggingType.info, Logging.LoggingType.error, Logging.LoggingType.debug),
         minimalLevel:10,
         dryRun:false
@@ -92,7 +100,9 @@ describe('CommandLine', function() {
 
       const expectedResult = Maybe.Just<CommandLine.Arguments>({
         givenPath:'project/to/generate',
+        adtConfigPath:undefined,
         valueObjectConfigPath:undefined,
+        objectConfigPath:undefined,
         interestedLoggingTypes:List.of(Logging.LoggingType.info, Logging.LoggingType.error),
         minimalLevel:10,
         dryRun:true
@@ -107,7 +117,9 @@ describe('CommandLine', function() {
 
       const expectedResult = Maybe.Just<CommandLine.Arguments>({
         givenPath:'project/to/generate',
+        adtConfigPath:undefined,
         valueObjectConfigPath:undefined,
+        objectConfigPath:undefined,
         interestedLoggingTypes:List.of<Logging.LoggingType>(),
         minimalLevel:10,
         dryRun:false
@@ -117,12 +129,31 @@ describe('CommandLine', function() {
     });
 
     it('includes valueObjectConfigPath', function() {
-      const args:string[] = ['project/to/generate', 'path/to/valueObject/Config'];
+      const args:string[] = ['project/to/generate', '--value-object-config-path', 'path/to/valueObjectConfig'];
       const parsedArgs:Maybe.Maybe<CommandLine.Arguments> = CommandLine.parseArgs(args);
 
       const expectedResult = Maybe.Just<CommandLine.Arguments>({
         givenPath:'project/to/generate',
-        valueObjectConfigPath:'path/to/valueObject/Config',
+        adtConfigPath:undefined,
+        valueObjectConfigPath:'path/to/valueObjectConfig',
+        objectConfigPath:undefined,
+        interestedLoggingTypes:List.of(Logging.LoggingType.info, Logging.LoggingType.error),
+        minimalLevel:10,
+        dryRun: false
+      });
+
+      expect(parsedArgs).toEqualJSON(expectedResult);
+    });
+
+    it('includes objectConfigPath', function() {
+      const args:string[] = ['project/to/generate', '--object-config-path', 'path/to/objectConfig'];
+      const parsedArgs:Maybe.Maybe<CommandLine.Arguments> = CommandLine.parseArgs(args);
+
+      const expectedResult = Maybe.Just<CommandLine.Arguments>({
+        givenPath:'project/to/generate',
+        adtConfigPath:undefined,
+        valueObjectConfigPath:undefined,
+        objectConfigPath:'path/to/objectConfig',
         interestedLoggingTypes:List.of(Logging.LoggingType.info, Logging.LoggingType.error),
         minimalLevel:10,
         dryRun: false

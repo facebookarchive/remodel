@@ -13,6 +13,7 @@ import Either = require('./either');
 import Error = require('./error');
 import File = require('./file');
 import FileFinder = require('./file-finder');
+import FileReader = require('./file-reader');
 import FileWriter = require('./file-writer');
 import FunctionUtils = require('./function-utils');
 import List = require('./list');
@@ -25,57 +26,38 @@ import RequirePlugin = require('./require-plugin');
 import PathUtils = require('./path-utils');
 import PluginInclusionUtils = require('./plugin-inclusion-utils');
 import Promise = require('./promise');
-import ValueObject = require('./value-object');
-import ValueObjectCreation = require('./value-object-creation');
-import ValueObjectParser = require('./value-object-parser');
+import ObjectSpec = require('./object-spec');
+import ObjectSpecCreation = require('./object-spec-creation');
+import ObjectSpecParser = require('./object-spec-parser');
 import WriteFileUtils = require('./file-logged-sequence-write-utils');
 
-const BASE_INCLUDES:List.List<string> = List.of(
-  'RMCopying',
-  'RMDescription',
-  'RMEquality',
-  'RMImmutableProperties'
-);
-
-const BASE_PLUGINS:List.List<string> = List.of(
-  'assume-nonnull',
-  'builder',
-  'coding',
-  'copying',
-  'description',
-  'equality',
-  'fetch-status',
-  'immutable-properties',
-  'use-cpp'
-);
-
-interface ValueObjectCreationContext {
+interface ObjectSpecCreationContext {
   baseClassName:string;
   baseClassLibraryName:Maybe.Maybe<string>;
   diagnosticIgnores:List.List<string>;
-  plugins:List.List<ValueObject.Plugin>;
+  plugins:List.List<ObjectSpec.Plugin>;
   defaultIncludes:List.List<string>;
 }
 
 interface PathAndTypeInfo {
   path: File.AbsoluteFilePath;
-  typeInformation: ValueObject.Type;
+  typeInformation: ObjectSpec.Type;
 }
 
-function evaluateUnparsedValueObjectCreationRequest(request:ReadFileUtils.UnparsedObjectCreationRequest):Either.Either<Error.Error[], PathAndTypeInfo> {
-  const parseResult:Either.Either<Error.Error[], ValueObject.Type> = ValueObjectParser.parse(File.getContents(request.fileContents));
+function evaluateUnparsedObjectSpecCreationRequest(request:ReadFileUtils.UnparsedObjectCreationRequest):Either.Either<Error.Error[], PathAndTypeInfo> {
+  const parseResult:Either.Either<Error.Error[], ObjectSpec.Type> = ObjectSpecParser.parse(File.getContents(request.fileContents));
   return Either.match(function(errors:Error.Error[]) {
     return Either.Left<Error.Error[], PathAndTypeInfo>(errors.map(function(error:Error.Error) { return Error.Error('[' + File.getAbsolutePathString(request.path) + '] ' + Error.getReason(error)); }));
-  }, function(foundType:ValueObject.Type) {
+  }, function(foundType:ObjectSpec.Type) {
     return Either.Right<Error.Error[], PathAndTypeInfo>({path:request.path, typeInformation:foundType});
   }, parseResult);
 }
 
 function parseValues(either:Either.Either<Error.Error[], ReadFileUtils.UnparsedObjectCreationRequest>):Promise.Future<Logging.Context<Either.Either<Error.Error[], PathAndTypeInfo>>> {
-  return Promise.munit(Logging.munit(Either.mbind(evaluateUnparsedValueObjectCreationRequest, either)));
+  return Promise.munit(Logging.munit(Either.mbind(evaluateUnparsedObjectSpecCreationRequest, either)));
 }
 
-function typeInformationContainingDefaultIncludes(typeInformation:ValueObject.Type, defaultIncludes:List.List<string>):ValueObject.Type {
+function typeInformationContainingDefaultIncludes(typeInformation:ObjectSpec.Type, defaultIncludes:List.List<string>):ObjectSpec.Type {
   return {
     annotations: typeInformation.annotations,
     attributes: typeInformation.attributes,
@@ -88,11 +70,11 @@ function typeInformationContainingDefaultIncludes(typeInformation:ValueObject.Ty
   };
 }
 
-function processValueObjectCreationRequest(future:Promise.Future<Either.Either<Error.Error[], ValueObjectCreationContext>>, either:Either.Either<Error.Error[], PathAndTypeInfo>):Promise.Future<Logging.Context<Either.Either<Error.Error[], FileWriter.FileWriteRequest>>> {
-  return Promise.map(function(creationContextEither:Either.Either<Error.Error[], ValueObjectCreationContext>) {
+function processObjectSpecCreationRequest(future:Promise.Future<Either.Either<Error.Error[], ObjectSpecCreationContext>>, either:Either.Either<Error.Error[], PathAndTypeInfo>):Promise.Future<Logging.Context<Either.Either<Error.Error[], FileWriter.FileWriteRequest>>> {
+  return Promise.map(function(creationContextEither:Either.Either<Error.Error[], ObjectSpecCreationContext>) {
     return Logging.munit(Either.mbind(function(pathAndTypeInfo:PathAndTypeInfo) {
-      return Either.mbind(function(creationContext:ValueObjectCreationContext) {
-        const request:ValueObjectCreation.Request = {
+      return Either.mbind(function(creationContext:ObjectSpecCreationContext) {
+        const request:ObjectSpecCreation.Request = {
           diagnosticIgnores:creationContext.diagnosticIgnores,
           baseClassLibraryName:creationContext.baseClassLibraryName,
           baseClassName:creationContext.baseClassName,
@@ -100,37 +82,33 @@ function processValueObjectCreationRequest(future:Promise.Future<Either.Either<E
           typeInformation:typeInformationContainingDefaultIncludes(pathAndTypeInfo.typeInformation, creationContext.defaultIncludes)
         };
 
-        return ValueObjectCreation.fileWriteRequest(request, creationContext.plugins);
+        return ObjectSpecCreation.fileWriteRequest(request, creationContext.plugins);
       }, creationContextEither);
     }, either));
   }, future);
 }
 
-function pluginsFromPluginConfigs(pluginConfigs:List.List<Configuration.PluginConfig>):Either.Either<Error.Error[], List.List<ValueObject.Plugin>> {
-  return List.foldr(function(soFar:Either.Either<Error.Error[], List.List<ValueObject.Plugin>>, config:Configuration.PluginConfig):Either.Either<Error.Error[], List.List<ValueObject.Plugin>> {
-    return Either.mbind(function(list:List.List<ValueObject.Plugin>):Either.Either<Error.Error[], List.List<ValueObject.Plugin>> {
-      return Either.map(function(maybePlugin:Maybe.Maybe<ValueObject.Plugin>):List.List<ValueObject.Plugin> {
-        return Maybe.match(function(plugin:ValueObject.Plugin) {
+function pluginsFromPluginConfigs(pluginConfigs:List.List<Configuration.PluginConfig>):Either.Either<Error.Error[], List.List<ObjectSpec.Plugin>> {
+  return List.foldr(function(soFar:Either.Either<Error.Error[], List.List<ObjectSpec.Plugin>>, config:Configuration.PluginConfig):Either.Either<Error.Error[], List.List<ObjectSpec.Plugin>> {
+    return Either.mbind(function(list:List.List<ObjectSpec.Plugin>):Either.Either<Error.Error[], List.List<ObjectSpec.Plugin>> {
+      return Either.map(function(maybePlugin:Maybe.Maybe<ObjectSpec.Plugin>):List.List<ObjectSpec.Plugin> {
+        return Maybe.match(function(plugin:ObjectSpec.Plugin) {
                               return List.cons(plugin, list);
                             },function() {
                               return list;
                             }, maybePlugin);
-                          }, RequirePlugin.requireValueObjectPlugin(config.absolutePath));
+                          }, RequirePlugin.requireObjectSpecPlugin(config.absolutePath));
     }, soFar);
-  }, Either.Right<Error.Error[], List.List<ValueObject.Plugin>>(List.of<ValueObject.Plugin>()), pluginConfigs);
+  }, Either.Right<Error.Error[], List.List<ObjectSpec.Plugin>>(List.of<ObjectSpec.Plugin>()), pluginConfigs);
 }
 
-function getValueObjectCreationContext(valueObjectConfigPathFuture:Promise.Future<Maybe.Maybe<File.AbsoluteFilePath>>):Promise.Future<Either.Either<Error.Error[], ValueObjectCreationContext>> {
-  return Promise.mbind(function(maybePath:Maybe.Maybe<File.AbsoluteFilePath>):Promise.Future<Either.Either<Error.Error[], ValueObjectCreationContext>> {
-    const configurationContext:Configuration.ConfigurationContext = {
-      basePlugins: BASE_PLUGINS,
-      baseIncludes: BASE_INCLUDES
-    };
+function getObjectSpecCreationContext(valueObjectConfigPathFuture:Promise.Future<Maybe.Maybe<File.AbsoluteFilePath>>, configurationContext:Configuration.ConfigurationContext):Promise.Future<Either.Either<Error.Error[], ObjectSpecCreationContext>> {
+  return Promise.mbind(function(maybePath:Maybe.Maybe<File.AbsoluteFilePath>):Promise.Future<Either.Either<Error.Error[], ObjectSpecCreationContext>> {
     const configFuture:Promise.Future<Either.Either<Error.Error[], Configuration.GenerationConfig>> = Configuration.generateConfig(maybePath, configurationContext);
     return Promise.map(function(either:Either.Either<Error.Error[], Configuration.GenerationConfig>) {
-      return Either.mbind(function(configuration:Configuration.GenerationConfig):Either.Either<Error.Error[], ValueObjectCreationContext> {
+      return Either.mbind(function(configuration:Configuration.GenerationConfig):Either.Either<Error.Error[], ObjectSpecCreationContext> {
         const pluginsEither = pluginsFromPluginConfigs(configuration.pluginConfigs);
-        return Either.map(function(plugins:List.List<ValueObject.Plugin>):ValueObjectCreationContext {
+        return Either.map(function(plugins:List.List<ObjectSpec.Plugin>):ObjectSpecCreationContext {
           return {
             baseClassName:configuration.baseClassName,
             baseClassLibraryName:configuration.baseClassLibraryName,
@@ -144,28 +122,28 @@ function getValueObjectCreationContext(valueObjectConfigPathFuture:Promise.Futur
   }, valueObjectConfigPathFuture);
 }
 
-function valueObjectConfigPathFuture(requestedPath:File.AbsoluteFilePath, configPathFromArguments:string): Promise.Future<Maybe.Maybe<File.AbsoluteFilePath>> {
+function valueObjectConfigPathFuture(configFileName:string, requestedPath:File.AbsoluteFilePath, configPathFromArguments:string): Promise.Future<Maybe.Maybe<File.AbsoluteFilePath>> {
   var absoluteValueObjectConfigPath: Promise.Future<Maybe.Maybe<File.AbsoluteFilePath>>;
   if (configPathFromArguments === undefined) {
-      absoluteValueObjectConfigPath = FileFinder.findConfig('.valueObjectConfig', requestedPath);
+      absoluteValueObjectConfigPath = FileFinder.findConfig(configFileName, requestedPath);
   } else {
       absoluteValueObjectConfigPath = Promise.munit(Maybe.Just(File.getAbsoluteFilePath(configPathFromArguments)));
   }
   return absoluteValueObjectConfigPath;
 }
 
-export function generate(directoryRunFrom:string, parsedArgs:CommandLine.Arguments):Promise.Future<WriteFileUtils.ConsoleOutputResults> {
+export function generate(directoryRunFrom:string, extension:string, configFileName:string, optionalConfigPath:string, configurationContext:Configuration.ConfigurationContext, parsedArgs:CommandLine.Arguments):Promise.Future<WriteFileUtils.ConsoleOutputResults> {
     const requestedPath:File.AbsoluteFilePath = PathUtils.getAbsolutePathFromDirectoryAndAbsoluteOrRelativePath(File.getAbsoluteFilePath(directoryRunFrom), parsedArgs.givenPath);
 
-    const valueObjectCreationContextFuture = getValueObjectCreationContext(valueObjectConfigPathFuture(requestedPath, parsedArgs.valueObjectConfigPath));
+    const valueObjectCreationContextFuture = getObjectSpecCreationContext(valueObjectConfigPathFuture(configFileName, requestedPath, optionalConfigPath), configurationContext);
 
-    const readFileSequence = ReadFileUtils.loggedSequenceThatReadsFiles(requestedPath, 'value');
+    const readFileSequence = ReadFileUtils.loggedSequenceThatReadsFiles(requestedPath, extension);
 
     const parsedSequence = LoggingSequenceUtils.mapLoggedSequence(readFileSequence,
                                                                   parseValues);
 
     const pluginProcessedSequence = LoggingSequenceUtils.mapLoggedSequence(parsedSequence,
-                                                                           FunctionUtils.pApplyf2(valueObjectCreationContextFuture, processValueObjectCreationRequest));
+                                                                           FunctionUtils.pApplyf2(valueObjectCreationContextFuture, processObjectSpecCreationRequest));
 
     return WriteFileUtils.evaluateObjectFileWriteRequestSequence(parsedArgs, pluginProcessedSequence);
 }

@@ -51,7 +51,8 @@ describe('ObjectSpecPlugins.Equality', function() {
               libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
               name: 'NSString',
               reference: 'NSString *',
-              underlyingType:Maybe.Just<string>('NSObject')
+              underlyingType:Maybe.Just<string>('NSObject'),
+              conformingProtocol: Maybe.Nothing<string>()
             }
           },
           {
@@ -64,7 +65,8 @@ describe('ObjectSpecPlugins.Equality', function() {
               libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
               name: 'LikeStatus',
               reference: 'LikeStatus',
-              underlyingType:Maybe.Nothing<string>()
+              underlyingType:Maybe.Nothing<string>(),
+              conformingProtocol: Maybe.Nothing<string>()
             }
           }
         ],
@@ -96,7 +98,8 @@ describe('ObjectSpecPlugins.Equality', function() {
               libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
               name: 'Name',
               reference: 'Name',
-              underlyingType:Maybe.Nothing<string>()
+              underlyingType:Maybe.Nothing<string>(),
+              conformingProtocol: Maybe.Nothing<string>()
             }
           },
           {
@@ -109,7 +112,8 @@ describe('ObjectSpecPlugins.Equality', function() {
               libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
               name: 'LikeStatus',
               reference: 'LikeStatus',
-              underlyingType:Maybe.Nothing<string>()
+              underlyingType:Maybe.Nothing<string>(),
+              conformingProtocol: Maybe.Nothing<string>()
             }
           }
         ],
@@ -142,7 +146,8 @@ describe('ObjectSpecPlugins.Equality', function() {
               libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
               name: 'FooBar',
               reference: 'FooBar',
-              underlyingType:Maybe.Just<string>('Baz')
+              underlyingType:Maybe.Just<string>('Baz'),
+              conformingProtocol: Maybe.Nothing<string>()
             }
           }
         ],
@@ -177,7 +182,8 @@ describe('ObjectSpecPlugins.Equality', function() {
               libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
               name: 'SEL',
               reference: 'SEL',
-              underlyingType:Maybe.Nothing<string>()
+              underlyingType:Maybe.Nothing<string>(),
+              conformingProtocol: Maybe.Nothing<string>()
             }
           },
           {
@@ -190,7 +196,8 @@ describe('ObjectSpecPlugins.Equality', function() {
               libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
               name: 'NSString',
               reference: 'NSString *',
-              underlyingType:Maybe.Just<string>('NSObject')
+              underlyingType:Maybe.Just<string>('NSObject'),
+              conformingProtocol: Maybe.Nothing<string>()
             }
           }
         ],
@@ -227,7 +234,8 @@ describe('ObjectSpecPlugins.Equality', function() {
               libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
               name: 'NSUInteger',
               reference: 'NSUInteger',
-              underlyingType:Maybe.Nothing<string>()
+              underlyingType:Maybe.Nothing<string>(),
+              conformingProtocol: Maybe.Nothing<string>()
             }
           },
           {
@@ -240,7 +248,8 @@ describe('ObjectSpecPlugins.Equality', function() {
               libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
               name: 'NSInteger',
               reference: 'NSInteger',
-              underlyingType:Maybe.Nothing<string>()
+              underlyingType:Maybe.Nothing<string>(),
+              conformingProtocol: Maybe.Nothing<string>()
             }
           },
           {
@@ -253,7 +262,8 @@ describe('ObjectSpecPlugins.Equality', function() {
               libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
               name: 'NSString',
               reference: 'NSString *',
-              underlyingType:Maybe.Just<string>('NSObject')
+              underlyingType:Maybe.Just<string>('NSObject'),
+              conformingProtocol: Maybe.Nothing<string>()
             }
           },
           {
@@ -266,7 +276,8 @@ describe('ObjectSpecPlugins.Equality', function() {
               libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
               name: 'float',
               reference: 'float',
-              underlyingType:Maybe.Nothing<string>()
+              underlyingType:Maybe.Nothing<string>(),
+              conformingProtocol: Maybe.Nothing<string>()
             }
           },
           {
@@ -279,7 +290,8 @@ describe('ObjectSpecPlugins.Equality', function() {
               libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
               name: 'double',
               reference: 'double',
-              underlyingType:Maybe.Nothing<string>()
+              underlyingType:Maybe.Nothing<string>(),
+              conformingProtocol: Maybe.Nothing<string>()
             }
           },
           {
@@ -292,7 +304,8 @@ describe('ObjectSpecPlugins.Equality', function() {
               libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
               name: 'BOOL',
               reference: 'BOOL',
-              underlyingType:Maybe.Nothing<string>()
+              underlyingType:Maybe.Nothing<string>(),
+              conformingProtocol: Maybe.Nothing<string>()
             }
           },
           {
@@ -305,7 +318,8 @@ describe('ObjectSpecPlugins.Equality', function() {
               libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
               name: 'CGFloat',
               reference: 'CGFloat',
-              underlyingType:Maybe.Nothing<string>()
+              underlyingType:Maybe.Nothing<string>(),
+              conformingProtocol: Maybe.Nothing<string>()
             }
           },
           {
@@ -318,7 +332,8 @@ describe('ObjectSpecPlugins.Equality', function() {
               libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
               name: 'CGRect',
               reference: 'CGRect',
-              underlyingType:Maybe.Nothing<string>()
+              underlyingType:Maybe.Nothing<string>(),
+              conformingProtocol: Maybe.Nothing<string>()
             }
           },
           {
@@ -331,7 +346,8 @@ describe('ObjectSpecPlugins.Equality', function() {
               libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
               name: 'CGPoint',
               reference: 'CGPoint',
-              underlyingType:Maybe.Nothing<string>()
+              underlyingType:Maybe.Nothing<string>(),
+              conformingProtocol: Maybe.Nothing<string>()
             }
           },
           {
@@ -344,7 +360,8 @@ describe('ObjectSpecPlugins.Equality', function() {
               libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
               name: 'CGSize',
               reference: 'CGSize',
-              underlyingType:Maybe.Nothing<string>()
+              underlyingType:Maybe.Nothing<string>(),
+              conformingProtocol: Maybe.Nothing<string>()
             }
           },
           {
@@ -357,7 +374,8 @@ describe('ObjectSpecPlugins.Equality', function() {
               libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
               name: 'UIEdgeInsets',
               reference: 'UIEdgeInsets',
-              underlyingType:Maybe.Nothing<string>()
+              underlyingType:Maybe.Nothing<string>(),
+              conformingProtocol: Maybe.Nothing<string>()
             }
           },
           {
@@ -370,7 +388,8 @@ describe('ObjectSpecPlugins.Equality', function() {
               libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
               name: 'NSRange',
               reference: 'NSRange',
-              underlyingType:Maybe.Nothing<string>()
+              underlyingType:Maybe.Nothing<string>(),
+              conformingProtocol: Maybe.Nothing<string>()
             }
           }
         ],
@@ -475,7 +494,8 @@ describe('ObjectSpecPlugins.Equality', function() {
               libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
               name: 'double',
               reference: 'double',
-              underlyingType:Maybe.Nothing<string>()
+              underlyingType:Maybe.Nothing<string>(),
+              conformingProtocol: Maybe.Nothing<string>()
             }
           },
           {
@@ -488,7 +508,8 @@ describe('ObjectSpecPlugins.Equality', function() {
               libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
               name: 'id',
               reference: 'id',
-              underlyingType:Maybe.Nothing<string>()
+              underlyingType:Maybe.Nothing<string>(),
+              conformingProtocol: Maybe.Nothing<string>()
             }
           },
         ],
@@ -621,7 +642,8 @@ describe('ObjectSpecPlugins.Equality', function() {
               libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
               name: 'float',
               reference: 'float',
-              underlyingType:Maybe.Nothing<string>()
+              underlyingType:Maybe.Nothing<string>(),
+              conformingProtocol: Maybe.Nothing<string>()
             }
           }
         ],
@@ -725,7 +747,8 @@ describe('ObjectSpecPlugins.Equality', function() {
               libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
               name: 'float',
               reference: 'float',
-              underlyingType:Maybe.Nothing<string>()
+              underlyingType:Maybe.Nothing<string>(),
+              conformingProtocol: Maybe.Nothing<string>()
             }
           },
           {
@@ -738,7 +761,8 @@ describe('ObjectSpecPlugins.Equality', function() {
               libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
               name: 'float',
               reference: 'float',
-              underlyingType:Maybe.Nothing<string>()
+              underlyingType:Maybe.Nothing<string>(),
+              conformingProtocol: Maybe.Nothing<string>()
             }
           }
         ],
@@ -842,7 +866,8 @@ describe('ObjectSpecPlugins.Equality', function() {
               libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
               name: 'Derrrpppppp',
               reference: 'Derrrpppppp',
-              underlyingType:Maybe.Just<string>('double')
+              underlyingType:Maybe.Just<string>('double'),
+              conformingProtocol: Maybe.Nothing<string>()
             }
           }
         ],
@@ -937,7 +962,8 @@ describe('ObjectSpecPlugins.Equality', function() {
               libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
               name: 'CGFloat',
               reference: 'CGFloat',
-              underlyingType:Maybe.Nothing<string>()
+              underlyingType:Maybe.Nothing<string>(),
+              conformingProtocol: Maybe.Nothing<string>()
             }
           }
         ],
@@ -1208,7 +1234,8 @@ describe('AlgebraicTypePlugins.Equality', function() {
               reference: 'Foo *',
               libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
               fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-              underlyingType: Maybe.Nothing<string>()
+              underlyingType: Maybe.Nothing<string>(),
+              conformingProtocol: Maybe.Nothing<string>()
             }
           })
         ]
@@ -1245,7 +1272,8 @@ describe('AlgebraicTypePlugins.Equality', function() {
                   reference: 'Foo *',
                   libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
                   fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-                  underlyingType: Maybe.Nothing<string>()
+                  underlyingType: Maybe.Nothing<string>(),
+                  conformingProtocol: Maybe.Nothing<string>()
                 }
               }
             ]
@@ -1265,7 +1293,8 @@ describe('AlgebraicTypePlugins.Equality', function() {
                   reference: 'Ferr',
                   libraryTypeIsDefinedIn: Maybe.Just<string>('SomeLib'),
                   fileTypeIsDefinedIn: Maybe.Just<string>('SomethingElse'),
-                  underlyingType: Maybe.Nothing<string>()
+                  underlyingType: Maybe.Nothing<string>(),
+                  conformingProtocol: Maybe.Nothing<string>()
                 }
               }
             ]
@@ -1301,7 +1330,8 @@ describe('AlgebraicTypePlugins.Equality', function() {
               reference: 'Ferr',
               libraryTypeIsDefinedIn: Maybe.Just<string>('SomeLib'),
               fileTypeIsDefinedIn: Maybe.Just<string>('SomethingElse'),
-              underlyingType: Maybe.Just<string>('SomethingRandom')
+              underlyingType: Maybe.Just<string>('SomethingRandom'),
+              conformingProtocol: Maybe.Nothing<string>()
             }
           })
         ]

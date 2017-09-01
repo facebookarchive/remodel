@@ -38,7 +38,8 @@ describe('ObjectSpecParser', function() {
               libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
               name:'NSArray',
               reference: 'NSArray*',
-              underlyingType:Maybe.Just<string>('NSObject')
+              underlyingType:Maybe.Just<string>('NSObject'),
+              conformingProtocol: Maybe.Nothing<string>()
             }
           },
           {
@@ -51,7 +52,8 @@ describe('ObjectSpecParser', function() {
               libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
               name:'BOOL',
               reference: 'BOOL',
-              underlyingType:Maybe.Nothing<string>()
+              underlyingType:Maybe.Nothing<string>(),
+              conformingProtocol: Maybe.Nothing<string>()
             }
           }
         ],
@@ -117,7 +119,8 @@ describe('ObjectSpecParser', function() {
               libraryTypeIsDefinedIn:Maybe.Just('RMCustomLibrary'),
               name:'RMBlah',
               reference: 'RMBlah*',
-              underlyingType:Maybe.Just<string>('NSObject')
+              underlyingType:Maybe.Just<string>('NSObject'),
+              conformingProtocol: Maybe.Nothing<string>()
             }
           },
           {
@@ -130,7 +133,8 @@ describe('ObjectSpecParser', function() {
               libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
               name:'RMSomeValue',
               reference: 'RMSomeValue',
-              underlyingType:Maybe.Just('BOOL')
+              underlyingType:Maybe.Just('BOOL'),
+              conformingProtocol: Maybe.Nothing<string>()
             }
           }
         ],
@@ -190,7 +194,8 @@ describe('ObjectSpecParser', function() {
               libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
               name:'RMBlah',
               reference: 'RMBlah*',
-              underlyingType:Maybe.Just<string>('NSObject')
+              underlyingType:Maybe.Just<string>('NSObject'),
+              conformingProtocol: Maybe.Nothing<string>()
             }
           },
           {
@@ -207,7 +212,8 @@ describe('ObjectSpecParser', function() {
               libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
               name:'RMBlah',
               reference: 'RMBlah*',
-              underlyingType:Maybe.Just<string>('NSObject')
+              underlyingType:Maybe.Just<string>('NSObject'),
+              conformingProtocol: Maybe.Nothing<string>()
             }
           }
         ],

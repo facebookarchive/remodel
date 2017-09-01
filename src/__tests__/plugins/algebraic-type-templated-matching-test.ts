@@ -46,7 +46,8 @@ describe('Plugins.AlgebraicTypeTemplatedMatching', function() {
                   reference: 'NSString *',
                   libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
                   fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-                  underlyingType: Maybe.Just<string>('NSObject')
+                  underlyingType: Maybe.Just<string>('NSObject'),
+                  conformingProtocol: Maybe.Nothing<string>()
                 }
               },
               {
@@ -59,7 +60,8 @@ describe('Plugins.AlgebraicTypeTemplatedMatching', function() {
                   reference: 'NSUInteger',
                   libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
                   fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-                  underlyingType: Maybe.Nothing<string>()
+                  underlyingType: Maybe.Nothing<string>(),
+                  conformingProtocol: Maybe.Nothing<string>()
                 }
               }
             ]
@@ -81,7 +83,8 @@ describe('Plugins.AlgebraicTypeTemplatedMatching', function() {
               reference: 'SingleAttributeType *',
               libraryTypeIsDefinedIn: Maybe.Just('SomeLib'),
               fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-              underlyingType: Maybe.Just<string>('NSObject')
+              underlyingType: Maybe.Just<string>('NSObject'),
+              conformingProtocol: Maybe.Nothing<string>()
             }
           })
         ]

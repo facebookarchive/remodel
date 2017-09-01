@@ -53,7 +53,8 @@ describe('Plugins.ImmutableProperties', function() {
               libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
               name:'NSString',
               reference: 'NSString *',
-              underlyingType:Maybe.Just<string>('NSObject')
+              underlyingType:Maybe.Just<string>('NSObject'),
+              conformingProtocol: Maybe.Nothing<string>()
             }
           }
         ],
@@ -116,7 +117,8 @@ describe('Plugins.ImmutableProperties', function() {
               libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
               name:'NSString',
               reference: 'NSString *',
-              underlyingType:Maybe.Just<string>('NSObject')
+              underlyingType:Maybe.Just<string>('NSObject'),
+              conformingProtocol: Maybe.Nothing<string>()
             }
           }
         ],
@@ -179,7 +181,8 @@ describe('Plugins.ImmutableProperties', function() {
               libraryTypeIsDefinedIn:null,
               name:'NSString',
               reference: 'NSString *',
-              underlyingType:Maybe.Just<string>('NSObject')
+              underlyingType:Maybe.Just<string>('NSObject'),
+              conformingProtocol: Maybe.Nothing<string>()
             }
           },
           {
@@ -192,7 +195,8 @@ describe('Plugins.ImmutableProperties', function() {
               libraryTypeIsDefinedIn:null,
               name:'BOOL',
               reference: 'BOOL',
-              underlyingType:Maybe.Nothing<string>()
+              underlyingType:Maybe.Nothing<string>(),
+              conformingProtocol: Maybe.Nothing<string>()
             }
           },
           {
@@ -205,7 +209,8 @@ describe('Plugins.ImmutableProperties', function() {
               libraryTypeIsDefinedIn:null,
               name:'RMAnotherSomething',
               reference: 'RMAnotherSomething *',
-              underlyingType:Maybe.Just<string>('NSObject')
+              underlyingType:Maybe.Just<string>('NSObject'),
+              conformingProtocol: Maybe.Nothing<string>()
             }
           },
           {
@@ -218,7 +223,8 @@ describe('Plugins.ImmutableProperties', function() {
               libraryTypeIsDefinedIn:null,
               name:'id',
               reference: 'id',
-              underlyingType:Maybe.Nothing<string>()
+              underlyingType:Maybe.Nothing<string>(),
+              conformingProtocol: Maybe.Nothing<string>()
             }
           }
         ],
@@ -317,7 +323,8 @@ describe('Plugins.ImmutableProperties', function() {
               libraryTypeIsDefinedIn:null,
               name:'NSString',
               reference: 'NSString *',
-              underlyingType:Maybe.Just<string>('NSObject')
+              underlyingType:Maybe.Just<string>('NSObject'),
+              conformingProtocol: Maybe.Nothing<string>()
             }
           },
           {
@@ -330,7 +337,8 @@ describe('Plugins.ImmutableProperties', function() {
               libraryTypeIsDefinedIn:null,
               name:'BOOL',
               reference: 'BOOL',
-              underlyingType:Maybe.Nothing<string>()
+              underlyingType:Maybe.Nothing<string>(),
+              conformingProtocol: Maybe.Nothing<string>()
             }
           },
           {
@@ -343,7 +351,8 @@ describe('Plugins.ImmutableProperties', function() {
               libraryTypeIsDefinedIn:null,
               name:'RMAnotherSomething',
               reference: 'RMAnotherSomething *',
-              underlyingType:Maybe.Just<string>('NSObject')
+              underlyingType:Maybe.Just<string>('NSObject'),
+              conformingProtocol: Maybe.Nothing<string>()
             }
           },
           {
@@ -356,7 +365,8 @@ describe('Plugins.ImmutableProperties', function() {
               libraryTypeIsDefinedIn:null,
               name:'id',
               reference: 'id',
-              underlyingType:Maybe.Nothing<string>()
+              underlyingType:Maybe.Nothing<string>(),
+              conformingProtocol: Maybe.Nothing<string>()
             }
           }
         ],
@@ -597,7 +607,8 @@ describe('Plugins.ImmutableProperties', function() {
               libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
               name:'RMSomethingElse',
               reference: 'RMSomethingElse *',
-              underlyingType:Maybe.Just<string>('NSObject')
+              underlyingType:Maybe.Just<string>('NSObject'),
+              conformingProtocol: Maybe.Nothing<string>()
             }
           }
         ],
@@ -635,7 +646,8 @@ describe('Plugins.ImmutableProperties', function() {
               libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
               name:'RMSomethingElse',
               reference: 'RMSomethingElse *',
-              underlyingType:Maybe.Just<string>('NSObject')
+              underlyingType:Maybe.Just<string>('NSObject'),
+              conformingProtocol: Maybe.Nothing<string>()
             }
           }
         ],
@@ -673,7 +685,8 @@ describe('Plugins.ImmutableProperties', function() {
               libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
               name:'RMSomethingElse',
               reference: 'RMSomethingElse *',
-              underlyingType:Maybe.Just<string>('NSObject')
+              underlyingType:Maybe.Just<string>('NSObject'),
+              conformingProtocol: Maybe.Nothing<string>()
             }
           }
         ],
@@ -711,7 +724,8 @@ describe('Plugins.ImmutableProperties', function() {
               libraryTypeIsDefinedIn:Maybe.Just('RMSomeOtherLibrary'),
               name:'RMSomethingElse',
               reference: 'RMSomethingElse *',
-              underlyingType:Maybe.Just<string>('NSObject')
+              underlyingType:Maybe.Just<string>('NSObject'),
+              conformingProtocol: Maybe.Nothing<string>()
             }
           }
         ],
@@ -749,7 +763,8 @@ describe('Plugins.ImmutableProperties', function() {
               libraryTypeIsDefinedIn:Maybe.Just('RMSomeOtherLibrary'),
               name:'RMSomethingElse',
               reference: 'RMSomethingElse *',
-              underlyingType:Maybe.Just<string>('NSObject')
+              underlyingType:Maybe.Just<string>('NSObject'),
+              conformingProtocol: Maybe.Nothing<string>()
             }
           }
         ],
@@ -787,7 +802,8 @@ describe('Plugins.ImmutableProperties', function() {
               libraryTypeIsDefinedIn:Maybe.Just('RMSomeOtherLibrary'),
               name:'RMSomethingElse',
               reference: 'RMSomethingElse *',
-              underlyingType:Maybe.Just<string>('NSObject')
+              underlyingType:Maybe.Just<string>('NSObject'),
+              conformingProtocol: Maybe.Nothing<string>()
             }
           }
         ],
@@ -824,7 +840,8 @@ describe('Plugins.ImmutableProperties', function() {
               libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
               name:'BOOL',
               reference: 'BOOL',
-              underlyingType:Maybe.Nothing<string>()
+              underlyingType:Maybe.Nothing<string>(),
+              conformingProtocol: Maybe.Nothing<string>()
             }
           }
         ],
@@ -860,7 +877,8 @@ describe('Plugins.ImmutableProperties', function() {
               libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
               name:'double',
               reference: 'double',
-              underlyingType:Maybe.Nothing<string>()
+              underlyingType:Maybe.Nothing<string>(),
+              conformingProtocol: Maybe.Nothing<string>()
             }
           }
         ],
@@ -896,7 +914,8 @@ describe('Plugins.ImmutableProperties', function() {
               libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
               name:'float',
               reference: 'float',
-              underlyingType:Maybe.Nothing<string>()
+              underlyingType:Maybe.Nothing<string>(),
+              conformingProtocol: Maybe.Nothing<string>()
             }
           }
         ],
@@ -932,7 +951,8 @@ describe('Plugins.ImmutableProperties', function() {
               libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
               name:'NSTimeInterval',
               reference: 'NSTimeInterval',
-              underlyingType:Maybe.Nothing<string>()
+              underlyingType:Maybe.Nothing<string>(),
+              conformingProtocol: Maybe.Nothing<string>()
             }
           }
         ],
@@ -968,7 +988,8 @@ describe('Plugins.ImmutableProperties', function() {
               libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
               name:'CGFloat',
               reference: 'CGFloat',
-              underlyingType:Maybe.Nothing<string>()
+              underlyingType:Maybe.Nothing<string>(),
+              conformingProtocol: Maybe.Nothing<string>()
             }
           }
         ],
@@ -1005,7 +1026,8 @@ describe('Plugins.ImmutableProperties', function() {
               libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
               name:'CGRect',
               reference: 'CGRect',
-              underlyingType:Maybe.Nothing<string>()
+              underlyingType:Maybe.Nothing<string>(),
+              conformingProtocol: Maybe.Nothing<string>()
             }
           }
         ],
@@ -1042,7 +1064,8 @@ describe('Plugins.ImmutableProperties', function() {
               libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
               name:'CGPoint',
               reference: 'CGPoint',
-              underlyingType:Maybe.Nothing<string>()
+              underlyingType:Maybe.Nothing<string>(),
+              conformingProtocol: Maybe.Nothing<string>()
             }
           }
         ],
@@ -1079,7 +1102,8 @@ describe('Plugins.ImmutableProperties', function() {
               libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
               name:'SEL',
               reference: 'SEL',
-              underlyingType:Maybe.Nothing<string>()
+              underlyingType:Maybe.Nothing<string>(),
+              conformingProtocol: Maybe.Nothing<string>()
             }
           }
         ],
@@ -1115,7 +1139,8 @@ describe('Plugins.ImmutableProperties', function() {
               libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
               name:'CGSize',
               reference: 'CGSize',
-              underlyingType:Maybe.Nothing<string>()
+              underlyingType:Maybe.Nothing<string>(),
+              conformingProtocol: Maybe.Nothing<string>()
             }
           }
         ],
@@ -1152,7 +1177,8 @@ describe('Plugins.ImmutableProperties', function() {
               libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
               name:'UIEdgeInsets',
               reference: 'UIEdgeInsets',
-              underlyingType:Maybe.Nothing<string>()
+              underlyingType:Maybe.Nothing<string>(),
+              conformingProtocol: Maybe.Nothing<string>()
             }
           }
         ],
@@ -1189,7 +1215,8 @@ describe('Plugins.ImmutableProperties', function() {
               libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
               name:'int32_t',
               reference: 'int32_t',
-              underlyingType:Maybe.Nothing<string>()
+              underlyingType:Maybe.Nothing<string>(),
+              conformingProtocol: Maybe.Nothing<string>()
             }
           }
         ],
@@ -1225,7 +1252,8 @@ describe('Plugins.ImmutableProperties', function() {
               libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
               name:'int64_t',
               reference: 'int64_t',
-              underlyingType:Maybe.Nothing<string>()
+              underlyingType:Maybe.Nothing<string>(),
+              conformingProtocol: Maybe.Nothing<string>()
             }
           }
         ],
@@ -1261,7 +1289,8 @@ describe('Plugins.ImmutableProperties', function() {
               libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
               name:'uint32_t',
               reference: 'uint32_t',
-              underlyingType:Maybe.Nothing<string>()
+              underlyingType:Maybe.Nothing<string>(),
+              conformingProtocol: Maybe.Nothing<string>()
             }
           }
         ],
@@ -1297,7 +1326,8 @@ describe('Plugins.ImmutableProperties', function() {
               libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
               name:'uint64_t',
               reference: 'uint64_t',
-              underlyingType:Maybe.Nothing<string>()
+              underlyingType:Maybe.Nothing<string>(),
+              conformingProtocol: Maybe.Nothing<string>()
             }
           }
         ],
@@ -1333,7 +1363,8 @@ describe('Plugins.ImmutableProperties', function() {
               libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
               name:'NSUInteger',
               reference: 'NSUInteger',
-              underlyingType:Maybe.Nothing<string>()
+              underlyingType:Maybe.Nothing<string>(),
+              conformingProtocol: Maybe.Nothing<string>()
             }
           }
         ],
@@ -1369,7 +1400,8 @@ describe('Plugins.ImmutableProperties', function() {
               libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
               name:'NSInteger',
               reference: 'NSInteger',
-              underlyingType:Maybe.Nothing<string>()
+              underlyingType:Maybe.Nothing<string>(),
+              conformingProtocol: Maybe.Nothing<string>()
             }
           }
         ],
@@ -1405,7 +1437,8 @@ describe('Plugins.ImmutableProperties', function() {
               libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
               name:'NSString',
               reference: 'NSString *',
-              underlyingType:Maybe.Just<string>('NSObject')
+              underlyingType:Maybe.Just<string>('NSObject'),
+              conformingProtocol: Maybe.Nothing<string>()
             }
           }
         ],
@@ -1460,7 +1493,8 @@ describe('Plugins.ImmutableProperties', function() {
               libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
               name:'BOOL',
               reference: 'BOOL',
-              underlyingType:Maybe.Nothing<string>()
+              underlyingType:Maybe.Nothing<string>(),
+              conformingProtocol: Maybe.Nothing<string>()
             }
           }
         ],
@@ -1504,7 +1538,8 @@ describe('Plugins.ImmutableProperties', function() {
               libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
               name:'RMSomething',
               reference: 'RMSomething *',
-              underlyingType:Maybe.Just<string>('NSObject')
+              underlyingType:Maybe.Just<string>('NSObject'),
+              conformingProtocol: Maybe.Nothing<string>()
             }
           }
         ],
@@ -1549,7 +1584,8 @@ describe('Plugins.ImmutableProperties', function() {
               libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
               name:'RMSomething',
               reference: 'RMSomething *',
-              underlyingType:Maybe.Just<string>('NSObject')
+              underlyingType:Maybe.Just<string>('NSObject'),
+              conformingProtocol: Maybe.Nothing<string>()
             }
           }
         ],
@@ -1592,7 +1628,8 @@ describe('Plugins.ImmutableProperties', function() {
           libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
           name:'RMSomething',
           reference: 'RMSomething *',
-          underlyingType:Maybe.Just<string>('NSObject')
+          underlyingType:Maybe.Just<string>('NSObject'),
+          conformingProtocol: Maybe.Nothing<string>()
         }
       };
 
@@ -1611,7 +1648,8 @@ describe('Plugins.ImmutableProperties', function() {
           libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
           name:'RMSomething',
           reference: 'RMSomething *',
-          underlyingType:Maybe.Just<string>('NSObject')
+          underlyingType:Maybe.Just<string>('NSObject'),
+          conformingProtocol: Maybe.Nothing<string>()
         }
       };
 
@@ -1630,7 +1668,8 @@ describe('Plugins.ImmutableProperties', function() {
           libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
           name:'Foo',
           reference: 'Foo',
-          underlyingType:Maybe.Just<string>('NSUInteger')
+          underlyingType:Maybe.Just<string>('NSUInteger'),
+          conformingProtocol: Maybe.Nothing<string>()
         }
       };
 
@@ -1649,7 +1688,8 @@ describe('Plugins.ImmutableProperties', function() {
           libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
           name:'RMSomething',
           reference: 'RMSomething *',
-          underlyingType:Maybe.Just<string>('NSObject')
+          underlyingType:Maybe.Just<string>('NSObject'),
+          conformingProtocol: Maybe.Nothing<string>()
         }
       };
 
@@ -1668,7 +1708,8 @@ describe('Plugins.ImmutableProperties', function() {
           libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
           name:'RMSomething',
           reference: 'RMSomething *',
-          underlyingType:Maybe.Just<string>('NSObject')
+          underlyingType:Maybe.Just<string>('NSObject'),
+          conformingProtocol: Maybe.Nothing<string>()
         }
       };
 
@@ -1693,7 +1734,8 @@ describe('Plugins.ImmutableProperties', function() {
               libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
               name:'RMSomething',
               reference: 'RMSomething *',
-              underlyingType:Maybe.Nothing<string>()
+              underlyingType:Maybe.Nothing<string>(),
+              conformingProtocol: Maybe.Nothing<string>()
             }
           }
         ],
@@ -1726,7 +1768,8 @@ describe('Plugins.ImmutableProperties', function() {
               libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
               name:'Foo',
               reference: 'Foo *',
-              underlyingType:Maybe.Nothing<string>()
+              underlyingType:Maybe.Nothing<string>(),
+              conformingProtocol: Maybe.Nothing<string>()
             }
           }
         ],
@@ -1766,7 +1809,8 @@ describe('Plugins.ImmutableProperties', function() {
               libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
               name:'Foo',
               reference: 'Foo *',
-              underlyingType:Maybe.Nothing<string>()
+              underlyingType:Maybe.Nothing<string>(),
+              conformingProtocol: Maybe.Nothing<string>()
             }
           }
         ],

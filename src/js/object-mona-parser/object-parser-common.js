@@ -13,9 +13,11 @@
 */
 const mona = require('mona');
 
-function typeReferenceFromParsedDefinition(parsedTypeReference, genericsSection) {
+function typeReferenceFromParsedDefinition(parsedTypeReference, genericsSection, protocolSection) {
   if (genericsSection !== undefined) {
     return parsedTypeReference + '<' + genericsSection + '>';
+  } else if (protocolSection !== undefined) {
+    return parsedTypeReference + '<' + protocolSection + '>';
   } else {
     return parsedTypeReference;
   }
@@ -26,17 +28,20 @@ function typeReferenceFromParsedDefinition(parsedTypeReference, genericsSection)
 function parseAttributeTypeReferenceSection() {
   return mona.sequence(function(s) {
     const typeReferenceSection = s(mona.trimLeft(mona.text(mona.or(mona.alphanum(), mona.string('_')))));
+    const protocolSection = s(mona.maybe(mona.between(mona.string('<'), mona.string('>'), mona.text(mona.or(mona.alphanum())))));
     const genericsSection = s(mona.maybe(mona.between(mona.string('<'), mona.string('>'), mona.text(mona.or(mona.alphanum(), mona.string('_'), mona.string('*'), mona.spaces(), mona.string(','))))));
     const underlyingType = s(mona.maybe(mona.between(mona.string('('),
     mona.string(')'),
     mona.text(mona.or(mona.alphanum(), mona.string('_'))))));
     s(mona.maybe(mona.spaces()));
 
-    const typeReference = typeReferenceFromParsedDefinition(typeReferenceSection, genericsSection);
+    const typeReference = typeReferenceFromParsedDefinition(typeReferenceSection, genericsSection, protocolSection);
 
     const parsedAttributeTypeReferenceSection = {
       typeReference: typeReference,
-      underlyingType: underlyingType
+      typeName: typeReferenceSection,
+      underlyingType: underlyingType,
+      conformingProtocol: protocolSection
     };
     return mona.value(parsedAttributeTypeReferenceSection);
   });
@@ -172,8 +177,10 @@ function foundAttributeFromParsedSequences(comments, parsedAnnotations, attribut
     name: attributeNameValuePair.attributeNameSection,
     annotations: hashWithoutKeys(parsedAnnotations, {'singleAttributeSubtype': true}),
     type: {
-      reference:typeReference,
-      underlyingType: attributeTypeReferenceSection.underlyingType
+      name: attributeTypeReferenceSection.typeName,
+      reference: typeReference,
+      underlyingType: attributeTypeReferenceSection.underlyingType,
+      conformingProtocol: attributeTypeReferenceSection.conformingProtocol
     },
   };
 }

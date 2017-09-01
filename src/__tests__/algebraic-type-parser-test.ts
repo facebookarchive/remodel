@@ -43,6 +43,7 @@ describe('AlgebraicTypeParser', function() {
                 fileTypeIsDefinedIn:Maybe.Nothing<string>(),
                 libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
                 underlyingType:Maybe.Nothing<string>(),
+                conformingProtocol:Maybe.Nothing<string>(),
                 reference: 'uint64_t',
                 name: 'uint64_t'
                 },
@@ -77,6 +78,7 @@ describe('AlgebraicTypeParser', function() {
                 fileTypeIsDefinedIn:Maybe.Nothing<string>(),
                 libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
                 underlyingType:Maybe.Just('NSObject'),
+                conformingProtocol:Maybe.Nothing<string>(),
                 reference: 'RMObject*',
                 name: 'RMObject'
                 },
@@ -139,6 +141,7 @@ describe('AlgebraicTypeParser', function() {
                 fileTypeIsDefinedIn:Maybe.Just('RMSomeOtherFile'),
                 libraryTypeIsDefinedIn:Maybe.Just('RMCustomLibrary'),
                 underlyingType:Maybe.Just('NSObject'),
+                conformingProtocol:Maybe.Nothing<string>(),
                 reference: 'RMObject*',
                 name: 'RMObject'
                 },
@@ -202,7 +205,8 @@ describe('AlgebraicTypeParser', function() {
                   libraryTypeIsDefinedIn:Maybe.Just('RMCustomLibrary'),
                   name:'RMBlah',
                   reference: 'RMBlah*',
-                  underlyingType:Maybe.Just<string>('NSObject')
+                  underlyingType:Maybe.Just<string>('NSObject'),
+                  conformingProtocol:Maybe.Nothing<string>()
                 }
               },
               {
@@ -215,7 +219,8 @@ describe('AlgebraicTypeParser', function() {
                   libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
                   name:'RMSomeValue',
                   reference: 'RMSomeValue',
-                  underlyingType:Maybe.Just('BOOL')
+                  underlyingType:Maybe.Just('BOOL'),
+                  conformingProtocol:Maybe.Nothing<string>()
                 }
               },
             ]
@@ -264,7 +269,8 @@ describe('AlgebraicTypeParser', function() {
                   libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
                   name:'RMBlah',
                   reference: 'RMBlah*',
-                  underlyingType:Maybe.Just<string>('NSObject')
+                  underlyingType:Maybe.Just<string>('NSObject'),
+                  conformingProtocol:Maybe.Nothing<string>()
                 }
               },
               {
@@ -283,7 +289,8 @@ describe('AlgebraicTypeParser', function() {
                   libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
                   name:'RMBlah',
                   reference: 'RMBlah*',
-                  underlyingType:Maybe.Just<string>('NSObject')
+                  underlyingType:Maybe.Just<string>('NSObject'),
+                  conformingProtocol:Maybe.Nothing<string>()
                 }
               },
             ]

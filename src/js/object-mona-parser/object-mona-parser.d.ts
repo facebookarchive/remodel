@@ -56,8 +56,10 @@ export interface AlgebraicTypeParseResult {
 
 export interface ParsedAttributeType {
   isNSObject:boolean;
+  name:string;
   reference:string;
   underlyingType:string;
+  conformingProtocol:string;
 }
 
 export interface ParsedAttribute {

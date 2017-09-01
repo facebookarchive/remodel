@@ -35,9 +35,10 @@ function foundAttributeTypeFromParsedAttributeType(type:ObjectMonaParser.ParsedA
   return {
     fileTypeIsDefinedIn:ObjectGenerationParsingUtils.valueFromImportAnnotationFromAnnotations(annotations, 'file'),
     libraryTypeIsDefinedIn:ObjectGenerationParsingUtils.valueFromImportAnnotationFromAnnotations(annotations, 'library'),
-    name:type.reference.replace('*',''),
+    name:type.name,
     reference:type.reference,
-    underlyingType:underlyingTypeForType(type.underlyingType, type.reference)
+    underlyingType:underlyingTypeForType(type.underlyingType, type.reference),
+    conformingProtocol: ObjectGenerationParsingUtils.possiblyUndefinedStringToMaybe(type.conformingProtocol)
   };
 }
 

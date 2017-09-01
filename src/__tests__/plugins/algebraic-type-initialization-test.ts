@@ -138,7 +138,8 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
                   reference: 'Foo *',
                   libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
                   fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-                  underlyingType: Maybe.Just<string>('NSObject')
+                  underlyingType: Maybe.Just<string>('NSObject'),
+                  conformingProtocol: Maybe.Nothing<string>()
                 }
               },
               {
@@ -151,7 +152,8 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
                   reference: 'BOOL',
                   libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
                   fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-                  underlyingType: Maybe.Nothing<string>()
+                  underlyingType: Maybe.Nothing<string>(),
+                  conformingProtocol: Maybe.Nothing<string>()
                 }
               }
             ]
@@ -167,7 +169,8 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
               reference: 'SingleAttributeType *',
               libraryTypeIsDefinedIn: Maybe.Just('SomeLib'),
               fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-              underlyingType: Maybe.Just<string>('NSObject')
+              underlyingType: Maybe.Just<string>('NSObject'),
+              conformingProtocol: Maybe.Nothing<string>()
             }
           })
         ]
@@ -221,7 +224,8 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
               reference: 'Foo *',
               libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
               fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-              underlyingType: Maybe.Just<string>('NSObject')
+              underlyingType: Maybe.Just<string>('NSObject'),
+              conformingProtocol: Maybe.Nothing<string>()
             }
           })
         ]
@@ -309,7 +313,8 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
                   reference: 'NSString *',
                   libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
                   fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-                  underlyingType: Maybe.Just<string>('NSObject')
+                  underlyingType: Maybe.Just<string>('NSObject'),
+                  conformingProtocol: Maybe.Nothing<string>()
                 }
               },
               {
@@ -322,7 +327,8 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
                   reference: 'NSUInteger',
                   libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
                   fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-                  underlyingType: Maybe.Nothing<string>()
+                  underlyingType: Maybe.Nothing<string>(),
+                  conformingProtocol: Maybe.Nothing<string>()
                 }
               }
             ]
@@ -338,7 +344,8 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
               reference: 'SingleAttributeType *',
               libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
               fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-              underlyingType: Maybe.Just<string>('NSObject')
+              underlyingType: Maybe.Just<string>('NSObject'),
+              conformingProtocol: Maybe.Nothing<string>()
             }
           })
         ]
@@ -444,7 +451,8 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
                   reference: 'NSString *',
                   libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
                   fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-                  underlyingType: Maybe.Just<string>('NSObject')
+                  underlyingType: Maybe.Just<string>('NSObject'),
+                  conformingProtocol: Maybe.Nothing<string>()
                 }
               },
               {
@@ -457,7 +465,8 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
                   reference: 'NSUInteger',
                   libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
                   fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-                  underlyingType: Maybe.Nothing<string>()
+                  underlyingType: Maybe.Nothing<string>(),
+                  conformingProtocol: Maybe.Nothing<string>()
                 }
               }
             ]
@@ -473,7 +482,8 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
               reference: 'SingleAttributeType *',
               libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
               fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-              underlyingType: Maybe.Just<string>('NSObject')
+              underlyingType: Maybe.Just<string>('NSObject'),
+              conformingProtocol: Maybe.Nothing<string>()
             }
           })
         ]
@@ -552,7 +562,8 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
                   reference: 'NSString *',
                   libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
                   fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-                  underlyingType: Maybe.Just<string>('NSObject')
+                  underlyingType: Maybe.Just<string>('NSObject'),
+                  conformingProtocol: Maybe.Nothing<string>()
                 }
               },
               {
@@ -565,7 +576,8 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
                   reference: 'NSUInteger',
                   libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
                   fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-                  underlyingType: Maybe.Nothing<string>()
+                  underlyingType: Maybe.Nothing<string>(),
+                  conformingProtocol: Maybe.Nothing<string>()
                 }
               }
             ]
@@ -581,7 +593,8 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
               reference: 'SingleAttributeType *',
               libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
               fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-              underlyingType: Maybe.Just<string>('NSObject')
+              underlyingType: Maybe.Just<string>('NSObject'),
+              conformingProtocol: Maybe.Nothing<string>()
             }
           })
         ]
@@ -655,7 +668,8 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
                   reference: 'Foo *',
                   libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
                   fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-                  underlyingType: Maybe.Nothing<string>()
+                  underlyingType: Maybe.Nothing<string>(),
+                  conformingProtocol: Maybe.Nothing<string>()
                 }
               }
             ]
@@ -675,7 +689,8 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
                   reference: 'Foo *',
                   libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
                   fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-                  underlyingType: Maybe.Nothing<string>()
+                  underlyingType: Maybe.Nothing<string>(),
+                  conformingProtocol: Maybe.Nothing<string>()
                 }
               }
             ]
@@ -710,7 +725,8 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
             reference: 'SingleAttributeType *',
             libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
             fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-            underlyingType: Maybe.Just<string>('NSObject')
+            underlyingType: Maybe.Just<string>('NSObject'),
+            conformingProtocol: Maybe.Nothing<string>()
           }
         }),
         AlgebraicType.Subtype.SingleAttributeSubtypeDefinition(
@@ -724,7 +740,8 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
             reference: 'SingleAttributeType *',
             libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
             fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-            underlyingType: Maybe.Just<string>('NSObject')
+            underlyingType: Maybe.Just<string>('NSObject'),
+            conformingProtocol: Maybe.Nothing<string>()
           }
         })
         ]
@@ -761,7 +778,8 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
                 reference: 'Foo *',
                 libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
                 fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-                underlyingType: Maybe.Nothing<string>()
+                underlyingType: Maybe.Nothing<string>(),
+                conformingProtocol: Maybe.Nothing<string>()
               }
             }
           ]
@@ -777,7 +795,8 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
             reference: 'NSString *',
             libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
             fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-            underlyingType: Maybe.Nothing<string>()
+            underlyingType: Maybe.Nothing<string>(),
+            conformingProtocol: Maybe.Nothing<string>()
           }
         })
         ]
@@ -817,7 +836,8 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
                 reference: 'Test *',
                 libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
                 fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-                underlyingType: Maybe.Nothing<string>()
+                underlyingType: Maybe.Nothing<string>(),
+                conformingProtocol: Maybe.Nothing<string>()
               }
             }
           ]
@@ -864,7 +884,8 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
                 reference: 'Foo *',
                 libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
                 fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-                underlyingType: Maybe.Nothing<string>()
+                underlyingType: Maybe.Nothing<string>(),
+                conformingProtocol: Maybe.Nothing<string>()
               }
             }
           ]
@@ -904,7 +925,8 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
                 reference: 'AnotherTest *',
                 libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
                 fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-                underlyingType: Maybe.Nothing<string>()
+                underlyingType: Maybe.Nothing<string>(),
+                conformingProtocol: Maybe.Nothing<string>()
               }
             }
           ]

@@ -62,7 +62,7 @@ Facebook has a [bounty program](https://www.facebook.com/whitehat/) for the safe
 ## Coding Style
 
 * 2 spaces for indentation rather than tabs
-* Remodel is written in a functional style, which means generally means preferring immutable state and keeping that state separated from behavior.
+* Remodel is written in a functional style, which generally means preferring immutable state and keeping that state separated from behavior.
 
 ## License
 

@@ -50,6 +50,7 @@ describe('ObjCRenderer', function() {
                   'return [[RMSomeValue alloc] init];'
                 ],
                 comments: [],
+                compilerAttributes:[],
                 keywords: [
                   {
                     name:'someClassMethodWithValue1',
@@ -95,6 +96,7 @@ describe('ObjCRenderer', function() {
                   'return self;'
                 ],
                 comments:[],
+                compilerAttributes:[],
                 keywords: [
                   {
                     name:'initWithValue1',
@@ -130,6 +132,7 @@ describe('ObjCRenderer', function() {
                   'return 0;'
                 ],
                 comments:[],
+                compilerAttributes:[],
                 keywords: [
                   {
                     name:'hash',
@@ -280,6 +283,7 @@ describe('ObjCRenderer', function() {
                   'return [[RMSomeValue alloc] init];'
                 ],
                 comments: [],
+                compilerAttributes:[],
                 keywords: [
                   {
                     name:'someClassMethodWithValue1',
@@ -323,6 +327,7 @@ describe('ObjCRenderer', function() {
                   'return self;'
                 ],
                 comments: [],
+                compilerAttributes:[],
                 keywords: [
                   {
                     name:'initWithValue1',
@@ -358,6 +363,7 @@ describe('ObjCRenderer', function() {
                   'return 0;'
                 ],
                 comments: [],
+                compilerAttributes:[],
                 keywords: [
                   {
                     name:'hash',
@@ -483,6 +489,7 @@ describe('ObjCRenderer', function() {
                   'return [[RMSomeValue alloc] init];'
                 ],
                 comments: [],
+                compilerAttributes:[],
                 keywords: [
                   {
                     name:'someClassMethodWithValue1',
@@ -526,6 +533,7 @@ describe('ObjCRenderer', function() {
                   'return self;'
                 ],
                 comments: [],
+                compilerAttributes:[],
                 keywords: [
                   {
                     name:'initWithValue1',
@@ -561,6 +569,7 @@ describe('ObjCRenderer', function() {
                   'return 0;'
                 ],
                 comments: [],
+                compilerAttributes:[],
                 keywords: [
                   {
                     name:'hash',
@@ -689,6 +698,7 @@ describe('ObjCRenderer', function() {
                   'return self;'
                 ],
                 comments: [],
+                compilerAttributes:[],
                 keywords: [
                   {
                     name:'initWithValue',
@@ -735,6 +745,7 @@ describe('ObjCRenderer', function() {
                   'return 0;'
                 ],
                 comments: [],
+                compilerAttributes:[],
                 keywords: [
                   {
                     name:'hash',
@@ -845,6 +856,7 @@ describe('ObjCRenderer', function() {
                   'return self;'
                 ],
                 comments: [],
+                compilerAttributes:[],
                 keywords: [
                   {
                     name:'initWithValue1',
@@ -878,6 +890,7 @@ describe('ObjCRenderer', function() {
                 belongsToProtocol:Maybe.Just('NSObject'),
                 code:['return 0;'],
                 comments: [],
+                compilerAttributes:[],
                 keywords: [
                   {
                     name:'hash',
@@ -1540,6 +1553,7 @@ describe('ObjCRenderer', function() {
                 belongsToProtocol:Maybe.Nothing<string>(),
                 code:[],
                 comments: [ { content: '// Check this method out!!!!' }],
+                compilerAttributes:[],
                 keywords: [
                   {
                     name:'doSomething',
@@ -1658,6 +1672,118 @@ describe('ObjCRenderer', function() {
 
       expect(renderedOutput).toEqualJSON(expectedOutput);
     });
+
+    it('renders a header containing the given method compiler attributes', function() {
+      const fileToRender:Code.File = {
+        name: 'RMSomeValue',
+        type: Code.FileType.ObjectiveC(),
+        imports:[],
+        comments:[],
+        enumerations: [],
+        blockTypes:[],
+        staticConstants: [],
+        functions: [],
+        forwardDeclarations: [],
+        diagnosticIgnores:[],
+        classes: [
+          {
+            baseClassName:'NSObject',
+            classMethods: [],
+            comments:[],
+            instanceMethods: [
+              {
+                belongsToProtocol:Maybe.Nothing<string>(),
+                code:[
+                  'if (self = [super init]) {',
+                  '  _value1 = value1;',
+                  '  _value2 = value2;',
+                  '}',
+                  '',
+                  'return self;'
+                ],
+                comments:[],
+                compilerAttributes:[
+                  'NS_DESIGNATED_INITIALIZER'
+                ],
+                keywords: [
+                  {
+                    name:'initWithValue1',
+                    argument:Maybe.Just({
+                      name:'value1',
+                      modifiers: [],
+                      type: {
+                        name:'RMSomething',
+                        reference:'RMSomething *'
+                      }
+                    })
+                  },
+                  {
+                    name:'value2',
+                    argument:Maybe.Just({
+                      name:'value2',
+                      modifiers: [],
+                      type: {
+                        name:'RMSomething',
+                        reference:'RMSomething *'
+                      }
+                    })
+                  }
+                ],
+                returnType: Maybe.Just({
+                  name:'instancetype',
+                  reference:'instancetype'
+                })
+              }
+            ],
+            name:'RMSomeValue',
+            properties: [
+              {
+                comments:[],
+                modifiers:[ObjC.PropertyModifier.Nonatomic(), ObjC.PropertyModifier.Readonly()],
+                access: ObjC.PropertyAccess.Public(),
+                name:'value1',
+                returnType: {
+                  name:'RMSomething',
+                  reference:'RMSomething *'
+                }
+              },
+              {
+                comments:[],
+                modifiers:[ObjC.PropertyModifier.Nonatomic(), ObjC.PropertyModifier.Readonly()],
+                access: ObjC.PropertyAccess.Public(),
+                name:'value2',
+                returnType: {
+                  name:'RMSomething',
+                  reference:'RMSomething *'
+                }
+              }
+            ],
+            internalProperties:[],
+            implementedProtocols:[],
+            nullability: ObjC.ClassNullability.default
+          }
+        ],
+        structs: [],
+        namespaces: []
+      };
+
+      const renderedOutput:Maybe.Maybe<string> = ObjCRenderer.renderHeader(fileToRender);
+
+      const expectedOutput:Maybe.Maybe<string> = Maybe.Just<string>(
+        '@interface RMSomeValue : NSObject\n' +
+        '\n' +
+        '@property (nonatomic, readonly) RMSomething *value1;\n' +
+        '@property (nonatomic, readonly) RMSomething *value2;\n' +
+        '\n' +
+        '- (instancetype)initWithValue1:(RMSomething *)value1 value2:(RMSomething *)value2 NS_DESIGNATED_INITIALIZER;\n' +
+        '\n' +
+        '@end\n' +
+        '\n'
+      );
+
+      expect(renderedOutput).toEqualJSON(expectedOutput);
+    });
+
   });
 
   describe('#renderImplementation', function() {
@@ -1693,6 +1819,7 @@ describe('ObjCRenderer', function() {
                   'return [[RMSomeValue alloc] init];'
                 ],
                 comments: [],
+                compilerAttributes:[],
                 keywords: [
                   {
                     name:'someClassMethodWithValue1',
@@ -1736,6 +1863,7 @@ describe('ObjCRenderer', function() {
                   'return self;'
                 ],
                 comments: [],
+                compilerAttributes:[],
                 keywords: [
                   {
                     name:'initWithValue1',
@@ -1950,6 +2078,7 @@ describe('ObjCRenderer', function() {
               'return self;'
             ],
             comments: [],
+            compilerAttributes:[],
             keywords: [
             {
               name:'initWithValue1',

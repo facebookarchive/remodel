@@ -102,6 +102,7 @@ function initializationClassMethodForSubtype(algebraicType:AlgebraicType.Type, s
     belongsToProtocol:Maybe.Nothing<string>(),
     code: openingCode.concat(setterStatements).concat('return object;'),
     comments:[],
+    compilerAttributes:[],
     keywords: keywordsForSubtype(subtype),
     returnType: Maybe.Just<ObjC.Type>({
       name: 'instancetype',

@@ -79,6 +79,7 @@ describe('Plugins.ImmutableProperties', function() {
             'return self;'
           ],
           comments: [],
+          compilerAttributes:["NS_DESIGNATED_INITIALIZER"],
           keywords: [
             {
               name:'initWithValue',
@@ -143,6 +144,7 @@ describe('Plugins.ImmutableProperties', function() {
             'return self;'
           ],
           comments: [],
+          compilerAttributes:["NS_DESIGNATED_INITIALIZER"],
           keywords: [
             {
               name:'initWithValue',
@@ -252,6 +254,7 @@ describe('Plugins.ImmutableProperties', function() {
             'return self;'
           ],
           comments: [],
+          compilerAttributes:["NS_DESIGNATED_INITIALIZER"],
           keywords: [
             {
               name:'initWithValue',
@@ -394,6 +397,7 @@ describe('Plugins.ImmutableProperties', function() {
             'return self;'
           ],
           comments: [],
+          compilerAttributes:["NS_DESIGNATED_INITIALIZER"],
           keywords: [
             {
               name:'initWithValue',

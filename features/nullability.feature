@@ -25,7 +25,7 @@ Feature: Outputting Objects With Nullability Annotations
       @property (nonatomic, readonly, copy, nullable) NSString *name;
       @property (nonatomic, readonly, copy, nonnull) NSString *identifier;
 
-      - (instancetype)initWithName:(nullable NSString *)name identifier:(nonnull NSString *)identifier;
+      - (instancetype)initWithName:(nullable NSString *)name identifier:(nonnull NSString *)identifier NS_DESIGNATED_INITIALIZER;
 
       @end
 

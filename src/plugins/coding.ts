@@ -92,6 +92,7 @@ function decodeMethodWithCode(code:string[]):ObjC.Method {
     belongsToProtocol:Maybe.Just<string>('NSCoding'),
     code: initBlockWithInternalCode(code),
     comments:[],
+    compilerAttributes:[],
     keywords: [
       {
         name: 'initWithCoder',
@@ -117,6 +118,7 @@ function encodeMethodWithCode(code:string[]):ObjC.Method {
     belongsToProtocol:Maybe.Just('NSCoding'),
     code: code,
     comments:[],
+    compilerAttributes:[],
     keywords: [
       {
         name: 'encodeWithCoder',

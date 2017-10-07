@@ -253,6 +253,7 @@ function descriptionInstanceMethodWithCode(code:string[]):ObjC.Method {
     belongsToProtocol:Maybe.Just('NSObject'),
     code: code,
     comments:[],
+    compilerAttributes:[],
     keywords: [
       {
         name: 'description',

@@ -77,6 +77,7 @@ describe('Plugins.Builder', function() {
                     'return [[FooBarBazBuilder alloc] init];'
                   ],
                   comments: [],
+                  compilerAttributes:[],
                   keywords: [
                     {
                       name:'fooBarBaz',
@@ -94,6 +95,7 @@ describe('Plugins.Builder', function() {
                     'return [FooBarBazBuilder fooBarBaz];',
                   ],
                   comments: [],
+                  compilerAttributes:[],
                   keywords: [
                     {
                       name:'fooBarBazFromExistingFooBarBaz',
@@ -121,6 +123,7 @@ describe('Plugins.Builder', function() {
                     'return [[FooBarBaz alloc] init];'
                   ],
                   comments: [],
+                  compilerAttributes:[],
                   keywords: [
                     {
                       name:'build',
@@ -204,6 +207,7 @@ describe('Plugins.Builder', function() {
                     'return [[RMFerrBuilder alloc] init];'
                   ],
                   comments: [],
+                  compilerAttributes:[],
                   keywords: [
                     {
                       name:'ferr',
@@ -221,6 +225,7 @@ describe('Plugins.Builder', function() {
                     'return [RMFerrBuilder ferr];'
                   ],
                   comments: [],
+                  compilerAttributes:[],
                   keywords: [
                     {
                       name:'ferrFromExistingFerr',
@@ -248,6 +253,7 @@ describe('Plugins.Builder', function() {
                     'return [[RMFerr alloc] init];'
                   ],
                   comments: [],
+                  compilerAttributes:[],
                   keywords: [
                     {
                       name:'build',
@@ -380,6 +386,7 @@ describe('Plugins.Builder', function() {
                     'return [[RMFerrBuilder alloc] init];'
                   ],
                   comments: [],
+                  compilerAttributes:[],
                   keywords: [
                     {
                       name:'ferr',
@@ -400,6 +407,7 @@ describe('Plugins.Builder', function() {
                     '        withSomeBool:existingFerr.someBool];'
                   ],
                   comments: [],
+                  compilerAttributes:[],
                   keywords: [
                     {
                       name:'ferrFromExistingFerr',
@@ -427,6 +435,7 @@ describe('Plugins.Builder', function() {
                     'return [[RMFerr alloc] initWithSomeUnsignedInteger:_someUnsignedInteger someCustomObject:_someCustomObject someBool:_someBool];'
                   ],
                   comments: [],
+                  compilerAttributes:[],
                   keywords: [
                     {
                       name:'build',
@@ -445,6 +454,7 @@ describe('Plugins.Builder', function() {
                     'return self;'
                   ],
                   comments: [],
+                  compilerAttributes:[],
                   keywords: [
                     {
                       name:'withSomeUnsignedInteger',
@@ -470,6 +480,7 @@ describe('Plugins.Builder', function() {
                     'return self;'
                   ],
                   comments: [],
+                  compilerAttributes:[],
                   keywords: [
                     {
                       name:'withSomeCustomObject',
@@ -495,6 +506,7 @@ describe('Plugins.Builder', function() {
                     'return self;'
                   ],
                   comments: [],
+                  compilerAttributes:[],
                   keywords: [
                     {
                       name:'withSomeBool',
@@ -665,6 +677,7 @@ describe('Plugins.Builder', function() {
                     'return [[RMFerrBuilder alloc] init];'
                   ],
                   comments: [],
+                  compilerAttributes:[],
                   keywords: [
                     {
                       name:'ferr',
@@ -685,6 +698,7 @@ describe('Plugins.Builder', function() {
                     '        withSomeBool:existingFerr.someBool];'
                   ],
                   comments: [],
+                  compilerAttributes:[],
                   keywords: [
                     {
                       name:'ferrFromExistingFerr',
@@ -712,6 +726,7 @@ describe('Plugins.Builder', function() {
                     'return [[RMFerr alloc] initWithSomeUnsignedInteger:_someUnsignedInteger someCustomObject:_someCustomObject someBool:_someBool];'
                   ],
                   comments: [],
+                  compilerAttributes:[],
                   keywords: [
                     {
                       name:'build',
@@ -730,6 +745,7 @@ describe('Plugins.Builder', function() {
                     'return self;'
                   ],
                   comments: [],
+                  compilerAttributes:[],
                   keywords: [
                     {
                       name:'withSomeUnsignedInteger',
@@ -755,6 +771,7 @@ describe('Plugins.Builder', function() {
                     'return self;'
                   ],
                   comments: [],
+                  compilerAttributes:[],
                   keywords: [
                     {
                       name:'withSomeCustomObject',
@@ -780,6 +797,7 @@ describe('Plugins.Builder', function() {
                     'return self;'
                   ],
                   comments: [],
+                  compilerAttributes:[],
                   keywords: [
                     {
                       name:'withSomeBool',

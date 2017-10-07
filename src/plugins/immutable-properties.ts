@@ -77,6 +77,7 @@ function initializerFromAttributes(supportsValueSemantics:boolean, attributes:Ob
     belongsToProtocol: Maybe.Nothing<string>(),
     code: initializerCodeFromAttributes(supportsValueSemantics, attributes),
     comments:[],
+    compilerAttributes:["NS_DESIGNATED_INITIALIZER"],
     keywords: keywords,
     returnType: Maybe.Just({
       name: 'instancetype',

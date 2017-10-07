@@ -214,6 +214,7 @@ describe('Plugins.AlgebraicTypeFunctionMatching', function() {
           '  }',
           '}'
         ],
+        compilerAttributes:[],
         comments: [],
         keywords: [
           {

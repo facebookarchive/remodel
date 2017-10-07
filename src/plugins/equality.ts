@@ -634,6 +634,7 @@ function isEqualInstanceMethod(typeName:string, generatedTypeEqualityInformation
     ],
     code: code,
     comments:[],
+    compilerAttributes:[],
     returnType: Maybe.Just({
       name: 'BOOL',
       reference: 'BOOL'
@@ -674,6 +675,7 @@ function hashInstanceMethod(generatedTypeEqualityInformation:GeneratedTypeEquali
       'return result;'
     ],
     comments:[],
+    compilerAttributes:[],
     returnType: Maybe.Just({
       name: 'NSUInteger',
       reference: 'NSUInteger'

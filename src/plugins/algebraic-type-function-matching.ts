@@ -40,6 +40,7 @@ function instanceMethodForMatchingSubtypesOfAlgebraicType(algebraicType:Algebrai
     belongsToProtocol:Maybe.Nothing<string>(),
     code: matcherCodeForAlgebraicType(algebraicType),
     comments: [],
+    compilerAttributes:[],
     keywords: instanceMethodKeywordsForMatchingSubtypesOfAlgebraicType(algebraicType),
     returnType: Maybe.Nothing<ObjC.Type>()
   };

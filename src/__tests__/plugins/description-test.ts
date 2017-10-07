@@ -256,6 +256,7 @@ describe('ObjectSpecPlugins.Description', function() {
               'return [NSString stringWithFormat:@"%@ - \\n\\t doesUserLike: %@; \\n", [super description], _doesUserLike ? @"YES" : @"NO"];'
             ],
             comments: [],
+            compilerAttributes:[],
             keywords: [
               {
                 name: 'description',
@@ -308,6 +309,7 @@ describe('ObjectSpecPlugins.Description', function() {
               'return [NSString stringWithFormat:@"%@ - \\n\\t name: %@; \\n", [super description], _name];'
             ],
             comments: [],
+            compilerAttributes:[],
             keywords: [
               {
                 name: 'description',
@@ -360,6 +362,7 @@ describe('ObjectSpecPlugins.Description', function() {
               'return [NSString stringWithFormat:@"%@ - \\n\\t something: %@; \\n", [super description], _something];'
             ],
             comments: [],
+            compilerAttributes:[],
             keywords: [
               {
                 name: 'description',
@@ -412,6 +415,7 @@ describe('ObjectSpecPlugins.Description', function() {
               'return [NSString stringWithFormat:@"%@ - \\n\\t age: %zd; \\n", [super description], _age];'
             ],
             comments: [],
+            compilerAttributes:[],
             keywords: [
               {
                 name: 'description',
@@ -464,6 +468,7 @@ describe('ObjectSpecPlugins.Description', function() {
               'return [NSString stringWithFormat:@"%@ - \\n\\t age: %tu; \\n", [super description], _age];'
             ],
             comments: [],
+            compilerAttributes:[],
             keywords: [
               {
                 name: 'description',
@@ -516,6 +521,7 @@ describe('ObjectSpecPlugins.Description', function() {
               'return [NSString stringWithFormat:@"%@ - \\n\\t age: %lf; \\n", [super description], _age];'
             ],
             comments: [],
+            compilerAttributes:[],
             keywords: [
               {
                 name: 'description',
@@ -568,6 +574,7 @@ describe('ObjectSpecPlugins.Description', function() {
               'return [NSString stringWithFormat:@"%@ - \\n\\t age: %f; \\n", [super description], _age];'
             ],
             comments: [],
+            compilerAttributes:[],
             keywords: [
               {
                 name: 'description',
@@ -620,6 +627,7 @@ describe('ObjectSpecPlugins.Description', function() {
               'return [NSString stringWithFormat:@"%@ - \\n\\t age: %f; \\n", [super description], _age];'
             ],
             comments: [],
+            compilerAttributes:[],
             keywords: [
               {
                 name: 'description',
@@ -672,6 +680,7 @@ describe('ObjectSpecPlugins.Description', function() {
               'return [NSString stringWithFormat:@"%@ - \\n\\t age: %lf; \\n", [super description], _age];'
             ],
             comments: [],
+            compilerAttributes:[],
             keywords: [
               {
                 name: 'description',
@@ -724,6 +733,7 @@ describe('ObjectSpecPlugins.Description', function() {
               'return [NSString stringWithFormat:@"%@ - \\n\\t age: %ld; \\n", [super description], _age];'
             ],
             comments: [],
+            compilerAttributes:[],
             keywords: [
               {
                 name: 'description',
@@ -776,6 +786,7 @@ describe('ObjectSpecPlugins.Description', function() {
               'return [NSString stringWithFormat:@"%@ - \\n\\t age: %llu; \\n", [super description], _age];'
             ],
             comments: [],
+            compilerAttributes:[],
             keywords: [
               {
                 name: 'description',
@@ -828,6 +839,7 @@ describe('ObjectSpecPlugins.Description', function() {
               'return [NSString stringWithFormat:@"%@ - \\n\\t age: %d; \\n", [super description], _age];'
             ],
             comments: [],
+            compilerAttributes:[],
             keywords: [
               {
                 name: 'description',
@@ -880,6 +892,7 @@ describe('ObjectSpecPlugins.Description', function() {
               'return [NSString stringWithFormat:@"%@ - \\n\\t age: %lld; \\n", [super description], _age];'
             ],
             comments: [],
+            compilerAttributes:[],
             keywords: [
               {
                 name: 'description',
@@ -933,6 +946,7 @@ describe('ObjectSpecPlugins.Description', function() {
               'return [NSString stringWithFormat:@"%@ - \\n\\t age: %tu; \\n", [super description], _age];'
             ],
             comments: [],
+            compilerAttributes:[],
             keywords: [
               {
                 name: 'description',
@@ -985,6 +999,7 @@ describe('ObjectSpecPlugins.Description', function() {
               'return [NSString stringWithFormat:@"%@ - \\n\\t action: %@; \\n", [super description], NSStringFromSelector(_action)];'
             ],
             comments: [],
+            compilerAttributes:[],
             keywords: [
               {
                 name: 'description',
@@ -1037,6 +1052,7 @@ describe('ObjectSpecPlugins.Description', function() {
               'return [NSString stringWithFormat:@"%@ - \\n\\t range: %@; \\n", [super description], NSStringFromRange(_range)];'
             ],
             comments: [],
+            compilerAttributes:[],
             keywords: [
               {
                 name: 'description',
@@ -1089,6 +1105,7 @@ describe('ObjectSpecPlugins.Description', function() {
               'return [NSString stringWithFormat:@"%@ - \\n\\t rect: %@; \\n", [super description], NSStringFromCGRect(_rect)];'
             ],
             comments: [],
+            compilerAttributes:[],
             keywords: [
               {
                 name: 'description',
@@ -1141,6 +1158,7 @@ describe('ObjectSpecPlugins.Description', function() {
               'return [NSString stringWithFormat:@"%@ - \\n\\t origin: %@; \\n", [super description], NSStringFromCGPoint(_origin)];'
             ],
             comments: [],
+            compilerAttributes:[],
             keywords: [
               {
                 name: 'description',
@@ -1193,6 +1211,7 @@ describe('ObjectSpecPlugins.Description', function() {
               'return [NSString stringWithFormat:@"%@ - \\n\\t size: %@; \\n", [super description], NSStringFromCGSize(_size)];'
             ],
             comments: [],
+            compilerAttributes:[],
             keywords: [
               {
                 name: 'description',
@@ -1244,6 +1263,7 @@ describe('ObjectSpecPlugins.Description', function() {
               'return [NSString stringWithFormat:@"%@ - \\n\\t insets: %@; \\n", [super description], NSStringFromUIEdgeInsets(_insets)];'
             ],
             comments: [],
+            compilerAttributes:[],
             keywords: [
               {
                 name: 'description',
@@ -1419,6 +1439,7 @@ describe('AlgebraicTypePlugins.Description', function() {
             '}'
           ],
           comments: [],
+          compilerAttributes:[],
           keywords: [
             {
               name: 'description',

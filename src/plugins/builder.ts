@@ -37,6 +37,7 @@ function builderClassMethodForValueType(objectType:ObjectSpec.Type):ObjC.Method 
       'return [[' + nameOfBuilderForValueTypeWithName(objectType.typeName) + ' alloc] init];'
     ],
     comments:[],
+    compilerAttributes:[],
     keywords: [
       {
         name: shortNameOfObjectToBuildForValueTypeWithName(objectType.typeName),
@@ -94,6 +95,7 @@ function builderFromExistingObjectClassMethodForValueType(objectType:ObjectSpec.
     belongsToProtocol:Maybe.Just('NSObject'),
     code: codeForBuilderFromExistingObjectClassMethodForValueType(objectType),
     comments:[],
+    compilerAttributes:[],
     keywords: [
       {
         name: shortNameOfObjectToBuildForValueTypeWithName(objectType.typeName) + 'FromExisting' + StringUtils.capitalize(shortNameOfObjectToBuildForValueTypeWithName(objectType.typeName)),
@@ -125,6 +127,7 @@ function buildObjectInstanceMethodForValueType(objectType:ObjectSpec.Type):ObjC.
       'return ' + ObjectSpecCodeUtils.methodInvocationForConstructor(objectType, valueGeneratorForInvokingInitializerWithAttribute) + ';'
     ],
     comments:[],
+    compilerAttributes:[],
     keywords: [
       {
         name:'build',
@@ -163,6 +166,7 @@ function withInstanceMethodForAttribute(supportsValueSemantics:boolean, attribut
       'return self;'
     ],
     comments:[],
+    compilerAttributes:[],
     keywords: [
       {
         name: keywordNameForAttribute(attribute),

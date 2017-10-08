@@ -48,6 +48,7 @@ const BASE_INCLUDES:List.List<string> = List.of(
   'RMCopying',
   'RMDescription',
   'RMEquality',
+  'RMInitNewUnavailable',
   'FunctionMatching'
 );
 
@@ -58,6 +59,7 @@ const BASE_PLUGINS:List.List<string> = List.of(
   'copying',
   'description',
   'equality',
+  'init-new-unavailable',
   'use-cpp',
   'algebraic-type-function-matching',
   'algebraic-type-templated-matching'

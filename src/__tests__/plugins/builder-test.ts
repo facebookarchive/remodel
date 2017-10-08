@@ -90,7 +90,7 @@ describe('Plugins.Builder', function() {
                   })
                 },
                 {
-                  belongsToProtocol:Maybe.Just('NSObject'),
+                  belongsToProtocol:Maybe.Nothing<string>(),
                   code:[
                     'return [FooBarBazBuilder fooBarBaz];',
                   ],
@@ -220,7 +220,7 @@ describe('Plugins.Builder', function() {
                   })
                 },
                 {
-                  belongsToProtocol:Maybe.Just('NSObject'),
+                  belongsToProtocol:Maybe.Nothing<string>(),
                   code:[
                     'return [RMFerrBuilder ferr];'
                   ],
@@ -399,7 +399,7 @@ describe('Plugins.Builder', function() {
                   })
                 },
                 {
-                  belongsToProtocol:Maybe.Just('NSObject'),
+                  belongsToProtocol:Maybe.Nothing<string>(),
                   code:[
                     'return [[[[RMFerrBuilder ferr]',
                     '          withSomeUnsignedInteger:existingFerr.someUnsignedInteger]',
@@ -690,7 +690,7 @@ describe('Plugins.Builder', function() {
                   })
                 },
                 {
-                  belongsToProtocol:Maybe.Just('NSObject'),
+                  belongsToProtocol:Maybe.Nothing<string>(),
                   code:[
                     'return [[[[RMFerrBuilder ferr]',
                     '          withSomeUnsignedInteger:existingFerr.someUnsignedInteger]',

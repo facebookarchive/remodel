@@ -16,6 +16,7 @@ export const VALUE_OBJECT_DEFAULT_CONFIG = {
     'RMDescription',
     'RMEquality',
     'RMImmutableProperties',
+    'RMInitNewUnavailable',
     'RMValueObjectSemantics'
   ),
   basePlugins: List.of(
@@ -27,6 +28,7 @@ export const VALUE_OBJECT_DEFAULT_CONFIG = {
     'equality',
     'fetch-status',
     'immutable-properties',
+    'init-new-unavailable',
     'use-cpp'
   )
 };

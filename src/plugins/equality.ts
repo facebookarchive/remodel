@@ -973,6 +973,9 @@ export function createPlugin():ObjectSpec.Plugin {
     attributes: function(objectType:ObjectSpec.Type):ObjectSpec.Attribute[] {
       return [];
     },
+    classMethods: function(objectType:ObjectSpec.Type):ObjC.Method[] {
+      return [];
+    },
     fileTransformation: function(request:FileWriter.Request):FileWriter.Request {
       return request;
     },

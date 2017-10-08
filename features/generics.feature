@@ -21,6 +21,10 @@ Feature: Outputting Objects With Generic Types
 
       @property (nonatomic, readonly, copy) NSDictionary<NSString *, NSNumber *> *namesToAges;
 
+      + (instancetype)new NS_UNAVAILABLE;
+
+      - (instancetype)init NS_UNAVAILABLE;
+
       - (instancetype)initWithNamesToAges:(NSDictionary<NSString *, NSNumber *> *)namesToAges NS_DESIGNATED_INITIALIZER;
 
       @end
@@ -114,7 +118,11 @@ Feature: Outputting Objects With Generic Types
 
       + (instancetype)firstSubtypeWithNamesToAges:(NSDictionary<NSString *, NSNumber *> *)namesToAges;
 
+      + (instancetype)new NS_UNAVAILABLE;
+
       + (instancetype)someAttributeSubtype:(NSDictionary<NSString *, NSString *> *)someAttributeSubtype;
+
+      - (instancetype)init NS_UNAVAILABLE;
 
       - (void)matchFirstSubtype:(SimpleADTFirstSubtypeMatchHandler)firstSubtypeMatchHandler someAttributeSubtype:(SimpleADTSomeAttributeSubtypeMatchHandler)someAttributeSubtypeMatchHandler;
 

@@ -26,6 +26,10 @@ Feature: Outputting Value Objects / Algebraic Types decorated with NS_ASSUME_NON
       @property (nonatomic, readonly, copy) NSString *aString;
       @property (nonatomic, readonly, copy, nullable) NSString *bString;
 
+      + (instancetype)new NS_UNAVAILABLE;
+
+      - (instancetype)init NS_UNAVAILABLE;
+
       - (instancetype)initWithAString:(NSString *)aString bString:(nullable NSString *)bString NS_DESIGNATED_INITIALIZER;
 
       @end
@@ -130,6 +134,10 @@ Feature: Outputting Value Objects / Algebraic Types decorated with NS_ASSUME_NON
       + (instancetype)bar;
 
       + (instancetype)bazWithAString:(NSString *)aString bString:(nullable NSString *)bString;
+
+      + (instancetype)new NS_UNAVAILABLE;
+
+      - (instancetype)init NS_UNAVAILABLE;
 
       - (void)matchBar:(RMFooBarMatchHandler)barMatchHandler baz:(RMFooBazMatchHandler)bazMatchHandler;
 

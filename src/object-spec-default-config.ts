@@ -13,7 +13,8 @@ import List = require('./list')
 export const OBJECT_SPEC_DEFAULT_CONFIG = {
   baseIncludes: List.of(
     'RMDescription',
-    'RMImmutableProperties'
+    'RMImmutableProperties',
+    'RMInitNewUnavailable'
   ),
   basePlugins: List.of(
     'assume-nonnull',
@@ -22,6 +23,7 @@ export const OBJECT_SPEC_DEFAULT_CONFIG = {
     'description',
     'fetch-status',
     'immutable-properties',
+    'init-new-unavailable',
     'use-cpp'
   )
 };

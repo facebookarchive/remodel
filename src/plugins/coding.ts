@@ -251,6 +251,9 @@ export function createPlugin():ObjectSpec.Plugin {
     additionalTypes: function(objectType:ObjectSpec.Type):ObjectSpec.Type[] {
       return [];
     },
+    classMethods: function(objectType:ObjectSpec.Type):ObjC.Method[] {
+      return [];
+    },
     attributes: function(objectType:ObjectSpec.Type):ObjectSpec.Attribute[] {
       return [];
     },

@@ -98,6 +98,9 @@ export function createPlugin():ObjectSpec.Plugin {
         fetchStatusAttributeForValueType(objectType)
       ];
     },
+    classMethods: function(objectType:ObjectSpec.Type):ObjC.Method[] {
+      return [];
+    },
     fileTransformation: function(request:FileWriter.Request):FileWriter.Request {
       return request;
     },

@@ -38,10 +38,14 @@ Feature: Outputting forward declarations in Algebraic Types
       @interface SimpleADT : NSObject <NSCopying>
 
       + (instancetype)firstSubtypeWithFirstValue:(RMProxy *)firstValue secondValue:(NSUInteger)secondValue;
+      
+      + (instancetype)new NS_UNAVAILABLE;
 
       + (instancetype)secondSubtypeWithSomething:(BOOL)something;
 
       + (instancetype)someRandomSubtype;
+
+      - (instancetype)init NS_UNAVAILABLE;
 
       - (void)matchFirstSubtype:(SimpleADTFirstSubtypeMatchHandler)firstSubtypeMatchHandler someRandomSubtype:(SimpleADTSomeRandomSubtypeMatchHandler)someRandomSubtypeMatchHandler secondSubtype:(SimpleADTSecondSubtypeMatchHandler)secondSubtypeMatchHandler;
 

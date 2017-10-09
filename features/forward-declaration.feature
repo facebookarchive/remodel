@@ -57,6 +57,10 @@ Feature: Outputting Value Objects With Forward Declarations
       @property (nonatomic, readonly, copy) id<HelloProtocol> helloObj;
       @property (nonatomic, readonly, copy) UIViewController<WorldProtocol> *worldVc;
 
+      + (instancetype)new NS_UNAVAILABLE;
+
+      - (instancetype)init NS_UNAVAILABLE;
+
       - (instancetype)initWithDoesUserLike:(BOOL)doesUserLike identifier:(NSString *)identifier likeCount:(NSInteger)likeCount numberOfRatings:(NSUInteger)numberOfRatings proxy:(RMProxy *)proxy followers:(NSArray<RMSomeType *> *)followers helloObj:(id<HelloProtocol>)helloObj worldVc:(UIViewController<WorldProtocol> *)worldVc NS_DESIGNATED_INITIALIZER;
 
       @end
@@ -184,6 +188,10 @@ Feature: Outputting Value Objects With Forward Declarations
       @property (nonatomic, readonly) CGFloat countIconWidth;
       @property (nonatomic, readonly) NSUInteger numberOfRatings;
       @property (nonatomic, readonly, copy) Foo *foo;
+
+      + (instancetype)new NS_UNAVAILABLE;
+
+      - (instancetype)init NS_UNAVAILABLE;
 
       - (instancetype)initWithDoesUserLike:(BOOL)doesUserLike identifier:(NSString *)identifier likeCount:(NSInteger)likeCount countIconHeight:(CGFloat)countIconHeight countIconWidth:(CGFloat)countIconWidth numberOfRatings:(NSUInteger)numberOfRatings foo:(Foo *)foo NS_DESIGNATED_INITIALIZER;
 

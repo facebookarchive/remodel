@@ -92,7 +92,7 @@ function codeForBuilderFromExistingObjectClassMethodForValueType(objectType:Obje
 
 function builderFromExistingObjectClassMethodForValueType(objectType:ObjectSpec.Type):ObjC.Method {
   return {
-    belongsToProtocol:Maybe.Just('NSObject'),
+    belongsToProtocol:Maybe.Nothing<string>(),
     code: codeForBuilderFromExistingObjectClassMethodForValueType(objectType),
     comments:[],
     compilerAttributes:[],
@@ -308,6 +308,9 @@ export function createPlugin():ObjectSpec.Plugin {
       return [];
     },
     attributes: function(objectType:ObjectSpec.Type):ObjectSpec.Attribute[] {
+      return [];
+    },
+    classMethods: function(objectType:ObjectSpec.Type):ObjC.Method[] {
       return [];
     },
     fileTransformation: function(request:FileWriter.Request):FileWriter.Request {

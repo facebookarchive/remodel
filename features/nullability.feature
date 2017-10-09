@@ -25,6 +25,10 @@ Feature: Outputting Objects With Nullability Annotations
       @property (nonatomic, readonly, copy, nullable) NSString *name;
       @property (nonatomic, readonly, copy, nonnull) NSString *identifier;
 
+      + (instancetype)new NS_UNAVAILABLE;
+
+      - (instancetype)init NS_UNAVAILABLE;
+
       - (instancetype)initWithName:(nullable NSString *)name identifier:(nonnull NSString *)identifier NS_DESIGNATED_INITIALIZER;
 
       @end
@@ -129,11 +133,15 @@ Feature: Outputting Objects With Nullability Annotations
 
       + (instancetype)firstSubtypeWithFirstValue:(nonnull NSString *)firstValue secondValue:(NSUInteger)secondValue;
 
+      + (instancetype)new NS_UNAVAILABLE;
+
       + (instancetype)secondSubtypeWithSomething:(BOOL)something;
 
       + (instancetype)someAttributeSubtype:(nullable NSNumber *)someAttributeSubtype;
 
       + (instancetype)someRandomSubtype;
+
+      - (instancetype)init NS_UNAVAILABLE;
 
       - (void)matchFirstSubtype:(SimpleADTFirstSubtypeMatchHandler)firstSubtypeMatchHandler someRandomSubtype:(SimpleADTSomeRandomSubtypeMatchHandler)someRandomSubtypeMatchHandler someAttributeSubtype:(SimpleADTSomeAttributeSubtypeMatchHandler)someAttributeSubtypeMatchHandler secondSubtype:(SimpleADTSecondSubtypeMatchHandler)secondSubtypeMatchHandler;
 

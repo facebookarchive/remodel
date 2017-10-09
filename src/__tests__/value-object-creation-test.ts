@@ -77,6 +77,9 @@ describe('ObjectSpecCreation', function() {
         properties:function(objectType:ObjectSpec.Type):ObjC.Property[] {
           return [];
         },
+        classMethods: function(objectType:ObjectSpec.Type):ObjC.Method[] {
+          return [];
+        },
         staticConstants:function(objectType:ObjectSpec.Type):ObjC.Constant[] {
           return [];
         },
@@ -210,6 +213,9 @@ describe('ObjectSpecCreation', function() {
         properties:function(objectType:ObjectSpec.Type):ObjC.Property[] {
           return [];
         },
+        classMethods: function(objectType:ObjectSpec.Type):ObjC.Method[] {
+          return [];
+        },
         staticConstants:function(objectType:ObjectSpec.Type):ObjC.Constant[] {
           return [];
         },
@@ -318,6 +324,9 @@ describe('ObjectSpecCreation', function() {
           return [];
         },
         properties:function(objectType:ObjectSpec.Type):ObjC.Property[] {
+          return [];
+        },
+        classMethods: function(objectType:ObjectSpec.Type):ObjC.Method[] {
           return [];
         },
         staticConstants:function(objectType:ObjectSpec.Type):ObjC.Constant[] {
@@ -442,6 +451,9 @@ describe('ObjectSpecCreation', function() {
           return [];
         },
         properties:function(objectType:ObjectSpec.Type):ObjC.Property[] {
+          return [];
+        },
+        classMethods: function(objectType:ObjectSpec.Type):ObjC.Method[] {
           return [];
         },
         staticConstants:function(objectType:ObjectSpec.Type):ObjC.Constant[] {
@@ -587,6 +599,9 @@ describe('ObjectSpecCreation', function() {
         properties:function(objectType:ObjectSpec.Type):ObjC.Property[] {
           return [];
         },
+        classMethods: function(objectType:ObjectSpec.Type):ObjC.Method[] {
+          return [];
+        },
         staticConstants:function(objectType:ObjectSpec.Type):ObjC.Constant[] {
           return [];
         },
@@ -706,6 +721,9 @@ describe('ObjectSpecCreation', function() {
         properties:function(objectType:ObjectSpec.Type):ObjC.Property[] {
           return [];
         },
+        classMethods: function(objectType:ObjectSpec.Type):ObjC.Method[] {
+          return [];
+        },
         staticConstants:function(objectType:ObjectSpec.Type):ObjC.Constant[] {
           return [];
         },
@@ -783,6 +801,9 @@ describe('ObjectSpecCreation', function() {
         properties:function(objectType:ObjectSpec.Type):ObjC.Property[] {
           return [];
         },
+        classMethods: function(objectType:ObjectSpec.Type):ObjC.Method[] {
+          return [];
+        },
         staticConstants:function(objectType:ObjectSpec.Type):ObjC.Constant[] {
           return [];
         },
@@ -829,6 +850,9 @@ describe('ObjectSpecCreation', function() {
           return [];
         },
         properties:function(objectType:ObjectSpec.Type):ObjC.Property[] {
+          return [];
+        },
+        classMethods: function(objectType:ObjectSpec.Type):ObjC.Method[] {
           return [];
         },
         staticConstants:function(objectType:ObjectSpec.Type):ObjC.Constant[] {
@@ -946,6 +970,9 @@ describe('ObjectSpecCreation', function() {
         properties:function(objectType:ObjectSpec.Type):ObjC.Property[] {
           return [];
         },
+        classMethods: function(objectType:ObjectSpec.Type):ObjC.Method[] {
+          return [];
+        },
         staticConstants:function(objectType:ObjectSpec.Type):ObjC.Constant[] {
           return [];
         },
@@ -1012,6 +1039,9 @@ describe('ObjectSpecCreation', function() {
           return [];
         },
         properties:function(objectType:ObjectSpec.Type):ObjC.Property[] {
+          return [];
+        },
+        classMethods: function(objectType:ObjectSpec.Type):ObjC.Method[] {
           return [];
         },
         staticConstants:function(objectType:ObjectSpec.Type):ObjC.Constant[] {
@@ -1175,6 +1205,9 @@ describe('ObjectSpecCreation', function() {
         properties:function(objectType:ObjectSpec.Type):ObjC.Property[] {
           return [];
         },
+        classMethods: function(objectType:ObjectSpec.Type):ObjC.Method[] {
+          return [];
+        },
         staticConstants:function(objectType:ObjectSpec.Type):ObjC.Constant[] {
           return [];
         },
@@ -1245,6 +1278,9 @@ describe('ObjectSpecCreation', function() {
           return [];
         },
         properties:function(objectType:ObjectSpec.Type):ObjC.Property[] {
+          return [];
+        },
+        classMethods: function(objectType:ObjectSpec.Type):ObjC.Method[] {
           return [];
         },
         staticConstants:function(objectType:ObjectSpec.Type):ObjC.Constant[] {

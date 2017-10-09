@@ -27,8 +27,12 @@ function doesNotBelongToAnImplementedProtocol(implementedProtocolNames:string[],
 }
 
 function includeMethodInHeader(implementedProtocols:ObjC.Protocol[], instanceMethod:ObjC.Method):boolean {
-  const implementedProtocolNames:string[] = implementedProtocols.map(toProtocolString);
-  return Maybe.match(FunctionUtils.pApplyf2(implementedProtocolNames, doesNotBelongToAnImplementedProtocol), returnTrue, instanceMethod.belongsToProtocol);
+  if (instanceMethod.compilerAttributes.indexOf("NS_UNAVAILABLE") !== -1) {
+    return true;
+  } else {
+    const implementedProtocolNames:string[] = implementedProtocols.map(toProtocolString);
+    return Maybe.match(FunctionUtils.pApplyf2(implementedProtocolNames, doesNotBelongToAnImplementedProtocol), returnTrue, instanceMethod.belongsToProtocol);  
+  }
 }
 
 function localImport(file:string):string {
@@ -161,8 +165,9 @@ function toKeywordString(keyword:ObjC.Keyword):string {
 function toClassMethodHeaderString(method:ObjC.Method):string {
   const methodComments = method.comments.map(toCommentString).join('\n');
   const methodCommentsSection = codeSectionForCodeStringWithoutExtraSpace(methodComments);
+  const designatedInitializerString = method.compilerAttributes.length > 0 ? " " + method.compilerAttributes.join(" ") : "";
 
-  return methodCommentsSection + '+ (' + toTypeString(method.returnType) + ')' + method.keywords.map(toKeywordString).join(' ') + ';';
+  return methodCommentsSection + '+ (' + toTypeString(method.returnType) + ')' + method.keywords.map(toKeywordString).join(' ') + designatedInitializerString + ';';
 }
 
 function toInstanceMethodHeaderString(method:ObjC.Method):string {
@@ -551,6 +556,20 @@ function toDiagnosticIgnoreString(diagnosticIgnore:string):string {
   return '#pragma GCC diagnostic ignored "' + diagnosticIgnore + '"';
 }
 
+function methodIsNotUnavailableNSObjectMethod(method:ObjC.Method):boolean {
+  return Maybe.match(function Just(type:string) {
+           if (type == "NSObject") {
+             return (method.compilerAttributes.indexOf("NS_UNAVAILABLE") === -1);
+           } else {
+             return true;
+           }
+         },
+         function Nothing() {
+           return true;
+         },
+         method.belongsToProtocol);
+}
+
 function implementationClassSection(classInfo:ObjC.Class):string {
   const macros = classMacros(classInfo);
 
@@ -560,9 +579,9 @@ function implementationClassSection(classInfo:ObjC.Class):string {
   const classSection:string = '@implementation ' + classInfo.name + '\n';
   const internalPropertiesStr:string = classInfo.internalProperties.filter(implementationNeedsToIncludeInternalProperty).map(toInternalPropertyString).map(StringUtils.indent(2)).join('\n');
   const internalPropertiesSection:string = internalPropertiesStr !== '' ? '{\n' + internalPropertiesStr + '\n}\n\n' : '\n';
-  const classMethodsStr:string = classInfo.classMethods.map(toClassMethodImplementationString).join('\n\n');
+  const classMethodsStr:string = classInfo.classMethods.filter(methodIsNotUnavailableNSObjectMethod).map(toClassMethodImplementationString).join('\n\n');
   const classMethodsSection = codeSectionForCodeString(classMethodsStr);
-  const instanceMethodsSection = classInfo.instanceMethods.map(toInstanceMethodImplementationString).join('\n\n');
+  const instanceMethodsSection = classInfo.instanceMethods.filter(methodIsNotUnavailableNSObjectMethod).map(toInstanceMethodImplementationString).join('\n\n');
 
   const postfixClassMacrosStr:string = macros.map(toPostfixMacroString).join('\n');
   const postfixClassMacrosSection:string = postfixClassMacrosStr !== '' ? '\n\n' + postfixClassMacrosStr : '';

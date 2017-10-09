@@ -37,7 +37,7 @@ function createObjectSpecObjCPlugIn(plugin:ObjectSpec.Plugin) : ObjectSpecObjCPl
     },
 
     classMethods: function(typeInformation:ObjectSpec.Type):ObjC.Method[] {
-      return [];
+      return plugin.classMethods(typeInformation);
     },
 
     comments: function(typeInformation:ObjectSpec.Type):ObjC.Comment[] {

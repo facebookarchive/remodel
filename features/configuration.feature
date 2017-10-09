@@ -38,6 +38,9 @@ Feature: Outputting Value Objects With A Custom Plugin
           attributes: function (valueType) {
             return [];
           },
+          classMethods: function (valueType) {
+            return [];
+          },
           fileTransformation: function (request) {
             return request;
           },
@@ -98,6 +101,10 @@ Feature: Outputting Value Objects With A Custom Plugin
       @property (nonatomic, readonly, copy) NSString *identifier;
       @property (nonatomic, readonly) NSInteger likeCount;
       @property (nonatomic, readonly) NSUInteger numberOfRatings;
+
+      + (instancetype)new NS_UNAVAILABLE;
+
+      - (instancetype)init NS_UNAVAILABLE;
 
       - (instancetype)initWithDoesUserLike:(BOOL)doesUserLike identifier:(NSString *)identifier likeCount:(NSInteger)likeCount numberOfRatings:(NSUInteger)numberOfRatings NS_DESIGNATED_INITIALIZER;
 

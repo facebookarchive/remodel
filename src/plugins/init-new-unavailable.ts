@@ -8,35 +8,51 @@
  */
 
 import AlgebraicType = require('../algebraic-type');
+import AlgebraicTypeUtils = require('../algebraic-type-utils');
 import Code = require('../code');
 import Error = require('../error');
 import FileWriter = require('../file-writer');
+import FunctionUtils = require('../function-utils');
 import Maybe = require('../maybe');
 import ObjC = require('../objc');
+import ObjCTypeUtils = require('../objc-type-utils');
 import ObjectSpec = require('../object-spec');
+import ObjectSpecCodeUtils = require('../object-spec-code-utils');
 
-function copyInstanceMethod():ObjC.Method {
+function initUnavailableInstanceMethod():ObjC.Method {
   return {
-    belongsToProtocol:Maybe.Just<string>('NSCopying'),
-    code: ['return self;'],
+    belongsToProtocol:Maybe.Just<string>("NSObject"),
+    code:[],
     comments:[],
-    compilerAttributes:[],
+    compilerAttributes:["NS_UNAVAILABLE"],
     keywords: [
       {
-        name: 'copyWithZone',
-        argument: Maybe.Just<ObjC.KeywordArgument>({
-          name: 'zone',
-          modifiers: [],
-          type: {
-            name: 'NSZone',
-            reference: 'NSZone *'
-          }
-        })
+        name: 'init',
+        argument: Maybe.Nothing<ObjC.KeywordArgument>()
       }
     ],
-    returnType: Maybe.Just<ObjC.Type>({
-      name: 'id',
-      reference: 'id'
+    returnType: Maybe.Just({
+      name: 'instancetype',
+      reference: 'instancetype'
+    })
+  };
+}
+
+function newUnavailableClassMethod():ObjC.Method {
+  return {
+    belongsToProtocol:Maybe.Just<string>("NSObject"),
+    code:[],
+    comments:[],
+    compilerAttributes:["NS_UNAVAILABLE"],
+    keywords: [
+      {
+        name: 'new',
+        argument: Maybe.Nothing<ObjC.KeywordArgument>()
+      }
+    ],
+    returnType: Maybe.Just({
+      name: 'instancetype',
+      reference: 'instancetype'
     })
   };
 }
@@ -53,7 +69,7 @@ export function createPlugin():ObjectSpec.Plugin {
       return [];
     },
     classMethods: function(objectType:ObjectSpec.Type):ObjC.Method[] {
-      return [];
+      return [newUnavailableClassMethod()];
     },
     fileTransformation: function(request:FileWriter.Request):FileWriter.Request {
       return request;
@@ -71,22 +87,18 @@ export function createPlugin():ObjectSpec.Plugin {
       return [];
     },
     implementedProtocols: function(objectType:ObjectSpec.Type):ObjC.Protocol[] {
-      return [
-        {
-          name: 'NSCopying'
-        }
-      ];
+      return [];
     },
     imports: function(objectType:ObjectSpec.Type):ObjC.Import[] {
       return [];
     },
     instanceMethods: function(objectType:ObjectSpec.Type):ObjC.Method[] {
-      return [copyInstanceMethod()];
+      return [initUnavailableInstanceMethod()];
     },
     properties: function(objectType:ObjectSpec.Type):ObjC.Property[] {
       return [];
     },
-    requiredIncludesToRun:['RMCopying'],
+    requiredIncludesToRun:['RMInitNewUnavailable'],
     staticConstants: function(objectType:ObjectSpec.Type):ObjC.Constant[] {
       return [];
     },
@@ -108,7 +120,7 @@ export function createAlgebraicTypePlugin():AlgebraicType.Plugin {
       return [];
     },
     classMethods: function(algebraicType:AlgebraicType.Type):ObjC.Method[] {
-      return [];
+      return [newUnavailableClassMethod()];
     },
     enumerations: function(algebraicType:AlgebraicType.Type):ObjC.Enumeration[] {
       return [];
@@ -129,22 +141,18 @@ export function createAlgebraicTypePlugin():AlgebraicType.Plugin {
       return [];
     },
     implementedProtocols: function(algebraicType:AlgebraicType.Type):ObjC.Protocol[] {
-      return [
-        {
-          name: 'NSCopying'
-        }
-      ];
+      return [];
     },
     imports: function(algebraicType:AlgebraicType.Type):ObjC.Import[] {
       return [];
     },
     instanceMethods: function(algebraicType:AlgebraicType.Type):ObjC.Method[] {
-      return [copyInstanceMethod()];
+      return [initUnavailableInstanceMethod()];
     },
     internalProperties: function(algebraicType:AlgebraicType.Type):ObjC.Property[] {
       return [];
     },
-    requiredIncludesToRun: ['RMCopying'],
+    requiredIncludesToRun: ['RMInitNewUnavailable'],
     staticConstants: function(algebraicType:AlgebraicType.Type):ObjC.Constant[] {
       return [];
     },

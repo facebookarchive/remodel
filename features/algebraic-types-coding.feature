@@ -34,7 +34,11 @@ Feature: Outputting Algebraic Types
 
       + (instancetype)firstSubtypeWithFirstValue:(NSString *)firstValue secondValue:(NSUInteger)secondValue;
 
+      + (instancetype)new NS_UNAVAILABLE;
+
       + (instancetype)secondSubtypeWithSomething:(BOOL)something;
+
+      - (instancetype)init NS_UNAVAILABLE;
 
       - (void)matchFirstSubtype:(SimpleADTFirstSubtypeMatchHandler)firstSubtypeMatchHandler secondSubtype:(SimpleADTSecondSubtypeMatchHandler)secondSubtypeMatchHandler;
 

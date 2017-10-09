@@ -45,12 +45,16 @@ Feature: Outputting Algebraic Types
       @interface SimpleADT : NSObject <NSCopying>
 
       + (instancetype)firstSubtypeWithFirstValue:(NSString *)firstValue secondValue:(NSUInteger)secondValue;
+      
+      + (instancetype)new NS_UNAVAILABLE;
 
       + (instancetype)secondSubtypeWithSomething:(BOOL)something;
 
       + (instancetype)someAttributeSubtype:(NSUInteger)someAttributeSubtype;
 
       + (instancetype)someRandomSubtype;
+
+      - (instancetype)init NS_UNAVAILABLE;
 
       - (void)matchFirstSubtype:(SimpleADTFirstSubtypeMatchHandler)firstSubtypeMatchHandler someRandomSubtype:(SimpleADTSomeRandomSubtypeMatchHandler)someRandomSubtypeMatchHandler someAttributeSubtype:(SimpleADTSomeAttributeSubtypeMatchHandler)someAttributeSubtypeMatchHandler secondSubtype:(SimpleADTSecondSubtypeMatchHandler)secondSubtypeMatchHandler;
 
@@ -229,7 +233,11 @@ Feature: Outputting Algebraic Types
 
       + (instancetype)firstSubtypeWithFirstValue:(NSString *)firstValue secondValue:(NSUInteger)secondValue;
 
+      + (instancetype)new NS_UNAVAILABLE;
+
       + (instancetype)secondSubtypeWithSomething:(BOOL)something;
+
+      - (instancetype)init NS_UNAVAILABLE;
 
       - (void)matchFirstSubtype:(SimpleADTFirstSubtypeMatchHandler)firstSubtypeMatchHandler secondSubtype:(SimpleADTSecondSubtypeMatchHandler)secondSubtypeMatchHandler;
 
@@ -379,9 +387,13 @@ Feature: Outputting Algebraic Types
 
       + (instancetype)firstSubtypeWithFirstValue:(Foo *)firstValue secondValue:(NSUInteger)secondValue;
 
+      + (instancetype)new NS_UNAVAILABLE;
+
       + (instancetype)secondSubtypeWithSomething:(BOOL)something;
 
       + (instancetype)someRandomSubtype;
+
+      - (instancetype)init NS_UNAVAILABLE;
 
       - (void)matchFirstSubtype:(SimpleADTFirstSubtypeMatchHandler)firstSubtypeMatchHandler someRandomSubtype:(SimpleADTSomeRandomSubtypeMatchHandler)someRandomSubtypeMatchHandler secondSubtype:(SimpleADTSecondSubtypeMatchHandler)secondSubtypeMatchHandler;
 

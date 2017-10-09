@@ -265,10 +265,13 @@ describe('ObjectSpecPlugins.Coding', function() {
               })
             }
           ],
-          returnType:{ type:Maybe.Just<ObjC.Type>({
-            name: 'instancetype',
-            reference: 'instancetype'
-          }), modifiers:[] }
+          returnType: {
+            type:Maybe.Just<ObjC.Type>({
+              name: 'instancetype',
+              reference: 'instancetype'
+            }),
+            modifiers:[ObjC.KeywordArgumentModifier.Nullable()]
+          }
         },
         {
           belongsToProtocol:Maybe.Just<string>('NSCoding'),
@@ -798,10 +801,13 @@ describe('AlgebraicTypePlugins.Coding', function() {
               })
             }
           ],
-          returnType:{ type:Maybe.Just<ObjC.Type>({
-            name: 'instancetype',
-            reference: 'instancetype'
-          }), modifiers:[] }
+          returnType: {
+            type:Maybe.Just<ObjC.Type>({
+              name: 'instancetype',
+              reference: 'instancetype'
+            }),
+            modifiers:[ObjC.KeywordArgumentModifier.Nullable()]
+          }
         },
         {
           belongsToProtocol:Maybe.Just<string>('NSCoding'),

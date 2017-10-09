@@ -111,7 +111,7 @@ function decodeMethodWithCode(code:string[]):ObjC.Method {
         name: 'instancetype',
         reference: 'instancetype'
       }),
-      modifiers: []
+      modifiers: [ObjC.KeywordArgumentModifier.Nullable()]
     }
   };
 }

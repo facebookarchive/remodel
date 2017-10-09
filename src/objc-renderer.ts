@@ -165,17 +165,17 @@ function toKeywordString(keyword:ObjC.Keyword):string {
 function toClassMethodHeaderString(method:ObjC.Method):string {
   const methodComments = method.comments.map(toCommentString).join('\n');
   const methodCommentsSection = codeSectionForCodeStringWithoutExtraSpace(methodComments);
-  const designatedInitializerString = method.compilerAttributes.length > 0 ? " " + method.compilerAttributes.join(" ") : "";
+  const compilerAttributesString = method.compilerAttributes.length > 0 ? " " + method.compilerAttributes.join(" ") : "";
 
-  return methodCommentsSection + '+ (' + toTypeString(method.returnType) + ')' + method.keywords.map(toKeywordString).join(' ') + designatedInitializerString + ';';
+  return methodCommentsSection + '+ (' + toTypeString(method.returnType) + ')' + method.keywords.map(toKeywordString).join(' ') + compilerAttributesString + ';';
 }
 
 function toInstanceMethodHeaderString(method:ObjC.Method):string {
   const methodComments = method.comments.map(toCommentString).join('\n');
   const methodCommentsSection = codeSectionForCodeStringWithoutExtraSpace(methodComments);
-  const designatedInitializerString = method.compilerAttributes.length > 0 ? " " + method.compilerAttributes.join(" ") : "";
+  const compilerAttributesString = method.compilerAttributes.length > 0 ? " " + method.compilerAttributes.join(" ") : "";
 
-  return methodCommentsSection + '- (' + toTypeString(method.returnType) + ')' + method.keywords.map(toKeywordString).join(' ') + designatedInitializerString + ';';
+  return methodCommentsSection + '- (' + toTypeString(method.returnType) + ')' + method.keywords.map(toKeywordString).join(' ') + compilerAttributesString + ';';
 }
 
 function toClassMethodImplementationString(method:ObjC.Method):string {

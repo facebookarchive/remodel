@@ -48,7 +48,7 @@ Feature: Outputting Objects
       @property (nonatomic, readonly, unsafe_unretained) Class someClass;
       @property (nonatomic, readonly) dispatch_block_t someBlock;
 
-      - (instancetype)initWithDoesUserLike:(BOOL)doesUserLike identifier:(NSString *)identifier likeCount:(NSInteger)likeCount numberOfRatings:(uint32_t)numberOfRatings someType:(RMSomeType *)someType someClass:(Class)someClass someBlock:(dispatch_block_t)someBlock;
+      - (instancetype)initWithDoesUserLike:(BOOL)doesUserLike identifier:(NSString *)identifier likeCount:(NSInteger)likeCount numberOfRatings:(uint32_t)numberOfRatings someType:(RMSomeType *)someType someClass:(Class)someClass someBlock:(dispatch_block_t)someBlock NS_DESIGNATED_INITIALIZER;
 
       @end
 
@@ -123,7 +123,7 @@ Feature: Outputting Objects
       @property (nonatomic, readonly) CGFloat countIconWidth;
       @property (nonatomic, readonly) NSUInteger numberOfRatings;
 
-      - (instancetype)initWithDoesUserLike:(BOOL)doesUserLike identifier:(NSString *)identifier likeCount:(NSInteger)likeCount countIconHeight:(CGFloat)countIconHeight countIconWidth:(CGFloat)countIconWidth numberOfRatings:(NSUInteger)numberOfRatings;
+      - (instancetype)initWithDoesUserLike:(BOOL)doesUserLike identifier:(NSString *)identifier likeCount:(NSInteger)likeCount countIconHeight:(CGFloat)countIconHeight countIconWidth:(CGFloat)countIconWidth numberOfRatings:(NSUInteger)numberOfRatings NS_DESIGNATED_INITIALIZER;
 
       @end
 

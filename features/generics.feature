@@ -21,7 +21,7 @@ Feature: Outputting Objects With Generic Types
 
       @property (nonatomic, readonly, copy) NSDictionary<NSString *, NSNumber *> *namesToAges;
 
-      - (instancetype)initWithNamesToAges:(NSDictionary<NSString *, NSNumber *> *)namesToAges;
+      - (instancetype)initWithNamesToAges:(NSDictionary<NSString *, NSNumber *> *)namesToAges NS_DESIGNATED_INITIALIZER;
 
       @end
 

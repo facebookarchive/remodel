@@ -26,7 +26,7 @@ Feature: Outputting Value Objects / Algebraic Types decorated with NS_ASSUME_NON
       @property (nonatomic, readonly, copy) NSString *aString;
       @property (nonatomic, readonly, copy, nullable) NSString *bString;
 
-      - (instancetype)initWithAString:(NSString *)aString bString:(nullable NSString *)bString;
+      - (instancetype)initWithAString:(NSString *)aString bString:(nullable NSString *)bString NS_DESIGNATED_INITIALIZER;
 
       @end
 

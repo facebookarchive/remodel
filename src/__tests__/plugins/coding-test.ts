@@ -251,6 +251,7 @@ describe('ObjectSpecPlugins.Coding', function() {
             'return self;'
           ],
           comments: [],
+          compilerAttributes:[],
           keywords: [
             {
               name: 'initWithCoder',
@@ -277,6 +278,7 @@ describe('ObjectSpecPlugins.Coding', function() {
             '[aCoder encodeObject:_someObject forKey:kSomeObjectKey];'
           ],
           comments: [],
+          compilerAttributes:[],
           keywords: [
             {
               name: 'encodeWithCoder',
@@ -782,6 +784,7 @@ describe('AlgebraicTypePlugins.Coding', function() {
             'return self;'
           ],
           comments: [],
+          compilerAttributes:[],
           keywords: [
             {
               name: 'initWithCoder',
@@ -818,6 +821,7 @@ describe('AlgebraicTypePlugins.Coding', function() {
             '}'
           ],
           comments: [],
+          compilerAttributes:[],
           keywords: [
             {
               name: 'encodeWithCoder',

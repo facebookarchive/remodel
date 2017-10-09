@@ -32,7 +32,7 @@ Feature: Outputting Value Objects
       @property (nonatomic, readonly) BOOL hasFetchedSomeEnumValue;
       @property (nonatomic, readonly) BOOL hasFetchedCustomLibObject;
 
-      - (instancetype)initWithHasFetchedDoesUserLike:(BOOL)hasFetchedDoesUserLike hasFetchedIdentifier:(BOOL)hasFetchedIdentifier hasFetchedLikeCount:(BOOL)hasFetchedLikeCount hasFetchedRating:(BOOL)hasFetchedRating hasFetchedSomeEnumValue:(BOOL)hasFetchedSomeEnumValue hasFetchedCustomLibObject:(BOOL)hasFetchedCustomLibObject;
+      - (instancetype)initWithHasFetchedDoesUserLike:(BOOL)hasFetchedDoesUserLike hasFetchedIdentifier:(BOOL)hasFetchedIdentifier hasFetchedLikeCount:(BOOL)hasFetchedLikeCount hasFetchedRating:(BOOL)hasFetchedRating hasFetchedSomeEnumValue:(BOOL)hasFetchedSomeEnumValue hasFetchedCustomLibObject:(BOOL)hasFetchedCustomLibObject NS_DESIGNATED_INITIALIZER;
 
       @end
 

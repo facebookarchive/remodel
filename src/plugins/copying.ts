@@ -20,6 +20,7 @@ function copyInstanceMethod():ObjC.Method {
     belongsToProtocol:Maybe.Just<string>('NSCopying'),
     code: ['return self;'],
     comments:[],
+    compilerAttributes:[],
     keywords: [
       {
         name: 'copyWithZone',

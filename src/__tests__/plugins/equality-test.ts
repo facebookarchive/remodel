@@ -440,6 +440,7 @@ describe('ObjectSpecPlugins.Equality', function() {
             '  (_someString == object->_someString ? YES : [_someString isEqual:object->_someString]);'
           ],
           comments: [],
+          compilerAttributes:[],
           returnType: Maybe.Just({
             name: 'BOOL',
             reference: 'BOOL'
@@ -469,6 +470,7 @@ describe('ObjectSpecPlugins.Equality', function() {
             'return result;'
           ],
           comments: [],
+          compilerAttributes:[],
           returnType: Maybe.Just({
             name: 'NSUInteger',
             reference: 'NSUInteger'
@@ -550,6 +552,7 @@ describe('ObjectSpecPlugins.Equality', function() {
             '  (_something == object->_something ? YES : [_something isEqual:object->_something]);'
           ],
           comments: [],
+          compilerAttributes:[],
           returnType: Maybe.Just({
             name: 'BOOL',
             reference: 'BOOL'
@@ -579,6 +582,7 @@ describe('ObjectSpecPlugins.Equality', function() {
             'return result;'
           ],
           comments: [],
+          compilerAttributes:[],
           returnType: Maybe.Just({
             name: 'NSUInteger',
             reference: 'NSUInteger'

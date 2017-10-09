@@ -39,7 +39,7 @@ Feature: Outputting C++ Value Objects
       @property (nonatomic, readonly) NSInteger likeCount;
       @property (nonatomic, readonly) NSUInteger numberOfRatings;
 
-      - (instancetype)initWithDoesUserLike:(BOOL)doesUserLike identifier:(NSString *)identifier likeCount:(NSInteger)likeCount numberOfRatings:(NSUInteger)numberOfRatings;
+      - (instancetype)initWithDoesUserLike:(BOOL)doesUserLike identifier:(NSString *)identifier likeCount:(NSInteger)likeCount numberOfRatings:(NSUInteger)numberOfRatings NS_DESIGNATED_INITIALIZER;
 
       @end
 

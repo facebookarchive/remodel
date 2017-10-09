@@ -50,6 +50,7 @@ describe('ObjectSpecCreation', function() {
               code: [
                 'return [NSString stringWithFormat:@"%@ - \\n\\t age: %zd; \\n", [super description], _age];'
               ],
+              compilerAttributes:[],
               keywords: [
                 {
                   name: 'description',
@@ -416,6 +417,7 @@ describe('ObjectSpecCreation', function() {
             code: [
             'return @"foo";'
             ],
+            compilerAttributes:[],
             keywords: [
             {
               name: 'foo',
@@ -522,6 +524,7 @@ describe('ObjectSpecCreation', function() {
               code: [
                 'return @"something";'
               ],
+              compilerAttributes:[],
               keywords: [
                 {
                   name: 'getSomeString',
@@ -539,6 +542,7 @@ describe('ObjectSpecCreation', function() {
               code: [
                 'return [NSString stringWithFormat:@"%@ - \\n\\t age: %zd; \\n", [super description], _age];'
               ],
+              compilerAttributes:[],
               keywords: [
                 {
                   name: 'debugDescription',
@@ -556,6 +560,7 @@ describe('ObjectSpecCreation', function() {
               code: [
                 'return [self init];'
               ],
+              compilerAttributes:[],
               keywords: [
                 {
                   name: 'initSomethingElse',
@@ -896,6 +901,7 @@ describe('ObjectSpecCreation', function() {
               code: [
                 'return @"something";'
               ],
+              compilerAttributes:[],
               keywords: [
                 {
                   name: 'getSomeString',
@@ -913,6 +919,7 @@ describe('ObjectSpecCreation', function() {
               code: [
                 'return [NSString stringWithFormat:@"%@ - \\n\\t age: %zd; \\n", [super description], _age];'
               ],
+              compilerAttributes:[],
               keywords: [
                 {
                   name: 'debugDescription',
@@ -980,6 +987,7 @@ describe('ObjectSpecCreation', function() {
               code: [
                 'return [self init];'
               ],
+              compilerAttributes:[],
               keywords: [
                 {
                   name: 'initSomethingElse',
@@ -1122,6 +1130,7 @@ describe('ObjectSpecCreation', function() {
               code: [
                 'return @"something";'
               ],
+              compilerAttributes:[],
               keywords: [
                 {
                   name: 'getSomeString',
@@ -1139,6 +1148,7 @@ describe('ObjectSpecCreation', function() {
               code: [
                 'return [NSString stringWithFormat:@"%@ - \\n\\t age: %zd; \\n", [super description], _age];'
               ],
+              compilerAttributes:[],
               keywords: [
                 {
                   name: 'debugDescription',
@@ -1210,6 +1220,7 @@ describe('ObjectSpecCreation', function() {
               code: [
                 'return [self init];'
               ],
+              compilerAttributes:[],
               keywords: [
                 {
                   name: 'initSomethingElse',

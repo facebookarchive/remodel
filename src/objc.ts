@@ -96,6 +96,7 @@ export interface Method {
   belongsToProtocol:Maybe.Maybe<string>;
   code:string[];
   comments:Comment[];
+  compilerAttributes:string[];
   keywords:Keyword[];
   returnType:Maybe.Maybe<Type>;
 }

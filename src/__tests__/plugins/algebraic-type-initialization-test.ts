@@ -272,6 +272,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
             'return object;'
           ],
           comments: [],
+          compilerAttributes:[],
           keywords: [
             {
               name: 'someSubtype',
@@ -363,6 +364,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
             'return object;'
           ],
           comments: [],
+          compilerAttributes:[],
           keywords: [
             {
               name: 'someSubtypeWithSomeString',
@@ -401,6 +403,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
             'return object;'
           ],
           comments: [],
+          compilerAttributes:[],
           keywords: [
             {
               name: 'singleAttributeSubtype',

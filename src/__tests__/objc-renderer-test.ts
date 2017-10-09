@@ -75,10 +75,10 @@ describe('ObjCRenderer', function() {
                     })
                   }
                 ],
-                returnType: Maybe.Just({
+                returnType:{ type:Maybe.Just({
                   name:'instancetype',
                   reference:'instancetype'
-                })
+                }), modifiers:[] }
               }
             ],
             comments:[
@@ -121,10 +121,10 @@ describe('ObjCRenderer', function() {
                     })
                   }
                 ],
-                returnType: Maybe.Just({
+                returnType:{ type:Maybe.Just({
                   name:'instancetype',
                   reference:'instancetype'
-                })
+                }), modifiers:[] }
               },
               {
                 belongsToProtocol:Maybe.Just('NSObject'),
@@ -139,10 +139,10 @@ describe('ObjCRenderer', function() {
                     argument:Maybe.Nothing<ObjC.KeywordArgument>()
                   }
                 ],
-                returnType: Maybe.Just({
+                returnType:{ type:Maybe.Just({
                   name:'NSUInteger',
                   reference:'NSUInteger'
-                })
+                }), modifiers:[] }
               }
             ],
             name:'RMSomeValue',
@@ -308,10 +308,10 @@ describe('ObjCRenderer', function() {
                     })
                   }
                 ],
-                returnType: Maybe.Just({
+                returnType:{ type:Maybe.Just({
                   name:'instancetype',
                   reference:'instancetype'
-                })
+                }), modifiers:[] }
               }
             ],
             comments:[],
@@ -352,10 +352,10 @@ describe('ObjCRenderer', function() {
                     })
                   }
                 ],
-                returnType: Maybe.Just({
+                returnType:{ type:Maybe.Just({
                   name:'instancetype',
                   reference:'instancetype'
-                })
+                }), modifiers:[] }
               },
               {
                 belongsToProtocol:Maybe.Just('NSObject'),
@@ -370,10 +370,10 @@ describe('ObjCRenderer', function() {
                     argument:Maybe.Nothing<ObjC.KeywordArgument>()
                   }
                 ],
-                returnType: Maybe.Just({
+                returnType:{ type:Maybe.Just({
                   name:'NSUInteger',
                   reference:'NSUInteger'
-                })
+                }), modifiers:[] }
               }
             ],
             name:'RMSomeValue',
@@ -514,10 +514,10 @@ describe('ObjCRenderer', function() {
                     })
                   }
                 ],
-                returnType: Maybe.Just({
+                returnType:{ type:Maybe.Just({
                   name:'instancetype',
                   reference:'instancetype'
-                })
+                }), modifiers:[] }
               }
             ],
             comments:[],
@@ -558,10 +558,10 @@ describe('ObjCRenderer', function() {
                     })
                   }
                 ],
-                returnType: Maybe.Just({
+                returnType:{ type:Maybe.Just({
                   name:'instancetype',
                   reference:'instancetype'
-                })
+                }), modifiers:[] }
               },
               {
                 belongsToProtocol:Maybe.Just('NSObject'),
@@ -576,10 +576,10 @@ describe('ObjCRenderer', function() {
                     argument:Maybe.Nothing<ObjC.KeywordArgument>()
                   }
                 ],
-                returnType: Maybe.Just({
+                returnType:{ type:Maybe.Just({
                   name:'NSUInteger',
                   reference:'NSUInteger'
-                })
+                }), modifiers:[] }
               }
             ],
             name:'RMSomeValue',
@@ -734,10 +734,10 @@ describe('ObjCRenderer', function() {
                     })
                   }
                 ],
-                returnType: Maybe.Just({
+                returnType:{ type:Maybe.Just({
                   name:'instancetype',
                   reference:'instancetype'
-                })
+                }), modifiers:[] }
               },
               {
                 belongsToProtocol:Maybe.Just('NSObject'),
@@ -752,10 +752,10 @@ describe('ObjCRenderer', function() {
                     argument:Maybe.Nothing<ObjC.KeywordArgument>()
                   }
                 ],
-                returnType: Maybe.Just({
+                returnType:{ type:Maybe.Just({
                   name:'NSUInteger',
                   reference:'NSUInteger'
-                })
+                }), modifiers:[] }
               }
             ],
             name:'RMSomeValue',
@@ -881,10 +881,10 @@ describe('ObjCRenderer', function() {
                     })
                   }
                 ],
-                returnType: Maybe.Just({
+                returnType:{ type:Maybe.Just({
                   name:'instancetype',
                   reference:'instancetype'
-                })
+                }), modifiers:[] }
               },
               {
                 belongsToProtocol:Maybe.Just('NSObject'),
@@ -897,10 +897,10 @@ describe('ObjCRenderer', function() {
                     argument:Maybe.Nothing<ObjC.KeywordArgument>()
                   }
                 ],
-                returnType: Maybe.Just({
+                returnType:{ type:Maybe.Just({
                   name:'NSUInteger',
                   reference:'NSUInteger'
-                })
+                }), modifiers:[] }
               }
             ],
             name:'RMSomeValue',
@@ -1044,10 +1044,10 @@ describe('ObjCRenderer', function() {
                 name: 'num'
               }
             ],
-            returnType: Maybe.Just<ObjC.Type>({
+            returnType:{ type:Maybe.Just<ObjC.Type>({
               name: 'NSString',
               reference:'NSString *'
-            }),
+            }), modifiers:[] },
             code: [
               '#if SOMETHING',
               'return @"foo";',
@@ -1061,10 +1061,10 @@ describe('ObjCRenderer', function() {
               comments: [],
               name: 'AnotherPublicFunction',
               parameters: [],
-              returnType: Maybe.Just<ObjC.Type>({
+              returnType:{ type:Maybe.Just<ObjC.Type>({
                 name: 'NSUInteger',
                 reference:'NSUInteger'
-              }),
+              }), modifiers:[] },
               code: [
                 'return 17;'
               ],
@@ -1075,7 +1075,7 @@ describe('ObjCRenderer', function() {
             name: 'ANonPublicFunction',
             parameters: [
             ],
-            returnType: Maybe.Nothing<ObjC.Type>(),
+            returnType:{ type:Maybe.Nothing<ObjC.Type>(), modifiers:[] },
             code: [
               'something();'
             ],
@@ -1224,7 +1224,7 @@ describe('ObjCRenderer', function() {
                 nullability: ObjC.Nullability.Inherited()
               }
             ],
-            returnType: Maybe.Nothing<ObjC.Type>(),
+            returnType:{ type:Maybe.Nothing<ObjC.Type>(), modifiers:[] },
             isPublic: true,
             nullability: ObjC.ClassNullability.default
           },
@@ -1241,10 +1241,10 @@ describe('ObjCRenderer', function() {
                 nullability: ObjC.Nullability.Inherited()
               }
             ],
-            returnType: Maybe.Just<ObjC.Type>({
+            returnType:{ type:Maybe.Just<ObjC.Type>({
               name: 'Foo',
               reference:'Foo *'
-            }),
+            }), modifiers:[] },
             isPublic: true,
             nullability: ObjC.ClassNullability.default
           }
@@ -1313,7 +1313,7 @@ describe('ObjCRenderer', function() {
             name: 'ANonPublicFunction',
             parameters: [
             ],
-            returnType: Maybe.Nothing<ObjC.Type>(),
+            returnType:{ type:Maybe.Nothing<ObjC.Type>(), modifiers:[] },
             code: [
               'something();'
             ],
@@ -1560,7 +1560,7 @@ describe('ObjCRenderer', function() {
                     argument:Maybe.Nothing<ObjC.KeywordArgument>()
                   }
                 ],
-                returnType:Maybe.Nothing<ObjC.Type>()
+                returnType:{ type:Maybe.Nothing<ObjC.Type>(), modifiers:[] }
               }
             ],
             name:'RMSomeValue',
@@ -1729,10 +1729,10 @@ describe('ObjCRenderer', function() {
                     })
                   }
                 ],
-                returnType: Maybe.Just({
+                returnType:{ type:Maybe.Just({
                   name:'instancetype',
                   reference:'instancetype'
-                })
+                }), modifiers:[] }
               }
             ],
             name:'RMSomeValue',
@@ -1844,10 +1844,10 @@ describe('ObjCRenderer', function() {
                     })
                   }
                 ],
-                returnType: Maybe.Just({
+                returnType:{ type:Maybe.Just({
                   name:'instancetype',
                   reference:'instancetype'
-                })
+                }), modifiers:[] }
               }
             ],
             comments:[],
@@ -1888,10 +1888,10 @@ describe('ObjCRenderer', function() {
                     })
                   }
                 ],
-                returnType: Maybe.Just({
+                returnType:{ type:Maybe.Just({
                   name:'instancetype',
                   reference:'instancetype'
-                })
+                }), modifiers:[] }
               }
             ],
             name:'RMSomeValue',
@@ -2103,10 +2103,10 @@ describe('ObjCRenderer', function() {
               })
             }
             ],
-            returnType: Maybe.Just({
+            returnType:{ type:Maybe.Just({
               name:'instancetype',
               reference:'instancetype'
-            })
+            }), modifiers:[] }
           }
           ],
           name:'RMSomeValue',
@@ -2208,10 +2208,10 @@ describe('ObjCRenderer', function() {
                 name: 'num'
               }
             ],
-            returnType: Maybe.Just<ObjC.Type>({
+            returnType:{ type:Maybe.Just<ObjC.Type>({
               name: 'NSString',
               reference:'NSString *'
-            }),
+            }), modifiers:[] },
             code: [
               '#if SOMETHING',
               'return @"foo";',
@@ -2226,7 +2226,7 @@ describe('ObjCRenderer', function() {
             name: 'ANonPublicFunction',
             parameters: [
             ],
-            returnType: Maybe.Nothing<ObjC.Type>(),
+            returnType:{ type:Maybe.Nothing<ObjC.Type>(), modifiers:[] },
             code: [
               'something();'
             ],
@@ -2410,7 +2410,7 @@ describe('ObjCRenderer', function() {
                 nullability: ObjC.Nullability.Inherited()
               }
             ],
-            returnType: Maybe.Nothing<ObjC.Type>(),
+            returnType:{ type:Maybe.Nothing<ObjC.Type>(), modifiers:[] },
             isPublic: true,
             nullability: ObjC.ClassNullability.default
           },
@@ -2427,10 +2427,10 @@ describe('ObjCRenderer', function() {
                 nullability: ObjC.Nullability.Inherited()
               }
             ],
-            returnType: Maybe.Just<ObjC.Type>({
+            returnType:{ type:Maybe.Just<ObjC.Type>({
               name: 'Foo',
               reference:'Foo *'
-            }),
+            }), modifiers:[] },
             isPublic: false,
             nullability: ObjC.ClassNullability.default
           }
@@ -2489,7 +2489,7 @@ describe('ObjCRenderer', function() {
                 nullability: ObjC.Nullability.Inherited()
               }
             ],
-            returnType: Maybe.Nothing<ObjC.Type>(),
+            returnType:{ type:Maybe.Nothing<ObjC.Type>(), modifiers:[] },
             isPublic: true,
             nullability: ObjC.ClassNullability.default
           }

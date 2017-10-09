@@ -107,7 +107,7 @@ describe('Plugins.AlgebraicTypeFunctionMatching', function() {
               nullability: ObjC.Nullability.Inherited()
             }
           ],
-          returnType: Maybe.Nothing<ObjC.Type>(),
+          returnType:{ type:Maybe.Nothing<ObjC.Type>(), modifiers:[] },
           isPublic: true,
           nullability: ObjC.ClassNullability.default
         },
@@ -124,7 +124,7 @@ describe('Plugins.AlgebraicTypeFunctionMatching', function() {
               nullability: ObjC.Nullability.Inherited()
             }
           ],
-          returnType: Maybe.Nothing<ObjC.Type>(),
+          returnType:{ type:Maybe.Nothing<ObjC.Type>(), modifiers:[] },
           isPublic: true,
           nullability: ObjC.ClassNullability.default
         }
@@ -240,7 +240,7 @@ describe('Plugins.AlgebraicTypeFunctionMatching', function() {
             })
           }
         ],
-        returnType: Maybe.Nothing<ObjC.Type>()
+        returnType:{ type:Maybe.Nothing<ObjC.Type>(), modifiers:[] },
       };
 
       expect(instanceMethods).toContain(expectedInstanceMethod);

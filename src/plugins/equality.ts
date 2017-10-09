@@ -635,10 +635,13 @@ function isEqualInstanceMethod(typeName:string, generatedTypeEqualityInformation
     code: code,
     comments:[],
     compilerAttributes:[],
-    returnType: Maybe.Just({
-      name: 'BOOL',
-      reference: 'BOOL'
-    })
+    returnType: {
+      type: Maybe.Just<ObjC.Type>({
+        name: 'BOOL',
+        reference: 'BOOL'
+      }),
+      modifiers: []
+    }
   };
 }
 
@@ -676,10 +679,13 @@ function hashInstanceMethod(generatedTypeEqualityInformation:GeneratedTypeEquali
     ],
     comments:[],
     compilerAttributes:[],
-    returnType: Maybe.Just({
-      name: 'NSUInteger',
-      reference: 'NSUInteger'
-    })
+    returnType: {
+      type: Maybe.Just<ObjC.Type>({
+        name: 'NSUInteger',
+        reference: 'NSUInteger'
+      }),
+      modifiers: []
+    }
   };
 }
 
@@ -702,10 +708,13 @@ const COMPARE_FLOATS_FN:ObjC.Function = {
       name: 'floatToCompare'
     }
   ],
-  returnType: Maybe.Just<ObjC.Type>({
-    name: 'BOOL',
-    reference: 'BOOL'
-  }),
+  returnType: {
+    type: Maybe.Just<ObjC.Type>({
+      name: 'BOOL',
+      reference: 'BOOL'
+    }),
+    modifiers: []
+  },
   code: [
     'return fabsf(givenFloat - floatToCompare) < FLT_EPSILON * fabsf(givenFloat + floatToCompare) || fabsf(givenFloat - floatToCompare) < FLT_MIN;'
   ],
@@ -724,10 +733,13 @@ const HASH_FLOAT_FN:ObjC.Function = {
       name: 'givenFloat'
     }
   ],
-  returnType: Maybe.Just<ObjC.Type>({
-    name: 'NSUInteger',
-    reference: 'NSUInteger'
-  }),
+  returnType: {
+    type: Maybe.Just<ObjC.Type>({
+      name: 'NSUInteger',
+      reference: 'NSUInteger'
+    }),
+    modifiers: []
+  },
   code: [
     'union {',
     '  float key;',
@@ -775,10 +787,13 @@ const COMPARE_DOUBLES_FN:ObjC.Function = {
       name: 'doubleToCompare'
     }
   ],
-  returnType: Maybe.Just<ObjC.Type>({
-    name: 'BOOL',
-    reference: 'BOOL'
-  }),
+  returnType: {
+    type: Maybe.Just<ObjC.Type>({
+      name: 'BOOL',
+      reference: 'BOOL'
+    }),
+    modifiers: []
+  },
   code: [
     'return fabs(givenDouble - doubleToCompare) < DBL_EPSILON * fabs(givenDouble + doubleToCompare) || fabs(givenDouble - doubleToCompare) < DBL_MIN;'
   ],
@@ -797,10 +812,13 @@ const HASH_DOUBLE_FN:ObjC.Function = {
       name: 'givenDouble'
     }
   ],
-  returnType: Maybe.Just<ObjC.Type>({
-    name: 'NSUInteger',
-    reference: 'NSUInteger'
-  }),
+  returnType: {
+    type: Maybe.Just<ObjC.Type>({
+      name: 'NSUInteger',
+      reference: 'NSUInteger'
+    }),
+    modifiers: []
+  },
   code: [
     'union {',
     '  double key;',
@@ -853,10 +871,13 @@ const COMPARE_CGFLOATS_FN:ObjC.Function = {
       name: 'cgFloatToCompare'
     }
   ],
-  returnType: Maybe.Just<ObjC.Type>({
-    name: 'BOOL',
-    reference: 'BOOL'
-  }),
+  returnType: {
+    type: Maybe.Just<ObjC.Type>({
+      name: 'BOOL',
+      reference: 'BOOL'
+    }),
+    modifiers: []
+  },
   code: wrapCGFloatTypeComparisonCodeToAvoidUnusedFunctionWarning(
     'return CompareDoubles(givenCGFloat, cgFloatToCompare);',
     'return CompareFloats(givenCGFloat, cgFloatToCompare);'
@@ -876,10 +897,13 @@ const HASH_CGFLOATS_FN:ObjC.Function = {
       name: 'givenCGFloat'
     }
   ],
-  returnType: Maybe.Just<ObjC.Type>({
-    name: 'NSUInteger',
-    reference: 'NSUInteger'
-  }),
+  returnType: {
+    type: Maybe.Just<ObjC.Type>({
+      name: 'NSUInteger',
+      reference: 'NSUInteger'
+    }),
+    modifiers: []
+  },
   code: wrapCGFloatTypeComparisonCodeToAvoidUnusedFunctionWarning(
     'return HashDouble(givenCGFloat);',
     'return HashFloat(givenCGFloat);'

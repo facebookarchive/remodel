@@ -106,10 +106,13 @@ function decodeMethodWithCode(code:string[]):ObjC.Method {
         })
       }
     ],
-    returnType: Maybe.Just<ObjC.Type>({
-      name: 'instancetype',
-      reference: 'instancetype'
-    })
+    returnType: {
+      type: Maybe.Just<ObjC.Type>({
+        name: 'instancetype',
+        reference: 'instancetype'
+      }),
+      modifiers: []
+    }
   };
 }
 
@@ -132,7 +135,10 @@ function encodeMethodWithCode(code:string[]):ObjC.Method {
         })
       }
     ],
-    returnType: Maybe.Nothing<ObjC.Type>()
+    returnType: {
+      type: Maybe.Nothing<ObjC.Type>(),
+      modifiers: []
+    }
   };
 }
 

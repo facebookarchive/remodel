@@ -279,10 +279,10 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
               argument: Maybe.Nothing<ObjC.KeywordArgument>()
             }
           ],
-          returnType: Maybe.Just<ObjC.Type>({
+          returnType:{ type:Maybe.Just<ObjC.Type>({
             name: 'instancetype',
             reference: 'instancetype'
-          })
+          }), modifiers:[] }
         }
       ];
       expect(classMethods).toEqualJSON(expectedClassMethods);
@@ -389,10 +389,10 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
               })
             }
           ],
-          returnType: Maybe.Just<ObjC.Type>({
+          returnType:{ type:Maybe.Just<ObjC.Type>({
             name: 'instancetype',
             reference: 'instancetype'
-          })
+          }), modifiers:[] }
         },
         {
           belongsToProtocol:Maybe.Nothing<string>(),
@@ -417,10 +417,10 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
               })
             }
           ],
-          returnType: Maybe.Just<ObjC.Type>({
+          returnType:{ type:Maybe.Just<ObjC.Type>({
             name: 'instancetype',
             reference: 'instancetype'
-          })
+          }), modifiers:[] }
         }
       ];
       expect(classMethods).toEqualJSON(expectedClassMethods);

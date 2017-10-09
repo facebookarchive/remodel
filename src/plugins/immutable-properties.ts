@@ -79,10 +79,13 @@ function initializerFromAttributes(supportsValueSemantics:boolean, attributes:Ob
     comments:[],
     compilerAttributes:["NS_DESIGNATED_INITIALIZER"],
     keywords: keywords,
-    returnType: Maybe.Just({
-      name: 'instancetype',
-      reference: 'instancetype'
-    })
+    returnType: {
+      type: Maybe.Just<ObjC.Type>({
+        name: 'instancetype',
+        reference: 'instancetype'
+      }),
+      modifiers: []
+    }
   };
 }
 

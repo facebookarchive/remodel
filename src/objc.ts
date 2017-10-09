@@ -92,13 +92,18 @@ export interface Keyword {
   name:string;
 }
 
+export interface ReturnType {
+  type:Maybe.Maybe<Type>;
+  modifiers:KeywordArgumentModifier[];
+}
+
 export interface Method {
   belongsToProtocol:Maybe.Maybe<string>;
   code:string[];
   comments:Comment[];
   compilerAttributes:string[];
   keywords:Keyword[];
-  returnType:Maybe.Maybe<Type>;
+  returnType:ReturnType;
 }
 
 export interface FunctionParameter {
@@ -110,7 +115,7 @@ export interface Function {
   comments:Comment[];
   name:string;
   parameters:FunctionParameter[];
-  returnType:Maybe.Maybe<Type>;
+  returnType:ReturnType;
   code:string[];
   isPublic:boolean;
 }
@@ -125,7 +130,7 @@ export interface BlockType {
   comments:Comment[];
   name:string;
   parameters:BlockTypeParameter[];
-  returnType:Maybe.Maybe<Type>;
+  returnType:ReturnType;
   isPublic:boolean;
   nullability:ClassNullability;
 }

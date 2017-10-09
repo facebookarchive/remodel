@@ -93,10 +93,10 @@ describe('Plugins.ImmutableProperties', function() {
               })
             }
           ],
-          returnType: Maybe.Just({
+          returnType:{ type:Maybe.Just({
             name:'instancetype',
             reference: 'instancetype'
-          })
+          }), modifiers:[] }
         }
       ];
 
@@ -158,10 +158,10 @@ describe('Plugins.ImmutableProperties', function() {
               })
             }
           ],
-          returnType: Maybe.Just({
+          returnType:{ type:Maybe.Just({
             name:'instancetype',
             reference: 'instancetype'
-          })
+          }), modifiers:[] }
         }
       ];
 
@@ -301,10 +301,10 @@ describe('Plugins.ImmutableProperties', function() {
               })
             }
           ],
-          returnType: Maybe.Just({
+          returnType:{ type:Maybe.Just({
             name:'instancetype',
             reference: 'instancetype'
-          })
+          }), modifiers:[] }
         }
       ];
 
@@ -444,10 +444,10 @@ describe('Plugins.ImmutableProperties', function() {
               })
             }
           ],
-          returnType: Maybe.Just({
+          returnType:{ type:Maybe.Just({
             name:'instancetype',
             reference: 'instancetype'
-          })
+          }), modifiers:[] }
         }
       ];
 

@@ -57,10 +57,10 @@ describe('ObjectSpecCreation', function() {
                   argument: Maybe.Nothing<ObjC.KeywordArgument>()
                 }
               ],
-              returnType: Maybe.Just({
+              returnType:{ type:Maybe.Just({
                 name: 'NSString',
                 reference: 'NSString *'
-              })
+              }), modifiers:[] }
             }
           ];
           return instanceMethods;
@@ -433,10 +433,10 @@ describe('ObjectSpecCreation', function() {
               argument: Maybe.Nothing<ObjC.KeywordArgument>()
             }
             ],
-            returnType: Maybe.Just({
+            returnType:{ type:Maybe.Just({
               name: 'NSString',
               reference: 'NSString *'
-            })
+            }), modifiers:[] }
           }
           ];
           return instanceMethods;
@@ -543,10 +543,10 @@ describe('ObjectSpecCreation', function() {
                   argument: Maybe.Nothing<ObjC.KeywordArgument>()
                 }
               ],
-              returnType: Maybe.Just({
+              returnType:{ type:Maybe.Just({
                 name: 'NSString',
                 reference: 'NSString *'
-              })
+              }), modifiers:[] }
             },
             {
               belongsToProtocol:Maybe.Nothing<string>(),
@@ -561,10 +561,10 @@ describe('ObjectSpecCreation', function() {
                   argument: Maybe.Nothing<ObjC.KeywordArgument>()
                 }
               ],
-              returnType: Maybe.Just({
+              returnType:{ type:Maybe.Just({
                 name: 'NSString',
                 reference: 'NSString *'
-              })
+              }), modifiers:[] }
             },
             {
               belongsToProtocol:Maybe.Nothing<string>(),
@@ -579,10 +579,10 @@ describe('ObjectSpecCreation', function() {
                   argument: Maybe.Nothing<ObjC.KeywordArgument>()
                 }
               ],
-              returnType: Maybe.Just({
+              returnType:{ type:Maybe.Just({
                 name: 'instancetype',
                 reference: 'instancetype'
-              })
+              }), modifiers:[] }
             }
           ];
           return instanceMethods;
@@ -932,10 +932,10 @@ describe('ObjectSpecCreation', function() {
                   argument: Maybe.Nothing<ObjC.KeywordArgument>()
                 }
               ],
-              returnType: Maybe.Just({
+              returnType:{ type:Maybe.Just({
                 name: 'NSString',
                 reference: 'NSString *'
-              })
+              }), modifiers:[] }
             },
             {
               belongsToProtocol:Maybe.Nothing<string>(),
@@ -950,10 +950,10 @@ describe('ObjectSpecCreation', function() {
                   argument: Maybe.Nothing<ObjC.KeywordArgument>()
                 }
               ],
-              returnType: Maybe.Just({
+              returnType:{ type:Maybe.Just({
                 name: 'NSString',
                 reference: 'NSString *'
-              })
+              }), modifiers:[] }
             }
           ];
           return instanceMethods;
@@ -1021,10 +1021,10 @@ describe('ObjectSpecCreation', function() {
                   argument: Maybe.Nothing<ObjC.KeywordArgument>()
                 }
               ],
-              returnType: Maybe.Just({
+              returnType:{ type:Maybe.Just({
                 name: 'instancetype',
                 reference: 'instancetype'
-              })
+              }), modifiers:[] }
             }
           ];
           return instanceMethods;
@@ -1167,10 +1167,10 @@ describe('ObjectSpecCreation', function() {
                   argument: Maybe.Nothing<ObjC.KeywordArgument>()
                 }
               ],
-              returnType: Maybe.Just({
+              returnType:{ type:Maybe.Just({
                 name: 'NSString',
                 reference: 'NSString *'
-              })
+              }), modifiers:[] }
             },
             {
               belongsToProtocol:Maybe.Nothing<string>(),
@@ -1185,10 +1185,10 @@ describe('ObjectSpecCreation', function() {
                   argument: Maybe.Nothing<ObjC.KeywordArgument>()
                 }
               ],
-              returnType: Maybe.Just({
+              returnType:{ type:Maybe.Just({
                 name: 'NSString',
                 reference: 'NSString *'
-              })
+              }), modifiers:[] }
             }
           ];
           return instanceMethods;
@@ -1260,10 +1260,10 @@ describe('ObjectSpecCreation', function() {
                   argument: Maybe.Nothing<ObjC.KeywordArgument>()
                 }
               ],
-              returnType: Maybe.Just({
+              returnType:{ type:Maybe.Just({
                 name: 'instancetype',
                 reference: 'instancetype'
-              })
+              }), modifiers:[] }
             }
           ];
           return instanceMethods;

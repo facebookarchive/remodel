@@ -104,10 +104,13 @@ function initializationClassMethodForSubtype(algebraicType:AlgebraicType.Type, s
     comments:[],
     compilerAttributes:[],
     keywords: keywordsForSubtype(subtype),
-    returnType: Maybe.Just<ObjC.Type>({
-      name: 'instancetype',
-      reference: 'instancetype'
-    })
+    returnType: {
+      type: Maybe.Just<ObjC.Type>({
+        name: 'instancetype',
+        reference: 'instancetype'
+      }),
+      modifiers: []
+    }
   };
 }
 

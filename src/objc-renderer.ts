@@ -48,7 +48,8 @@ function libraryImport(file:string, library:string):string {
 }
 
 function returnTypeReference(modifiers:ObjC.KeywordArgumentModifier[], type:ObjC.Type):string {
-  return type.reference; // add modifiers
+  const modifiersString:string = modifiers.length > 0 ? modifiers.map(toKeywordArgumentModifierString).join(' ') + ' ' : '';
+  return modifiersString + type.reference;
 }
 
 function returnVoid():string {

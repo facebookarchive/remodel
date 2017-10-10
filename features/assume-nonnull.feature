@@ -163,14 +163,14 @@ Feature: Outputting Value Objects / Algebraic Types decorated with NS_ASSUME_NON
 
       + (instancetype)bar
       {
-        RMFoo *object = [[RMFoo alloc] init];
+        RMFoo *object = [[RMFoo alloc] internalInit];
         object->_subtype = _RMFooSubtypesBar;
         return object;
       }
 
       + (instancetype)bazWithAString:(NSString *)aString bString:(nullable NSString *)bString
       {
-        RMFoo *object = [[RMFoo alloc] init];
+        RMFoo *object = [[RMFoo alloc] internalInit];
         object->_subtype = _RMFooSubtypesBaz;
         object->_baz_aString = aString;
         object->_baz_bString = bString;
@@ -211,6 +211,11 @@ Feature: Outputting Value Objects / Algebraic Types decorated with NS_ASSUME_NON
           result = base;
         }
         return result;
+      }
+
+      - (instancetype)internalInit
+      {
+        return [super init];
       }
 
       - (BOOL)isEqual:(RMFoo *)object

@@ -241,6 +241,51 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
     });
   });
 
+  describe('#instanceMethods', function() {
+    it('returns an internal initializer', function() {
+      const algebraicType:AlgebraicType.Type = {
+        annotations: {},
+        name: 'Foo',
+        includes: [],
+        excludes: [],
+        typeLookups:[],
+        libraryName: Maybe.Nothing<string>(),
+        comments: [],
+        subtypes: [
+          AlgebraicType.Subtype.NamedAttributeCollectionDefinition(
+          {
+            name: 'SomeSubtype',
+            comments: [],
+            attributes: []
+          })
+        ]
+      };
+
+      const instanceMethods:ObjC.Method[] = AlgebraicTypePlugin.instanceMethods(algebraicType);
+      const expectedInstanceMethods:ObjC.Method[] = [
+        {
+          belongsToProtocol:Maybe.Just<string>('ADTInit'),
+          code: [
+            'return [super init];'
+          ],
+          comments: [],
+          compilerAttributes:[],
+          keywords: [
+            {
+              name: 'internalInit',
+              argument: Maybe.Nothing<ObjC.KeywordArgument>()
+            }
+          ],
+          returnType:{ type:Maybe.Just<ObjC.Type>({
+            name: 'instancetype',
+            reference: 'instancetype'
+          }), modifiers:[] }
+        }
+      ];
+      expect(instanceMethods).toEqualJSON(expectedInstanceMethods);
+    });
+  });
+
   describe('#classMethods', function() {
     it('returns a single class method when there is one subtype ' +
        'with no attributes', function() {
@@ -267,7 +312,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
         {
           belongsToProtocol:Maybe.Nothing<string>(),
           code: [
-            'Foo *object = [[Foo alloc] init];',
+            'Foo *object = [[Foo alloc] internalInit];',
             'object->_subtype = _FooSubtypesSomeSubtype;',
             'return object;'
           ],
@@ -357,7 +402,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
         {
           belongsToProtocol:Maybe.Nothing<string>(),
           code: [
-            'Test *object = [[Test alloc] init];',
+            'Test *object = [[Test alloc] internalInit];',
             'object->_subtype = _TestSubtypesSomeSubtype;',
             'object->_someSubtype_someString = someString;',
             'object->_someSubtype_someUnsignedInteger = someUnsignedInteger;',
@@ -397,7 +442,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
         {
           belongsToProtocol:Maybe.Nothing<string>(),
           code: [
-            'Test *object = [[Test alloc] init];',
+            'Test *object = [[Test alloc] internalInit];',
             'object->_subtype = _TestSubtypesSingleAttributeSubtype;',
             'object->_singleAttributeSubtype = singleAttributeSubtype;',
             'return object;'

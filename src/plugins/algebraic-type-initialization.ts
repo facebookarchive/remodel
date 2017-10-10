@@ -91,9 +91,29 @@ function keywordsForSubtype(subtype:AlgebraicType.Subtype):ObjC.Keyword[] {
     });
 }
 
+function internalInitInstanceMethod() {
+  return {
+    belongsToProtocol:Maybe.Just<string>('ADTInit'),
+    code: ['return [super init];'],
+    comments:[],
+    compilerAttributes:[],
+    keywords: [{
+      argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+      name: 'internalInit'
+    }],
+    returnType: {
+      type: Maybe.Just<ObjC.Type>({
+        name: 'instancetype',
+        reference: 'instancetype'
+      }),
+      modifiers: []
+    }
+  }; 
+}
+
 function initializationClassMethodForSubtype(algebraicType:AlgebraicType.Type, subtype:AlgebraicType.Subtype):ObjC.Method {
   const openingCode:string[] = [
-    algebraicType.name + ' *' + nameOfObjectWithinInitializer() + ' = [[' + algebraicType.name + ' alloc] init];',
+    algebraicType.name + ' *' + nameOfObjectWithinInitializer() + ' = [[' + algebraicType.name + ' alloc] internalInit];',
     nameOfObjectWithinInitializer() + '->' + AlgebraicTypeUtils.valueAccessorForInternalPropertyStoringSubtype() + ' = ' + AlgebraicTypeUtils.EnumerationValueNameForSubtype(algebraicType, subtype) + ';'
   ];
   const setterStatements:string[] = AlgebraicTypeUtils.attributesFromSubtype(subtype).map(FunctionUtils.pApplyf2(subtype, internalValueSettingCodeForAttribute));
@@ -282,7 +302,7 @@ export function createAlgebraicTypePlugin():AlgebraicType.Plugin {
       return baseImports.concat(typeLookupImports).concat(attributeImports);
     },
     instanceMethods: function(algebraicType:AlgebraicType.Type):ObjC.Method[] {
-      return [];
+      return [internalInitInstanceMethod()];
     },
     internalProperties: function(algebraicType:AlgebraicType.Type):ObjC.Property[] {
       return internalPropertiesForImplementationOfAlgebraicType(algebraicType);

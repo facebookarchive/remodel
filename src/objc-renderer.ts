@@ -207,10 +207,8 @@ function protocolsString(protocols:ObjC.Protocol[]):string {
   }
 }
 
-function implementedProtocolsIncludingNSObject(implementedProtocols:ObjC.Protocol[]):ObjC.Protocol[] {
-  return implementedProtocols.concat({
-    name: 'NSObject'
-  });
+function implementedProtocolsIncludingNSObjectAndADTInit(implementedProtocols:ObjC.Protocol[]):ObjC.Protocol[] {
+  return implementedProtocols.concat({ name: 'NSObject' }).concat({ name: 'ADTInit' });
 }
 
 const HEADER_FUNCTIONS_SECTION_BEGIN:string = '#ifdef __cplusplus\nextern "C" {\n#endif\n\n';
@@ -412,7 +410,7 @@ function headerClassSection(classInfo:ObjC.Class):string {
   const classMethodsStr = classInfo.classMethods.map(toClassMethodHeaderString).join('\n\n');
   const classMethodsSection = codeSectionForCodeString(classMethodsStr);
 
-  const instanceMethodsStr = classInfo.instanceMethods.filter(FunctionUtils.pApplyf2(implementedProtocolsIncludingNSObject(classInfo.implementedProtocols), includeMethodInHeader))
+  const instanceMethodsStr = classInfo.instanceMethods.filter(FunctionUtils.pApplyf2(implementedProtocolsIncludingNSObjectAndADTInit(classInfo.implementedProtocols), includeMethodInHeader))
                                                     .map(toInstanceMethodHeaderString).join('\n\n');
   const instanceMethodsSection = codeSectionForCodeString(instanceMethodsStr);
 

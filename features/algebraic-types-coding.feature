@@ -69,7 +69,7 @@ Feature: Outputting Algebraic Types
 
       + (instancetype)firstSubtypeWithFirstValue:(NSString *)firstValue secondValue:(NSUInteger)secondValue
       {
-        SimpleADT *object = [[SimpleADT alloc] init];
+        SimpleADT *object = [[SimpleADT alloc] internalInit];
         object->_subtype = _SimpleADTSubtypesFirstSubtype;
         object->_firstSubtype_firstValue = firstValue;
         object->_firstSubtype_secondValue = secondValue;
@@ -78,7 +78,7 @@ Feature: Outputting Algebraic Types
 
       + (instancetype)secondSubtypeWithSomething:(BOOL)something
       {
-        SimpleADT *object = [[SimpleADT alloc] init];
+        SimpleADT *object = [[SimpleADT alloc] internalInit];
         object->_subtype = _SimpleADTSubtypesSecondSubtype;
         object->_secondSubtype_something = something;
         return object;
@@ -155,6 +155,11 @@ Feature: Outputting Algebraic Types
           result = base;
         }
         return result;
+      }
+
+      - (instancetype)internalInit
+      {
+        return [super init];
       }
 
       - (BOOL)isEqual:(SimpleADT *)object

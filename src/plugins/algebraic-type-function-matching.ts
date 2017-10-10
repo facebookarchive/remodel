@@ -42,7 +42,10 @@ function instanceMethodForMatchingSubtypesOfAlgebraicType(algebraicType:Algebrai
     comments: [],
     compilerAttributes:[],
     keywords: instanceMethodKeywordsForMatchingSubtypesOfAlgebraicType(algebraicType),
-    returnType: Maybe.Nothing<ObjC.Type>()
+    returnType: {
+      type: Maybe.Nothing<ObjC.Type>(),
+      modifiers: []
+    }
   };
 }
 

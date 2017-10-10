@@ -84,7 +84,7 @@ Feature: Outputting Algebraic Types
         return object;
       }
 
-      - (instancetype)initWithCoder:(NSCoder *)aDecoder
+      - (nullable instancetype)initWithCoder:(NSCoder *)aDecoder
       {
         if ((self = [super init])) {
           NSString *codedSubtype = [aDecoder decodeObjectForKey:kCodedSubtypeKey];

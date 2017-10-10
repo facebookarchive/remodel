@@ -47,16 +47,17 @@ function libraryImport(file:string, library:string):string {
   return '#import <' + library + '/' + file + '>';
 }
 
-function returnTypeReference(type:ObjC.Type):string {
-  return type.reference;
+function returnTypeReference(modifiers:ObjC.KeywordArgumentModifier[], type:ObjC.Type):string {
+  const modifiersString:string = modifiers.length > 0 ? modifiers.map(toKeywordArgumentModifierString).join(' ') + ' ' : '';
+  return modifiersString + type.reference;
 }
 
 function returnVoid():string {
   return 'void';
 }
 
-function toTypeString(type:Maybe.Maybe<ObjC.Type>):string {
-  return Maybe.match(returnTypeReference, returnVoid, type);
+function toTypeString(returnType:ObjC.ReturnType):string {
+  return Maybe.match(FunctionUtils.pApplyf2(returnType.modifiers, returnTypeReference), returnVoid, returnType.type);
 }
 
 function toImportString(givenImport:ObjC.Import):string {
@@ -490,7 +491,7 @@ function returnVoidWithASpace():string {
   return returnVoid() + ' ';
 }
 
-function toFunctionReturnTypeString(returnType:Maybe.Maybe<ObjC.Type>):string {
+function toFunctionReturnTypeString(returnType:ObjC.ReturnType):string {
   return renderableTypeReferenceNestingSubsequentToken(toTypeString(returnType));
 }
 

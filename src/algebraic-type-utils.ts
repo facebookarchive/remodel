@@ -124,7 +124,10 @@ export function blockTypeForSubtype(algebraicType:AlgebraicType.Type, subtype:Al
     comments: [],
     name: blockTypeNameForSubtype(algebraicType, subtype),
     parameters: attributesFromSubtype(subtype).map(blockTypeParameterForSubtypeAttribute),
-    returnType: Maybe.Nothing<ObjC.Type>(),
+    returnType: {
+      type: Maybe.Nothing<ObjC.Type>(),
+      modifiers: []
+    },
     isPublic: true,
     nullability: algebraicType.includes.indexOf('RMAssumeNonnull') >= 0 ? ObjC.ClassNullability.assumeNonnull : ObjC.ClassNullability.default 
   };

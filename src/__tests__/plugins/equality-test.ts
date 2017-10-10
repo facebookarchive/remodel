@@ -441,10 +441,10 @@ describe('ObjectSpecPlugins.Equality', function() {
           ],
           comments: [],
           compilerAttributes:[],
-          returnType: Maybe.Just({
+          returnType:{ type:Maybe.Just({
             name: 'BOOL',
             reference: 'BOOL'
-          })
+          }), modifiers:[] }
         },
         {
           belongsToProtocol:Maybe.Just('NSObject'),
@@ -471,10 +471,10 @@ describe('ObjectSpecPlugins.Equality', function() {
           ],
           comments: [],
           compilerAttributes:[],
-          returnType: Maybe.Just({
+          returnType:{ type:Maybe.Just({
             name: 'NSUInteger',
             reference: 'NSUInteger'
-          })
+          }), modifiers:[] }
         }
       ];
 
@@ -553,10 +553,10 @@ describe('ObjectSpecPlugins.Equality', function() {
           ],
           comments: [],
           compilerAttributes:[],
-          returnType: Maybe.Just({
+          returnType:{ type:Maybe.Just({
             name: 'BOOL',
             reference: 'BOOL'
-          })
+          }), modifiers:[] }
         },
         {
           belongsToProtocol:Maybe.Just('NSObject'),
@@ -583,10 +583,10 @@ describe('ObjectSpecPlugins.Equality', function() {
           ],
           comments: [],
           compilerAttributes:[],
-          returnType: Maybe.Just({
+          returnType:{ type:Maybe.Just({
             name: 'NSUInteger',
             reference: 'NSUInteger'
-          })
+          }), modifiers:[] }
         }
       ];
 
@@ -680,10 +680,10 @@ describe('ObjectSpecPlugins.Equality', function() {
               name: 'floatToCompare'
             }
           ],
-          returnType: Maybe.Just<ObjC.Type>({
+          returnType:{ type:Maybe.Just<ObjC.Type>({
             name: 'BOOL',
             reference: 'BOOL'
-          }),
+          }), modifiers:[] },
           code: [
             'return fabsf(givenFloat - floatToCompare) < FLT_EPSILON * fabsf(givenFloat + floatToCompare) || fabsf(givenFloat - floatToCompare) < FLT_MIN;'
           ],
@@ -701,10 +701,10 @@ describe('ObjectSpecPlugins.Equality', function() {
               name: 'givenFloat'
             }
           ],
-          returnType: Maybe.Just<ObjC.Type>({
+          returnType:{ type:Maybe.Just<ObjC.Type>({
             name: 'NSUInteger',
             reference: 'NSUInteger'
-          }),
+          }), modifiers:[] },
           code: [
             'union {',
             '  float key;',
@@ -799,10 +799,10 @@ describe('ObjectSpecPlugins.Equality', function() {
               name: 'floatToCompare'
             }
           ],
-          returnType: Maybe.Just<ObjC.Type>({
+          returnType:{ type:Maybe.Just<ObjC.Type>({
             name: 'BOOL',
             reference: 'BOOL'
-          }),
+          }), modifiers:[] },
           code: [
             'return fabsf(givenFloat - floatToCompare) < FLT_EPSILON * fabsf(givenFloat + floatToCompare) || fabsf(givenFloat - floatToCompare) < FLT_MIN;'
           ],
@@ -820,10 +820,10 @@ describe('ObjectSpecPlugins.Equality', function() {
               name: 'givenFloat'
             }
           ],
-          returnType: Maybe.Just<ObjC.Type>({
+          returnType:{ type:Maybe.Just<ObjC.Type>({
             name: 'NSUInteger',
             reference: 'NSUInteger'
-          }),
+          }), modifiers:[] },
           code: [
             'union {',
             '  float key;',
@@ -904,10 +904,10 @@ describe('ObjectSpecPlugins.Equality', function() {
               name: 'doubleToCompare'
             }
           ],
-          returnType: Maybe.Just<ObjC.Type>({
+          returnType:{ type:Maybe.Just<ObjC.Type>({
             name: 'BOOL',
             reference: 'BOOL'
-          }),
+          }), modifiers:[] },
           code: [
             'return fabs(givenDouble - doubleToCompare) < DBL_EPSILON * fabs(givenDouble + doubleToCompare) || fabs(givenDouble - doubleToCompare) < DBL_MIN;'
           ],
@@ -925,10 +925,10 @@ describe('ObjectSpecPlugins.Equality', function() {
               name: 'givenDouble'
             }
           ],
-          returnType: Maybe.Just<ObjC.Type>({
+          returnType:{ type:Maybe.Just<ObjC.Type>({
             name: 'NSUInteger',
             reference: 'NSUInteger'
-          }),
+          }), modifiers:[] },
           code: [
             'union {',
             '  double key;',
@@ -1000,10 +1000,10 @@ describe('ObjectSpecPlugins.Equality', function() {
               name: 'floatToCompare'
             }
           ],
-          returnType: Maybe.Just<ObjC.Type>({
+          returnType:{ type:Maybe.Just<ObjC.Type>({
             name: 'BOOL',
             reference: 'BOOL'
-          }),
+          }), modifiers:[] },
           code: [
             'return fabsf(givenFloat - floatToCompare) < FLT_EPSILON * fabsf(givenFloat + floatToCompare) || fabsf(givenFloat - floatToCompare) < FLT_MIN;'
           ],
@@ -1028,10 +1028,10 @@ describe('ObjectSpecPlugins.Equality', function() {
               name: 'doubleToCompare'
             }
           ],
-          returnType: Maybe.Just<ObjC.Type>({
+          returnType:{ type:Maybe.Just<ObjC.Type>({
             name: 'BOOL',
             reference: 'BOOL'
-          }),
+          }), modifiers:[] },
           code: [
             'return fabs(givenDouble - doubleToCompare) < DBL_EPSILON * fabs(givenDouble + doubleToCompare) || fabs(givenDouble - doubleToCompare) < DBL_MIN;'
           ],
@@ -1056,10 +1056,10 @@ describe('ObjectSpecPlugins.Equality', function() {
               name: 'cgFloatToCompare'
             }
           ],
-          returnType: Maybe.Just<ObjC.Type>({
+          returnType:{ type:Maybe.Just<ObjC.Type>({
             name: 'BOOL',
             reference: 'BOOL'
-          }),
+          }), modifiers:[] },
           code: [
             '#if CGFLOAT_IS_DOUBLE',
             '  BOOL useDouble = YES;',
@@ -1086,10 +1086,10 @@ describe('ObjectSpecPlugins.Equality', function() {
               name: 'givenFloat'
             }
           ],
-          returnType: Maybe.Just<ObjC.Type>({
+          returnType:{ type:Maybe.Just<ObjC.Type>({
             name: 'NSUInteger',
             reference: 'NSUInteger'
-          }),
+          }), modifiers:[] },
           code: [
             'union {',
             '  float key;',
@@ -1129,10 +1129,10 @@ describe('ObjectSpecPlugins.Equality', function() {
               name: 'givenDouble'
             }
           ],
-          returnType: Maybe.Just<ObjC.Type>({
+          returnType:{ type:Maybe.Just<ObjC.Type>({
             name: 'NSUInteger',
             reference: 'NSUInteger'
-          }),
+          }), modifiers:[] },
           code: [
             'union {',
             '  double key;',
@@ -1162,10 +1162,10 @@ describe('ObjectSpecPlugins.Equality', function() {
               name: 'givenCGFloat'
             }
           ],
-          returnType: Maybe.Just<ObjC.Type>({
+          returnType:{ type:Maybe.Just<ObjC.Type>({
             name: 'NSUInteger',
             reference: 'NSUInteger'
-          }),
+          }), modifiers:[] },
           code: [
             '#if CGFLOAT_IS_DOUBLE',
             '  BOOL useDouble = YES;',

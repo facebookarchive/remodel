@@ -44,10 +44,13 @@ function builderClassMethodForValueType(objectType:ObjectSpec.Type):ObjC.Method 
         argument:Maybe.Nothing<ObjC.KeywordArgument>()
       }
     ],
-    returnType: Maybe.Just({
-      name:'instancetype',
-      reference:'instancetype'
-    })
+    returnType: {
+      type: Maybe.Just<ObjC.Type>({
+        name: 'instancetype',
+        reference: 'instancetype'
+      }),
+      modifiers: []
+    }
   };
 }
 
@@ -109,10 +112,13 @@ function builderFromExistingObjectClassMethodForValueType(objectType:ObjectSpec.
         })
       }
     ],
-    returnType: Maybe.Just({
-      name:'instancetype',
-      reference:'instancetype'
-    })
+    returnType: {
+      type: Maybe.Just<ObjC.Type>({
+        name: 'instancetype',
+        reference: 'instancetype'
+      }),
+      modifiers: []
+    }
   };
 }
 
@@ -134,10 +140,13 @@ function buildObjectInstanceMethodForValueType(objectType:ObjectSpec.Type):ObjC.
         argument:Maybe.Nothing<ObjC.KeywordArgument>()
       }
     ],
-    returnType: Maybe.Just({
-      name: objectType.typeName,
-      reference: ObjectSpecUtils.typeReferenceForValueTypeWithName(objectType.typeName)
-    })
+    returnType: {
+      type: Maybe.Just<ObjC.Type>({
+        name: objectType.typeName,
+        reference: ObjectSpecUtils.typeReferenceForValueTypeWithName(objectType.typeName)
+      }),
+      modifiers: []
+    }
   };
 }
 
@@ -180,10 +189,13 @@ function withInstanceMethodForAttribute(supportsValueSemantics:boolean, attribut
         })
       }
     ],
-    returnType: Maybe.Just({
-      name:'instancetype',
-      reference:'instancetype'
-    })
+    returnType: {
+      type: Maybe.Just<ObjC.Type>({
+        name: 'instancetype',
+        reference: 'instancetype'
+      }),
+      modifiers: []
+    }
   };
 }
 

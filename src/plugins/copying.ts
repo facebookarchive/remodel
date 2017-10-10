@@ -34,10 +34,13 @@ function copyInstanceMethod():ObjC.Method {
         })
       }
     ],
-    returnType: Maybe.Just<ObjC.Type>({
-      name: 'id',
-      reference: 'id'
-    })
+    returnType: {
+      type: Maybe.Just<ObjC.Type>({
+        name: 'id',
+        reference: 'id'
+      }),
+      modifiers: []
+    }
   };
 }
 

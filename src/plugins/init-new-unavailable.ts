@@ -31,10 +31,13 @@ function initUnavailableInstanceMethod():ObjC.Method {
         argument: Maybe.Nothing<ObjC.KeywordArgument>()
       }
     ],
-    returnType: Maybe.Just({
-      name: 'instancetype',
-      reference: 'instancetype'
-    })
+    returnType: {
+      type: Maybe.Just<ObjC.Type>({
+        name: 'instancetype',
+        reference: 'instancetype'
+      }),
+      modifiers: []
+    }
   };
 }
 
@@ -50,10 +53,13 @@ function newUnavailableClassMethod():ObjC.Method {
         argument: Maybe.Nothing<ObjC.KeywordArgument>()
       }
     ],
-    returnType: Maybe.Just({
-      name: 'instancetype',
-      reference: 'instancetype'
-    })
+    returnType: {
+      type: Maybe.Just<ObjC.Type>({
+        name: 'instancetype',
+        reference: 'instancetype'
+      }),
+      modifiers: []
+    }
   };
 }
 

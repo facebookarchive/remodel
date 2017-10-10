@@ -47,7 +47,7 @@ Feature: Outputting Value Objects With Coded Values
 
       @implementation RMPage
 
-      - (instancetype)initWithCoder:(NSCoder *)aDecoder
+      - (nullable instancetype)initWithCoder:(NSCoder *)aDecoder
       {
         if ((self = [super init])) {
           _doesUserLike = [aDecoder decodeBoolForKey:kDoesUserLikeKey];

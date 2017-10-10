@@ -84,10 +84,10 @@ describe('Plugins.Builder', function() {
                       argument:Maybe.Nothing<ObjC.KeywordArgument>()
                     }
                   ],
-                  returnType: Maybe.Just({
+                  returnType:{ type:Maybe.Just({
                     name:'instancetype',
                     reference: 'instancetype'
-                  })
+                  }), modifiers:[] }
                 },
                 {
                   belongsToProtocol:Maybe.Nothing<string>(),
@@ -109,10 +109,10 @@ describe('Plugins.Builder', function() {
                       })
                     }
                   ],
-                  returnType: Maybe.Just({
+                  returnType:{ type:Maybe.Just({
                     name:'instancetype',
                     reference: 'instancetype'
-                  })
+                  }), modifiers:[] }
                 }
               ],
               comments:[],
@@ -130,10 +130,10 @@ describe('Plugins.Builder', function() {
                       argument:Maybe.Nothing<ObjC.KeywordArgument>()
                     }
                   ],
-                  returnType: Maybe.Just({
+                  returnType:{ type:Maybe.Just({
                     name:'FooBarBaz',
                     reference: 'FooBarBaz *'
-                  })
+                  }), modifiers:[] }
                 }
               ],
               name:'FooBarBazBuilder',
@@ -214,10 +214,10 @@ describe('Plugins.Builder', function() {
                       argument:Maybe.Nothing<ObjC.KeywordArgument>()
                     }
                   ],
-                  returnType: Maybe.Just({
+                  returnType:{ type:Maybe.Just({
                     name:'instancetype',
                     reference: 'instancetype'
-                  })
+                  }), modifiers:[] }
                 },
                 {
                   belongsToProtocol:Maybe.Nothing<string>(),
@@ -239,10 +239,10 @@ describe('Plugins.Builder', function() {
                       })
                     }
                   ],
-                  returnType: Maybe.Just({
+                  returnType:{ type:Maybe.Just({
                     name:'instancetype',
                     reference: 'instancetype'
-                  })
+                  }), modifiers:[] }
                 }
               ],
               comments:[],
@@ -260,10 +260,10 @@ describe('Plugins.Builder', function() {
                       argument:Maybe.Nothing<ObjC.KeywordArgument>()
                     }
                   ],
-                  returnType: Maybe.Just({
+                  returnType:{ type:Maybe.Just({
                     name:'RMFerr',
                     reference: 'RMFerr *'
-                  })
+                  }), modifiers:[] }
                 }
               ],
               name:'RMFerrBuilder',
@@ -393,10 +393,10 @@ describe('Plugins.Builder', function() {
                       argument:Maybe.Nothing<ObjC.KeywordArgument>()
                     }
                   ],
-                  returnType: Maybe.Just({
+                  returnType:{ type:Maybe.Just({
                     name:'instancetype',
                     reference: 'instancetype'
-                  })
+                  }), modifiers:[] }
                 },
                 {
                   belongsToProtocol:Maybe.Nothing<string>(),
@@ -421,10 +421,10 @@ describe('Plugins.Builder', function() {
                       })
                     }
                   ],
-                  returnType: Maybe.Just({
+                  returnType:{ type:Maybe.Just({
                     name:'instancetype',
                     reference: 'instancetype'
-                  })
+                  }), modifiers:[] }
                 }
               ],
               comments:[],
@@ -442,10 +442,10 @@ describe('Plugins.Builder', function() {
                       argument:Maybe.Nothing<ObjC.KeywordArgument>()
                     }
                   ],
-                  returnType: Maybe.Just({
+                  returnType:{ type:Maybe.Just({
                     name:'RMFerr',
                     reference: 'RMFerr *'
-                  })
+                  }), modifiers:[] }
                 },
                 {
                   belongsToProtocol:Maybe.Nothing<string>(),
@@ -468,10 +468,10 @@ describe('Plugins.Builder', function() {
                       })
                     }
                   ],
-                  returnType: Maybe.Just({
+                  returnType:{ type:Maybe.Just({
                     name:'instancetype',
                     reference: 'instancetype'
-                  })
+                  }), modifiers:[] }
                 },
                 {
                   belongsToProtocol:Maybe.Nothing<string>(),
@@ -494,10 +494,10 @@ describe('Plugins.Builder', function() {
                       })
                     }
                   ],
-                  returnType: Maybe.Just({
+                  returnType:{ type:Maybe.Just({
                     name:'instancetype',
                     reference: 'instancetype'
-                  })
+                  }), modifiers:[] }
                 },
                 {
                   belongsToProtocol:Maybe.Nothing<string>(),
@@ -520,10 +520,10 @@ describe('Plugins.Builder', function() {
                       })
                     }
                   ],
-                  returnType: Maybe.Just({
+                  returnType:{ type:Maybe.Just({
                     name:'instancetype',
                     reference: 'instancetype'
-                  })
+                  }), modifiers:[] }
                 }
               ],
               name:'RMFerrBuilder',
@@ -684,10 +684,10 @@ describe('Plugins.Builder', function() {
                       argument:Maybe.Nothing<ObjC.KeywordArgument>()
                     }
                   ],
-                  returnType: Maybe.Just({
+                  returnType:{ type:Maybe.Just({
                     name:'instancetype',
                     reference: 'instancetype'
-                  })
+                  }), modifiers:[] }
                 },
                 {
                   belongsToProtocol:Maybe.Nothing<string>(),
@@ -712,10 +712,10 @@ describe('Plugins.Builder', function() {
                       })
                     }
                   ],
-                  returnType: Maybe.Just({
+                  returnType:{ type:Maybe.Just({
                     name:'instancetype',
                     reference: 'instancetype'
-                  })
+                  }), modifiers:[] }
                 }
               ],
               comments:[],
@@ -733,10 +733,10 @@ describe('Plugins.Builder', function() {
                       argument:Maybe.Nothing<ObjC.KeywordArgument>()
                     }
                   ],
-                  returnType: Maybe.Just({
+                  returnType:{ type:Maybe.Just({
                     name:'RMFerr',
                     reference: 'RMFerr *'
-                  })
+                  }), modifiers:[] }
                 },
                 {
                   belongsToProtocol:Maybe.Nothing<string>(),
@@ -759,10 +759,10 @@ describe('Plugins.Builder', function() {
                       })
                     }
                   ],
-                  returnType: Maybe.Just({
+                  returnType:{ type:Maybe.Just({
                     name:'instancetype',
                     reference: 'instancetype'
-                  })
+                  }), modifiers:[] }
                 },
                 {
                   belongsToProtocol:Maybe.Nothing<string>(),
@@ -785,10 +785,10 @@ describe('Plugins.Builder', function() {
                       })
                     }
                   ],
-                  returnType: Maybe.Just({
+                  returnType:{ type:Maybe.Just({
                     name:'instancetype',
                     reference: 'instancetype'
-                  })
+                  }), modifiers:[] }
                 },
                 {
                   belongsToProtocol:Maybe.Nothing<string>(),
@@ -811,10 +811,10 @@ describe('Plugins.Builder', function() {
                       })
                     }
                   ],
-                  returnType: Maybe.Just({
+                  returnType:{ type:Maybe.Just({
                     name:'instancetype',
                     reference: 'instancetype'
-                  })
+                  }), modifiers:[] }
                 }
               ],
               name:'RMFerrBuilder',

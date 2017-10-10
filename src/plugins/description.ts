@@ -260,10 +260,13 @@ function descriptionInstanceMethodWithCode(code:string[]):ObjC.Method {
         argument: Maybe.Nothing<ObjC.KeywordArgument>()
       }
     ],
-    returnType: Maybe.Just({
-      name: 'NSString',
-      reference: 'NSString *'
-    })
+    returnType: {
+      type: Maybe.Just<ObjC.Type>({
+        name: 'NSString',
+        reference: 'NSString *'
+      }),
+      modifiers: []
+    }
   };
 }
 

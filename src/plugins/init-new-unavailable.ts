@@ -75,7 +75,11 @@ export function createPlugin():ObjectSpec.Plugin {
       return [];
     },
     classMethods: function(objectType:ObjectSpec.Type):ObjC.Method[] {
-      return [newUnavailableClassMethod()];
+      if (objectType.attributes.length > 0 ) {
+        return [newUnavailableClassMethod()];
+      } else {
+        return [];
+      }
     },
     fileTransformation: function(request:FileWriter.Request):FileWriter.Request {
       return request;
@@ -99,7 +103,11 @@ export function createPlugin():ObjectSpec.Plugin {
       return [];
     },
     instanceMethods: function(objectType:ObjectSpec.Type):ObjC.Method[] {
-      return [initUnavailableInstanceMethod()];
+      if (objectType.attributes.length > 0 ) {
+        return [initUnavailableInstanceMethod()];
+      } else {
+        return [];
+      }
     },
     properties: function(objectType:ObjectSpec.Type):ObjC.Property[] {
       return [];

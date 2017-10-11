@@ -389,6 +389,7 @@ export interface Class {
   internalProperties:Property[];
   implementedProtocols:Protocol[];
   nullability:ClassNullability;
+  subclassingRestricted:boolean;
 }
 
 export interface Protocol {

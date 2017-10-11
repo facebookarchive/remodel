@@ -60,4 +60,5 @@ export interface Plugin {
   staticConstants: (objectType:Type) => ObjC.Constant[];
   validationErrors: (objectType:Type) => Error.Error[];
   nullability: (objectType:Type) => Maybe.Maybe<ObjC.ClassNullability>;
+  subclassingRestricted: (objectType:Type) => boolean;
 }

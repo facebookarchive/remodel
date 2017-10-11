@@ -326,6 +326,9 @@ export function createAlgebraicTypePlugin():AlgebraicType.Plugin {
     },
     nullability: function(algebraicType:AlgebraicType.Type):Maybe.Maybe<ObjC.ClassNullability> {
       return Maybe.Nothing<ObjC.ClassNullability>();
-    }
+    },
+    subclassingRestricted: function(algebraicType:AlgebraicType.Type):boolean {
+      return false;
+    },
   };
 }

@@ -94,7 +94,10 @@ describe('ObjectSpecCreation', function() {
         },
         nullability: function(objectType:ObjectSpec.Type):Maybe.Maybe<ObjC.ClassNullability> {
           return Maybe.Nothing<ObjC.ClassNullability>();
-        }
+        },
+        subclassingRestricted: function(objectType:ObjectSpec.Type):boolean {
+          return false;
+        },
       };
 
       const objectType:ObjectSpec.Type = {
@@ -197,7 +200,8 @@ describe('ObjectSpecCreation', function() {
                   properties: [],
                   internalProperties:[],
                   implementedProtocols: [],
-                  nullability: ObjC.ClassNullability.default
+                  nullability: ObjC.ClassNullability.default,
+                  subclassingRestricted: false,
                 }
               ],
               structs: [],
@@ -231,7 +235,10 @@ describe('ObjectSpecCreation', function() {
         },
         nullability: function(objectType:ObjectSpec.Type):Maybe.Maybe<ObjC.ClassNullability> {
           return Maybe.Nothing<ObjC.ClassNullability>();
-        }
+        },
+        subclassingRestricted: function(objectType:ObjectSpec.Type):boolean {
+          return false;
+        },
       };
 
       const objectType:ObjectSpec.Type = {
@@ -345,7 +352,10 @@ describe('ObjectSpecCreation', function() {
         },
         nullability: function(objectType:ObjectSpec.Type):Maybe.Maybe<ObjC.ClassNullability> {
           return Maybe.Nothing<ObjC.ClassNullability>();
-        }
+        },
+        subclassingRestricted: function(objectType:ObjectSpec.Type):boolean {
+          return false;
+        },
       };
 
       const objectType:ObjectSpec.Type = {
@@ -473,7 +483,10 @@ describe('ObjectSpecCreation', function() {
         },
         nullability: function(objectType:ObjectSpec.Type):Maybe.Maybe<ObjC.ClassNullability> {
           return Maybe.Nothing<ObjC.ClassNullability>();
-        }
+        },
+        subclassingRestricted: function(objectType:ObjectSpec.Type):boolean {
+          return false;
+        },
       };
 
       const objectType:ObjectSpec.Type = {
@@ -620,7 +633,10 @@ describe('ObjectSpecCreation', function() {
         },
         nullability: function(objectType:ObjectSpec.Type):Maybe.Maybe<ObjC.ClassNullability> {
           return Maybe.Nothing<ObjC.ClassNullability>();
-        }
+        },
+        subclassingRestricted: function(objectType:ObjectSpec.Type):boolean {
+          return false;
+        },
       };
 
       const objectType:ObjectSpec.Type = {
@@ -743,7 +759,10 @@ describe('ObjectSpecCreation', function() {
         },
         nullability: function(objectType:ObjectSpec.Type):Maybe.Maybe<ObjC.ClassNullability> {
           return Maybe.Nothing<ObjC.ClassNullability>();
-        }
+        },
+        subclassingRestricted: function(objectType:ObjectSpec.Type):boolean {
+          return false;
+        },
       };
 
       const objectType:ObjectSpec.Type = {
@@ -824,7 +843,10 @@ describe('ObjectSpecCreation', function() {
         },
         nullability: function(objectType:ObjectSpec.Type):Maybe.Maybe<ObjC.ClassNullability> {
           return Maybe.Nothing<ObjC.ClassNullability>();
-        }
+        },
+        subclassingRestricted: function(objectType:ObjectSpec.Type):boolean {
+          return false;
+        },
       };
       const Plugin2:ObjectSpec.Plugin = {
         requiredIncludesToRun: [],
@@ -875,7 +897,10 @@ describe('ObjectSpecCreation', function() {
         },
         nullability: function(objectType:ObjectSpec.Type):Maybe.Maybe<ObjC.ClassNullability> {
           return Maybe.Nothing<ObjC.ClassNullability>();
-        }
+        },
+        subclassingRestricted: function(objectType:ObjectSpec.Type):boolean {
+          return false;
+        },
       };
 
       const objectType:ObjectSpec.Type = {
@@ -994,7 +1019,10 @@ describe('ObjectSpecCreation', function() {
         },
         nullability: function(objectType:ObjectSpec.Type):Maybe.Maybe<ObjC.ClassNullability> {
           return Maybe.Nothing<ObjC.ClassNullability>();
-        }
+        },
+        subclassingRestricted: function(objectType:ObjectSpec.Type):boolean {
+          return false;
+        },
       };
       const Plugin2:ObjectSpec.Plugin = {
         requiredIncludesToRun: [],
@@ -1065,7 +1093,10 @@ describe('ObjectSpecCreation', function() {
         },
         nullability: function(objectType:ObjectSpec.Type):Maybe.Maybe<ObjC.ClassNullability> {
           return Maybe.Nothing<ObjC.ClassNullability>();
-        }
+        },
+        subclassingRestricted: function(objectType:ObjectSpec.Type):boolean {
+          return false;
+        },
       };
 
       const objectType:ObjectSpec.Type = {
@@ -1230,7 +1261,10 @@ describe('ObjectSpecCreation', function() {
         },
         nullability: function(objectType:ObjectSpec.Type):Maybe.Maybe<ObjC.ClassNullability> {
           return Maybe.Nothing<ObjC.ClassNullability>();
-        }
+        },
+        subclassingRestricted: function(objectType:ObjectSpec.Type):boolean {
+          return false;
+        },
       };
       const Plugin2:ObjectSpec.Plugin = {
         requiredIncludesToRun: [],
@@ -1305,7 +1339,10 @@ describe('ObjectSpecCreation', function() {
         },
         nullability: function(objectType:ObjectSpec.Type):Maybe.Maybe<ObjC.ClassNullability> {
           return Maybe.Nothing<ObjC.ClassNullability>();
-        }
+        },
+        subclassingRestricted: function(objectType:ObjectSpec.Type):boolean {
+          return false;
+        },
       };
 
       const objectType:ObjectSpec.Type = {
@@ -1451,7 +1488,10 @@ describe('ObjectSpecCreation', function() {
         },
         nullability: function(objectType:ObjectSpec.Type):Maybe.Maybe<ObjC.ClassNullability> {
           return Maybe.Nothing<ObjC.ClassNullability>();
-        }
+        },
+        subclassingRestricted: function(objectType:ObjectSpec.Type):boolean {
+          return false;
+        },
       };
 
       const objectType:ObjectSpec.Type = {

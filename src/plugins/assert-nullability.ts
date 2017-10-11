@@ -110,7 +110,10 @@ export function createPlugin():ObjectSpec.Plugin {
     },
     nullability: function(objectType:ObjectSpec.Type):Maybe.Maybe<ObjC.ClassNullability> {
       return Maybe.Nothing<ObjC.ClassNullability>();
-    }
+    },
+    subclassingRestricted: function(objectType:ObjectSpec.Type):boolean {
+      return false;
+    },
   };
 }
 
@@ -166,6 +169,9 @@ export function createAlgebraicTypePlugin():AlgebraicType.Plugin {
     },
     nullability: function(algebraicType:AlgebraicType.Type):Maybe.Maybe<ObjC.ClassNullability> {
       return Maybe.Nothing<ObjC.ClassNullability>();
-    }
+    },
+    subclassingRestricted: function(algebraicType:AlgebraicType.Type):boolean {
+      return false;
+    },
   };
 }

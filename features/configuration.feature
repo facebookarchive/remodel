@@ -85,6 +85,9 @@ Feature: Outputting Value Objects With A Custom Plugin
             return {
               value: null
             };
+          },
+          subclassingRestricted: function (valueType) {
+            return false;
           }
         };
       }

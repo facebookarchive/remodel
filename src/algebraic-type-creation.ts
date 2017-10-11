@@ -95,6 +95,10 @@ function createAlgebraicTypeObjCPlugIn(plugin:AlgebraicType.Plugin) : AlgebraicT
     nullability: function(typeInformation:AlgebraicType.Type):Maybe.Maybe<ObjC.ClassNullability> {
       return plugin.nullability(typeInformation);
     },
+
+    subclassingRestricted: function(typeInformation:AlgebraicType.Type):boolean {
+      return plugin.subclassingRestricted(typeInformation);
+    },
   };
 }
 

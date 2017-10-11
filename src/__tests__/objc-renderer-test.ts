@@ -215,7 +215,8 @@ describe('ObjCRenderer', function() {
                 name: 'NSCoding'
               }
             ],
-            nullability: ObjC.ClassNullability.default
+            nullability: ObjC.ClassNullability.default,
+            subclassingRestricted: false,
           }
         ],
         structs: [],
@@ -426,7 +427,8 @@ describe('ObjCRenderer', function() {
                 name: 'NSCoding'
               }
             ],
-            nullability: ObjC.ClassNullability.default
+            nullability: ObjC.ClassNullability.default,
+            subclassingRestricted: false,
           }
         ],
         structs: [],
@@ -632,7 +634,8 @@ describe('ObjCRenderer', function() {
                 name: 'NSCoding'
               }
             ],
-            nullability: ObjC.ClassNullability.default
+            nullability: ObjC.ClassNullability.default,
+            subclassingRestricted: false,
           }
         ],
         structs: [],
@@ -793,7 +796,8 @@ describe('ObjCRenderer', function() {
             ],
             internalProperties:[],
             implementedProtocols: [],
-            nullability: ObjC.ClassNullability.default
+            nullability: ObjC.ClassNullability.default,
+            subclassingRestricted: false,
           }
         ],
         structs: [],
@@ -907,7 +911,8 @@ describe('ObjCRenderer', function() {
             properties: [],
             internalProperties:[],
             implementedProtocols: [],
-            nullability: ObjC.ClassNullability.default
+            nullability: ObjC.ClassNullability.default,
+            subclassingRestricted: false,
           }
         ],
         structs: [],
@@ -983,7 +988,8 @@ describe('ObjCRenderer', function() {
             ],
             internalProperties:[],
             implementedProtocols: [],
-            nullability: ObjC.ClassNullability.default
+            nullability: ObjC.ClassNullability.default,
+            subclassingRestricted: false,
           }
         ],
         structs: [],
@@ -1093,7 +1099,8 @@ describe('ObjCRenderer', function() {
             properties: [],
             internalProperties:[],
             implementedProtocols: [],
-            nullability: ObjC.ClassNullability.default
+            nullability: ObjC.ClassNullability.default,
+            subclassingRestricted: false,
           }
         ],
         structs: [],
@@ -1166,7 +1173,8 @@ describe('ObjCRenderer', function() {
           properties: [],
           internalProperties:[],
           implementedProtocols: [],
-          nullability: ObjC.ClassNullability.default
+          nullability: ObjC.ClassNullability.default,
+          subclassingRestricted: false,
         }
         ],
         structs: [],
@@ -1264,7 +1272,8 @@ describe('ObjCRenderer', function() {
           properties: [],
           internalProperties:[],
           implementedProtocols: [],
-          nullability: ObjC.ClassNullability.default
+          nullability: ObjC.ClassNullability.default,
+          subclassingRestricted: false,
         }
         ],
         structs: [],
@@ -1330,7 +1339,8 @@ describe('ObjCRenderer', function() {
             properties: [],
             internalProperties:[],
             implementedProtocols: [],
-            nullability: ObjC.ClassNullability.default
+            nullability: ObjC.ClassNullability.default,
+            subclassingRestricted: false,
           }
         ],
         structs: [],
@@ -1410,7 +1420,8 @@ describe('ObjCRenderer', function() {
               name: 'NSCopying'
             }
           ],
-          nullability: ObjC.ClassNullability.default
+          nullability: ObjC.ClassNullability.default,
+          subclassingRestricted: false,
           }
         ],
         structs: [],
@@ -1495,7 +1506,8 @@ describe('ObjCRenderer', function() {
               name: 'NSCopying'
             }
           ],
-          nullability: ObjC.ClassNullability.default
+          nullability: ObjC.ClassNullability.default,
+          subclassingRestricted: false,
           }
         ],
         structs: [],
@@ -1588,7 +1600,8 @@ describe('ObjCRenderer', function() {
             ],
             internalProperties:[],
             implementedProtocols: [],
-            nullability: ObjC.ClassNullability.default
+            nullability: ObjC.ClassNullability.default,
+            subclassingRestricted: false,
           }
         ],
         structs: [],
@@ -1760,7 +1773,8 @@ describe('ObjCRenderer', function() {
             ],
             internalProperties:[],
             implementedProtocols:[],
-            nullability: ObjC.ClassNullability.default
+            nullability: ObjC.ClassNullability.default,
+            subclassingRestricted: false,
           }
         ],
         structs: [],
@@ -1872,7 +1886,8 @@ describe('ObjCRenderer', function() {
             ],
             internalProperties:[],
             implementedProtocols:[],
-            nullability: ObjC.ClassNullability.default
+            nullability: ObjC.ClassNullability.default,
+            subclassingRestricted: false,
           }
         ],
         structs: [],
@@ -2082,7 +2097,8 @@ describe('ObjCRenderer', function() {
               }
             ],
             implementedProtocols: [],
-            nullability: ObjC.ClassNullability.default
+            nullability: ObjC.ClassNullability.default,
+            subclassingRestricted: false,
           }
         ],
         structs: [],
@@ -2246,7 +2262,8 @@ describe('ObjCRenderer', function() {
           ],
           internalProperties:[],
           implementedProtocols: [],
-          nullability: ObjC.ClassNullability.default
+          nullability: ObjC.ClassNullability.default,
+          subclassingRestricted: false,
         }
         ],
         structs: [],
@@ -2355,7 +2372,8 @@ describe('ObjCRenderer', function() {
           properties: [],
           internalProperties:[],
           implementedProtocols: [],
-          nullability: ObjC.ClassNullability.default
+          nullability: ObjC.ClassNullability.default,
+          subclassingRestricted: false,
         }
         ],
         structs: [],
@@ -2431,7 +2449,8 @@ describe('ObjCRenderer', function() {
           properties: [],
           internalProperties:[],
           implementedProtocols: [],
-          nullability: ObjC.ClassNullability.default
+          nullability: ObjC.ClassNullability.default,
+          subclassingRestricted: false,
         }
         ],
         structs: [],
@@ -2646,7 +2665,8 @@ describe('ObjCRenderer', function() {
           properties: [],
           internalProperties:[],
           implementedProtocols: [],
-          nullability: ObjC.ClassNullability.default
+          nullability: ObjC.ClassNullability.default,
+          subclassingRestricted: false,
         }
         ],
         structs: [],
@@ -2705,7 +2725,8 @@ describe('ObjCRenderer', function() {
             }
           ],
           implementedProtocols: [],
-          nullability: ObjC.ClassNullability.default
+          nullability: ObjC.ClassNullability.default,
+          subclassingRestricted: false,
         }
         ],
         structs: [],

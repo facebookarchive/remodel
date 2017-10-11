@@ -403,6 +403,7 @@ function headerClassSection(classInfo:ObjC.Class):string {
 
   const protocolsStr = protocolsString(classInfo.implementedProtocols);
 
+  const subclassingRestrictedStr = classInfo.subclassingRestricted ? '__attribute__((objc_subclassing_restricted)) \n' : '';
   const classSection = '@interface ' + classInfo.name + ' : ' + classInfo.baseClassName + protocolsStr;
 
   const internalPropertiesStr:string = classInfo.internalProperties.filter(headerNeedsToIncludeInternalProperty).reduce(buildInternalPropertiesContainingAccessIdentifiers, []).map(StringUtils.indent(2)).join('\n');
@@ -421,7 +422,7 @@ function headerClassSection(classInfo:ObjC.Class):string {
   const postfixClassMacrosStr:string = macros.map(toPostfixMacroString).join('\n');
   const postfixClassMacrosSection:string = postfixClassMacrosStr !== '' ? '\n\n' + postfixClassMacrosStr : '';
 
-  return prefixClassMacrosSection + classCommentsSection + classSection + '\n' + internalPropertiesSection + propertiesSection + classMethodsSection + instanceMethodsSection + '@end' + postfixClassMacrosSection;
+  return prefixClassMacrosSection + classCommentsSection + subclassingRestrictedStr + classSection + '\n' + internalPropertiesSection + propertiesSection + classMethodsSection + instanceMethodsSection + '@end' + postfixClassMacrosSection;
 }
 
 function toDeclarationString(forwardDeclaration:ObjC.ForwardDeclaration) {

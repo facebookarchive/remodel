@@ -8,12 +8,16 @@
  */
 
 import AlgebraicType = require('../algebraic-type');
+import AlgebraicTypeUtils = require('../algebraic-type-utils');
 import Code = require('../code');
 import Error = require('../error');
 import FileWriter = require('../file-writer');
+import FunctionUtils = require('../function-utils');
 import Maybe = require('../maybe');
 import ObjC = require('../objc');
+import ObjCTypeUtils = require('../objc-type-utils');
 import ObjectSpec = require('../object-spec');
+import ObjectSpecCodeUtils = require('../object-spec-code-utils');
 
 export function createPlugin():ObjectSpec.Plugin {
   return {
@@ -48,9 +52,7 @@ export function createPlugin():ObjectSpec.Plugin {
       return [];
     },
     imports: function(objectType:ObjectSpec.Type):ObjC.Import[] {
-      return [
-        { file: 'Foundation.h', isPublic: true, library: Maybe.Just('Foundation') },
-      ];
+      return [];
     },
     instanceMethods: function(objectType:ObjectSpec.Type):ObjC.Method[] {
       return [];
@@ -58,7 +60,7 @@ export function createPlugin():ObjectSpec.Plugin {
     properties: function(objectType:ObjectSpec.Type):ObjC.Property[] {
       return [];
     },
-    requiredIncludesToRun:['RMAssumeNonnull'],
+    requiredIncludesToRun:['RMSubclassingRestricted'],
     staticConstants: function(objectType:ObjectSpec.Type):ObjC.Constant[] {
       return [];
     },
@@ -66,10 +68,10 @@ export function createPlugin():ObjectSpec.Plugin {
       return [];
     },
     nullability: function(objectType:ObjectSpec.Type):Maybe.Maybe<ObjC.ClassNullability> {
-      return Maybe.Just(ObjC.ClassNullability.assumeNonnull);
+      return Maybe.Nothing<ObjC.ClassNullability>();
     },
     subclassingRestricted: function(objectType:ObjectSpec.Type):boolean {
-      return false;
+      return true;
     },
   };
 }
@@ -107,9 +109,7 @@ export function createAlgebraicTypePlugin():AlgebraicType.Plugin {
       return [];
     },
     imports: function(algebraicType:AlgebraicType.Type):ObjC.Import[] {
-      return [
-        { file: 'Foundation.h', isPublic: true, library: Maybe.Just('Foundation') },
-      ];
+      return [];
     },
     instanceMethods: function(algebraicType:AlgebraicType.Type):ObjC.Method[] {
       return [];
@@ -117,7 +117,7 @@ export function createAlgebraicTypePlugin():AlgebraicType.Plugin {
     internalProperties: function(algebraicType:AlgebraicType.Type):ObjC.Property[] {
       return [];
     },
-    requiredIncludesToRun: ['RMAssumeNonnull'],
+    requiredIncludesToRun: ['RMSubclassingRestricted'],
     staticConstants: function(algebraicType:AlgebraicType.Type):ObjC.Constant[] {
       return [];
     },
@@ -125,10 +125,10 @@ export function createAlgebraicTypePlugin():AlgebraicType.Plugin {
       return [];
     },
     nullability: function(algebraicType:AlgebraicType.Type):Maybe.Maybe<ObjC.ClassNullability> {
-      return Maybe.Just(ObjC.ClassNullability.assumeNonnull);
+      return Maybe.Nothing<ObjC.ClassNullability>();
     },
     subclassingRestricted: function(algebraicType:AlgebraicType.Type):boolean {
-      return false;
+      return true;
     },
   };
 }

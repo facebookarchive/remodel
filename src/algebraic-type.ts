@@ -100,4 +100,5 @@ export interface Plugin {
   staticConstants: (algebraicType:Type) => ObjC.Constant[];
   validationErrors: (algebraicType:Type) => Error.Error[];
   nullability: (algebraicType:Type) => Maybe.Maybe<ObjC.ClassNullability>;
+  subclassingRestricted: (algebraicType:Type) => boolean;
 }

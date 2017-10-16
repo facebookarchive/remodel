@@ -32,7 +32,7 @@ export interface CodeableAttribute {
   type:ObjC.Type;
 }
 
-function codingAttributeForValueAttribute(attribute:ObjectSpec.Attribute):CodeableAttribute {
+export function codingAttributeForValueAttribute(attribute:ObjectSpec.Attribute):CodeableAttribute {
   return {
     name: attribute.name,
     valueAccessor: ObjectSpecCodeUtils.ivarForAttribute(attribute),

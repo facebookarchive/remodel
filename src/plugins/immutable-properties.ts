@@ -207,28 +207,8 @@ function shouldForwardClassDeclareAttribute(valueTypeName:string, makePublicImpo
   return declaringPublicAttributes || attributeTypeReferencesObjectType;
 }
 
-function shouldForwardProtocolDeclareAttribute(attribute:ObjectSpec.Attribute):boolean {
-  return Maybe.match(
-    function (protocol) {
-      return true;
-    },
-    function () {
-      return false;
-    }, attribute.type.conformingProtocol);
-}
-
 function forwardClassDeclarationForAttribute(attribute:ObjectSpec.Attribute): ObjC.ForwardDeclaration {
   return ObjC.ForwardDeclaration.ForwardClassDeclaration(attribute.type.name);
-}
-
-function forwardProtocolDeclarationForAttribute(attribute:ObjectSpec.Attribute): ObjC.ForwardDeclaration {
-  return Maybe.match(
-    function (protocol) {
-      return ObjC.ForwardDeclaration.ForwardProtocolDeclaration(protocol);
-    },
-    function () {
-      return undefined;
-    }, attribute.type.conformingProtocol);
 }
 
 export function createPlugin():ObjectSpec.Plugin {
@@ -259,7 +239,7 @@ export function createPlugin():ObjectSpec.Plugin {
                                                                      .map(forwardClassDeclarationForAttribute);
       const attributeForwardProtocolDeclarations = makePublicImports
         ? []
-        : objectType.attributes.filter(shouldForwardProtocolDeclareAttribute).map(forwardProtocolDeclarationForAttribute);
+        : objectType.attributes.filter(ObjCImportUtils.shouldForwardProtocolDeclareAttribute).map(ObjCImportUtils.forwardProtocolDeclarationForAttribute);
       return [].concat(typeLookupForwardDeclarations).concat(attributeForwardClassDeclarations).concat(attributeForwardProtocolDeclarations);
     },
     functions: function(objectType:ObjectSpec.Type):ObjC.Function[] {

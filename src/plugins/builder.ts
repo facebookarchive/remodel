@@ -267,13 +267,16 @@ function forwardDeclarationsForBuilder(objectType:ObjectSpec.Type):ObjC.ForwardD
                                                                                        return ObjC.ForwardDeclaration.ForwardClassDeclaration(typeLookup.name);
                                                                                      });
 
-  const attributeDeclarations:ObjC.ForwardDeclaration[] = objectType.attributes.filter(ObjCImportUtils.canForwardDeclareTypeForAttribute).map(function(attribute:ObjectSpec.Attribute):ObjC.ForwardDeclaration {
+  const attributeForwardClassDeclarations:ObjC.ForwardDeclaration[] = objectType.attributes.filter(ObjCImportUtils.canForwardDeclareTypeForAttribute).map(function(attribute:ObjectSpec.Attribute):ObjC.ForwardDeclaration {
     return ObjC.ForwardDeclaration.ForwardClassDeclaration(attribute.type.name);
   });
 
+  const attributeForwardProtocolDeclarations:ObjC.ForwardDeclaration[] =  objectType.attributes.filter(ObjCImportUtils.shouldForwardProtocolDeclareAttribute)
+                                                                                               .map(ObjCImportUtils.forwardProtocolDeclarationForAttribute);
+
   return [
     ObjC.ForwardDeclaration.ForwardClassDeclaration(objectType.typeName)
-  ].concat(typeLookupForwardDeclarations).concat(attributeDeclarations);
+  ].concat(typeLookupForwardDeclarations).concat(attributeForwardClassDeclarations).concat(attributeForwardProtocolDeclarations);
 }
 
 function builderFileForValueType(objectType:ObjectSpec.Type):Code.File {

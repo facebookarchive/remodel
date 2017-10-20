@@ -16,6 +16,8 @@ Feature: Outputting Value Objects
         RMEnum(NSUInteger) someEnumValue
         %import library=RMCustomLibrary
         RMLibType* customLibObject
+        %import library=RMCustomProtocol
+        id<RMCustomProtocol> someObject
       }
       """
     And a file named "project/.valueObjectConfig" with:
@@ -34,6 +36,7 @@ Feature: Outputting Value Objects
       @class RMFooObject;
       @class RMRating;
       @class RMLibType;
+      @protocol RMCustomProtocol;
 
       @interface RMPageBuilder : NSObject
 
@@ -55,6 +58,8 @@ Feature: Outputting Value Objects
 
       - (instancetype)withCustomLibObject:(RMLibType *)customLibObject;
 
+      - (instancetype)withSomeObject:(id<RMCustomProtocol>)someObject;
+
       @end
 
       """
@@ -73,6 +78,7 @@ Feature: Outputting Value Objects
         RMRating *_rating;
         RMEnum _someEnumValue;
         RMLibType *_customLibObject;
+        id<RMCustomProtocol> _someObject;
       }
 
       + (instancetype)page
@@ -82,18 +88,19 @@ Feature: Outputting Value Objects
 
       + (instancetype)pageFromExistingPage:(RMPage *)existingPage
       {
-        return [[[[[[[RMPageBuilder page]
-                     withDoesUserLike:existingPage.doesUserLike]
-                    withIdentifier:existingPage.identifier]
-                   withLikeCount:existingPage.likeCount]
-                  withRating:existingPage.rating]
-                 withSomeEnumValue:existingPage.someEnumValue]
-                withCustomLibObject:existingPage.customLibObject];
+        return [[[[[[[[RMPageBuilder page]
+                      withDoesUserLike:existingPage.doesUserLike]
+                     withIdentifier:existingPage.identifier]
+                    withLikeCount:existingPage.likeCount]
+                   withRating:existingPage.rating]
+                  withSomeEnumValue:existingPage.someEnumValue]
+                 withCustomLibObject:existingPage.customLibObject]
+                withSomeObject:existingPage.someObject];
       }
 
       - (RMPage *)build
       {
-        return [[RMPage alloc] initWithDoesUserLike:_doesUserLike identifier:_identifier likeCount:_likeCount rating:_rating someEnumValue:_someEnumValue customLibObject:_customLibObject];
+        return [[RMPage alloc] initWithDoesUserLike:_doesUserLike identifier:_identifier likeCount:_likeCount rating:_rating someEnumValue:_someEnumValue customLibObject:_customLibObject someObject:_someObject];
       }
 
       - (instancetype)withDoesUserLike:(BOOL)doesUserLike
@@ -131,6 +138,12 @@ Feature: Outputting Value Objects
         _customLibObject = [customLibObject copy];
         return self;
       }
+
+			- (instancetype)withSomeObject:(id<RMCustomProtocol>)someObject
+			{
+        _someObject = [someObject copy];
+        return self;
+			}
 
       @end
 

@@ -182,6 +182,26 @@ export function canForwardDeclareTypeForAttributeConsideringType(attribute:Objec
   return canForwardDeclareType(type);
 }
 
+export function shouldForwardProtocolDeclareAttribute(attribute:ObjectSpec.Attribute):boolean {
+  return Maybe.match(
+    function (protocol) {
+      return true;
+    },
+    function () {
+      return false;
+    }, attribute.type.conformingProtocol);
+}
+
+export function forwardProtocolDeclarationForAttribute(attribute:ObjectSpec.Attribute): ObjC.ForwardDeclaration {
+  return Maybe.match(
+    function (protocol) {
+      return ObjC.ForwardDeclaration.ForwardProtocolDeclaration(protocol);
+    },
+    function () {
+      return undefined;
+    }, attribute.type.conformingProtocol);
+}
+
 export function requiresPublicImportForType(typeName:string, computedType:ObjC.Type):boolean {
   return isImportRequiredForTypeWithName(typeName) && !canForwardDeclareType(computedType);
 }

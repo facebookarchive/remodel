@@ -54,7 +54,7 @@ Feature: Outputting Value Objects With Forward Declarations
       @property (nonatomic, readonly) NSUInteger numberOfRatings;
       @property (nonatomic, readonly, copy) RMProxy *proxy;
       @property (nonatomic, readonly, copy) NSArray<RMSomeType *> *followers;
-      @property (nonatomic, readonly, copy) id<HelloProtocol> helloObj;
+      @property (nonatomic, readonly) id<HelloProtocol> helloObj;
       @property (nonatomic, readonly, copy) UIViewController<WorldProtocol> *worldVc;
 
       + (instancetype)new NS_UNAVAILABLE;
@@ -86,7 +86,7 @@ Feature: Outputting Value Objects With Forward Declarations
           _numberOfRatings = numberOfRatings;
           _proxy = [proxy copy];
           _followers = [followers copy];
-          _helloObj = [helloObj copy];
+          _helloObj = helloObj;
           _worldVc = [worldVc copy];
         }
 

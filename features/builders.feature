@@ -141,7 +141,7 @@ Feature: Outputting Value Objects
 
 			- (instancetype)withSomeObject:(id<RMCustomProtocol>)someObject
 			{
-        _someObject = [someObject copy];
+        _someObject = someObject;
         return self;
 			}
 

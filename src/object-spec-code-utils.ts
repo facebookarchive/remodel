@@ -70,7 +70,13 @@ export function propertyOwnershipModifierForAttribute(supportsValueSemantics:boo
   }
   return ObjCTypeUtils.matchType({
     id: function() {
-      return propertyModifierForCopyable(supportsValueSemantics)
+      return Maybe.match(
+        function (protocol) {
+          return ObjC.PropertyModifier.Assign();
+        },
+        function () {
+          return propertyModifierForCopyable(supportsValueSemantics)
+        }, attribute.type.conformingProtocol);
     },
     NSObject: function() {
       return propertyModifierForCopyable(supportsValueSemantics)

@@ -219,9 +219,20 @@ function writeBuiltOnRevisionPromise(revision) {
   );
 }
 
+function writeBuiltOnRevisionIfNeededPromise(revision) {
+  return noBuildCheckPromise.then(function(result) {
+    const hasNoBuildCheckFile = result.value;
+    if (!hasNoBuildCheckFile) {
+      return writeBuiltOnRevisionPromise(revision);
+    } else {
+      return Promise.resolve({});
+    }
+  })
+}
+
 function runBuild(revision, callback) {
   Promise.all(
-    [buildPromise(), copyJSPromise(), writeBuiltOnRevisionPromise(revision)]
+    [buildPromise(), copyJSPromise(), writeBuiltOnRevisionIfNeededPromise(revision)]
   ).then(
     function onFulfilled(res) {
       callback(null, combineOutputValues('stdout', res), combineOutputValues('stderr', res));

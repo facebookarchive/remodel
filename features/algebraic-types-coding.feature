@@ -104,7 +104,7 @@ Feature: Outputting Algebraic Types
         return self;
       }
 
-      - (id)copyWithZone:(NSZone *)zone
+      - (id)copyWithZone:(nullable NSZone *)zone
       {
         return self;
       }

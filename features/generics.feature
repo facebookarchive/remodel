@@ -45,7 +45,7 @@ Feature: Outputting Objects With Generic Types
         return self;
       }
 
-      - (id)copyWithZone:(NSZone *)zone
+      - (id)copyWithZone:(nullable NSZone *)zone
       {
         return self;
       }
@@ -161,7 +161,7 @@ Feature: Outputting Objects With Generic Types
         return object;
       }
 
-      - (id)copyWithZone:(NSZone *)zone
+      - (id)copyWithZone:(nullable NSZone *)zone
       {
         return self;
       }

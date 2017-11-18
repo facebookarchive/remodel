@@ -54,7 +54,7 @@ Feature: Outputting Value Objects / Algebraic Types decorated with NS_ASSUME_NON
         return self;
       }
 
-      - (id)copyWithZone:(NSZone *)zone
+      - (id)copyWithZone:(nullable NSZone *)zone
       {
         return self;
       }
@@ -177,7 +177,7 @@ Feature: Outputting Value Objects / Algebraic Types decorated with NS_ASSUME_NON
         return object;
       }
 
-      - (id)copyWithZone:(NSZone *)zone
+      - (id)copyWithZone:(nullable NSZone *)zone
       {
         return self;
       }

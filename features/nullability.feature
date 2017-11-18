@@ -50,7 +50,7 @@ Feature: Outputting Objects With Nullability Annotations
         return self;
       }
 
-      - (id)copyWithZone:(NSZone *)zone
+      - (id)copyWithZone:(nullable NSZone *)zone
       {
         return self;
       }
@@ -200,7 +200,7 @@ Feature: Outputting Objects With Nullability Annotations
         return object;
       }
 
-      - (id)copyWithZone:(NSZone *)zone
+      - (id)copyWithZone:(nullable NSZone *)zone
       {
         return self;
       }

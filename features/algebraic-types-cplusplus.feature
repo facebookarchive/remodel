@@ -91,7 +91,7 @@ Feature: Outputting ObjC++ Algebraic Types
         return object;
       }
 
-      - (id)copyWithZone:(NSZone *)zone
+      - (id)copyWithZone:(nullable NSZone *)zone
       {
         return self;
       }

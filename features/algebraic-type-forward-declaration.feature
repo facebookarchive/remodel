@@ -32,7 +32,7 @@ Feature: Outputting forward declarations in Algebraic Types
       @class RMProxy;
 
       typedef void (^SimpleADTFirstSubtypeMatchHandler)(RMProxy *firstValue, NSUInteger secondValue);
-      typedef void (^SimpleADTSomeRandomSubtypeMatchHandler)();
+      typedef void (^SimpleADTSomeRandomSubtypeMatchHandler)(void);
       typedef void (^SimpleADTSecondSubtypeMatchHandler)(BOOL something);
 
       @interface SimpleADT : NSObject <NSCopying>

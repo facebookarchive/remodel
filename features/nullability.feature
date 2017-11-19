@@ -125,7 +125,7 @@ Feature: Outputting Objects With Nullability Annotations
       #import <Foundation/Foundation.h>
 
       typedef void (^SimpleADTFirstSubtypeMatchHandler)(NSString *_Nonnull firstValue, NSUInteger secondValue);
-      typedef void (^SimpleADTSomeRandomSubtypeMatchHandler)();
+      typedef void (^SimpleADTSomeRandomSubtypeMatchHandler)(void);
       typedef void (^SimpleADTSomeAttributeSubtypeMatchHandler)(NSNumber *_Nullable someAttributeSubtype);
       typedef void (^SimpleADTSecondSubtypeMatchHandler)(BOOL something);
 

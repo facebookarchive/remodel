@@ -121,7 +121,7 @@ Feature: Outputting Value Objects / Algebraic Types decorated with NS_ASSUME_NON
       #import <Foundation/Foundation.h>
 
       NS_ASSUME_NONNULL_BEGIN
-      typedef void (^RMFooBarMatchHandler)();
+      typedef void (^RMFooBarMatchHandler)(void);
       NS_ASSUME_NONNULL_END
       NS_ASSUME_NONNULL_BEGIN
       typedef void (^RMFooBazMatchHandler)(NSString *aString, NSString *_Nullable bString);

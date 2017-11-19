@@ -42,7 +42,7 @@ Feature: Outputting Algebraic Types With Templated Matching
             result = std::make_shared<T>(firstSubtypeMatchHandler(firstValue, secondValue));
           };
 
-          SimpleADTSomeRandomSubtypeMatchHandler matchSomeRandomSubtype = ^() {
+          SimpleADTSomeRandomSubtypeMatchHandler matchSomeRandomSubtype = ^(void) {
             result = std::make_shared<T>(someRandomSubtypeMatchHandler());
           };
 
@@ -65,7 +65,7 @@ Feature: Outputting Algebraic Types With Templated Matching
             result = std::make_shared<T>(firstSubtypeMatchHandler(firstValue, secondValue));
           };
 
-          SimpleADTSomeRandomSubtypeMatchHandler matchSomeRandomSubtype = ^() {
+          SimpleADTSomeRandomSubtypeMatchHandler matchSomeRandomSubtype = ^(void) {
             result = std::make_shared<T>(someRandomSubtypeMatchHandler());
           };
 

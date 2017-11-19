@@ -119,11 +119,28 @@ function blockTypeParameterForSubtypeAttribute(attribute:AlgebraicType.SubtypeAt
   };
 }
 
+function voidBlockParameter():ObjC.BlockTypeParameter {
+  return {
+    name: null,
+    type: null,
+    nullability: ObjC.Nullability.Inherited()
+  };
+}
+
+function blockParametersForSubtype(subtype:AlgebraicType.Subtype):ObjC.BlockTypeParameter[] {
+  const attributes:AlgebraicType.SubtypeAttribute[] = attributesFromSubtype(subtype);
+  if (attributes.length > 0) {
+    return attributes.map(blockTypeParameterForSubtypeAttribute)
+  } else {
+    return [voidBlockParameter()]
+  }
+}
+
 export function blockTypeForSubtype(algebraicType:AlgebraicType.Type, subtype:AlgebraicType.Subtype):ObjC.BlockType {
   return {
     comments: [],
     name: blockTypeNameForSubtype(algebraicType, subtype),
-    parameters: attributesFromSubtype(subtype).map(blockTypeParameterForSubtypeAttribute),
+    parameters: blockParametersForSubtype(subtype),
     returnType: {
       type: Maybe.Nothing<ObjC.Type>(),
       modifiers: []

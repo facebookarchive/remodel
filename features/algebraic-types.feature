@@ -42,7 +42,7 @@ Feature: Outputting Algebraic Types
       #import <MyLib/RMSomeEnum.h>
 
       typedef void (^SimpleADTFirstSubtypeMatchHandler)(NSString *firstValue, NSUInteger secondValue);
-      typedef void (^SimpleADTSomeRandomSubtypeMatchHandler)();
+      typedef void (^SimpleADTSomeRandomSubtypeMatchHandler)(void);
       typedef void (^SimpleADTSomeAttributeSubtypeMatchHandler)(NSUInteger someAttributeSubtype);
       typedef void (^SimpleADTSecondSubtypeMatchHandler)(BOOL something);
 
@@ -404,7 +404,7 @@ Feature: Outputting Algebraic Types
       @class Foo;
 
       typedef void (^SimpleADTFirstSubtypeMatchHandler)(Foo *firstValue, NSUInteger secondValue);
-      typedef void (^SimpleADTSomeRandomSubtypeMatchHandler)();
+      typedef void (^SimpleADTSomeRandomSubtypeMatchHandler)(void);
       typedef void (^SimpleADTSecondSubtypeMatchHandler)(BOOL something);
 
       @interface SimpleADT : NSObject <NSCopying>

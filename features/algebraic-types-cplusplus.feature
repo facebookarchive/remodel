@@ -29,7 +29,7 @@ Feature: Outputting ObjC++ Algebraic Types
       #import <Foundation/Foundation.h>
 
       typedef void (^SimpleADTFirstSubtypeMatchHandler)(NSString *firstValue, NSUInteger secondValue);
-      typedef void (^SimpleADTSomeRandomSubtypeMatchHandler)();
+      typedef void (^SimpleADTSomeRandomSubtypeMatchHandler)(void);
       typedef void (^SimpleADTSecondSubtypeMatchHandler)(BOOL something);
 
       @interface SimpleADT : NSObject <NSCopying>

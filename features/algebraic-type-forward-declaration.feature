@@ -95,7 +95,7 @@ Feature: Outputting forward declarations in Algebraic Types
         return object;
       }
 
-      - (id)copyWithZone:(NSZone *)zone
+      - (id)copyWithZone:(nullable NSZone *)zone
       {
         return self;
       }

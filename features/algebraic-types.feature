@@ -113,7 +113,7 @@ Feature: Outputting Algebraic Types
         return object;
       }
 
-      - (id)copyWithZone:(NSZone *)zone
+      - (id)copyWithZone:(nullable NSZone *)zone
       {
         return self;
       }
@@ -286,7 +286,7 @@ Feature: Outputting Algebraic Types
         return object;
       }
 
-      - (id)copyWithZone:(NSZone *)zone
+      - (id)copyWithZone:(nullable NSZone *)zone
       {
         return self;
       }
@@ -453,7 +453,7 @@ Feature: Outputting Algebraic Types
         return object;
       }
 
-      - (id)copyWithZone:(NSZone *)zone
+      - (id)copyWithZone:(nullable NSZone *)zone
       {
         return self;
       }

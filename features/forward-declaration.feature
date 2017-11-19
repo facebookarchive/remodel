@@ -93,7 +93,7 @@ Feature: Outputting Value Objects With Forward Declarations
         return self;
       }
 
-      - (id)copyWithZone:(NSZone *)zone
+      - (id)copyWithZone:(nullable NSZone *)zone
       {
         return self;
       }
@@ -223,7 +223,7 @@ Feature: Outputting Value Objects With Forward Declarations
         return self;
       }
 
-      - (id)copyWithZone:(NSZone *)zone
+      - (id)copyWithZone:(nullable NSZone *)zone
       {
         return self;
       }

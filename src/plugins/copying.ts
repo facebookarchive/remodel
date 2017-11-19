@@ -26,7 +26,7 @@ function copyInstanceMethod():ObjC.Method {
         name: 'copyWithZone',
         argument: Maybe.Just<ObjC.KeywordArgument>({
           name: 'zone',
-          modifiers: [],
+          modifiers: [ObjC.KeywordArgumentModifier.Nullable()],
           type: {
             name: 'NSZone',
             reference: 'NSZone *'

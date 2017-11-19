@@ -70,7 +70,7 @@ Feature: Outputting Value Objects With Coded Values
         return self;
       }
 
-      - (id)copyWithZone:(NSZone *)zone
+      - (id)copyWithZone:(nullable NSZone *)zone
       {
         return self;
       }

@@ -17,6 +17,7 @@ import List = require('../list');
 import Map = require('../map');
 import Maybe = require('../maybe');
 import ObjC = require('../objc');
+import ObjCCommentUtils = require('../objc-comment-utils');
 import ObjCImportUtils = require('../objc-import-utils');
 import ObjCNullabilityUtils = require('../objc-nullability-utils');
 import ObjectGeneration = require('../object-generation');
@@ -78,6 +79,16 @@ function keywordsForNamedAttributeSubtype(subtype:AlgebraicType.NamedAttributeCo
   }
 }
 
+function commentsForSubtype(subtype:AlgebraicType.Subtype):string[] {
+  return subtype.match(
+    function(namedAttributeCollectionSubtype:AlgebraicType.NamedAttributeCollectionSubtype) {
+      return namedAttributeCollectionSubtype.comments;
+    },
+    function(attribute:AlgebraicType.SubtypeAttribute) {
+      return attribute.comments;
+    });
+}
+
 function keywordsForSubtype(subtype:AlgebraicType.Subtype):ObjC.Keyword[] {
   return subtype.match(
     function(namedAttributeCollectionSubtype:AlgebraicType.NamedAttributeCollectionSubtype) {
@@ -121,7 +132,7 @@ function initializationClassMethodForSubtype(algebraicType:AlgebraicType.Type, s
   return {
     belongsToProtocol:Maybe.Nothing<string>(),
     code: openingCode.concat(setterStatements).concat('return object;'),
-    comments:[],
+    comments: ObjCCommentUtils.commentsAsBlockFromStringArray(commentsForSubtype(subtype)),
     compilerAttributes:[],
     keywords: keywordsForSubtype(subtype),
     returnType: {

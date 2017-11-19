@@ -1,18 +1,22 @@
 Feature: Outputting Algebraic Types
 
   @announce
-  Scenario: Generating an algebraic type containing values in each subtype
+  Scenario: Generating an algebraic type containing values in each subtype and comments
     Given a file named "project/values/SimpleADT.adtValue" with:
       """
+      # What a beautiful ADT
       %library name=MyLib
       %type name=RMSomeObject library=SomeLib file=AnotherFile
       %type name=RMFooObject
       %type name=RMSomeEnum canForwardDeclare=false
       SimpleADT {
+        # Really good type,
+        # always use this
         FirstSubtype {
           NSString *firstValue
           NSUInteger secondValue
         }
+        # This is a strange one
         SomeRandomSubtype
         %singleAttributeSubtype attributeType="NSUInteger"
         someAttributeSubtype
@@ -42,8 +46,15 @@ Feature: Outputting Algebraic Types
       typedef void (^SimpleADTSomeAttributeSubtypeMatchHandler)(NSUInteger someAttributeSubtype);
       typedef void (^SimpleADTSecondSubtypeMatchHandler)(BOOL something);
 
+      /**
+       * What a beautiful ADT
+       */
       @interface SimpleADT : NSObject <NSCopying>
 
+      /**
+       * Really good type,
+       * always use this
+       */
       + (instancetype)firstSubtypeWithFirstValue:(NSString *)firstValue secondValue:(NSUInteger)secondValue;
       
       + (instancetype)new NS_UNAVAILABLE;
@@ -52,6 +63,9 @@ Feature: Outputting Algebraic Types
 
       + (instancetype)someAttributeSubtype:(NSUInteger)someAttributeSubtype;
 
+      /**
+       * This is a strange one
+       */
       + (instancetype)someRandomSubtype;
 
       - (instancetype)init NS_UNAVAILABLE;

@@ -43,6 +43,7 @@ Feature: Outputting Objects With Nullability Annotations
       - (instancetype)initWithName:(nullable NSString *)name identifier:(nonnull NSString *)identifier
       {
         if ((self = [super init])) {
+          NSParameterAssert(identifier != nil);
           _name = [name copy];
           _identifier = [identifier copy];
         }

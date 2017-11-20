@@ -171,6 +171,7 @@ Feature: Outputting Objects With Nullability Annotations
 
       + (instancetype)firstSubtypeWithFirstValue:(nonnull NSString *)firstValue secondValue:(NSUInteger)secondValue
       {
+        NSParameterAssert(firstValue != nil);
         SimpleADT *object = [[SimpleADT alloc] internalInit];
         object->_subtype = _SimpleADTSubtypesFirstSubtype;
         object->_firstSubtype_firstValue = firstValue;

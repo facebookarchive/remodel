@@ -60,97 +60,16 @@ function toIvarAssignment(supportsValueSemantics:boolean, attribute:ObjectSpec.A
   return '_' + attribute.name + ' = ' + valueOrCopy(supportsValueSemantics, attribute);
 }
 
+function canAssertExistenceForTypeOfAttribute(attribute:ObjectSpec.Attribute) {
+  return ObjCNullabilityUtils.canAssertExistenceForType(ObjectSpecCodeUtils.computeTypeOfAttribute(attribute));
+}
+
 function isRequiredAttribute(assumeNonnull:boolean, attribute:ObjectSpec.Attribute):boolean {
-  return attribute.nullability.match(
-    function inherited() {
-      return assumeNonnull;
-    },
-    function nonnull() {
-      return true;
-    },
-    function nullable() {
-      return false;
-    });
+  return ObjCNullabilityUtils.shouldProtectFromNilValuesForNullability(assumeNonnull, attribute.nullability);
 }
 
 function toRequiredAssertion(attribute:ObjectSpec.Attribute):string {
   return 'NSParameterAssert(' + attribute.name + ' != nil);';
-}
-
-function canAssertExistenceForTypeOfAttribute(attribute:ObjectSpec.Attribute):boolean {
-  const type = ObjectSpecCodeUtils.computeTypeOfAttribute(attribute);
-  return ObjCTypeUtils.matchType({
-    id: function() {
-      return true;
-    },
-    NSObject: function() {
-      return true;
-    },
-    BOOL: function() {
-      return false;
-    },
-    NSInteger: function() {
-      return false;
-    },
-    NSUInteger: function() {
-      return false;
-    },
-    double: function() {
-      return false;
-    },
-    float: function() {
-      return false;
-    },
-    CGFloat: function() {
-      return false;
-    },
-    NSTimeInterval: function() {
-      return false;
-    },
-    uintptr_t: function() {
-      return false;
-    },
-    uint32_t: function() {
-      return false;
-    },
-    uint64_t: function() {
-      return false;
-    },
-    int32_t: function() {
-      return false;
-    },
-    int64_t: function() {
-      return false;
-    },
-    SEL: function() {
-      return false;
-    },
-    NSRange: function() {
-      return false;
-    },
-    CGRect: function() {
-      return false;
-    },
-    CGPoint: function() {
-      return false;
-    },
-    CGSize: function() {
-      return false;
-    },
-    UIEdgeInsets: function() {
-      return false;
-    },
-    Class: function() {
-      return true;
-    },
-    dispatch_block_t: function() {
-      return true;
-    },
-    unmatchedType: function() {
-      return false;
-    }
-  },
-  type);
 }
 
 function initializerCodeFromAttributes(assumeNonnull:boolean, supportsValueSemantics:boolean, attributes:ObjectSpec.Attribute[]):string[] {

@@ -72,9 +72,9 @@ function toRequiredAssertion(attribute:ObjectSpec.Attribute):string {
   return 'NSParameterAssert(' + attribute.name + ' != nil);';
 }
 
-function initializerCodeFromAttributes(assumeNonnull:boolean, supportsValueSemantics:boolean, attributes:ObjectSpec.Attribute[]):string[] {
+function initializerCodeFromAttributes(assertionsEnabled:boolean, assumeNonnull:boolean, supportsValueSemantics:boolean, attributes:ObjectSpec.Attribute[]):string[] {
   const opening = ['if ((self = [super init])) {'];
-  const requiredParameterAssertions = attributes.filter(canAssertExistenceForTypeOfAttribute).filter(FunctionUtils.pApplyf2(assumeNonnull, isRequiredAttribute)).map(toRequiredAssertion).map(StringUtils.indent(2));
+  const requiredParameterAssertions = assertionsEnabled ? attributes.filter(canAssertExistenceForTypeOfAttribute).filter(FunctionUtils.pApplyf2(assumeNonnull, isRequiredAttribute)).map(toRequiredAssertion).map(StringUtils.indent(2)) : [];
   const iVarAssignements = attributes.map(FunctionUtils.pApplyf2(supportsValueSemantics, toIvarAssignment)).map(StringUtils.indent(2));
   const closing = [
     '}',
@@ -84,11 +84,11 @@ function initializerCodeFromAttributes(assumeNonnull:boolean, supportsValueSeman
   return opening.concat(requiredParameterAssertions).concat(iVarAssignements).concat(closing);
 }
 
-function initializerFromAttributes(assumeNonnull:boolean, supportsValueSemantics:boolean, attributes:ObjectSpec.Attribute[]):ObjC.Method {
+function initializerFromAttributes(assertionsEnabled:boolean, assumeNonnull:boolean, supportsValueSemantics:boolean, attributes:ObjectSpec.Attribute[]):ObjC.Method {
   const keywords = [firstInitializerKeyword(attributes[0])].concat(attributes.slice(1).map(attributeToKeyword));
   return {
     belongsToProtocol: Maybe.Nothing<string>(),
-    code: initializerCodeFromAttributes(assumeNonnull, supportsValueSemantics, attributes),
+    code: initializerCodeFromAttributes(assertionsEnabled, assumeNonnull, supportsValueSemantics, attributes),
     comments:[],
     compilerAttributes:["NS_DESIGNATED_INITIALIZER"],
     keywords: keywords,
@@ -281,8 +281,9 @@ export function createPlugin():ObjectSpec.Plugin {
     },
     instanceMethods: function(objectType:ObjectSpec.Type):ObjC.Method[] {
       if (objectType.attributes.length > 0) {
+        const assertionsEnabled:boolean = objectType.excludes.indexOf('RMAssertNullability') === -1;
         const assumeNonnull:boolean = objectType.includes.indexOf('RMAssumeNonnull') >= 0;
-        return [initializerFromAttributes(assumeNonnull, ObjectSpecUtils.typeSupportsValueObjectSemantics(objectType), objectType.attributes)];
+        return [initializerFromAttributes(assertionsEnabled, assumeNonnull, ObjectSpecUtils.typeSupportsValueObjectSemantics(objectType), objectType.attributes)];
       } else {
         return [];
       }

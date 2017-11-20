@@ -139,9 +139,10 @@ function initializationClassMethodForSubtype(algebraicType:AlgebraicType.Type, s
     algebraicType.name + ' *' + nameOfObjectWithinInitializer() + ' = [[' + algebraicType.name + ' alloc] internalInit];',
     nameOfObjectWithinInitializer() + '->' + AlgebraicTypeUtils.valueAccessorForInternalPropertyStoringSubtype() + ' = ' + AlgebraicTypeUtils.EnumerationValueNameForSubtype(algebraicType, subtype) + ';'
   ];
+  const assertionsEnabled:boolean = algebraicType.excludes.indexOf('RMAssertNullability') === -1;
   const assumeNonnull:boolean = algebraicType.includes.indexOf('RMAssumeNonnull') >= 0;
   const attributes:AlgebraicType.SubtypeAttribute[] = AlgebraicTypeUtils.attributesFromSubtype(subtype);
-  const requiredParameterAssertions:string[] = attributes.filter(canAssertExistenceForTypeOfAttribute).filter(FunctionUtils.pApplyf2(assumeNonnull, isRequiredAttribute)).map(toRequiredAssertion);
+  const requiredParameterAssertions:string[] = assertionsEnabled ? attributes.filter(canAssertExistenceForTypeOfAttribute).filter(FunctionUtils.pApplyf2(assumeNonnull, isRequiredAttribute)).map(toRequiredAssertion) : [];
   const setterStatements:string[] = attributes.map(FunctionUtils.pApplyf2(subtype, internalValueSettingCodeForAttribute));
 
   return {

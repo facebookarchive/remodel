@@ -43,6 +43,7 @@ Feature: Outputting Objects With Nullability Annotations
       - (instancetype)initWithName:(nullable NSString *)name identifier:(nonnull NSString *)identifier
       {
         if ((self = [super init])) {
+          NSParameterAssert(identifier != nil);
           _name = [name copy];
           _identifier = [identifier copy];
         }
@@ -170,6 +171,7 @@ Feature: Outputting Objects With Nullability Annotations
 
       + (instancetype)firstSubtypeWithFirstValue:(nonnull NSString *)firstValue secondValue:(NSUInteger)secondValue
       {
+        NSParameterAssert(firstValue != nil);
         SimpleADT *object = [[SimpleADT alloc] internalInit];
         object->_subtype = _SimpleADTSubtypesFirstSubtype;
         object->_firstSubtype_firstValue = firstValue;

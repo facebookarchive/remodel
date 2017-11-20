@@ -122,16 +122,32 @@ function internalInitInstanceMethod() {
   }; 
 }
 
+function canAssertExistenceForTypeOfAttribute(attribute:AlgebraicType.SubtypeAttribute) {
+  return ObjCNullabilityUtils.canAssertExistenceForType(AlgebraicTypeUtils.computeTypeOfAttribute(attribute));
+}
+
+function isRequiredAttribute(assumeNonnull:boolean, attribute:AlgebraicType.SubtypeAttribute):boolean {
+  return ObjCNullabilityUtils.shouldProtectFromNilValuesForNullability(assumeNonnull, attribute.nullability);
+}
+
+function toRequiredAssertion(attribute:AlgebraicType.SubtypeAttribute):string {
+  return 'NSParameterAssert(' + attribute.name + ' != nil);';
+}
+
 function initializationClassMethodForSubtype(algebraicType:AlgebraicType.Type, subtype:AlgebraicType.Subtype):ObjC.Method {
   const openingCode:string[] = [
     algebraicType.name + ' *' + nameOfObjectWithinInitializer() + ' = [[' + algebraicType.name + ' alloc] internalInit];',
     nameOfObjectWithinInitializer() + '->' + AlgebraicTypeUtils.valueAccessorForInternalPropertyStoringSubtype() + ' = ' + AlgebraicTypeUtils.EnumerationValueNameForSubtype(algebraicType, subtype) + ';'
   ];
-  const setterStatements:string[] = AlgebraicTypeUtils.attributesFromSubtype(subtype).map(FunctionUtils.pApplyf2(subtype, internalValueSettingCodeForAttribute));
+  const assertionsEnabled:boolean = algebraicType.excludes.indexOf('RMAssertNullability') === -1;
+  const assumeNonnull:boolean = algebraicType.includes.indexOf('RMAssumeNonnull') >= 0;
+  const attributes:AlgebraicType.SubtypeAttribute[] = AlgebraicTypeUtils.attributesFromSubtype(subtype);
+  const requiredParameterAssertions:string[] = assertionsEnabled ? attributes.filter(canAssertExistenceForTypeOfAttribute).filter(FunctionUtils.pApplyf2(assumeNonnull, isRequiredAttribute)).map(toRequiredAssertion) : [];
+  const setterStatements:string[] = attributes.map(FunctionUtils.pApplyf2(subtype, internalValueSettingCodeForAttribute));
 
   return {
     belongsToProtocol:Maybe.Nothing<string>(),
-    code: openingCode.concat(setterStatements).concat('return object;'),
+    code: requiredParameterAssertions.concat(openingCode).concat(setterStatements).concat('return object;'),
     comments: ObjCCommentUtils.commentsAsBlockFromStringArray(commentsForSubtype(subtype)),
     compilerAttributes:[],
     keywords: keywordsForSubtype(subtype),

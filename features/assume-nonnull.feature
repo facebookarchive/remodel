@@ -47,6 +47,7 @@ Feature: Outputting Value Objects / Algebraic Types decorated with NS_ASSUME_NON
       - (instancetype)initWithAString:(NSString *)aString bString:(nullable NSString *)bString
       {
         if ((self = [super init])) {
+          NSParameterAssert(aString != nil);
           _aString = [aString copy];
           _bString = [bString copy];
         }
@@ -170,6 +171,7 @@ Feature: Outputting Value Objects / Algebraic Types decorated with NS_ASSUME_NON
 
       + (instancetype)bazWithAString:(NSString *)aString bString:(nullable NSString *)bString
       {
+        NSParameterAssert(aString != nil);
         RMFoo *object = [[RMFoo alloc] internalInit];
         object->_subtype = _RMFooSubtypesBaz;
         object->_baz_aString = aString;

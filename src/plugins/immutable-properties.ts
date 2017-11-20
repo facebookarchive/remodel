@@ -15,6 +15,7 @@ import Maybe = require('../maybe');
 import StringUtils = require('../string-utils');
 import ObjC = require('../objc');
 import ObjCCommentUtils = require('../objc-comment-utils');
+import ObjCTypeUtils = require('../objc-type-utils');
 import ObjCNullabilityUtils = require('../objc-nullability-utils');
 import ObjCImportUtils = require('../objc-import-utils');
 import ObjectGeneration = require('../object-generation');
@@ -59,23 +60,35 @@ function toIvarAssignment(supportsValueSemantics:boolean, attribute:ObjectSpec.A
   return '_' + attribute.name + ' = ' + valueOrCopy(supportsValueSemantics, attribute);
 }
 
-function initializerCodeFromAttributes(supportsValueSemantics:boolean, attributes:ObjectSpec.Attribute[]):string[] {
-  const result = [
-    'if ((self = [super init])) {',
-].concat(attributes.map(FunctionUtils.pApplyf2(supportsValueSemantics, toIvarAssignment)).map(StringUtils.indent(2)))
-   .concat([
+function canAssertExistenceForTypeOfAttribute(attribute:ObjectSpec.Attribute) {
+  return ObjCNullabilityUtils.canAssertExistenceForType(ObjectSpecCodeUtils.computeTypeOfAttribute(attribute));
+}
+
+function isRequiredAttribute(assumeNonnull:boolean, attribute:ObjectSpec.Attribute):boolean {
+  return ObjCNullabilityUtils.shouldProtectFromNilValuesForNullability(assumeNonnull, attribute.nullability);
+}
+
+function toRequiredAssertion(attribute:ObjectSpec.Attribute):string {
+  return 'NSParameterAssert(' + attribute.name + ' != nil);';
+}
+
+function initializerCodeFromAttributes(assertionsEnabled:boolean, assumeNonnull:boolean, supportsValueSemantics:boolean, attributes:ObjectSpec.Attribute[]):string[] {
+  const opening = ['if ((self = [super init])) {'];
+  const requiredParameterAssertions = assertionsEnabled ? attributes.filter(canAssertExistenceForTypeOfAttribute).filter(FunctionUtils.pApplyf2(assumeNonnull, isRequiredAttribute)).map(toRequiredAssertion).map(StringUtils.indent(2)) : [];
+  const iVarAssignements = attributes.map(FunctionUtils.pApplyf2(supportsValueSemantics, toIvarAssignment)).map(StringUtils.indent(2));
+  const closing = [
     '}',
     '',
     'return self;'
-  ]);
-  return result;
+  ];
+  return opening.concat(requiredParameterAssertions).concat(iVarAssignements).concat(closing);
 }
 
-function initializerFromAttributes(supportsValueSemantics:boolean, attributes:ObjectSpec.Attribute[]):ObjC.Method {
+function initializerFromAttributes(assertionsEnabled:boolean, assumeNonnull:boolean, supportsValueSemantics:boolean, attributes:ObjectSpec.Attribute[]):ObjC.Method {
   const keywords = [firstInitializerKeyword(attributes[0])].concat(attributes.slice(1).map(attributeToKeyword));
   return {
     belongsToProtocol: Maybe.Nothing<string>(),
-    code: initializerCodeFromAttributes(supportsValueSemantics, attributes),
+    code: initializerCodeFromAttributes(assertionsEnabled, assumeNonnull, supportsValueSemantics, attributes),
     comments:[],
     compilerAttributes:["NS_DESIGNATED_INITIALIZER"],
     keywords: keywords,
@@ -268,7 +281,9 @@ export function createPlugin():ObjectSpec.Plugin {
     },
     instanceMethods: function(objectType:ObjectSpec.Type):ObjC.Method[] {
       if (objectType.attributes.length > 0) {
-        return [initializerFromAttributes(ObjectSpecUtils.typeSupportsValueObjectSemantics(objectType), objectType.attributes)];
+        const assertionsEnabled:boolean = objectType.excludes.indexOf('RMAssertNullability') === -1;
+        const assumeNonnull:boolean = objectType.includes.indexOf('RMAssumeNonnull') >= 0;
+        return [initializerFromAttributes(assertionsEnabled, assumeNonnull, ObjectSpecUtils.typeSupportsValueObjectSemantics(objectType), objectType.attributes)];
       } else {
         return [];
       }

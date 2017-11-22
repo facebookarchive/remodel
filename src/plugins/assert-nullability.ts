@@ -41,8 +41,8 @@ function parameterAssertFunction():ObjC.Function {
   };
 }
 
-function parameterAssertFunctionArrayIfNeeded(assumeNonnull:boolean, attributeNullabilities:ObjC.Nullability[]):ObjC.Function[] {
-  if(ObjCNullabilityUtils.nullabilityRequiresNonnullProtection(assumeNonnull, attributeNullabilities)) {
+function parameterAssertFunctionArray(assumeNonnull:boolean, attributeNullabilities:ObjC.Nullability[]):ObjC.Function[] {
+  if (ObjCNullabilityUtils.nullabilityRequiresNonnullProtection(assumeNonnull, attributeNullabilities)) {
     return [parameterAssertFunction()];
   } else {
     return [];
@@ -75,7 +75,7 @@ export function createPlugin():ObjectSpec.Plugin {
     functions: function(objectType:ObjectSpec.Type):ObjC.Function[] {
       const assumeNonnull:boolean = objectType.includes.indexOf('RMAssumeNonnull') >= 0;
       const attributeNullabilities = objectType.attributes.map(attribute => attribute.nullability);
-      return parameterAssertFunctionArrayIfNeeded(assumeNonnull, attributeNullabilities);
+      return parameterAssertFunctionArray(assumeNonnull, attributeNullabilities);
     },
     headerComments: function(objectType:ObjectSpec.Type):ObjC.Comment[] {
       return [];
@@ -131,7 +131,7 @@ export function createAlgebraicTypePlugin():AlgebraicType.Plugin {
     functions: function(algebraicType:AlgebraicType.Type):ObjC.Function[] {
       const assumeNonnull:boolean = algebraicType.includes.indexOf('RMAssumeNonnull') >= 0;
       const attributeNullabilities = AlgebraicTypeUtils.allAttributesFromSubtypes(algebraicType.subtypes).map(attribute => attribute.nullability);
-      return parameterAssertFunctionArrayIfNeeded(assumeNonnull, attributeNullabilities);
+      return parameterAssertFunctionArray(assumeNonnull, attributeNullabilities);
     },
     headerComments: function(algebraicType:AlgebraicType.Type):ObjC.Comment[] {
       return [];

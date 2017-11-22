@@ -51,12 +51,7 @@ export function shouldProtectFromNilValuesForNullability(assumeNonnull:boolean, 
 }
 
 export function nullabilityRequiresNonnullProtection(assumeNonnull:boolean, attributeNullabilities:ObjC.Nullability[]):boolean {
-  for (var i = attributeNullabilities.length - 1; i >= 0; i--) {
-    if(shouldProtectFromNilValuesForNullability(assumeNonnull, attributeNullabilities[i])) {
-      return true;
-    }
-  }
-  return false;
+  return attributeNullabilities.some(nullability => shouldProtectFromNilValuesForNullability(assumeNonnull, nullability));
 }
 
 export function canAssertExistenceForType(type:ObjC.Type):boolean {

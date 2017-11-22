@@ -16,6 +16,7 @@ import Maybe = require('../maybe');
 import ObjC = require('../objc');
 import ObjCNullabilityUtils = require('../objc-nullability-utils');
 import ObjectSpec = require('../object-spec');
+import ObjectSpecCodeUtils = require('../object-spec-code-utils');
 
 function parameterAssertFunction():ObjC.Function {
   return {
@@ -39,6 +40,14 @@ function parameterAssertFunction():ObjC.Function {
     ],
     isPublic: false
   };
+}
+
+function canAssertExistenceForTypeOfObjectSpecAttribute(attribute:ObjectSpec.Attribute) {
+  return ObjCNullabilityUtils.canAssertExistenceForType(ObjectSpecCodeUtils.computeTypeOfAttribute(attribute));
+}
+
+function canAssertExistenceForTypeOfAlgebraicTypeSubtypeAttribute(attribute:AlgebraicType.SubtypeAttribute) {
+  return ObjCNullabilityUtils.canAssertExistenceForType(AlgebraicTypeUtils.computeTypeOfAttribute(attribute));
 }
 
 function parameterAssertFunctionArray(assumeNonnull:boolean, attributeNullabilities:ObjC.Nullability[]):ObjC.Function[] {
@@ -74,7 +83,7 @@ export function createPlugin():ObjectSpec.Plugin {
     },
     functions: function(objectType:ObjectSpec.Type):ObjC.Function[] {
       const assumeNonnull:boolean = objectType.includes.indexOf('RMAssumeNonnull') >= 0;
-      const attributeNullabilities = objectType.attributes.map(attribute => attribute.nullability);
+      const attributeNullabilities = objectType.attributes.filter(canAssertExistenceForTypeOfObjectSpecAttribute).map(attribute => attribute.nullability);
       return parameterAssertFunctionArray(assumeNonnull, attributeNullabilities);
     },
     headerComments: function(objectType:ObjectSpec.Type):ObjC.Comment[] {
@@ -130,7 +139,7 @@ export function createAlgebraicTypePlugin():AlgebraicType.Plugin {
     },
     functions: function(algebraicType:AlgebraicType.Type):ObjC.Function[] {
       const assumeNonnull:boolean = algebraicType.includes.indexOf('RMAssumeNonnull') >= 0;
-      const attributeNullabilities = AlgebraicTypeUtils.allAttributesFromSubtypes(algebraicType.subtypes).map(attribute => attribute.nullability);
+      const attributeNullabilities = AlgebraicTypeUtils.allAttributesFromSubtypes(algebraicType.subtypes).filter(canAssertExistenceForTypeOfAlgebraicTypeSubtypeAttribute).map(attribute => attribute.nullability);
       return parameterAssertFunctionArray(assumeNonnull, attributeNullabilities);
     },
     headerComments: function(algebraicType:AlgebraicType.Type):ObjC.Comment[] {

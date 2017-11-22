@@ -40,14 +40,18 @@ Feature: Outputting Value Objects / Algebraic Types decorated with NS_ASSUME_NON
       """
       #import "RMFoo.h"
 
+      static void RMParameterAssert(BOOL condition) {
+        NSParameterAssert(condition);
+      }
+
       NS_ASSUME_NONNULL_BEGIN
 
       @implementation RMFoo
 
       - (instancetype)initWithAString:(NSString *)aString bString:(nullable NSString *)bString
       {
+        RMParameterAssert(aString != nil);
         if ((self = [super init])) {
-          NSParameterAssert(aString != nil);
           _aString = [aString copy];
           _bString = [bString copy];
         }
@@ -153,6 +157,10 @@ Feature: Outputting Value Objects / Algebraic Types decorated with NS_ASSUME_NON
         _RMFooSubtypesBaz
       };
 
+      static void RMParameterAssert(BOOL condition) {
+        NSParameterAssert(condition);
+      }
+
       NS_ASSUME_NONNULL_BEGIN
 
       @implementation RMFoo
@@ -171,7 +179,7 @@ Feature: Outputting Value Objects / Algebraic Types decorated with NS_ASSUME_NON
 
       + (instancetype)bazWithAString:(NSString *)aString bString:(nullable NSString *)bString
       {
-        NSParameterAssert(aString != nil);
+        RMParameterAssert(aString != nil);
         RMFoo *object = [[RMFoo alloc] internalInit];
         object->_subtype = _RMFooSubtypesBaz;
         object->_baz_aString = aString;

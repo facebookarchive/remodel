@@ -50,6 +50,10 @@ export function shouldProtectFromNilValuesForNullability(assumeNonnull:boolean, 
     });
 }
 
+export function nullabilityRequiresNonnullProtection(assumeNonnull:boolean, attributeNullabilities:ObjC.Nullability[]):boolean {
+  return attributeNullabilities.some(nullability => shouldProtectFromNilValuesForNullability(assumeNonnull, nullability));
+}
+
 export function canAssertExistenceForType(type:ObjC.Type):boolean {
   return ObjCTypeUtils.matchType({
     id: function() {

@@ -38,12 +38,16 @@ Feature: Outputting Objects With Nullability Annotations
       """
       #import "RMPage.h"
 
+      static void RMParameterAssert(BOOL condition) {
+        NSParameterAssert(condition);
+      }
+
       @implementation RMPage
 
       - (instancetype)initWithName:(nullable NSString *)name identifier:(nonnull NSString *)identifier
       {
+        RMParameterAssert(identifier != nil);
         if ((self = [super init])) {
-          NSParameterAssert(identifier != nil);
           _name = [name copy];
           _identifier = [identifier copy];
         }
@@ -160,6 +164,10 @@ Feature: Outputting Objects With Nullability Annotations
         _SimpleADTSubtypesSecondSubtype
       };
 
+      static void RMParameterAssert(BOOL condition) {
+        NSParameterAssert(condition);
+      }
+
       @implementation SimpleADT
       {
         _SimpleADTSubtypes _subtype;
@@ -171,7 +179,7 @@ Feature: Outputting Objects With Nullability Annotations
 
       + (instancetype)firstSubtypeWithFirstValue:(nonnull NSString *)firstValue secondValue:(NSUInteger)secondValue
       {
-        NSParameterAssert(firstValue != nil);
+        RMParameterAssert(firstValue != nil);
         SimpleADT *object = [[SimpleADT alloc] internalInit];
         object->_subtype = _SimpleADTSubtypesFirstSubtype;
         object->_firstSubtype_firstValue = firstValue;

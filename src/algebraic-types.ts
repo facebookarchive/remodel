@@ -45,6 +45,7 @@ interface PathAndTypeInfo {
 
 const BASE_INCLUDES:List.List<string> = List.of(
   'AlgebraicTypeInitialization',
+  'RMAssertNullability',
   'RMCopying',
   'RMDescription',
   'RMEquality',
@@ -54,6 +55,7 @@ const BASE_INCLUDES:List.List<string> = List.of(
 
 const BASE_PLUGINS:List.List<string> = List.of(
   'algebraic-type-initialization',
+  'assert-nullability',
   'assume-nonnull',
   'coding',
   'copying',

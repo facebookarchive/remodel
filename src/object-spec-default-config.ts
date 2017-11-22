@@ -12,11 +12,13 @@ import List = require('./list')
 
 export const OBJECT_SPEC_DEFAULT_CONFIG = {
   baseIncludes: List.of(
+    'RMAssertNullability',
     'RMDescription',
     'RMImmutableProperties',
     'RMInitNewUnavailable'
   ),
   basePlugins: List.of(
+    'assert-nullability',
     'assume-nonnull',
     'builder',
     'coding',

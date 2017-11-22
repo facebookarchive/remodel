@@ -12,6 +12,7 @@ import List = require('./list')
 
 export const VALUE_OBJECT_DEFAULT_CONFIG = {
   baseIncludes: List.of(
+    'RMAssertNullability',
     'RMCopying',
     'RMDescription',
     'RMEquality',
@@ -20,6 +21,7 @@ export const VALUE_OBJECT_DEFAULT_CONFIG = {
     'RMValueObjectSemantics'
   ),
   basePlugins: List.of(
+    'assert-nullability',
     'assume-nonnull',
     'builder',
     'coding',

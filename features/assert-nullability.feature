@@ -9,6 +9,10 @@ Feature: Outputting Value Objects / Algebraic Types decorated with NS_ASSUME_NON
         NSString *bString;
       }
       """
+    And a file named "project/.valueObjectConfig" with:
+      """
+      { }
+      """
     When I run `../../bin/generate project`
     Then the file "project/values/RMFoo.m" should contain:
       """
@@ -45,6 +49,10 @@ Feature: Outputting Value Objects / Algebraic Types decorated with NS_ASSUME_NON
         NSString *bString;
       }
       """
+    And a file named "project/.valueObjectConfig" with:
+      """
+      { }
+      """
     When I run `../../bin/generate project`
     Then the file "project/values/RMFoo.m" should contain:
       """
@@ -77,6 +85,10 @@ Feature: Outputting Value Objects / Algebraic Types decorated with NS_ASSUME_NON
         NSInteger countB;
       }
       """
+    And a file named "project/.valueObjectConfig" with:
+      """
+      { }
+      """
     When I run `../../bin/generate project`
     Then the file "project/values/RMFoo.m" should contain:
       """
@@ -104,6 +116,10 @@ Feature: Outputting Value Objects / Algebraic Types decorated with NS_ASSUME_NON
         NSString *stringA
         NSInteger countB
       }
+      """
+    And a file named "project/.valueObjectConfig" with:
+      """
+      { }
       """
     When I run `../../bin/generate project`
     Then the file "project/values/RMFoo.m" should contain:
@@ -133,6 +149,10 @@ Feature: Outputting Value Objects / Algebraic Types decorated with NS_ASSUME_NON
         NSInteger countA;
         NSInteger countB;
       }
+      """
+    And a file named "project/.valueObjectConfig" with:
+      """
+      { }
       """
     When I run `../../bin/generate project`
     Then the file "project/values/RMFoo.m" should contain:

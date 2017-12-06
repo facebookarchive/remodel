@@ -245,11 +245,15 @@ Feature: Outputting Value Objects / Algebraic Types decorated with NS_ASSUME_NON
       {
         switch (_subtype) {
           case _RMFooSubtypesBar: {
-            barMatchHandler();
+            if (barMatchHandler) {
+              barMatchHandler();
+            }
             break;
           }
           case _RMFooSubtypesBaz: {
-            bazMatchHandler(_baz_aString, _baz_bString);
+            if (bazMatchHandler) {
+              bazMatchHandler(_baz_aString, _baz_bString);
+            }
             break;
           }
         }

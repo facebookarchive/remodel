@@ -195,19 +195,27 @@ Feature: Outputting Algebraic Types
       {
         switch (_subtype) {
           case _SimpleADTSubtypesFirstSubtype: {
-            firstSubtypeMatchHandler(_firstSubtype_firstValue, _firstSubtype_secondValue);
+            if (firstSubtypeMatchHandler) {
+              firstSubtypeMatchHandler(_firstSubtype_firstValue, _firstSubtype_secondValue);
+            }
             break;
           }
           case _SimpleADTSubtypesSomeRandomSubtype: {
-            someRandomSubtypeMatchHandler();
+            if (someRandomSubtypeMatchHandler) {
+              someRandomSubtypeMatchHandler();
+            }
             break;
           }
           case _SimpleADTSubtypesSomeAttributeSubtype: {
-            someAttributeSubtypeMatchHandler(_someAttributeSubtype);
+            if (someAttributeSubtypeMatchHandler) {
+              someAttributeSubtypeMatchHandler(_someAttributeSubtype);
+            }
             break;
           }
           case _SimpleADTSubtypesSecondSubtype: {
-            secondSubtypeMatchHandler(_secondSubtype_something);
+            if (secondSubtypeMatchHandler) {
+              secondSubtypeMatchHandler(_secondSubtype_something);
+            }
             break;
           }
         }
@@ -359,11 +367,15 @@ Feature: Outputting Algebraic Types
       {
         switch (_subtype) {
           case _SimpleADTSubtypesFirstSubtype: {
-            firstSubtypeMatchHandler(_firstSubtype_firstValue, _firstSubtype_secondValue);
+            if (firstSubtypeMatchHandler) {
+              firstSubtypeMatchHandler(_firstSubtype_firstValue, _firstSubtype_secondValue);
+            }
             break;
           }
           case _SimpleADTSubtypesSecondSubtype: {
-            secondSubtypeMatchHandler(_secondSubtype_something);
+            if (secondSubtypeMatchHandler) {
+              secondSubtypeMatchHandler(_secondSubtype_something);
+            }
             break;
           }
         }
@@ -530,15 +542,21 @@ Feature: Outputting Algebraic Types
       {
         switch (_subtype) {
           case _SimpleADTSubtypesFirstSubtype: {
-            firstSubtypeMatchHandler(_firstSubtype_firstValue, _firstSubtype_secondValue);
+            if (firstSubtypeMatchHandler) {
+              firstSubtypeMatchHandler(_firstSubtype_firstValue, _firstSubtype_secondValue);
+            }
             break;
           }
           case _SimpleADTSubtypesSomeRandomSubtype: {
-            someRandomSubtypeMatchHandler();
+            if (someRandomSubtypeMatchHandler) {
+              someRandomSubtypeMatchHandler();
+            }
             break;
           }
           case _SimpleADTSubtypesSecondSubtype: {
-            secondSubtypeMatchHandler(_secondSubtype_something);
+            if (secondSubtypeMatchHandler) {
+              secondSubtypeMatchHandler(_secondSubtype_something);
+            }
             break;
           }
         }

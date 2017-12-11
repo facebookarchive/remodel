@@ -22,6 +22,7 @@ export interface Arguments {
   interestedLoggingTypes:List.List<Logging.LoggingType>;
   minimalLevel:number;
   dryRun:boolean;
+  outputPath:string;
 }
 
 const VERBOSE_FLAG:string = 'verbose';
@@ -29,6 +30,7 @@ const PERF_LOGGING_FLAG:string = 'perf-log';
 const DEBUG_LOGGING_FLAG:string = 'debug';
 const SILENT_LOGGING_FLAG:string = 'silent';
 const DRY_RUN_FLAG:string = 'dry-run';
+const OUTPUT_PATH:string = 'output-path';
 
 const ADT_CONFIG_PATH:string = 'adt-config-path';
 const VALUE_OBJECT_CONFIG_PATH:string = 'value-object-config-path';
@@ -62,7 +64,8 @@ export function parseArgs(args:string[]):Maybe.Maybe<Arguments> {
       objectConfigPath:parsedArgs[OBJECT_CONFIG_PATH],
       interestedLoggingTypes:interestedTypesForArgs(parsedArgs),
       minimalLevel:parsedArgs[VERBOSE_FLAG] ? 1 : 10,
-      dryRun:parsedArgs[DRY_RUN_FLAG]
+      dryRun:parsedArgs[DRY_RUN_FLAG],
+      outputPath:parsedArgs[OUTPUT_PATH],
     });
   }
 }

@@ -30,6 +30,7 @@ import ObjectSpec = require('./object-spec');
 import ObjectSpecCreation = require('./object-spec-creation');
 import ObjectSpecParser = require('./object-spec-parser');
 import WriteFileUtils = require('./file-logged-sequence-write-utils');
+import path = require('path');
 
 interface ObjectSpecCreationContext {
   baseClassName:string;
@@ -70,15 +71,17 @@ function typeInformationContainingDefaultIncludes(typeInformation:ObjectSpec.Typ
   };
 }
 
-function processObjectSpecCreationRequest(future:Promise.Future<Either.Either<Error.Error[], ObjectSpecCreationContext>>, either:Either.Either<Error.Error[], PathAndTypeInfo>):Promise.Future<Logging.Context<Either.Either<Error.Error[], FileWriter.FileWriteRequest>>> {
+function processObjectSpecCreationRequest(outputPath: Maybe.Maybe<File.AbsoluteFilePath>, future:Promise.Future<Either.Either<Error.Error[], ObjectSpecCreationContext>>, either:Either.Either<Error.Error[], PathAndTypeInfo>):Promise.Future<Logging.Context<Either.Either<Error.Error[], FileWriter.FileWriteRequest>>> {
   return Promise.map(function(creationContextEither:Either.Either<Error.Error[], ObjectSpecCreationContext>) {
     return Logging.munit(Either.mbind(function(pathAndTypeInfo:PathAndTypeInfo) {
       return Either.mbind(function(creationContext:ObjectSpecCreationContext) {
+        console.log(pathAndTypeInfo.path);
         const request:ObjectSpecCreation.Request = {
           diagnosticIgnores:creationContext.diagnosticIgnores,
           baseClassLibraryName:creationContext.baseClassLibraryName,
           baseClassName:creationContext.baseClassName,
           path:pathAndTypeInfo.path,
+          outputPath:outputPath,
           typeInformation:typeInformationContainingDefaultIncludes(pathAndTypeInfo.typeInformation, creationContext.defaultIncludes)
         };
 
@@ -132,8 +135,17 @@ function valueObjectConfigPathFuture(configFileName:string, requestedPath:File.A
   return absoluteValueObjectConfigPath;
 }
 
+function outputDirectory(directoryRunFrom:string, outputPath:string):Maybe.Maybe<File.AbsoluteFilePath> {
+  if (outputPath === undefined || outputPath === "") {
+    return Maybe.Nothing<File.AbsoluteFilePath>();  
+  } else {
+    return Maybe.Just<File.AbsoluteFilePath>(PathUtils.getAbsolutePathFromDirectoryAndAbsoluteOrRelativePath(File.getAbsoluteFilePath(directoryRunFrom), outputPath));
+  }
+}
+
 export function generate(directoryRunFrom:string, extension:string, configFileName:string, optionalConfigPath:string, configurationContext:Configuration.ConfigurationContext, parsedArgs:CommandLine.Arguments):Promise.Future<WriteFileUtils.ConsoleOutputResults> {
     const requestedPath:File.AbsoluteFilePath = PathUtils.getAbsolutePathFromDirectoryAndAbsoluteOrRelativePath(File.getAbsoluteFilePath(directoryRunFrom), parsedArgs.givenPath);
+    const outputPath:Maybe.Maybe<File.AbsoluteFilePath> = outputDirectory(directoryRunFrom, parsedArgs.outputPath);
 
     const valueObjectCreationContextFuture = getObjectSpecCreationContext(valueObjectConfigPathFuture(configFileName, requestedPath, optionalConfigPath), configurationContext);
 
@@ -143,7 +155,7 @@ export function generate(directoryRunFrom:string, extension:string, configFileNa
                                                                   parseValues);
 
     const pluginProcessedSequence = LoggingSequenceUtils.mapLoggedSequence(parsedSequence,
-                                                                           FunctionUtils.pApplyf2(valueObjectCreationContextFuture, processObjectSpecCreationRequest));
+                                                                           FunctionUtils.pApply2f3(outputPath, valueObjectCreationContextFuture, processObjectSpecCreationRequest));
 
     return WriteFileUtils.evaluateObjectFileWriteRequestSequence(parsedArgs, pluginProcessedSequence);
 }

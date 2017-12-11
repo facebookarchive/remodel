@@ -55,6 +55,11 @@ module.exports = function() {
     callback();
   });
 
+  this.Given(/^a directory named "([^"]*)":$/, function(dirName, callback) {
+    mkdirp.sync(this.tmpDirectoryPath + '/' + dirName);
+    callback();
+  });
+
   this.When(/^I run `([^`]*)`$/, function(cmd, callback) {
     run(unescape(cmd), this.tmpDirectoryPath, callback);
   });

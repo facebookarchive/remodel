@@ -37,7 +37,8 @@ describe('CommandLine', function() {
         objectConfigPath:undefined,
         interestedLoggingTypes:List.of(Logging.LoggingType.info, Logging.LoggingType.error),
         minimalLevel:10,
-        dryRun: false
+        dryRun: false,
+        outputPath:undefined,
       });
 
       expect(parsedArgs).toEqualJSON(expectedResult);
@@ -54,7 +55,8 @@ describe('CommandLine', function() {
         objectConfigPath:undefined,
         interestedLoggingTypes:List.of(Logging.LoggingType.info, Logging.LoggingType.error),
         minimalLevel:1,
-        dryRun:false
+        dryRun:false,
+        outputPath:undefined,
       });
 
       expect(parsedArgs).toEqualJSON(expectedResult);
@@ -71,7 +73,8 @@ describe('CommandLine', function() {
         objectConfigPath:undefined,
         interestedLoggingTypes:List.of(Logging.LoggingType.info, Logging.LoggingType.error, Logging.LoggingType.performance),
         minimalLevel:10,
-        dryRun:false
+        dryRun:false,
+        outputPath:undefined,
       });
 
       expect(parsedArgs).toEqualJSON(expectedResult);
@@ -88,7 +91,8 @@ describe('CommandLine', function() {
         objectConfigPath:undefined,
         interestedLoggingTypes:List.of(Logging.LoggingType.info, Logging.LoggingType.error, Logging.LoggingType.debug),
         minimalLevel:10,
-        dryRun:false
+        dryRun:false,
+        outputPath:undefined,
       });
 
       expect(parsedArgs).toEqualJSON(expectedResult);
@@ -105,7 +109,8 @@ describe('CommandLine', function() {
         objectConfigPath:undefined,
         interestedLoggingTypes:List.of(Logging.LoggingType.info, Logging.LoggingType.error),
         minimalLevel:10,
-        dryRun:true
+        dryRun:true,
+        outputPath:undefined,
       });
 
       expect(parsedArgs).toEqualJSON(expectedResult);
@@ -122,7 +127,8 @@ describe('CommandLine', function() {
         objectConfigPath:undefined,
         interestedLoggingTypes:List.of<Logging.LoggingType>(),
         minimalLevel:10,
-        dryRun:false
+        dryRun:false,
+        outputPath:undefined,
       });
 
       expect(parsedArgs).toEqualJSON(expectedResult);
@@ -139,7 +145,8 @@ describe('CommandLine', function() {
         objectConfigPath:undefined,
         interestedLoggingTypes:List.of(Logging.LoggingType.info, Logging.LoggingType.error),
         minimalLevel:10,
-        dryRun: false
+        dryRun: false,
+        outputPath:undefined,
       });
 
       expect(parsedArgs).toEqualJSON(expectedResult);
@@ -156,7 +163,8 @@ describe('CommandLine', function() {
         objectConfigPath:'path/to/objectConfig',
         interestedLoggingTypes:List.of(Logging.LoggingType.info, Logging.LoggingType.error),
         minimalLevel:10,
-        dryRun: false
+        dryRun: false,
+        outputPath:undefined,
       });
 
       expect(parsedArgs).toEqualJSON(expectedResult);

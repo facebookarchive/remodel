@@ -113,7 +113,8 @@ describe('ObjectSpecCreation', function() {
         baseClassLibraryName:Maybe.Nothing<string>(),
         diagnosticIgnores:List.of<string>(),
         path:File.getAbsoluteFilePath('something.value'),
-        typeInformation:objectType
+        typeInformation:objectType,
+        outputPath:Maybe.Nothing<File.AbsoluteFilePath>(),
       };
 
       const writeRequest = ObjectSpecCreation.fileWriteRequest(generationRequest, List.of(Plugin));
@@ -249,7 +250,8 @@ describe('ObjectSpecCreation', function() {
         baseClassLibraryName:Maybe.Nothing<string>(),
         diagnosticIgnores:List.of<string>(),
         path:File.getAbsoluteFilePath('something.value'),
-        typeInformation:objectType
+        typeInformation:objectType,
+        outputPath:Maybe.Nothing<File.AbsoluteFilePath>(),
       };
 
       const writeRequest = ObjectSpecCreation.fileWriteRequest(generationRequest, List.of(Plugin));
@@ -362,7 +364,8 @@ describe('ObjectSpecCreation', function() {
         baseClassLibraryName:Maybe.Nothing<string>(),
         diagnosticIgnores:List.of<string>(),
         path:File.getAbsoluteFilePath('something.value'),
-        typeInformation:objectType
+        typeInformation:objectType,
+        outputPath:Maybe.Nothing<File.AbsoluteFilePath>(),
       };
 
       const writeRequest = ObjectSpecCreation.fileWriteRequest(generationRequest, List.of(Plugin));
@@ -489,7 +492,8 @@ describe('ObjectSpecCreation', function() {
         baseClassLibraryName:Maybe.Nothing<string>(),
         diagnosticIgnores:List.of<string>(),
         path:File.getAbsoluteFilePath('something.value'),
-        typeInformation:objectType
+        typeInformation:objectType,
+        outputPath:Maybe.Nothing<File.AbsoluteFilePath>(),
       };
 
       const writeRequest = ObjectSpecCreation.fileWriteRequest(generationRequest, List.of(Plugin));
@@ -635,7 +639,8 @@ describe('ObjectSpecCreation', function() {
         baseClassLibraryName:Maybe.Nothing<string>(),
         diagnosticIgnores:List.of<string>(),
         path:File.getAbsoluteFilePath('something.value'),
-        typeInformation:objectType
+        typeInformation:objectType,
+        outputPath:Maybe.Nothing<File.AbsoluteFilePath>(),
       };
 
       const writeRequest = ObjectSpecCreation.fileWriteRequest(generationRequest, List.of(Plugin));
@@ -757,7 +762,8 @@ describe('ObjectSpecCreation', function() {
         baseClassLibraryName:Maybe.Nothing<string>(),
         diagnosticIgnores:List.of<string>(),
         path:File.getAbsoluteFilePath('something.value'),
-        typeInformation:objectType
+        typeInformation:objectType,
+        outputPath:Maybe.Nothing<File.AbsoluteFilePath>(),
       };
 
       const writeRequest:Either.Either<Error.Error[], FileWriter.FileWriteRequest> = ObjectSpecCreation.fileWriteRequest(generationRequest, List.of(Plugin));
@@ -888,7 +894,8 @@ describe('ObjectSpecCreation', function() {
         baseClassLibraryName:Maybe.Nothing<string>(),
         diagnosticIgnores:List.of<string>(),
         path:File.getAbsoluteFilePath('something.value'),
-        typeInformation:objectType
+        typeInformation:objectType,
+        outputPath:Maybe.Nothing<File.AbsoluteFilePath>(),
       };
 
       const writeRequest:Either.Either<Error.Error[], FileWriter.FileWriteRequest> = ObjectSpecCreation.fileWriteRequest(generationRequest, List.of(Plugin1, Plugin2));
@@ -1077,7 +1084,8 @@ describe('ObjectSpecCreation', function() {
         baseClassLibraryName:Maybe.Nothing<string>(),
         diagnosticIgnores:List.of<string>(),
         path:File.getAbsoluteFilePath('something.value'),
-        typeInformation:objectType
+        typeInformation:objectType,
+        outputPath:Maybe.Nothing<File.AbsoluteFilePath>(),
       };
 
       const writeRequest = ObjectSpecCreation.fileWriteRequest(generationRequest, List.of(Plugin1, Plugin2));
@@ -1316,7 +1324,8 @@ describe('ObjectSpecCreation', function() {
         baseClassLibraryName:Maybe.Nothing<string>(),
         diagnosticIgnores:List.of<string>(),
         path:File.getAbsoluteFilePath('something.value'),
-        typeInformation:objectType
+        typeInformation:objectType,
+        outputPath:Maybe.Nothing<File.AbsoluteFilePath>(),
       };
 
       const writeRequest = ObjectSpecCreation.fileWriteRequest(generationRequest, List.of(Plugin1, Plugin2));

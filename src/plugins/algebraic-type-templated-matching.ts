@@ -130,7 +130,7 @@ function matchingFileForAlgebraicType(algebraicType:AlgebraicType.Type):Code.Fil
     type: Code.FileType.ObjectiveCPlusPlus(),
     imports:[
       {file:'Foundation.h', isPublic:true, library:Maybe.Just<string>('Foundation')},
-      {file:algebraicType.name + '.h', isPublic:true, library:Maybe.Nothing<string>()},
+      {file:algebraicType.name + '.h', isPublic:true, library:algebraicType.libraryName},
       {file:matchingFileNameForAlgebraicType(algebraicType) + '.h', isPublic:false, library:Maybe.Nothing<string>()},
       {file:'memory', isPublic:true, library:Maybe.Nothing<string>()}
     ],

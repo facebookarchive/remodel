@@ -51,7 +51,7 @@ function interestedTypesForArgs(args:minimist.ParsedArgs):List.List<Logging.Logg
 export function parseArgs(args:string[]):Maybe.Maybe<Arguments> {
   const opts = {
     boolean:[VERBOSE_FLAG, PERF_LOGGING_FLAG, DEBUG_LOGGING_FLAG, SILENT_LOGGING_FLAG, DRY_RUN_FLAG],
-    string:[ADT_CONFIG_PATH, VALUE_OBJECT_CONFIG_PATH, OBJECT_CONFIG_PATH]
+    string:[ADT_CONFIG_PATH, VALUE_OBJECT_CONFIG_PATH, OBJECT_CONFIG_PATH, OUTPUT_PATH]
   };
   const parsedArgs = minimist(args, opts);
   if (parsedArgs._.length === 0) {

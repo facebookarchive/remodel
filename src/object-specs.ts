@@ -75,7 +75,6 @@ function processObjectSpecCreationRequest(outputPath: Maybe.Maybe<File.AbsoluteF
   return Promise.map(function(creationContextEither:Either.Either<Error.Error[], ObjectSpecCreationContext>) {
     return Logging.munit(Either.mbind(function(pathAndTypeInfo:PathAndTypeInfo) {
       return Either.mbind(function(creationContext:ObjectSpecCreationContext) {
-        console.log(pathAndTypeInfo.path);
         const request:ObjectSpecCreation.Request = {
           diagnosticIgnores:creationContext.diagnosticIgnores,
           baseClassLibraryName:creationContext.baseClassLibraryName,

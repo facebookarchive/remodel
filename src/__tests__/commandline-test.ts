@@ -37,7 +37,10 @@ describe('CommandLine', function() {
         objectConfigPath:undefined,
         interestedLoggingTypes:List.of(Logging.LoggingType.info, Logging.LoggingType.error),
         minimalLevel:10,
-        dryRun: false
+        dryRun: false,
+        includes:[],
+        excludes:[],
+        prohibitEmbeddedIncludes:false,
       });
 
       expect(parsedArgs).toEqualJSON(expectedResult);
@@ -54,7 +57,10 @@ describe('CommandLine', function() {
         objectConfigPath:undefined,
         interestedLoggingTypes:List.of(Logging.LoggingType.info, Logging.LoggingType.error),
         minimalLevel:1,
-        dryRun:false
+        dryRun:false,
+        includes:[],
+        excludes:[],
+        prohibitEmbeddedIncludes:false,
       });
 
       expect(parsedArgs).toEqualJSON(expectedResult);
@@ -71,7 +77,10 @@ describe('CommandLine', function() {
         objectConfigPath:undefined,
         interestedLoggingTypes:List.of(Logging.LoggingType.info, Logging.LoggingType.error, Logging.LoggingType.performance),
         minimalLevel:10,
-        dryRun:false
+        dryRun:false,
+        includes:[],
+        excludes:[],
+        prohibitEmbeddedIncludes:false,
       });
 
       expect(parsedArgs).toEqualJSON(expectedResult);
@@ -88,7 +97,10 @@ describe('CommandLine', function() {
         objectConfigPath:undefined,
         interestedLoggingTypes:List.of(Logging.LoggingType.info, Logging.LoggingType.error, Logging.LoggingType.debug),
         minimalLevel:10,
-        dryRun:false
+        dryRun:false,
+        includes:[],
+        excludes:[],
+        prohibitEmbeddedIncludes:false,
       });
 
       expect(parsedArgs).toEqualJSON(expectedResult);
@@ -105,7 +117,10 @@ describe('CommandLine', function() {
         objectConfigPath:undefined,
         interestedLoggingTypes:List.of(Logging.LoggingType.info, Logging.LoggingType.error),
         minimalLevel:10,
-        dryRun:true
+        dryRun:true,
+        includes:[],
+        excludes:[],
+        prohibitEmbeddedIncludes:false,
       });
 
       expect(parsedArgs).toEqualJSON(expectedResult);
@@ -122,7 +137,10 @@ describe('CommandLine', function() {
         objectConfigPath:undefined,
         interestedLoggingTypes:List.of<Logging.LoggingType>(),
         minimalLevel:10,
-        dryRun:false
+        dryRun:false,
+        includes:[],
+        excludes:[],
+        prohibitEmbeddedIncludes:false,
       });
 
       expect(parsedArgs).toEqualJSON(expectedResult);
@@ -139,7 +157,10 @@ describe('CommandLine', function() {
         objectConfigPath:undefined,
         interestedLoggingTypes:List.of(Logging.LoggingType.info, Logging.LoggingType.error),
         minimalLevel:10,
-        dryRun: false
+        dryRun: false,
+        includes:[],
+        excludes:[],
+        prohibitEmbeddedIncludes:false,
       });
 
       expect(parsedArgs).toEqualJSON(expectedResult);
@@ -156,7 +177,50 @@ describe('CommandLine', function() {
         objectConfigPath:'path/to/objectConfig',
         interestedLoggingTypes:List.of(Logging.LoggingType.info, Logging.LoggingType.error),
         minimalLevel:10,
-        dryRun: false
+        dryRun: false,
+        includes:[],
+        excludes:[],
+        prohibitEmbeddedIncludes:false,
+      });
+
+      expect(parsedArgs).toEqualJSON(expectedResult);
+    });
+
+    it('includes a list of includes and excludes if specified', function() {
+      const args:string[] = ['project/to/generate', '--include=PluginOne', '--include=PluginTwo', '--exclude=PluginThree'];
+      const parsedArgs:Maybe.Maybe<CommandLine.Arguments> = CommandLine.parseArgs(args);
+
+      const expectedResult = Maybe.Just<CommandLine.Arguments>({
+        givenPath:'project/to/generate',
+        adtConfigPath:undefined,
+        valueObjectConfigPath:undefined,
+        objectConfigPath:undefined,
+        interestedLoggingTypes:List.of(Logging.LoggingType.info, Logging.LoggingType.error),
+        minimalLevel:10,
+        dryRun: false,
+        includes:['PluginOne', 'PluginTwo'],
+        excludes:['PluginThree'],
+        prohibitEmbeddedIncludes:false,
+      });
+
+      expect(parsedArgs).toEqualJSON(expectedResult);
+    });
+
+    it('sets flag to prohibit embedded includes if passed flag', function() {
+      const args:string[] = ['project/to/generate', '--prohibit-embedded-includes'];
+      const parsedArgs:Maybe.Maybe<CommandLine.Arguments> = CommandLine.parseArgs(args);
+
+      const expectedResult = Maybe.Just<CommandLine.Arguments>({
+        givenPath:'project/to/generate',
+        adtConfigPath:undefined,
+        valueObjectConfigPath:undefined,
+        objectConfigPath:undefined,
+        interestedLoggingTypes:List.of(Logging.LoggingType.info, Logging.LoggingType.error),
+        minimalLevel:10,
+        dryRun: false,
+        includes:[],
+        excludes:[],
+        prohibitEmbeddedIncludes:true,
       });
 
       expect(parsedArgs).toEqualJSON(expectedResult);

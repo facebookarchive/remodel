@@ -170,6 +170,24 @@ describe('CommandLine', function() {
       expect(parsedArgs).toEqualJSON(expectedResult);
     });
 
+    it('includes an output directory when --output-path is passed', function() {
+      const args:string[] = ['--output-path=path/to/output', 'project/to/generate'];
+      const parsedArgs:Maybe.Maybe<CommandLine.Arguments> = CommandLine.parseArgs(args);
+
+      const expectedResult = Maybe.Just<CommandLine.Arguments>({
+        givenPath:'project/to/generate',
+        adtConfigPath:undefined,
+        valueObjectConfigPath:undefined,
+        objectConfigPath:undefined,
+        interestedLoggingTypes:List.of(Logging.LoggingType.info, Logging.LoggingType.error),
+        minimalLevel:10,
+        dryRun: false,
+        outputPath:'path/to/output',
+      });
+
+      expect(parsedArgs).toEqualJSON(expectedResult);
+    });
+
     it('returns nothing when only --verbose is provided', function() {
       const args:string[] = ['--verbose'];
       const parsedArgs:Maybe.Maybe<CommandLine.Arguments> = CommandLine.parseArgs(args);

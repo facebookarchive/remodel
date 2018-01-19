@@ -6,6 +6,9 @@ Before you dig in, you should keep in mind that Remodel has an extensibility mod
 
 In the cases where Remodel itself does need updates, we will welcome your pull requests.
 
+## Code of Conduct
+The code of conduct is described in [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md).
+
 ## Our Development Process
 
 We use GitHub to sync code to and from our internal repository. We'll use GitHub to track issues and feature requests, as well as accept pull requests.

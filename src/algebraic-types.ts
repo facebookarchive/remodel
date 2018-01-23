@@ -36,7 +36,7 @@ interface AlgebraicTypeCreationContext {
   diagnosticIgnores:List.List<string>;
   plugins:List.List<AlgebraicType.Plugin>;
   defaultIncludes:List.List<string>;
-  prohibitEmbeddedIncludes:Boolean;
+  prohibitPluginDirectives:Boolean;
 }
 
 interface PathAndTypeInfo {
@@ -96,8 +96,8 @@ function processAlgebraicTypeCreationRequest(future:Promise.Future<Either.Either
   return Promise.map(function(creationContextEither:Either.Either<Error.Error[], AlgebraicTypeCreationContext>) {
     return Logging.munit(Either.mbind(function(pathAndTypeInfo:PathAndTypeInfo) {
       return Either.mbind(function(creationContext:AlgebraicTypeCreationContext) {
-        if (creationContext.prohibitEmbeddedIncludes && (pathAndTypeInfo.typeInformation.includes.length > 0 || pathAndTypeInfo.typeInformation.excludes.length > 0)) {
-          return Either.Left<Error.Error[], FileWriter.FileWriteRequest>([{reason:'includes()/excludes() is disallowed with the --prohibit-embedded-includes flag'}])
+        if (creationContext.prohibitPluginDirectives && (pathAndTypeInfo.typeInformation.includes.length > 0 || pathAndTypeInfo.typeInformation.excludes.length > 0)) {
+          return Either.Left<Error.Error[], FileWriter.FileWriteRequest>([{reason:'includes()/excludes() is disallowed with the --prohibit-plugin-directives flag'}])
         } else {
           const request:AlgebraicTypeCreation.Request = {
             diagnosticIgnores:creationContext.diagnosticIgnores,
@@ -151,7 +151,7 @@ function getAlgebraicTypeCreationContext(currentWorkingDirectory:File.AbsoluteFi
               diagnosticIgnores:configuration.diagnosticIgnores,
               plugins:plugins,
               defaultIncludes:List.fromArray<string>(PluginInclusionUtils.includesContainingDefaultIncludes(parsedArgs.includes, parsedArgs.excludes, configuration.defaultIncludes)),
-              prohibitEmbeddedIncludes:parsedArgs.prohibitEmbeddedIncludes,
+              prohibitPluginDirectives:parsedArgs.prohibitPluginDirectives,
             };
           }, pluginsEither);
         },

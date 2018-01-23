@@ -40,7 +40,7 @@ describe('CommandLine', function() {
         dryRun: false,
         includes:[],
         excludes:[],
-        prohibitEmbeddedIncludes:false,
+        prohibitPluginDirectives:false,
       });
 
       expect(parsedArgs).toEqualJSON(expectedResult);
@@ -60,7 +60,7 @@ describe('CommandLine', function() {
         dryRun:false,
         includes:[],
         excludes:[],
-        prohibitEmbeddedIncludes:false,
+        prohibitPluginDirectives:false,
       });
 
       expect(parsedArgs).toEqualJSON(expectedResult);
@@ -80,7 +80,7 @@ describe('CommandLine', function() {
         dryRun:false,
         includes:[],
         excludes:[],
-        prohibitEmbeddedIncludes:false,
+        prohibitPluginDirectives:false,
       });
 
       expect(parsedArgs).toEqualJSON(expectedResult);
@@ -100,7 +100,7 @@ describe('CommandLine', function() {
         dryRun:false,
         includes:[],
         excludes:[],
-        prohibitEmbeddedIncludes:false,
+        prohibitPluginDirectives:false,
       });
 
       expect(parsedArgs).toEqualJSON(expectedResult);
@@ -120,7 +120,7 @@ describe('CommandLine', function() {
         dryRun:true,
         includes:[],
         excludes:[],
-        prohibitEmbeddedIncludes:false,
+        prohibitPluginDirectives:false,
       });
 
       expect(parsedArgs).toEqualJSON(expectedResult);
@@ -140,7 +140,7 @@ describe('CommandLine', function() {
         dryRun:false,
         includes:[],
         excludes:[],
-        prohibitEmbeddedIncludes:false,
+        prohibitPluginDirectives:false,
       });
 
       expect(parsedArgs).toEqualJSON(expectedResult);
@@ -160,7 +160,7 @@ describe('CommandLine', function() {
         dryRun: false,
         includes:[],
         excludes:[],
-        prohibitEmbeddedIncludes:false,
+        prohibitPluginDirectives:false,
       });
 
       expect(parsedArgs).toEqualJSON(expectedResult);
@@ -180,7 +180,7 @@ describe('CommandLine', function() {
         dryRun: false,
         includes:[],
         excludes:[],
-        prohibitEmbeddedIncludes:false,
+        prohibitPluginDirectives:false,
       });
 
       expect(parsedArgs).toEqualJSON(expectedResult);
@@ -200,14 +200,14 @@ describe('CommandLine', function() {
         dryRun: false,
         includes:['PluginOne', 'PluginTwo'],
         excludes:['PluginThree'],
-        prohibitEmbeddedIncludes:false,
+        prohibitPluginDirectives:false,
       });
 
       expect(parsedArgs).toEqualJSON(expectedResult);
     });
 
-    it('sets flag to prohibit embedded includes if passed flag', function() {
-      const args:string[] = ['project/to/generate', '--prohibit-embedded-includes'];
+    it('sets flag to prohibit embedded plugin includes/excludes if passed flag', function() {
+      const args:string[] = ['project/to/generate', '--prohibit-plugin-directives'];
       const parsedArgs:Maybe.Maybe<CommandLine.Arguments> = CommandLine.parseArgs(args);
 
       const expectedResult = Maybe.Just<CommandLine.Arguments>({
@@ -220,7 +220,7 @@ describe('CommandLine', function() {
         dryRun: false,
         includes:[],
         excludes:[],
-        prohibitEmbeddedIncludes:true,
+        prohibitPluginDirectives:true,
       });
 
       expect(parsedArgs).toEqualJSON(expectedResult);

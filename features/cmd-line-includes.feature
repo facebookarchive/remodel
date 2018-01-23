@@ -176,5 +176,5 @@ Feature: Controlling includes/excludes from command line
       """
       { }
       """
-    When I run `../../bin/generate project --prohibit-embedded-includes`
+    When I run `../../bin/generate project --prohibit-plugin-directives`
     Then the file "project/values/RMValueType.h" should not exist

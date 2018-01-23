@@ -36,6 +36,7 @@ interface AlgebraicTypeCreationContext {
   diagnosticIgnores:List.List<string>;
   plugins:List.List<AlgebraicType.Plugin>;
   defaultIncludes:List.List<string>;
+  prohibitPluginDirectives:Boolean;
 }
 
 interface PathAndTypeInfo {
@@ -95,15 +96,19 @@ function processAlgebraicTypeCreationRequest(future:Promise.Future<Either.Either
   return Promise.map(function(creationContextEither:Either.Either<Error.Error[], AlgebraicTypeCreationContext>) {
     return Logging.munit(Either.mbind(function(pathAndTypeInfo:PathAndTypeInfo) {
       return Either.mbind(function(creationContext:AlgebraicTypeCreationContext) {
-        const request:AlgebraicTypeCreation.Request = {
-          diagnosticIgnores:creationContext.diagnosticIgnores,
-          baseClassLibraryName:creationContext.baseClassLibraryName,
-          baseClassName:creationContext.baseClassName,
-          path:pathAndTypeInfo.path,
-          typeInformation:typeInformationContainingDefaultIncludes(pathAndTypeInfo.typeInformation, creationContext.defaultIncludes)
-        };
+        if (creationContext.prohibitPluginDirectives && (pathAndTypeInfo.typeInformation.includes.length > 0 || pathAndTypeInfo.typeInformation.excludes.length > 0)) {
+          return Either.Left<Error.Error[], FileWriter.FileWriteRequest>([{reason:'includes()/excludes() is disallowed with the --prohibit-plugin-directives flag'}])
+        } else {
+          const request:AlgebraicTypeCreation.Request = {
+            diagnosticIgnores:creationContext.diagnosticIgnores,
+            baseClassLibraryName:creationContext.baseClassLibraryName,
+            baseClassName:creationContext.baseClassName,
+            path:pathAndTypeInfo.path,
+            typeInformation:typeInformationContainingDefaultIncludes(pathAndTypeInfo.typeInformation, creationContext.defaultIncludes)
+          };
 
-        return AlgebraicTypeCreation.fileWriteRequest(request, creationContext.plugins);
+          return AlgebraicTypeCreation.fileWriteRequest(request, creationContext.plugins);
+        }
       }, creationContextEither);
     }, either));
   }, future);
@@ -123,7 +128,7 @@ function pluginsFromPluginConfigs(pluginConfigs:List.List<Configuration.PluginCo
   }, Either.Right<Error.Error[], List.List<AlgebraicType.Plugin>>(List.of<AlgebraicType.Plugin>()), pluginConfigs);
 }
 
-function getAlgebraicTypeCreationContext(currentWorkingDirectory:File.AbsoluteFilePath):Promise.Future<Either.Either<Error.Error[], AlgebraicTypeCreationContext>> {
+function getAlgebraicTypeCreationContext(currentWorkingDirectory:File.AbsoluteFilePath, parsedArgs:CommandLine.Arguments):Promise.Future<Either.Either<Error.Error[], AlgebraicTypeCreationContext>> {
   const findConfigFuture = FileFinder.findConfig('.algebraicTypeConfig', currentWorkingDirectory);
   return Promise.mbind(function(maybePath:Maybe.Maybe<File.AbsoluteFilePath>):Promise.Future<Either.Either<Error.Error[], AlgebraicTypeCreationContext>> {
     const configurationContext:Configuration.ConfigurationContext = {
@@ -145,7 +150,8 @@ function getAlgebraicTypeCreationContext(currentWorkingDirectory:File.AbsoluteFi
               baseClassLibraryName:configuration.baseClassLibraryName,
               diagnosticIgnores:configuration.diagnosticIgnores,
               plugins:plugins,
-              defaultIncludes:configuration.defaultIncludes
+              defaultIncludes:List.fromArray<string>(PluginInclusionUtils.includesContainingDefaultIncludes(parsedArgs.includes, parsedArgs.excludes, configuration.defaultIncludes)),
+              prohibitPluginDirectives:parsedArgs.prohibitPluginDirectives,
             };
           }, pluginsEither);
         },
@@ -156,7 +162,7 @@ function getAlgebraicTypeCreationContext(currentWorkingDirectory:File.AbsoluteFi
 
 export function generate(directoryRunFrom:string, parsedArgs:CommandLine.Arguments):Promise.Future<WriteFileUtils.ConsoleOutputResults> {
     const requestedPath:File.AbsoluteFilePath = PathUtils.getAbsolutePathFromDirectoryAndAbsoluteOrRelativePath(File.getAbsoluteFilePath(directoryRunFrom), parsedArgs.givenPath);
-    const algebraicTypeCreationContextFuture = getAlgebraicTypeCreationContext(requestedPath);
+    const algebraicTypeCreationContextFuture = getAlgebraicTypeCreationContext(requestedPath, parsedArgs);
 
     const readFileSequence = ReadFileUtils.loggedSequenceThatReadsFiles(requestedPath, 'adtValue');
 

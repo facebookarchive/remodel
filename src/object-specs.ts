@@ -38,6 +38,7 @@ interface ObjectSpecCreationContext {
   diagnosticIgnores:List.List<string>;
   plugins:List.List<ObjectSpec.Plugin>;
   defaultIncludes:List.List<string>;
+  prohibitPluginDirectives:Boolean;
 }
 
 interface PathAndTypeInfo {
@@ -75,21 +76,25 @@ function processObjectSpecCreationRequest(outputPath: Maybe.Maybe<File.AbsoluteF
   return Promise.map(function(creationContextEither:Either.Either<Error.Error[], ObjectSpecCreationContext>) {
     return Logging.munit(Either.mbind(function(pathAndTypeInfo:PathAndTypeInfo) {
       return Either.mbind(function(creationContext:ObjectSpecCreationContext) {
-        const request:ObjectSpecCreation.Request = {
-          diagnosticIgnores:creationContext.diagnosticIgnores,
-          baseClassLibraryName:creationContext.baseClassLibraryName,
-          baseClassName:creationContext.baseClassName,
-          path:pathAndTypeInfo.path,
-          outputPath:outputPath,
-          typeInformation:typeInformationContainingDefaultIncludes(pathAndTypeInfo.typeInformation, creationContext.defaultIncludes)
-        };
+        if (creationContext.prohibitPluginDirectives && (pathAndTypeInfo.typeInformation.includes.length > 0 || pathAndTypeInfo.typeInformation.excludes.length > 0)) {
+          return Either.Left<Error.Error[], FileWriter.FileWriteRequest>([{reason:'includes()/excludes() is disallowed with the --prohibit-plugin-directives flag'}])
+        } else {
+          const request:ObjectSpecCreation.Request = {
+            diagnosticIgnores:creationContext.diagnosticIgnores,
+            baseClassLibraryName:creationContext.baseClassLibraryName,
+            baseClassName:creationContext.baseClassName,
+            path:pathAndTypeInfo.path,
+            outputPath:outputPath,
+            typeInformation:typeInformationContainingDefaultIncludes(pathAndTypeInfo.typeInformation, creationContext.defaultIncludes)
+          };
 
-        return ObjectSpecCreation.fileWriteRequest(request, creationContext.plugins);
+          return ObjectSpecCreation.fileWriteRequest(request, creationContext.plugins);
+        }
       }, creationContextEither);
     }, either));
   }, future);
 }
-
+ 
 function pluginsFromPluginConfigs(pluginConfigs:List.List<Configuration.PluginConfig>):Either.Either<Error.Error[], List.List<ObjectSpec.Plugin>> {
   return List.foldr(function(soFar:Either.Either<Error.Error[], List.List<ObjectSpec.Plugin>>, config:Configuration.PluginConfig):Either.Either<Error.Error[], List.List<ObjectSpec.Plugin>> {
     return Either.mbind(function(list:List.List<ObjectSpec.Plugin>):Either.Either<Error.Error[], List.List<ObjectSpec.Plugin>> {
@@ -104,7 +109,8 @@ function pluginsFromPluginConfigs(pluginConfigs:List.List<Configuration.PluginCo
   }, Either.Right<Error.Error[], List.List<ObjectSpec.Plugin>>(List.of<ObjectSpec.Plugin>()), pluginConfigs);
 }
 
-function getObjectSpecCreationContext(valueObjectConfigPathFuture:Promise.Future<Maybe.Maybe<File.AbsoluteFilePath>>, configurationContext:Configuration.ConfigurationContext):Promise.Future<Either.Either<Error.Error[], ObjectSpecCreationContext>> {
+function getObjectSpecCreationContext(valueObjectConfigPathFuture:Promise.Future<Maybe.Maybe<File.AbsoluteFilePath>>, configurationContext:Configuration.ConfigurationContext,
+  parsedArgs:CommandLine.Arguments):Promise.Future<Either.Either<Error.Error[], ObjectSpecCreationContext>> {
   return Promise.mbind(function(maybePath:Maybe.Maybe<File.AbsoluteFilePath>):Promise.Future<Either.Either<Error.Error[], ObjectSpecCreationContext>> {
     const configFuture:Promise.Future<Either.Either<Error.Error[], Configuration.GenerationConfig>> = Configuration.generateConfig(maybePath, configurationContext);
     return Promise.map(function(either:Either.Either<Error.Error[], Configuration.GenerationConfig>) {
@@ -116,7 +122,8 @@ function getObjectSpecCreationContext(valueObjectConfigPathFuture:Promise.Future
             baseClassLibraryName:configuration.baseClassLibraryName,
             diagnosticIgnores:configuration.diagnosticIgnores,
             plugins:plugins,
-            defaultIncludes:configuration.defaultIncludes
+            defaultIncludes:List.fromArray<string>(PluginInclusionUtils.includesContainingDefaultIncludes(parsedArgs.includes, parsedArgs.excludes, configuration.defaultIncludes)),
+            prohibitPluginDirectives:parsedArgs.prohibitPluginDirectives,
           };
         }, pluginsEither);
       }, either);
@@ -146,7 +153,7 @@ export function generate(directoryRunFrom:string, extension:string, configFileNa
     const requestedPath:File.AbsoluteFilePath = PathUtils.getAbsolutePathFromDirectoryAndAbsoluteOrRelativePath(File.getAbsoluteFilePath(directoryRunFrom), parsedArgs.givenPath);
     const outputPath:Maybe.Maybe<File.AbsoluteFilePath> = outputDirectory(directoryRunFrom, parsedArgs.outputPath);
 
-    const valueObjectCreationContextFuture = getObjectSpecCreationContext(valueObjectConfigPathFuture(configFileName, requestedPath, optionalConfigPath), configurationContext);
+    const valueObjectCreationContextFuture = getObjectSpecCreationContext(valueObjectConfigPathFuture(configFileName, requestedPath, optionalConfigPath), configurationContext, parsedArgs);
 
     const readFileSequence = ReadFileUtils.loggedSequenceThatReadsFiles(requestedPath, extension);
 

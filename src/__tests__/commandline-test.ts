@@ -39,6 +39,9 @@ describe('CommandLine', function() {
         minimalLevel:10,
         dryRun: false,
         outputPath:undefined,
+        includes:[],
+        excludes:[],
+        prohibitPluginDirectives:false,
       });
 
       expect(parsedArgs).toEqualJSON(expectedResult);
@@ -57,6 +60,9 @@ describe('CommandLine', function() {
         minimalLevel:1,
         dryRun:false,
         outputPath:undefined,
+        includes:[],
+        excludes:[],
+        prohibitPluginDirectives:false,
       });
 
       expect(parsedArgs).toEqualJSON(expectedResult);
@@ -75,6 +81,9 @@ describe('CommandLine', function() {
         minimalLevel:10,
         dryRun:false,
         outputPath:undefined,
+        includes:[],
+        excludes:[],
+        prohibitPluginDirectives:false,
       });
 
       expect(parsedArgs).toEqualJSON(expectedResult);
@@ -93,6 +102,9 @@ describe('CommandLine', function() {
         minimalLevel:10,
         dryRun:false,
         outputPath:undefined,
+        includes:[],
+        excludes:[],
+        prohibitPluginDirectives:false,
       });
 
       expect(parsedArgs).toEqualJSON(expectedResult);
@@ -111,6 +123,9 @@ describe('CommandLine', function() {
         minimalLevel:10,
         dryRun:true,
         outputPath:undefined,
+        includes:[],
+        excludes:[],
+        prohibitPluginDirectives:false,
       });
 
       expect(parsedArgs).toEqualJSON(expectedResult);
@@ -129,6 +144,9 @@ describe('CommandLine', function() {
         minimalLevel:10,
         dryRun:false,
         outputPath:undefined,
+        includes:[],
+        excludes:[],
+        prohibitPluginDirectives:false,
       });
 
       expect(parsedArgs).toEqualJSON(expectedResult);
@@ -147,6 +165,9 @@ describe('CommandLine', function() {
         minimalLevel:10,
         dryRun: false,
         outputPath:undefined,
+        includes:[],
+        excludes:[],
+        prohibitPluginDirectives:false,
       });
 
       expect(parsedArgs).toEqualJSON(expectedResult);
@@ -165,6 +186,9 @@ describe('CommandLine', function() {
         minimalLevel:10,
         dryRun: false,
         outputPath:undefined,
+        includes:[],
+        excludes:[],
+        prohibitPluginDirectives:false,
       });
 
       expect(parsedArgs).toEqualJSON(expectedResult);
@@ -183,6 +207,51 @@ describe('CommandLine', function() {
         minimalLevel:10,
         dryRun: false,
         outputPath:'path/to/output',
+        includes:[],
+        excludes:[],
+        prohibitPluginDirectives:false,
+      });
+
+      expect(parsedArgs).toEqualJSON(expectedResult);
+    });
+
+    it('includes a list of includes and excludes if specified', function() {
+      const args:string[] = ['project/to/generate', '--include=PluginOne', '--include=PluginTwo', '--exclude=PluginThree'];
+      const parsedArgs:Maybe.Maybe<CommandLine.Arguments> = CommandLine.parseArgs(args);
+
+      const expectedResult = Maybe.Just<CommandLine.Arguments>({
+        givenPath:'project/to/generate',
+        adtConfigPath:undefined,
+        valueObjectConfigPath:undefined,
+        objectConfigPath:undefined,
+        interestedLoggingTypes:List.of(Logging.LoggingType.info, Logging.LoggingType.error),
+        minimalLevel:10,
+        dryRun: false,
+        outputPath:undefined,
+        includes:['PluginOne', 'PluginTwo'],
+        excludes:['PluginThree'],
+        prohibitPluginDirectives:false,
+      });
+
+      expect(parsedArgs).toEqualJSON(expectedResult);
+    });
+
+    it('sets flag to prohibit embedded plugin includes/excludes if passed flag', function() {
+      const args:string[] = ['project/to/generate', '--prohibit-plugin-directives'];
+      const parsedArgs:Maybe.Maybe<CommandLine.Arguments> = CommandLine.parseArgs(args);
+
+      const expectedResult = Maybe.Just<CommandLine.Arguments>({
+        givenPath:'project/to/generate',
+        adtConfigPath:undefined,
+        valueObjectConfigPath:undefined,
+        objectConfigPath:undefined,
+        interestedLoggingTypes:List.of(Logging.LoggingType.info, Logging.LoggingType.error),
+        minimalLevel:10,
+        dryRun: false,
+        outputPath:undefined,
+        includes:[],
+        excludes:[],
+        prohibitPluginDirectives:true,
       });
 
       expect(parsedArgs).toEqualJSON(expectedResult);

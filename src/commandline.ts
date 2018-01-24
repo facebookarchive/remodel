@@ -23,6 +23,9 @@ export interface Arguments {
   minimalLevel:number;
   dryRun:boolean;
   outputPath:string;
+  includes:string[];
+  excludes:string[];
+  prohibitPluginDirectives:boolean;
 }
 
 const VERBOSE_FLAG:string = 'verbose';
@@ -31,6 +34,9 @@ const DEBUG_LOGGING_FLAG:string = 'debug';
 const SILENT_LOGGING_FLAG:string = 'silent';
 const DRY_RUN_FLAG:string = 'dry-run';
 const OUTPUT_PATH:string = 'output-path';
+const INCLUDE:string = 'include';
+const EXCLUDE:string = 'exclude';
+const PROHIBIT_PLUGIN_DIRECTIVES_FLAG:string = 'prohibit-plugin-directives';
 
 const ADT_CONFIG_PATH:string = 'adt-config-path';
 const VALUE_OBJECT_CONFIG_PATH:string = 'value-object-config-path';
@@ -48,10 +54,20 @@ function interestedTypesForArgs(args:minimist.ParsedArgs):List.List<Logging.Logg
   }
 }
 
+function sanitizeArrayArg(arg:any): string[] {
+  if (typeof arg == "string") {
+    return [arg];
+  } else if (Array.isArray(arg)) {
+    return arg;
+  } else {
+    return [];
+  }
+}
+
 export function parseArgs(args:string[]):Maybe.Maybe<Arguments> {
   const opts = {
-    boolean:[VERBOSE_FLAG, PERF_LOGGING_FLAG, DEBUG_LOGGING_FLAG, SILENT_LOGGING_FLAG, DRY_RUN_FLAG],
-    string:[ADT_CONFIG_PATH, VALUE_OBJECT_CONFIG_PATH, OBJECT_CONFIG_PATH, OUTPUT_PATH]
+    boolean:[VERBOSE_FLAG, PERF_LOGGING_FLAG, DEBUG_LOGGING_FLAG, SILENT_LOGGING_FLAG, DRY_RUN_FLAG, PROHIBIT_PLUGIN_DIRECTIVES_FLAG],
+    string:[ADT_CONFIG_PATH, VALUE_OBJECT_CONFIG_PATH, OBJECT_CONFIG_PATH, INCLUDE, EXCLUDE, OUTPUT_PATH],
   };
   const parsedArgs = minimist(args, opts);
   if (parsedArgs._.length === 0) {
@@ -66,6 +82,9 @@ export function parseArgs(args:string[]):Maybe.Maybe<Arguments> {
       minimalLevel:parsedArgs[VERBOSE_FLAG] ? 1 : 10,
       dryRun:parsedArgs[DRY_RUN_FLAG],
       outputPath:parsedArgs[OUTPUT_PATH],
+      includes:sanitizeArrayArg(parsedArgs[INCLUDE]),
+      excludes:sanitizeArrayArg(parsedArgs[EXCLUDE]),
+      prohibitPluginDirectives:parsedArgs[PROHIBIT_PLUGIN_DIRECTIVES_FLAG],
     });
   }
 }

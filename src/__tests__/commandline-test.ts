@@ -38,6 +38,7 @@ describe('CommandLine', function() {
         interestedLoggingTypes:List.of(Logging.LoggingType.info, Logging.LoggingType.error),
         minimalLevel:10,
         dryRun: false,
+        outputPath:undefined,
         includes:[],
         excludes:[],
         prohibitPluginDirectives:false,
@@ -58,6 +59,7 @@ describe('CommandLine', function() {
         interestedLoggingTypes:List.of(Logging.LoggingType.info, Logging.LoggingType.error),
         minimalLevel:1,
         dryRun:false,
+        outputPath:undefined,
         includes:[],
         excludes:[],
         prohibitPluginDirectives:false,
@@ -78,6 +80,7 @@ describe('CommandLine', function() {
         interestedLoggingTypes:List.of(Logging.LoggingType.info, Logging.LoggingType.error, Logging.LoggingType.performance),
         minimalLevel:10,
         dryRun:false,
+        outputPath:undefined,
         includes:[],
         excludes:[],
         prohibitPluginDirectives:false,
@@ -98,6 +101,7 @@ describe('CommandLine', function() {
         interestedLoggingTypes:List.of(Logging.LoggingType.info, Logging.LoggingType.error, Logging.LoggingType.debug),
         minimalLevel:10,
         dryRun:false,
+        outputPath:undefined,
         includes:[],
         excludes:[],
         prohibitPluginDirectives:false,
@@ -118,6 +122,7 @@ describe('CommandLine', function() {
         interestedLoggingTypes:List.of(Logging.LoggingType.info, Logging.LoggingType.error),
         minimalLevel:10,
         dryRun:true,
+        outputPath:undefined,
         includes:[],
         excludes:[],
         prohibitPluginDirectives:false,
@@ -138,6 +143,7 @@ describe('CommandLine', function() {
         interestedLoggingTypes:List.of<Logging.LoggingType>(),
         minimalLevel:10,
         dryRun:false,
+        outputPath:undefined,
         includes:[],
         excludes:[],
         prohibitPluginDirectives:false,
@@ -158,6 +164,7 @@ describe('CommandLine', function() {
         interestedLoggingTypes:List.of(Logging.LoggingType.info, Logging.LoggingType.error),
         minimalLevel:10,
         dryRun: false,
+        outputPath:undefined,
         includes:[],
         excludes:[],
         prohibitPluginDirectives:false,
@@ -178,6 +185,28 @@ describe('CommandLine', function() {
         interestedLoggingTypes:List.of(Logging.LoggingType.info, Logging.LoggingType.error),
         minimalLevel:10,
         dryRun: false,
+        outputPath:undefined,
+        includes:[],
+        excludes:[],
+        prohibitPluginDirectives:false,
+      });
+
+      expect(parsedArgs).toEqualJSON(expectedResult);
+    });
+
+    it('includes an output directory when --output-path is passed', function() {
+      const args:string[] = ['--output-path=path/to/output', 'project/to/generate'];
+      const parsedArgs:Maybe.Maybe<CommandLine.Arguments> = CommandLine.parseArgs(args);
+
+      const expectedResult = Maybe.Just<CommandLine.Arguments>({
+        givenPath:'project/to/generate',
+        adtConfigPath:undefined,
+        valueObjectConfigPath:undefined,
+        objectConfigPath:undefined,
+        interestedLoggingTypes:List.of(Logging.LoggingType.info, Logging.LoggingType.error),
+        minimalLevel:10,
+        dryRun: false,
+        outputPath:'path/to/output',
         includes:[],
         excludes:[],
         prohibitPluginDirectives:false,
@@ -198,6 +227,7 @@ describe('CommandLine', function() {
         interestedLoggingTypes:List.of(Logging.LoggingType.info, Logging.LoggingType.error),
         minimalLevel:10,
         dryRun: false,
+        outputPath:undefined,
         includes:['PluginOne', 'PluginTwo'],
         excludes:['PluginThree'],
         prohibitPluginDirectives:false,
@@ -218,6 +248,7 @@ describe('CommandLine', function() {
         interestedLoggingTypes:List.of(Logging.LoggingType.info, Logging.LoggingType.error),
         minimalLevel:10,
         dryRun: false,
+        outputPath:undefined,
         includes:[],
         excludes:[],
         prohibitPluginDirectives:true,

@@ -29,6 +29,7 @@ import Promise = require('./promise');
 import ReadFileUtils = require('./file-logged-sequence-read-utils');
 import RequirePlugin = require('./require-plugin');
 import WriteFileUtils = require('./file-logged-sequence-write-utils');
+import path = require('./path');
 
 interface AlgebraicTypeCreationContext {
   baseClassName:string;
@@ -92,7 +93,7 @@ function typeInformationContainingDefaultIncludes(typeInformation:AlgebraicType.
   };
 }
 
-function processAlgebraicTypeCreationRequest(future:Promise.Future<Either.Either<Error.Error[], AlgebraicTypeCreationContext>>, either:Either.Either<Error.Error[], PathAndTypeInfo>):Promise.Future<Logging.Context<Either.Either<Error.Error[], FileWriter.FileWriteRequest>>> {
+function processAlgebraicTypeCreationRequest(outputPath:Maybe.Maybe<File.AbsoluteFilePath>, future:Promise.Future<Either.Either<Error.Error[], AlgebraicTypeCreationContext>>, either:Either.Either<Error.Error[], PathAndTypeInfo>):Promise.Future<Logging.Context<Either.Either<Error.Error[], FileWriter.FileWriteRequest>>> {
   return Promise.map(function(creationContextEither:Either.Either<Error.Error[], AlgebraicTypeCreationContext>) {
     return Logging.munit(Either.mbind(function(pathAndTypeInfo:PathAndTypeInfo) {
       return Either.mbind(function(creationContext:AlgebraicTypeCreationContext) {
@@ -104,6 +105,7 @@ function processAlgebraicTypeCreationRequest(future:Promise.Future<Either.Either
             baseClassLibraryName:creationContext.baseClassLibraryName,
             baseClassName:creationContext.baseClassName,
             path:pathAndTypeInfo.path,
+            outputPath:outputPath,
             typeInformation:typeInformationContainingDefaultIncludes(pathAndTypeInfo.typeInformation, creationContext.defaultIncludes)
           };
 
@@ -160,8 +162,18 @@ function getAlgebraicTypeCreationContext(currentWorkingDirectory:File.AbsoluteFi
   }, findConfigFuture);
 }
 
+function outputDirectory(directoryRunFrom:string, outputPath:string):Maybe.Maybe<File.AbsoluteFilePath> {
+  if (outputPath === undefined || outputPath === "") {
+    return Maybe.Nothing<File.AbsoluteFilePath>();  
+  } else {
+    return Maybe.Just<File.AbsoluteFilePath>(PathUtils.getAbsolutePathFromDirectoryAndAbsoluteOrRelativePath(File.getAbsoluteFilePath(directoryRunFrom), outputPath));
+  }
+}
+
 export function generate(directoryRunFrom:string, parsedArgs:CommandLine.Arguments):Promise.Future<WriteFileUtils.ConsoleOutputResults> {
     const requestedPath:File.AbsoluteFilePath = PathUtils.getAbsolutePathFromDirectoryAndAbsoluteOrRelativePath(File.getAbsoluteFilePath(directoryRunFrom), parsedArgs.givenPath);
+    const outputPath:Maybe.Maybe<File.AbsoluteFilePath> = outputDirectory(directoryRunFrom, parsedArgs.outputPath);
+
     const algebraicTypeCreationContextFuture = getAlgebraicTypeCreationContext(requestedPath, parsedArgs);
 
     const readFileSequence = ReadFileUtils.loggedSequenceThatReadsFiles(requestedPath, 'adtValue');
@@ -170,7 +182,7 @@ export function generate(directoryRunFrom:string, parsedArgs:CommandLine.Argumen
                                                                   parseValues);
 
     const pluginProcessedSequence = LoggingSequenceUtils.mapLoggedSequence(parsedSequence,
-                                                                           FunctionUtils.pApplyf2(algebraicTypeCreationContextFuture, processAlgebraicTypeCreationRequest));
+                                                                           FunctionUtils.pApply2f3(outputPath, algebraicTypeCreationContextFuture, processAlgebraicTypeCreationRequest));
 
     return WriteFileUtils.evaluateObjectFileWriteRequestSequence(parsedArgs, pluginProcessedSequence);
 }

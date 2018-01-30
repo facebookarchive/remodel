@@ -45,6 +45,7 @@ export interface ObjCGenerationRequest<T> {
   baseClassLibraryName:Maybe.Maybe<string>;
   baseClassName:string;
   path:File.AbsoluteFilePath;
+  outputPath:Maybe.Maybe<File.AbsoluteFilePath>;
   typeInformation:T;
 }
 
@@ -278,20 +279,24 @@ function fileCreationRequestContainingAdditionalFile(containingFolderPath:File.A
 function buildFileWriteRequest<T>(request:ObjCGenerationRequest<T>, typeInfoProvider:ObjCGenerationTypeInfoProvider<T>, plugins:List.List<ObjCGenerationPlugIn<T>>):Either.Either<Error.Error[], FileWriter.FileWriteRequest> {
   const typeInfos = [request.typeInformation].concat(typeInfoProvider.additionalTypesForType(request.typeInformation));
 
-  const fullPathAsString:string = File.getAbsolutePathString(request.path);
-  const containingFolderPath:File.AbsoluteFilePath = File.getAbsoluteFilePath(path.dirname(fullPathAsString));
-
   const classFileFromTypeInfo:(typeInformation:T, typeName:string, comments:string[]) => Either.Either<Error.Error, Code.File> = classFileCreationFunctionWithBaseClassAndPlugins(request.baseClassName, request.baseClassLibraryName, request.diagnosticIgnores, request.path, plugins);
+
+  const outputPath:File.AbsoluteFilePath = Maybe.match(function(file:File.AbsoluteFilePath):File.AbsoluteFilePath {
+    return file;
+  }, function(): File.AbsoluteFilePath {
+    const fullPathAsString:string = File.getAbsolutePathString(request.path);
+    return File.getAbsoluteFilePath(path.dirname(fullPathAsString));
+  }, request.outputPath)
 
   const allFileRequests = typeInfos.map(function(type:T) {
     const classFile:Either.Either<Error.Error, Code.File> = classFileFromTypeInfo(type, typeInfoProvider.typeNameForType(type), typeInfoProvider.commentsForType(type));
 
     const fileCreationRequest:Either.Either<Error.Error, FileWriter.FileWriteRequest> = Either.mbind(function(classFile) {
-      return ObjCFileCreation.fileCreationRequest(containingFolderPath, classFile);
+      return ObjCFileCreation.fileCreationRequest(outputPath, classFile);
     }, classFile);
     const additionalFiles:Code.File[] = List.foldl<ObjCGenerationPlugIn<T>, Code.File[]>(FunctionUtils.pApplyf3(type, buildAdditionalFiles), [], plugins);
 
-    const completeFileCreationRequest:Either.Either<Error.Error, FileWriter.FileWriteRequest> = additionalFiles.reduceRight(FunctionUtils.pApplyf3(containingFolderPath, fileCreationRequestContainingAdditionalFile), fileCreationRequest);
+    const completeFileCreationRequest:Either.Either<Error.Error, FileWriter.FileWriteRequest> = additionalFiles.reduceRight(FunctionUtils.pApplyf3(outputPath, fileCreationRequestContainingAdditionalFile), fileCreationRequest);
     return fileCreationRequestContainingArrayOfPossibleError(completeFileCreationRequest);
   });
 

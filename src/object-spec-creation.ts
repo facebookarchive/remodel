@@ -168,6 +168,7 @@ export function fileWriteRequest(request:Request, plugins:List.List<ObjectSpec.P
     baseClassLibraryName:request.baseClassLibraryName,
     baseClassName:request.baseClassName,
     path:request.path,
+    outputPath:request.outputPath,
     typeInformation:typeInformationWithAllAttributesFromPlugins(request.typeInformation, pluginsToRun)
   };
 

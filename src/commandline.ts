@@ -22,6 +22,7 @@ export interface Arguments {
   interestedLoggingTypes:List.List<Logging.LoggingType>;
   minimalLevel:number;
   dryRun:boolean;
+  outputPath:string;
   includes:string[];
   excludes:string[];
   prohibitPluginDirectives:boolean;
@@ -32,6 +33,7 @@ const PERF_LOGGING_FLAG:string = 'perf-log';
 const DEBUG_LOGGING_FLAG:string = 'debug';
 const SILENT_LOGGING_FLAG:string = 'silent';
 const DRY_RUN_FLAG:string = 'dry-run';
+const OUTPUT_PATH:string = 'output-path';
 const INCLUDE:string = 'include';
 const EXCLUDE:string = 'exclude';
 const PROHIBIT_PLUGIN_DIRECTIVES_FLAG:string = 'prohibit-plugin-directives';
@@ -65,7 +67,7 @@ function sanitizeArrayArg(arg:any): string[] {
 export function parseArgs(args:string[]):Maybe.Maybe<Arguments> {
   const opts = {
     boolean:[VERBOSE_FLAG, PERF_LOGGING_FLAG, DEBUG_LOGGING_FLAG, SILENT_LOGGING_FLAG, DRY_RUN_FLAG, PROHIBIT_PLUGIN_DIRECTIVES_FLAG],
-    string:[ADT_CONFIG_PATH, VALUE_OBJECT_CONFIG_PATH, OBJECT_CONFIG_PATH, INCLUDE, EXCLUDE],
+    string:[ADT_CONFIG_PATH, VALUE_OBJECT_CONFIG_PATH, OBJECT_CONFIG_PATH, INCLUDE, EXCLUDE, OUTPUT_PATH],
   };
   const parsedArgs = minimist(args, opts);
   if (parsedArgs._.length === 0) {
@@ -79,6 +81,7 @@ export function parseArgs(args:string[]):Maybe.Maybe<Arguments> {
       interestedLoggingTypes:interestedTypesForArgs(parsedArgs),
       minimalLevel:parsedArgs[VERBOSE_FLAG] ? 1 : 10,
       dryRun:parsedArgs[DRY_RUN_FLAG],
+      outputPath:parsedArgs[OUTPUT_PATH],
       includes:sanitizeArrayArg(parsedArgs[INCLUDE]),
       excludes:sanitizeArrayArg(parsedArgs[EXCLUDE]),
       prohibitPluginDirectives:parsedArgs[PROHIBIT_PLUGIN_DIRECTIVES_FLAG],

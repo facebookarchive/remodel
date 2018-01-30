@@ -113,7 +113,8 @@ describe('ObjectSpecCreation', function() {
         baseClassLibraryName:Maybe.Nothing<string>(),
         diagnosticIgnores:List.of<string>(),
         path:File.getAbsoluteFilePath('something.value'),
-        typeInformation:objectType
+        typeInformation:objectType,
+        outputPath:Maybe.Nothing<File.AbsoluteFilePath>(),
       };
 
       const writeRequest = ObjectSpecCreation.fileWriteRequest(generationRequest, List.of(Plugin));
@@ -249,7 +250,8 @@ describe('ObjectSpecCreation', function() {
         baseClassLibraryName:Maybe.Nothing<string>(),
         diagnosticIgnores:List.of<string>(),
         path:File.getAbsoluteFilePath('something.value'),
-        typeInformation:objectType
+        typeInformation:objectType,
+        outputPath:Maybe.Nothing<File.AbsoluteFilePath>(),
       };
 
       const writeRequest = ObjectSpecCreation.fileWriteRequest(generationRequest, List.of(Plugin));
@@ -362,7 +364,8 @@ describe('ObjectSpecCreation', function() {
         baseClassLibraryName:Maybe.Nothing<string>(),
         diagnosticIgnores:List.of<string>(),
         path:File.getAbsoluteFilePath('something.value'),
-        typeInformation:objectType
+        typeInformation:objectType,
+        outputPath:Maybe.Nothing<File.AbsoluteFilePath>(),
       };
 
       const writeRequest = ObjectSpecCreation.fileWriteRequest(generationRequest, List.of(Plugin));
@@ -489,7 +492,8 @@ describe('ObjectSpecCreation', function() {
         baseClassLibraryName:Maybe.Nothing<string>(),
         diagnosticIgnores:List.of<string>(),
         path:File.getAbsoluteFilePath('something.value'),
-        typeInformation:objectType
+        typeInformation:objectType,
+        outputPath:Maybe.Nothing<File.AbsoluteFilePath>(),
       };
 
       const writeRequest = ObjectSpecCreation.fileWriteRequest(generationRequest, List.of(Plugin));
@@ -635,7 +639,8 @@ describe('ObjectSpecCreation', function() {
         baseClassLibraryName:Maybe.Nothing<string>(),
         diagnosticIgnores:List.of<string>(),
         path:File.getAbsoluteFilePath('something.value'),
-        typeInformation:objectType
+        typeInformation:objectType,
+        outputPath:Maybe.Nothing<File.AbsoluteFilePath>(),
       };
 
       const writeRequest = ObjectSpecCreation.fileWriteRequest(generationRequest, List.of(Plugin));
@@ -757,7 +762,8 @@ describe('ObjectSpecCreation', function() {
         baseClassLibraryName:Maybe.Nothing<string>(),
         diagnosticIgnores:List.of<string>(),
         path:File.getAbsoluteFilePath('something.value'),
-        typeInformation:objectType
+        typeInformation:objectType,
+        outputPath:Maybe.Nothing<File.AbsoluteFilePath>(),
       };
 
       const writeRequest:Either.Either<Error.Error[], FileWriter.FileWriteRequest> = ObjectSpecCreation.fileWriteRequest(generationRequest, List.of(Plugin));
@@ -888,7 +894,8 @@ describe('ObjectSpecCreation', function() {
         baseClassLibraryName:Maybe.Nothing<string>(),
         diagnosticIgnores:List.of<string>(),
         path:File.getAbsoluteFilePath('something.value'),
-        typeInformation:objectType
+        typeInformation:objectType,
+        outputPath:Maybe.Nothing<File.AbsoluteFilePath>(),
       };
 
       const writeRequest:Either.Either<Error.Error[], FileWriter.FileWriteRequest> = ObjectSpecCreation.fileWriteRequest(generationRequest, List.of(Plugin1, Plugin2));
@@ -1077,7 +1084,8 @@ describe('ObjectSpecCreation', function() {
         baseClassLibraryName:Maybe.Nothing<string>(),
         diagnosticIgnores:List.of<string>(),
         path:File.getAbsoluteFilePath('something.value'),
-        typeInformation:objectType
+        typeInformation:objectType,
+        outputPath:Maybe.Nothing<File.AbsoluteFilePath>(),
       };
 
       const writeRequest = ObjectSpecCreation.fileWriteRequest(generationRequest, List.of(Plugin1, Plugin2));
@@ -1316,7 +1324,8 @@ describe('ObjectSpecCreation', function() {
         baseClassLibraryName:Maybe.Nothing<string>(),
         diagnosticIgnores:List.of<string>(),
         path:File.getAbsoluteFilePath('something.value'),
-        typeInformation:objectType
+        typeInformation:objectType,
+        outputPath:Maybe.Nothing<File.AbsoluteFilePath>(),
       };
 
       const writeRequest = ObjectSpecCreation.fileWriteRequest(generationRequest, List.of(Plugin1, Plugin2));
@@ -1366,6 +1375,134 @@ describe('ObjectSpecCreation', function() {
                            '}\n' +
                            '\n' +
                            '@end\n\n')
+      );
+      const expectedRequest = Either.Right<Error.Error, FileWriter.FileWriteRequest>({name:'Foo', requests:expectedRequests});
+
+      expect(writeRequest).toEqualJSON(expectedRequest);
+    });
+
+    it('writes the output files into a given output directory', function() {
+      const Plugin:ObjectSpec.Plugin = {
+        requiredIncludesToRun: [],
+        imports:function(objectType:ObjectSpec.Type):ObjC.Import[] {
+          return [];
+        },
+        fileTransformation:function(request:FileWriter.Request):FileWriter.Request {
+          return request;
+        },
+        fileType: function(objectType:ObjectSpec.Type):Maybe.Maybe<Code.FileType> {
+          return Maybe.Nothing<Code.FileType>();
+        },
+        forwardDeclarations: function(objectType:ObjectSpec.Type):ObjC.ForwardDeclaration[] {
+          return [];
+        },
+        headerComments:function(objectType:ObjectSpec.Type):ObjC.Comment[] {
+          return [{content:'// Copyright something something. All Rights Reserved.'}];
+        },
+        instanceMethods:function(objectType:ObjectSpec.Type):ObjC.Method[] {
+          const instanceMethods:ObjC.Method[] = [
+            {
+              belongsToProtocol:Maybe.Just('NSObject'),
+              comments: [],
+              code: [
+                'return [NSString stringWithFormat:@"%@ - \\n\\t age: %zd; \\n", [super description], _age];'
+              ],
+              compilerAttributes:[],
+              keywords: [
+                {
+                  name: 'description',
+                  argument: Maybe.Nothing<ObjC.KeywordArgument>()
+                }
+              ],
+              returnType:{ type:Maybe.Just({
+                name: 'NSString',
+                reference: 'NSString *'
+              }), modifiers:[] }
+            }
+          ];
+          return instanceMethods;
+        },
+        additionalFiles:function(objectType:ObjectSpec.Type):Code.File[] {
+          return [];
+        },
+        additionalTypes:function(objectType:ObjectSpec.Type):ObjectSpec.Type[] {
+          return [];
+        },
+        attributes:function(objectType:ObjectSpec.Type):ObjectSpec.Attribute[] {
+          return [];
+        },
+        properties:function(objectType:ObjectSpec.Type):ObjC.Property[] {
+          return [];
+        },
+        classMethods: function(objectType:ObjectSpec.Type):ObjC.Method[] {
+          return [];
+        },
+        staticConstants:function(objectType:ObjectSpec.Type):ObjC.Constant[] {
+          return [];
+        },
+        implementedProtocols:function(objectType:ObjectSpec.Type):ObjC.Protocol[] {
+          return [];
+        },
+        functions:function(objectType:ObjectSpec.Type):ObjC.Function[] {
+          return [];
+        },
+        validationErrors: function(objectType:ObjectSpec.Type):Error.Error[] {
+          return [];
+        },
+        nullability: function(objectType:ObjectSpec.Type):Maybe.Maybe<ObjC.ClassNullability> {
+          return Maybe.Nothing<ObjC.ClassNullability>();
+        }
+      };
+
+      const objectType:ObjectSpec.Type = {
+        annotations: {},
+        attributes: [],
+        comments: [],
+        typeLookups:[],
+        excludes: [],
+        includes: [],
+        libraryName: Maybe.Nothing<string>(),
+        typeName: 'Foo'
+      };
+
+      const generationRequest = {
+        baseClassName:'NSObject',
+        baseClassLibraryName:Maybe.Nothing<string>(),
+        diagnosticIgnores:List.of<string>(),
+        path:File.getAbsoluteFilePath('something.value'),
+        typeInformation:objectType,
+        outputPath:Maybe.Just<File.AbsoluteFilePath>({absolutePath:'local/path'}),
+      };
+
+      const writeRequest = ObjectSpecCreation.fileWriteRequest(generationRequest, List.of(Plugin));
+
+      const expectedRequests = List.of<FileWriter.Request>(
+        FileWriter.Request(File.getAbsoluteFilePath('local/path/Foo.h'),
+                           '// Copyright something something. All Rights Reserved.\n' +
+                           '/**\n' +
+                           ' * This file is generated using the remodel generation script.\n' +
+                           ' * The name of the input file is something.value\n' +
+                           ' */\n\n' +
+                           '@interface Foo : NSObject\n' +
+                           '\n' +
+                           '@end\n\n'),
+        FileWriter.Request(File.getAbsoluteFilePath('local/path/Foo.m'),
+        '// Copyright something something. All Rights Reserved.\n' +
+        '/**\n' +
+        ' * This file is generated using the remodel generation script.\n' +
+        ' * The name of the input file is something.value\n' +
+        ' */\n\n' +
+        '#if  ! __has_feature(objc_arc)\n' +
+        '#error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).\n' +
+        '#endif\n\n' +
+        '@implementation Foo\n' +
+        '\n' +
+        '- (NSString *)description\n' +
+        '{\n' +
+        '  return [NSString stringWithFormat:@"%@ - \\n\\t age: %zd; \\n", [super description], _age];\n' +
+        '}\n' +
+        '\n' +
+        '@end\n\n')
       );
       const expectedRequest = Either.Right<Error.Error, FileWriter.FileWriteRequest>({name:'Foo', requests:expectedRequests});
 

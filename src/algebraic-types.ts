@@ -29,7 +29,7 @@ import Promise = require('./promise');
 import ReadFileUtils = require('./file-logged-sequence-read-utils');
 import RequirePlugin = require('./require-plugin');
 import WriteFileUtils = require('./file-logged-sequence-write-utils');
-import path = require('./path');
+import path = require('path');
 
 interface AlgebraicTypeCreationContext {
   baseClassName:string;

@@ -164,6 +164,43 @@ describe('ObjectSpecPlugins.Coding', function() {
       ];
       expect(errors).toEqualJSON(expectedErrors);
     });
+
+    it('returns a validation error when there is an attribute with legacy key with unsupported type', function() {
+      const objectType:ObjectSpec.Type = {
+        annotations: {},
+        attributes: [
+          {
+            annotations: {
+              codingLegacyKey: [{
+                properties: {name: 'legacySizeCodingKey'}
+              }]
+            },
+            comments: [],
+            name: 'size',
+            nullability:ObjC.Nullability.Inherited(),
+            type: {
+              fileTypeIsDefinedIn:Maybe.Nothing<string>(),
+              libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+              name:'CGSize',
+              reference: 'CGSize',
+              underlyingType:Maybe.Nothing<string>(),
+              conformingProtocol: Maybe.Nothing<string>()
+            }
+          }
+        ],
+        comments: [],
+        typeLookups:[],
+        excludes: [],
+        includes: [],
+        libraryName: Maybe.Nothing<string>(),
+        typeName: 'Foo'
+      };
+      const errors:Error.Error[] = ObjectSpecPlugin.validationErrors(objectType);
+      const expectedErrors:Error.Error[] = [
+        Error.Error('%codingLegacyKey can\'t be used with "CGSize" at Foo.size.')
+      ];
+      expect(errors).toEqualJSON(expectedErrors);
+    });
   });
 
   describe('#instanceMethods', function() {
@@ -182,7 +219,102 @@ describe('ObjectSpecPlugins.Coding', function() {
       expect(instanceMethods).toEqualJSON([]);
     });
 
-    it('returns two instance methods which will encode and decode two values when called', function() {
+    it('returns two instance methods which will encode and decode a value, respecting the legacy key name', function() {
+      const objectType:ObjectSpec.Type = {
+        annotations: {},
+        attributes: [
+          {
+            annotations: {
+              codingLegacyKey: [{
+                properties: {name: 'oldNameKey'}
+              }]
+            },
+            comments: [],
+            name: 'name',
+            nullability:ObjC.Nullability.Inherited(),
+            type: {
+              fileTypeIsDefinedIn:Maybe.Nothing<string>(),
+              libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+              name: 'NSString',
+              reference: 'NSString *',
+              underlyingType:Maybe.Just<string>('NSObject'),
+              conformingProtocol: Maybe.Nothing<string>()
+            }
+          }
+        ],
+        comments: [],
+        typeLookups:[],
+        excludes: [],
+        includes: [],
+        libraryName: Maybe.Nothing<string>(),
+        typeName: 'Foo'
+      };
+
+      const instanceMethods:ObjC.Method[] = ObjectSpecPlugin.instanceMethods(objectType);
+
+      const expectedInstanceMethods:ObjC.Method[] = [
+        {
+          belongsToProtocol:Maybe.Just<string>('NSCoding'),
+          code: [
+            'if ((self = [super init])) {',
+            '  _name = [aDecoder decodeObjectForKey:kNameKey];',
+            '  if (_name == nil) {',
+            '    _name = [aDecoder decodeObjectForKey:@"oldNameKey"];',
+            '  }',
+            '}',
+            'return self;'
+          ],
+          comments: [],
+          compilerAttributes:[],
+          keywords: [
+            {
+              name: 'initWithCoder',
+              argument: Maybe.Just<ObjC.KeywordArgument>({
+                name: 'aDecoder',
+                modifiers: [],
+                type: {
+                  name: 'NSCoder',
+                  reference: 'NSCoder *'
+                }
+              })
+            }
+          ],
+          returnType: {
+            type:Maybe.Just<ObjC.Type>({
+              name: 'instancetype',
+              reference: 'instancetype'
+            }),
+            modifiers:[ObjC.KeywordArgumentModifier.Nullable()]
+          }
+        },
+        {
+          belongsToProtocol:Maybe.Just<string>('NSCoding'),
+          code: [
+            '[aCoder encodeObject:_name forKey:kNameKey];',
+          ],
+          comments: [],
+          compilerAttributes:[],
+          keywords: [
+            {
+              name: 'encodeWithCoder',
+              argument: Maybe.Just<ObjC.KeywordArgument>({
+                name: 'aCoder',
+                modifiers: [],
+                type: {
+                  name: 'NSCoder',
+                  reference: 'NSCoder *'
+                }
+              })
+            }
+          ],
+          returnType:{ type:Maybe.Nothing<ObjC.Type>(), modifiers:[] },
+        }
+      ];
+
+      expect(instanceMethods).toEqualJSON(expectedInstanceMethods);
+    });
+
+    it('returns two instance methods which will encode and decode three values when called', function() {
       const objectType:ObjectSpec.Type = {
         annotations: {},
         attributes: [
@@ -523,6 +655,7 @@ describe('ObjectSpecPlugins.Coding', function() {
         name: 'doesUserLike',
         valueAccessor: '_doesUserLike',
         constantName: 'kDoesUserLikeKey',
+        legacyKeyName: '',
         type: {
           name: 'BOOL',
           reference: 'BOOL'
@@ -539,6 +672,7 @@ describe('ObjectSpecPlugins.Coding', function() {
         name: 'foo',
         valueAccessor: '_foo',
         constantName: 'kFooKey',
+        legacyKeyName: '',
         type: {
           name: 'id',
           reference: 'id'
@@ -555,6 +689,7 @@ describe('ObjectSpecPlugins.Coding', function() {
         name: 'name',
         valueAccessor: '_name',
         constantName: 'kNameKey',
+        legacyKeyName: '',
         type: {
           name: 'NSObject',
           reference: 'NSObject *'
@@ -571,6 +706,7 @@ describe('ObjectSpecPlugins.Coding', function() {
         name: 'age',
         valueAccessor: '_age',
         constantName: 'kAgeKey',
+        legacyKeyName: '',
         type: {
           name: 'NSInteger',
           reference: 'NSInteger'
@@ -587,6 +723,7 @@ describe('ObjectSpecPlugins.Coding', function() {
         name: 'age',
         valueAccessor: '_age',
         constantName: 'kAgeKey',
+        legacyKeyName: '',
         type: {
           name: 'NSUInteger',
           reference: 'NSUInteger'
@@ -603,6 +740,7 @@ describe('ObjectSpecPlugins.Coding', function() {
         name: 'callbackMethod',
         valueAccessor: '_callbackMethod',
         constantName: 'kCallbackMethodKey',
+        legacyKeyName: '',
         type: {
           name: 'SEL',
           reference: 'SEL'
@@ -621,6 +759,7 @@ describe('ObjectSpecPlugins.Coding', function() {
         name: 'doesUserLike',
         valueAccessor: '_doesUserLike',
         constantName: 'kDoesUserLikeKey',
+        legacyKeyName: '',
         type: {
           name: 'BOOL',
           reference: 'BOOL'
@@ -637,6 +776,7 @@ describe('ObjectSpecPlugins.Coding', function() {
         name: 'name',
         valueAccessor: '_name',
         constantName: 'kNameKey',
+        legacyKeyName: '',
         type: {
           name: 'NSObject',
           reference: 'NSObject *'
@@ -653,6 +793,7 @@ describe('ObjectSpecPlugins.Coding', function() {
         name: 'age',
         valueAccessor: '_age',
         constantName: 'kAgeKey',
+        legacyKeyName: '',
         type: {
           name: 'NSInteger',
           reference: 'NSInteger'
@@ -669,6 +810,7 @@ describe('ObjectSpecPlugins.Coding', function() {
         name: 'age',
         valueAccessor: '_age',
         constantName: 'kAgeKey',
+        legacyKeyName: '',
         type: {
           name: 'NSUInteger',
           reference: 'NSUInteger'
@@ -685,6 +827,7 @@ describe('ObjectSpecPlugins.Coding', function() {
         name: 'callbackMethod',
         valueAccessor: '_callbackMethod',
         constantName: 'kCallbackMethodKey',
+        legacyKeyName: '',
         type: {
           name: 'SEL',
           reference: 'SEL'

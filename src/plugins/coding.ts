@@ -15,6 +15,7 @@ import FileWriter = require('../file-writer');
 import FunctionUtils = require('../function-utils');
 import Maybe = require('../maybe');
 import ObjC = require('../objc');
+import ObjectGeneration = require('../object-generation');
 import ObjCTypeUtils = require('../objc-type-utils');
 import StringUtils = require('../string-utils');
 import ObjectSpec = require('../object-spec');
@@ -29,7 +30,18 @@ export interface CodeableAttribute {
   name:string;
   valueAccessor:string;
   constantName:string;
+  legacyKeyName:string;
   type:ObjC.Type;
+}
+
+function legacyCodingKeyNameForAttribute(attribute:ObjectSpec.Attribute):string {
+  const legacyKeyAnnotations = attribute.annotations['codingLegacyKey'];
+  if (legacyKeyAnnotations && legacyKeyAnnotations.length > 0) {
+    const legacyKey:string = legacyKeyAnnotations[0].properties['name'];
+    return (legacyKey === undefined ? '' : legacyKey);
+  } else {
+    return '';
+  }
 }
 
 export function codingAttributeForValueAttribute(attribute:ObjectSpec.Attribute):CodeableAttribute {
@@ -37,15 +49,46 @@ export function codingAttributeForValueAttribute(attribute:ObjectSpec.Attribute)
     name: attribute.name,
     valueAccessor: ObjectSpecCodeUtils.ivarForAttribute(attribute),
     constantName: nameOfConstantForValueName(attribute.name),
+    legacyKeyName: legacyCodingKeyNameForAttribute(attribute),
     type: ObjectSpecCodeUtils.computeTypeOfAttribute(attribute)
   };
 }
 
+function legacyCheckingDecodeStatementReducerForAttributes(existingArray:string[], attribute:CodeableAttribute):string[] {
+  return existingArray.concat(legacyKeyRespectingDecodeStatementForAttribute(attribute));
+}
+
+function legacyKeyRespectingDecodeStatementForAttribute(attribute:CodeableAttribute):string[] {
+  const defaultDecodeStatement:string = decodeStatementForAttribute(attribute);
+  
+  if (attribute.legacyKeyName.length > 0) {
+    const nilValueForAttribute:string = nilValueForType(attribute.type);
+    if (nilValueForAttribute.length > 0) {
+      const legacyDecodeStatement:string = decodeStatementForTypeValueAccessorAndCodingKey(
+                                             attribute.type,
+                                             attribute.valueAccessor,
+                                             '@"' + attribute.legacyKeyName + '"');
+      return [defaultDecodeStatement,
+              'if (' + attribute.valueAccessor + ' == ' + nilValueForAttribute + ') {',
+              StringUtils.indent(2)(legacyDecodeStatement),
+              '}'];
+    }
+  }
+
+  return [defaultDecodeStatement];
+}
+
 export function decodeStatementForAttribute(attribute:CodeableAttribute):string {
-  const codingStatements:CodingUtils.CodingStatements = CodingUtils.codingStatementsForType(attribute.type);
-  const decodedRawValuePart:string = '[aDecoder ' + codingStatements.decodeStatement + ':' + attribute.constantName + ']';
+  return decodeStatementForTypeValueAccessorAndCodingKey(attribute.type,
+                                                         attribute.valueAccessor,
+                                                         attribute.constantName);
+}
+
+function decodeStatementForTypeValueAccessorAndCodingKey(type:ObjC.Type, valueAccessor:string, codingKey:string):string {
+  const codingStatements:CodingUtils.CodingStatements = CodingUtils.codingStatementsForType(type);
+  const decodedRawValuePart:string = '[aDecoder ' + codingStatements.decodeStatement + ':' + codingKey + ']';
   const decodedValuePart = codingStatements.decodeValueStatementGenerator(decodedRawValuePart);
-  return attribute.valueAccessor + ' = ' + decodedValuePart + ';';
+  return valueAccessor + ' = ' + decodedValuePart + ';';
 }
 
 function decodeStatementForSubtype(attribute:CodeableAttribute):string {
@@ -217,6 +260,81 @@ function isTypeNSCodingCompliant(type:ObjC.Type):boolean {
   type);
 }
 
+function nilValueForType(type:ObjC.Type):string {
+  return ObjCTypeUtils.matchType({
+    id: function() {
+      return 'nil';
+    },
+    NSObject: function() {
+      return 'nil';
+    },
+    BOOL: function() {
+      return 'NO';
+    },
+    NSInteger: function() {
+      return '0';
+    },
+    NSUInteger: function() {
+      return '0';
+    },
+    double: function() {
+      return '0';
+    },
+    float: function() {
+      return '0';
+    },
+    CGFloat: function() {
+      return '0';
+    },
+    NSTimeInterval: function() {
+      return '0';
+    },
+    uintptr_t: function() {
+      return '0';
+    },
+    uint32_t: function() {
+      return '0';
+    },
+    uint64_t: function() {
+      return '0';
+    },
+    int32_t: function() {
+      return '0';
+    },
+    int64_t: function() {
+      return '0';
+    },
+    SEL: function() {
+      return '';
+    },
+    NSRange: function() {
+      return '';
+    },
+    CGRect: function() {
+      return '';
+    },
+    CGPoint: function() {
+      return '';
+    },
+    CGSize: function() {
+      return '';
+    },
+    UIEdgeInsets: function() {
+      return '';
+    },
+    Class: function() {
+      return 'nil';
+    },
+    dispatch_block_t: function() {
+      return '';
+    },
+    unmatchedType: function() {
+      return '';
+    }
+  },
+  type);
+}
+
 function doesValueAttributeContainAnUnknownType(attribute:ObjectSpec.Attribute):boolean {
   const codeableAttribute:CodeableAttribute = codingAttributeForValueAttribute(attribute);
   const codingStatements:CodingUtils.CodingStatements = CodingUtils.codingStatementsForType(codeableAttribute.type);
@@ -225,6 +343,11 @@ function doesValueAttributeContainAnUnknownType(attribute:ObjectSpec.Attribute):
 
 function doesValueAttributeContainAnUnsupportedType(attribute:ObjectSpec.Attribute):boolean {
   return isTypeNSCodingCompliant(ObjectSpecCodeUtils.computeTypeOfAttribute(attribute)) === false;
+}
+
+function doesValueAttributeContainAnLegacyKeyForUnsupportedType(attribute:ObjectSpec.Attribute):boolean {
+  return (legacyCodingKeyNameForAttribute(attribute).length > 0 &&
+          nilValueForType(ObjectSpecCodeUtils.computeTypeOfAttribute(attribute)).length == 0);
 }
 
 function valueAttributeToUnknownTypeError(objectType:ObjectSpec.Type, attribute:ObjectSpec.Attribute):Error.Error {
@@ -240,6 +363,14 @@ function valueAttributeToUnsupportedTypeError(objectType:ObjectSpec.Type, attrib
     return Error.Error('The Coding plugin does not know how to decode and encode the backing type "' + underlyingType + '" from ' + objectType.typeName + '.' + attribute.name + '. ' + attribute.type.name + ' is not NSCoding-compilant.');
   }, function():Error.Error {
     return Error.Error('The Coding plugin does not know how to decode and encode the type "' + attribute.type.name + '" from ' + objectType.typeName + '.' + attribute.name + '. ' + attribute.type.name + ' is not NSCoding-compilant.');
+  }, attribute.type.underlyingType);
+}
+
+function valueAttributeToUnsupportedLegacyKeyTypeError(objectType:ObjectSpec.Type, attribute:ObjectSpec.Attribute):Error.Error {
+   return Maybe.match(function(underlyingType: string):Error.Error {
+    return Error.Error('%codingLegacyKey can\'t be used with "' + underlyingType + '" at ' + objectType.typeName + '.' + attribute.name + '.');
+  }, function():Error.Error {
+    return Error.Error('%codingLegacyKey can\'t be used with "' + attribute.type.name + '" at ' + objectType.typeName + '.' + attribute.name + '.');
   }, attribute.type.underlyingType);
 }
 
@@ -293,7 +424,7 @@ export function createPlugin():ObjectSpec.Plugin {
     instanceMethods: function(objectType:ObjectSpec.Type):ObjC.Method[] {
       if (objectType.attributes.length > 0) {
         const codingAttributes:CodeableAttribute[] = objectType.attributes.map(codingAttributeForValueAttribute);
-        const decodeCode:string[] = codingAttributes.map(decodeStatementForAttribute);
+        const decodeCode:string[] = codingAttributes.reduce(legacyCheckingDecodeStatementReducerForAttributes, []);
         const encodeCode:string[] = codingAttributes.map(encodeStatementForAttribute);
         return [
           decodeMethodWithCode(decodeCode),
@@ -313,7 +444,8 @@ export function createPlugin():ObjectSpec.Plugin {
     validationErrors: function(objectType:ObjectSpec.Type):Error.Error[] {
       const unknownTypeErrors = objectType.attributes.filter(doesValueAttributeContainAnUnknownType).map(FunctionUtils.pApplyf2(objectType, valueAttributeToUnknownTypeError));
       const unsupportedTypeErrors = objectType.attributes.filter(doesValueAttributeContainAnUnsupportedType).map(FunctionUtils.pApplyf2(objectType, valueAttributeToUnsupportedTypeError));
-      return unknownTypeErrors.concat(unsupportedTypeErrors);
+      const unsupportedLegacyKeyTypeErrors = objectType.attributes.filter(doesValueAttributeContainAnLegacyKeyForUnsupportedType).map(FunctionUtils.pApplyf2(objectType, valueAttributeToUnsupportedLegacyKeyTypeError));
+      return unknownTypeErrors.concat(unsupportedTypeErrors).concat(unsupportedLegacyKeyTypeErrors);
     },
     nullability: function(objectType:ObjectSpec.Type):Maybe.Maybe<ObjC.ClassNullability> {
       return Maybe.Nothing<ObjC.ClassNullability>();
@@ -326,6 +458,7 @@ function codeableAttributeForSubtypePropertyOfAlgebraicType():CodeableAttribute 
     name: 'codedSubtype',
     valueAccessor: 'codedSubtype',
     constantName: nameOfConstantForValueName('codedSubtype'),
+    legacyKeyName: '',
     type: {
       name: 'NSObject',
       reference: 'NSObject'
@@ -346,6 +479,7 @@ function codeableAttributeForAlgebraicSubtypeAttribute(subtype:AlgebraicType.Sub
     name: AlgebraicTypeUtils.nameOfInternalPropertyForAttribute(subtype, attribute),
     valueAccessor: AlgebraicTypeUtils.valueAccessorForInternalPropertyForAttribute(subtype, attribute),
     constantName: nameOfConstantForValueName(valueName),
+    legacyKeyName: legacyCodingKeyNameForAttribute(attribute),
     type: AlgebraicTypeUtils.computeTypeOfAttribute(attribute)
   };
 }

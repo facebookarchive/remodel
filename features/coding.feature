@@ -1,7 +1,7 @@
 Feature: Outputting Value Objects With Coded Values
 
   @announce
-  Scenario: Generating Header Files including Coding
+  Scenario: Generating correct NSCoding headers & implementation with 4 different types
     Given a file named "project/values/RMPage.value" with:
       """
       RMPage includes(RMCoding) {
@@ -38,13 +38,6 @@ Feature: Outputting Value Objects With Coded Values
       """
    And the file "project/values/RMPage.m" should contain:
       """
-      #import "RMPage.h"
-
-      static __unsafe_unretained NSString * const kDoesUserLikeKey = @"DOES_USER_LIKE";
-      static __unsafe_unretained NSString * const kIdentifierKey = @"IDENTIFIER";
-      static __unsafe_unretained NSString * const kLikeCountKey = @"LIKE_COUNT";
-      static __unsafe_unretained NSString * const kNumberOfRatingsKey = @"NUMBER_OF_RATINGS";
-
       @implementation RMPage
 
       - (nullable instancetype)initWithCoder:(NSCoder *)aDecoder
@@ -87,38 +80,50 @@ Feature: Outputting Value Objects With Coded Values
         [aCoder encodeInteger:_likeCount forKey:kLikeCountKey];
         [aCoder encodeInteger:_numberOfRatings forKey:kNumberOfRatingsKey];
       }
+      """
 
-      - (NSUInteger)hash
-      {
-        NSUInteger subhashes[] = {(NSUInteger)_doesUserLike, [_identifier hash], ABS(_likeCount), _numberOfRatings};
-        NSUInteger result = subhashes[0];
-        for (int ii = 1; ii < 4; ++ii) {
-          unsigned long long base = (((unsigned long long)result) << 32 | subhashes[ii]);
-          base = (~base) + (base << 18);
-          base ^= (base >> 31);
-          base *=  21;
-          base ^= (base >> 11);
-          base += (base << 6);
-          base ^= (base >> 22);
-          result = base;
-        }
-        return result;
+  @announce
+  Scenario: Generating correct NSCoding implementation with specified legacyKeys
+    Given a file named "project/values/RMPage.value" with:
+      """
+      RMPage includes(RMCoding) {
+        %codingLegacyKey name=old_does_user_like
+        BOOL doesUserLike
+        %codingLegacyKey name=old_identifier
+        NSString* identifier
+        %codingLegacyKey name=old_like_count
+        NSInteger likeCount
+        %codingLegacyKey name=old_number_of_ratings
+        NSUInteger numberOfRatings
       }
-
-      - (BOOL)isEqual:(RMPage *)object
+      """
+    And a file named "project/.valueObjectConfig" with:
+      """
+      { }
+      """
+    When I run `../../bin/generate project`
+   And the file "project/values/RMPage.m" should contain:
+      """
+      - (nullable instancetype)initWithCoder:(NSCoder *)aDecoder
       {
-        if (self == object) {
-          return YES;
-        } else if (self == nil || object == nil || ![object isKindOfClass:[self class]]) {
-          return NO;
+        if ((self = [super init])) {
+          _doesUserLike = [aDecoder decodeBoolForKey:kDoesUserLikeKey];
+          if (_doesUserLike == NO) {
+            _doesUserLike = [aDecoder decodeBoolForKey:@"old_does_user_like"];
+          }
+          _identifier = [aDecoder decodeObjectForKey:kIdentifierKey];
+          if (_identifier == nil) {
+            _identifier = [aDecoder decodeObjectForKey:@"old_identifier"];
+          }
+          _likeCount = [aDecoder decodeIntegerForKey:kLikeCountKey];
+          if (_likeCount == 0) {
+            _likeCount = [aDecoder decodeIntegerForKey:@"old_like_count"];
+          }
+          _numberOfRatings = [aDecoder decodeIntegerForKey:kNumberOfRatingsKey];
+          if (_numberOfRatings == 0) {
+            _numberOfRatings = [aDecoder decodeIntegerForKey:@"old_number_of_ratings"];
+          }
         }
-        return
-          _doesUserLike == object->_doesUserLike &&
-          _likeCount == object->_likeCount &&
-          _numberOfRatings == object->_numberOfRatings &&
-          (_identifier == object->_identifier ? YES : [_identifier isEqual:object->_identifier]);
+        return self;
       }
-
-      @end
-
       """

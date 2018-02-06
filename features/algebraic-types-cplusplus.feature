@@ -35,7 +35,7 @@ Feature: Outputting ObjC++ Algebraic Types
       @interface SimpleADT : NSObject <NSCopying>
 
       + (instancetype)firstSubtypeWithFirstValue:(NSString *)firstValue secondValue:(NSUInteger)secondValue;
-      
+
       + (instancetype)new NS_UNAVAILABLE;
 
       + (instancetype)secondSubtypeWithSomething:(BOOL)something;

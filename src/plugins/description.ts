@@ -34,6 +34,12 @@ function useValueAccessor(valueAccessor:string):string {
   return valueAccessor;
 }
 
+function castValueAccessorValue(castToApply: string):(valueAccessor:string) => string {
+  return function(valueAccessor:string):string {
+    return '(' + castToApply + ')' + valueAccessor;
+  };
+}
+
 function useFunctionReturnValueAsDescriptionValue(functionToCall:string):(valueAccessor:string) => string {
   return function(valueAccessor:string):string {
     return functionToCall + '(' + valueAccessor + ')';
@@ -72,15 +78,15 @@ function attributeDescriptionForType(type:ObjC.Type):AttributeDescription {
     NSInteger: function() {
       return {
         descriptionFunctionImport: Maybe.Nothing<ObjC.Import>(),
-        token: '%zd',
-        valueGenerator: useValueAccessor
+        token: '%lld',
+        valueGenerator: castValueAccessorValue('long long')
       };
     },
     NSUInteger: function() {
       return {
         descriptionFunctionImport: Maybe.Nothing<ObjC.Import>(),
-        token: '%tu',
-        valueGenerator: useValueAccessor
+        token: '%llu',
+        valueGenerator: castValueAccessorValue('unsigned long long')
       };
     },
     double: function() {

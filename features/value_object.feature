@@ -85,7 +85,7 @@ Feature: Outputting Value Objects
 
       - (NSString *)description
       {
-        return [NSString stringWithFormat:@"%@ - \n\t doesUserLike: %@; \n\t identifier: %@; \n\t likeCount: %zd; \n\t numberOfRatings: %u; \n\t someType: %@; \n\t someClass: %@; \n\t someBlock: %@; \n", [super description], _doesUserLike ? @"YES" : @"NO", _identifier, _likeCount, _numberOfRatings, _someType, _someClass, _someBlock];
+        return [NSString stringWithFormat:@"%@ - \n\t doesUserLike: %@; \n\t identifier: %@; \n\t likeCount: %lld; \n\t numberOfRatings: %u; \n\t someType: %@; \n\t someClass: %@; \n\t someBlock: %@; \n", [super description], _doesUserLike ? @"YES" : @"NO", _identifier, (long long)_likeCount, _numberOfRatings, _someType, _someClass, _someBlock];
       }
 
       - (NSUInteger)hash
@@ -208,7 +208,7 @@ Feature: Outputting Value Objects
 
       - (NSString *)description
       {
-        return [NSString stringWithFormat:@"%@ - \n\t doesUserLike: %@; \n\t identifier: %@; \n\t likeCount: %zd; \n\t countIconHeight: %f; \n\t countIconWidth: %f; \n\t numberOfRatings: %tu; \n", [super description], _doesUserLike ? @"YES" : @"NO", _identifier, _likeCount, _countIconHeight, _countIconWidth, _numberOfRatings];
+        return [NSString stringWithFormat:@"%@ - \n\t doesUserLike: %@; \n\t identifier: %@; \n\t likeCount: %lld; \n\t countIconHeight: %f; \n\t countIconWidth: %f; \n\t numberOfRatings: %llu; \n", [super description], _doesUserLike ? @"YES" : @"NO", _identifier, (long long)_likeCount, _countIconHeight, _countIconWidth, (unsigned long long)_numberOfRatings];
       }
 
       @end

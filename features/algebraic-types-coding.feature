@@ -113,7 +113,7 @@ Feature: Outputting Algebraic Types
       {
         switch (_subtype) {
           case _SimpleADTSubtypesFirstSubtype: {
-            return [NSString stringWithFormat:@"%@ - FirstSubtype \n\t firstValue: %@; \n\t secondValue: %tu; \n", [super description], _firstSubtype_firstValue, _firstSubtype_secondValue];
+            return [NSString stringWithFormat:@"%@ - FirstSubtype \n\t firstValue: %@; \n\t secondValue: %llu; \n", [super description], _firstSubtype_firstValue, (unsigned long long)_firstSubtype_secondValue];
             break;
           }
           case _SimpleADTSubtypesSecondSubtype: {

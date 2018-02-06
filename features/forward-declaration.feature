@@ -100,7 +100,7 @@ Feature: Outputting Value Objects With Forward Declarations
 
       - (NSString *)description
       {
-        return [NSString stringWithFormat:@"%@ - \n\t doesUserLike: %@; \n\t identifier: %@; \n\t likeCount: %zd; \n\t numberOfRatings: %tu; \n\t proxy: %@; \n\t followers: %@; \n\t helloObj: %@; \n\t worldVc: %@; \n", [super description], _doesUserLike ? @"YES" : @"NO", _identifier, _likeCount, _numberOfRatings, _proxy, _followers, _helloObj, _worldVc];
+        return [NSString stringWithFormat:@"%@ - \n\t doesUserLike: %@; \n\t identifier: %@; \n\t likeCount: %lld; \n\t numberOfRatings: %llu; \n\t proxy: %@; \n\t followers: %@; \n\t helloObj: %@; \n\t worldVc: %@; \n", [super description], _doesUserLike ? @"YES" : @"NO", _identifier, (long long)_likeCount, (unsigned long long)_numberOfRatings, _proxy, _followers, _helloObj, _worldVc];
       }
 
       - (NSUInteger)hash
@@ -230,7 +230,7 @@ Feature: Outputting Value Objects With Forward Declarations
 
       - (NSString *)description
       {
-        return [NSString stringWithFormat:@"%@ - \n\t doesUserLike: %@; \n\t identifier: %@; \n\t likeCount: %zd; \n\t countIconHeight: %f; \n\t countIconWidth: %f; \n\t numberOfRatings: %tu; \n\t foo: %@; \n", [super description], _doesUserLike ? @"YES" : @"NO", _identifier, _likeCount, _countIconHeight, _countIconWidth, _numberOfRatings, _foo];
+        return [NSString stringWithFormat:@"%@ - \n\t doesUserLike: %@; \n\t identifier: %@; \n\t likeCount: %lld; \n\t countIconHeight: %f; \n\t countIconWidth: %f; \n\t numberOfRatings: %llu; \n\t foo: %@; \n", [super description], _doesUserLike ? @"YES" : @"NO", _identifier, (long long)_likeCount, _countIconHeight, _countIconWidth, (unsigned long long)_numberOfRatings, _foo];
       }
 
       @end

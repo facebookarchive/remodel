@@ -412,7 +412,7 @@ describe('ObjectSpecPlugins.Description', function() {
           {
             belongsToProtocol:Maybe.Just('NSObject'),
             code: [
-              'return [NSString stringWithFormat:@"%@ - \\n\\t age: %zd; \\n", [super description], _age];'
+              'return [NSString stringWithFormat:@"%@ - \\n\\t age: %lld; \\n", [super description], (long long)_age];'
             ],
             comments: [],
             compilerAttributes:[],
@@ -465,7 +465,7 @@ describe('ObjectSpecPlugins.Description', function() {
           {
             belongsToProtocol:Maybe.Just('NSObject'),
             code: [
-              'return [NSString stringWithFormat:@"%@ - \\n\\t age: %tu; \\n", [super description], _age];'
+              'return [NSString stringWithFormat:@"%@ - \\n\\t age: %llu; \\n", [super description], (unsigned long long)_age];'
             ],
             comments: [],
             compilerAttributes:[],
@@ -943,7 +943,7 @@ describe('ObjectSpecPlugins.Description', function() {
           {
             belongsToProtocol:Maybe.Just('NSObject'),
             code: [
-              'return [NSString stringWithFormat:@"%@ - \\n\\t age: %tu; \\n", [super description], _age];'
+              'return [NSString stringWithFormat:@"%@ - \\n\\t age: %llu; \\n", [super description], (unsigned long long)_age];'
             ],
             comments: [],
             compilerAttributes:[],
@@ -1429,7 +1429,7 @@ describe('AlgebraicTypePlugins.Description', function() {
           code: [
             'switch (_subtype) {',
             '  case _TestSubtypesSomeSubtype: {',
-            '    return [NSString stringWithFormat:@"%@ - SomeSubtype \\n\\t someString: %@; \\n\\t someUnsignedInteger: %tu; \\n", [super description], _someSubtype_someString, _someSubtype_someUnsignedInteger];',
+            '    return [NSString stringWithFormat:@"%@ - SomeSubtype \\n\\t someString: %@; \\n\\t someUnsignedInteger: %llu; \\n", [super description], _someSubtype_someString, (unsigned long long)_someSubtype_someUnsignedInteger];',
             '    break;',
             '  }',
             '  case _TestSubtypesCoolSingleAttributeBoolSubtype: {',

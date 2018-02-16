@@ -73,7 +73,7 @@ Feature: Outputting forward declarations in Algebraic Types
 
       + (instancetype)firstSubtypeWithFirstValue:(RMProxy *)firstValue secondValue:(NSUInteger)secondValue
       {
-        SimpleADT *object = [[SimpleADT alloc] internalInit];
+        SimpleADT *object = [(id)self new];
         object->_subtype = _SimpleADTSubtypesFirstSubtype;
         object->_firstSubtype_firstValue = firstValue;
         object->_firstSubtype_secondValue = secondValue;
@@ -82,7 +82,7 @@ Feature: Outputting forward declarations in Algebraic Types
 
       + (instancetype)secondSubtypeWithSomething:(BOOL)something
       {
-        SimpleADT *object = [[SimpleADT alloc] internalInit];
+        SimpleADT *object = [(id)self new];
         object->_subtype = _SimpleADTSubtypesSecondSubtype;
         object->_secondSubtype_something = something;
         return object;
@@ -90,7 +90,7 @@ Feature: Outputting forward declarations in Algebraic Types
 
       + (instancetype)someRandomSubtype
       {
-        SimpleADT *object = [[SimpleADT alloc] internalInit];
+        SimpleADT *object = [(id)self new];
         object->_subtype = _SimpleADTSubtypesSomeRandomSubtype;
         return object;
       }
@@ -133,11 +133,6 @@ Feature: Outputting forward declarations in Algebraic Types
           result = base;
         }
         return result;
-      }
-
-      - (instancetype)internalInit
-      {
-        return [super init];
       }
 
       - (BOOL)isEqual:(SimpleADT *)object

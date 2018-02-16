@@ -260,29 +260,6 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
           })
         ]
       };
-
-      const instanceMethods:ObjC.Method[] = AlgebraicTypePlugin.instanceMethods(algebraicType);
-      const expectedInstanceMethods:ObjC.Method[] = [
-        {
-          belongsToProtocol:Maybe.Just<string>('ADTInit'),
-          code: [
-            'return [super init];'
-          ],
-          comments: [],
-          compilerAttributes:[],
-          keywords: [
-            {
-              name: 'internalInit',
-              argument: Maybe.Nothing<ObjC.KeywordArgument>()
-            }
-          ],
-          returnType:{ type:Maybe.Just<ObjC.Type>({
-            name: 'instancetype',
-            reference: 'instancetype'
-          }), modifiers:[] }
-        }
-      ];
-      expect(instanceMethods).toEqualJSON(expectedInstanceMethods);
     });
   });
 
@@ -312,7 +289,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
         {
           belongsToProtocol:Maybe.Nothing<string>(),
           code: [
-            'Foo *object = [[Foo alloc] internalInit];',
+            'Foo *object = [(id)self new];',
             'object->_subtype = _FooSubtypesSomeSubtype;',
             'return object;'
           ],
@@ -402,7 +379,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
         {
           belongsToProtocol:Maybe.Nothing<string>(),
           code: [
-            'Test *object = [[Test alloc] internalInit];',
+            'Test *object = [(id)self new];',
             'object->_subtype = _TestSubtypesSomeSubtype;',
             'object->_someSubtype_someString = someString;',
             'object->_someSubtype_someUnsignedInteger = someUnsignedInteger;',
@@ -442,7 +419,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
         {
           belongsToProtocol:Maybe.Nothing<string>(),
           code: [
-            'Test *object = [[Test alloc] internalInit];',
+            'Test *object = [(id)self new];',
             'object->_subtype = _TestSubtypesSingleAttributeSubtype;',
             'object->_singleAttributeSubtype = singleAttributeSubtype;',
             'return object;'

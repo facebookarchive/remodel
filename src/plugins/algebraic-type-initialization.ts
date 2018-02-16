@@ -102,26 +102,6 @@ function keywordsForSubtype(subtype:AlgebraicType.Subtype):ObjC.Keyword[] {
     });
 }
 
-function internalInitInstanceMethod() {
-  return {
-    belongsToProtocol:Maybe.Just<string>('ADTInit'),
-    code: ['return [super init];'],
-    comments:[],
-    compilerAttributes:[],
-    keywords: [{
-      argument: Maybe.Nothing<ObjC.KeywordArgument>(),
-      name: 'internalInit'
-    }],
-    returnType: {
-      type: Maybe.Just<ObjC.Type>({
-        name: 'instancetype',
-        reference: 'instancetype'
-      }),
-      modifiers: []
-    }
-  }; 
-}
-
 function canAssertExistenceForTypeOfAttribute(attribute:AlgebraicType.SubtypeAttribute) {
   return ObjCNullabilityUtils.canAssertExistenceForType(AlgebraicTypeUtils.computeTypeOfAttribute(attribute));
 }
@@ -136,7 +116,7 @@ function toRequiredAssertion(attribute:AlgebraicType.SubtypeAttribute):string {
 
 function initializationClassMethodForSubtype(algebraicType:AlgebraicType.Type, subtype:AlgebraicType.Subtype):ObjC.Method {
   const openingCode:string[] = [
-    algebraicType.name + ' *' + nameOfObjectWithinInitializer() + ' = [[' + algebraicType.name + ' alloc] internalInit];',
+    algebraicType.name + ' *' + nameOfObjectWithinInitializer() + ' = [(id)self new];',
     nameOfObjectWithinInitializer() + '->' + AlgebraicTypeUtils.valueAccessorForInternalPropertyStoringSubtype() + ' = ' + AlgebraicTypeUtils.EnumerationValueNameForSubtype(algebraicType, subtype) + ';'
   ];
   const assumeNonnull:boolean = algebraicType.includes.indexOf('RMAssumeNonnull') >= 0;
@@ -328,7 +308,7 @@ export function createAlgebraicTypePlugin():AlgebraicType.Plugin {
       return baseImports.concat(typeLookupImports).concat(attributeImports);
     },
     instanceMethods: function(algebraicType:AlgebraicType.Type):ObjC.Method[] {
-      return [internalInitInstanceMethod()];
+      return [];
     },
     internalProperties: function(algebraicType:AlgebraicType.Type):ObjC.Property[] {
       return internalPropertiesForImplementationOfAlgebraicType(algebraicType);

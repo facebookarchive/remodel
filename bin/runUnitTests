@@ -46,7 +46,7 @@ Promise.all([buildPromise, buildTestsPromise]).then(function(results) {
     return new Promise(function(resolved, rejected) {
       const jasmine = new Jasmine();
       const config = {
-        spec_dir: 'bin/dist/__tests__',
+        spec_dir: './dist/__tests__',
         spec_files: ['**/*-test.js'],
         helpers:['test_support/jasmine-matchers.js']
       };

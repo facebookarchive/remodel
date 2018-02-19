@@ -2094,8 +2094,7 @@ describe('ObjCRenderer', function() {
       const expectedOutput:Maybe.Maybe<string> = Maybe.Just<string>(
         '// Copyright something something. All Rights Reserved.\n\n' +
         '#if  ! __has_feature(objc_arc)\n' +
-        '#error This file must be compiled with ARC. Use -fobjc-arc flag (or con
-        vert project to ARC).\n' +
+        '#error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).\n' +
         '#endif\n\n' +
         '#import "RMSomeValue.h"\n' +
         '\n' +

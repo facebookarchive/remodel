@@ -47,7 +47,7 @@ describe('ObjCRenderer', function() {
               {
                 belongsToProtocol:Maybe.Nothing<string>(),
                 code:[
-                  'return [RMSomeValue new];'
+                  'return [(id)self new];'
                 ],
                 comments: [],
                 compilerAttributes:[],
@@ -280,7 +280,7 @@ describe('ObjCRenderer', function() {
               {
                 belongsToProtocol:Maybe.Nothing<string>(),
                 code:[
-                  'return [RMSomeValue new];'
+                  'return [(id)self new];'
                 ],
                 comments: [],
                 compilerAttributes:[],
@@ -486,7 +486,7 @@ describe('ObjCRenderer', function() {
               {
                 belongsToProtocol:Maybe.Nothing<string>(),
                 code:[
-                  'return [RMSomeValue new];'
+                  'return [(id)self new];'
                 ],
                 comments: [],
                 compilerAttributes:[],
@@ -1928,7 +1928,7 @@ describe('ObjCRenderer', function() {
               {
                 belongsToProtocol:Maybe.Nothing<string>(),
                 code:[
-                  'return [RMSomeValue new];'
+                  'return [(id)self new];'
                 ],
                 comments: [],
                 compilerAttributes:[],
@@ -2094,7 +2094,8 @@ describe('ObjCRenderer', function() {
       const expectedOutput:Maybe.Maybe<string> = Maybe.Just<string>(
         '// Copyright something something. All Rights Reserved.\n\n' +
         '#if  ! __has_feature(objc_arc)\n' +
-        '#error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).\n' +
+        '#error This file must be compiled with ARC. Use -fobjc-arc flag (or con
+        vert project to ARC).\n' +
         '#endif\n\n' +
         '#import "RMSomeValue.h"\n' +
         '\n' +
@@ -2111,7 +2112,7 @@ describe('ObjCRenderer', function() {
         '\n' +
         '+ (instancetype)someClassMethodWithValue1:(RMSomething *)value1 value2:(RMSomething *)value2\n' +
         '{\n' +
-        '  return [RMSomeValue new];\n' +
+        '  return [(id)self new];\n' +
         '}\n' +
         '\n' +
         '- (instancetype)initWithValue1:(RMSomething *)value1 value2:(RMSomething *)value2\n' +

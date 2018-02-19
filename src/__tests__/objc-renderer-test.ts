@@ -47,7 +47,7 @@ describe('ObjCRenderer', function() {
               {
                 belongsToProtocol:Maybe.Nothing<string>(),
                 code:[
-                  'return [[RMSomeValue alloc] init];'
+                  'return [RMSomeValue new];'
                 ],
                 comments: [],
                 compilerAttributes:[],
@@ -280,7 +280,7 @@ describe('ObjCRenderer', function() {
               {
                 belongsToProtocol:Maybe.Nothing<string>(),
                 code:[
-                  'return [[RMSomeValue alloc] init];'
+                  'return [RMSomeValue new];'
                 ],
                 comments: [],
                 compilerAttributes:[],
@@ -486,7 +486,7 @@ describe('ObjCRenderer', function() {
               {
                 belongsToProtocol:Maybe.Nothing<string>(),
                 code:[
-                  'return [[RMSomeValue alloc] init];'
+                  'return [RMSomeValue new];'
                 ],
                 comments: [],
                 compilerAttributes:[],
@@ -1928,7 +1928,7 @@ describe('ObjCRenderer', function() {
               {
                 belongsToProtocol:Maybe.Nothing<string>(),
                 code:[
-                  'return [[RMSomeValue alloc] init];'
+                  'return [RMSomeValue new];'
                 ],
                 comments: [],
                 compilerAttributes:[],
@@ -2111,7 +2111,7 @@ describe('ObjCRenderer', function() {
         '\n' +
         '+ (instancetype)someClassMethodWithValue1:(RMSomething *)value1 value2:(RMSomething *)value2\n' +
         '{\n' +
-        '  return [[RMSomeValue alloc] init];\n' +
+        '  return [RMSomeValue new];\n' +
         '}\n' +
         '\n' +
         '- (instancetype)initWithValue1:(RMSomething *)value1 value2:(RMSomething *)value2\n' +

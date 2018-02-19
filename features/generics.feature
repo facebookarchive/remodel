@@ -197,11 +197,6 @@ Feature: Outputting Objects With Generic Types
         return result;
       }
 
-      - (instancetype)internalInit
-      {
-        return [super init];
-      }
-
       - (BOOL)isEqual:(SimpleADT *)object
       {
         if (self == object) {

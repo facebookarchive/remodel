@@ -655,7 +655,7 @@ describe('ObjectSpecPlugins.Coding', function() {
         name: 'doesUserLike',
         valueAccessor: '_doesUserLike',
         constantName: 'kDoesUserLikeKey',
-        legacyKeyName: '',
+        legacyKeyNames: [],
         type: {
           name: 'BOOL',
           reference: 'BOOL'
@@ -672,7 +672,7 @@ describe('ObjectSpecPlugins.Coding', function() {
         name: 'foo',
         valueAccessor: '_foo',
         constantName: 'kFooKey',
-        legacyKeyName: '',
+        legacyKeyNames: [],
         type: {
           name: 'id',
           reference: 'id'
@@ -689,7 +689,7 @@ describe('ObjectSpecPlugins.Coding', function() {
         name: 'name',
         valueAccessor: '_name',
         constantName: 'kNameKey',
-        legacyKeyName: '',
+        legacyKeyNames: [],
         type: {
           name: 'NSObject',
           reference: 'NSObject *'
@@ -706,7 +706,7 @@ describe('ObjectSpecPlugins.Coding', function() {
         name: 'age',
         valueAccessor: '_age',
         constantName: 'kAgeKey',
-        legacyKeyName: '',
+        legacyKeyNames: [],
         type: {
           name: 'NSInteger',
           reference: 'NSInteger'
@@ -723,7 +723,7 @@ describe('ObjectSpecPlugins.Coding', function() {
         name: 'age',
         valueAccessor: '_age',
         constantName: 'kAgeKey',
-        legacyKeyName: '',
+        legacyKeyNames: [],
         type: {
           name: 'NSUInteger',
           reference: 'NSUInteger'
@@ -740,7 +740,7 @@ describe('ObjectSpecPlugins.Coding', function() {
         name: 'callbackMethod',
         valueAccessor: '_callbackMethod',
         constantName: 'kCallbackMethodKey',
-        legacyKeyName: '',
+        legacyKeyNames: [],
         type: {
           name: 'SEL',
           reference: 'SEL'
@@ -759,7 +759,7 @@ describe('ObjectSpecPlugins.Coding', function() {
         name: 'doesUserLike',
         valueAccessor: '_doesUserLike',
         constantName: 'kDoesUserLikeKey',
-        legacyKeyName: '',
+        legacyKeyNames: [],
         type: {
           name: 'BOOL',
           reference: 'BOOL'
@@ -776,7 +776,7 @@ describe('ObjectSpecPlugins.Coding', function() {
         name: 'name',
         valueAccessor: '_name',
         constantName: 'kNameKey',
-        legacyKeyName: '',
+        legacyKeyNames: [],
         type: {
           name: 'NSObject',
           reference: 'NSObject *'
@@ -793,7 +793,7 @@ describe('ObjectSpecPlugins.Coding', function() {
         name: 'age',
         valueAccessor: '_age',
         constantName: 'kAgeKey',
-        legacyKeyName: '',
+        legacyKeyNames: [],
         type: {
           name: 'NSInteger',
           reference: 'NSInteger'
@@ -810,7 +810,7 @@ describe('ObjectSpecPlugins.Coding', function() {
         name: 'age',
         valueAccessor: '_age',
         constantName: 'kAgeKey',
-        legacyKeyName: '',
+        legacyKeyNames: [],
         type: {
           name: 'NSUInteger',
           reference: 'NSUInteger'
@@ -827,7 +827,7 @@ describe('ObjectSpecPlugins.Coding', function() {
         name: 'callbackMethod',
         valueAccessor: '_callbackMethod',
         constantName: 'kCallbackMethodKey',
-        legacyKeyName: '',
+        legacyKeyNames: [],
         type: {
           name: 'SEL',
           reference: 'SEL'

@@ -30,17 +30,21 @@ export interface CodeableAttribute {
   name:string;
   valueAccessor:string;
   constantName:string;
-  legacyKeyName:string;
+  legacyKeyNames:string[];
   type:ObjC.Type;
 }
 
-function legacyCodingKeyNameForAttribute(attribute:ObjectSpec.Attribute):string {
+function legacyCodingKeyNameForAnnotation(legacyKeyAnnotation:ObjectGeneration.Annotation):string {
+  const legacyKey:string = legacyKeyAnnotation.properties['name'];
+  return (legacyKey === undefined ? '' : legacyKey);
+}
+
+function legacyCodingKeyNamesForAttribute(attribute:ObjectSpec.Attribute):string[] {
   const legacyKeyAnnotations = attribute.annotations['codingLegacyKey'];
   if (legacyKeyAnnotations && legacyKeyAnnotations.length > 0) {
-    const legacyKey:string = legacyKeyAnnotations[0].properties['name'];
-    return (legacyKey === undefined ? '' : legacyKey);
+    return legacyKeyAnnotations.map(legacyCodingKeyNameForAnnotation);
   } else {
-    return '';
+    return [];
   }
 }
 
@@ -49,7 +53,7 @@ export function codingAttributeForValueAttribute(attribute:ObjectSpec.Attribute)
     name: attribute.name,
     valueAccessor: ObjectSpecCodeUtils.ivarForAttribute(attribute),
     constantName: nameOfConstantForValueName(attribute.name),
-    legacyKeyName: legacyCodingKeyNameForAttribute(attribute),
+    legacyKeyNames: legacyCodingKeyNamesForAttribute(attribute),
     type: ObjectSpecCodeUtils.computeTypeOfAttribute(attribute)
   };
 }
@@ -60,22 +64,37 @@ function legacyCheckingDecodeStatementReducerForAttributes(existingArray:string[
 
 function legacyKeyRespectingDecodeStatementForAttribute(attribute:CodeableAttribute):string[] {
   const defaultDecodeStatement:string = decodeStatementForAttribute(attribute);
+  const decodeStatements:string[] = [defaultDecodeStatement];
   
-  if (attribute.legacyKeyName.length > 0) {
+  if (attribute.legacyKeyNames.length > 0) {
     const nilValueForAttribute:string = nilValueForType(attribute.type);
     if (nilValueForAttribute.length > 0) {
-      const legacyDecodeStatement:string = decodeStatementForTypeValueAccessorAndCodingKey(
-                                             attribute.type,
-                                             attribute.valueAccessor,
-                                             '@"' + attribute.legacyKeyName + '"');
-      return [defaultDecodeStatement,
-              'if (' + attribute.valueAccessor + ' == ' + nilValueForAttribute + ') {',
-              StringUtils.indent(2)(legacyDecodeStatement),
-              '}'];
+      const legacyDecodeStatements:string[] = attribute.legacyKeyNames.reduce(FunctionUtils.pApply2f4(attribute, nilValueForAttribute, decodeStatementForAttributeAndLegacyKey), []);
+      if (legacyDecodeStatements.length > 0) {
+        return decodeStatements.concat(legacyDecodeStatements);
+      }
     }
   }
 
-  return [defaultDecodeStatement];
+  return decodeStatements;
+}
+
+function decodeStatementForAttributeAndLegacyKey(attribute:CodeableAttribute,
+                                                 nilValueForAttribute:string,
+                                                 decodeStatements:string[],
+                                                 legacyKeyName:string):string[] {
+  if (legacyKeyName.length > 0) {
+    const legacyDecodeStatement:string = decodeStatementForTypeValueAccessorAndCodingKey(
+                                           attribute.type,
+                                           attribute.valueAccessor,
+                                           '@"' + legacyKeyName + '"');
+    const conditionalStatement:string[] = ['if (' + attribute.valueAccessor + ' == ' + nilValueForAttribute + ') {',
+                                           StringUtils.indent(2)(legacyDecodeStatement),
+                                           '}'];
+    return decodeStatements.concat(conditionalStatement);
+  } else {
+    return decodeStatements;
+  }
 }
 
 export function decodeStatementForAttribute(attribute:CodeableAttribute):string {
@@ -346,7 +365,7 @@ function doesValueAttributeContainAnUnsupportedType(attribute:ObjectSpec.Attribu
 }
 
 function doesValueAttributeContainAnLegacyKeyForUnsupportedType(attribute:ObjectSpec.Attribute):boolean {
-  return (legacyCodingKeyNameForAttribute(attribute).length > 0 &&
+  return (legacyCodingKeyNamesForAttribute(attribute).length > 0 &&
           nilValueForType(ObjectSpecCodeUtils.computeTypeOfAttribute(attribute)).length == 0);
 }
 
@@ -458,7 +477,7 @@ function codeableAttributeForSubtypePropertyOfAlgebraicType():CodeableAttribute 
     name: 'codedSubtype',
     valueAccessor: 'codedSubtype',
     constantName: nameOfConstantForValueName('codedSubtype'),
-    legacyKeyName: '',
+    legacyKeyNames: [],
     type: {
       name: 'NSObject',
       reference: 'NSObject'
@@ -479,7 +498,7 @@ function codeableAttributeForAlgebraicSubtypeAttribute(subtype:AlgebraicType.Sub
     name: AlgebraicTypeUtils.nameOfInternalPropertyForAttribute(subtype, attribute),
     valueAccessor: AlgebraicTypeUtils.valueAccessorForInternalPropertyForAttribute(subtype, attribute),
     constantName: nameOfConstantForValueName(valueName),
-    legacyKeyName: legacyCodingKeyNameForAttribute(attribute),
+    legacyKeyNames: legacyCodingKeyNamesForAttribute(attribute),
     type: AlgebraicTypeUtils.computeTypeOfAttribute(attribute)
   };
 }

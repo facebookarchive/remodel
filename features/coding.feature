@@ -94,6 +94,7 @@ Feature: Outputting Value Objects With Coded Values
         %codingLegacyKey name=old_like_count
         NSInteger likeCount
         %codingLegacyKey name=old_number_of_ratings
+        %codingLegacyKey name=even_older_number_of_ratings
         NSUInteger numberOfRatings
       }
       """
@@ -122,6 +123,9 @@ Feature: Outputting Value Objects With Coded Values
           _numberOfRatings = [aDecoder decodeIntegerForKey:kNumberOfRatingsKey];
           if (_numberOfRatings == 0) {
             _numberOfRatings = [aDecoder decodeIntegerForKey:@"old_number_of_ratings"];
+          }
+          if (_numberOfRatings == 0) {
+            _numberOfRatings = [aDecoder decodeIntegerForKey:@"even_older_number_of_ratings"];
           }
         }
         return self;

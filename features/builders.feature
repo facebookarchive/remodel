@@ -83,7 +83,7 @@ Feature: Outputting Value Objects
 
       + (instancetype)page
       {
-        return [[RMPageBuilder alloc] init];
+        return [RMPageBuilder new];
       }
 
       + (instancetype)pageFromExistingPage:(RMPage *)existingPage

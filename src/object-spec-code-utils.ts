@@ -13,6 +13,10 @@ import ObjCTypeUtils = require('./objc-type-utils');
 import StringUtils = require('./string-utils');
 import ObjectSpec = require('./object-spec');
 
+function allocationAndInvocationCanBeOneForAttribute(typeName: string, attributes: ObjectSpec.Attribute[]): boolean {
+  return (attributes.length == 0);
+}
+
 function allocationPartOfConstructorInvocationForTypeName(typeName: string): string {
   return typeName + ' alloc';
 }
@@ -30,6 +34,10 @@ function invocationPartOfConstructorInvocationForAttributes(attributes: ObjectSp
 }
 
 export function methodInvocationForConstructor(objectType: ObjectSpec.Type, valueGenerator:(attribute:ObjectSpec.Attribute) => string): string {
+  if(allocationAndInvocationCanBeOneForAttribute(objectType.typeName, objectType.attributes)) {
+    return '[' + objectType.typeName + ' new]';
+  }
+  
   const allocationPart = allocationPartOfConstructorInvocationForTypeName(objectType.typeName);
   const invocationPart = invocationPartOfConstructorInvocationForAttributes(objectType.attributes, valueGenerator);
   return '[[' + allocationPart + '] ' + invocationPart + ']';

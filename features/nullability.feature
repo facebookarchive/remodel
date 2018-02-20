@@ -180,7 +180,7 @@ Feature: Outputting Objects With Nullability Annotations
       + (instancetype)firstSubtypeWithFirstValue:(nonnull NSString *)firstValue secondValue:(NSUInteger)secondValue
       {
         RMParameterAssert(firstValue != nil);
-        SimpleADT *object = [[SimpleADT alloc] internalInit];
+        SimpleADT *object = [(id)self new];
         object->_subtype = _SimpleADTSubtypesFirstSubtype;
         object->_firstSubtype_firstValue = firstValue;
         object->_firstSubtype_secondValue = secondValue;
@@ -189,7 +189,7 @@ Feature: Outputting Objects With Nullability Annotations
 
       + (instancetype)secondSubtypeWithSomething:(BOOL)something
       {
-        SimpleADT *object = [[SimpleADT alloc] internalInit];
+        SimpleADT *object = [(id)self new];
         object->_subtype = _SimpleADTSubtypesSecondSubtype;
         object->_secondSubtype_something = something;
         return object;
@@ -197,7 +197,7 @@ Feature: Outputting Objects With Nullability Annotations
 
       + (instancetype)someAttributeSubtype:(nullable NSNumber *)someAttributeSubtype
       {
-        SimpleADT *object = [[SimpleADT alloc] internalInit];
+        SimpleADT *object = [(id)self new];
         object->_subtype = _SimpleADTSubtypesSomeAttributeSubtype;
         object->_someAttributeSubtype = someAttributeSubtype;
         return object;
@@ -205,7 +205,7 @@ Feature: Outputting Objects With Nullability Annotations
 
       + (instancetype)someRandomSubtype
       {
-        SimpleADT *object = [[SimpleADT alloc] internalInit];
+        SimpleADT *object = [(id)self new];
         object->_subtype = _SimpleADTSubtypesSomeRandomSubtype;
         return object;
       }
@@ -252,11 +252,6 @@ Feature: Outputting Objects With Nullability Annotations
           result = base;
         }
         return result;
-      }
-
-      - (instancetype)internalInit
-      {
-        return [super init];
       }
 
       - (BOOL)isEqual:(SimpleADT *)object

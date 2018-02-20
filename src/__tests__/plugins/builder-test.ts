@@ -74,7 +74,7 @@ describe('Plugins.Builder', function() {
                 {
                   belongsToProtocol:Maybe.Nothing<string>(),
                   code:[
-                    'return [[FooBarBazBuilder alloc] init];'
+                    'return [FooBarBazBuilder new];'
                   ],
                   comments: [],
                   compilerAttributes:[],
@@ -120,7 +120,7 @@ describe('Plugins.Builder', function() {
                 {
                   belongsToProtocol:Maybe.Nothing<string>(),
                   code:[
-                    'return [[FooBarBaz alloc] init];'
+                    'return [FooBarBaz new];'
                   ],
                   comments: [],
                   compilerAttributes:[],
@@ -204,7 +204,7 @@ describe('Plugins.Builder', function() {
                 {
                   belongsToProtocol:Maybe.Nothing<string>(),
                   code:[
-                    'return [[RMFerrBuilder alloc] init];'
+                    'return [RMFerrBuilder new];'
                   ],
                   comments: [],
                   compilerAttributes:[],
@@ -250,7 +250,7 @@ describe('Plugins.Builder', function() {
                 {
                   belongsToProtocol:Maybe.Nothing<string>(),
                   code:[
-                    'return [[RMFerr alloc] init];'
+                    'return [RMFerr new];'
                   ],
                   comments: [],
                   compilerAttributes:[],
@@ -383,7 +383,7 @@ describe('Plugins.Builder', function() {
                 {
                   belongsToProtocol:Maybe.Nothing<string>(),
                   code:[
-                    'return [[RMFerrBuilder alloc] init];'
+                    'return [RMFerrBuilder new];'
                   ],
                   comments: [],
                   compilerAttributes:[],
@@ -674,7 +674,7 @@ describe('Plugins.Builder', function() {
                 {
                   belongsToProtocol:Maybe.Nothing<string>(),
                   code:[
-                    'return [[RMFerrBuilder alloc] init];'
+                    'return [RMFerrBuilder new];'
                   ],
                   comments: [],
                   compilerAttributes:[],

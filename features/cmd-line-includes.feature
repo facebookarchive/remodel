@@ -132,7 +132,7 @@ Feature: Controlling includes/excludes from command line
 
       + (instancetype)valueType
       {
-        return [[RMValueTypeBuilder alloc] init];
+        return [RMValueTypeBuilder new];
       }
 
       + (instancetype)valueTypeFromExistingValueType:(RMValueType *)existingValueType

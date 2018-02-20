@@ -147,7 +147,7 @@ Feature: Outputting Objects With Generic Types
 
       + (instancetype)firstSubtypeWithNamesToAges:(NSDictionary<NSString *, NSNumber *> *)namesToAges
       {
-        SimpleADT *object = [[SimpleADT alloc] internalInit];
+        SimpleADT *object = [(id)self new];
         object->_subtype = _SimpleADTSubtypesFirstSubtype;
         object->_firstSubtype_namesToAges = namesToAges;
         return object;
@@ -155,7 +155,7 @@ Feature: Outputting Objects With Generic Types
 
       + (instancetype)someAttributeSubtype:(NSDictionary<NSString *, NSString *> *)someAttributeSubtype
       {
-        SimpleADT *object = [[SimpleADT alloc] internalInit];
+        SimpleADT *object = [(id)self new];
         object->_subtype = _SimpleADTSubtypesSomeAttributeSubtype;
         object->_someAttributeSubtype = someAttributeSubtype;
         return object;
@@ -195,11 +195,6 @@ Feature: Outputting Objects With Generic Types
           result = base;
         }
         return result;
-      }
-
-      - (instancetype)internalInit
-      {
-        return [super init];
       }
 
       - (BOOL)isEqual:(SimpleADT *)object

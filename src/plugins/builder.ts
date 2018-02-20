@@ -34,7 +34,7 @@ function builderClassMethodForValueType(objectType:ObjectSpec.Type):ObjC.Method 
   return {
     belongsToProtocol:Maybe.Nothing<string>(),
     code:[
-      'return [[' + nameOfBuilderForValueTypeWithName(objectType.typeName) + ' alloc] init];'
+      'return [' + nameOfBuilderForValueTypeWithName(objectType.typeName) + ' new];'
     ],
     comments:[],
     compilerAttributes:[],

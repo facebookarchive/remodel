@@ -34,7 +34,7 @@ describe('ObjectSpecCodeUtils', function() {
       };
 
       const methodInvocation:string = ObjectSpecCodeUtils.methodInvocationForConstructor(objectType, valueGenerator);
-      const expectedMethodInvocation:string = '[[Foo alloc] init]';
+      const expectedMethodInvocation:string = '[Foo new]';
       expect(methodInvocation).toEqualJSON(expectedMethodInvocation);
     });
 
@@ -52,7 +52,7 @@ describe('ObjectSpecCodeUtils', function() {
       };
 
       const methodInvocation:string = ObjectSpecCodeUtils.methodInvocationForConstructor(objectType, valueGenerator);
-      const expectedMethodInvocation:string = '[[Test alloc] init]';
+      const expectedMethodInvocation:string = '[Test new]';
       expect(methodInvocation).toEqualJSON(expectedMethodInvocation);
     });
 

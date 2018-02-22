@@ -38,6 +38,7 @@ export interface ObjCGenerationPlugIn<T> {
   staticConstants: (typeInformation:T) => ObjC.Constant[];
   validationErrors: (typeInformation:T) => Error.Error[];
   nullability: (typeInformation:T) => Maybe.Maybe<ObjC.ClassNullability>;
+  subclassingRestricted: (typeInformation:T) => boolean;
 }
 
 export interface ObjCGenerationRequest<T> {
@@ -89,6 +90,10 @@ function buildInternalProperties<T>(typeInformation:T, soFar:ObjC.Property[], pl
 
 function buildProtocols<T>(typeInformation:T, soFar:ObjC.Protocol[], plugin:ObjCGenerationPlugIn<T>):ObjC.Protocol[] {
   return soFar.concat(plugin.protocols(typeInformation));
+}
+
+function checkSubclassingRestricted<T>(typeInformation:T, soFar:boolean, plugin:ObjCGenerationPlugIn<T>):boolean {
+  return soFar || plugin.subclassingRestricted(typeInformation);
 }
 
 function buildFileType<T>(typeInformation:T, soFar:Either.Either<Error.Error, Maybe.Maybe<Code.FileType>>, plugin:ObjCGenerationPlugIn<T>):Either.Either<Error.Error, Maybe.Maybe<Code.FileType>> {
@@ -241,7 +246,8 @@ function classFileCreationFunctionWithBaseClassAndPlugins<T>(baseClassName:strin
             }, function() {
               return ObjC.ClassNullability.default;
             }, maybeNullability)
-          }, nullability)
+          }, nullability),
+          subclassingRestricted: List.foldr<ObjCGenerationPlugIn<T>, boolean>(FunctionUtils.pApplyf3(typeInformation, checkSubclassingRestricted), false, plugins),
         }
         ],
         structs: [],

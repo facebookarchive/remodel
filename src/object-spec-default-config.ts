@@ -26,6 +26,7 @@ export const OBJECT_SPEC_DEFAULT_CONFIG = {
     'fetch-status',
     'immutable-properties',
     'init-new-unavailable',
+    'subclassing-restricted',
     'use-cpp'
   )
 };

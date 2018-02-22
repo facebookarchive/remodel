@@ -95,6 +95,10 @@ function createObjectSpecObjCPlugIn(plugin:ObjectSpec.Plugin) : ObjectSpecObjCPl
     nullability: function(typeInformation:ObjectSpec.Type):Maybe.Maybe<ObjC.ClassNullability> {
       return plugin.nullability(typeInformation);
     },
+
+    subclassingRestricted: function(typeInformation:ObjectSpec.Type):boolean {
+      return plugin.subclassingRestricted(typeInformation);
+    },
   };
 }
 

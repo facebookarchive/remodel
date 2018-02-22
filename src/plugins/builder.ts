@@ -303,7 +303,8 @@ function builderFileForValueType(objectType:ObjectSpec.Type):Code.File {
         properties: [],
         internalProperties:objectType.attributes.map(internalPropertyForAttribute),
         implementedProtocols: [],
-        nullability:ObjC.ClassNullability.default
+        nullability:ObjC.ClassNullability.default,
+        subclassingRestricted: false,
       }
     ],
     diagnosticIgnores:[],
@@ -364,6 +365,9 @@ export function createPlugin():ObjectSpec.Plugin {
     },
     nullability: function(objectType:ObjectSpec.Type):Maybe.Maybe<ObjC.ClassNullability> {
       return Maybe.Nothing<ObjC.ClassNullability>();
-    }
+    },
+    subclassingRestricted: function(objectType:ObjectSpec.Type):boolean {
+      return false;
+    },
   };
 }

@@ -64,6 +64,7 @@ const BASE_PLUGINS:List.List<string> = List.of(
   'description',
   'equality',
   'init-new-unavailable',
+  'subclassing-restricted',
   'use-cpp',
   'algebraic-type-function-matching',
   'algebraic-type-templated-matching'

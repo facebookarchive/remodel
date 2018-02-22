@@ -140,7 +140,8 @@ describe('Plugins.Builder', function() {
               properties: [],
               internalProperties: [],
               implementedProtocols: [],
-              nullability: ObjC.ClassNullability.default
+              nullability: ObjC.ClassNullability.default,
+              subclassingRestricted: false,
             }
           ],
           structs: [],
@@ -270,7 +271,8 @@ describe('Plugins.Builder', function() {
               properties: [],
               internalProperties: [],
               implementedProtocols: [],
-              nullability: ObjC.ClassNullability.default
+              nullability: ObjC.ClassNullability.default,
+              subclassingRestricted: false,
             }
           ],
           structs: [],
@@ -561,7 +563,8 @@ describe('Plugins.Builder', function() {
                 }
               ],
               implementedProtocols: [],
-              nullability: ObjC.ClassNullability.default
+              nullability: ObjC.ClassNullability.default,
+              subclassingRestricted: false,
             }
           ],
           structs: [],
@@ -852,7 +855,8 @@ describe('Plugins.Builder', function() {
                 }
               ],
               implementedProtocols: [],
-              nullability: ObjC.ClassNullability.default
+              nullability: ObjC.ClassNullability.default,
+              subclassingRestricted: false,
             }
           ],
           structs: [],

@@ -147,7 +147,7 @@ function blockParametersForSubtype(subtype:AlgebraicType.Subtype):ObjC.BlockType
   }
 }
 
-function blockReturnTypeForMatchingBlockType(matchingBlockType:Maybe.Maybe<MatchingBlockType>):ObjC.ReturnType {
+function returnTypeForMatchingBlockType(matchingBlockType:Maybe.Maybe<MatchingBlockType>):ObjC.ReturnType {
   return Maybe.match(function Just(matchingBlockType:MatchingBlockType) {
                        return {
                          type: Maybe.Just<ObjC.Type>(typeForUnderlyingType(matchingBlockType.underlyingType)),
@@ -168,7 +168,7 @@ export function blockTypeForSubtype(algebraicType:AlgebraicType.Type, matchingBl
     comments: [],
     name: blockTypeNameForSubtype(algebraicType, subtype, matchingBlockType),
     parameters: blockParametersForSubtype(subtype),
-    returnType: blockReturnTypeForMatchingBlockType(matchingBlockType),
+    returnType: returnTypeForMatchingBlockType(matchingBlockType),
     isPublic: true,
     nullability: algebraicType.includes.indexOf('RMAssumeNonnull') >= 0 ? ObjC.ClassNullability.assumeNonnull : ObjC.ClassNullability.default 
   };
@@ -243,7 +243,7 @@ export function instanceMethodForMatchingSubtypesOfAlgebraicType(algebraicType:A
     comments: [],
     compilerAttributes:[],
     keywords: instanceMethodKeywordsForMatchingSubtypesOfAlgebraicType(algebraicType, matchingBlockType),
-    returnType: blockReturnTypeForMatchingBlockType(matchingBlockType)
+    returnType: returnTypeForMatchingBlockType(matchingBlockType)
   };
 }
 

@@ -219,13 +219,19 @@ function blockInvocationWithNilCheckForSubtype(algebraicType:AlgebraicType.Type,
           '}'];
 }
 
+function resultReturningBlockInvocationWithNilCheckForSubtype(algebraicType:AlgebraicType.Type, subtype:AlgebraicType.Subtype):string[] {
+  return ['if (' + blockParameterNameForMatchMethodFromSubtype(subtype) + ') {',
+          StringUtils.indent(2)('result = ' + blockInvocationForSubtype(algebraicType, subtype)),
+          '}'];
+}
+
 function blockInvocationForSubtype(algebraicType:AlgebraicType.Type, subtype:AlgebraicType.Subtype):string {
   return blockParameterNameForMatchMethodFromSubtype(subtype) + '(' + attributesFromSubtype(subtype).map(FunctionUtils.pApplyf2(subtype, valueAccessorForInternalPropertyForAttribute)).join(', ') + ');';
 }
 
 function matcherCodeForAlgebraicType(algebraicType:AlgebraicType.Type, matchingBlockType:Maybe.Maybe<MatchingBlockType>):string[] {
   return Maybe.match(function Just(matchingBlockType:MatchingBlockType) {
-                       const switchStatement:string[] = codeForSwitchingOnSubtypeWithSubtypeMapper(algebraicType, valueAccessorForInternalPropertyStoringSubtype(), blockInvocationWithNilCheckForSubtype);
+                       const switchStatement:string[] = codeForSwitchingOnSubtypeWithSubtypeMapper(algebraicType, valueAccessorForInternalPropertyStoringSubtype(), resultReturningBlockInvocationWithNilCheckForSubtype);
                        return ['__block ' + matchingBlockType.underlyingType + ' result;']
                                 .concat(switchStatement)
                                 .concat('return result;');

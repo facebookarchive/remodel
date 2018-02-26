@@ -197,7 +197,13 @@ export function firstKeywordForMatchMethodFromSubtype(algebraicType:AlgebraicTyp
   const normalKeyword:ObjC.Keyword = keywordForMatchMethodFromSubtype(algebraicType, matchingBlockType, subtype);
   return {
     argument: normalKeyword.argument,
-    name: 'match' + StringUtils.capitalize(normalKeyword.name)
+    name: Maybe.match(function Just(matchingBlockType:MatchingBlockType) {
+                       return 'match' + StringUtils.capitalize(matchingBlockType.name) + StringUtils.capitalize(normalKeyword.name)
+                     },
+                     function Nothing() {
+                       return 'match' + StringUtils.capitalize(normalKeyword.name)
+                     },
+                     matchingBlockType)
   };
 }
 

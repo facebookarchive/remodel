@@ -22,8 +22,8 @@ function matchingFileNameForAlgebraicType(algebraicType:AlgebraicType.Type):stri
 }
 
 function instanceMethodKeywordsForMatchingSubtypesOfAlgebraicType(algebraicType:AlgebraicType.Type):ObjC.Keyword[] {
-  const firstKeyword:ObjC.Keyword = AlgebraicTypeUtils.firstKeywordForMatchMethodFromSubtype(algebraicType, algebraicType.subtypes[0]);
-  const additionalKeywords:ObjC.Keyword[] = algebraicType.subtypes.slice(1).map(FunctionUtils.pApplyf2(algebraicType, AlgebraicTypeUtils.keywordForMatchMethodFromSubtype));
+  const firstKeyword:ObjC.Keyword = AlgebraicTypeUtils.firstKeywordForMatchMethodFromSubtype(algebraicType, Maybe.Nothing<AlgebraicTypeUtils.MatchingBlockType>(), algebraicType.subtypes[0]);
+  const additionalKeywords:ObjC.Keyword[] = algebraicType.subtypes.slice(1).map(FunctionUtils.pApply2f3(algebraicType, Maybe.Nothing<AlgebraicTypeUtils.MatchingBlockType>(), AlgebraicTypeUtils.keywordForMatchMethodFromSubtype));
   return [firstKeyword].concat(additionalKeywords);
 }
 
@@ -59,7 +59,7 @@ export function createAlgebraicTypePlugin():AlgebraicType.Plugin {
       return [];
     },
     blockTypes: function(algebraicType:AlgebraicType.Type):ObjC.BlockType[] {
-      return algebraicType.subtypes.map(FunctionUtils.pApplyf2(algebraicType, AlgebraicTypeUtils.blockTypeForSubtype));
+      return algebraicType.subtypes.map(FunctionUtils.pApply2f3(algebraicType, Maybe.Nothing<AlgebraicTypeUtils.MatchingBlockType>(), AlgebraicTypeUtils.blockTypeForSubtype));
     },
     classMethods: function(algebraicType:AlgebraicType.Type):ObjC.Method[] {
       return [];

@@ -13,6 +13,11 @@ import Maybe = require('./maybe');
 import ObjC = require('./objc');
 import StringUtils = require('./string-utils');
 
+export interface MatchingBlockType {
+  name:string;
+  underlyingType:string;
+}
+
 export function nameForInternalPropertyStoringSubtype():string {
   return 'subtype';
 }
@@ -104,8 +109,14 @@ export function codeForSwitchingOnSubtypeWithSubtypeMapper(algebraicType:Algebra
   return ['switch (' + subtypeValueAccessor + ') {'].concat(caseStatements.map(StringUtils.indent(2))).concat('}');
 }
 
-function blockTypeNameForSubtype(algebraicType:AlgebraicType.Type, subtype:AlgebraicType.Subtype):string {
-  return algebraicType.name + StringUtils.capitalize(subtypeNameFromSubtype(subtype)) + 'MatchHandler';
+function blockTypeNameForSubtype(algebraicType:AlgebraicType.Type, subtype:AlgebraicType.Subtype, matchingBlockType:Maybe.Maybe<MatchingBlockType>):string {
+  return Maybe.match(function Just(matchingBlockType:MatchingBlockType) {
+                       return algebraicType.name + StringUtils.capitalize(matchingBlockType.name) + StringUtils.capitalize(subtypeNameFromSubtype(subtype)) + 'MatchHandler';
+                     },
+                     function Nothing() {
+                       return algebraicType.name + StringUtils.capitalize(subtypeNameFromSubtype(subtype)) + 'MatchHandler';
+                     },
+                     matchingBlockType);
 }
 
 function blockTypeParameterForSubtypeAttribute(attribute:AlgebraicType.SubtypeAttribute):ObjC.BlockTypeParameter {
@@ -136,15 +147,28 @@ function blockParametersForSubtype(subtype:AlgebraicType.Subtype):ObjC.BlockType
   }
 }
 
-export function blockTypeForSubtype(algebraicType:AlgebraicType.Type, subtype:AlgebraicType.Subtype):ObjC.BlockType {
+function blockReturnTypeForMatchingBlockType(matchingBlockType:Maybe.Maybe<MatchingBlockType>):ObjC.ReturnType {
+  return Maybe.match(function Just(matchingBlockType:MatchingBlockType) {
+                       return {
+                         type: Maybe.Just<ObjC.Type>(typeForUnderlyingType(matchingBlockType.underlyingType)),
+                         modifiers: []
+                       }
+                     },
+                     function Nothing() {
+                       return {
+                         type: Maybe.Nothing<ObjC.Type>(),
+                         modifiers: []
+                       }
+                     },
+                     matchingBlockType);
+}
+
+export function blockTypeForSubtype(algebraicType:AlgebraicType.Type, matchingBlockType:Maybe.Maybe<MatchingBlockType>, subtype:AlgebraicType.Subtype):ObjC.BlockType {
   return {
     comments: [],
-    name: blockTypeNameForSubtype(algebraicType, subtype),
+    name: blockTypeNameForSubtype(algebraicType, subtype, matchingBlockType),
     parameters: blockParametersForSubtype(subtype),
-    returnType: {
-      type: Maybe.Nothing<ObjC.Type>(),
-      modifiers: []
-    },
+    returnType: blockReturnTypeForMatchingBlockType(matchingBlockType),
     isPublic: true,
     nullability: algebraicType.includes.indexOf('RMAssumeNonnull') >= 0 ? ObjC.ClassNullability.assumeNonnull : ObjC.ClassNullability.default 
   };
@@ -154,8 +178,8 @@ export function blockParameterNameForMatchMethodFromSubtype(subtype:AlgebraicTyp
   return StringUtils.lowercased(subtypeNameFromSubtype(subtype) + 'MatchHandler');
 }
 
-export function keywordForMatchMethodFromSubtype(algebraicType:AlgebraicType.Type, subtype:AlgebraicType.Subtype):ObjC.Keyword {
-  const blockType:ObjC.BlockType = blockTypeForSubtype(algebraicType, subtype);
+export function keywordForMatchMethodFromSubtype(algebraicType:AlgebraicType.Type, matchingBlockType:Maybe.Maybe<MatchingBlockType>, subtype:AlgebraicType.Subtype):ObjC.Keyword {
+  const blockType:ObjC.BlockType = blockTypeForSubtype(algebraicType, matchingBlockType, subtype);
   return {
     name: StringUtils.lowercased(subtypeNameFromSubtype(subtype)),
     argument: Maybe.Just({
@@ -169,8 +193,8 @@ export function keywordForMatchMethodFromSubtype(algebraicType:AlgebraicType.Typ
   };
 }
 
-export function firstKeywordForMatchMethodFromSubtype(algebraicType:AlgebraicType.Type, subtype:AlgebraicType.Subtype):ObjC.Keyword {
-  const normalKeyword:ObjC.Keyword = keywordForMatchMethodFromSubtype(algebraicType, subtype);
+export function firstKeywordForMatchMethodFromSubtype(algebraicType:AlgebraicType.Type, matchingBlockType:Maybe.Maybe<MatchingBlockType>, subtype:AlgebraicType.Subtype):ObjC.Keyword {
+  const normalKeyword:ObjC.Keyword = keywordForMatchMethodFromSubtype(algebraicType, matchingBlockType, subtype);
   return {
     argument: normalKeyword.argument,
     name: 'match' + StringUtils.capitalize(normalKeyword.name)

@@ -66,7 +66,7 @@ const BASE_PLUGINS:List.List<string> = List.of(
   'init-new-unavailable',
   'subclassing-restricted',
   'use-cpp',
-  'algebraic-type-function-matching',
+  'algebraic-type-matching-void',
   'algebraic-type-templated-matching'
 );
 

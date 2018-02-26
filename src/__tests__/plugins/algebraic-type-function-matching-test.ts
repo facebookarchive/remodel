@@ -10,7 +10,7 @@
 ///<reference path='../../type-defs/jasmine.d.ts'/>
 ///<reference path='../../type-defs/jasmine-test-additions.d.ts'/>
 
-import AlgebraicTypeFunctionMatching = require('../../plugins/algebraic-type-function-matching');
+import AlgebraicTypeFunctionMatching = require('../../plugins/algebraic-type-matching-void');
 import Code = require('../../code');
 import Maybe = require('../../maybe');
 import ObjC = require('../../objc');

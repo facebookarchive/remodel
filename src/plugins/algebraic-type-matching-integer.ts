@@ -20,7 +20,8 @@ import StringUtils = require('../string-utils');
 function matchingBlockTypeForPlugin():Maybe.Maybe<AlgebraicTypeUtils.MatchingBlockType> {
   return Maybe.Just<AlgebraicTypeUtils.MatchingBlockType>({
     name: 'integer',
-    underlyingType: 'NSInteger'
+    underlyingType: 'NSInteger',
+    defaultValue: '0'
   });
 }
 

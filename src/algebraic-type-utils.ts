@@ -16,6 +16,7 @@ import StringUtils = require('./string-utils');
 export interface MatchingBlockType {
   name:string;
   underlyingType:string;
+  defaultValue:string;
 }
 
 export function nameForInternalPropertyStoringSubtype():string {
@@ -232,7 +233,7 @@ function blockInvocationForSubtype(algebraicType:AlgebraicType.Type, subtype:Alg
 function matcherCodeForAlgebraicType(algebraicType:AlgebraicType.Type, matchingBlockType:Maybe.Maybe<MatchingBlockType>):string[] {
   return Maybe.match(function Just(matchingBlockType:MatchingBlockType) {
                        const switchStatement:string[] = codeForSwitchingOnSubtypeWithSubtypeMapper(algebraicType, valueAccessorForInternalPropertyStoringSubtype(), resultReturningBlockInvocationWithNilCheckForSubtype);
-                       return ['__block ' + matchingBlockType.underlyingType + ' result;']
+                       return ['__block ' + matchingBlockType.underlyingType + ' result = ' + matchingBlockType.defaultValue + ';']
                                 .concat(switchStatement)
                                 .concat('return result;');
                      },

@@ -20,7 +20,8 @@ import StringUtils = require('../string-utils');
 function matchingBlockTypeForPlugin():Maybe.Maybe<AlgebraicTypeUtils.MatchingBlockType> {
   return Maybe.Just<AlgebraicTypeUtils.MatchingBlockType>({
     name: 'boolean',
-    underlyingType: 'BOOL'
+    underlyingType: 'BOOL',
+    defaultValue: 'NO'
   });
 }
 

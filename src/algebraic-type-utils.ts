@@ -13,6 +13,12 @@ import Maybe = require('./maybe');
 import ObjC = require('./objc');
 import StringUtils = require('./string-utils');
 
+export interface MatchingBlockType {
+  name:string;
+  underlyingType:string;
+  defaultValue:string;
+}
+
 export function nameForInternalPropertyStoringSubtype():string {
   return 'subtype';
 }
@@ -104,8 +110,14 @@ export function codeForSwitchingOnSubtypeWithSubtypeMapper(algebraicType:Algebra
   return ['switch (' + subtypeValueAccessor + ') {'].concat(caseStatements.map(StringUtils.indent(2))).concat('}');
 }
 
-function blockTypeNameForSubtype(algebraicType:AlgebraicType.Type, subtype:AlgebraicType.Subtype):string {
-  return algebraicType.name + StringUtils.capitalize(subtypeNameFromSubtype(subtype)) + 'MatchHandler';
+function blockTypeNameForSubtype(algebraicType:AlgebraicType.Type, subtype:AlgebraicType.Subtype, matchingBlockType:Maybe.Maybe<MatchingBlockType>):string {
+  return Maybe.match(function Just(matchingBlockType:MatchingBlockType) {
+                       return algebraicType.name + StringUtils.capitalize(matchingBlockType.name) + StringUtils.capitalize(subtypeNameFromSubtype(subtype)) + 'MatchHandler';
+                     },
+                     function Nothing() {
+                       return algebraicType.name + StringUtils.capitalize(subtypeNameFromSubtype(subtype)) + 'MatchHandler';
+                     },
+                     matchingBlockType);
 }
 
 function blockTypeParameterForSubtypeAttribute(attribute:AlgebraicType.SubtypeAttribute):ObjC.BlockTypeParameter {
@@ -136,15 +148,28 @@ function blockParametersForSubtype(subtype:AlgebraicType.Subtype):ObjC.BlockType
   }
 }
 
-export function blockTypeForSubtype(algebraicType:AlgebraicType.Type, subtype:AlgebraicType.Subtype):ObjC.BlockType {
+function returnTypeForMatchingBlockType(matchingBlockType:Maybe.Maybe<MatchingBlockType>):ObjC.ReturnType {
+  return Maybe.match(function Just(matchingBlockType:MatchingBlockType) {
+                       return {
+                         type: Maybe.Just<ObjC.Type>(typeForUnderlyingType(matchingBlockType.underlyingType)),
+                         modifiers: []
+                       }
+                     },
+                     function Nothing() {
+                       return {
+                         type: Maybe.Nothing<ObjC.Type>(),
+                         modifiers: []
+                       }
+                     },
+                     matchingBlockType);
+}
+
+export function blockTypeForSubtype(algebraicType:AlgebraicType.Type, matchingBlockType:Maybe.Maybe<MatchingBlockType>, subtype:AlgebraicType.Subtype):ObjC.BlockType {
   return {
     comments: [],
-    name: blockTypeNameForSubtype(algebraicType, subtype),
+    name: blockTypeNameForSubtype(algebraicType, subtype, matchingBlockType),
     parameters: blockParametersForSubtype(subtype),
-    returnType: {
-      type: Maybe.Nothing<ObjC.Type>(),
-      modifiers: []
-    },
+    returnType: returnTypeForMatchingBlockType(matchingBlockType),
     isPublic: true,
     nullability: algebraicType.includes.indexOf('RMAssumeNonnull') >= 0 ? ObjC.ClassNullability.assumeNonnull : ObjC.ClassNullability.default 
   };
@@ -154,8 +179,8 @@ export function blockParameterNameForMatchMethodFromSubtype(subtype:AlgebraicTyp
   return StringUtils.lowercased(subtypeNameFromSubtype(subtype) + 'MatchHandler');
 }
 
-export function keywordForMatchMethodFromSubtype(algebraicType:AlgebraicType.Type, subtype:AlgebraicType.Subtype):ObjC.Keyword {
-  const blockType:ObjC.BlockType = blockTypeForSubtype(algebraicType, subtype);
+export function keywordForMatchMethodFromSubtype(algebraicType:AlgebraicType.Type, matchingBlockType:Maybe.Maybe<MatchingBlockType>, subtype:AlgebraicType.Subtype):ObjC.Keyword {
+  const blockType:ObjC.BlockType = blockTypeForSubtype(algebraicType, matchingBlockType, subtype);
   return {
     name: StringUtils.lowercased(subtypeNameFromSubtype(subtype)),
     argument: Maybe.Just({
@@ -169,10 +194,63 @@ export function keywordForMatchMethodFromSubtype(algebraicType:AlgebraicType.Typ
   };
 }
 
-export function firstKeywordForMatchMethodFromSubtype(algebraicType:AlgebraicType.Type, subtype:AlgebraicType.Subtype):ObjC.Keyword {
-  const normalKeyword:ObjC.Keyword = keywordForMatchMethodFromSubtype(algebraicType, subtype);
+export function firstKeywordForMatchMethodFromSubtype(algebraicType:AlgebraicType.Type, matchingBlockType:Maybe.Maybe<MatchingBlockType>, subtype:AlgebraicType.Subtype):ObjC.Keyword {
+  const normalKeyword:ObjC.Keyword = keywordForMatchMethodFromSubtype(algebraicType, matchingBlockType, subtype);
   return {
     argument: normalKeyword.argument,
-    name: 'match' + StringUtils.capitalize(normalKeyword.name)
+    name: Maybe.match(function Just(matchingBlockType:MatchingBlockType) {
+                       return 'match' + StringUtils.capitalize(matchingBlockType.name) + StringUtils.capitalize(normalKeyword.name)
+                     },
+                     function Nothing() {
+                       return 'match' + StringUtils.capitalize(normalKeyword.name)
+                     },
+                     matchingBlockType)
   };
 }
+
+function instanceMethodKeywordsForMatchingSubtypesOfAlgebraicType(algebraicType:AlgebraicType.Type, matchingBlockType:Maybe.Maybe<MatchingBlockType>):ObjC.Keyword[] {
+  const firstKeyword:ObjC.Keyword = firstKeywordForMatchMethodFromSubtype(algebraicType, matchingBlockType, algebraicType.subtypes[0]);
+  const additionalKeywords:ObjC.Keyword[] = algebraicType.subtypes.slice(1).map(FunctionUtils.pApply2f3(algebraicType, matchingBlockType, keywordForMatchMethodFromSubtype));
+  return [firstKeyword].concat(additionalKeywords);
+}
+
+function blockInvocationWithNilCheckForSubtype(algebraicType:AlgebraicType.Type, subtype:AlgebraicType.Subtype):string[] {
+  return ['if (' + blockParameterNameForMatchMethodFromSubtype(subtype) + ') {',
+          StringUtils.indent(2)(blockInvocationForSubtype(algebraicType, subtype)),
+          '}'];
+}
+
+function resultReturningBlockInvocationWithNilCheckForSubtype(algebraicType:AlgebraicType.Type, subtype:AlgebraicType.Subtype):string[] {
+  return ['if (' + blockParameterNameForMatchMethodFromSubtype(subtype) + ') {',
+          StringUtils.indent(2)('result = ' + blockInvocationForSubtype(algebraicType, subtype)),
+          '}'];
+}
+
+function blockInvocationForSubtype(algebraicType:AlgebraicType.Type, subtype:AlgebraicType.Subtype):string {
+  return blockParameterNameForMatchMethodFromSubtype(subtype) + '(' + attributesFromSubtype(subtype).map(FunctionUtils.pApplyf2(subtype, valueAccessorForInternalPropertyForAttribute)).join(', ') + ');';
+}
+
+function matcherCodeForAlgebraicType(algebraicType:AlgebraicType.Type, matchingBlockType:Maybe.Maybe<MatchingBlockType>):string[] {
+  return Maybe.match(function Just(matchingBlockType:MatchingBlockType) {
+                       const switchStatement:string[] = codeForSwitchingOnSubtypeWithSubtypeMapper(algebraicType, valueAccessorForInternalPropertyStoringSubtype(), resultReturningBlockInvocationWithNilCheckForSubtype);
+                       return ['__block ' + matchingBlockType.underlyingType + ' result = ' + matchingBlockType.defaultValue + ';']
+                                .concat(switchStatement)
+                                .concat('return result;');
+                     },
+                     function Nothing() {
+                       return codeForSwitchingOnSubtypeWithSubtypeMapper(algebraicType, valueAccessorForInternalPropertyStoringSubtype(), blockInvocationWithNilCheckForSubtype);
+                     },
+                     matchingBlockType);
+}
+
+export function instanceMethodForMatchingSubtypesOfAlgebraicType(algebraicType:AlgebraicType.Type, matchingBlockType:Maybe.Maybe<MatchingBlockType>):ObjC.Method {
+  return {
+    belongsToProtocol:Maybe.Nothing<string>(),
+    code: matcherCodeForAlgebraicType(algebraicType, matchingBlockType),
+    comments: [],
+    compilerAttributes:[],
+    keywords: instanceMethodKeywordsForMatchingSubtypesOfAlgebraicType(algebraicType, matchingBlockType),
+    returnType: returnTypeForMatchingBlockType(matchingBlockType)
+  };
+}
+

@@ -17,40 +17,12 @@ import Maybe = require('../maybe');
 import ObjC = require('../objc');
 import StringUtils = require('../string-utils');
 
-function matchingFileNameForAlgebraicType(algebraicType:AlgebraicType.Type):string {
-  return algebraicType.name + 'FunctionMatchingUtils';
-}
-
-function instanceMethodKeywordsForMatchingSubtypesOfAlgebraicType(algebraicType:AlgebraicType.Type):ObjC.Keyword[] {
-  const firstKeyword:ObjC.Keyword = AlgebraicTypeUtils.firstKeywordForMatchMethodFromSubtype(algebraicType, algebraicType.subtypes[0]);
-  const additionalKeywords:ObjC.Keyword[] = algebraicType.subtypes.slice(1).map(FunctionUtils.pApplyf2(algebraicType, AlgebraicTypeUtils.keywordForMatchMethodFromSubtype));
-  return [firstKeyword].concat(additionalKeywords);
-}
-
-function blockInvocationWithNilCheckForSubtype(algebraicType:AlgebraicType.Type, subtype:AlgebraicType.Subtype):string[] {
-  return ['if (' + AlgebraicTypeUtils.blockParameterNameForMatchMethodFromSubtype(subtype) + ') {', StringUtils.indent(2)(blockInvocationForSubtype(algebraicType, subtype)), '}'];
-}
-
-function blockInvocationForSubtype(algebraicType:AlgebraicType.Type, subtype:AlgebraicType.Subtype):string {
-  return AlgebraicTypeUtils.blockParameterNameForMatchMethodFromSubtype(subtype) + '(' + AlgebraicTypeUtils.attributesFromSubtype(subtype).map(FunctionUtils.pApplyf2(subtype, AlgebraicTypeUtils.valueAccessorForInternalPropertyForAttribute)).join(', ') + ');';
-}
-
-function matcherCodeForAlgebraicType(algebraicType:AlgebraicType.Type):string[] {
-  return AlgebraicTypeUtils.codeForSwitchingOnSubtypeWithSubtypeMapper(algebraicType, AlgebraicTypeUtils.valueAccessorForInternalPropertyStoringSubtype(), blockInvocationWithNilCheckForSubtype);
-}
-
-function instanceMethodForMatchingSubtypesOfAlgebraicType(algebraicType:AlgebraicType.Type):ObjC.Method {
-  return {
-    belongsToProtocol:Maybe.Nothing<string>(),
-    code: matcherCodeForAlgebraicType(algebraicType),
-    comments: [],
-    compilerAttributes:[],
-    keywords: instanceMethodKeywordsForMatchingSubtypesOfAlgebraicType(algebraicType),
-    returnType: {
-      type: Maybe.Nothing<ObjC.Type>(),
-      modifiers: []
-    }
-  };
+function matchingBlockTypeForPlugin():Maybe.Maybe<AlgebraicTypeUtils.MatchingBlockType> {
+  return Maybe.Just<AlgebraicTypeUtils.MatchingBlockType>({
+    name: 'integer',
+    underlyingType: 'NSInteger',
+    defaultValue: '0'
+  });
 }
 
 export function createAlgebraicTypePlugin():AlgebraicType.Plugin {
@@ -59,7 +31,7 @@ export function createAlgebraicTypePlugin():AlgebraicType.Plugin {
       return [];
     },
     blockTypes: function(algebraicType:AlgebraicType.Type):ObjC.BlockType[] {
-      return algebraicType.subtypes.map(FunctionUtils.pApplyf2(algebraicType, AlgebraicTypeUtils.blockTypeForSubtype));
+      return algebraicType.subtypes.map(FunctionUtils.pApply2f3(algebraicType, matchingBlockTypeForPlugin(), AlgebraicTypeUtils.blockTypeForSubtype));
     },
     classMethods: function(algebraicType:AlgebraicType.Type):ObjC.Method[] {
       return [];
@@ -89,12 +61,12 @@ export function createAlgebraicTypePlugin():AlgebraicType.Plugin {
       return [];
     },
     instanceMethods: function(algebraicType:AlgebraicType.Type):ObjC.Method[] {
-      return [instanceMethodForMatchingSubtypesOfAlgebraicType(algebraicType)];
+      return [AlgebraicTypeUtils.instanceMethodForMatchingSubtypesOfAlgebraicType(algebraicType, matchingBlockTypeForPlugin())];
     },
     internalProperties: function(algebraicType:AlgebraicType.Type):ObjC.Property[] {
       return [];
     },
-    requiredIncludesToRun: ['FunctionMatching'],
+    requiredIncludesToRun: ['IntegerMatching'],
     staticConstants: function(algebraicType:AlgebraicType.Type):ObjC.Constant[] {
       return [];
     },

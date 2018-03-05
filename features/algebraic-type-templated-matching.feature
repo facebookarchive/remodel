@@ -21,7 +21,7 @@ Feature: Outputting Algebraic Types With Templated Matching
       """
       {
         "defaultIncludes": ["TemplatedMatching"],
-        "defaultExcludes": ["FunctionMatching"]
+        "defaultExcludes": ["VoidMatching"]
       }
       """
     When I run `../../bin/generate project`

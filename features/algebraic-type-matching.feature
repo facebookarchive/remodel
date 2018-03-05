@@ -4,7 +4,7 @@ Feature: Outputting expected Algebraic Type matching methods
   Scenario: Generating an algebraic type with a bool matcher
     Given a file named "project/values/SimpleADT.adtValue" with:
       """
-      SimpleADT includes(BoolMatching) excludes(FunctionMatching) {
+      SimpleADT includes(BoolMatching) excludes(VoidMatching) {
         subtypeA
         subtypeB
       }
@@ -68,7 +68,7 @@ Feature: Outputting expected Algebraic Type matching methods
   Scenario: Generating an algebraic type with a integer matcher
     Given a file named "project/values/SimpleADT.adtValue" with:
       """
-      SimpleADT includes(IntegerMatching) excludes(FunctionMatching) {
+      SimpleADT includes(IntegerMatching) excludes(VoidMatching) {
         subtypeA
         subtypeB
       }
@@ -132,7 +132,7 @@ Feature: Outputting expected Algebraic Type matching methods
   Scenario: Generating an algebraic type with a double matcher
     Given a file named "project/values/SimpleADT.adtValue" with:
       """
-      SimpleADT includes(DoubleMatching) excludes(FunctionMatching) {
+      SimpleADT includes(DoubleMatching) excludes(VoidMatching) {
         subtypeA
         subtypeB
       }

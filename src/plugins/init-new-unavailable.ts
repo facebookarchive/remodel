@@ -21,6 +21,7 @@ import ObjectSpecCodeUtils = require('../object-spec-code-utils');
 
 function initUnavailableInstanceMethod():ObjC.Method {
   return {
+    preprocessors:[],
     belongsToProtocol:Maybe.Just<string>("NSObject"),
     code:[],
     comments:[],
@@ -43,6 +44,7 @@ function initUnavailableInstanceMethod():ObjC.Method {
 
 function newUnavailableClassMethod():ObjC.Method {
   return {
+    preprocessors:[],
     belongsToProtocol:Maybe.Just<string>("NSObject"),
     code:[],
     comments:[],

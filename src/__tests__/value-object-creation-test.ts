@@ -45,6 +45,7 @@ describe('ObjectSpecCreation', function() {
         instanceMethods:function(objectType:ObjectSpec.Type):ObjC.Method[] {
           const instanceMethods:ObjC.Method[] = [
             {
+              preprocessors:[],
               belongsToProtocol:Maybe.Just('NSObject'),
               comments: [],
               code: [
@@ -434,6 +435,7 @@ describe('ObjectSpecCreation', function() {
         instanceMethods:function(objectType:ObjectSpec.Type):ObjC.Method[] {
           const instanceMethods:ObjC.Method[] = [
           {
+            preprocessors:[],
             belongsToProtocol:Maybe.Nothing<string>(),
             comments: [],
             code: [
@@ -548,6 +550,7 @@ describe('ObjectSpecCreation', function() {
         instanceMethods:function(objectType:ObjectSpec.Type):ObjC.Method[] {
           const instanceMethods:ObjC.Method[] = [
             {
+              preprocessors:[],
               belongsToProtocol:Maybe.Nothing<string>(),
               comments: [],
               code: [
@@ -566,6 +569,7 @@ describe('ObjectSpecCreation', function() {
               }), modifiers:[] }
             },
             {
+              preprocessors:[],
               belongsToProtocol:Maybe.Nothing<string>(),
               comments: [],
               code: [
@@ -584,6 +588,7 @@ describe('ObjectSpecCreation', function() {
               }), modifiers:[] }
             },
             {
+              preprocessors:[],
               belongsToProtocol:Maybe.Nothing<string>(),
               comments: [],
               code: [
@@ -952,6 +957,7 @@ describe('ObjectSpecCreation', function() {
         instanceMethods:function(objectType:ObjectSpec.Type):ObjC.Method[] {
           const instanceMethods:ObjC.Method[] = [
             {
+              preprocessors:[],
               belongsToProtocol:Maybe.Nothing<string>(),
               comments: [],
               code: [
@@ -970,6 +976,7 @@ describe('ObjectSpecCreation', function() {
               }), modifiers:[] }
             },
             {
+              preprocessors:[],
               belongsToProtocol:Maybe.Nothing<string>(),
               comments: [],
               code: [
@@ -1044,6 +1051,7 @@ describe('ObjectSpecCreation', function() {
         instanceMethods:function(objectType:ObjectSpec.Type):ObjC.Method[] {
           const instanceMethods:ObjC.Method[] = [
             {
+              preprocessors:[],
               belongsToProtocol:Maybe.Nothing<string>(),
               comments: [],
               code: [
@@ -1194,6 +1202,7 @@ describe('ObjectSpecCreation', function() {
         instanceMethods:function(objectType:ObjectSpec.Type):ObjC.Method[] {
           const instanceMethods:ObjC.Method[] = [
             {
+              preprocessors:[],
               belongsToProtocol:Maybe.Nothing<string>(),
               comments: [],
               code: [
@@ -1212,6 +1221,7 @@ describe('ObjectSpecCreation', function() {
               }), modifiers:[] }
             },
             {
+              preprocessors:[],
               belongsToProtocol:Maybe.Nothing<string>(),
               comments: [],
               code: [
@@ -1290,6 +1300,7 @@ describe('ObjectSpecCreation', function() {
         instanceMethods:function(objectType:ObjectSpec.Type):ObjC.Method[] {
           const instanceMethods:ObjC.Method[] = [
             {
+              preprocessors:[],
               belongsToProtocol:Maybe.Nothing<string>(),
               comments: [],
               code: [
@@ -1439,6 +1450,7 @@ describe('ObjectSpecCreation', function() {
         instanceMethods:function(objectType:ObjectSpec.Type):ObjC.Method[] {
           const instanceMethods:ObjC.Method[] = [
             {
+              preprocessors:[],
               belongsToProtocol:Maybe.Just('NSObject'),
               comments: [],
               code: [

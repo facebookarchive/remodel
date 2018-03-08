@@ -97,7 +97,13 @@ export interface ReturnType {
   modifiers:KeywordArgumentModifier[];
 }
 
+export interface Preprocessor {
+  openingCode: string;
+  closingCode: string;
+}
+
 export interface Method {
+  preprocessors:Preprocessor[];
   belongsToProtocol:Maybe.Maybe<string>;
   code:string[];
   comments:Comment[];

@@ -70,6 +70,7 @@ describe('Plugins.ImmutableProperties', function() {
 
       const expectedMethods:ObjC.Method[] = [
         {
+          preprocessors:[],
           belongsToProtocol:Maybe.Nothing<string>(),
           code:[
             'if ((self = [super init])) {',
@@ -135,6 +136,7 @@ describe('Plugins.ImmutableProperties', function() {
 
       const expectedMethods:ObjC.Method[] = [
         {
+          preprocessors:[],
           belongsToProtocol:Maybe.Nothing<string>(),
           code:[
             'if ((self = [super init])) {',
@@ -242,6 +244,7 @@ describe('Plugins.ImmutableProperties', function() {
 
       const expectedMethods:ObjC.Method[] = [
         {
+          preprocessors:[],
           belongsToProtocol:Maybe.Nothing<string>(),
           code:[
             'if ((self = [super init])) {',
@@ -385,6 +388,7 @@ describe('Plugins.ImmutableProperties', function() {
 
       const expectedMethods:ObjC.Method[] = [
         {
+          preprocessors:[],
           belongsToProtocol:Maybe.Nothing<string>(),
           code:[
             'if ((self = [super init])) {',

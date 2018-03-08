@@ -32,6 +32,7 @@ function shortNameOfObjectToBuildForValueTypeWithName(valueTypeName: string):str
 
 function builderClassMethodForValueType(objectType:ObjectSpec.Type):ObjC.Method {
   return {
+    preprocessors:[],
     belongsToProtocol:Maybe.Nothing<string>(),
     code:[
       'return [' + nameOfBuilderForValueTypeWithName(objectType.typeName) + ' new];'
@@ -95,6 +96,7 @@ function codeForBuilderFromExistingObjectClassMethodForValueType(objectType:Obje
 
 function builderFromExistingObjectClassMethodForValueType(objectType:ObjectSpec.Type):ObjC.Method {
   return {
+    preprocessors:[],
     belongsToProtocol:Maybe.Nothing<string>(),
     code: codeForBuilderFromExistingObjectClassMethodForValueType(objectType),
     comments:[],
@@ -128,6 +130,7 @@ function valueGeneratorForInvokingInitializerWithAttribute(attribute:ObjectSpec.
 
 function buildObjectInstanceMethodForValueType(objectType:ObjectSpec.Type):ObjC.Method {
   return {
+    preprocessors:[],
     belongsToProtocol:Maybe.Nothing<string>(),
     code:[
       'return ' + ObjectSpecCodeUtils.methodInvocationForConstructor(objectType, valueGeneratorForInvokingInitializerWithAttribute) + ';'
@@ -169,6 +172,7 @@ function valueToAssignIntoInternalStateForAttribute(supportsValueSemantics:boole
 
 function withInstanceMethodForAttribute(supportsValueSemantics:boolean, attribute:ObjectSpec.Attribute):ObjC.Method {
   return {
+    preprocessors:[],
     belongsToProtocol:Maybe.Nothing<string>(),
     code:[
       ObjectSpecCodeUtils.ivarForAttribute(attribute) + ' = ' + valueToAssignIntoInternalStateForAttribute(supportsValueSemantics, attribute) + ';',

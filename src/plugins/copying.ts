@@ -17,6 +17,7 @@ import ObjectSpec = require('../object-spec');
 
 function copyInstanceMethod():ObjC.Method {
   return {
+    preprocessors:[],
     belongsToProtocol:Maybe.Just<string>('NSCopying'),
     code: ['return self;'],
     comments:[],

@@ -125,6 +125,7 @@ function initializationClassMethodForSubtype(algebraicType:AlgebraicType.Type, s
   const setterStatements:string[] = attributes.map(FunctionUtils.pApplyf2(subtype, internalValueSettingCodeForAttribute));
 
   return {
+    preprocessors:[],
     belongsToProtocol:Maybe.Nothing<string>(),
     code: requiredParameterAssertions.concat(openingCode).concat(setterStatements).concat('return object;'),
     comments: ObjCCommentUtils.commentsAsBlockFromStringArray(commentsForSubtype(subtype)),

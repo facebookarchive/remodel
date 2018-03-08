@@ -45,6 +45,7 @@ describe('ObjCRenderer', function() {
             baseClassName:'NSObject',
             classMethods: [
               {
+                preprocessors:[],
                 belongsToProtocol:Maybe.Nothing<string>(),
                 code:[
                   'return [(id)self new];'
@@ -86,6 +87,7 @@ describe('ObjCRenderer', function() {
             ],
             instanceMethods: [
               {
+                preprocessors:[],
                 belongsToProtocol:Maybe.Nothing<string>(),
                 code:[
                   'if (self = [super init]) {',
@@ -127,6 +129,7 @@ describe('ObjCRenderer', function() {
                 }), modifiers:[] }
               },
               {
+                preprocessors:[],
                 belongsToProtocol:Maybe.Just('NSObject'),
                 code:[
                   'return 0;'
@@ -279,6 +282,7 @@ describe('ObjCRenderer', function() {
             baseClassName:'NSObject',
             classMethods: [
               {
+                preprocessors:[],
                 belongsToProtocol:Maybe.Nothing<string>(),
                 code:[
                   'return [(id)self new];'
@@ -318,6 +322,7 @@ describe('ObjCRenderer', function() {
             comments:[],
             instanceMethods: [
               {
+                preprocessors:[],
                 belongsToProtocol:Maybe.Nothing<string>(),
                 code:[
                   'if (self = [super init]) {',
@@ -359,6 +364,7 @@ describe('ObjCRenderer', function() {
                 }), modifiers:[] }
               },
               {
+                preprocessors:[],
                 belongsToProtocol:Maybe.Just('NSObject'),
                 code:[
                   'return 0;'
@@ -486,6 +492,7 @@ describe('ObjCRenderer', function() {
             baseClassName:'RMObjectSpecBase',
             classMethods: [
               {
+                preprocessors:[],
                 belongsToProtocol:Maybe.Nothing<string>(),
                 code:[
                   'return [(id)self new];'
@@ -525,6 +532,7 @@ describe('ObjCRenderer', function() {
             comments:[],
             instanceMethods: [
               {
+                preprocessors:[],
                 belongsToProtocol:Maybe.Nothing<string>(),
                 code:[
                   'if (self = [super init]) {',
@@ -566,6 +574,7 @@ describe('ObjCRenderer', function() {
                 }), modifiers:[] }
               },
               {
+                preprocessors:[],
                 belongsToProtocol:Maybe.Just('NSObject'),
                 code:[
                   'return 0;'
@@ -691,6 +700,7 @@ describe('ObjCRenderer', function() {
             comments:[],
             instanceMethods: [
               {
+                preprocessors:[],
                 belongsToProtocol: Maybe.Nothing<string>(),
                 code:[
                   'if (self = [super init]) {',
@@ -743,6 +753,7 @@ describe('ObjCRenderer', function() {
                 }), modifiers:[] }
               },
               {
+                preprocessors:[],
                 belongsToProtocol:Maybe.Just('NSObject'),
                 code:[
                   'return 0;'
@@ -850,6 +861,7 @@ describe('ObjCRenderer', function() {
             comments:[],
             instanceMethods: [
               {
+                preprocessors:[],
                 belongsToProtocol:Maybe.Nothing<string>(),
                 code:[
                   'if (self = [super init]) {',
@@ -891,6 +903,7 @@ describe('ObjCRenderer', function() {
                 }), modifiers:[] }
               },
               {
+                preprocessors:[],
                 belongsToProtocol:Maybe.Just('NSObject'),
                 code:['return 0;'],
                 comments: [],
@@ -927,6 +940,128 @@ describe('ObjCRenderer', function() {
         '@interface RMSomeValue : NSObject\n' +
         '\n' +
         '- (instancetype)initWithValue1:(RMSomething *)value1 value2:(RMSomething *)value2;\n' +
+        '\n' +
+        '@end\n' +
+        '\n'
+      );
+
+      expect(renderedOutput).toEqualJSON(expectedOutput);
+    });
+
+    it('renders a class with a preprocessor wrapped method', function() {
+      const fileToRender:Code.File = {
+        name: 'RMSomeValue',
+        type: Code.FileType.ObjectiveC(),
+        imports:[
+          {file:'RMSomething.h', isPublic:true, library:Maybe.Just('RMLibrary')},
+          {file:'RMSomethingElse.h', isPublic:false, library:Maybe.Just('RMLibrary')}
+        ],
+        comments:[
+        ],
+        enumerations: [
+        ],
+        blockTypes:[
+        ],
+        staticConstants: [
+        ],
+        functions: [
+        ],
+        forwardDeclarations: [
+        ],
+        diagnosticIgnores:[],
+        classes: [
+          {
+            baseClassName:'NSObject',
+            classMethods: [],
+            comments:[],
+            instanceMethods: [
+              {
+                preprocessors: [
+                  {
+                    openingCode: '#if DEBUG',
+                    closingCode: '#endif'
+                  }
+                ],
+                belongsToProtocol:Maybe.Nothing<string>(),
+                code:[
+                  'if (self = [super init]) {',
+                  '  _value1 = value1;',
+                  '  _value2 = value2;',
+                  '}',
+                  '',
+                  'return self;'
+                ],
+                comments: [],
+                compilerAttributes:[],
+                keywords: [
+                  {
+                    name:'initWithValue1',
+                    argument:Maybe.Just({
+                      name:'value1',
+                      modifiers: [],
+                      type: {
+                        name:'RMSomething',
+                        reference:'RMSomething *'
+                      }
+                    })
+                  },
+                  {
+                    name:'value2',
+                    argument:Maybe.Just({
+                      name:'value2',
+                      modifiers: [],
+                      type: {
+                        name:'RMSomething',
+                        reference:'RMSomething *'
+                      }
+                    })
+                  }
+                ],
+                returnType:{ type:Maybe.Just({
+                  name:'instancetype',
+                  reference:'instancetype'
+                }), modifiers:[] }
+              },
+              {
+                preprocessors: [],
+                belongsToProtocol:Maybe.Just('NSObject'),
+                code:['return 0;'],
+                comments: [],
+                compilerAttributes:[],
+                keywords: [
+                  {
+                    name:'hash',
+                    argument:Maybe.Nothing<ObjC.KeywordArgument>()
+                  }
+                ],
+                returnType:{ type:Maybe.Just({
+                  name:'NSUInteger',
+                  reference:'NSUInteger'
+                }), modifiers:[] }
+              }
+            ],
+            name:'RMSomeValue',
+            properties: [],
+            internalProperties:[],
+            implementedProtocols: [],
+            nullability: ObjC.ClassNullability.default,
+            subclassingRestricted: false,
+          }
+        ],
+        structs: [],
+        namespaces: []
+      };
+
+      const renderedOutput:Maybe.Maybe<string> = ObjCRenderer.renderHeader(fileToRender);
+        
+      const expectedOutput:Maybe.Maybe<string> = Maybe.Just<string>(
+        '#import <RMLibrary/RMSomething.h>\n' +
+        '\n' +
+        '@interface RMSomeValue : NSObject\n' +
+        '\n' +
+        '#if DEBUG\n' +        
+        '- (instancetype)initWithValue1:(RMSomething *)value1 value2:(RMSomething *)value2;\n' +
+        '#endif\n' +
         '\n' +
         '@end\n' +
         '\n'
@@ -1562,6 +1697,7 @@ describe('ObjCRenderer', function() {
             comments:[],
             instanceMethods: [
               {
+                preprocessors:[],
                 belongsToProtocol:Maybe.Nothing<string>(),
                 code:[],
                 comments: [ { content: '// Check this method out!!!!' }],
@@ -1705,6 +1841,7 @@ describe('ObjCRenderer', function() {
             comments:[],
             instanceMethods: [
               {
+                preprocessors:[],
                 belongsToProtocol:Maybe.Nothing<string>(),
                 code:[
                   'if (self = [super init]) {',
@@ -1817,6 +1954,7 @@ describe('ObjCRenderer', function() {
             comments:[],
             instanceMethods: [
               {
+                preprocessors:[],
                 belongsToProtocol:Maybe.Nothing<string>(),
                 code:[
                   'if (self = [super init]) {',
@@ -1941,6 +2079,7 @@ describe('ObjCRenderer', function() {
             baseClassName:'NSObject',
             classMethods: [
               {
+                preprocessors:[],
                 belongsToProtocol:Maybe.Nothing<string>(),
                 code:[
                   'return [(id)self new];'
@@ -1980,6 +2119,7 @@ describe('ObjCRenderer', function() {
             comments:[],
             instanceMethods: [
               {
+                preprocessors:[],
                 belongsToProtocol:Maybe.Nothing<string>(),
                 code:[
                   'if ((self = [super init])) {',
@@ -2196,6 +2336,7 @@ describe('ObjCRenderer', function() {
           comments:[],
           instanceMethods: [
           {
+            preprocessors:[],
             belongsToProtocol:Maybe.Nothing<string>(),
             code:[
               'if ((self = [super init])) {',
@@ -2295,6 +2436,256 @@ describe('ObjCRenderer', function() {
         '}\n' +
         '\n' +
         '@end\n' +
+        '\n'
+      );
+
+      expect(renderedOutput).toEqualJSON(expectedOutput);
+    });
+
+    it('renders the base case of a class header where methods are wrapped by preprocessor macros', function() {
+      const fileToRender:Code.File = {
+        name: 'RMSomeValue',
+        type: Code.FileType.ObjectiveC(),
+        imports:[
+          {file:'RMSomething.h', isPublic:true, library:Maybe.Just('RMLibrary')},
+          {file:'RMSomeValue.h', isPublic:false, library:Maybe.Nothing<string>()}
+        ],
+        comments:[
+          {content:'// Copyright something something. All Rights Reserved.'}
+        ],
+        enumerations: [
+        ],
+        blockTypes:[
+        ],
+        staticConstants: [
+        ],
+        forwardDeclarations: [
+        ],
+        functions: [
+        ],
+        diagnosticIgnores:['-Wprotocol', '-Wincomplete-implementation'],
+        classes: [
+          {
+            baseClassName:'NSObject',
+            classMethods: [
+              {
+                preprocessors:[
+                  {
+                    openingCode: '#if DEBUG',
+                    closingCode: '#endif'
+                  }
+                ],
+                belongsToProtocol:Maybe.Nothing<string>(),
+                code:[
+                  'return [(id)self new];'
+                ],
+                comments: [],
+                compilerAttributes:[],
+                keywords: [
+                  {
+                    name:'someClassMethodWithValue1',
+                    argument:Maybe.Just({
+                      name:'value1',
+                      modifiers: [],
+                      type: {
+                        name:'RMSomething',
+                        reference:'RMSomething *'
+                      }
+                    })
+                  },
+                  {
+                    name:'value2',
+                    argument:Maybe.Just({
+                      name:'value2',
+                      modifiers: [],
+                      type: {
+                        name:'RMSomething',
+                        reference:'RMSomething *'
+                      }
+                    })
+                  }
+                ],
+                returnType:{ type:Maybe.Just({
+                  name:'instancetype',
+                  reference:'instancetype'
+                }), modifiers:[] }
+              }
+            ],
+            comments:[],
+            instanceMethods: [
+              {
+                preprocessors:[
+                  {
+                    openingCode: '#pragma push test',
+                    closingCode: '#pragma pop'
+                  }
+                ],
+                belongsToProtocol:Maybe.Nothing<string>(),
+                code:[
+                  'if ((self = [super init])) {',
+                  '  _value1 = [value1 copy];',
+                  '  _value2 = [value2 copy];',
+                  '}',
+                  '',
+                  'return self;'
+                ],
+                comments: [],
+                compilerAttributes:[],
+                keywords: [
+                  {
+                    name:'initWithValue1',
+                    argument:Maybe.Just({
+                      name:'value1',
+                      modifiers: [],
+                      type: {
+                        name:'RMSomething',
+                        reference:'RMSomething *'
+                      }
+                    })
+                  },
+                  {
+                    name:'value2',
+                    argument:Maybe.Just({
+                      name:'value2',
+                      modifiers: [],
+                      type: {
+                        name:'RMSomething',
+                        reference:'RMSomething *'
+                      }
+                    })
+                  }
+                ],
+                returnType:{ type:Maybe.Just({
+                  name:'instancetype',
+                  reference:'instancetype'
+                }), modifiers:[] }
+              }
+            ],
+            name:'RMSomeValue',
+            properties: [
+              {
+                comments:[],
+                modifiers:[ObjC.PropertyModifier.Nonatomic(), ObjC.PropertyModifier.Readonly()],
+                access: ObjC.PropertyAccess.Public(),
+                name:'value1',
+                returnType: {
+                  name:'RMSomething',
+                  reference:'RMSomething *'
+                }
+              },
+              {
+                comments:[],
+                modifiers:[ObjC.PropertyModifier.Nonatomic(), ObjC.PropertyModifier.Readonly()],
+                access: ObjC.PropertyAccess.Public(),
+                name:'value2',
+                returnType: {
+                  name:'RMSomething',
+                  reference:'RMSomething *'
+                }
+              }
+            ],
+            internalProperties:[
+              {
+                comments:[],
+                modifiers:[],
+                access: ObjC.PropertyAccess.Private(),
+                name:'value3',
+                returnType: {
+                  name:'RMSomethingElse',
+                  reference:'RMSomethingElse'
+                }
+              },
+              {
+                comments:[],
+                modifiers:[],
+                access: ObjC.PropertyAccess.Private(),
+                name:'value4',
+                returnType: {
+                  name:'RMSomething',
+                  reference:'RMSomething *'
+                }
+              },
+              {
+                comments:[],
+                modifiers:[ObjC.PropertyModifier.Weak()],
+                access: ObjC.PropertyAccess.Private(),
+                name:'value5',
+                returnType: {
+                  name:'RMSomething',
+                  reference:'RMSomething *'
+                }
+              },
+              {
+                comments:[],
+                modifiers:[],
+                access: ObjC.PropertyAccess.Package(),
+                name:'value5',
+                returnType: {
+                  name:'NSString',
+                  reference:'NSString *'
+                }
+              },
+              {
+                comments:[],
+                modifiers:[],
+                access: ObjC.PropertyAccess.Public(),
+                name:'value6',
+                returnType: {
+                  name:'NSNumber',
+                  reference:'NSNumber *'
+                }
+              }
+            ],
+            implementedProtocols: [],
+            nullability: ObjC.ClassNullability.default,
+            subclassingRestricted: false,
+          }
+        ],
+        structs: [],
+        namespaces: []
+      };
+
+      const renderedOutput:Maybe.Maybe<string> = ObjCRenderer.renderImplementation(fileToRender);
+
+      const expectedOutput:Maybe.Maybe<string> = Maybe.Just<string>(
+        '// Copyright something something. All Rights Reserved.\n\n' +
+        '#if  ! __has_feature(objc_arc)\n' +
+        '#error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).\n' +
+        '#endif\n\n' +
+        '#import "RMSomeValue.h"\n' +
+        '\n' +
+        '#pragma clang diagnostic push\n' +
+        '#pragma GCC diagnostic ignored "-Wprotocol"\n' +
+        '#pragma GCC diagnostic ignored "-Wincomplete-implementation"\n' +
+        '\n' +
+        '@implementation RMSomeValue\n' +
+        '{\n' +
+        '  RMSomethingElse _value3;\n' +
+        '  RMSomething *_value4;\n' +
+        '  __weak RMSomething *_value5;\n' +
+        '}\n' +
+        '\n' +
+        '#if DEBUG\n' +
+        '+ (instancetype)someClassMethodWithValue1:(RMSomething *)value1 value2:(RMSomething *)value2\n' +
+        '{\n' +
+        '  return [(id)self new];\n' +
+        '}\n' +
+        '#endif\n' +
+        '\n' +
+        '#pragma push test\n' +
+        '- (instancetype)initWithValue1:(RMSomething *)value1 value2:(RMSomething *)value2\n' +
+        '{\n' +
+        '  if ((self = [super init])) {\n' +
+        '    _value1 = [value1 copy];\n' +
+        '    _value2 = [value2 copy];\n' +
+        '  }\n' +
+        '\n' +
+        '  return self;\n' +
+        '}\n' +
+        '#pragma pop\n' +
+        '\n' +
+        '@end\n' +
+        '#pragma clang diagnostic pop\n' +
         '\n'
       );
 

@@ -72,6 +72,7 @@ describe('ObjectSpecPlugins.InitNewUnavailable', function() {
       const instanceMethods:ObjC.Method[] = ObjectSpecPlugin.instanceMethods(objectType);
       const expectedInstanceMethods:ObjC.Method[] = [
         {
+          preprocessors:[],
           belongsToProtocol:Maybe.Just<string>("NSObject"),
           code:[],
           comments:[],
@@ -96,6 +97,7 @@ describe('ObjectSpecPlugins.InitNewUnavailable', function() {
       const classMethods:ObjC.Method[] = ObjectSpecPlugin.classMethods(objectType);
       const expectedClassMethods:ObjC.Method[] = [
           {
+        preprocessors:[],
         belongsToProtocol:Maybe.Just<string>("NSObject"),
         code:[],
         comments:[],
@@ -143,6 +145,7 @@ describe('AlgebraicTypePlugins.InitNewUnavailable', function() {
       const instanceMethods:ObjC.Method[] = AlgebraicTypePlugin.instanceMethods(algebraicType);
       const expectedInstanceMethods:ObjC.Method[] = [
         {
+          preprocessors:[],
           belongsToProtocol:Maybe.Just<string>("NSObject"),
           code:[],
           comments:[],
@@ -167,6 +170,7 @@ describe('AlgebraicTypePlugins.InitNewUnavailable', function() {
       const classMethods:ObjC.Method[] = AlgebraicTypePlugin.classMethods(algebraicType);
       const expectedClassMethods:ObjC.Method[] = [
           {
+        preprocessors:[],
         belongsToProtocol:Maybe.Just<string>("NSObject"),
         code:[],
         comments:[],

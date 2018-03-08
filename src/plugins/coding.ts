@@ -151,6 +151,7 @@ function initBlockWithInternalCode(internalCode:string[]):string[] {
 
 function decodeMethodWithCode(code:string[]):ObjC.Method {
   return {
+    preprocessors:[],
     belongsToProtocol:Maybe.Just<string>('NSCoding'),
     code: initBlockWithInternalCode(code),
     comments:[],
@@ -180,6 +181,7 @@ function decodeMethodWithCode(code:string[]):ObjC.Method {
 
 function encodeMethodWithCode(code:string[]):ObjC.Method {
   return {
+    preprocessors:[],
     belongsToProtocol:Maybe.Just('NSCoding'),
     code: code,
     comments:[],

@@ -72,6 +72,7 @@ describe('Plugins.Builder', function() {
               baseClassName:'NSObject',
               classMethods: [
                 {
+                  preprocessors:[],
                   belongsToProtocol:Maybe.Nothing<string>(),
                   code:[
                     'return [FooBarBazBuilder new];'
@@ -90,6 +91,7 @@ describe('Plugins.Builder', function() {
                   }), modifiers:[] }
                 },
                 {
+                  preprocessors:[],
                   belongsToProtocol:Maybe.Nothing<string>(),
                   code:[
                     'return [FooBarBazBuilder fooBarBaz];',
@@ -118,6 +120,7 @@ describe('Plugins.Builder', function() {
               comments:[],
               instanceMethods: [
                 {
+                  preprocessors:[],
                   belongsToProtocol:Maybe.Nothing<string>(),
                   code:[
                     'return [FooBarBaz new];'
@@ -203,6 +206,7 @@ describe('Plugins.Builder', function() {
               baseClassName:'NSObject',
               classMethods: [
                 {
+                  preprocessors:[],
                   belongsToProtocol:Maybe.Nothing<string>(),
                   code:[
                     'return [RMFerrBuilder new];'
@@ -221,6 +225,7 @@ describe('Plugins.Builder', function() {
                   }), modifiers:[] }
                 },
                 {
+                  preprocessors:[],
                   belongsToProtocol:Maybe.Nothing<string>(),
                   code:[
                     'return [RMFerrBuilder ferr];'
@@ -249,6 +254,7 @@ describe('Plugins.Builder', function() {
               comments:[],
               instanceMethods: [
                 {
+                  preprocessors:[],
                   belongsToProtocol:Maybe.Nothing<string>(),
                   code:[
                     'return [RMFerr new];'
@@ -383,6 +389,7 @@ describe('Plugins.Builder', function() {
               baseClassName:'NSObject',
               classMethods: [
                 {
+                  preprocessors:[],
                   belongsToProtocol:Maybe.Nothing<string>(),
                   code:[
                     'return [RMFerrBuilder new];'
@@ -401,6 +408,7 @@ describe('Plugins.Builder', function() {
                   }), modifiers:[] }
                 },
                 {
+                  preprocessors:[],
                   belongsToProtocol:Maybe.Nothing<string>(),
                   code:[
                     'return [[[[RMFerrBuilder ferr]',
@@ -432,6 +440,7 @@ describe('Plugins.Builder', function() {
               comments:[],
               instanceMethods: [
                 {
+                  preprocessors:[],
                   belongsToProtocol:Maybe.Nothing<string>(),
                   code:[
                     'return [[RMFerr alloc] initWithSomeUnsignedInteger:_someUnsignedInteger someCustomObject:_someCustomObject someBool:_someBool];'
@@ -450,6 +459,7 @@ describe('Plugins.Builder', function() {
                   }), modifiers:[] }
                 },
                 {
+                  preprocessors:[],
                   belongsToProtocol:Maybe.Nothing<string>(),
                   code:[
                     '_someUnsignedInteger = someUnsignedInteger;',
@@ -476,6 +486,7 @@ describe('Plugins.Builder', function() {
                   }), modifiers:[] }
                 },
                 {
+                  preprocessors:[],
                   belongsToProtocol:Maybe.Nothing<string>(),
                   code:[
                     '_someCustomObject = [someCustomObject copy];',
@@ -502,6 +513,7 @@ describe('Plugins.Builder', function() {
                   }), modifiers:[] }
                 },
                 {
+                  preprocessors:[],
                   belongsToProtocol:Maybe.Nothing<string>(),
                   code:[
                     '_someBool = someBool;',
@@ -675,6 +687,7 @@ describe('Plugins.Builder', function() {
               baseClassName:'NSObject',
               classMethods: [
                 {
+                  preprocessors:[],
                   belongsToProtocol:Maybe.Nothing<string>(),
                   code:[
                     'return [RMFerrBuilder new];'
@@ -693,6 +706,7 @@ describe('Plugins.Builder', function() {
                   }), modifiers:[] }
                 },
                 {
+                  preprocessors:[],
                   belongsToProtocol:Maybe.Nothing<string>(),
                   code:[
                     'return [[[[RMFerrBuilder ferr]',
@@ -724,6 +738,7 @@ describe('Plugins.Builder', function() {
               comments:[],
               instanceMethods: [
                 {
+                  preprocessors:[],
                   belongsToProtocol:Maybe.Nothing<string>(),
                   code:[
                     'return [[RMFerr alloc] initWithSomeUnsignedInteger:_someUnsignedInteger someCustomObject:_someCustomObject someBool:_someBool];'
@@ -742,6 +757,7 @@ describe('Plugins.Builder', function() {
                   }), modifiers:[] }
                 },
                 {
+                  preprocessors:[],
                   belongsToProtocol:Maybe.Nothing<string>(),
                   code:[
                     '_someUnsignedInteger = someUnsignedInteger;',
@@ -768,6 +784,7 @@ describe('Plugins.Builder', function() {
                   }), modifiers:[] }
                 },
                 {
+                  preprocessors:[],
                   belongsToProtocol:Maybe.Nothing<string>(),
                   code:[
                     '_someCustomObject = someCustomObject;',
@@ -794,6 +811,7 @@ describe('Plugins.Builder', function() {
                   }), modifiers:[] }
                 },
                 {
+                  preprocessors:[],
                   belongsToProtocol:Maybe.Nothing<string>(),
                   code:[
                     '_someBool = someBool;',

@@ -405,6 +405,7 @@ describe('ObjectSpecPlugins.Equality', function() {
 
       const expectedInstanceMethods:ObjC.Method[] = [
         {
+          preprocessors:[],
           belongsToProtocol:Maybe.Just('NSObject'),
           keywords: [
             {
@@ -447,6 +448,7 @@ describe('ObjectSpecPlugins.Equality', function() {
           }), modifiers:[] }
         },
         {
+          preprocessors:[],
           belongsToProtocol:Maybe.Just('NSObject'),
           keywords: [
             {
@@ -527,6 +529,7 @@ describe('ObjectSpecPlugins.Equality', function() {
 
       const expectedInstanceMethods:ObjC.Method[] = [
         {
+          preprocessors:[],
           belongsToProtocol:Maybe.Just('NSObject'),
           keywords: [
             {
@@ -559,6 +562,7 @@ describe('ObjectSpecPlugins.Equality', function() {
           }), modifiers:[] }
         },
         {
+          preprocessors:[],
           belongsToProtocol:Maybe.Just('NSObject'),
           keywords: [
             {

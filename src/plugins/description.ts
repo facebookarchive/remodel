@@ -256,6 +256,7 @@ function returnStatementForAttributeDescriptions(attributeDescriptions:ComputedA
 
 function descriptionInstanceMethodWithCode(code:string[]):ObjC.Method {
   return {
+    preprocessors:[],
     belongsToProtocol:Maybe.Just('NSObject'),
     code: code,
     comments:[],

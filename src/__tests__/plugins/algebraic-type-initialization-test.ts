@@ -287,6 +287,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
       const classMethods:ObjC.Method[] = AlgebraicTypePlugin.classMethods(algebraicType);
       const expectedClassMethods:ObjC.Method[] = [
         {
+          preprocessors:[],
           belongsToProtocol:Maybe.Nothing<string>(),
           code: [
             'Foo *object = [(id)self new];',
@@ -377,6 +378,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
       const classMethods:ObjC.Method[] = AlgebraicTypePlugin.classMethods(algebraicType);
       const expectedClassMethods:ObjC.Method[] = [
         {
+          preprocessors:[],
           belongsToProtocol:Maybe.Nothing<string>(),
           code: [
             'Test *object = [(id)self new];',
@@ -417,6 +419,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
           }), modifiers:[] }
         },
         {
+          preprocessors:[],
           belongsToProtocol:Maybe.Nothing<string>(),
           code: [
             'Test *object = [(id)self new];',

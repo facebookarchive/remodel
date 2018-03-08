@@ -254,6 +254,7 @@ describe('ObjectSpecPlugins.Coding', function() {
 
       const expectedInstanceMethods:ObjC.Method[] = [
         {
+          preprocessors:[],
           belongsToProtocol:Maybe.Just<string>('NSCoding'),
           code: [
             'if ((self = [super init])) {',
@@ -288,6 +289,7 @@ describe('ObjectSpecPlugins.Coding', function() {
           }
         },
         {
+          preprocessors:[],
           belongsToProtocol:Maybe.Just<string>('NSCoding'),
           code: [
             '[aCoder encodeObject:_name forKey:kNameKey];',
@@ -373,6 +375,7 @@ describe('ObjectSpecPlugins.Coding', function() {
 
       const expectedInstanceMethods:ObjC.Method[] = [
         {
+          preprocessors:[],
           belongsToProtocol:Maybe.Just<string>('NSCoding'),
           code: [
             'if ((self = [super init])) {',
@@ -406,6 +409,7 @@ describe('ObjectSpecPlugins.Coding', function() {
           }
         },
         {
+          preprocessors:[],
           belongsToProtocol:Maybe.Just<string>('NSCoding'),
           code: [
             '[aCoder encodeObject:_name forKey:kNameKey];',
@@ -910,6 +914,7 @@ describe('AlgebraicTypePlugins.Coding', function() {
 
       const expectedInstanceMethods:ObjC.Method[] = [
         {
+          preprocessors:[],
           belongsToProtocol:Maybe.Just<string>('NSCoding'),
           code: [
             'if ((self = [super init])) {',
@@ -953,6 +958,7 @@ describe('AlgebraicTypePlugins.Coding', function() {
           }
         },
         {
+          preprocessors:[],
           belongsToProtocol:Maybe.Just<string>('NSCoding'),
           code: [
             'switch (_subtype) {',

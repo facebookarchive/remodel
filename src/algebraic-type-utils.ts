@@ -245,6 +245,7 @@ function matcherCodeForAlgebraicType(algebraicType:AlgebraicType.Type, matchingB
 
 export function instanceMethodForMatchingSubtypesOfAlgebraicType(algebraicType:AlgebraicType.Type, matchingBlockType:Maybe.Maybe<MatchingBlockType>):ObjC.Method {
   return {
+    preprocessors:[],
     belongsToProtocol:Maybe.Nothing<string>(),
     code: matcherCodeForAlgebraicType(algebraicType, matchingBlockType),
     comments: [],

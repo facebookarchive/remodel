@@ -163,12 +163,29 @@ function toKeywordString(keyword:ObjC.Keyword):string {
   return keyword.name + Maybe.match(toKeywordArgumentString, emptyString, keyword.argument);
 }
 
+
+function toOptionalPreprocessorOpeningCodeString(method:ObjC.Method):string {
+  if(method.preprocessors.length == 0) {
+    return '';
+  }
+  return method.preprocessors.map(function(object) {return object.openingCode}).join('\n') + '\n';
+}
+
+function toOptionalPreprocessorClosingCodeString(method:ObjC.Method):string {
+  if(method.preprocessors.length == 0) {
+    return '';
+  }
+  return  '\n' + method.preprocessors.map(function(object) {return object.closingCode}).join('\n');
+}
+
 function toClassMethodHeaderString(method:ObjC.Method):string {
   const methodComments = method.comments.map(toCommentString).join('\n');
   const methodCommentsSection = codeSectionForCodeStringWithoutExtraSpace(methodComments);
   const compilerAttributesString = method.compilerAttributes.length > 0 ? " " + method.compilerAttributes.join(" ") : "";
 
-  return methodCommentsSection + '+ (' + toTypeString(method.returnType) + ')' + method.keywords.map(toKeywordString).join(' ') + compilerAttributesString + ';';
+  return toOptionalPreprocessorOpeningCodeString(method) +
+         methodCommentsSection + '+ (' + toTypeString(method.returnType) + ')' + method.keywords.map(toKeywordString).join(' ') + compilerAttributesString + ";" + 
+         toOptionalPreprocessorClosingCodeString(method);
 }
 
 function toInstanceMethodHeaderString(method:ObjC.Method):string {
@@ -176,22 +193,28 @@ function toInstanceMethodHeaderString(method:ObjC.Method):string {
   const methodCommentsSection = codeSectionForCodeStringWithoutExtraSpace(methodComments);
   const compilerAttributesString = method.compilerAttributes.length > 0 ? " " + method.compilerAttributes.join(" ") : "";
 
-  return methodCommentsSection + '- (' + toTypeString(method.returnType) + ')' + method.keywords.map(toKeywordString).join(' ') + compilerAttributesString + ';';
+  return toOptionalPreprocessorOpeningCodeString(method) +
+         methodCommentsSection + '- (' + toTypeString(method.returnType) + ')' + method.keywords.map(toKeywordString).join(' ') + compilerAttributesString + ";" + 
+         toOptionalPreprocessorClosingCodeString(method);
 }
 
 function toClassMethodImplementationString(method:ObjC.Method):string {
-  const methodStr =  '+ (' + toTypeString(method.returnType) + ')' + method.keywords.map(toKeywordString).join(' ') + '\n' +
-                   '{\n' +
-                   method.code.map(StringUtils.indent(2)).join('\n') +
-                   '\n}';
+  const methodStr = toOptionalPreprocessorOpeningCodeString(method) +
+                    '+ (' + toTypeString(method.returnType) + ')' + method.keywords.map(toKeywordString).join(' ') + '\n' +
+                    '{\n' +
+                    method.code.map(StringUtils.indent(2)).join('\n') +
+                    '\n}' + 
+                    toOptionalPreprocessorClosingCodeString(method);
   return methodStr;
 }
 
 function toInstanceMethodImplementationString(method:ObjC.Method):string {
-  const methodStr =  '- (' + toTypeString(method.returnType) + ')' + method.keywords.map(toKeywordString).join(' ') + '\n' +
-                   '{\n' +
-                   method.code.map(StringUtils.indent(2)).join('\n') +
-                   '\n}';
+  const methodStr = toOptionalPreprocessorOpeningCodeString(method) +
+                    '- (' + toTypeString(method.returnType) + ')' + method.keywords.map(toKeywordString).join(' ') + '\n' +
+                    '{\n' +
+                    method.code.map(StringUtils.indent(2)).join('\n') +
+                    '\n}' + 
+                    toOptionalPreprocessorClosingCodeString(method);
   return methodStr;
 }
 

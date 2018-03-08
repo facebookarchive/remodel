@@ -251,6 +251,7 @@ describe('ObjectSpecPlugins.Description', function() {
 
         const expectedInstanceMethods:ObjC.Method[] = [
           {
+            preprocessors:[],
             belongsToProtocol:Maybe.Just('NSObject'),
             code: [
               'return [NSString stringWithFormat:@"%@ - \\n\\t doesUserLike: %@; \\n", [super description], _doesUserLike ? @"YES" : @"NO"];'
@@ -304,6 +305,7 @@ describe('ObjectSpecPlugins.Description', function() {
 
         const expectedInstanceMethods:ObjC.Method[] = [
           {
+            preprocessors:[],
             belongsToProtocol:Maybe.Just('NSObject'),
             code: [
               'return [NSString stringWithFormat:@"%@ - \\n\\t name: %@; \\n", [super description], _name];'
@@ -357,6 +359,7 @@ describe('ObjectSpecPlugins.Description', function() {
 
         const expectedInstanceMethods:ObjC.Method[] = [
           {
+            preprocessors:[],
             belongsToProtocol:Maybe.Just('NSObject'),
             code: [
               'return [NSString stringWithFormat:@"%@ - \\n\\t something: %@; \\n", [super description], _something];'
@@ -410,6 +413,7 @@ describe('ObjectSpecPlugins.Description', function() {
 
         const expectedInstanceMethods:ObjC.Method[] = [
           {
+            preprocessors:[],
             belongsToProtocol:Maybe.Just('NSObject'),
             code: [
               'return [NSString stringWithFormat:@"%@ - \\n\\t age: %lld; \\n", [super description], (long long)_age];'
@@ -463,6 +467,7 @@ describe('ObjectSpecPlugins.Description', function() {
 
         const expectedInstanceMethods:ObjC.Method[] = [
           {
+            preprocessors:[],
             belongsToProtocol:Maybe.Just('NSObject'),
             code: [
               'return [NSString stringWithFormat:@"%@ - \\n\\t age: %llu; \\n", [super description], (unsigned long long)_age];'
@@ -516,6 +521,7 @@ describe('ObjectSpecPlugins.Description', function() {
 
         const expectedInstanceMethods:ObjC.Method[] = [
           {
+            preprocessors:[],
             belongsToProtocol:Maybe.Just('NSObject'),
             code: [
               'return [NSString stringWithFormat:@"%@ - \\n\\t age: %lf; \\n", [super description], _age];'
@@ -569,6 +575,7 @@ describe('ObjectSpecPlugins.Description', function() {
 
         const expectedInstanceMethods:ObjC.Method[] = [
           {
+            preprocessors:[],
             belongsToProtocol:Maybe.Just('NSObject'),
             code: [
               'return [NSString stringWithFormat:@"%@ - \\n\\t age: %f; \\n", [super description], _age];'
@@ -622,6 +629,7 @@ describe('ObjectSpecPlugins.Description', function() {
 
         const expectedInstanceMethods:ObjC.Method[] = [
           {
+            preprocessors:[],
             belongsToProtocol:Maybe.Just('NSObject'),
             code: [
               'return [NSString stringWithFormat:@"%@ - \\n\\t age: %f; \\n", [super description], _age];'
@@ -675,6 +683,7 @@ describe('ObjectSpecPlugins.Description', function() {
 
         const expectedInstanceMethods:ObjC.Method[] = [
           {
+            preprocessors:[],
             belongsToProtocol:Maybe.Just('NSObject'),
             code: [
               'return [NSString stringWithFormat:@"%@ - \\n\\t age: %lf; \\n", [super description], _age];'
@@ -728,6 +737,7 @@ describe('ObjectSpecPlugins.Description', function() {
 
         const expectedInstanceMethods:ObjC.Method[] = [
           {
+            preprocessors:[],
             belongsToProtocol:Maybe.Just('NSObject'),
             code: [
               'return [NSString stringWithFormat:@"%@ - \\n\\t age: %ld; \\n", [super description], _age];'
@@ -781,6 +791,7 @@ describe('ObjectSpecPlugins.Description', function() {
 
         const expectedInstanceMethods:ObjC.Method[] = [
           {
+            preprocessors:[],
             belongsToProtocol:Maybe.Just('NSObject'),
             code: [
               'return [NSString stringWithFormat:@"%@ - \\n\\t age: %llu; \\n", [super description], _age];'
@@ -834,6 +845,7 @@ describe('ObjectSpecPlugins.Description', function() {
 
         const expectedInstanceMethods:ObjC.Method[] = [
           {
+            preprocessors:[],
             belongsToProtocol:Maybe.Just('NSObject'),
             code: [
               'return [NSString stringWithFormat:@"%@ - \\n\\t age: %d; \\n", [super description], _age];'
@@ -887,6 +899,7 @@ describe('ObjectSpecPlugins.Description', function() {
 
         const expectedInstanceMethods:ObjC.Method[] = [
           {
+            preprocessors:[],
             belongsToProtocol:Maybe.Just('NSObject'),
             code: [
               'return [NSString stringWithFormat:@"%@ - \\n\\t age: %lld; \\n", [super description], _age];'
@@ -941,6 +954,7 @@ describe('ObjectSpecPlugins.Description', function() {
 
         const expectedInstanceMethods:ObjC.Method[] = [
           {
+            preprocessors:[],
             belongsToProtocol:Maybe.Just('NSObject'),
             code: [
               'return [NSString stringWithFormat:@"%@ - \\n\\t age: %llu; \\n", [super description], (unsigned long long)_age];'
@@ -994,6 +1008,7 @@ describe('ObjectSpecPlugins.Description', function() {
 
         const expectedInstanceMethods:ObjC.Method[] = [
           {
+            preprocessors:[],
             belongsToProtocol:Maybe.Just('NSObject'),
             code: [
               'return [NSString stringWithFormat:@"%@ - \\n\\t action: %@; \\n", [super description], NSStringFromSelector(_action)];'
@@ -1047,6 +1062,7 @@ describe('ObjectSpecPlugins.Description', function() {
 
         const expectedInstanceMethods:ObjC.Method[] = [
           {
+            preprocessors:[],
             belongsToProtocol:Maybe.Just('NSObject'),
             code: [
               'return [NSString stringWithFormat:@"%@ - \\n\\t range: %@; \\n", [super description], NSStringFromRange(_range)];'
@@ -1100,6 +1116,7 @@ describe('ObjectSpecPlugins.Description', function() {
 
         const expectedInstanceMethods:ObjC.Method[] = [
           {
+            preprocessors:[],
             belongsToProtocol:Maybe.Just('NSObject'),
             code: [
               'return [NSString stringWithFormat:@"%@ - \\n\\t rect: %@; \\n", [super description], NSStringFromCGRect(_rect)];'
@@ -1153,6 +1170,7 @@ describe('ObjectSpecPlugins.Description', function() {
 
         const expectedInstanceMethods:ObjC.Method[] = [
           {
+            preprocessors:[],
             belongsToProtocol:Maybe.Just('NSObject'),
             code: [
               'return [NSString stringWithFormat:@"%@ - \\n\\t origin: %@; \\n", [super description], NSStringFromCGPoint(_origin)];'
@@ -1206,6 +1224,7 @@ describe('ObjectSpecPlugins.Description', function() {
 
         const expectedInstanceMethods:ObjC.Method[] = [
           {
+            preprocessors:[],
             belongsToProtocol:Maybe.Just('NSObject'),
             code: [
               'return [NSString stringWithFormat:@"%@ - \\n\\t size: %@; \\n", [super description], NSStringFromCGSize(_size)];'
@@ -1258,6 +1277,7 @@ describe('ObjectSpecPlugins.Description', function() {
 
         const expectedInstanceMethods:ObjC.Method[] = [
           {
+            preprocessors:[],
             belongsToProtocol:Maybe.Just('NSObject'),
             code: [
               'return [NSString stringWithFormat:@"%@ - \\n\\t insets: %@; \\n", [super description], NSStringFromUIEdgeInsets(_insets)];'
@@ -1425,6 +1445,7 @@ describe('AlgebraicTypePlugins.Description', function() {
 
       const expectedInstanceMethods:ObjC.Method[] = [
         {
+          preprocessors:[],
           belongsToProtocol:Maybe.Just('NSObject'),
           code: [
             'switch (_subtype) {',

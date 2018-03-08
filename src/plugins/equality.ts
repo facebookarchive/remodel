@@ -618,6 +618,7 @@ function isEqualInstanceMethod(typeName:string, generatedTypeEqualityInformation
   const lastEqualityCheck:string = equalityChecks[equalityChecks.length - 1];
   const code:string[] = openingCode.concat(equalityChecksUpUntilLastOne).concat('  ' + lastEqualityCheck + ';');
   return {
+    preprocessors:[],
     belongsToProtocol:Maybe.Just('NSObject'),
     keywords: [
       {
@@ -655,6 +656,7 @@ function hashInstanceMethod(generatedTypeEqualityInformation:GeneratedTypeEquali
   const hashValuesGroup:string = hashValues.join(', ');
 
   return {
+    preprocessors:[],
     belongsToProtocol:Maybe.Just('NSObject'),
     keywords: [
       {

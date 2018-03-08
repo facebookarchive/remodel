@@ -87,6 +87,7 @@ function initializerCodeFromAttributes(assumeNonnull:boolean, supportsValueSeman
 function initializerFromAttributes(assumeNonnull:boolean, supportsValueSemantics:boolean, attributes:ObjectSpec.Attribute[]):ObjC.Method {
   const keywords = [firstInitializerKeyword(attributes[0])].concat(attributes.slice(1).map(attributeToKeyword));
   return {
+    preprocessors:[],
     belongsToProtocol: Maybe.Nothing<string>(),
     code: initializerCodeFromAttributes(assumeNonnull, supportsValueSemantics, attributes),
     comments:[],

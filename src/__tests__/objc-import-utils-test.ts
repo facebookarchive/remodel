@@ -14,6 +14,7 @@ import Maybe = require('../maybe');
 import ObjC = require('../objc');
 import ObjCImportUtils = require('../objc-import-utils');
 import ObjectGeneration = require('../object-generation');
+import ObjectSpec = require('../object-spec');
 
 describe('ObjCImportUtils', function() {
   describe('#importForTypeLookup', function() {
@@ -92,6 +93,29 @@ describe('ObjCImportUtils', function() {
       };
 
       expect(importValue).toEqualJSON(expectedImport);
+    });
+  });
+
+  describe('#shouldForwardProtocolDeclareAttribute', function() {
+    it('should return false for the empty protocol', function() {
+      const attributeType:ObjectSpec.AttributeType = {
+        fileTypeIsDefinedIn:Maybe.Nothing<string>(),
+        libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+        name:'NSArray',
+        reference: 'NSArray*',
+        underlyingType:Maybe.Just<string>('NSObject'),
+        conformingProtocol: Maybe.Just<string>('')
+      };
+      const attribute:ObjectSpec.Attribute = {
+          annotations: {},
+          comments: [],
+          name: 'someArray',
+          nullability:ObjC.Nullability.Inherited(),
+          type: attributeType
+      };
+
+      const shouldDeclare:boolean = ObjCImportUtils.shouldForwardProtocolDeclareAttribute(attribute);
+      expect(shouldDeclare).toEqual(false);
     });
   });
 });

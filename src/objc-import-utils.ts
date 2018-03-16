@@ -185,7 +185,7 @@ export function canForwardDeclareTypeForAttributeConsideringType(attribute:Objec
 export function shouldForwardProtocolDeclareAttribute(attribute:ObjectSpec.Attribute):boolean {
   return Maybe.match(
     function (protocol) {
-      return true;
+      return protocol !== '';
     },
     function () {
       return false;

@@ -41,7 +41,7 @@ Feature: Outputting Value Objects / Algebraic Types decorated with NS_ASSUME_NON
       #import "RMFoo.h"
 
       static void RMParameterAssert(BOOL condition) {
-        NSParameterAssert(condition);
+        NSCParameterAssert(condition);
       }
 
       NS_ASSUME_NONNULL_BEGIN
@@ -158,7 +158,7 @@ Feature: Outputting Value Objects / Algebraic Types decorated with NS_ASSUME_NON
       };
 
       static void RMParameterAssert(BOOL condition) {
-        NSParameterAssert(condition);
+        NSCParameterAssert(condition);
       }
 
       NS_ASSUME_NONNULL_BEGIN

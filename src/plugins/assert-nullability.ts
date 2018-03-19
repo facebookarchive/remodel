@@ -36,7 +36,7 @@ function parameterAssertFunction():ObjC.Function {
       modifiers: []
     },
     code: [
-      'NSParameterAssert(condition);'
+      'NSCParameterAssert(condition);'
     ],
     isPublic: false
   };

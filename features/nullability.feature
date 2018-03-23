@@ -86,7 +86,7 @@ Feature: Outputting Objects With Nullability Annotations
       {
         if (self == object) {
           return YES;
-        } else if (self == nil || object == nil || ![object isKindOfClass:[self class]]) {
+        } else if (object == nil || ![object isKindOfClass:[self class]]) {
           return NO;
         }
         return
@@ -258,7 +258,7 @@ Feature: Outputting Objects With Nullability Annotations
       {
         if (self == object) {
           return YES;
-        } else if (self == nil || object == nil || ![object isKindOfClass:[self class]]) {
+        } else if (object == nil || ![object isKindOfClass:[self class]]) {
           return NO;
         }
         return

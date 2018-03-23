@@ -97,7 +97,7 @@ Feature: Outputting C++ Value Objects
       {
         if (self == object) {
           return YES;
-        } else if (self == nil || object == nil || ![object isKindOfClass:[self class]]) {
+        } else if (object == nil || ![object isKindOfClass:[self class]]) {
           return NO;
         }
         return

@@ -207,6 +207,7 @@ describe('Plugins.AlgebraicTypeVoidMatching', function() {
       const instanceMethods:ObjC.Method[] = VoidPlugin.instanceMethods(algebraicType);
 
       const expectedInstanceMethod:ObjC.Method = {
+        preprocessors:[],
         belongsToProtocol:Maybe.Nothing<string>(),
         code: [
           'switch (_subtype) {',
@@ -453,6 +454,7 @@ describe('Plugins.AlgebraicTypeBoolMatching', function() {
       const instanceMethods:ObjC.Method[] = BoolPlugin.instanceMethods(algebraicType);
 
       const expectedInstanceMethod:ObjC.Method = {
+        preprocessors:[],
         belongsToProtocol:Maybe.Nothing<string>(),
         code: [
           '__block BOOL result = NO;',
@@ -707,6 +709,7 @@ describe('Plugins.AlgebraicTypeIntegerMatching', function() {
       const instanceMethods:ObjC.Method[] = IntegerPlugin.instanceMethods(algebraicType);
 
       const expectedInstanceMethod:ObjC.Method = {
+        preprocessors:[],
         belongsToProtocol:Maybe.Nothing<string>(),
         code: [
           '__block NSInteger result = 0;',
@@ -961,6 +964,7 @@ describe('Plugins.AlgebraicTypeDoubleMatching', function() {
       const instanceMethods:ObjC.Method[] = DoublePlugin.instanceMethods(algebraicType);
 
       const expectedInstanceMethod:ObjC.Method = {
+        preprocessors:[],
         belongsToProtocol:Maybe.Nothing<string>(),
         code: [
           '__block double result = 0.0f;',

@@ -62,7 +62,7 @@ export function createAlgebraicTypePlugin():AlgebraicType.Plugin {
     internalProperties: function(algebraicType:AlgebraicType.Type):ObjC.Property[] {
       return [];
     },
-    requiredIncludesToRun: ['FunctionMatching'],
+    requiredIncludesToRun: ['VoidMatching'],
     staticConstants: function(algebraicType:AlgebraicType.Type):ObjC.Constant[] {
       return [];
     },

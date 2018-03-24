@@ -52,7 +52,7 @@ const BASE_INCLUDES:List.List<string> = List.of(
   'RMDescription',
   'RMEquality',
   'RMInitNewUnavailable',
-  'FunctionMatching'
+  'VoidMatching'
 );
 
 const BASE_PLUGINS:List.List<string> = List.of(

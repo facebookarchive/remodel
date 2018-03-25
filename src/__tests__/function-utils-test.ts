@@ -118,6 +118,21 @@ describe('FunctionUtils', function() {
     });
   });
 
+  describe('#pApply3f4', function() {
+    it('partially applies three parameters to a function with four parameters', function() {
+      const f:(a:string, b:string, c:string, d:string) => string = function(a:string, b:string, c:string, d:string):string {
+        return a + b + c + d;
+      };
+
+      const pf:(c:string) => string = FunctionUtils.pApply3f4('A', 'B', 'C', f);
+
+      const actualVal = pf('D');
+      const expectedVal = 'ABCD';
+
+      expect(actualVal).toEqualJSON(expectedVal);
+    });
+  });
+
   describe('#pApply3f5', function() {
     it('partially applies three parameters to a function with five parameters', function() {
       const f:(a:number, b:number, c:number, d:number, e:number) => number = function(a:number, b:number, c:number, d:number, e:number):number {

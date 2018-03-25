@@ -47,9 +47,14 @@ function libraryImport(file:string, library:string):string {
   return '#import <' + library + '/' + file + '>';
 }
 
-function returnTypeReference(modifiers:ObjC.KeywordArgumentModifier[], type:ObjC.Type):string {
+function genericizedType(modifiers:ObjC.KeywordArgumentModifier[], covariantTypes:string[], type:ObjC.Type):string {
+  const genericType:string = covariantTypes.indexOf(type.name) > -1 ? 'id' : type.reference;
   const modifiersString:string = modifiers.length > 0 ? modifiers.map(toKeywordArgumentModifierString).join(' ') + ' ' : '';
-  return modifiersString + type.reference;
+  return modifiersString + genericType;
+}
+
+function toGenericizedTypeString(covariantTypes:string[], returnType:ObjC.ReturnType):string {
+  return Maybe.match(FunctionUtils.pApply2f3(returnType.modifiers, covariantTypes, genericizedType), returnVoid, returnType.type);
 }
 
 function returnVoid():string {
@@ -57,7 +62,7 @@ function returnVoid():string {
 }
 
 function toTypeString(returnType:ObjC.ReturnType):string {
-  return Maybe.match(FunctionUtils.pApplyf2(returnType.modifiers, returnTypeReference), returnVoid, returnType.type);
+  return toGenericizedTypeString([], returnType);
 }
 
 function toImportString(givenImport:ObjC.Import):string {
@@ -152,15 +157,15 @@ function toKeywordArgumentModifierString(argumentModifier:ObjC.KeywordArgumentMo
   );
 }
 
-export function toKeywordArgumentString(argument:ObjC.KeywordArgument):string {
+export function toKeywordArgumentString(covariantTypes:string[], argument:ObjC.KeywordArgument):string {
   const modifiers:string = argument.modifiers.map(toKeywordArgumentModifierString).join(' ');
-  const typePart:string = renderableTypeReference(argument.type.reference);
+  const typePart:string = renderableTypeReference(genericizedType([], covariantTypes, argument.type));
   const innerPart:string = modifiers.length > 0 ? modifiers + ' ' + typePart : typePart;
   return ':(' + innerPart + ')' + argument.name;
 }
 
-function toKeywordString(keyword:ObjC.Keyword):string {
-  return keyword.name + Maybe.match(toKeywordArgumentString, emptyString, keyword.argument);
+function toKeywordString(covariantTypes:string[], keyword:ObjC.Keyword):string {
+  return keyword.name + Maybe.match(FunctionUtils.pApplyf2(covariantTypes, toKeywordArgumentString), emptyString, keyword.argument);
 }
 
 
@@ -178,29 +183,22 @@ function toOptionalPreprocessorClosingCodeString(method:ObjC.Method):string {
   return  '\n' + method.preprocessors.map(function(object) {return object.closingCode}).join('\n');
 }
 
-function toClassMethodHeaderString(method:ObjC.Method):string {
+function toMethodHeaderString(methodModifier:string, method:ObjC.Method):string {
   const methodComments = method.comments.map(toCommentString).join('\n');
   const methodCommentsSection = codeSectionForCodeStringWithoutExtraSpace(methodComments);
   const compilerAttributesString = method.compilerAttributes.length > 0 ? " " + method.compilerAttributes.join(" ") : "";
 
   return toOptionalPreprocessorOpeningCodeString(method) +
-         methodCommentsSection + '+ (' + toTypeString(method.returnType) + ')' + method.keywords.map(toKeywordString).join(' ') + compilerAttributesString + ";" + 
+         methodCommentsSection + methodModifier +' (' + toTypeString(method.returnType) + ')' + method.keywords.map(FunctionUtils.pApplyf2([], toKeywordString)).join(' ') + compilerAttributesString + ";" + 
          toOptionalPreprocessorClosingCodeString(method);
 }
 
-function toInstanceMethodHeaderString(method:ObjC.Method):string {
-  const methodComments = method.comments.map(toCommentString).join('\n');
-  const methodCommentsSection = codeSectionForCodeStringWithoutExtraSpace(methodComments);
-  const compilerAttributesString = method.compilerAttributes.length > 0 ? " " + method.compilerAttributes.join(" ") : "";
+var toClassMethodHeaderString = FunctionUtils.pApplyf2('+', toMethodHeaderString);
+var toInstanceMethodHeaderString = FunctionUtils.pApplyf2('-', toMethodHeaderString);
 
-  return toOptionalPreprocessorOpeningCodeString(method) +
-         methodCommentsSection + '- (' + toTypeString(method.returnType) + ')' + method.keywords.map(toKeywordString).join(' ') + compilerAttributesString + ";" + 
-         toOptionalPreprocessorClosingCodeString(method);
-}
-
-function toClassMethodImplementationString(method:ObjC.Method):string {
+function toMethodImplementationString(methodModifier:string, covariantTypes:string[], method:ObjC.Method):string {
   const methodStr = toOptionalPreprocessorOpeningCodeString(method) +
-                    '+ (' + toTypeString(method.returnType) + ')' + method.keywords.map(toKeywordString).join(' ') + '\n' +
+                    methodModifier + ' (' + toGenericizedTypeString(covariantTypes, method.returnType) + ')' + method.keywords.map(FunctionUtils.pApplyf2(covariantTypes, toKeywordString)).join(' ') + '\n' +
                     '{\n' +
                     method.code.map(StringUtils.indent(2)).join('\n') +
                     '\n}' + 
@@ -208,14 +206,19 @@ function toClassMethodImplementationString(method:ObjC.Method):string {
   return methodStr;
 }
 
-function toInstanceMethodImplementationString(method:ObjC.Method):string {
-  const methodStr = toOptionalPreprocessorOpeningCodeString(method) +
-                    '- (' + toTypeString(method.returnType) + ')' + method.keywords.map(toKeywordString).join(' ') + '\n' +
-                    '{\n' +
-                    method.code.map(StringUtils.indent(2)).join('\n') +
-                    '\n}' + 
-                    toOptionalPreprocessorClosingCodeString(method);
-  return methodStr;
+var toClassMethodImplementationString = FunctionUtils.pApplyf3('+', toMethodImplementationString);
+var toInstanceMethodImplementationString = FunctionUtils.pApplyf3('-', toMethodImplementationString);
+
+function toCovariantTypeString(covariantType:string):string {
+  return '__covariant ' + covariantType;
+}
+
+function covariantTypesString(covariantTypes:string[]):string {
+  if (covariantTypes.length > 0) {
+    return '<' + covariantTypes.map(toCovariantTypeString).join(', ') + '>';
+  } else {
+    return '';
+  }
 }
 
 function toProtocolString(protocol:ObjC.Protocol):string {
@@ -424,10 +427,11 @@ function headerClassSection(classInfo:ObjC.Class):string {
   const classComments = classInfo.comments.map(toCommentString).join('\n');
   const classCommentsSection = codeSectionForCodeStringWithoutExtraSpace(classComments);
 
+  const covariantTypesStr = covariantTypesString(classInfo.covariantTypes);
   const protocolsStr = protocolsString(classInfo.implementedProtocols);
 
   const subclassingRestrictedStr = classInfo.subclassingRestricted ? '__attribute__((objc_subclassing_restricted)) \n' : '';
-  const classSection = '@interface ' + classInfo.name + ' : ' + classInfo.baseClassName + protocolsStr;
+  const classSection = '@interface ' + classInfo.name + covariantTypesStr + ' : ' + classInfo.baseClassName + protocolsStr;
 
   const internalPropertiesStr:string = classInfo.internalProperties.filter(headerNeedsToIncludeInternalProperty).reduce(buildInternalPropertiesContainingAccessIdentifiers, []).map(StringUtils.indent(2)).join('\n');
   const internalPropertiesSection:string = internalPropertiesStr !== '' ? '{\n' + internalPropertiesStr + '\n}\n\n' : '\n';
@@ -606,9 +610,9 @@ function implementationClassSection(classInfo:ObjC.Class):string {
   const classSection:string = '@implementation ' + classInfo.name + '\n';
   const internalPropertiesStr:string = classInfo.internalProperties.filter(implementationNeedsToIncludeInternalProperty).map(toInternalPropertyString).map(StringUtils.indent(2)).join('\n');
   const internalPropertiesSection:string = internalPropertiesStr !== '' ? '{\n' + internalPropertiesStr + '\n}\n\n' : '\n';
-  const classMethodsStr:string = classInfo.classMethods.filter(methodIsNotUnavailableNSObjectMethod).map(toClassMethodImplementationString).join('\n\n');
+  const classMethodsStr:string = classInfo.classMethods.filter(methodIsNotUnavailableNSObjectMethod).map(FunctionUtils.pApplyf2(classInfo.covariantTypes, toClassMethodImplementationString)).join('\n\n');
   const classMethodsSection = codeSectionForCodeString(classMethodsStr);
-  const instanceMethodsSection = classInfo.instanceMethods.filter(methodIsNotUnavailableNSObjectMethod).map(toInstanceMethodImplementationString).join('\n\n');
+  const instanceMethodsSection = classInfo.instanceMethods.filter(methodIsNotUnavailableNSObjectMethod).map(FunctionUtils.pApplyf2(classInfo.covariantTypes, toInstanceMethodImplementationString)).join('\n\n');
 
   const postfixClassMacrosStr:string = macros.map(toPostfixMacroString).join('\n');
   const postfixClassMacrosSection:string = postfixClassMacrosStr !== '' ? '\n\n' + postfixClassMacrosStr : '';

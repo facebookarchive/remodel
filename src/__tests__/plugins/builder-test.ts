@@ -70,6 +70,7 @@ describe('Plugins.Builder', function() {
           classes: [
             {
               baseClassName:'NSObject',
+              covariantTypes:[],
               classMethods: [
                 {
                   preprocessors:[],
@@ -204,6 +205,7 @@ describe('Plugins.Builder', function() {
           classes: [
             {
               baseClassName:'NSObject',
+              covariantTypes:[],
               classMethods: [
                 {
                   preprocessors:[],
@@ -387,6 +389,7 @@ describe('Plugins.Builder', function() {
           classes: [
             {
               baseClassName:'NSObject',
+              covariantTypes:[],
               classMethods: [
                 {
                   preprocessors:[],
@@ -685,6 +688,7 @@ describe('Plugins.Builder', function() {
           classes: [
             {
               baseClassName:'NSObject',
+              covariantTypes:[],
               classMethods: [
                 {
                   preprocessors:[],

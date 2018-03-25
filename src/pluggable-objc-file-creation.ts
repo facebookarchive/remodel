@@ -228,6 +228,7 @@ function classFileCreationFunctionWithBaseClassAndPlugins<T>(baseClassName:strin
         classes: [
         {
           baseClassName:baseClassName,
+          covariantTypes:[],
           comments:ObjCCommentUtils.commentsAsBlockFromStringArray(comments),
           classMethods: List.foldl<ObjCGenerationPlugIn<T>, ObjC.Method[]>(FunctionUtils.pApplyf3(typeInformation, buildClassMethods), [], plugins)
                             .sort(sortInstanceMethodComparitor),

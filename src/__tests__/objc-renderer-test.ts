@@ -43,6 +43,7 @@ describe('ObjCRenderer', function() {
         classes: [
           {
             baseClassName:'NSObject',
+            covariantTypes:[],
             classMethods: [
               {
                 preprocessors:[],
@@ -280,6 +281,7 @@ describe('ObjCRenderer', function() {
         classes: [
           {
             baseClassName:'NSObject',
+            covariantTypes:[],
             classMethods: [
               {
                 preprocessors:[],
@@ -490,6 +492,7 @@ describe('ObjCRenderer', function() {
         classes: [
           {
             baseClassName:'RMObjectSpecBase',
+            covariantTypes:[],
             classMethods: [
               {
                 preprocessors:[],
@@ -696,6 +699,7 @@ describe('ObjCRenderer', function() {
         classes: [
           {
             baseClassName:'NSObject',
+            covariantTypes:[],
             classMethods: [],
             comments:[],
             instanceMethods: [
@@ -857,6 +861,7 @@ describe('ObjCRenderer', function() {
         classes: [
           {
             baseClassName:'NSObject',
+            covariantTypes:[],
             classMethods: [],
             comments:[],
             instanceMethods: [
@@ -972,6 +977,7 @@ describe('ObjCRenderer', function() {
         classes: [
           {
             baseClassName:'NSObject',
+            covariantTypes:[],
             classMethods: [],
             comments:[],
             instanceMethods: [
@@ -1094,6 +1100,7 @@ describe('ObjCRenderer', function() {
         classes:[
           {
             baseClassName:'NSObject',
+            covariantTypes:[],
             classMethods: [],
             comments:[],
             instanceMethods: [
@@ -1227,6 +1234,7 @@ describe('ObjCRenderer', function() {
         classes:[
           {
             baseClassName:'NSObject',
+            covariantTypes:[],
             classMethods: [],
             comments:[],
             instanceMethods: [],
@@ -1301,6 +1309,7 @@ describe('ObjCRenderer', function() {
         classes: [
         {
           baseClassName:'NSObject',
+          covariantTypes:[],
           classMethods: [],
           comments:[],
           instanceMethods: [],
@@ -1400,6 +1409,7 @@ describe('ObjCRenderer', function() {
         classes: [
         {
           baseClassName:'NSObject',
+          covariantTypes:[],
           classMethods: [],
           comments:[],
           instanceMethods: [],
@@ -1467,6 +1477,7 @@ describe('ObjCRenderer', function() {
         classes:[
           {
             baseClassName:'NSObject',
+            covariantTypes:[],
             classMethods: [],
             comments:[],
             instanceMethods: [],
@@ -1520,6 +1531,7 @@ describe('ObjCRenderer', function() {
         classes:[
         {
           baseClassName:'NSObject',
+          covariantTypes:[],
           classMethods: [],
           comments:[],
           instanceMethods: [],
@@ -1606,6 +1618,7 @@ describe('ObjCRenderer', function() {
         classes:[
         {
           baseClassName:'NSObject',
+          covariantTypes:[],
           classMethods: [],
           comments:[],
           instanceMethods: [],
@@ -1693,6 +1706,7 @@ describe('ObjCRenderer', function() {
         classes: [
           {
             baseClassName:'NSObject',
+            covariantTypes:[],
             classMethods: [],
             comments:[],
             instanceMethods: [
@@ -1837,6 +1851,7 @@ describe('ObjCRenderer', function() {
         classes: [
           {
             baseClassName:'NSObject',
+            covariantTypes:[],
             classMethods: [],
             comments:[],
             instanceMethods: [
@@ -1950,6 +1965,7 @@ describe('ObjCRenderer', function() {
         classes: [
           {
             baseClassName:'NSObject',
+            covariantTypes:[],
             classMethods: [],
             comments:[],
             instanceMethods: [
@@ -2077,6 +2093,7 @@ describe('ObjCRenderer', function() {
         classes: [
           {
             baseClassName:'NSObject',
+            covariantTypes:[],
             classMethods: [
               {
                 preprocessors:[],
@@ -2332,6 +2349,7 @@ describe('ObjCRenderer', function() {
         classes: [
         {
           baseClassName:'NSObject',
+          covariantTypes:[],
           classMethods: [],
           comments:[],
           instanceMethods: [
@@ -2467,6 +2485,7 @@ describe('ObjCRenderer', function() {
         classes: [
           {
             baseClassName:'NSObject',
+            covariantTypes:[],
             classMethods: [
               {
                 preprocessors:[
@@ -2756,6 +2775,7 @@ describe('ObjCRenderer', function() {
         classes: [
         {
           baseClassName:'NSObject',
+          covariantTypes:[],
           classMethods: [],
           comments:[],
           instanceMethods: [],
@@ -2833,6 +2853,7 @@ describe('ObjCRenderer', function() {
         classes: [
         {
           baseClassName:'NSObject',
+          covariantTypes:[],
           classMethods: [],
           comments:[],
           instanceMethods: [],
@@ -3049,6 +3070,7 @@ describe('ObjCRenderer', function() {
         classes: [
         {
           baseClassName:'NSObject',
+          covariantTypes:[],
           classMethods: [],
           comments:[],
           instanceMethods: [],
@@ -3088,6 +3110,7 @@ describe('ObjCRenderer', function() {
         classes: [
         {
           baseClassName:'NSObject',
+          covariantTypes:[],
           classMethods: [],
           comments:[],
           instanceMethods: [],

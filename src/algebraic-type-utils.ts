@@ -148,7 +148,7 @@ function blockParametersForSubtype(subtype:AlgebraicType.Subtype):ObjC.BlockType
   }
 }
 
-function returnTypeForMatchingBlockType(matchingBlockType:Maybe.Maybe<MatchingBlockType>):ObjC.ReturnType {
+export function returnTypeForMatchingBlockType(matchingBlockType:Maybe.Maybe<MatchingBlockType>):ObjC.ReturnType {
   return Maybe.match(function Just(matchingBlockType:MatchingBlockType) {
                        return {
                          type: Maybe.Just<ObjC.Type>(typeForUnderlyingType(matchingBlockType.underlyingType)),
@@ -164,13 +164,14 @@ function returnTypeForMatchingBlockType(matchingBlockType:Maybe.Maybe<MatchingBl
                      matchingBlockType);
 }
 
-export function blockTypeForSubtype(algebraicType:AlgebraicType.Type, matchingBlockType:Maybe.Maybe<MatchingBlockType>, subtype:AlgebraicType.Subtype):ObjC.BlockType {
+export function blockTypeForSubtype(algebraicType:AlgebraicType.Type, matchingBlockType:Maybe.Maybe<MatchingBlockType>, isInlined:boolean, subtype:AlgebraicType.Subtype):ObjC.BlockType {
   return {
     comments: [],
     name: blockTypeNameForSubtype(algebraicType, subtype, matchingBlockType),
     parameters: blockParametersForSubtype(subtype),
     returnType: returnTypeForMatchingBlockType(matchingBlockType),
     isPublic: true,
+    isInlined: isInlined,
     nullability: algebraicType.includes.indexOf('RMAssumeNonnull') >= 0 ? ObjC.ClassNullability.assumeNonnull : ObjC.ClassNullability.default 
   };
 }
@@ -180,7 +181,7 @@ export function blockParameterNameForMatchMethodFromSubtype(subtype:AlgebraicTyp
 }
 
 export function keywordForMatchMethodFromSubtype(algebraicType:AlgebraicType.Type, matchingBlockType:Maybe.Maybe<MatchingBlockType>, subtype:AlgebraicType.Subtype):ObjC.Keyword {
-  const blockType:ObjC.BlockType = blockTypeForSubtype(algebraicType, matchingBlockType, subtype);
+  const blockType:ObjC.BlockType = blockTypeForSubtype(algebraicType, matchingBlockType, false, subtype);
   return {
     name: StringUtils.lowercased(subtypeNameFromSubtype(subtype)),
     argument: Maybe.Just({

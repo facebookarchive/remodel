@@ -115,6 +115,7 @@ describe('Plugins.AlgebraicTypeVoidMatching', function() {
           ],
           returnType:{ type:Maybe.Nothing<ObjC.Type>(), modifiers:[] },
           isPublic: true,
+          isInlined: false,
           nullability: ObjC.ClassNullability.default
         },
         {
@@ -132,6 +133,7 @@ describe('Plugins.AlgebraicTypeVoidMatching', function() {
           ],
           returnType:{ type:Maybe.Nothing<ObjC.Type>(), modifiers:[] },
           isPublic: true,
+          isInlined: false,
           nullability: ObjC.ClassNullability.default
         }
       ];
@@ -356,6 +358,7 @@ describe('Plugins.AlgebraicTypeBoolMatching', function() {
             modifiers:[]
           },
           isPublic: true,
+          isInlined: false,
           nullability: ObjC.ClassNullability.default
         },
         {
@@ -379,6 +382,7 @@ describe('Plugins.AlgebraicTypeBoolMatching', function() {
             modifiers:[]
           },
           isPublic: true,
+          isInlined: false,
           nullability: ObjC.ClassNullability.default
         }
       ];
@@ -611,6 +615,7 @@ describe('Plugins.AlgebraicTypeIntegerMatching', function() {
             modifiers:[]
           },
           isPublic: true,
+          isInlined: false,
           nullability: ObjC.ClassNullability.default
         },
         {
@@ -634,6 +639,7 @@ describe('Plugins.AlgebraicTypeIntegerMatching', function() {
             modifiers:[]
           },
           isPublic: true,
+          isInlined: false,
           nullability: ObjC.ClassNullability.default
         }
       ];
@@ -866,6 +872,7 @@ describe('Plugins.AlgebraicTypeDoubleMatching', function() {
             modifiers:[]
           },
           isPublic: true,
+          isInlined: false,
           nullability: ObjC.ClassNullability.default
         },
         {
@@ -889,6 +896,7 @@ describe('Plugins.AlgebraicTypeDoubleMatching', function() {
             modifiers:[]
           },
           isPublic: true,
+          isInlined: false,
           nullability: ObjC.ClassNullability.default
         }
       ];

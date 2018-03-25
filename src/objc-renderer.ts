@@ -323,23 +323,35 @@ export function toBlockTypeParameterString(parameter:ObjC.BlockTypeParameter):st
 }
 
 function toBlockTypeDeclaration(blockType:ObjC.BlockType):string {
+  const blockTypeComments = blockType.comments.map(toCommentString).join('\n');
+  const blockTypeCommentsSection = codeSectionForCodeStringWithoutExtraSpace(blockTypeComments);
+
+  return blockTypeCommentsSection + 'typedef ' + toFunctionReturnTypeString(blockType.returnType) + '(^' + blockType.name + ')(' + blockType.parameters.map(toBlockTypeParameterString).join(', ') + ');';
+}
+
+function toBlockTypeDeclarationWithMacros(blockType:ObjC.BlockType):string {
   const macros = blockMacros(blockType);
 
   const prefixBlockTypeMacrosStr:string = macros.map(toPrefixMacroString).join('\n');
   const prefixBlockTypeMacrosSection:string = prefixBlockTypeMacrosStr !== '' ? prefixBlockTypeMacrosStr + '\n' : '';
 
-  const blockTypeComments = blockType.comments.map(toCommentString).join('\n');
-  const blockTypeCommentsSection = codeSectionForCodeStringWithoutExtraSpace(blockTypeComments);
+  const blockTypeDeclaration = toBlockTypeDeclaration(blockType);
 
   const postfixBlockTypeMacrosStr:string = macros.map(toPostfixMacroString).join('\n');
   const postfixBlockTypeMacrosSection:string = postfixBlockTypeMacrosStr !== '' ? '\n' + postfixBlockTypeMacrosStr : '';
 
-  return prefixBlockTypeMacrosSection + blockTypeCommentsSection + 'typedef ' + toFunctionReturnTypeString(blockType.returnType) + '(^' + blockType.name + ')(' + blockType.parameters.map(toBlockTypeParameterString).join(', ') + ');' + postfixBlockTypeMacrosSection;
+  return prefixBlockTypeMacrosSection + blockTypeDeclaration + postfixBlockTypeMacrosSection;
 }
 
 function blockTypeIsPublic(isPublic:boolean):(blockType:ObjC.BlockType) => boolean {
   return function(blockType:ObjC.BlockType):boolean {
     return blockType.isPublic === isPublic;
+  };
+}
+
+function blockTypeIsInlined(isInlined:boolean):(blockType:ObjC.BlockType) => boolean {
+  return function(blockType:ObjC.BlockType):boolean {
+    return blockType.isInlined === isInlined;
   };
 }
 
@@ -418,7 +430,7 @@ function buildInternalPropertiesContainingAccessIdentifiers(soFar:string[], inte
   return soFar.concat([accessIdentifierForAccess(internalProperty.access), toInternalPropertyString(internalProperty)]);
 }
 
-function headerClassSection(classInfo:ObjC.Class):string {
+function headerClassSection(file:Code.File, classInfo:ObjC.Class):string {
   const macros = classMacros(classInfo);
 
   const prefixClassMacrosStr:string = macros.map(toPrefixMacroString).join('\n');
@@ -439,6 +451,9 @@ function headerClassSection(classInfo:ObjC.Class):string {
   const propertiesStr = classInfo.properties.map(toPropertyString).join('\n');
   const propertiesSection = codeSectionForCodeString(propertiesStr);
 
+  const inlinedBlocksStr:string = file.blockTypes.filter(blockTypeIsInlined(true)).filter(blockTypeIsPublic(true)).map(toBlockTypeDeclaration).join('\n');
+  const inlinedBlocksSection:string = codeSectionForCodeString(inlinedBlocksStr);
+
   const classMethodsStr = classInfo.classMethods.map(toClassMethodHeaderString).join('\n\n');
   const classMethodsSection = codeSectionForCodeString(classMethodsStr);
 
@@ -449,7 +464,7 @@ function headerClassSection(classInfo:ObjC.Class):string {
   const postfixClassMacrosStr:string = macros.map(toPostfixMacroString).join('\n');
   const postfixClassMacrosSection:string = postfixClassMacrosStr !== '' ? '\n\n' + postfixClassMacrosStr : '';
 
-  return prefixClassMacrosSection + classCommentsSection + subclassingRestrictedStr + classSection + '\n' + internalPropertiesSection + propertiesSection + classMethodsSection + instanceMethodsSection + '@end' + postfixClassMacrosSection;
+  return prefixClassMacrosSection + classCommentsSection + subclassingRestrictedStr + classSection + '\n' + internalPropertiesSection + propertiesSection + inlinedBlocksSection + classMethodsSection + instanceMethodsSection + '@end' + postfixClassMacrosSection;
 }
 
 function toDeclarationString(forwardDeclaration:ObjC.ForwardDeclaration) {
@@ -477,12 +492,12 @@ export function renderHeader(file:Code.File):Maybe.Maybe<string> {
   const enumerationsStr:string = file.enumerations.filter(enumerationIsPublic(true)).map(toNSEnumDeclaration).join('\n');
   const enumerationsSection:string = codeSectionForCodeString(enumerationsStr);
 
-  const blocksStr:string = file.blockTypes.filter(blockTypeIsPublic(true)).map(toBlockTypeDeclaration).join('\n');
+  const blocksStr:string = file.blockTypes.filter(blockTypeIsInlined(false)).filter(blockTypeIsPublic(true)).map(toBlockTypeDeclarationWithMacros).join('\n');
   const blocksSection:string = codeSectionForCodeString(blocksStr);
 
   const functionsSection = codeSectionForCodeString(headerFunctionsSection(file.functions));
 
-  const classSection = file.classes.map(headerClassSection).join('\n\n');
+  const classSection = file.classes.map(FunctionUtils.pApplyf2(file, headerClassSection)).join('\n\n');
   
   const structsStr = file.structs.map(toStructContents).join('\n');
   const structsSection = codeSectionForCodeString(structsStr);
@@ -697,7 +712,7 @@ export function renderImplementation(file:Code.File):Maybe.Maybe<string> {
     const enumerationsStr = file.enumerations.filter(enumerationIsPublic(false)).map(toNSEnumDeclaration).join('\n');
     const enumerationsSection = codeSectionForCodeString(enumerationsStr);
 
-    const blocksStr:string = file.blockTypes.filter(blockTypeIsPublic(false)).map(toBlockTypeDeclaration).join('\n');
+    const blocksStr:string = file.blockTypes.filter(blockTypeIsPublic(false)).map(toBlockTypeDeclarationWithMacros).join('\n');
     const blocksSection:string = codeSectionForCodeString(blocksStr);
 
     const functionStr = file.functions.map(toFunctionImplementationString).join('\n\n');

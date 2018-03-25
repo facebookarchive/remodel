@@ -138,6 +138,7 @@ export interface BlockType {
   parameters:BlockTypeParameter[];
   returnType:ReturnType;
   isPublic:boolean;
+  isInlined:boolean;
   nullability:ClassNullability;
 }
 

@@ -1378,6 +1378,7 @@ describe('ObjCRenderer', function() {
             ],
             returnType:{ type:Maybe.Nothing<ObjC.Type>(), modifiers:[] },
             isPublic: true,
+            isInlined: false,
             nullability: ObjC.ClassNullability.default
           },
           {
@@ -1398,6 +1399,7 @@ describe('ObjCRenderer', function() {
               reference:'Foo *'
             }), modifiers:[] },
             isPublic: true,
+            isInlined: false,
             nullability: ObjC.ClassNullability.default
           }
         ],
@@ -3306,6 +3308,7 @@ describe('ObjCRenderer', function() {
             ],
             returnType:{ type:Maybe.Nothing<ObjC.Type>(), modifiers:[] },
             isPublic: true,
+            isInlined: false,
             nullability: ObjC.ClassNullability.default
           },
           {
@@ -3326,6 +3329,7 @@ describe('ObjCRenderer', function() {
               reference:'Foo *'
             }), modifiers:[] },
             isPublic: false,
+            isInlined: false,
             nullability: ObjC.ClassNullability.default
           }
         ],
@@ -3385,6 +3389,7 @@ describe('ObjCRenderer', function() {
             ],
             returnType:{ type:Maybe.Nothing<ObjC.Type>(), modifiers:[] },
             isPublic: true,
+            isInlined: false,
             nullability: ObjC.ClassNullability.default
           }
         ],

@@ -27,7 +27,7 @@ export function createAlgebraicTypePlugin():AlgebraicType.Plugin {
       return [];
     },
     blockTypes: function(algebraicType:AlgebraicType.Type):ObjC.BlockType[] {
-      return algebraicType.subtypes.map(FunctionUtils.pApply2f3(algebraicType, matchingBlockTypeForPlugin(), AlgebraicTypeUtils.blockTypeForSubtype));
+      return algebraicType.subtypes.map(FunctionUtils.pApply3f4(algebraicType, matchingBlockTypeForPlugin(), false, AlgebraicTypeUtils.blockTypeForSubtype));
     },
     classMethods: function(algebraicType:AlgebraicType.Type):ObjC.Method[] {
       return [];

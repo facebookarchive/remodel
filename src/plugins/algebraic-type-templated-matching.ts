@@ -9,6 +9,7 @@
 
 import AlgebraicType = require('../algebraic-type');
 import AlgebraicTypeUtils = require('../algebraic-type-utils');
+import AlgebraicTypeUtilsForMatching = require('../algebraic-type-utils-for-matching');
 import CPlusPlus = require('../cplusplus');
 import Code = require('../code');
 import Error = require('../error');
@@ -43,35 +44,12 @@ function matcherFunctionParameterForAlgebraicType(algebraicType:AlgebraicType.Ty
   return algebraicType.name + ' *' + matcherFunctionParameterNameForAlgebraicType(algebraicType);
 }
 
-function nameOfBlockTypeParameter(parameter:ObjC.BlockTypeParameter):string {
-  return parameter.name;
-}
-
-function localFunctionBlockDefinitionNameForSubtype(subtype:AlgebraicType.Subtype):string {
-  return 'match' + AlgebraicTypeUtils.subtypeNameFromSubtype(subtype);
+function blockInvocationWrapper(blockInvocation:string):string {
+  return 'result = std::make_shared<T>(' + blockInvocation + ');';
 }
 
 function buildLocalFunctionBlockDefinitionsForSubtype(algebraicType:AlgebraicType.Type, soFar:string[], subtype:AlgebraicType.Subtype):string[] {
-  const blockType:ObjC.BlockType = AlgebraicTypeUtils.blockTypeForSubtype(algebraicType, Maybe.Nothing<AlgebraicTypeUtils.MatchingBlockType>(), subtype);
-  const start:string = blockType.name + ' ' + localFunctionBlockDefinitionNameForSubtype(subtype) + ' = ^(' + blockType.parameters.map(ObjCRenderer.toBlockTypeParameterString).join(', ') + ') {';
-  const blockBody:string = 'result = std::make_shared<T>(' + matchBlockNameForSubtype(subtype) + '(' + blockType.parameters.map(nameOfBlockTypeParameter).join(', ') + '));';
-  const end:string[] = ['};', ''];
-  const blockCode:string[] = [start].concat(StringUtils.indent(2)(blockBody)).concat(end);
-  return soFar.concat(blockCode);
-}
-
-function keywordForInvokingMatchMethodForSubtype(algebraicType:AlgebraicType.Type, subtype:AlgebraicType.Subtype, index:number):ObjC.Keyword {
-  if (index === 0) {
-    return AlgebraicTypeUtils.firstKeywordForMatchMethodFromSubtype(algebraicType, Maybe.Nothing<AlgebraicTypeUtils.MatchingBlockType>(), subtype);
-  } else {
-    return AlgebraicTypeUtils.keywordForMatchMethodFromSubtype(algebraicType, Maybe.Nothing<AlgebraicTypeUtils.MatchingBlockType>(), subtype);
-  }
-}
-
-function buildKeywordPartsForInvokingMatchMethodForSubtype(algebraicType:AlgebraicType.Type, soFar:string[], subtype:AlgebraicType.Subtype, index:number):string[] {
-  const keyword:ObjC.Keyword = keywordForInvokingMatchMethodForSubtype(algebraicType, subtype, index);
-  const code:string = keyword.name + ':' + localFunctionBlockDefinitionNameForSubtype(subtype);
-  return soFar.concat(code);
+  return soFar.concat(AlgebraicTypeUtilsForMatching.buildLocalFunctionBlockDefinitionsForSubtype(algebraicType, subtype, blockInvocationWrapper));
 }
 
 function functionParameterProviderWithAlgebraicTypeFirst(algebraicType:AlgebraicType.Type):string[] {
@@ -90,7 +68,7 @@ function matcherFunctionCodeForAlgebraicType(algebraicType:AlgebraicType.Type, f
 
   const blockCode:string[] = algebraicType.subtypes.reduce(FunctionUtils.pApplyf3(algebraicType, buildLocalFunctionBlockDefinitionsForSubtype), []);
 
-  const keywordPartsForMatchInvocation:string[] = algebraicType.subtypes.reduce(FunctionUtils.pApplyf4(algebraicType, buildKeywordPartsForInvokingMatchMethodForSubtype), []);
+  const keywordPartsForMatchInvocation:string[] = algebraicType.subtypes.reduce(FunctionUtils.pApplyf4(algebraicType, AlgebraicTypeUtilsForMatching.buildKeywordPartsForInvokingMatchMethodForSubtype), []);
   const matchInvocationCode:string = '[' + matcherFunctionParameterName + ' ' + keywordPartsForMatchInvocation.join(' ') +'];';
   const returnCode:string = 'return *result;';
   const functionCode:string[] = [assertionCode, resultDeclaration, ''].concat(blockCode).concat(matchInvocationCode).concat(returnCode);

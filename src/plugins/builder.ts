@@ -297,6 +297,7 @@ function builderFileForValueType(objectType:ObjectSpec.Type):Code.File {
     classes: [
       {
         baseClassName:'NSObject',
+        covariantTypes:[],
         classMethods: [
           builderClassMethodForValueType(objectType),
           builderFromExistingObjectClassMethodForValueType(objectType)

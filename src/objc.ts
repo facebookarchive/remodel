@@ -387,6 +387,7 @@ export interface Property {
 
 export interface Class {
   baseClassName:string;
+  covariantTypes:string[];
   classMethods:Method[];
   comments:Comment[];
   instanceMethods:Method[];

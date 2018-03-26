@@ -43,6 +43,7 @@ describe('ObjCRenderer', function() {
         classes: [
           {
             baseClassName:'NSObject',
+            covariantTypes:[],
             classMethods: [
               {
                 preprocessors:[],
@@ -280,6 +281,7 @@ describe('ObjCRenderer', function() {
         classes: [
           {
             baseClassName:'NSObject',
+            covariantTypes:[],
             classMethods: [
               {
                 preprocessors:[],
@@ -490,6 +492,7 @@ describe('ObjCRenderer', function() {
         classes: [
           {
             baseClassName:'RMObjectSpecBase',
+            covariantTypes:[],
             classMethods: [
               {
                 preprocessors:[],
@@ -696,6 +699,7 @@ describe('ObjCRenderer', function() {
         classes: [
           {
             baseClassName:'NSObject',
+            covariantTypes:[],
             classMethods: [],
             comments:[],
             instanceMethods: [
@@ -857,6 +861,7 @@ describe('ObjCRenderer', function() {
         classes: [
           {
             baseClassName:'NSObject',
+            covariantTypes:[],
             classMethods: [],
             comments:[],
             instanceMethods: [
@@ -972,6 +977,7 @@ describe('ObjCRenderer', function() {
         classes: [
           {
             baseClassName:'NSObject',
+            covariantTypes:[],
             classMethods: [],
             comments:[],
             instanceMethods: [
@@ -1094,6 +1100,7 @@ describe('ObjCRenderer', function() {
         classes:[
           {
             baseClassName:'NSObject',
+            covariantTypes:[],
             classMethods: [],
             comments:[],
             instanceMethods: [
@@ -1227,6 +1234,7 @@ describe('ObjCRenderer', function() {
         classes:[
           {
             baseClassName:'NSObject',
+            covariantTypes:[],
             classMethods: [],
             comments:[],
             instanceMethods: [],
@@ -1301,6 +1309,7 @@ describe('ObjCRenderer', function() {
         classes: [
         {
           baseClassName:'NSObject',
+          covariantTypes:[],
           classMethods: [],
           comments:[],
           instanceMethods: [],
@@ -1400,6 +1409,7 @@ describe('ObjCRenderer', function() {
         classes: [
         {
           baseClassName:'NSObject',
+          covariantTypes:[],
           classMethods: [],
           comments:[],
           instanceMethods: [],
@@ -1467,6 +1477,7 @@ describe('ObjCRenderer', function() {
         classes:[
           {
             baseClassName:'NSObject',
+            covariantTypes:[],
             classMethods: [],
             comments:[],
             instanceMethods: [],
@@ -1520,6 +1531,7 @@ describe('ObjCRenderer', function() {
         classes:[
         {
           baseClassName:'NSObject',
+          covariantTypes:[],
           classMethods: [],
           comments:[],
           instanceMethods: [],
@@ -1606,6 +1618,7 @@ describe('ObjCRenderer', function() {
         classes:[
         {
           baseClassName:'NSObject',
+          covariantTypes:[],
           classMethods: [],
           comments:[],
           instanceMethods: [],
@@ -1693,6 +1706,7 @@ describe('ObjCRenderer', function() {
         classes: [
           {
             baseClassName:'NSObject',
+            covariantTypes:[],
             classMethods: [],
             comments:[],
             instanceMethods: [
@@ -1837,6 +1851,7 @@ describe('ObjCRenderer', function() {
         classes: [
           {
             baseClassName:'NSObject',
+            covariantTypes:[],
             classMethods: [],
             comments:[],
             instanceMethods: [
@@ -1950,6 +1965,7 @@ describe('ObjCRenderer', function() {
         classes: [
           {
             baseClassName:'NSObject',
+            covariantTypes:[],
             classMethods: [],
             comments:[],
             instanceMethods: [
@@ -2049,6 +2065,176 @@ describe('ObjCRenderer', function() {
       expect(renderedOutput).toEqualJSON(expectedOutput);
     });
 
+    it('includes covariantTypes in the header file', function() {
+      const fileToRender:Code.File = {
+        name: 'RMSomeValue',
+        type: Code.FileType.ObjectiveC(),
+        comments:[],
+        imports:[
+          {file:'RMSomething.h', isPublic:true, library:Maybe.Just('RMLibrary')},
+        ],
+        forwardDeclarations:[],
+        enumerations:[],
+        blockTypes:[],
+        staticConstants:[],
+        functions:[],
+        diagnosticIgnores:[],
+        classes: [
+          {
+            baseClassName:'NSObject',
+            covariantTypes:['ObjectType'],
+            classMethods: [
+              {
+                preprocessors:[],
+                belongsToProtocol:Maybe.Nothing<string>(),
+                code:[
+                  'return [[RMSomeValue alloc] init];'
+                ],
+                comments: [],
+                compilerAttributes:[],
+                keywords: [
+                  {
+                    name:'someClassMethodWithValue1',
+                    argument:Maybe.Just({
+                      name:'value1',
+                      modifiers: [],
+                      type: {
+                        name:'RMSomething',
+                        reference:'RMSomething *'
+                      }
+                    })
+                  },
+                  {
+                    name:'value2',
+                    argument:Maybe.Just({
+                      name:'value2',
+                      modifiers: [],
+                      type: {
+                        name:'RMSomething',
+                        reference:'RMSomething *'
+                      }
+                    })
+                  }
+                ],
+                returnType: {
+                  type:Maybe.Just({
+                    name:'ObjectType',
+                    reference:'ObjectType'
+                  }),
+                  modifiers:[ObjC.KeywordArgumentModifier.Nullable()]
+                }
+              }
+            ],
+            comments:[],
+            instanceMethods: [],
+            name:'RMSomeValue',
+            properties: [],
+            internalProperties:[],
+            implementedProtocols: [],
+            nullability: ObjC.ClassNullability.default,
+            subclassingRestricted: false,
+          }
+        ],
+        structs:[],
+        namespaces:[],
+      };
+
+      const renderedOutput:Maybe.Maybe<string> = ObjCRenderer.renderHeader(fileToRender);
+
+      const expectedOutput:Maybe.Maybe<string> = Maybe.Just<string>(
+        '#import <RMLibrary/RMSomething.h>\n' +
+        '\n' +
+        '@interface RMSomeValue<__covariant ObjectType> : NSObject\n' +
+        '\n' +
+        '+ (nullable ObjectType)someClassMethodWithValue1:(RMSomething *)value1 value2:(RMSomething *)value2;\n' +
+        '\n' +
+        '@end\n' +
+        '\n'
+      );
+
+      expect(renderedOutput).toEqualJSON(expectedOutput);
+    });
+
+    it('supports multiple covariantTypes in the header file', function() {
+        
+      const fileToRender:Code.File = {
+        name: 'RMSomeValue',
+        type: Code.FileType.ObjectiveC(),
+        comments:[],
+        imports:[
+          {file:'RMSomething.h', isPublic:true, library:Maybe.Just('RMLibrary')},
+        ],
+        enumerations:[],
+        blockTypes:[],
+        staticConstants:[],
+        forwardDeclarations:[],
+        functions:[],
+        diagnosticIgnores:[],
+        classes: [
+          {
+            baseClassName:'NSObject',
+            classMethods: [],
+            comments:[],
+            covariantTypes:['KeyType', 'ValueType'],
+            instanceMethods: [
+              {
+                preprocessors:[],
+                belongsToProtocol:Maybe.Nothing<string>(),
+                code:[
+                  'return [[RMSomeValue alloc] init];'
+                ],
+                comments: [],
+                compilerAttributes:[],
+                keywords: [
+                  {
+                    name:'objectForKey',
+                    argument:Maybe.Just({
+                      name:'key',
+                      modifiers: [],
+                      type: {
+                        name:'KeyType',
+                        reference:'KeyType',
+                      }
+                    })
+                  }
+                ],
+                returnType: {
+                  type:Maybe.Just({
+                    name:'ValueType',
+                    reference:'ValueType'
+                  }),
+                  modifiers:[ObjC.KeywordArgumentModifier.Nullable()]
+                },
+              }
+            ],
+            name:'RMSomeValue',
+            properties: [],
+            internalProperties:[],
+            implementedProtocols: [],
+            nullability: ObjC.ClassNullability.default,
+            subclassingRestricted: false,
+          }
+        ],
+        structs:[],
+        namespaces:[],
+      };
+
+      const renderedOutput:Maybe.Maybe<string> = ObjCRenderer.renderHeader(fileToRender);
+
+      const expectedOutput:Maybe.Maybe<string> = Maybe.Just<string>(
+        '#import <RMLibrary/RMSomething.h>\n' +
+        '\n' +
+        '@interface RMSomeValue<__covariant KeyType, __covariant ValueType> : NSObject\n' +
+        '\n' +
+        '- (nullable ValueType)objectForKey:(KeyType)key;\n' +
+        '\n' +
+        '@end\n' +
+        '\n'
+      );
+
+      expect(renderedOutput).toEqualJSON(expectedOutput);
+    });
+
   });
 
   describe('#renderImplementation', function() {
@@ -2077,6 +2263,7 @@ describe('ObjCRenderer', function() {
         classes: [
           {
             baseClassName:'NSObject',
+            covariantTypes:[],
             classMethods: [
               {
                 preprocessors:[],
@@ -2332,6 +2519,7 @@ describe('ObjCRenderer', function() {
         classes: [
         {
           baseClassName:'NSObject',
+          covariantTypes:[],
           classMethods: [],
           comments:[],
           instanceMethods: [
@@ -2467,6 +2655,7 @@ describe('ObjCRenderer', function() {
         classes: [
           {
             baseClassName:'NSObject',
+            covariantTypes:[],
             classMethods: [
               {
                 preprocessors:[
@@ -2756,6 +2945,7 @@ describe('ObjCRenderer', function() {
         classes: [
         {
           baseClassName:'NSObject',
+          covariantTypes:[],
           classMethods: [],
           comments:[],
           instanceMethods: [],
@@ -2801,6 +2991,187 @@ describe('ObjCRenderer', function() {
       expect(renderedOutput).toEqualJSON(expectedOutput);
     });
 
+    it('replaces return type with id for covariantTypes in implementation file', function() {
+      const fileToRender:Code.File = {
+        name: 'RMSomeValue',
+        type: Code.FileType.ObjectiveC(),
+        imports:[
+          {file:'RMSomeValue.h', isPublic:false, library:Maybe.Nothing<string>()}
+        ],
+        enumerations:[],
+        blockTypes:[],
+        comments:[],
+        staticConstants:[],
+        forwardDeclarations:[],
+        functions:[],
+        diagnosticIgnores:[],
+        classes: [
+          {
+            baseClassName:'NSObject',
+            covariantTypes:['ObjectType'],
+            classMethods: [
+              {
+                preprocessors:[],
+                belongsToProtocol:Maybe.Nothing<string>(),
+                code:[
+                  'return [[RMSomeValue alloc] init];'
+                ],
+                comments: [],
+                compilerAttributes:[],
+                keywords: [
+                  {
+                    name:'someClassMethodWithValue1',
+                    argument:Maybe.Just({
+                      name:'value1',
+                      modifiers: [],
+                      type: {
+                        name:'RMSomething',
+                        reference:'RMSomething *'
+                      }
+                    })
+                  },
+                  {
+                    name:'value2',
+                    argument:Maybe.Just({
+                      name:'value2',
+                      modifiers: [],
+                      type: {
+                        name:'RMSomething',
+                        reference:'RMSomething *'
+                      }
+                    })
+                  }
+                ],
+                returnType:{
+                  type:Maybe.Just({
+                    name:'ObjectType',
+                    reference:'ObjectType'
+                  }),
+                  modifiers:[]
+                }
+              }
+            ],
+            comments:[],
+            instanceMethods: [],
+            name:'RMSomeValue',
+            properties: [],
+            internalProperties:[],
+            implementedProtocols: [],
+            nullability: ObjC.ClassNullability.default,
+            subclassingRestricted: false,
+          }
+        ],
+        structs: [],
+        namespaces:[],
+      };
+
+      const renderedOutput:Maybe.Maybe<string> = ObjCRenderer.renderImplementation(fileToRender);
+
+      const expectedOutput:Maybe.Maybe<string> = Maybe.Just<string>(
+        '#if  ! __has_feature(objc_arc)\n' +
+        '#error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).\n' +
+        '#endif\n\n' +
+        '#import "RMSomeValue.h"\n' +
+        '\n' +
+        '@implementation RMSomeValue\n' +
+        '\n' +
+        '+ (id)someClassMethodWithValue1:(RMSomething *)value1 value2:(RMSomething *)value2\n' +
+        '{\n' +
+        '  return [[RMSomeValue alloc] init];\n' +
+        '}\n' +
+        '\n\n\n' +
+        '@end\n' +
+        '\n'
+      );
+
+      expect(renderedOutput).toEqualJSON(expectedOutput);
+    });
+
+    it('replaces parameter type with id for covariantTypes in implementation file', function() {
+      const fileToRender:Code.File = {
+        name: 'RMSomeValue',
+        type: Code.FileType.ObjectiveC(),
+        imports:[
+          {file:'RMSomeValue.h', isPublic:false, library:Maybe.Nothing<string>()}
+        ],
+        enumerations:[],
+        blockTypes:[],
+        comments:[],
+        staticConstants:[],
+        forwardDeclarations:[],
+        functions:[],
+        diagnosticIgnores:[],
+        classes: [
+          {
+            baseClassName:'NSObject',
+            covariantTypes:['KeyType', 'ValueType'],
+            classMethods: [],
+            comments:[],
+            instanceMethods: [
+              {
+                preprocessors:[],
+                belongsToProtocol:Maybe.Nothing<string>(),
+                code:[
+                  'return [[RMSomeValue alloc] init];'
+                ],
+                comments: [],
+                compilerAttributes:[],
+                keywords: [
+                  {
+                    name:'objectForKey',
+                    argument:Maybe.Just({
+                      name:'key',
+                      modifiers: [],
+                      type: {
+                        name:'KeyType',
+                        reference:'KeyType'
+                      }
+                    })
+                  }
+                ],
+                returnType:{
+                  type:Maybe.Just({
+                    name:'ValueType',
+                    reference:'ValueType'
+                  }),
+                  modifiers:[]
+                }
+              }
+            ],
+            name:'RMSomeValue',
+            properties: [],
+            internalProperties:[],
+            implementedProtocols: [],
+            nullability: ObjC.ClassNullability.default,
+            subclassingRestricted: false,
+          }
+        ],
+        structs: [],
+        namespaces:[],
+      };
+
+      const renderedOutput:Maybe.Maybe<string> = ObjCRenderer.renderImplementation(fileToRender);
+
+      const expectedOutput:Maybe.Maybe<string> = Maybe.Just<string>(
+        '#if  ! __has_feature(objc_arc)\n' +
+        '#error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).\n' +
+        '#endif\n\n' +
+        '#import "RMSomeValue.h"\n' +
+        '\n' +
+        '@implementation RMSomeValue\n' +
+        '\n' +
+        '- (id)objectForKey:(id)key\n' +
+        '{\n' +
+        '  return [[RMSomeValue alloc] init];\n' +
+        '}\n' +
+        '\n' +
+        '@end\n' +
+        '\n'
+      );
+
+      expect(renderedOutput).toEqualJSON(expectedOutput);
+    });
+
     it('renders a class file which contains enumerations', function() {
       const fileToRender:Code.File = {
         name: 'RMSomeValue',
@@ -2833,6 +3204,7 @@ describe('ObjCRenderer', function() {
         classes: [
         {
           baseClassName:'NSObject',
+          covariantTypes:[],
           classMethods: [],
           comments:[],
           instanceMethods: [],
@@ -3049,6 +3421,7 @@ describe('ObjCRenderer', function() {
         classes: [
         {
           baseClassName:'NSObject',
+          covariantTypes:[],
           classMethods: [],
           comments:[],
           instanceMethods: [],
@@ -3088,6 +3461,7 @@ describe('ObjCRenderer', function() {
         classes: [
         {
           baseClassName:'NSObject',
+          covariantTypes:[],
           classMethods: [],
           comments:[],
           instanceMethods: [],
@@ -3162,7 +3536,7 @@ describe('ObjCRenderer', function() {
           reference:'RMSomething *'
         }
       };
-      const argumentString:string = ObjCRenderer.toKeywordArgumentString(keywordArgument);
+      const argumentString:string = ObjCRenderer.toKeywordArgumentString([], keywordArgument);
       const expectedArgumentString:string = ':(RMSomething *)value1';
       expect(argumentString).toEqualJSON(expectedArgumentString);
     });
@@ -3176,7 +3550,7 @@ describe('ObjCRenderer', function() {
           reference:'RMSomething *'
         }
       };
-      const argumentString:string = ObjCRenderer.toKeywordArgumentString(keywordArgument);
+      const argumentString:string = ObjCRenderer.toKeywordArgumentString([], keywordArgument);
       const expectedArgumentString:string = ':(nonnull RMSomething *)value1';
       expect(argumentString).toEqualJSON(expectedArgumentString);
     });
@@ -3190,8 +3564,22 @@ describe('ObjCRenderer', function() {
           reference:'RMSomething *'
         }
       };
-      const argumentString:string = ObjCRenderer.toKeywordArgumentString(keywordArgument);
+      const argumentString:string = ObjCRenderer.toKeywordArgumentString([], keywordArgument);
       const expectedArgumentString:string = ':(nullable RMSomething *)value1';
+      expect(argumentString).toEqualJSON(expectedArgumentString);
+    });
+
+    it('outputs an argument string with a generic replaced by id', function() {
+      const keywordArgument:ObjC.KeywordArgument = {
+        name:'value1',
+        modifiers: [],
+        type: {
+          name:'ObjectType',
+          reference:'ObjectType *'
+        }
+      };
+      const argumentString:string = ObjCRenderer.toKeywordArgumentString(['ObjectType'], keywordArgument);
+      const expectedArgumentString:string = ':(id)value1';
       expect(argumentString).toEqualJSON(expectedArgumentString);
     });
   });

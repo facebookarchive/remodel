@@ -14,6 +14,7 @@ import AlgebraicTypeVoidMatching = require('../../plugins/algebraic-type-matchin
 import AlgebraicTypeBoolMatching = require('../../plugins/algebraic-type-matching-bool');
 import AlgebraicTypeIntegerMatching = require('../../plugins/algebraic-type-matching-integer');
 import AlgebraicTypeDoubleMatching = require('../../plugins/algebraic-type-matching-double');
+import AlgebraicTypeGenericMatching = require('../../plugins/algebraic-type-matching-generic');
 import Code = require('../../code');
 import Maybe = require('../../maybe');
 import ObjC = require('../../objc');
@@ -23,72 +24,76 @@ const VoidPlugin = AlgebraicTypeVoidMatching.createAlgebraicTypePlugin();
 const BoolPlugin = AlgebraicTypeBoolMatching.createAlgebraicTypePlugin();
 const IntegerPlugin = AlgebraicTypeIntegerMatching.createAlgebraicTypePlugin();
 const DoublePlugin = AlgebraicTypeDoubleMatching.createAlgebraicTypePlugin();
+const GenericPlugin = AlgebraicTypeGenericMatching.createAlgebraicTypePlugin();
 
-describe('Plugins.AlgebraicTypeVoidMatching', function() {
-  describe('#blockTypes', function() {
-    it('returns block types for matching an algebraic type', function() {
-      const algebraicType:AlgebraicType.Type = {
-        annotations: {},
-        name: 'Test',
-        includes: [],
-        excludes: [],
-        typeLookups:[],
-        libraryName: Maybe.Nothing<string>(),
+function algebraicTestTypeWithTwoSubtypes():AlgebraicType.Type {
+  return {
+    annotations: {},
+    name: 'Test',
+    includes: [],
+    excludes: [],
+    typeLookups:[],
+    libraryName: Maybe.Nothing<string>(),
+    comments: [],
+    subtypes: [
+      AlgebraicType.Subtype.NamedAttributeCollectionDefinition(
+      {
+        name: 'SomeSubtype',
         comments: [],
-        subtypes: [
-          AlgebraicType.Subtype.NamedAttributeCollectionDefinition(
-          {
-            name: 'SomeSubtype',
-            comments: [],
-            attributes: [
-              {
-                annotations: {},
-                name: 'someString',
-                comments: [],
-                nullability:ObjC.Nullability.Inherited(),
-                type: {
-                  name: 'NSString',
-                  reference: 'NSString *',
-                  libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
-                  fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-                  underlyingType: Maybe.Just<string>('NSObject'),
-                  conformingProtocol: Maybe.Nothing<string>()
-                }
-              },
-              {
-                annotations: {},
-                name: 'someUnsignedInteger',
-                comments: [],
-                nullability:ObjC.Nullability.Inherited(),
-                type: {
-                  name: 'NSUInteger',
-                  reference: 'NSUInteger',
-                  libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
-                  fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-                  underlyingType: Maybe.Nothing<string>(),
-                  conformingProtocol: Maybe.Nothing<string>()
-                }
-              }
-            ]
-          }),
-          AlgebraicType.Subtype.SingleAttributeSubtypeDefinition(
+        attributes: [
           {
             annotations: {},
-            name: 'singleAttributeSubtype',
-            nullability:ObjC.Nullability.Inherited(),
+            name: 'someString',
             comments: [],
+            nullability:ObjC.Nullability.Inherited(),
             type: {
-              name: 'SingleAttributeType',
-              reference: 'SingleAttributeType *',
+              name: 'NSString',
+              reference: 'NSString *',
               libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
               fileTypeIsDefinedIn: Maybe.Nothing<string>(),
               underlyingType: Maybe.Just<string>('NSObject'),
               conformingProtocol: Maybe.Nothing<string>()
             }
-          })
+          },
+          {
+            annotations: {},
+            name: 'someUnsignedInteger',
+            comments: [],
+            nullability:ObjC.Nullability.Inherited(),
+            type: {
+              name: 'NSUInteger',
+              reference: 'NSUInteger',
+              libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+              fileTypeIsDefinedIn: Maybe.Nothing<string>(),
+              underlyingType: Maybe.Nothing<string>(),
+              conformingProtocol: Maybe.Nothing<string>()
+            }
+          }
         ]
-      };
+      }),
+      AlgebraicType.Subtype.SingleAttributeSubtypeDefinition(
+      {
+        annotations: {},
+        name: 'singleAttributeSubtype',
+        nullability:ObjC.Nullability.Inherited(),
+        comments: [],
+        type: {
+          name: 'SingleAttributeType',
+          reference: 'SingleAttributeType *',
+          libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+          fileTypeIsDefinedIn: Maybe.Nothing<string>(),
+          underlyingType: Maybe.Just<string>('NSObject'),
+          conformingProtocol: Maybe.Nothing<string>()
+        }
+      })
+    ]
+  };
+}
 
+describe('Plugins.AlgebraicTypeVoidMatching', function() {
+  describe('#blockTypes', function() {
+    it('returns block types for matching an algebraic type', function() {
+      const algebraicType:AlgebraicType.Type = algebraicTestTypeWithTwoSubtypes();
       const blockTypes:ObjC.BlockType[] = VoidPlugin.blockTypes(algebraicType);
 
       const expectedBlockTypes:ObjC.BlockType[] = [
@@ -144,68 +149,7 @@ describe('Plugins.AlgebraicTypeVoidMatching', function() {
 
   describe('#instanceMethods', function() {
     it('returns an instance method for matching the subtypes of an algebraic type', function() {
-      const algebraicType:AlgebraicType.Type = {
-        annotations: {},
-        name: 'Test',
-        includes: [],
-        excludes: [],
-        typeLookups:[],
-        libraryName: Maybe.Nothing<string>(),
-        comments: [],
-        subtypes: [
-          AlgebraicType.Subtype.NamedAttributeCollectionDefinition(
-          {
-            name: 'SomeSubtype',
-            comments: [],
-            attributes: [
-              {
-                annotations: {},
-                name: 'someString',
-                comments: [],
-                nullability:ObjC.Nullability.Inherited(),
-                type: {
-                  name: 'NSString',
-                  reference: 'NSString *',
-                  libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
-                  fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-                  underlyingType: Maybe.Just<string>('NSObject'),
-                  conformingProtocol: Maybe.Nothing<string>()
-                }
-              },
-              {
-                annotations: {},
-                name: 'someUnsignedInteger',
-                comments: [],
-                nullability:ObjC.Nullability.Inherited(),
-                type: {
-                  name: 'NSUInteger',
-                  reference: 'NSUInteger',
-                  libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
-                  fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-                  underlyingType: Maybe.Nothing<string>(),
-                  conformingProtocol: Maybe.Nothing<string>()
-                }
-              }
-            ]
-          }),
-          AlgebraicType.Subtype.SingleAttributeSubtypeDefinition(
-          {
-            annotations: {},
-            name: 'singleAttributeSubtype',
-            comments: [],
-            nullability:ObjC.Nullability.Inherited(),
-            type: {
-              name: 'SingleAttributeType',
-              reference: 'SingleAttributeType *',
-              libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
-              fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-              underlyingType: Maybe.Just<string>('NSObject'),
-              conformingProtocol: Maybe.Nothing<string>()
-            }
-          })
-        ]
-      };
-
+      const algebraicType:AlgebraicType.Type = algebraicTestTypeWithTwoSubtypes();
       const instanceMethods:ObjC.Method[] = VoidPlugin.instanceMethods(algebraicType);
 
       const expectedInstanceMethod:ObjC.Method = {
@@ -264,68 +208,7 @@ describe('Plugins.AlgebraicTypeVoidMatching', function() {
 describe('Plugins.AlgebraicTypeBoolMatching', function() {
   describe('#blockTypes', function() {
     it('returns block types for bool matching an algebraic type', function() {
-      const algebraicType:AlgebraicType.Type = {
-        annotations: {},
-        name: 'Test',
-        includes: [],
-        excludes: [],
-        typeLookups:[],
-        libraryName: Maybe.Nothing<string>(),
-        comments: [],
-        subtypes: [
-          AlgebraicType.Subtype.NamedAttributeCollectionDefinition(
-          {
-            name: 'SomeSubtype',
-            comments: [],
-            attributes: [
-              {
-                annotations: {},
-                name: 'someString',
-                comments: [],
-                nullability:ObjC.Nullability.Inherited(),
-                type: {
-                  name: 'NSString',
-                  reference: 'NSString *',
-                  libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
-                  fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-                  underlyingType: Maybe.Just<string>('NSObject'),
-                  conformingProtocol: Maybe.Nothing<string>()
-                }
-              },
-              {
-                annotations: {},
-                name: 'someUnsignedInteger',
-                comments: [],
-                nullability:ObjC.Nullability.Inherited(),
-                type: {
-                  name: 'NSUInteger',
-                  reference: 'NSUInteger',
-                  libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
-                  fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-                  underlyingType: Maybe.Nothing<string>(),
-                  conformingProtocol: Maybe.Nothing<string>()
-                }
-              }
-            ]
-          }),
-          AlgebraicType.Subtype.SingleAttributeSubtypeDefinition(
-          {
-            annotations: {},
-            name: 'singleAttributeSubtype',
-            nullability:ObjC.Nullability.Inherited(),
-            comments: [],
-            type: {
-              name: 'SingleAttributeType',
-              reference: 'SingleAttributeType *',
-              libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
-              fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-              underlyingType: Maybe.Just<string>('NSObject'),
-              conformingProtocol: Maybe.Nothing<string>()
-            }
-          })
-        ]
-      };
-
+      const algebraicType:AlgebraicType.Type = algebraicTestTypeWithTwoSubtypes();
       const blockTypes:ObjC.BlockType[] = BoolPlugin.blockTypes(algebraicType);
 
       const expectedBlockTypes:ObjC.BlockType[] = [
@@ -393,68 +276,7 @@ describe('Plugins.AlgebraicTypeBoolMatching', function() {
 
   describe('#instanceMethods', function() {
     it('returns an instance method for bool matching the subtypes of an algebraic type', function() {
-      const algebraicType:AlgebraicType.Type = {
-        annotations: {},
-        name: 'Test',
-        includes: [],
-        excludes: [],
-        typeLookups:[],
-        libraryName: Maybe.Nothing<string>(),
-        comments: [],
-        subtypes: [
-          AlgebraicType.Subtype.NamedAttributeCollectionDefinition(
-          {
-            name: 'SomeSubtype',
-            comments: [],
-            attributes: [
-              {
-                annotations: {},
-                name: 'someString',
-                comments: [],
-                nullability:ObjC.Nullability.Inherited(),
-                type: {
-                  name: 'NSString',
-                  reference: 'NSString *',
-                  libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
-                  fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-                  underlyingType: Maybe.Just<string>('NSObject'),
-                  conformingProtocol: Maybe.Nothing<string>()
-                }
-              },
-              {
-                annotations: {},
-                name: 'someUnsignedInteger',
-                comments: [],
-                nullability:ObjC.Nullability.Inherited(),
-                type: {
-                  name: 'NSUInteger',
-                  reference: 'NSUInteger',
-                  libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
-                  fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-                  underlyingType: Maybe.Nothing<string>(),
-                  conformingProtocol: Maybe.Nothing<string>()
-                }
-              }
-            ]
-          }),
-          AlgebraicType.Subtype.SingleAttributeSubtypeDefinition(
-          {
-            annotations: {},
-            name: 'singleAttributeSubtype',
-            comments: [],
-            nullability:ObjC.Nullability.Inherited(),
-            type: {
-              name: 'SingleAttributeType',
-              reference: 'SingleAttributeType *',
-              libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
-              fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-              underlyingType: Maybe.Just<string>('NSObject'),
-              conformingProtocol: Maybe.Nothing<string>()
-            }
-          })
-        ]
-      };
-
+      const algebraicType:AlgebraicType.Type = algebraicTestTypeWithTwoSubtypes();
       const instanceMethods:ObjC.Method[] = BoolPlugin.instanceMethods(algebraicType);
 
       const expectedInstanceMethod:ObjC.Method = {
@@ -521,68 +343,7 @@ describe('Plugins.AlgebraicTypeBoolMatching', function() {
 describe('Plugins.AlgebraicTypeIntegerMatching', function() {
   describe('#blockTypes', function() {
     it('returns block types for integer matching an algebraic type', function() {
-      const algebraicType:AlgebraicType.Type = {
-        annotations: {},
-        name: 'Test',
-        includes: [],
-        excludes: [],
-        typeLookups:[],
-        libraryName: Maybe.Nothing<string>(),
-        comments: [],
-        subtypes: [
-          AlgebraicType.Subtype.NamedAttributeCollectionDefinition(
-          {
-            name: 'SomeSubtype',
-            comments: [],
-            attributes: [
-              {
-                annotations: {},
-                name: 'someString',
-                comments: [],
-                nullability:ObjC.Nullability.Inherited(),
-                type: {
-                  name: 'NSString',
-                  reference: 'NSString *',
-                  libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
-                  fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-                  underlyingType: Maybe.Just<string>('NSObject'),
-                  conformingProtocol: Maybe.Nothing<string>()
-                }
-              },
-              {
-                annotations: {},
-                name: 'someUnsignedInteger',
-                comments: [],
-                nullability:ObjC.Nullability.Inherited(),
-                type: {
-                  name: 'NSUInteger',
-                  reference: 'NSUInteger',
-                  libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
-                  fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-                  underlyingType: Maybe.Nothing<string>(),
-                  conformingProtocol: Maybe.Nothing<string>()
-                }
-              }
-            ]
-          }),
-          AlgebraicType.Subtype.SingleAttributeSubtypeDefinition(
-          {
-            annotations: {},
-            name: 'singleAttributeSubtype',
-            nullability:ObjC.Nullability.Inherited(),
-            comments: [],
-            type: {
-              name: 'SingleAttributeType',
-              reference: 'SingleAttributeType *',
-              libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
-              fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-              underlyingType: Maybe.Just<string>('NSObject'),
-              conformingProtocol: Maybe.Nothing<string>()
-            }
-          })
-        ]
-      };
-
+      const algebraicType:AlgebraicType.Type = algebraicTestTypeWithTwoSubtypes();
       const blockTypes:ObjC.BlockType[] = IntegerPlugin.blockTypes(algebraicType);
 
       const expectedBlockTypes:ObjC.BlockType[] = [
@@ -650,68 +411,7 @@ describe('Plugins.AlgebraicTypeIntegerMatching', function() {
 
   describe('#instanceMethods', function() {
     it('returns an instance method for integer matching the subtypes of an algebraic type', function() {
-      const algebraicType:AlgebraicType.Type = {
-        annotations: {},
-        name: 'Test',
-        includes: [],
-        excludes: [],
-        typeLookups:[],
-        libraryName: Maybe.Nothing<string>(),
-        comments: [],
-        subtypes: [
-          AlgebraicType.Subtype.NamedAttributeCollectionDefinition(
-          {
-            name: 'SomeSubtype',
-            comments: [],
-            attributes: [
-              {
-                annotations: {},
-                name: 'someString',
-                comments: [],
-                nullability:ObjC.Nullability.Inherited(),
-                type: {
-                  name: 'NSString',
-                  reference: 'NSString *',
-                  libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
-                  fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-                  underlyingType: Maybe.Just<string>('NSObject'),
-                  conformingProtocol: Maybe.Nothing<string>()
-                }
-              },
-              {
-                annotations: {},
-                name: 'someUnsignedInteger',
-                comments: [],
-                nullability:ObjC.Nullability.Inherited(),
-                type: {
-                  name: 'NSUInteger',
-                  reference: 'NSUInteger',
-                  libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
-                  fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-                  underlyingType: Maybe.Nothing<string>(),
-                  conformingProtocol: Maybe.Nothing<string>()
-                }
-              }
-            ]
-          }),
-          AlgebraicType.Subtype.SingleAttributeSubtypeDefinition(
-          {
-            annotations: {},
-            name: 'singleAttributeSubtype',
-            comments: [],
-            nullability:ObjC.Nullability.Inherited(),
-            type: {
-              name: 'SingleAttributeType',
-              reference: 'SingleAttributeType *',
-              libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
-              fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-              underlyingType: Maybe.Just<string>('NSObject'),
-              conformingProtocol: Maybe.Nothing<string>()
-            }
-          })
-        ]
-      };
-
+      const algebraicType:AlgebraicType.Type = algebraicTestTypeWithTwoSubtypes();
       const instanceMethods:ObjC.Method[] = IntegerPlugin.instanceMethods(algebraicType);
 
       const expectedInstanceMethod:ObjC.Method = {
@@ -778,68 +478,7 @@ describe('Plugins.AlgebraicTypeIntegerMatching', function() {
 describe('Plugins.AlgebraicTypeDoubleMatching', function() {
   describe('#blockTypes', function() {
     it('returns block types for double matching an algebraic type', function() {
-      const algebraicType:AlgebraicType.Type = {
-        annotations: {},
-        name: 'Test',
-        includes: [],
-        excludes: [],
-        typeLookups:[],
-        libraryName: Maybe.Nothing<string>(),
-        comments: [],
-        subtypes: [
-          AlgebraicType.Subtype.NamedAttributeCollectionDefinition(
-          {
-            name: 'SomeSubtype',
-            comments: [],
-            attributes: [
-              {
-                annotations: {},
-                name: 'someString',
-                comments: [],
-                nullability:ObjC.Nullability.Inherited(),
-                type: {
-                  name: 'NSString',
-                  reference: 'NSString *',
-                  libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
-                  fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-                  underlyingType: Maybe.Just<string>('NSObject'),
-                  conformingProtocol: Maybe.Nothing<string>()
-                }
-              },
-              {
-                annotations: {},
-                name: 'someUnsignedInteger',
-                comments: [],
-                nullability:ObjC.Nullability.Inherited(),
-                type: {
-                  name: 'NSUInteger',
-                  reference: 'NSUInteger',
-                  libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
-                  fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-                  underlyingType: Maybe.Nothing<string>(),
-                  conformingProtocol: Maybe.Nothing<string>()
-                }
-              }
-            ]
-          }),
-          AlgebraicType.Subtype.SingleAttributeSubtypeDefinition(
-          {
-            annotations: {},
-            name: 'singleAttributeSubtype',
-            nullability:ObjC.Nullability.Inherited(),
-            comments: [],
-            type: {
-              name: 'SingleAttributeType',
-              reference: 'SingleAttributeType *',
-              libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
-              fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-              underlyingType: Maybe.Just<string>('NSObject'),
-              conformingProtocol: Maybe.Nothing<string>()
-            }
-          })
-        ]
-      };
-
+      const algebraicType:AlgebraicType.Type = algebraicTestTypeWithTwoSubtypes();
       const blockTypes:ObjC.BlockType[] = DoublePlugin.blockTypes(algebraicType);
 
       const expectedBlockTypes:ObjC.BlockType[] = [
@@ -907,68 +546,7 @@ describe('Plugins.AlgebraicTypeDoubleMatching', function() {
 
   describe('#instanceMethods', function() {
     it('returns an instance method for double matching the subtypes of an algebraic type', function() {
-      const algebraicType:AlgebraicType.Type = {
-        annotations: {},
-        name: 'Test',
-        includes: [],
-        excludes: [],
-        typeLookups:[],
-        libraryName: Maybe.Nothing<string>(),
-        comments: [],
-        subtypes: [
-          AlgebraicType.Subtype.NamedAttributeCollectionDefinition(
-          {
-            name: 'SomeSubtype',
-            comments: [],
-            attributes: [
-              {
-                annotations: {},
-                name: 'someString',
-                comments: [],
-                nullability:ObjC.Nullability.Inherited(),
-                type: {
-                  name: 'NSString',
-                  reference: 'NSString *',
-                  libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
-                  fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-                  underlyingType: Maybe.Just<string>('NSObject'),
-                  conformingProtocol: Maybe.Nothing<string>()
-                }
-              },
-              {
-                annotations: {},
-                name: 'someUnsignedInteger',
-                comments: [],
-                nullability:ObjC.Nullability.Inherited(),
-                type: {
-                  name: 'NSUInteger',
-                  reference: 'NSUInteger',
-                  libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
-                  fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-                  underlyingType: Maybe.Nothing<string>(),
-                  conformingProtocol: Maybe.Nothing<string>()
-                }
-              }
-            ]
-          }),
-          AlgebraicType.Subtype.SingleAttributeSubtypeDefinition(
-          {
-            annotations: {},
-            name: 'singleAttributeSubtype',
-            comments: [],
-            nullability:ObjC.Nullability.Inherited(),
-            type: {
-              name: 'SingleAttributeType',
-              reference: 'SingleAttributeType *',
-              libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
-              fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-              underlyingType: Maybe.Just<string>('NSObject'),
-              conformingProtocol: Maybe.Nothing<string>()
-            }
-          })
-        ]
-      };
-
+      const algebraicType:AlgebraicType.Type = algebraicTestTypeWithTwoSubtypes();
       const instanceMethods:ObjC.Method[] = DoublePlugin.instanceMethods(algebraicType);
 
       const expectedInstanceMethod:ObjC.Method = {
@@ -1028,6 +606,158 @@ describe('Plugins.AlgebraicTypeDoubleMatching', function() {
       };
 
       expect(instanceMethods).toContain(expectedInstanceMethod);
+    });
+  });
+});
+
+describe('Plugins.AlgebraicTypeGenericMatching', function() {
+  describe('#newFile', function() {
+    it('returns a new matching file for algebraic type', function() {
+      const algebraicType:AlgebraicType.Type = algebraicTestTypeWithTwoSubtypes();
+      const actualFilename = GenericPlugin.additionalFiles(algebraicType)[0].name;
+      expect(actualFilename).toEqual('TestMatcher');
+    });
+  });
+
+  describe('#blockTypes', function() {
+    it('returns block types in additional file for generic matching an algebraic type', function() {
+      const algebraicType:AlgebraicType.Type = algebraicTestTypeWithTwoSubtypes();
+      const blockTypes:ObjC.BlockType[] = GenericPlugin.additionalFiles(algebraicType)[0].blockTypes;
+
+      const expectedBlockTypes:ObjC.BlockType[] = [
+        {
+          comments: [],
+          name: 'TestObjectTypeSomeSubtypeMatchHandler',
+          parameters: [
+            {
+              name: 'someString',
+              type: {
+                name: 'NSString',
+                reference:'NSString *'
+              },
+              nullability: ObjC.Nullability.Inherited()
+            },
+            {
+              name: 'someUnsignedInteger',
+              type: {
+                name: 'NSUInteger',
+                reference:'NSUInteger'
+              },
+              nullability: ObjC.Nullability.Inherited()
+            }
+          ],
+          returnType:{
+            type:Maybe.Just<ObjC.Type>({
+              name: 'ObjectType',
+              reference: 'ObjectType'
+            }), 
+            modifiers:[]
+          },
+          isPublic: true,
+          isInlined: true,
+          nullability: ObjC.ClassNullability.default
+        },
+        {
+          comments: [],
+          name: 'TestObjectTypeSingleAttributeSubtypeMatchHandler',
+          parameters: [
+            {
+              name: 'singleAttributeSubtype',
+              type: {
+                name: 'SingleAttributeType',
+                reference: 'SingleAttributeType *'
+              },
+              nullability: ObjC.Nullability.Inherited()
+            }
+          ],
+          returnType:{
+            type:Maybe.Just<ObjC.Type>({
+              name: 'ObjectType',
+              reference: 'ObjectType'
+            }), 
+            modifiers:[]
+          },
+          isPublic: true,
+          isInlined: true,
+          nullability: ObjC.ClassNullability.default
+        }
+      ];
+
+      expect(blockTypes).toEqualJSON(expectedBlockTypes);
+    });
+  });
+
+  describe('#classMethods', function() {
+    it('returns a class method for generic algebraic type matching', function() {
+      const algebraicType:AlgebraicType.Type = algebraicTestTypeWithTwoSubtypes();
+      const instanceMethods:ObjC.Method[] = GenericPlugin.instanceMethods(algebraicType);
+      const classMethods = GenericPlugin.additionalFiles(algebraicType)[0].classes[0].classMethods;
+
+      const expectedClassMethod:ObjC.Method = {
+        preprocessors:[],
+        belongsToProtocol:Maybe.Nothing<string>(),
+        code: [
+          '__block id result = nil;',
+          '',
+          'TestSomeSubtypeMatchHandler matchSomeSubtype = ^(NSString *someString, NSUInteger someUnsignedInteger) {',
+          '  result = someSubtypeMatchHandler(someString, someUnsignedInteger);',
+          '};',
+          '',
+          'TestSingleAttributeSubtypeMatchHandler matchSingleAttributeSubtype = ^(SingleAttributeType *singleAttributeSubtype) {',
+          '  result = singleAttributeSubtypeMatchHandler(singleAttributeSubtype);',
+          '};',
+          '',
+          '[test matchSomeSubtype:matchSomeSubtype singleAttributeSubtype:matchSingleAttributeSubtype];',
+          '',
+          'return result;'
+        ],
+        compilerAttributes:[],
+        comments: [],
+        keywords: [
+          {
+            name: 'match',
+            argument: Maybe.Just<ObjC.KeywordArgument>({
+              name: 'test',
+              modifiers: [],
+              type: {
+                name: 'Test',
+                reference:'Test*'
+              }
+            })
+          },
+          {
+            name: 'someSubtype',
+            argument: Maybe.Just<ObjC.KeywordArgument>({
+              name: 'someSubtypeMatchHandler',
+              modifiers: [],
+              type: {
+                name: 'TestObjectTypeSomeSubtypeMatchHandler',
+                reference:'TestObjectTypeSomeSubtypeMatchHandler'
+              }
+            })
+          },
+          {
+            name: 'singleAttributeSubtype',
+            argument: Maybe.Just<ObjC.KeywordArgument>({
+              name: 'singleAttributeSubtypeMatchHandler',
+              modifiers: [],
+              type: {
+                name: 'TestObjectTypeSingleAttributeSubtypeMatchHandler',
+                reference:'TestObjectTypeSingleAttributeSubtypeMatchHandler'
+              }
+            })
+          }
+        ],
+        returnType:{
+          type:Maybe.Just<ObjC.Type>({
+            name: 'ObjectType',
+            reference: 'ObjectType'
+          }), 
+          modifiers:[]
+        },
+      };
+
+      expect(classMethods).toContain(expectedClassMethod);
     });
   });
 });

@@ -68,6 +68,7 @@ const BASE_PLUGINS:List.List<string> = List.of(
   'use-cpp',
   'algebraic-type-matching-bool',
   'algebraic-type-matching-double',
+  'algebraic-type-matching-generic',
   'algebraic-type-matching-integer',
   'algebraic-type-matching-void',
   'algebraic-type-templated-matching'

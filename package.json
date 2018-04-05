@@ -6,8 +6,7 @@
   "bugs": "https://github.com/facebook/remodel/issues",
   "files": [
     "bin/",
-    "LICENSE",
-    "PATENTS"
+    "LICENSE"
   ],
   "main": "bin/generate",
   "scripts": {
@@ -18,7 +17,7 @@
     "remodel-gen": "bin/generate"
   },
   "repository": "facebook/remodel",
-  "license": "BSD-3-Clause",
+  "license": "MIT",
   "dependencies": {
     "cli-color": "0.3.2",
     "glob": "7.1.2",

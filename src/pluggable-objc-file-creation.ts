@@ -46,12 +46,19 @@ export interface ObjCGenerationRequest<T> {
   path:File.AbsoluteFilePath;
   outputPath:Maybe.Maybe<File.AbsoluteFilePath>;
   typeInformation:T;
+  renderHeader:boolean;
+  renderImpl:boolean;
 }
 
 export interface ObjCGenerationTypeInfoProvider<T> {
   additionalTypesForType: (typeInformation:T)=>T[];
   typeNameForType: (typeInformation:T)=>string;
   commentsForType: (typeInformation:T)=>string[];
+}
+
+interface ObjCRenderingOptions {
+  renderHeader:boolean;
+  renderImpl:boolean;
 }
 
 function buildImports<T>(typeInformation:T, soFar:ObjC.Import[], plugin:ObjCGenerationPlugIn<T>):ObjC.Import[] {
@@ -264,8 +271,8 @@ function fileCreationRequestContainingArrayOfPossibleError(fileCreationRequest:E
   }, fileCreationRequest);
 }
 
-function fileWriteRequestContainingAdditionalFile(containingFolderPath:File.AbsoluteFilePath, file:Code.File, fileWriteRequest:FileWriter.FileWriteRequest):Either.Either<Error.Error[], FileWriter.FileWriteRequest> {
-  const fileCreationRequestForAdditionalFile:Either.Either<Error.Error[], FileWriter.FileWriteRequest> = fileCreationRequestContainingArrayOfPossibleError(ObjCFileCreation.fileCreationRequest(containingFolderPath, file));
+function fileWriteRequestContainingAdditionalFile(renderOptions:ObjCRenderingOptions, containingFolderPath:File.AbsoluteFilePath, file:Code.File, fileWriteRequest:FileWriter.FileWriteRequest):Either.Either<Error.Error[], FileWriter.FileWriteRequest> {
+  const fileCreationRequestForAdditionalFile:Either.Either<Error.Error[], FileWriter.FileWriteRequest> = fileCreationRequestContainingArrayOfPossibleError(ObjCFileCreation.fileCreationRequest(containingFolderPath, file, renderOptions.renderHeader, renderOptions.renderImpl));
 
   return Either.map(function(fileWriteRequestForAdditionalFile:FileWriter.FileWriteRequest):FileWriter.FileWriteRequest {
     const updatedRequest:FileWriter.FileWriteRequest = {
@@ -276,8 +283,13 @@ function fileWriteRequestContainingAdditionalFile(containingFolderPath:File.Abso
   }, fileCreationRequestForAdditionalFile);
 }
 
-function fileCreationRequestContainingAdditionalFile(containingFolderPath:File.AbsoluteFilePath, fileCreationRequest:Either.Either<Error.Error, FileWriter.FileWriteRequest>, file:Code.File):Either.Either<Error.Error, FileWriter.FileWriteRequest> {
-  const generator:(fileWriteRequest:FileWriter.FileWriteRequest) => Either.Either<Error.Error, FileWriter.FileWriteRequest> = fileWriteRequestContainingAdditionalFile.bind(null, containingFolderPath, file);
+function fileCreationRequestContainingAdditionalFile(
+  renderOptions:ObjCRenderingOptions,
+  containingFolderPath:File.AbsoluteFilePath, 
+  fileCreationRequest:Either.Either<Error.Error, FileWriter.FileWriteRequest>, 
+  file:Code.File
+):Either.Either<Error.Error, FileWriter.FileWriteRequest> {
+  const generator:(fileWriteRequest:FileWriter.FileWriteRequest) => Either.Either<Error.Error, FileWriter.FileWriteRequest> = fileWriteRequestContainingAdditionalFile.bind(null, renderOptions, containingFolderPath, file);
   return Either.mbind(generator, fileCreationRequest);
 }
 
@@ -297,11 +309,16 @@ function buildFileWriteRequest<T>(request:ObjCGenerationRequest<T>, typeInfoProv
     const classFile:Either.Either<Error.Error, Code.File> = classFileFromTypeInfo(type, typeInfoProvider.typeNameForType(type), typeInfoProvider.commentsForType(type));
 
     const fileCreationRequest:Either.Either<Error.Error, FileWriter.FileWriteRequest> = Either.mbind(function(classFile) {
-      return ObjCFileCreation.fileCreationRequest(outputPath, classFile);
+      return ObjCFileCreation.fileCreationRequest(outputPath, classFile, request.renderHeader, request.renderImpl);
     }, classFile);
     const additionalFiles:Code.File[] = List.foldl<ObjCGenerationPlugIn<T>, Code.File[]>(FunctionUtils.pApplyf3(type, buildAdditionalFiles), [], plugins);
 
-    const completeFileCreationRequest:Either.Either<Error.Error, FileWriter.FileWriteRequest> = additionalFiles.reduceRight(FunctionUtils.pApplyf3(outputPath, fileCreationRequestContainingAdditionalFile), fileCreationRequest);
+    const renderOptions = {
+      renderHeader:request.renderHeader,
+      renderImpl:request.renderImpl
+    };
+
+    const completeFileCreationRequest:Either.Either<Error.Error, FileWriter.FileWriteRequest> = additionalFiles.reduceRight(FunctionUtils.pApply2f4(renderOptions, outputPath, fileCreationRequestContainingAdditionalFile), fileCreationRequest);
     return fileCreationRequestContainingArrayOfPossibleError(completeFileCreationRequest);
   });
 

@@ -41,11 +41,11 @@ function implementationFileExtensionForFileType(fileType:Code.FileType):string {
   });
 }
 
-export function fileCreationRequest(containingFolderPath: File.AbsoluteFilePath, file:Code.File):Either.Either<Error.Error, FileWriter.FileWriteRequest> {
-  const headerContents:Maybe.Maybe<string> = ObjCRenderer.renderHeader(file);
+export function fileCreationRequest(containingFolderPath: File.AbsoluteFilePath, file:Code.File, renderHeader:boolean, renderImpl:boolean):Either.Either<Error.Error, FileWriter.FileWriteRequest> {
+  const headerContents:Maybe.Maybe<string> = renderHeader ? ObjCRenderer.renderHeader(file) : Maybe.Nothing<string>();
   const headerRequest:Maybe.Maybe<FileWriter.Request> = fileRequest(containingFolderPath, fileNameIncludingExtension(file, 'h'), headerContents);
 
-  const implementationContents:Maybe.Maybe<string> = ObjCRenderer.renderImplementation(file);
+  const implementationContents:Maybe.Maybe<string> = renderImpl ? ObjCRenderer.renderImplementation(file) : Maybe.Nothing<string>();
   const implementationRequest:Maybe.Maybe<FileWriter.Request> = fileRequest(containingFolderPath, fileNameIncludingExtension(file, implementationFileExtensionForFileType(file.type)), implementationContents);
 
   const baseRequests:List.List<FileWriter.Request> = List.of<FileWriter.Request>();

@@ -24,6 +24,8 @@ export interface Arguments {
   includes:string[];
   excludes:string[];
   prohibitPluginDirectives:boolean;
+  headersOnly:boolean;
+  implOnly:boolean;
 }
 
 const VERBOSE_FLAG:string = 'verbose';
@@ -35,6 +37,8 @@ const OUTPUT_PATH:string = 'output-path';
 const INCLUDE:string = 'include';
 const EXCLUDE:string = 'exclude';
 const PROHIBIT_PLUGIN_DIRECTIVES_FLAG:string = 'prohibit-plugin-directives';
+const HEADERS_ONLY:string = 'headers-only';
+const IMPL_ONLY:string = 'implementation-only';
 
 const ADT_CONFIG_PATH:string = 'adt-config-path';
 const VALUE_OBJECT_CONFIG_PATH:string = 'value-object-config-path';
@@ -62,13 +66,36 @@ function sanitizeArrayArg(arg:any): string[] {
   }
 }
 
+function sanitizeBooleanArg(arg:any): boolean {
+  if (typeof arg == "boolean") {
+    return arg;
+  } else if (typeof arg == "string") {
+    if (arg.lower() == "true" || arg.lower() == "yes" || arg.lower() == "y") {
+      return true;
+    } else {
+      return false;
+    }
+  } else if (typeof arg == "number") {
+    return arg == 1;
+  } else {
+    return false;
+  }
+}
+
 export function parseArgs(args:string[]):Maybe.Maybe<Arguments> {
   const opts = {
-    boolean:[VERBOSE_FLAG, PERF_LOGGING_FLAG, DEBUG_LOGGING_FLAG, SILENT_LOGGING_FLAG, DRY_RUN_FLAG, PROHIBIT_PLUGIN_DIRECTIVES_FLAG],
+    boolean:[VERBOSE_FLAG, PERF_LOGGING_FLAG, DEBUG_LOGGING_FLAG, SILENT_LOGGING_FLAG, DRY_RUN_FLAG, PROHIBIT_PLUGIN_DIRECTIVES_FLAG, HEADERS_ONLY, IMPL_ONLY],
     string:[ADT_CONFIG_PATH, VALUE_OBJECT_CONFIG_PATH, OBJECT_CONFIG_PATH, INCLUDE, EXCLUDE, OUTPUT_PATH],
   };
   const parsedArgs = minimist(args, opts);
+
+  const sanitizedHeadersOnly = sanitizeBooleanArg(parsedArgs[HEADERS_ONLY]);
+  const sanitizedImplOnly = sanitizeBooleanArg(parsedArgs[IMPL_ONLY]);
+
   if (parsedArgs._.length === 0) {
+    return Maybe.Nothing<Arguments>();
+  } else if (sanitizedHeadersOnly && sanitizedImplOnly) {
+    console.log('Cannot specify both --headers-only and --implementation-only');
     return Maybe.Nothing<Arguments>();
   } else {
     return Maybe.Just({
@@ -83,6 +110,8 @@ export function parseArgs(args:string[]):Maybe.Maybe<Arguments> {
       includes:sanitizeArrayArg(parsedArgs[INCLUDE]),
       excludes:sanitizeArrayArg(parsedArgs[EXCLUDE]),
       prohibitPluginDirectives:parsedArgs[PROHIBIT_PLUGIN_DIRECTIVES_FLAG],
+      headersOnly:sanitizedHeadersOnly,
+      implOnly:sanitizedImplOnly,
     });
   }
 }

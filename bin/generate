@@ -52,3 +52,4 @@ Maybe.match(function(args) {
   function() {
     console.log('Expected use: ./generate [flags] pathToDirectory');
   }, parsedArgs);
+

@@ -44,6 +44,12 @@ interface PathAndTypeInfo {
   typeInformation: ObjectSpec.Type;
 }
 
+interface GenerationOptions {
+  outputPath: Maybe.Maybe<File.AbsoluteFilePath>;
+  renderHeader: boolean;
+  renderImpl: boolean;
+}
+
 function evaluateUnparsedObjectSpecCreationRequest(request:ReadFileUtils.UnparsedObjectCreationRequest):Either.Either<Error.Error[], PathAndTypeInfo> {
   const parseResult:Either.Either<Error.Error[], ObjectSpec.Type> = ObjectSpecParser.parse(File.getContents(request.fileContents));
   return Either.match(function(errors:Error.Error[]) {
@@ -70,7 +76,7 @@ function typeInformationContainingDefaultIncludes(typeInformation:ObjectSpec.Typ
   };
 }
 
-function processObjectSpecCreationRequest(outputPath: Maybe.Maybe<File.AbsoluteFilePath>, future:Promise.Future<Either.Either<Error.Error[], ObjectSpecCreationContext>>, either:Either.Either<Error.Error[], PathAndTypeInfo>):Promise.Future<Logging.Context<Either.Either<Error.Error[], FileWriter.FileWriteRequest>>> {
+function processObjectSpecCreationRequest(options: GenerationOptions, future:Promise.Future<Either.Either<Error.Error[], ObjectSpecCreationContext>>, either:Either.Either<Error.Error[], PathAndTypeInfo>):Promise.Future<Logging.Context<Either.Either<Error.Error[], FileWriter.FileWriteRequest>>> {
   return Promise.map(function(creationContextEither:Either.Either<Error.Error[], ObjectSpecCreationContext>) {
     return Logging.munit(Either.mbind(function(pathAndTypeInfo:PathAndTypeInfo) {
       return Either.mbind(function(creationContext:ObjectSpecCreationContext) {
@@ -82,8 +88,10 @@ function processObjectSpecCreationRequest(outputPath: Maybe.Maybe<File.AbsoluteF
             baseClassLibraryName:creationContext.baseClassLibraryName,
             baseClassName:creationContext.baseClassName,
             path:pathAndTypeInfo.path,
-            outputPath:outputPath,
-            typeInformation:typeInformationContainingDefaultIncludes(pathAndTypeInfo.typeInformation, creationContext.defaultIncludes)
+            outputPath:options.outputPath,
+            typeInformation:typeInformationContainingDefaultIncludes(pathAndTypeInfo.typeInformation, creationContext.defaultIncludes),
+            renderHeader:options.renderHeader,
+            renderImpl:options.renderImpl
           };
 
           return ObjectSpecCreation.fileWriteRequest(request, creationContext.plugins);
@@ -158,8 +166,14 @@ export function generate(directoryRunFrom:string, extension:string, configFileNa
     const parsedSequence = LoggingSequenceUtils.mapLoggedSequence(readFileSequence,
                                                                   parseValues);
 
+    const options: GenerationOptions = {
+      outputPath: outputPath,
+      renderHeader: !parsedArgs.implOnly,
+      renderImpl: !parsedArgs.headersOnly,
+    }
+
     const pluginProcessedSequence = LoggingSequenceUtils.mapLoggedSequence(parsedSequence,
-                                                                           FunctionUtils.pApply2f3(outputPath, valueObjectCreationContextFuture, processObjectSpecCreationRequest));
+                                                                           FunctionUtils.pApply2f3(options, valueObjectCreationContextFuture, processObjectSpecCreationRequest));
 
     return WriteFileUtils.evaluateObjectFileWriteRequestSequence(parsedArgs, pluginProcessedSequence);
 }

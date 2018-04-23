@@ -171,7 +171,9 @@ export function fileWriteRequest(request:Request, plugins:List.List<ObjectSpec.P
     baseClassName:request.baseClassName,
     path:request.path,
     outputPath:request.outputPath,
-    typeInformation:typeInformationWithAllAttributesFromPlugins(request.typeInformation, pluginsToRun)
+    typeInformation:typeInformationWithAllAttributesFromPlugins(request.typeInformation, pluginsToRun),
+    renderHeader:request.renderHeader,
+    renderImpl:request.renderImpl
   };
 
   return PluggableObjCFileCreation.fileWriteRequest(requestWithUpdatedType, typeInfoProvider, wrappedPlugins);

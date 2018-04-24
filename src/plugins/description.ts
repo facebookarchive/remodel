@@ -133,7 +133,7 @@ function attributeDescriptionForType(type:ObjC.Type):AttributeDescription {
       return {
         descriptionFunctionImport: Maybe.Nothing<ObjC.Import>(),
         token: '%llu',
-        valueGenerator: useValueAccessor
+        valueGenerator: castValueAccessorValue('unsigned long long')
       };
     },
     int32_t: function() {
@@ -147,7 +147,7 @@ function attributeDescriptionForType(type:ObjC.Type):AttributeDescription {
       return {
         descriptionFunctionImport: Maybe.Nothing<ObjC.Import>(),
         token: '%lld',
-        valueGenerator: useValueAccessor
+        valueGenerator: castValueAccessorValue('long long')
       };
     },
     SEL: function() {

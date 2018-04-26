@@ -792,7 +792,7 @@ describe('ObjectSpecPlugins.Description', function() {
             preprocessors:[],
             belongsToProtocol:Maybe.Just('NSObject'),
             code: [
-              'return [NSString stringWithFormat:@"%@ - \\n\\t age: %llu; \\n", [super description], _age];'
+              'return [NSString stringWithFormat:@"%@ - \\n\\t age: %llu; \\n", [super description], (unsigned long long)_age];'
             ],
             comments: [],
             compilerAttributes:[],
@@ -900,7 +900,7 @@ describe('ObjectSpecPlugins.Description', function() {
             preprocessors:[],
             belongsToProtocol:Maybe.Just('NSObject'),
             code: [
-              'return [NSString stringWithFormat:@"%@ - \\n\\t age: %lld; \\n", [super description], _age];'
+              'return [NSString stringWithFormat:@"%@ - \\n\\t age: %lld; \\n", [super description], (long long)_age];'
             ],
             comments: [],
             compilerAttributes:[],

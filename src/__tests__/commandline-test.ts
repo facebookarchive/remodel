@@ -40,6 +40,8 @@ describe('CommandLine', function() {
         includes:[],
         excludes:[],
         prohibitPluginDirectives:false,
+        headersOnly:false,
+        implOnly:false,
       });
 
       expect(parsedArgs).toEqualJSON(expectedResult);
@@ -61,6 +63,8 @@ describe('CommandLine', function() {
         includes:[],
         excludes:[],
         prohibitPluginDirectives:false,
+        headersOnly:false,
+        implOnly:false,
       });
 
       expect(parsedArgs).toEqualJSON(expectedResult);
@@ -82,6 +86,8 @@ describe('CommandLine', function() {
         includes:[],
         excludes:[],
         prohibitPluginDirectives:false,
+        headersOnly:false,
+        implOnly:false,
       });
 
       expect(parsedArgs).toEqualJSON(expectedResult);
@@ -103,6 +109,8 @@ describe('CommandLine', function() {
         includes:[],
         excludes:[],
         prohibitPluginDirectives:false,
+        headersOnly:false,
+        implOnly:false,
       });
 
       expect(parsedArgs).toEqualJSON(expectedResult);
@@ -124,6 +132,8 @@ describe('CommandLine', function() {
         includes:[],
         excludes:[],
         prohibitPluginDirectives:false,
+        headersOnly:false,
+        implOnly:false,
       });
 
       expect(parsedArgs).toEqualJSON(expectedResult);
@@ -145,6 +155,8 @@ describe('CommandLine', function() {
         includes:[],
         excludes:[],
         prohibitPluginDirectives:false,
+        headersOnly:false,
+        implOnly:false,
       });
 
       expect(parsedArgs).toEqualJSON(expectedResult);
@@ -166,6 +178,8 @@ describe('CommandLine', function() {
         includes:[],
         excludes:[],
         prohibitPluginDirectives:false,
+        headersOnly:false,
+        implOnly:false,
       });
 
       expect(parsedArgs).toEqualJSON(expectedResult);
@@ -187,6 +201,8 @@ describe('CommandLine', function() {
         includes:[],
         excludes:[],
         prohibitPluginDirectives:false,
+        headersOnly:false,
+        implOnly:false,
       });
 
       expect(parsedArgs).toEqualJSON(expectedResult);
@@ -208,6 +224,8 @@ describe('CommandLine', function() {
         includes:[],
         excludes:[],
         prohibitPluginDirectives:false,
+        headersOnly:false,
+        implOnly:false,
       });
 
       expect(parsedArgs).toEqualJSON(expectedResult);
@@ -229,6 +247,8 @@ describe('CommandLine', function() {
         includes:['PluginOne', 'PluginTwo'],
         excludes:['PluginThree'],
         prohibitPluginDirectives:false,
+        headersOnly:false,
+        implOnly:false,
       });
 
       expect(parsedArgs).toEqualJSON(expectedResult);
@@ -250,10 +270,23 @@ describe('CommandLine', function() {
         includes:[],
         excludes:[],
         prohibitPluginDirectives:true,
+        headersOnly:false,
+        implOnly:false,
       });
 
       expect(parsedArgs).toEqualJSON(expectedResult);
     });
+
+
+    it('returns nothing when both --headers-only and implementation-only are passed', function() {
+      const args:string[] = ['--headers-only', '--implementation-only'];
+      const parsedArgs:Maybe.Maybe<CommandLine.Arguments> = CommandLine.parseArgs(args);
+
+      const expectedResult = Maybe.Nothing<CommandLine.Arguments>();
+
+      expect(parsedArgs).toEqualJSON(expectedResult);
+    });
+
 
     it('returns nothing when only --verbose is provided', function() {
       const args:string[] = ['--verbose'];

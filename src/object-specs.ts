@@ -27,6 +27,7 @@ import Promise = require('./promise');
 import ObjectSpec = require('./object-spec');
 import ObjectSpecCreation = require('./object-spec-creation');
 import ObjectSpecParser = require('./object-spec-parser');
+import OutputControl = require('./output-control');
 import WriteFileUtils = require('./file-logged-sequence-write-utils');
 import path = require('path');
 
@@ -46,8 +47,7 @@ interface PathAndTypeInfo {
 
 interface GenerationOptions {
   outputPath: Maybe.Maybe<File.AbsoluteFilePath>;
-  renderHeader: boolean;
-  renderImpl: boolean;
+  outputFlags: OutputControl.OutputFlags;
 }
 
 function evaluateUnparsedObjectSpecCreationRequest(request:ReadFileUtils.UnparsedObjectCreationRequest):Either.Either<Error.Error[], PathAndTypeInfo> {
@@ -89,9 +89,8 @@ function processObjectSpecCreationRequest(options: GenerationOptions, future:Pro
             baseClassName:creationContext.baseClassName,
             path:pathAndTypeInfo.path,
             outputPath:options.outputPath,
+            outputFlags:options.outputFlags,
             typeInformation:typeInformationContainingDefaultIncludes(pathAndTypeInfo.typeInformation, creationContext.defaultIncludes),
-            renderHeader:options.renderHeader,
-            renderImpl:options.renderImpl
           };
 
           return ObjectSpecCreation.fileWriteRequest(request, creationContext.plugins);
@@ -168,8 +167,7 @@ export function generate(directoryRunFrom:string, extension:string, configFileNa
 
     const options: GenerationOptions = {
       outputPath: outputPath,
-      renderHeader: !parsedArgs.implOnly,
-      renderImpl: !parsedArgs.headersOnly,
+      outputFlags: parsedArgs.outputFlags,
     }
 
     const pluginProcessedSequence = LoggingSequenceUtils.mapLoggedSequence(parsedSequence,

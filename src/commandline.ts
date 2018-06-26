@@ -11,6 +11,7 @@ import List = require('./list');
 import Logging = require('./logging');
 import Maybe = require('./maybe');
 import minimist = require('minimist');
+import OutputControl = require('./output-control');
 
 export interface Arguments {
   givenPath:string;
@@ -24,8 +25,7 @@ export interface Arguments {
   includes:string[];
   excludes:string[];
   prohibitPluginDirectives:boolean;
-  headersOnly:boolean;
-  implOnly:boolean;
+  outputFlags:OutputControl.OutputFlags;
 }
 
 const VERBOSE_FLAG:string = 'verbose';
@@ -37,8 +37,10 @@ const OUTPUT_PATH:string = 'output-path';
 const INCLUDE:string = 'include';
 const EXCLUDE:string = 'exclude';
 const PROHIBIT_PLUGIN_DIRECTIVES_FLAG:string = 'prohibit-plugin-directives';
+const EMIT_HEADER:string = 'emit-header';
 const HEADERS_ONLY:string = 'headers-only';
-const IMPL_ONLY:string = 'implementation-only';
+const IMPL_ONLY:string = 'implementations-only';
+const EMIT:string = 'emit';
 
 const ADT_CONFIG_PATH:string = 'adt-config-path';
 const VALUE_OBJECT_CONFIG_PATH:string = 'value-object-config-path';
@@ -66,11 +68,30 @@ function sanitizeArrayArg(arg:any): string[] {
   }
 }
 
-function sanitizeBooleanArg(arg:any): boolean {
+function findInArray(list:string[], findFunc:(value:string) => boolean): boolean {
+  var item;
+  for (item of list) {
+    if (findFunc(item)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function sanitizeEmitOption(arg:any): string[] {
+  const sanitized = sanitizeArrayArg(arg);
+  if (findInArray(sanitized, function(element) { return element.toLowerCase() == "all"; }) === true) {
+    return [];
+  } else {
+    return sanitized;
+  }
+}
+
+function sanitizeBooleanArg(arg:any, defaultValue:boolean): boolean {
   if (typeof arg == "boolean") {
     return arg;
   } else if (typeof arg == "string") {
-    if (arg.lower() == "true" || arg.lower() == "yes" || arg.lower() == "y") {
+    if (arg.toLowerCase() == "true" || arg.toLowerCase() == "yes" || arg.toLowerCase() == "y") {
       return true;
     } else {
       return false;
@@ -78,24 +99,25 @@ function sanitizeBooleanArg(arg:any): boolean {
   } else if (typeof arg == "number") {
     return arg == 1;
   } else {
-    return false;
+    return defaultValue;
   }
 }
 
 export function parseArgs(args:string[]):Maybe.Maybe<Arguments> {
   const opts = {
-    boolean:[VERBOSE_FLAG, PERF_LOGGING_FLAG, DEBUG_LOGGING_FLAG, SILENT_LOGGING_FLAG, DRY_RUN_FLAG, PROHIBIT_PLUGIN_DIRECTIVES_FLAG, HEADERS_ONLY, IMPL_ONLY],
-    string:[ADT_CONFIG_PATH, VALUE_OBJECT_CONFIG_PATH, OBJECT_CONFIG_PATH, INCLUDE, EXCLUDE, OUTPUT_PATH],
+    boolean: [VERBOSE_FLAG, PERF_LOGGING_FLAG, DEBUG_LOGGING_FLAG, SILENT_LOGGING_FLAG, DRY_RUN_FLAG, PROHIBIT_PLUGIN_DIRECTIVES_FLAG, HEADERS_ONLY, IMPL_ONLY],
+    string: [ADT_CONFIG_PATH, VALUE_OBJECT_CONFIG_PATH, OBJECT_CONFIG_PATH, INCLUDE, EXCLUDE, OUTPUT_PATH, EMIT],
+    default: { [HEADERS_ONLY]:false, [IMPL_ONLY]: false },
   };
   const parsedArgs = minimist(args, opts);
 
-  const sanitizedHeadersOnly = sanitizeBooleanArg(parsedArgs[HEADERS_ONLY]);
-  const sanitizedImplOnly = sanitizeBooleanArg(parsedArgs[IMPL_ONLY]);
+  const sanitizedHeadersOnly = sanitizeBooleanArg(parsedArgs[HEADERS_ONLY], false);
+  const sanitizedImplsOnly = sanitizeBooleanArg(parsedArgs[IMPL_ONLY], false);
 
   if (parsedArgs._.length === 0) {
     return Maybe.Nothing<Arguments>();
-  } else if (sanitizedHeadersOnly && sanitizedImplOnly) {
-    console.log('Cannot specify both --headers-only and --implementation-only');
+  } else if (sanitizedHeadersOnly && sanitizedImplsOnly) {
+    console.log('Error: %s and %s cannot both be set simultaneously', HEADERS_ONLY, IMPL_ONLY);
     return Maybe.Nothing<Arguments>();
   } else {
     return Maybe.Just({
@@ -110,8 +132,11 @@ export function parseArgs(args:string[]):Maybe.Maybe<Arguments> {
       includes:sanitizeArrayArg(parsedArgs[INCLUDE]),
       excludes:sanitizeArrayArg(parsedArgs[EXCLUDE]),
       prohibitPluginDirectives:parsedArgs[PROHIBIT_PLUGIN_DIRECTIVES_FLAG],
-      headersOnly:sanitizedHeadersOnly,
-      implOnly:sanitizedImplOnly,
+      outputFlags: {
+        emitHeaders: !sanitizedImplsOnly,
+        emitImplementations: !sanitizedHeadersOnly,
+        outputList: sanitizeEmitOption(parsedArgs[EMIT]),
+      },
     });
   }
 }

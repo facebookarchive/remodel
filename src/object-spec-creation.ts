@@ -97,6 +97,8 @@ function createObjectSpecObjCPlugIn(plugin:ObjectSpec.Plugin) : ObjectSpecObjCPl
     subclassingRestricted: function(typeInformation:ObjectSpec.Type):boolean {
       return plugin.subclassingRestricted(typeInformation);
     },
+
+    requiredIncludesToRun: plugin.requiredIncludesToRun,
   };
 }
 
@@ -171,9 +173,8 @@ export function fileWriteRequest(request:Request, plugins:List.List<ObjectSpec.P
     baseClassName:request.baseClassName,
     path:request.path,
     outputPath:request.outputPath,
+    outputFlags:request.outputFlags,
     typeInformation:typeInformationWithAllAttributesFromPlugins(request.typeInformation, pluginsToRun),
-    renderHeader:request.renderHeader,
-    renderImpl:request.renderImpl
   };
 
   return PluggableObjCFileCreation.fileWriteRequest(requestWithUpdatedType, typeInfoProvider, wrappedPlugins);

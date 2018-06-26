@@ -40,8 +40,11 @@ describe('CommandLine', function() {
         includes:[],
         excludes:[],
         prohibitPluginDirectives:false,
-        headersOnly:false,
-        implOnly:false,
+        outputFlags: {
+          emitHeaders: true,
+          emitImplementations: true,
+          outputList: [],
+        },
       });
 
       expect(parsedArgs).toEqualJSON(expectedResult);
@@ -63,8 +66,11 @@ describe('CommandLine', function() {
         includes:[],
         excludes:[],
         prohibitPluginDirectives:false,
-        headersOnly:false,
-        implOnly:false,
+        outputFlags: {
+          emitHeaders: true,
+          emitImplementations: true,
+          outputList: [],
+        },
       });
 
       expect(parsedArgs).toEqualJSON(expectedResult);
@@ -86,8 +92,11 @@ describe('CommandLine', function() {
         includes:[],
         excludes:[],
         prohibitPluginDirectives:false,
-        headersOnly:false,
-        implOnly:false,
+        outputFlags: {
+          emitHeaders: true,
+          emitImplementations: true,
+          outputList: [],
+        },
       });
 
       expect(parsedArgs).toEqualJSON(expectedResult);
@@ -109,8 +118,11 @@ describe('CommandLine', function() {
         includes:[],
         excludes:[],
         prohibitPluginDirectives:false,
-        headersOnly:false,
-        implOnly:false,
+        outputFlags: {
+          emitHeaders: true,
+          emitImplementations: true,
+          outputList: [],
+        },
       });
 
       expect(parsedArgs).toEqualJSON(expectedResult);
@@ -132,8 +144,11 @@ describe('CommandLine', function() {
         includes:[],
         excludes:[],
         prohibitPluginDirectives:false,
-        headersOnly:false,
-        implOnly:false,
+        outputFlags: {
+          emitHeaders: true,
+          emitImplementations: true,
+          outputList: [],
+        },
       });
 
       expect(parsedArgs).toEqualJSON(expectedResult);
@@ -155,8 +170,11 @@ describe('CommandLine', function() {
         includes:[],
         excludes:[],
         prohibitPluginDirectives:false,
-        headersOnly:false,
-        implOnly:false,
+        outputFlags: {
+          emitHeaders: true,
+          emitImplementations: true,
+          outputList: [],
+        },
       });
 
       expect(parsedArgs).toEqualJSON(expectedResult);
@@ -178,8 +196,11 @@ describe('CommandLine', function() {
         includes:[],
         excludes:[],
         prohibitPluginDirectives:false,
-        headersOnly:false,
-        implOnly:false,
+        outputFlags: {
+          emitHeaders: true,
+          emitImplementations: true,
+          outputList: [],
+        },
       });
 
       expect(parsedArgs).toEqualJSON(expectedResult);
@@ -201,8 +222,11 @@ describe('CommandLine', function() {
         includes:[],
         excludes:[],
         prohibitPluginDirectives:false,
-        headersOnly:false,
-        implOnly:false,
+        outputFlags: {
+          emitHeaders: true,
+          emitImplementations: true,
+          outputList: [],
+        },
       });
 
       expect(parsedArgs).toEqualJSON(expectedResult);
@@ -224,8 +248,11 @@ describe('CommandLine', function() {
         includes:[],
         excludes:[],
         prohibitPluginDirectives:false,
-        headersOnly:false,
-        implOnly:false,
+        outputFlags: {
+          emitHeaders: true,
+          emitImplementations: true,
+          outputList: [],
+        },
       });
 
       expect(parsedArgs).toEqualJSON(expectedResult);
@@ -247,8 +274,11 @@ describe('CommandLine', function() {
         includes:['PluginOne', 'PluginTwo'],
         excludes:['PluginThree'],
         prohibitPluginDirectives:false,
-        headersOnly:false,
-        implOnly:false,
+        outputFlags: {
+          emitHeaders: true,
+          emitImplementations: true,
+          outputList: [],
+        },
       });
 
       expect(parsedArgs).toEqualJSON(expectedResult);
@@ -270,8 +300,11 @@ describe('CommandLine', function() {
         includes:[],
         excludes:[],
         prohibitPluginDirectives:true,
-        headersOnly:false,
-        implOnly:false,
+        outputFlags: {
+          emitHeaders: true,
+          emitImplementations: true,
+          outputList: [],
+        },
       });
 
       expect(parsedArgs).toEqualJSON(expectedResult);
@@ -283,6 +316,60 @@ describe('CommandLine', function() {
       const parsedArgs:Maybe.Maybe<CommandLine.Arguments> = CommandLine.parseArgs(args);
 
       const expectedResult = Maybe.Nothing<CommandLine.Arguments>();
+
+      expect(parsedArgs).toEqualJSON(expectedResult);
+    });
+
+
+    it('includes a list of things to emit', function() {
+      const args:string[] = ['project/to/generate', '--include=PluginOne', '--include=PluginTwo', '--emit=PluginOne', '--emit=object'];
+      const parsedArgs:Maybe.Maybe<CommandLine.Arguments> = CommandLine.parseArgs(args);
+
+      const expectedResult = Maybe.Just<CommandLine.Arguments>({
+        givenPath:'project/to/generate',
+        adtConfigPath:undefined,
+        valueObjectConfigPath:undefined,
+        objectConfigPath:undefined,
+        interestedLoggingTypes:List.of(Logging.LoggingType.info, Logging.LoggingType.error),
+        minimalLevel:10,
+        dryRun: false,
+        outputPath:undefined,
+        includes:['PluginOne', 'PluginTwo'],
+        excludes:[],
+        prohibitPluginDirectives:false,
+        outputFlags: {
+          emitHeaders: true,
+          emitImplementations: true,
+          outputList: ['PluginOne', 'object'],
+        },
+      });
+
+      expect(parsedArgs).toEqualJSON(expectedResult);
+    });
+
+
+    it('emitting "all" ensures empty output list, even if other emit options are present', function() {
+      const args:string[] = ['project/to/generate', '--include=PluginOne', '--include=PluginTwo', '--emit=all', '--emit=foo'];
+      const parsedArgs:Maybe.Maybe<CommandLine.Arguments> = CommandLine.parseArgs(args);
+
+      const expectedResult = Maybe.Just<CommandLine.Arguments>({
+        givenPath:'project/to/generate',
+        adtConfigPath:undefined,
+        valueObjectConfigPath:undefined,
+        objectConfigPath:undefined,
+        interestedLoggingTypes:List.of(Logging.LoggingType.info, Logging.LoggingType.error),
+        minimalLevel:10,
+        dryRun: false,
+        outputPath:undefined,
+        includes:['PluginOne', 'PluginTwo'],
+        excludes:[],
+        prohibitPluginDirectives:false,
+        outputFlags: {
+          emitHeaders: true,
+          emitImplementations: true,
+          outputList: [],
+        },
+      });
 
       expect(parsedArgs).toEqualJSON(expectedResult);
     });

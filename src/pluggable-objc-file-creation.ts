@@ -16,6 +16,7 @@ import Maybe = require('./maybe');
 import ObjC = require('./objc');
 import ObjCCommentUtils = require('./objc-comment-utils');
 import ObjCFileCreation = require('./objc-file-creation');
+import OutputControl = require('./output-control');
 import path = require('path');
 
 export interface ObjCGenerationPlugIn<T> {
@@ -37,6 +38,7 @@ export interface ObjCGenerationPlugIn<T> {
   validationErrors: (typeInformation:T) => Error.Error[];
   nullability: (typeInformation:T) => Maybe.Maybe<ObjC.ClassNullability>;
   subclassingRestricted: (typeInformation:T) => boolean;
+  requiredIncludesToRun: string[];
 }
 
 export interface ObjCGenerationRequest<T> {
@@ -45,9 +47,8 @@ export interface ObjCGenerationRequest<T> {
   baseClassName:string;
   path:File.AbsoluteFilePath;
   outputPath:Maybe.Maybe<File.AbsoluteFilePath>;
+  outputFlags:OutputControl.OutputFlags;
   typeInformation:T;
-  renderHeader:boolean;
-  renderImpl:boolean;
 }
 
 export interface ObjCGenerationTypeInfoProvider<T> {
@@ -271,8 +272,8 @@ function fileCreationRequestContainingArrayOfPossibleError(fileCreationRequest:E
   }, fileCreationRequest);
 }
 
-function fileWriteRequestContainingAdditionalFile(renderOptions:ObjCRenderingOptions, containingFolderPath:File.AbsoluteFilePath, file:Code.File, fileWriteRequest:FileWriter.FileWriteRequest):Either.Either<Error.Error[], FileWriter.FileWriteRequest> {
-  const fileCreationRequestForAdditionalFile:Either.Either<Error.Error[], FileWriter.FileWriteRequest> = fileCreationRequestContainingArrayOfPossibleError(ObjCFileCreation.fileCreationRequest(containingFolderPath, file, renderOptions.renderHeader, renderOptions.renderImpl));
+function fileWriteRequestContainingAdditionalFile(outputFlags:OutputControl.OutputFlags, containingFolderPath:File.AbsoluteFilePath, file:Code.File, fileWriteRequest:FileWriter.FileWriteRequest):Either.Either<Error.Error[], FileWriter.FileWriteRequest> {
+  const fileCreationRequestForAdditionalFile:Either.Either<Error.Error[], FileWriter.FileWriteRequest> = fileCreationRequestContainingArrayOfPossibleError(ObjCFileCreation.fileCreationRequest(containingFolderPath, file, outputFlags.emitHeaders, outputFlags.emitImplementations));
 
   return Either.map(function(fileWriteRequestForAdditionalFile:FileWriter.FileWriteRequest):FileWriter.FileWriteRequest {
     const updatedRequest:FileWriter.FileWriteRequest = {
@@ -284,7 +285,7 @@ function fileWriteRequestContainingAdditionalFile(renderOptions:ObjCRenderingOpt
 }
 
 function fileCreationRequestContainingAdditionalFile(
-  renderOptions:ObjCRenderingOptions,
+  renderOptions:OutputControl.OutputFlags,
   containingFolderPath:File.AbsoluteFilePath, 
   fileCreationRequest:Either.Either<Error.Error, FileWriter.FileWriteRequest>, 
   file:Code.File
@@ -309,16 +310,22 @@ function buildFileWriteRequest<T>(request:ObjCGenerationRequest<T>, typeInfoProv
     const classFile:Either.Either<Error.Error, Code.File> = classFileFromTypeInfo(type, typeInfoProvider.typeNameForType(type), typeInfoProvider.commentsForType(type));
 
     const fileCreationRequest:Either.Either<Error.Error, FileWriter.FileWriteRequest> = Either.mbind(function(classFile) {
-      return ObjCFileCreation.fileCreationRequest(outputPath, classFile, request.renderHeader, request.renderImpl);
+    return (OutputControl.ShouldEmitObject(request.outputFlags)
+     ? ObjCFileCreation.fileCreationRequest(outputPath, classFile, request.outputFlags.emitHeaders, request.outputFlags.emitImplementations)
+     : Either.Right<Error.Error, FileWriter.FileWriteRequest>({
+      name:classFile.name,
+      requests:List.of<FileWriter.Request>(),
+     }));
     }, classFile);
-    const additionalFiles:Code.File[] = List.foldl<ObjCGenerationPlugIn<T>, Code.File[]>(FunctionUtils.pApplyf3(type, buildAdditionalFiles), [], plugins);
 
-    const renderOptions = {
-      renderHeader:request.renderHeader,
-      renderImpl:request.renderImpl
-    };
+    // filter down to the plugins that we want to emit if we are filtered
+    const filteredPlugins = List.filter(function (p) {
+      return OutputControl.ShouldEmitPluginFile(request.outputFlags, p.requiredIncludesToRun[0]);
+    }, plugins);
 
-    const completeFileCreationRequest:Either.Either<Error.Error, FileWriter.FileWriteRequest> = additionalFiles.reduceRight(FunctionUtils.pApply2f4(renderOptions, outputPath, fileCreationRequestContainingAdditionalFile), fileCreationRequest);
+    const additionalFiles:Code.File[] = List.foldl<ObjCGenerationPlugIn<T>, Code.File[]>(FunctionUtils.pApplyf3(type, buildAdditionalFiles), [], filteredPlugins);
+
+    const completeFileCreationRequest:Either.Either<Error.Error, FileWriter.FileWriteRequest> = additionalFiles.reduceRight(FunctionUtils.pApply2f4(request.outputFlags, outputPath, fileCreationRequestContainingAdditionalFile), fileCreationRequest);
     return fileCreationRequestContainingArrayOfPossibleError(completeFileCreationRequest);
   });
 

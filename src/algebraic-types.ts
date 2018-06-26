@@ -21,6 +21,7 @@ import Logging = require('./logging');
 import LoggingSequenceUtils = require('./logged-sequence-utils');
 import Maybe = require('./maybe');
 import ObjC = require('./objc');
+import OutputControl = require('./output-control');
 import PathUtils = require('./path-utils');
 import PluginInclusionUtils = require('./plugin-inclusion-utils');
 import Promise = require('./promise');
@@ -45,8 +46,7 @@ interface PathAndTypeInfo {
 
 interface GenerationOptions {
   outputPath: Maybe.Maybe<File.AbsoluteFilePath>;
-  renderHeader: boolean;
-  renderImpl: boolean;
+  outputFlags: OutputControl.OutputFlags;
 }
 
 const BASE_INCLUDES:List.List<string> = List.of(
@@ -115,9 +115,8 @@ function processAlgebraicTypeCreationRequest(options: GenerationOptions, future:
             baseClassName:creationContext.baseClassName,
             path:pathAndTypeInfo.path,
             outputPath:options.outputPath,
+            outputFlags:options.outputFlags,
             typeInformation:typeInformationContainingDefaultIncludes(pathAndTypeInfo.typeInformation, creationContext.defaultIncludes),
-            renderHeader:options.renderHeader,
-            renderImpl:options.renderImpl,
           };
 
           return AlgebraicTypeCreation.fileWriteRequest(request, creationContext.plugins);
@@ -194,8 +193,7 @@ export function generate(directoryRunFrom:string, parsedArgs:CommandLine.Argumen
 
     const options: GenerationOptions = {
       outputPath: outputPath,
-      renderHeader: !parsedArgs.implOnly,
-      renderImpl: !parsedArgs.headersOnly,
+      outputFlags: parsedArgs.outputFlags,
     }
 
     const pluginProcessedSequence = LoggingSequenceUtils.mapLoggedSequence(parsedSequence,

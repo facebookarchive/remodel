@@ -21,6 +21,7 @@ import Logging = require('./logging');
 import LoggingSequenceUtils = require('./logged-sequence-utils');
 import Maybe = require('./maybe');
 import ObjC = require('./objc');
+import OutputControl = require('./output-control');
 import PathUtils = require('./path-utils');
 import PluginInclusionUtils = require('./plugin-inclusion-utils');
 import Promise = require('./promise');
@@ -41,6 +42,11 @@ interface AlgebraicTypeCreationContext {
 interface PathAndTypeInfo {
   path: File.AbsoluteFilePath;
   typeInformation: AlgebraicType.Type;
+}
+
+interface GenerationOptions {
+  outputPath: Maybe.Maybe<File.AbsoluteFilePath>;
+  outputFlags: OutputControl.OutputFlags;
 }
 
 const BASE_INCLUDES:List.List<string> = List.of(
@@ -96,7 +102,7 @@ function typeInformationContainingDefaultIncludes(typeInformation:AlgebraicType.
   };
 }
 
-function processAlgebraicTypeCreationRequest(outputPath:Maybe.Maybe<File.AbsoluteFilePath>, future:Promise.Future<Either.Either<Error.Error[], AlgebraicTypeCreationContext>>, either:Either.Either<Error.Error[], PathAndTypeInfo>):Promise.Future<Logging.Context<Either.Either<Error.Error[], FileWriter.FileWriteRequest>>> {
+function processAlgebraicTypeCreationRequest(options: GenerationOptions, future:Promise.Future<Either.Either<Error.Error[], AlgebraicTypeCreationContext>>, either:Either.Either<Error.Error[], PathAndTypeInfo>):Promise.Future<Logging.Context<Either.Either<Error.Error[], FileWriter.FileWriteRequest>>> {
   return Promise.map(function(creationContextEither:Either.Either<Error.Error[], AlgebraicTypeCreationContext>) {
     return Logging.munit(Either.mbind(function(pathAndTypeInfo:PathAndTypeInfo) {
       return Either.mbind(function(creationContext:AlgebraicTypeCreationContext) {
@@ -108,8 +114,9 @@ function processAlgebraicTypeCreationRequest(outputPath:Maybe.Maybe<File.Absolut
             baseClassLibraryName:creationContext.baseClassLibraryName,
             baseClassName:creationContext.baseClassName,
             path:pathAndTypeInfo.path,
-            outputPath:outputPath,
-            typeInformation:typeInformationContainingDefaultIncludes(pathAndTypeInfo.typeInformation, creationContext.defaultIncludes)
+            outputPath:options.outputPath,
+            outputFlags:options.outputFlags,
+            typeInformation:typeInformationContainingDefaultIncludes(pathAndTypeInfo.typeInformation, creationContext.defaultIncludes),
           };
 
           return AlgebraicTypeCreation.fileWriteRequest(request, creationContext.plugins);
@@ -184,8 +191,13 @@ export function generate(directoryRunFrom:string, parsedArgs:CommandLine.Argumen
     const parsedSequence = LoggingSequenceUtils.mapLoggedSequence(readFileSequence,
                                                                   parseValues);
 
+    const options: GenerationOptions = {
+      outputPath: outputPath,
+      outputFlags: parsedArgs.outputFlags,
+    }
+
     const pluginProcessedSequence = LoggingSequenceUtils.mapLoggedSequence(parsedSequence,
-                                                                           FunctionUtils.pApply2f3(outputPath, algebraicTypeCreationContextFuture, processAlgebraicTypeCreationRequest));
+                                                                           FunctionUtils.pApply2f3(options, algebraicTypeCreationContextFuture, processAlgebraicTypeCreationRequest));
 
     return WriteFileUtils.evaluateObjectFileWriteRequestSequence(parsedArgs, pluginProcessedSequence);
 }

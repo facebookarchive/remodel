@@ -27,6 +27,7 @@ import Promise = require('./promise');
 import ObjectSpec = require('./object-spec');
 import ObjectSpecCreation = require('./object-spec-creation');
 import ObjectSpecParser = require('./object-spec-parser');
+import OutputControl = require('./output-control');
 import WriteFileUtils = require('./file-logged-sequence-write-utils');
 import path = require('path');
 
@@ -42,6 +43,11 @@ interface ObjectSpecCreationContext {
 interface PathAndTypeInfo {
   path: File.AbsoluteFilePath;
   typeInformation: ObjectSpec.Type;
+}
+
+interface GenerationOptions {
+  outputPath: Maybe.Maybe<File.AbsoluteFilePath>;
+  outputFlags: OutputControl.OutputFlags;
 }
 
 function evaluateUnparsedObjectSpecCreationRequest(request:ReadFileUtils.UnparsedObjectCreationRequest):Either.Either<Error.Error[], PathAndTypeInfo> {
@@ -70,7 +76,7 @@ function typeInformationContainingDefaultIncludes(typeInformation:ObjectSpec.Typ
   };
 }
 
-function processObjectSpecCreationRequest(outputPath: Maybe.Maybe<File.AbsoluteFilePath>, future:Promise.Future<Either.Either<Error.Error[], ObjectSpecCreationContext>>, either:Either.Either<Error.Error[], PathAndTypeInfo>):Promise.Future<Logging.Context<Either.Either<Error.Error[], FileWriter.FileWriteRequest>>> {
+function processObjectSpecCreationRequest(options: GenerationOptions, future:Promise.Future<Either.Either<Error.Error[], ObjectSpecCreationContext>>, either:Either.Either<Error.Error[], PathAndTypeInfo>):Promise.Future<Logging.Context<Either.Either<Error.Error[], FileWriter.FileWriteRequest>>> {
   return Promise.map(function(creationContextEither:Either.Either<Error.Error[], ObjectSpecCreationContext>) {
     return Logging.munit(Either.mbind(function(pathAndTypeInfo:PathAndTypeInfo) {
       return Either.mbind(function(creationContext:ObjectSpecCreationContext) {
@@ -82,8 +88,9 @@ function processObjectSpecCreationRequest(outputPath: Maybe.Maybe<File.AbsoluteF
             baseClassLibraryName:creationContext.baseClassLibraryName,
             baseClassName:creationContext.baseClassName,
             path:pathAndTypeInfo.path,
-            outputPath:outputPath,
-            typeInformation:typeInformationContainingDefaultIncludes(pathAndTypeInfo.typeInformation, creationContext.defaultIncludes)
+            outputPath:options.outputPath,
+            outputFlags:options.outputFlags,
+            typeInformation:typeInformationContainingDefaultIncludes(pathAndTypeInfo.typeInformation, creationContext.defaultIncludes),
           };
 
           return ObjectSpecCreation.fileWriteRequest(request, creationContext.plugins);
@@ -158,8 +165,13 @@ export function generate(directoryRunFrom:string, extension:string, configFileNa
     const parsedSequence = LoggingSequenceUtils.mapLoggedSequence(readFileSequence,
                                                                   parseValues);
 
+    const options: GenerationOptions = {
+      outputPath: outputPath,
+      outputFlags: parsedArgs.outputFlags,
+    }
+
     const pluginProcessedSequence = LoggingSequenceUtils.mapLoggedSequence(parsedSequence,
-                                                                           FunctionUtils.pApply2f3(outputPath, valueObjectCreationContextFuture, processObjectSpecCreationRequest));
+                                                                           FunctionUtils.pApply2f3(options, valueObjectCreationContextFuture, processObjectSpecCreationRequest));
 
     return WriteFileUtils.evaluateObjectFileWriteRequestSequence(parsedArgs, pluginProcessedSequence);
 }

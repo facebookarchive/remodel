@@ -53,3 +53,4 @@ Maybe.match(function(args) {
     console.log('Expected use: ./generate [flags] pathToDirectory');
     ParallelProcessQueue.shutDown();
   }, parsedArgs);
+

@@ -97,6 +97,8 @@ function createAlgebraicTypeObjCPlugIn(plugin:AlgebraicType.Plugin) : AlgebraicT
     subclassingRestricted: function(typeInformation:AlgebraicType.Type):boolean {
       return plugin.subclassingRestricted(typeInformation);
     },
+
+    requiredIncludesToRun: plugin.requiredIncludesToRun,
   };
 }
 

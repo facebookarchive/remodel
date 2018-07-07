@@ -200,11 +200,13 @@ function namedParenSection(sectionName){
 // Name includes(Include) excludes(Exclude)
 function parseTypeNameSectionWithIncludes() {
   return mona.sequence(function(s) {
+    const comments = s(mona.collect(comment()));
     const typeName = s(mona.trim(mona.text(mona.alphanum())));
     const includes = s(mona.maybe(namedParenSection('includes')));
     const excludes = s(mona.maybe(namedParenSection('excludes')));
 
     const typeNameSection = {
+      comments: comments,
       typeName: typeName,
       includes: includes,
       excludes: excludes
@@ -217,10 +219,12 @@ function parseTypeNameSectionWithIncludes() {
 // Name
 function parseTypeNameSectionWithoutIncludes() {
   return mona.sequence(function(s) {
+    const comments = s(mona.collect(comment()));
     s(mona.maybe(mona.spaces()));
     const typeName = s(mona.text(mona.alphanum()));
 
     const typeNameSection = {
+      comments: comments,
       typeName: typeName,
     };
     return mona.value(typeNameSection);
@@ -296,30 +300,23 @@ function parseNamedAttributeGroup(withIncludes) {
 }
 
 function namedAttributeGroupFoundType(comments, parsedAnnotations, typeNameSection, attributes, withIncludes) {
-
-  var foundType;
   if (withIncludes) {
-    const includes = typeNameSection.includes === undefined ? [] : typeNameSection.includes;
-    const excludes = typeNameSection.excludes === undefined ? [] : typeNameSection.excludes;
-
-    foundType = {
+    return {
       annotations: parsedAnnotations,
       attributes: attributes || [],
-      comments: comments,
+      comments: comments.concat(typeNameSection.comments),
       typeName: typeNameSection.typeName,
-      includes: includes,
-      excludes: excludes
+      includes: typeNameSection.includes || [],
+      excludes: typeNameSection.excludes || []
     };
   } else {
-    foundType = {
+    return {
       annotations: parsedAnnotations,
       attributes: attributes || [],
-      comments: comments,
+      comments: comments.concat(typeNameSection.comments),
       typeName: typeNameSection.typeName
     };
   }
-
-  return foundType;
 }
 
 function parseAttributeTypeReferenceSectionWithOptionalPointer() {

@@ -11,6 +11,7 @@ Feature: Outputting Value Objects
       %type name=RMFooObject
       %type name=RMSomeEnum canForwardDeclare=false
       %type name=RMSomeType library=FooLibrary
+      # And an extra comment here for good measure.
       RMPage {
         BOOL doesUserLike
         NSString* identifier
@@ -37,6 +38,7 @@ Feature: Outputting Value Objects
       /**
        * Important and gripping comment
        * that takes up two lines.
+       * And an extra comment here for good measure.
        */
       @interface RMPage : NSObject <NSCopying>
 

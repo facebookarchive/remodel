@@ -9,6 +9,7 @@ Feature: Outputting Algebraic Types
       %type name=RMSomeObject library=SomeLib file=AnotherFile
       %type name=RMFooObject
       %type name=RMSomeEnum canForwardDeclare=false
+      # What is not to love?!
       SimpleADT {
         # Really good type,
         # always use this
@@ -48,6 +49,7 @@ Feature: Outputting Algebraic Types
 
       /**
        * What a beautiful ADT
+       * What is not to love?!
        */
       @interface SimpleADT : NSObject <NSCopying>
 

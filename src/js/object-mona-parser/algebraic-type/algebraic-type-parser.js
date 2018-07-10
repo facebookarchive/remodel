@@ -41,7 +41,7 @@ function algebraicType() {
 
       const foundType = {
         annotations: parsedAnnotations,
-        comments: comments,
+        comments: comments.concat(typeNameSection.comments),
         excludes: excludes,
         includes: includes,
         typeName: typeNameSection.typeName,

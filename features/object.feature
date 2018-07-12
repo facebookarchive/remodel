@@ -13,6 +13,7 @@ Feature: Outputting Objects
       %type name=RMSomeType library=FooLibrary
       RMPage {
         BOOL doesUserLike
+        %copy
         NSString* identifier
         NSInteger likeCount
         uint32_t numberOfRatings
@@ -67,7 +68,7 @@ Feature: Outputting Objects
       {
         if ((self = [super init])) {
           _doesUserLike = doesUserLike;
-          _identifier = identifier;
+          _identifier = [identifier copy];
           _likeCount = likeCount;
           _numberOfRatings = numberOfRatings;
           _someType = someType;

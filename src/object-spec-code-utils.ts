@@ -154,6 +154,9 @@ export function propertyOwnershipModifierForAttribute(supportsValueSemantics:boo
 }
 
 export function shouldCopyIncomingValueForAttribute(supportsValueSemantics:boolean, attribute:ObjectSpec.Attribute):boolean {
+  if (attribute.annotations["copy"] !== undefined) {
+    return true;
+  }
   const modifier = propertyOwnershipModifierForAttribute(supportsValueSemantics, attribute);
   if (modifier === null) {
     return false;

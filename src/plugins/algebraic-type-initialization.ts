@@ -254,6 +254,11 @@ function buildAlgebraicTypeValidationErrors(soFar:ValidationErrorReductionTracke
   }
 }
 
+function importForTypeLookup(libraryName:Maybe.Maybe<string>, makePublicImports:boolean, typeLookup:ObjectGeneration.TypeLookup):ObjC.Import {
+  const shouldImport = makePublicImports || !typeLookup.canForwardDeclare;
+  return ObjCImportUtils.importForTypeLookup(libraryName, shouldImport, typeLookup);
+}
+
 export function createAlgebraicTypePlugin():AlgebraicType.Plugin {
   return {
     additionalFiles: function(algebraicType:AlgebraicType.Type):Code.File[] {
@@ -300,7 +305,7 @@ export function createAlgebraicTypePlugin():AlgebraicType.Plugin {
 
       const makePublicImports = algebraicType.includes.indexOf('UseForwardDeclarations') === -1;
       const typeLookupImports = algebraicType.typeLookups.filter(FunctionUtils.pApplyf2(algebraicType.name, isImportRequiredForTypeLookup))
-                                                         .map(FunctionUtils.pApply2f3(algebraicType.libraryName, makePublicImports, ObjCImportUtils.importForTypeLookup));
+                                                         .map(FunctionUtils.pApply2f3(algebraicType.libraryName, makePublicImports, importForTypeLookup));
       const attributeImports:ObjC.Import[] = AlgebraicTypeUtils.allAttributesFromSubtypes(algebraicType.subtypes)
                                                              .filter(FunctionUtils.pApplyf2(algebraicType.typeLookups, isImportRequiredForAttribute))
                                                              .map(FunctionUtils.pApply2f3(algebraicType.libraryName, makePublicImports, importForAttribute));

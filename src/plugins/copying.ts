@@ -85,6 +85,9 @@ export function createPlugin():ObjectSpec.Plugin {
     instanceMethods: function(objectType:ObjectSpec.Type):ObjC.Method[] {
       return [copyInstanceMethod()];
     },
+    macros: function(valueType:ObjectSpec.Type):ObjC.Macro[] {
+      return [];
+    },
     properties: function(objectType:ObjectSpec.Type):ObjC.Property[] {
       return [];
     },
@@ -147,6 +150,9 @@ export function createAlgebraicTypePlugin():AlgebraicType.Plugin {
       return [copyInstanceMethod()];
     },
     internalProperties: function(algebraicType:AlgebraicType.Type):ObjC.Property[] {
+      return [];
+    },
+    macros: function(algebraicType:AlgebraicType.Type):ObjC.Macro[] {
       return [];
     },
     requiredIncludesToRun: ['RMCopying'],

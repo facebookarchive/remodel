@@ -1042,6 +1042,9 @@ export function createPlugin():ObjectSpec.Plugin {
         return [];
       }
     },
+    macros: function(valueType:ObjectSpec.Type):ObjC.Macro[] {
+      return [];
+    },
     properties: function(objectType:ObjectSpec.Type):ObjC.Property[] {
       return [];
     },
@@ -1147,6 +1150,9 @@ export function createAlgebraicTypePlugin():AlgebraicType.Plugin {
       ];
     },
     internalProperties: function(algebraicType:AlgebraicType.Type):ObjC.Property[] {
+      return [];
+    },
+    macros: function(algebraicType:AlgebraicType.Type):ObjC.Macro[] {
       return [];
     },
     requiredIncludesToRun: ['RMEquality'],

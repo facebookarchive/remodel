@@ -147,7 +147,8 @@ describe('Plugins.Builder', function() {
             }
           ],
           structs: [],
-          namespaces: []
+          namespaces: [],
+          macros: [],
         }
       ];
 
@@ -282,7 +283,8 @@ describe('Plugins.Builder', function() {
             }
           ],
           structs: [],
-          namespaces: []
+          namespaces: [],
+          macros: [],
         }
       ];
 
@@ -581,7 +583,8 @@ describe('Plugins.Builder', function() {
             }
           ],
           structs: [],
-          namespaces: []
+          namespaces: [],
+          macros: [],
         }
       ];
 
@@ -880,7 +883,8 @@ describe('Plugins.Builder', function() {
             }
           ],
           structs: [],
-          namespaces: []
+          namespaces: [],
+          macros: [],
         }
       ];
 

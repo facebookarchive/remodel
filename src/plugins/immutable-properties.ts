@@ -286,6 +286,9 @@ export function createPlugin():ObjectSpec.Plugin {
         return [];
       }
     },
+    macros: function(valueType:ObjectSpec.Type):ObjC.Macro[] {
+      return [];
+    },
     properties: function(objectType:ObjectSpec.Type):ObjC.Property[] {
       const supportsValueSemantics:boolean = ObjectSpecUtils.typeSupportsValueObjectSemantics(objectType);
       return objectType.attributes.map(FunctionUtils.pApplyf2(supportsValueSemantics, propertyFromAttribute));

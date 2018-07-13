@@ -124,6 +124,13 @@ export interface Function {
   isPublic:boolean;
 }
 
+export interface Macro {
+  comments:Comment[];
+  name:string;
+  parameters:String[],
+  code:string
+}
+
 export interface BlockTypeParameter {
   name:string;
   type:Type;

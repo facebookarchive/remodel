@@ -32,6 +32,7 @@ export interface ObjCGenerationPlugIn<T> {
   imports: (typeInformation:T) => ObjC.Import[];
   internalProperties: (typeInformation:T) => ObjC.Property[];
   instanceMethods: (typeInformation:T) => ObjC.Method[];
+  macros: (typeInformation:T) => ObjC.Macro[];
   properties: (typeInformation:T) => ObjC.Property[];
   protocols: (typeInformation:T) => ObjC.Protocol[];
   staticConstants: (typeInformation:T) => ObjC.Constant[];
@@ -144,6 +145,10 @@ function buildFunctions<T>(typeInformation:T, soFar:ObjC.Function[], plugin:ObjC
   return soFar.concat(plugin.functions(typeInformation));
 }
 
+function buildMacros<T>(typeInformation:T, soFar:ObjC.Macro[], plugin:ObjCGenerationPlugIn<T>):ObjC.Macro[] {
+  return soFar.concat(plugin.macros(typeInformation))
+}
+
 function buildComments<T>(typeInformation:T, soFar:ObjC.Comment[], plugin:ObjCGenerationPlugIn<T>):ObjC.Comment[] {
   return soFar.concat(plugin.comments(typeInformation));
 }
@@ -231,6 +236,7 @@ function classFileCreationFunctionWithBaseClassAndPlugins<T>(baseClassName:strin
         diagnosticIgnores:List.toArray(diagnosticIgnores),
         staticConstants:List.foldl<ObjCGenerationPlugIn<T>, ObjC.Constant[]>(FunctionUtils.pApplyf3(typeInformation, buildStaticConstants), [], plugins),
         functions:List.foldl<ObjCGenerationPlugIn<T>, ObjC.Function[]>(FunctionUtils.pApplyf3(typeInformation, buildFunctions), [], plugins),
+        macros:List.foldl<ObjCGenerationPlugIn<T>, ObjC.Macro[]>(FunctionUtils.pApplyf3(typeInformation, buildMacros), [], plugins),
         classes: [
         {
           baseClassName:baseClassName,

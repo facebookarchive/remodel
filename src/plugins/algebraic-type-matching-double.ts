@@ -64,6 +64,9 @@ export function createAlgebraicTypePlugin():AlgebraicType.Plugin {
     internalProperties: function(algebraicType:AlgebraicType.Type):ObjC.Property[] {
       return [];
     },
+    macros: function(algebraicType:AlgebraicType.Type):ObjC.Macro[] {
+      return [];
+    },
     requiredIncludesToRun: ['DoubleMatching'],
     staticConstants: function(algebraicType:AlgebraicType.Type):ObjC.Constant[] {
       return [];

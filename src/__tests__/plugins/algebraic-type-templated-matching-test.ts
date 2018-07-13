@@ -163,7 +163,8 @@ describe('Plugins.AlgebraicTypeTemplatedMatching', function() {
             ]
           }
         ],
-        namespaces: []
+        namespaces: [],
+        macros: [],
       };
 
       expect(additionalFiles).toContain(expectedFile);

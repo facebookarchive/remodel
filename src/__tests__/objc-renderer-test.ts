@@ -222,7 +222,8 @@ describe('ObjCRenderer', function() {
           }
         ],
         structs: [],
-        namespaces: []
+        namespaces: [],
+        macros: [],
       };
 
       const renderedOutput:Maybe.Maybe<string> = ObjCRenderer.renderHeader(fileToRender);
@@ -438,7 +439,8 @@ describe('ObjCRenderer', function() {
           }
         ],
         structs: [],
-        namespaces: []
+        namespaces: [],
+        macros: [],
       };
 
       const renderedOutput:Maybe.Maybe<string> = ObjCRenderer.renderHeader(fileToRender);
@@ -649,7 +651,8 @@ describe('ObjCRenderer', function() {
           }
         ],
         structs: [],
-        namespaces: []
+        namespaces: [],
+        macros: [],
       };
 
       const renderedOutput:Maybe.Maybe<string> = ObjCRenderer.renderHeader(fileToRender);
@@ -814,7 +817,8 @@ describe('ObjCRenderer', function() {
           }
         ],
         structs: [],
-        namespaces: []
+        namespaces: [],
+        macros: [],
       };
 
       const renderedOutput:Maybe.Maybe<string> = ObjCRenderer.renderHeader(fileToRender);
@@ -932,7 +936,8 @@ describe('ObjCRenderer', function() {
           }
         ],
         structs: [],
-        namespaces: []
+        namespaces: [],
+        macros: [],
       };
 
       const renderedOutput:Maybe.Maybe<string> = ObjCRenderer.renderHeader(fileToRender);
@@ -1053,7 +1058,8 @@ describe('ObjCRenderer', function() {
           }
         ],
         structs: [],
-        namespaces: []
+        namespaces: [],
+        macros: [],
       };
 
       const renderedOutput:Maybe.Maybe<string> = ObjCRenderer.renderHeader(fileToRender);
@@ -1133,7 +1139,8 @@ describe('ObjCRenderer', function() {
           }
         ],
         structs: [],
-        namespaces: []
+        namespaces: [],
+        macros: [],
       };
 
       const renderedOutput:Maybe.Maybe<string> = ObjCRenderer.renderHeader(fileToRender);
@@ -1245,7 +1252,8 @@ describe('ObjCRenderer', function() {
           }
         ],
         structs: [],
-        namespaces: []
+        namespaces: [],
+        macros: [],
       };
 
       const renderedOutput:Maybe.Maybe<string> = ObjCRenderer.renderHeader(fileToRender);
@@ -1320,7 +1328,8 @@ describe('ObjCRenderer', function() {
         }
         ],
         structs: [],
-        namespaces: []
+        namespaces: [],
+        macros: [],
       };
 
       const renderedOutput:Maybe.Maybe<string> = ObjCRenderer.renderHeader(fileToRender);
@@ -1422,7 +1431,8 @@ describe('ObjCRenderer', function() {
         }
         ],
         structs: [],
-        namespaces: []
+        namespaces: [],
+        macros: [],
       };
 
       const renderedOutput:Maybe.Maybe<string> = ObjCRenderer.renderHeader(fileToRender);
@@ -1490,7 +1500,8 @@ describe('ObjCRenderer', function() {
           }
         ],
         structs: [],
-        namespaces: []
+        namespaces: [],
+        macros: [],
       };
 
       const renderedOutput:Maybe.Maybe<string> = ObjCRenderer.renderHeader(fileToRender);
@@ -1572,7 +1583,8 @@ describe('ObjCRenderer', function() {
           }
         ],
         structs: [],
-        namespaces: []
+        namespaces: [],
+        macros: [],
       };
 
       const renderedOutput:Maybe.Maybe<string> = ObjCRenderer.renderHeader(fileToRender);
@@ -1659,7 +1671,8 @@ describe('ObjCRenderer', function() {
           }
         ],
         structs: [],
-        namespaces: []
+        namespaces: [],
+        macros: [],
       };
 
       const renderedOutput:Maybe.Maybe<string> = ObjCRenderer.renderHeader(fileToRender);
@@ -1755,7 +1768,8 @@ describe('ObjCRenderer', function() {
           }
         ],
         structs: [],
-        namespaces: []
+        namespaces: [],
+        macros: [],
       };
 
       const renderedOutput:Maybe.Maybe<string> = ObjCRenderer.renderHeader(fileToRender);
@@ -1816,7 +1830,8 @@ describe('ObjCRenderer', function() {
               }
             ]
           }
-        ]
+        ],
+        macros: [],
       };
 
       const renderedOutput:Maybe.Maybe<string> = ObjCRenderer.renderHeader(fileToRender);
@@ -1930,7 +1945,8 @@ describe('ObjCRenderer', function() {
           }
         ],
         structs: [],
-        namespaces: []
+        namespaces: [],
+        macros: [],
       };
 
       const renderedOutput:Maybe.Maybe<string> = ObjCRenderer.renderHeader(fileToRender);
@@ -2045,7 +2061,8 @@ describe('ObjCRenderer', function() {
           }
         ],
         structs: [],
-        namespaces: []
+        namespaces: [],
+        macros: [],
       };
 
       const renderedOutput:Maybe.Maybe<string> = ObjCRenderer.renderHeader(fileToRender);
@@ -2137,6 +2154,7 @@ describe('ObjCRenderer', function() {
         ],
         structs:[],
         namespaces:[],
+        macros: [],
       };
 
       const renderedOutput:Maybe.Maybe<string> = ObjCRenderer.renderHeader(fileToRender);
@@ -2217,6 +2235,7 @@ describe('ObjCRenderer', function() {
         ],
         structs:[],
         namespaces:[],
+        macros: [],
       };
 
       const renderedOutput:Maybe.Maybe<string> = ObjCRenderer.renderHeader(fileToRender);
@@ -2429,7 +2448,8 @@ describe('ObjCRenderer', function() {
           }
         ],
         structs: [],
-        namespaces: []
+        namespaces: [],
+        macros: [],
       };
 
       const renderedOutput:Maybe.Maybe<string> = ObjCRenderer.renderImplementation(fileToRender);
@@ -2596,7 +2616,8 @@ describe('ObjCRenderer', function() {
         }
         ],
         structs: [],
-        namespaces: []
+        namespaces: [],
+        macros: [],
       };
 
       const renderedOutput:Maybe.Maybe<string> = ObjCRenderer.renderImplementation(fileToRender);
@@ -2831,7 +2852,8 @@ describe('ObjCRenderer', function() {
           }
         ],
         structs: [],
-        namespaces: []
+        namespaces: [],
+        macros: [],
       };
 
       const renderedOutput:Maybe.Maybe<string> = ObjCRenderer.renderImplementation(fileToRender);
@@ -2958,7 +2980,8 @@ describe('ObjCRenderer', function() {
         }
         ],
         structs: [],
-        namespaces: []
+        namespaces: [],
+        macros: [],
       };
 
       const renderedOutput:Maybe.Maybe<string> = ObjCRenderer.renderImplementation(fileToRender);
@@ -3063,6 +3086,7 @@ describe('ObjCRenderer', function() {
         ],
         structs: [],
         namespaces:[],
+        macros: [],
       };
 
       const renderedOutput:Maybe.Maybe<string> = ObjCRenderer.renderImplementation(fileToRender);
@@ -3148,6 +3172,7 @@ describe('ObjCRenderer', function() {
         ],
         structs: [],
         namespaces:[],
+        macros: [],
       };
 
       const renderedOutput:Maybe.Maybe<string> = ObjCRenderer.renderImplementation(fileToRender);
@@ -3217,7 +3242,8 @@ describe('ObjCRenderer', function() {
         }
         ],
         structs: [],
-        namespaces: []
+        namespaces: [],
+        macros: [],
       };
 
       const renderedOutput:Maybe.Maybe<string> = ObjCRenderer.renderImplementation(fileToRender);
@@ -3266,7 +3292,8 @@ describe('ObjCRenderer', function() {
         diagnosticIgnores:[],
         classes: [],
         structs: [],
-        namespaces: []
+        namespaces: [],
+        macros: [],
       };
 
       const renderedOutput:Maybe.Maybe<string> = ObjCRenderer.renderImplementation(fileToRender);
@@ -3338,7 +3365,8 @@ describe('ObjCRenderer', function() {
         diagnosticIgnores:[],
         classes: [],
         structs: [],
-        namespaces: []
+        namespaces: [],
+        macros: [],
       };
 
       const renderedOutput:Maybe.Maybe<string> = ObjCRenderer.renderImplementation(fileToRender);
@@ -3398,7 +3426,8 @@ describe('ObjCRenderer', function() {
         diagnosticIgnores:[],
         classes: [],
         structs: [],
-        namespaces: []
+        namespaces: [],
+        macros: [],
       };
 
       const renderedOutput:Maybe.Maybe<string> = ObjCRenderer.renderImplementation(fileToRender);
@@ -3437,7 +3466,8 @@ describe('ObjCRenderer', function() {
         }
         ],
         structs: [],
-        namespaces: []
+        namespaces: [],
+        macros: [],
       };
 
       const renderedOutput:Maybe.Maybe<string> = ObjCRenderer.renderImplementation(fileToRender);
@@ -3498,7 +3528,8 @@ describe('ObjCRenderer', function() {
         }
         ],
         structs: [],
-        namespaces: []
+        namespaces: [],
+        macros: [],
       };
 
       const renderedOutput:Maybe.Maybe<string> = ObjCRenderer.renderImplementation(fileToRender);
@@ -3520,11 +3551,61 @@ describe('ObjCRenderer', function() {
         diagnosticIgnores:[],
         classes: [],
         structs: [],
-        namespaces: []
+        namespaces: [],
+        macros: [],
       };
 
       const renderedOutput:Maybe.Maybe<string> = ObjCRenderer.renderImplementation(fileToRender);
       const expectedOutput:Maybe.Maybe<string> = Maybe.Nothing<string>();
+      expect(renderedOutput).toEqualJSON(expectedOutput);
+    });
+
+    it('renders a macro', () => {
+      const fileToRender:Code.File = {
+        name: 'RMSomeValue',
+        type: Code.FileType.ObjectiveC(),
+        imports: [],
+        comments: [],
+        enumerations: [],
+        blockTypes: [],
+        staticConstants: [],
+        forwardDeclarations: [],
+        functions: [
+          {
+            comments: [],
+            name:'RMSomeFunction',
+            parameters: [
+              {name: 'parameter', type: {name:'BOOL', reference: 'BOOL'}}
+            ],
+            returnType:{ type:Maybe.Just({
+              name:'int',
+              reference:'int'
+            }), modifiers:[] },
+            code: [],
+            isPublic: false,
+          }
+        ],
+        diagnosticIgnores: [],
+        classes: [],
+        structs: [],
+        namespaces: [],
+        macros: [
+          {comments: [],name: 'RMSomeMacro', parameters: ['a, b'], code: 'RMSomeMacroExpansion((a), (b))'}
+        ],
+      };
+
+      const renderedOutput:Maybe.Maybe<string> = ObjCRenderer.renderImplementation(fileToRender);
+
+      const expectedOutput:Maybe.Maybe<string> = Maybe.Just<string>(`#if  ! __has_feature(objc_arc)
+#error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).
+#endif
+
+#define RMSomeMacro(a, b) RMSomeMacroExpansion((a), (b))
+
+static int RMSomeFunction(BOOL parameter) {
+
+}\n\n\n\n`);
+
       expect(renderedOutput).toEqualJSON(expectedOutput);
     });
   });

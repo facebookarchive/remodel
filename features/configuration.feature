@@ -71,6 +71,9 @@ Feature: Outputting Value Objects With A Custom Plugin
           instanceMethods: function (valueType) {
             return [];
           },
+          macros: function (valueType) {
+            return [];
+          },
           properties: function (valueType) {
             return [];
           },

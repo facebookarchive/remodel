@@ -312,7 +312,8 @@ function builderFileForValueType(objectType:ObjectSpec.Type):Code.File {
     ],
     diagnosticIgnores:[],
     structs: [],
-    namespaces: []
+    namespaces: [],
+    macros: [],
   };
 }
 
@@ -354,6 +355,9 @@ export function createPlugin():ObjectSpec.Plugin {
       return [];
     },
     instanceMethods: function(objectType:ObjectSpec.Type):ObjC.Method[] {
+      return [];
+    },
+    macros: function(valueType:ObjectSpec.Type):ObjC.Macro[] {
       return [];
     },
     properties: function(objectType:ObjectSpec.Type):ObjC.Property[] {

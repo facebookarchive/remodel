@@ -46,6 +46,7 @@ export interface File {
   enumerations:ObjC.Enumeration[];
   blockTypes:ObjC.BlockType[];
   staticConstants:ObjC.Constant[];
+  macros: ObjC.Macro[];
   functions:ObjC.Function[];
   classes:ObjC.Class[];
   diagnosticIgnores:string[];

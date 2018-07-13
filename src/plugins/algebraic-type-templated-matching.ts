@@ -119,7 +119,8 @@ function matchingFileForAlgebraicType(algebraicType:AlgebraicType.Type):Code.Fil
     classes: [],
     diagnosticIgnores:[],
     structs: [structForMatchingAlgebraicType(algebraicType)],
-    namespaces: []
+    namespaces: [],
+    macros: [],
   };
 }
 
@@ -162,6 +163,9 @@ export function createAlgebraicTypePlugin():AlgebraicType.Plugin {
       return [];
     },
     internalProperties: function(algebraicType:AlgebraicType.Type):ObjC.Property[] {
+      return [];
+    },
+    macros: function(algebraicType:AlgebraicType.Type):ObjC.Macro[] {
       return [];
     },
     requiredIncludesToRun: ['TemplatedMatching'],

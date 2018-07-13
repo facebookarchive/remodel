@@ -89,6 +89,9 @@ describe('ObjectSpecCreation', function() {
         functions:function(objectType:ObjectSpec.Type):ObjC.Function[] {
           return [];
         },
+        macros: function(valueType:ObjectSpec.Type):ObjC.Macro[] {
+          return [];
+        },
         validationErrors: function(objectType:ObjectSpec.Type):Error.Error[] {
           return [];
         },
@@ -211,7 +214,8 @@ describe('ObjectSpecCreation', function() {
                 }
               ],
               structs: [],
-              namespaces: []
+              namespaces: [],
+              macros: [],
             }
           ];
         },
@@ -234,6 +238,9 @@ describe('ObjectSpecCreation', function() {
           return [];
         },
         functions:function(objectType:ObjectSpec.Type):ObjC.Function[] {
+          return [];
+        },
+        macros: function(valueType:ObjectSpec.Type):ObjC.Macro[] {
           return [];
         },
         validationErrors: function(objectType:ObjectSpec.Type):Error.Error[] {
@@ -356,6 +363,9 @@ describe('ObjectSpecCreation', function() {
           return [];
         },
         functions:function(objectType:ObjectSpec.Type):ObjC.Function[] {
+          return [];
+        },
+        macros: function(valueType:ObjectSpec.Type):ObjC.Macro[] {
           return [];
         },
         validationErrors: function(objectType:ObjectSpec.Type):Error.Error[] {
@@ -493,6 +503,9 @@ describe('ObjectSpecCreation', function() {
           return [];
         },
         functions:function(objectType:ObjectSpec.Type):ObjC.Function[] {
+          return [];
+        },
+        macros: function(valueType:ObjectSpec.Type):ObjC.Macro[] {
           return [];
         },
         validationErrors: function(objectType:ObjectSpec.Type):Error.Error[] {
@@ -653,6 +666,9 @@ describe('ObjectSpecCreation', function() {
         functions:function(objectType:ObjectSpec.Type):ObjC.Function[] {
           return [];
         },
+        macros: function(valueType:ObjectSpec.Type):ObjC.Macro[] {
+          return [];
+        },
         validationErrors: function(objectType:ObjectSpec.Type):Error.Error[] {
           return [];
         },
@@ -784,6 +800,9 @@ describe('ObjectSpecCreation', function() {
         functions:function(objectType:ObjectSpec.Type):ObjC.Function[] {
           return [];
         },
+        macros: function(valueType:ObjectSpec.Type):ObjC.Macro[] {
+          return [];
+        },
         validationErrors: function(objectType:ObjectSpec.Type):Error.Error[] {
           return [Error.Error('Some error')];
         },
@@ -873,6 +892,9 @@ describe('ObjectSpecCreation', function() {
         functions:function(objectType:ObjectSpec.Type):ObjC.Function[] {
           return [];
         },
+        macros: function(valueType:ObjectSpec.Type):ObjC.Macro[] {
+          return [];
+        },
         validationErrors: function(objectType:ObjectSpec.Type):Error.Error[] {
           return [Error.Error('Some error'), Error.Error('Another error')];
         },
@@ -925,6 +947,9 @@ describe('ObjectSpecCreation', function() {
           return [];
         },
         functions:function(objectType:ObjectSpec.Type):ObjC.Function[] {
+          return [];
+        },
+        macros: function(valueType:ObjectSpec.Type):ObjC.Macro[] {
           return [];
         },
         validationErrors: function(objectType:ObjectSpec.Type):Error.Error[] {
@@ -1056,6 +1081,9 @@ describe('ObjectSpecCreation', function() {
         functions:function(objectType:ObjectSpec.Type):ObjC.Function[] {
           return [];
         },
+        macros: function(valueType:ObjectSpec.Type):ObjC.Macro[] {
+          return [];
+        },
         validationErrors: function(objectType:ObjectSpec.Type):Error.Error[] {
           return [];
         },
@@ -1129,6 +1157,9 @@ describe('ObjectSpecCreation', function() {
           return [];
         },
         functions:function(objectType:ObjectSpec.Type):ObjC.Function[] {
+          return [];
+        },
+        macros: function(valueType:ObjectSpec.Type):ObjC.Macro[] {
           return [];
         },
         validationErrors: function(objectType:ObjectSpec.Type):Error.Error[] {
@@ -1306,6 +1337,9 @@ describe('ObjectSpecCreation', function() {
         functions:function(objectType:ObjectSpec.Type):ObjC.Function[] {
           return [];
         },
+        macros: function(valueType:ObjectSpec.Type):ObjC.Macro[] {
+          return [];
+        },
         validationErrors: function(objectType:ObjectSpec.Type):Error.Error[] {
           return [];
         },
@@ -1383,6 +1417,9 @@ describe('ObjectSpecCreation', function() {
           return [];
         },
         functions:function(objectType:ObjectSpec.Type):ObjC.Function[] {
+          return [];
+        },
+        macros: function(valueType:ObjectSpec.Type):ObjC.Macro[] {
           return [];
         },
         validationErrors: function(objectType:ObjectSpec.Type):Error.Error[] {
@@ -1538,6 +1575,9 @@ describe('ObjectSpecCreation', function() {
           return [];
         },
         functions:function(objectType:ObjectSpec.Type):ObjC.Function[] {
+          return [];
+        },
+        macros: function(valueType:ObjectSpec.Type):ObjC.Macro[] {
           return [];
         },
         validationErrors: function(objectType:ObjectSpec.Type):Error.Error[] {

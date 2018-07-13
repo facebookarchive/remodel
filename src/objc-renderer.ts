@@ -567,6 +567,11 @@ function indentFunctionCode(indentFunc:(str:string) => string, code:string):stri
   }
 }
 
+export function toMacroImplementationString(macroDefinition:ObjC.Macro):string {
+  const parameters = macroDefinition.parameters.join(', ');
+  return `#define ${macroDefinition.name}(${parameters}) ${macroDefinition.code}`;
+}
+
 export function toFunctionImplementationString(functionDefinition:ObjC.Function):string {
   return declarationCommentsForFunctionImplementation(functionDefinition) + functionDeclarationForFunction(functionDefinition) + ' {\n' +
     functionDefinition.code.map(FunctionUtils.pApplyf2(StringUtils.indent(2), indentFunctionCode)).join('\n') +
@@ -713,12 +718,15 @@ export function renderImplementation(file:Code.File):Maybe.Maybe<string> {
     const blocksStr:string = file.blockTypes.filter(blockTypeIsPublic(false)).map(toBlockTypeDeclarationWithMacros).join('\n');
     const blocksSection:string = codeSectionForCodeString(blocksStr);
 
+    const macrosStr =  file.macros.map(toMacroImplementationString).join('\n\n');
+    const macrosSection = codeSectionForCodeString(macrosStr);
+
     const functionStr = file.functions.map(toFunctionImplementationString).join('\n\n');
     const functionsSection = codeSectionForCodeString(functionStr);
 
     const classesSection = file.classes.map(implementationClassSection).join('\n\n');
 
-    const contents:string = commentsSection + arcCompileFlagCheckSection() + importsSection + diagnosticIgnoresSection + staticConstantsSection + enumerationsSection + blocksSection + functionsSection + classesSection + '\n' + diagnosticIgnoresEndSection + '\n';
+    const contents:string = commentsSection + arcCompileFlagCheckSection() + importsSection + diagnosticIgnoresSection + staticConstantsSection + enumerationsSection + blocksSection + macrosSection + functionsSection + classesSection + '\n' + diagnosticIgnoresEndSection + '\n';
 
     return Maybe.Just<string>(contents);
   } else {

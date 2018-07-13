@@ -317,6 +317,9 @@ export function createAlgebraicTypePlugin():AlgebraicType.Plugin {
     internalProperties: function(algebraicType:AlgebraicType.Type):ObjC.Property[] {
       return internalPropertiesForImplementationOfAlgebraicType(algebraicType);
     },
+    macros: function(algebraicType:AlgebraicType.Type):ObjC.Macro[] {
+      return [];
+    },
     requiredIncludesToRun: ['AlgebraicTypeInitialization'],
     staticConstants: function(algebraicType:AlgebraicType.Type):ObjC.Constant[] {
       return [];

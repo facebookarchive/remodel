@@ -74,6 +74,8 @@ function createObjectSpecObjCPlugIn(plugin:ObjectSpec.Plugin) : ObjectSpecObjCPl
       return plugin.instanceMethods(typeInformation);
     },
 
+    macros: plugin.macros,
+
     properties: function(typeInformation:ObjectSpec.Type):ObjC.Property[] {
       return plugin.properties(typeInformation);
     },

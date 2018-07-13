@@ -135,7 +135,8 @@ function genericMatchingFileForAlgebraicType(algebraicType:AlgebraicType.Type):C
     ],
     diagnosticIgnores:[],
     structs: [],
-    namespaces: []
+    namespaces: [],
+    macros: [],
   };
 }
 
@@ -178,6 +179,9 @@ export function createAlgebraicTypePlugin():AlgebraicType.Plugin {
       return [];
     },
     internalProperties: function(algebraicType:AlgebraicType.Type):ObjC.Property[] {
+      return [];
+    },
+    macros: function(algebraicType:AlgebraicType.Type):ObjC.Macro[] {
       return [];
     },
     requiredIncludesToRun: ['GenericMatching'],

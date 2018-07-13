@@ -10,6 +10,9 @@
 const exec = require('child_process').exec;
 const Jasmine = require('jasmine');
 const Promise = require('promise');
+const path = require('path');
+
+process.chdir(path.dirname(__dirname));
 
 const buildStep = function(script, resolve, reject) {
   require('./' + script + '.js').build(true, function(error, stdout, stderr) {

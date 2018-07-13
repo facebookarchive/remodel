@@ -11,6 +11,9 @@ const Cucumber = require('cucumber');
 const build = require('./build.js').build;
 const cli = Cucumber.Cli(process.argv);
 const colors = require('cli-color');
+const path = require('path');
+
+process.chdir(path.dirname(__dirname));
 
 build(true, function(error, stdout, stderr) {
   if (stdout === '') {

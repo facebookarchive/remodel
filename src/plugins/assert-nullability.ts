@@ -16,27 +16,14 @@ import ObjCNullabilityUtils = require('../objc-nullability-utils');
 import ObjectSpec = require('../object-spec');
 import ObjectSpecCodeUtils = require('../object-spec-code-utils');
 
-function parameterAssertFunction():ObjC.Function {
+function parameterAssertMacro():ObjC.Macro {
   return {
     comments: [],
     name: 'RMParameterAssert',
     parameters: [
-      {
-        type: {
-          name: 'BOOL',
-          reference: 'BOOL'
-        },
-        name: 'condition'
-      }
+      'condition'
     ],
-    returnType: {
-      type: Maybe.Nothing<ObjC.Type>(),
-      modifiers: []
-    },
-    code: [
-      'NSCParameterAssert(condition);'
-    ],
-    isPublic: false
+    code: 'NSCParameterAssert((condition))',
   };
 }
 
@@ -48,9 +35,9 @@ function canAssertExistenceForTypeOfAlgebraicTypeSubtypeAttribute(attribute:Alge
   return ObjCNullabilityUtils.canAssertExistenceForType(AlgebraicTypeUtils.computeTypeOfAttribute(attribute));
 }
 
-function parameterAssertFunctionArray(assumeNonnull:boolean, attributeNullabilities:ObjC.Nullability[]):ObjC.Function[] {
+function parameterAssertMacroArray(assumeNonnull:boolean, attributeNullabilities:ObjC.Nullability[]):ObjC.Macro[] {
   if (ObjCNullabilityUtils.nullabilityRequiresNonnullProtection(assumeNonnull, attributeNullabilities)) {
-    return [parameterAssertFunction()];
+    return [parameterAssertMacro()];
   } else {
     return [];
   }
@@ -80,9 +67,7 @@ export function createPlugin():ObjectSpec.Plugin {
       return [];
     },
     functions: function(objectType:ObjectSpec.Type):ObjC.Function[] {
-      const assumeNonnull:boolean = objectType.includes.indexOf('RMAssumeNonnull') >= 0;
-      const attributeNullabilities = objectType.attributes.filter(canAssertExistenceForTypeOfObjectSpecAttribute).map(attribute => attribute.nullability);
-      return parameterAssertFunctionArray(assumeNonnull, attributeNullabilities);
+      return [];
     },
     headerComments: function(objectType:ObjectSpec.Type):ObjC.Comment[] {
       return [];
@@ -96,8 +81,10 @@ export function createPlugin():ObjectSpec.Plugin {
     instanceMethods: function(objectType:ObjectSpec.Type):ObjC.Method[] {
       return [];
     },
-    macros: function(valueType:ObjectSpec.Type):ObjC.Macro[] {
-      return [];
+    macros: function(objectType:ObjectSpec.Type):ObjC.Macro[] {
+      const assumeNonnull:boolean = objectType.includes.indexOf('RMAssumeNonnull') >= 0;
+      const attributeNullabilities = objectType.attributes.filter(canAssertExistenceForTypeOfObjectSpecAttribute).map(attribute => attribute.nullability);
+      return parameterAssertMacroArray(assumeNonnull, attributeNullabilities);
     },
     properties: function(objectType:ObjectSpec.Type):ObjC.Property[] {
       return [];
@@ -142,9 +129,7 @@ export function createAlgebraicTypePlugin():AlgebraicType.Plugin {
       return [];
     },
     functions: function(algebraicType:AlgebraicType.Type):ObjC.Function[] {
-      const assumeNonnull:boolean = algebraicType.includes.indexOf('RMAssumeNonnull') >= 0;
-      const attributeNullabilities = AlgebraicTypeUtils.allAttributesFromSubtypes(algebraicType.subtypes).filter(canAssertExistenceForTypeOfAlgebraicTypeSubtypeAttribute).map(attribute => attribute.nullability);
-      return parameterAssertFunctionArray(assumeNonnull, attributeNullabilities);
+      return [];
     },
     headerComments: function(algebraicType:AlgebraicType.Type):ObjC.Comment[] {
       return [];
@@ -162,7 +147,9 @@ export function createAlgebraicTypePlugin():AlgebraicType.Plugin {
       return [];
     },
     macros: function(algebraicType:AlgebraicType.Type):ObjC.Macro[] {
-      return [];
+      const assumeNonnull:boolean = algebraicType.includes.indexOf('RMAssumeNonnull') >= 0;
+      const attributeNullabilities = AlgebraicTypeUtils.allAttributesFromSubtypes(algebraicType.subtypes).filter(canAssertExistenceForTypeOfAlgebraicTypeSubtypeAttribute).map(attribute => attribute.nullability);
+      return parameterAssertMacroArray(assumeNonnull, attributeNullabilities);
     },
     requiredIncludesToRun: ['RMAssertNullability'],
     staticConstants: function(algebraicType:AlgebraicType.Type):ObjC.Constant[] {

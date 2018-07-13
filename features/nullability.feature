@@ -38,9 +38,7 @@ Feature: Outputting Objects With Nullability Annotations
       """
       #import "RMPage.h"
 
-      static void RMParameterAssert(BOOL condition) {
-        NSCParameterAssert(condition);
-      }
+      #define RMParameterAssert(condition) NSCParameterAssert((condition))
 
       @implementation RMPage
 
@@ -164,9 +162,7 @@ Feature: Outputting Objects With Nullability Annotations
         _SimpleADTSubtypesSecondSubtype
       };
 
-      static void RMParameterAssert(BOOL condition) {
-        NSCParameterAssert(condition);
-      }
+      #define RMParameterAssert(condition) NSCParameterAssert((condition))
 
       @implementation SimpleADT
       {

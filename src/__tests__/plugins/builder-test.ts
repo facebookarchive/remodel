@@ -892,18 +892,27 @@ describe('Plugins.Builder', function() {
     });
   });
 
-  describe('#importsForTypeLookups', function() {
+  describe('#importsForTypeLookupsOfObjectType', function() {
     it('returns an import for a type which cannot be forward declared', function() {
-      const typeLookups:ObjectGeneration.TypeLookup[] = [
-          {
-          name: 'RMSomeType',
-          library: Maybe.Nothing<string>(),
-          file: Maybe.Just<string>('RMSomeFile'),
-          canForwardDeclare: false
-        }
-      ];
 
-      const imports:ObjC.Import[] = Builder.importsForTypeLookups(typeLookups, Maybe.Nothing<string>());
+      const objectType:ObjectSpec.Type = {
+        annotations: {},
+        attributes: [],
+        comments: [],
+        excludes: [],
+        includes: [],
+        libraryName: Maybe.Nothing<string>(),
+        typeLookups:[{
+            name: 'RMSomeType',
+            library: Maybe.Nothing<string>(),
+            file: Maybe.Just<string>('RMSomeFile'),
+            canForwardDeclare: false
+          }
+        ],
+        typeName: 'FooBarBaz'
+      };
+
+      const imports:ObjC.Import[] = Builder.importsForTypeLookupsOfObjectType(objectType);
 
       const expectedImports:ObjC.Import[] = [
         {
@@ -918,16 +927,24 @@ describe('Plugins.Builder', function() {
 
     it('returns an import for a type which cannot be forward declared containing ' +
        'the default library', function() {
-      const typeLookups:ObjectGeneration.TypeLookup[] = [
-          {
-          name: 'RMSomeType',
-          library: Maybe.Nothing<string>(),
-          file: Maybe.Just<string>('RMSomeFile'),
-          canForwardDeclare: false
-        }
-      ];
+      const objectType:ObjectSpec.Type = {
+        annotations: {},
+        attributes: [],
+        comments: [],
+        excludes: [],
+        includes: [],
+        libraryName: Maybe.Just<string>('SomeLib'),
+        typeLookups:[{
+            name: 'RMSomeType',
+            library: Maybe.Nothing<string>(),
+            file: Maybe.Just<string>('RMSomeFile'),
+            canForwardDeclare: false
+          }
+        ],
+        typeName: 'FooBarBaz'
+      };
 
-      const imports:ObjC.Import[] = Builder.importsForTypeLookups(typeLookups, Maybe.Just<string>('SomeLib'));
+      const imports:ObjC.Import[] = Builder.importsForTypeLookupsOfObjectType(objectType);
 
       const expectedImports:ObjC.Import[] = [
         {
@@ -941,18 +958,58 @@ describe('Plugins.Builder', function() {
     });
 
     it('does not return an import for a type which can be forward declared', function() {
-      const typeLookups:ObjectGeneration.TypeLookup[] = [
-          {
-          name: 'RMSomeType',
-          library: Maybe.Nothing<string>(),
-          file: Maybe.Just<string>('RMSomeFile'),
-          canForwardDeclare: true
+      const objectType:ObjectSpec.Type = {
+        annotations: {},
+        attributes: [],
+        comments: [],
+        excludes: [],
+        includes: [],
+        libraryName: Maybe.Nothing<string>(),
+        typeLookups:[
+            {
+            name: 'RMSomeType',
+            library: Maybe.Nothing<string>(),
+            file: Maybe.Just<string>('RMSomeFile'),
+            canForwardDeclare: true
+          }
+        ],
+        typeName: 'FooBarBaz'
+      };
+
+      const imports:ObjC.Import[] = Builder.importsForTypeLookupsOfObjectType(objectType);
+      const expectedImports:ObjC.Import[] = [];
+
+      expect(imports).toEqualJSON(expectedImports);
+    });
+
+    it('does return a private import if UseForwardDeclarations is used', function() {
+      const objectType:ObjectSpec.Type = {
+        annotations: {},
+        attributes: [],
+        comments: [],
+        excludes: [],
+        includes: ['UseForwardDeclarations'],
+        libraryName: Maybe.Nothing<string>(),
+        typeLookups:[
+            {
+            name: 'RMSomeType',
+            library: Maybe.Nothing<string>(),
+            file: Maybe.Just<string>('RMSomeFile'),
+            canForwardDeclare: true
+          }
+        ],
+        typeName: 'FooBarBaz'
+      };
+
+      const imports:ObjC.Import[] = Builder.importsForTypeLookupsOfObjectType(objectType);
+
+      const expectedImports:ObjC.Import[] = [
+        {
+          file:'RMSomeFile.h',
+          isPublic:false,
+          library:Maybe.Nothing<string>()
         }
       ];
-
-      const imports:ObjC.Import[] = Builder.importsForTypeLookups(typeLookups, Maybe.Nothing<string>());
-
-      const expectedImports:ObjC.Import[] = [];
 
       expect(imports).toEqualJSON(expectedImports);
     });

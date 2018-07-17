@@ -231,21 +231,29 @@ function importForAttribute(objectLibrary:Maybe.Maybe<string>, isPublic:boolean,
     }, builtInImportMaybe);
 }
 
-function importRequiredForTypeLookup(typeLookup:ObjectGeneration.TypeLookup):boolean {
-  return !typeLookup.canForwardDeclare;
-}
-
 function canUseForwardDeclarationForTypeLookup(typeLookup:ObjectGeneration.TypeLookup):boolean {
   return typeLookup.canForwardDeclare;
 }
 
-export function importsForTypeLookups(typeLookups:ObjectGeneration.TypeLookup[], defaultLibrary:Maybe.Maybe<string>):ObjC.Import[] {
-  return typeLookups.filter(importRequiredForTypeLookup)
-                    .map(FunctionUtils.pApply2f3(defaultLibrary, true, ObjCImportUtils.importForTypeLookup));
+export function importsForTypeLookupsOfObjectType(objectType:ObjectSpec.Type):ObjC.Import[] {
+  const needsImportsForAllTypeLookups = objectType.includes.indexOf('UseForwardDeclarations') !== -1;
+  return objectType.typeLookups.map(function(typeLookup:ObjectGeneration.TypeLookup):ObjC.Import {
+             if (!typeLookup.canForwardDeclare) {
+                 return ObjCImportUtils.importForTypeLookup(objectType.libraryName, true, typeLookup);
+             } else if(needsImportsForAllTypeLookups) {
+                 return ObjCImportUtils.importForTypeLookup(objectType.libraryName, false, typeLookup);
+             } else {
+                 return null;
+             }
+         }).filter(function(maybeImport:ObjC.Import):boolean {
+           return (maybeImport != null); 
+         });
 }
 
+
+
 function importsForBuilder(objectType:ObjectSpec.Type):ObjC.Import[] {
-  const typeLookupImports:ObjC.Import[] = importsForTypeLookups(objectType.typeLookups, objectType.libraryName);
+  const typeLookupImports:ObjC.Import[] = importsForTypeLookupsOfObjectType(objectType);
 
   const attributeImports:ObjC.Import[] = objectType.attributes.filter(FunctionUtils.pApplyf2(objectType.typeLookups, mustDeclareImportForAttribute))
                                                            .map(function(attribute:ObjectSpec.Attribute):ObjC.Import {

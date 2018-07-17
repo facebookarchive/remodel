@@ -148,3 +148,64 @@ Feature: Outputting Value Objects
       @end
 
       """
+
+  @announce
+  Scenario: Generating a Builder while using UseForwardDeclarations
+    Given a file named "project/values/RMPage.value" with:
+      """
+      %library name=MyLib
+      %type name=RMSomeObject library=SomeLib file=AnotherFile
+      %type name=RMFooObject
+      %type name=RMSomeEnum canForwardDeclare=false
+      RMPage includes(RMBuilder, UseForwardDeclarations) {
+        RMFooObject* rating
+        RMSomeEnum(NSUInteger) someEnumValue
+        RMSomeObject* customLibObject
+      }
+      """
+    And a file named "project/.valueObjectConfig" with:
+      """
+      { }
+      """
+    When I run `../../bin/generate project`
+    Then the file "project/values/RMPageBuilder.h" should contain:
+      """
+      #import <Foundation/Foundation.h>
+      #import <MyLib/RMSomeEnum.h>
+
+      @class RMPage;
+      @class RMSomeObject;
+      @class RMFooObject;
+
+      """
+   And the file "project/values/RMPageBuilder.h" should contain:
+      """
+      #import <Foundation/Foundation.h>
+      #import <MyLib/RMSomeEnum.h>
+
+      @class RMPage;
+      @class RMSomeObject;
+      @class RMFooObject;
+
+      @interface RMPageBuilder : NSObject
+
+      + (instancetype)page;
+
+      + (instancetype)pageFromExistingPage:(RMPage *)existingPage;
+
+      """
+   And the file "project/values/RMPageBuilder.m" should contain:
+      """
+      #import <MyLib/RMPage.h>
+      #import "RMPageBuilder.h"
+      #import <SomeLib/AnotherFile.h>
+      #import <MyLib/RMFooObject.h>
+
+      @implementation RMPageBuilder
+      {
+        RMFooObject *_rating;
+        RMSomeEnum _someEnumValue;
+        RMSomeObject *_customLibObject;
+      }
+
+      """

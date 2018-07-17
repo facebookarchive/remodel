@@ -50,3 +50,12 @@ export function pApply3f4<T,U,V,W,Y>(val1:T, val2:U, val3:V, f:(a:T, b:U, c:V, d
 export function pApply3f5<T,U,V,W,X,Y>(val1:T, val2:U, val3:V, f:(a:T, b:U, c:V, d:W, e:X) => Y):(d:W, e:X) => Y {
   return pApplyf3(val3, pApplyf4(val2, pApplyf5(val1, f)));
 }
+
+export function zip2<A, B>(a: A[], b: B[]): [A, B][] {
+  const length = Math.min(a.length, b.length);
+  const result = [];
+  for (let i = 0; i < length; i++) {
+    result.push([a[i], b[i]]);
+  }
+  return result;
+}

@@ -82,7 +82,7 @@ function initializerCodeFromAttributes(assumeNonnull:boolean, supportsValueSeman
   return requiredParameterAssertions.concat(opening).concat(iVarAssignements).concat(closing);
 }
 
-function initializerFromAttributes(assumeNonnull:boolean, supportsValueSemantics:boolean, attributes:ObjectSpec.Attribute[]):ObjC.Method {
+export function initializerFromAttributes(assumeNonnull:boolean, supportsValueSemantics:boolean, attributes:ObjectSpec.Attribute[]):ObjC.Method {
   const keywords = [firstInitializerKeyword(attributes[0])].concat(attributes.slice(1).map(attributeToKeyword));
   return {
     preprocessors:[],

@@ -158,3 +158,34 @@ export function matchType<T>(matchers: TypeMatchers<T>,
     return matchers.unmatchedType();
   }
 }
+
+export function isNSObject(type:ObjC.Type):boolean {
+  const returnFalse = () => false;
+
+  return matchType({
+    id: returnFalse,
+    NSObject: () => true,
+    BOOL: returnFalse,
+    NSInteger: returnFalse,
+    NSUInteger: returnFalse,
+    double: returnFalse,
+    float: returnFalse,
+    CGFloat: returnFalse,
+    NSTimeInterval: returnFalse,
+    uintptr_t: returnFalse,
+    uint32_t: returnFalse,
+    uint64_t: returnFalse,
+    int32_t: returnFalse,
+    int64_t: returnFalse,
+    SEL: returnFalse,
+    NSRange: returnFalse,
+    CGRect: returnFalse,
+    CGPoint: returnFalse,
+    CGSize: returnFalse,
+    UIEdgeInsets: returnFalse,
+    Class: returnFalse,
+    dispatch_block_t: returnFalse,
+    unmatchedType: returnFalse,
+  },
+  type);
+}

@@ -198,8 +198,14 @@ function builtinPluginPathToPluginConfig(path:string):PluginConfig {
 }
 
 function pluginConfigForAdditionalPlugin(configFilePath:File.AbsoluteFilePath, relativePath:string) {
+  let startLocation = PathUtils.getDirectoryPathFromAbsolutePath(configFilePath);
+  const pluginDirVariable = '$PLUGIN_DIR/';
+  if (relativePath.indexOf(pluginDirVariable) === 0) {
+    startLocation = PATH_TO_PLUGINS_DIR;
+    relativePath = relativePath.substr(pluginDirVariable.length)
+  }
   const config:PluginConfig = {
-    absolutePath:PathUtils.getAbsolutePathFromDirectoryAndRelativePath(PathUtils.getDirectoryPathFromAbsolutePath(configFilePath), relativePath)
+    absolutePath:PathUtils.getAbsolutePathFromDirectoryAndRelativePath(startLocation, relativePath)
   };
   return config;
 }

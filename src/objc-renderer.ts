@@ -452,7 +452,9 @@ function headerClassSection(file:Code.File, classInfo:ObjC.Class):string {
   const inlinedBlocksStr:string = file.blockTypes.filter(blockTypeIsInlined(true)).filter(blockTypeIsPublic(true)).map(toBlockTypeDeclaration).join('\n');
   const inlinedBlocksSection:string = codeSectionForCodeString(inlinedBlocksStr);
 
-  const classMethodsStr = classInfo.classMethods.map(toClassMethodHeaderString).join('\n\n');
+  const classMethodsStr = classInfo.classMethods
+    .filter(FunctionUtils.pApplyf2(implementedProtocolsIncludingNSObjectAndADTInit(classInfo.implementedProtocols), includeMethodInHeader))
+    .map(toClassMethodHeaderString).join('\n\n');
   const classMethodsSection = codeSectionForCodeString(classMethodsStr);
 
   const instanceMethodsStr = classInfo.instanceMethods.filter(FunctionUtils.pApplyf2(implementedProtocolsIncludingNSObjectAndADTInit(classInfo.implementedProtocols), includeMethodInHeader))

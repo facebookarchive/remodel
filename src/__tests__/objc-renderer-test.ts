@@ -3608,6 +3608,59 @@ static int RMSomeFunction(BOOL parameter) {
 
       expect(renderedOutput).toEqualJSON(expectedOutput);
     });
+
+    it('filters class methods implemented in protocols', () => {
+      const fileToRender:Code.File = {
+        name: 'RMSomeValue',
+        type: Code.FileType.ObjectiveC(),
+        imports:[
+          {file:'RMSomething.h', isPublic:true, library:Maybe.Just('RMLibrary')},
+          {file:'RMSomethingElse.h', isPublic:false, library:Maybe.Just('RMLibrary')}
+        ],
+        comments:[
+          {content:'// Copyright something something. All Rights Reserved.'}
+        ],
+        enumerations: [],
+        blockTypes:[],
+        staticConstants: [],
+        functions: [],
+        forwardDeclarations: [],
+        diagnosticIgnores:[],
+        classes: [{
+          baseClassName: 'NSObject',
+          covariantTypes:[],
+          classMethods:[{
+            preprocessors:[],
+            belongsToProtocol:Maybe.Just<string>('RMTestProtocol'),
+            code: [],
+            comments:[],
+            compilerAttributes:[],
+            keywords:[{
+              name: 'testClassMethod',
+              argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+            }],
+            returnType: {
+              type: Maybe.Nothing<ObjC.Type>(),
+              modifiers: []
+            }
+          }],
+          comments:[],
+          instanceMethods:[],
+          name:'RMSomeValue',
+          properties: [],
+          internalProperties: [],
+          implementedProtocols: [{name: 'RMTestProtocol'}],
+          nullability:ObjC.ClassNullability.default,
+          subclassingRestricted:true,
+        }],
+        structs: [],
+        namespaces: [],
+        macros: [],
+      };
+
+      const renderedOutput = ObjCRenderer.renderHeader(fileToRender);
+      expect(renderedOutput.value).not.toContain('testClassMethod');
+    });
   });
 
   describe('#toKeywordArgumentString', function () {

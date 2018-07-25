@@ -110,7 +110,7 @@ describe('requireObjectSpecPlugin', function() {
     it('returns an error when the module does not actually exist', function() {
       const plugin:Either.Either<Error.Error[], Maybe.Maybe<ObjectSpec.Plugin>> = RequirePlugin.requireObjectSpecPlugin(PathUtils.getAbsolutePathFromDirectoryAndRelativePath(ABSOLUTE_PATH_OF_CURRENT_DIRECTORY, '/tmp/somePlugin2'));
 
-      const expectedPlugin = Either.Left<Error.Error[], Maybe.Maybe<ObjectSpec.Plugin>>([Error.Error('Plugin registred at ' + __dirname + '/tmp/somePlugin2 does not exist')]);
+      const expectedPlugin = Either.Left<Error.Error[], Maybe.Maybe<ObjectSpec.Plugin>>([Error.Error('Plugin registered at ' + __dirname + '/tmp/somePlugin2 does not exist')]);
 
       expect(plugin).toEqualJSON(expectedPlugin);
     });

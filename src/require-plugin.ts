@@ -30,7 +30,7 @@ function requirePlugin<T>(absolutePath:File.AbsoluteFilePath, loadPlugin:(requir
       return Either.Right<Error.Error[], Maybe.Maybe<T>>(loadPlugin(value));
     },
     function nothing():Either.Either<Error.Error[], Maybe.Maybe<T>> {
-      return Either.Left<Error.Error[], Maybe.Maybe<T>>([Error.Error('Plugin registred at ' + File.getAbsolutePathString(absolutePath) + ' does not exist')]);
+      return Either.Left<Error.Error[], Maybe.Maybe<T>>([Error.Error('Plugin registered at ' + File.getAbsolutePathString(absolutePath) + ' does not exist')]);
     },
     requiredModule
   );

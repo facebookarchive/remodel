@@ -44,6 +44,7 @@ Maybe.match(function(args) {
         console.log(colors.green('Successfully generated ' + aggregatedResult.successCount + ' objects.'));
       } else {
         console.log(colors.red('Successfully generated ' + aggregatedResult.successCount + ' objects. Encountered ' + aggregatedResult.errorCount + ' errors in other files'));
+        process.exit(1);
       }
 
       ParallelProcessQueue.shutDown();

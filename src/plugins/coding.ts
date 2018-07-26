@@ -115,6 +115,44 @@ function decodeStatementForSubtype(attribute:CodeableAttribute):string {
   return 'NSString *' + attribute.valueAccessor + ' = ' + decodedValuePart + ';';
 }
 
+function nilCheckForAttribute(attribute:CodeableAttribute):string {
+  return `if (${attribute.valueAccessor} == nil) { return nil; }`;
+}
+
+function shouldIncludeNilCheckForAttribute(attribute:ObjectSpec.Attribute, assumeNonnull:boolean):boolean {
+  const shouldIncludeIfObject = () => attribute.nullability.match(
+    () => assumeNonnull,
+    () => true,
+    () => false
+  );
+
+  return ObjCTypeUtils.matchType({
+    id: shouldIncludeIfObject,
+    NSObject: shouldIncludeIfObject,
+    BOOL: () => false,
+    NSInteger: () => false,
+    NSUInteger: () => false,
+    double: () => false,
+    float: () => false,
+    CGFloat: () => false,
+    NSTimeInterval: () => false,
+    uintptr_t: () => false,
+    uint32_t: () => false,
+    uint64_t: () => false,
+    int32_t: () => false,
+    int64_t: () => false,
+    SEL: () => false,
+    NSRange: () => false,
+    CGRect: () => false,
+    CGPoint: () => false,
+    CGSize: () => false,
+    UIEdgeInsets: () => false,
+    Class: () => false,
+    dispatch_block_t: () => false,
+    unmatchedType: () => false
+  }, ObjectSpecCodeUtils.computeTypeOfAttribute(attribute));
+}
+
 export function encodeStatementForAttribute(attribute:CodeableAttribute):string {
   const codingStatements: CodingUtils.CodingStatements = CodingUtils.codingStatementsForType(attribute.type);
   const encodeValuePart = codingStatements.encodeValueStatementGenerator(attribute.valueAccessor);
@@ -442,8 +480,14 @@ export function createPlugin():ObjectSpec.Plugin {
     },
     instanceMethods: function(objectType:ObjectSpec.Type):ObjC.Method[] {
       if (objectType.attributes.length > 0) {
+        const assumeNonnull = objectType.includes.indexOf('RMAssumeNonnull') > -1;
+        const nullableCodingAttributes:CodeableAttribute[] = objectType.attributes
+          .filter(attr => shouldIncludeNilCheckForAttribute(attr, assumeNonnull))
+          .map(codingAttributeForValueAttribute);
+        const nilChecks:string[] = nullableCodingAttributes.map(attr => nilCheckForAttribute(attr));
+
         const codingAttributes:CodeableAttribute[] = objectType.attributes.map(codingAttributeForValueAttribute);
-        const decodeCode:string[] = codingAttributes.reduce(legacyCheckingDecodeStatementReducerForAttributes, []);
+        const decodeCode:string[] = codingAttributes.reduce(legacyCheckingDecodeStatementReducerForAttributes, []).concat(nilChecks);
         const encodeCode:string[] = codingAttributes.map(encodeStatementForAttribute);
         return [
           decodeMethodWithCode(decodeCode),

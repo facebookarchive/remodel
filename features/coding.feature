@@ -131,3 +131,56 @@ Feature: Outputting Value Objects With Coded Values
         return self;
       }
       """
+
+  @announce
+  Scenario: Generating nil checks for nonnull properties
+    Given a file named "project/values/RMPage.value" with:
+      """
+      RMPage includes(RMCoding, RMAssumeNonnull) {
+        BOOL primitive
+        NSString* identifier
+        %nullable
+        NSString* nullableIdentifier
+      }
+      """
+    And a file named "project/.valueObjectConfig" with:
+      """
+      { }
+      """
+    When I run `../../bin/generate project`
+    Then the file "project/values/RMPage.h" should contain:
+      """
+      #import <Foundation/Foundation.h>
+
+      NS_ASSUME_NONNULL_BEGIN
+
+      @interface RMPage : NSObject <NSCopying, NSCoding>
+
+      @property (nonatomic, readonly) BOOL primitive;
+      @property (nonatomic, readonly, copy) NSString *identifier;
+      @property (nonatomic, readonly, copy, nullable) NSString *nullableIdentifier;
+
+      + (instancetype)new NS_UNAVAILABLE;
+
+      - (instancetype)init NS_UNAVAILABLE;
+
+      - (instancetype)initWithPrimitive:(BOOL)primitive identifier:(NSString *)identifier nullableIdentifier:(nullable NSString *)nullableIdentifier NS_DESIGNATED_INITIALIZER;
+
+      @end
+
+      NS_ASSUME_NONNULL_END
+
+      """
+   And the file "project/values/RMPage.m" should contain:
+      """
+      - (nullable instancetype)initWithCoder:(NSCoder *)aDecoder
+      {
+        if ((self = [super init])) {
+          _primitive = [aDecoder decodeBoolForKey:kPrimitiveKey];
+          _identifier = [aDecoder decodeObjectForKey:kIdentifierKey];
+          _nullableIdentifier = [aDecoder decodeObjectForKey:kNullableIdentifierKey];
+          if (_identifier == nil) { return nil; }
+        }
+        return self;
+      }
+      """

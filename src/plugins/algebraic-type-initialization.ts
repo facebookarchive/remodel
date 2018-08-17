@@ -211,6 +211,10 @@ function shouldForwardDeclareAttribute(algebraicTypeName:string, makePublicImpor
   return declaringPublicAttributes || attributeTypeReferencesObjectType;
 }
 
+function makePublicImportsForAlgebraicType(algebraicType:AlgebraicType.Type):boolean {
+  return algebraicType.includes.indexOf('UseForwardDeclarations') === -1;
+}
+
 function forwardDeclarationForAttribute(attribute:AlgebraicType.SubtypeAttribute): ObjC.ForwardDeclaration {
   return ObjC.ForwardDeclaration.ForwardClassDeclaration(attribute.type.name);
 }
@@ -280,7 +284,7 @@ export function createAlgebraicTypePlugin():AlgebraicType.Plugin {
       return Maybe.Nothing<Code.FileType>();
     },
     forwardDeclarations: function(algebraicType:AlgebraicType.Type):ObjC.ForwardDeclaration[] {
-      const makePublicImports = algebraicType.includes.indexOf('UseForwardDeclarations') === -1;
+      const makePublicImports = makePublicImportsForAlgebraicType(algebraicType);
       const attributeForwardDeclarations = AlgebraicTypeUtils.allAttributesFromSubtypes(algebraicType.subtypes)
                                                              .filter(FunctionUtils.pApply2f3(algebraicType.name, makePublicImports, shouldForwardDeclareAttribute))
                                                              .map(forwardDeclarationForAttribute);
@@ -302,8 +306,7 @@ export function createAlgebraicTypePlugin():AlgebraicType.Plugin {
         PUBLIC_FOUNDATION_IMPORT,
         internalImportForFileWithName(algebraicType.name)
       ];
-
-      const makePublicImports = algebraicType.includes.indexOf('UseForwardDeclarations') === -1;
+      const makePublicImports = makePublicImportsForAlgebraicType(algebraicType);
       const typeLookupImports = algebraicType.typeLookups.filter(FunctionUtils.pApplyf2(algebraicType.name, isImportRequiredForTypeLookup))
                                                          .map(FunctionUtils.pApply2f3(algebraicType.libraryName, makePublicImports, importForTypeLookup));
       const attributeImports:ObjC.Import[] = AlgebraicTypeUtils.allAttributesFromSubtypes(algebraicType.subtypes)

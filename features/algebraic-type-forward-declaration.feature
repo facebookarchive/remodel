@@ -4,11 +4,14 @@ Feature: Outputting forward declarations in Algebraic Types
   Scenario: Generating an algebraic type with forward declarations
     Given a file named "project/values/SimpleADT.adtValue" with:
       """
+      %type name="SomeType"
+
       SimpleADT includes(UseForwardDeclarations) {
         FirstSubtype {
           %import library=RMLib
           RMProxy *firstValue
           NSUInteger secondValue
+          NSArray<SomeType *> *thirdValue
         }
         SomeRandomSubtype
         SecondSubtype {
@@ -30,14 +33,15 @@ Feature: Outputting forward declarations in Algebraic Types
       #import <Foundation/Foundation.h>
 
       @class RMProxy;
+      @class SomeType;
 
-      typedef void (^SimpleADTFirstSubtypeMatchHandler)(RMProxy *firstValue, NSUInteger secondValue);
+      typedef void (^SimpleADTFirstSubtypeMatchHandler)(RMProxy *firstValue, NSUInteger secondValue, NSArray<SomeType *> *thirdValue);
       typedef void (^SimpleADTSomeRandomSubtypeMatchHandler)(void);
       typedef void (^SimpleADTSecondSubtypeMatchHandler)(BOOL something);
 
       @interface SimpleADT : NSObject <NSCopying>
 
-      + (instancetype)firstSubtypeWithFirstValue:(RMProxy *)firstValue secondValue:(NSUInteger)secondValue;
+      + (instancetype)firstSubtypeWithFirstValue:(RMProxy *)firstValue secondValue:(NSUInteger)secondValue thirdValue:(NSArray<SomeType *> *)thirdValue;
 
       + (instancetype)new NS_UNAVAILABLE;
 
@@ -68,15 +72,17 @@ Feature: Outputting forward declarations in Algebraic Types
         _SimpleADTSubtypes _subtype;
         RMProxy *_firstSubtype_firstValue;
         NSUInteger _firstSubtype_secondValue;
+        NSArray<SomeType *> *_firstSubtype_thirdValue;
         BOOL _secondSubtype_something;
       }
 
-      + (instancetype)firstSubtypeWithFirstValue:(RMProxy *)firstValue secondValue:(NSUInteger)secondValue
+      + (instancetype)firstSubtypeWithFirstValue:(RMProxy *)firstValue secondValue:(NSUInteger)secondValue thirdValue:(NSArray<SomeType *> *)thirdValue
       {
         SimpleADT *object = [(id)self new];
         object->_subtype = _SimpleADTSubtypesFirstSubtype;
         object->_firstSubtype_firstValue = firstValue;
         object->_firstSubtype_secondValue = secondValue;
+        object->_firstSubtype_thirdValue = thirdValue;
         return object;
       }
 

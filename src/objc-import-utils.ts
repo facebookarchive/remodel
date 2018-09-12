@@ -247,16 +247,3 @@ export function importForTypeLookup(defaultLibrary:Maybe.Maybe<string>, isPublic
     )
   };
 }
-
-function canForwardDeclareTypeLookup(typeLookup:ObjectGeneration.TypeLookup):boolean {
-  return typeLookup.canForwardDeclare;
-}
-
-function forwardDeclarationForTypeLookup(typeLookup:ObjectGeneration.TypeLookup):ObjC.ForwardDeclaration {
-  return ObjC.ForwardDeclaration.ForwardClassDeclaration(typeLookup.name);
-}
-
-export function forwardDeclarationsForTypeLookups(typeLookups:ObjectGeneration.TypeLookup[]):ObjC.ForwardDeclaration[] {
-  return typeLookups.filter(canForwardDeclareTypeLookup)
-                    .map(forwardDeclarationForTypeLookup);
-}

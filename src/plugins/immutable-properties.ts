@@ -213,10 +213,20 @@ function forwardDeclarationForTypeLookup(typeLookup:ObjectGeneration.TypeLookup)
   return ObjC.ForwardDeclaration.ForwardClassDeclaration(typeLookup.name);
 }
 
-function shouldForwardClassDeclareAttribute(valueTypeName:string, makePublicImports:boolean, attribute:ObjectSpec.Attribute):boolean {
-  const declaringPublicAttributes = !makePublicImports && ObjCImportUtils.canForwardDeclareTypeForAttribute(attribute);
+function typeLookupPreventsForwardDeclarationForAttribute(typeLookup:ObjectGeneration.TypeLookup, attribute:ObjectSpec.Attribute):boolean {
+  return (!typeLookup.canForwardDeclare && typeLookup.name === attribute.type.name);
+}
+
+function typeLookupsAllowForwardDeclarationForAttribute(typeLookups:ObjectGeneration.TypeLookup[], attribute:ObjectSpec.Attribute):boolean {
+  return !typeLookups.some(typeLookup => typeLookupPreventsForwardDeclarationForAttribute(typeLookup, attribute));
+}
+
+function shouldForwardClassDeclareAttribute(valueTypeName:string, typeLookups:ObjectGeneration.TypeLookup[], makePublicImports:boolean, attribute:ObjectSpec.Attribute):boolean {
+  const shouldExplicitlyForwardDeclare = (!makePublicImports
+                                         && typeLookupsAllowForwardDeclarationForAttribute(typeLookups, attribute)
+                                         && ObjCImportUtils.canForwardDeclareTypeForAttribute(attribute));
   const attributeTypeReferencesObjectType = valueTypeName == attribute.type.name;
-  return declaringPublicAttributes || attributeTypeReferencesObjectType;
+  return shouldExplicitlyForwardDeclare || attributeTypeReferencesObjectType;
 }
 
 function forwardClassDeclarationForAttribute(attribute:ObjectSpec.Attribute): ObjC.ForwardDeclaration {
@@ -247,7 +257,7 @@ export function createPlugin():ObjectSpec.Plugin {
       const makePublicImports = makePublicImportsForValueType(objectType);
       const typeLookupForwardDeclarations = objectType.typeLookups.filter(FunctionUtils.pApplyf2(objectType, isForwardDeclarationRequiredForTypeLookup))
                                                                   .map(forwardDeclarationForTypeLookup);
-      const attributeForwardClassDeclarations = objectType.attributes.filter(FunctionUtils.pApply2f3(objectType.typeName, makePublicImports, shouldForwardClassDeclareAttribute))
+      const attributeForwardClassDeclarations = objectType.attributes.filter(FunctionUtils.pApply3f4(objectType.typeName, objectType.typeLookups, makePublicImports, shouldForwardClassDeclareAttribute))
                                                                      .map(forwardClassDeclarationForAttribute);
       const attributeForwardProtocolDeclarations = makePublicImports
         ? []

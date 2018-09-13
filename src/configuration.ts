@@ -15,6 +15,7 @@ import Map = require('./map');
 import Maybe = require('./maybe');
 import PathUtils = require('./path-utils');
 import Promise = require('./promise');
+import Unique = require('./unique');
 
 export interface PluginConfig {
   absolutePath:File.AbsoluteFilePath;
@@ -128,31 +129,9 @@ function parsedJsonToBaseClass(parsed:any):ParsedBaseClassInformation {
   }
 }
 
-interface UniquesReductionTracker<T> {
-  values:List.List<T>;
-  seenValues:Map.Map<T, T>;
-}
-
-function uniqueValuesInList<T>(list:List.List<T>):List.List<T> {
-  const tracker:UniquesReductionTracker<T> = List.foldr(function(currentReductionTracker:UniquesReductionTracker<T>, value:T):UniquesReductionTracker<T> {
-    if (!Map.containsKey(value, currentReductionTracker.seenValues)) {
-      return {
-        values: List.cons(value, currentReductionTracker.values),
-        seenValues: Map.insert(value, value, currentReductionTracker.seenValues)
-      };
-    } else {
-      return currentReductionTracker;
-    }
-  }, {
-    values: List.of<T>(),
-    seenValues: Map.Empty<T, T>()
-  }, list);
-  return tracker.values;
-}
-
 function includesWithAdditionalIncludes(includes:List.List<string>, includesToAdd:List.List<string>):List.List<string> {
   const combinedIncludes:List.List<string> = List.append(includes, includesToAdd);
-  return uniqueValuesInList(combinedIncludes);
+  return Unique.uniqueValuesInList(combinedIncludes);
 }
 
 function includesApplyingExcludesMap(includes:List.List<string>, defaultExcludesMap:Map.Map<string, string>):List.List<string> {

@@ -8,9 +8,11 @@
 import Code = require('./code');
 import CPlusPlus = require('./cplusplus');
 import FunctionUtils = require('./function-utils');
+import List = require('./list');
 import Maybe = require('./maybe');
 import StringUtils = require('./string-utils');
 import ObjC = require('./objc');
+import Unique = require('./unique');
 
 function emptyString():string {
   return '';
@@ -224,8 +226,9 @@ function toProtocolString(protocol:ObjC.Protocol):string {
 }
 
 function protocolsString(protocols:ObjC.Protocol[]):string {
-  if (protocols.length > 0) {
-    return ' <' + protocols.map(toProtocolString).join(', ') + '>';
+  var dedupedProtocolStrings = List.toArray(Unique.uniqueValuesInList(List.fromArray(protocols.map(toProtocolString))));
+  if (dedupedProtocolStrings.length > 0) {
+    return ' <' + dedupedProtocolStrings.join(', ') + '>';
   } else {
     return '';
   }

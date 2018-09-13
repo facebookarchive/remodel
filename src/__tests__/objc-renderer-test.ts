@@ -2254,6 +2254,80 @@ describe('ObjCRenderer', function() {
       expect(renderedOutput).toEqualJSON(expectedOutput);
     });
 
+    it('dedupes protocols in the class header', function() {
+      const fileToRender:Code.File = {
+        name: 'RMSomeValue',
+        type: Code.FileType.ObjectiveC(),
+        imports:[
+        ],
+        comments:[
+        ],
+        enumerations: [
+        ],
+        blockTypes:[
+        ],
+        staticConstants: [
+        ],
+        functions: [
+        ],
+        forwardDeclarations: [
+        ],
+        diagnosticIgnores:[],
+        classes: [
+          {
+            baseClassName:'NSObject',
+            covariantTypes:[],
+            classMethods: [
+            ],
+            comments:[],
+            instanceMethods: [
+            ],
+            name:'RMSomeValue',
+            properties: [
+              {
+                comments:[],
+                modifiers:[ObjC.PropertyModifier.Nonatomic(), ObjC.PropertyModifier.Readonly()],
+                access: ObjC.PropertyAccess.Public(),
+                name:'value1',
+                returnType: {
+                  name:'RMSomething',
+                  reference:'RMSomething *'
+                }
+              }
+            ],
+            internalProperties:[
+            ],
+            implementedProtocols: [
+              {
+                name: 'NSCoding',
+              },
+              {
+                name: 'NSCoding',
+              }
+            ],
+            nullability: ObjC.ClassNullability.default,
+            subclassingRestricted: false,
+          }
+        ],
+        structs: [],
+        namespaces: [],
+        macros: [],
+      };
+
+      const renderedOutput:Maybe.Maybe<string> = ObjCRenderer.renderHeader(fileToRender);
+
+      const expectedOutput:Maybe.Maybe<string> = Maybe.Just<string>(
+        '@interface RMSomeValue : NSObject <NSCoding>\n' +
+        '\n' +
+        '@property (nonatomic, readonly) RMSomething *value1;\n' +
+        '\n' +
+        '@end\n' +
+        '\n'
+      );
+
+      expect(renderedOutput).toEqualJSON(expectedOutput);
+    });
+
   });
 
   describe('#renderImplementation', function() {

@@ -36,6 +36,6 @@
     "fs-extra": "0.26.7",
     "jasmine": "2.2",
     "jsondiffpatch": "0.1.38",
-    "typescript": "1.8"
+    "typescript": "3.0"
   }
 }

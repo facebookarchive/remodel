@@ -30,7 +30,7 @@ export function Request(path:File.AbsoluteFilePath, content:string) {
 
 export function write(request:Request):Promise.Future<Maybe.Maybe<Error.Error>> {
   const promise = Promise.pending<Maybe.Maybe<Error.Error>>();
-  fs.writeFile(File.getAbsolutePathString(request.path), request.content, 'utf8', function(err) {
+  fs.writeFile(File.getAbsolutePathString(request.path), request.content, {encoding: 'utf8'}, function(err) {
     if (err) {
       promise.setValue(Maybe.Just(Error.Error(err.message)));
     } else {

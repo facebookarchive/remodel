@@ -201,8 +201,8 @@ function makePublicImportsForValueType(objectType:ObjectSpec.Type):boolean {
   return objectType.includes.indexOf('UseForwardDeclarations') === -1;
 }
 
-function skipAttributePrivateImportsForValueType(objectType:ObjectSpec.Type):boolean {
-  return objectType.includes.indexOf('SkipAttributePrivateImports') !== -1
+function SkipImportsInImplementationForValueType(objectType:ObjectSpec.Type):boolean {
+  return objectType.includes.indexOf('SkipImportsInImplementation') !== -1
 }
 
 function isForwardDeclarationRequiredForTypeLookup(objectType:ObjectSpec.Type, typeLookup:ObjectGeneration.TypeLookup):boolean {
@@ -279,7 +279,7 @@ export function createPlugin():ObjectSpec.Plugin {
         {file:objectType.typeName + '.h', isPublic:false, library:Maybe.Nothing<string>() }
       ];
       const makePublicImports = makePublicImportsForValueType(objectType);
-      const skipAttributeImports = !makePublicImports && skipAttributePrivateImportsForValueType(objectType);
+      const skipAttributeImports = !makePublicImports && SkipImportsInImplementationForValueType(objectType);
       const typeLookupImports = objectType.typeLookups.filter(FunctionUtils.pApplyf2(objectType, isImportRequiredForTypeLookup))
                                                       .map(FunctionUtils.pApply2f3(objectType.libraryName, makePublicImports, importForTypeLookup));
       const attributeImports = skipAttributeImports

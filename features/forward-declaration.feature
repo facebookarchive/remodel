@@ -258,10 +258,10 @@ Feature: Outputting Value Objects With Forward Declarations
 
       """
   @announce
-  Scenario: Generating Files with SkipAttributePrivateImports results in no additional imports
+  Scenario: Generating Files with SkipImportsInImplementation results in no additional imports
     Given a file named "project/values/RMPage.value" with:
       """
-      RMPage includes(UseForwardDeclarations, SkipAttributePrivateImports) {
+      RMPage includes(UseForwardDeclarations, SkipImportsInImplementation) {
         UIViewController<WorldProtocol> *worldVc
         RMProxy* proxy
         HelloClass *helloObj
@@ -284,10 +284,10 @@ Feature: Outputting Value Objects With Forward Declarations
 
       """
   @announce
-  Scenario: Generating Builders with SkipAttributePrivateImports results in no additional imports
+  Scenario: Generating Builders with SkipImportsInImplementation results in no additional imports
     Given a file named "project/values/RMPage.value" with:
       """
-      RMPage includes(UseForwardDeclarations, SkipAttributePrivateImports, RMBuilder) {
+      RMPage includes(UseForwardDeclarations, SkipImportsInImplementation, RMBuilder) {
         UIViewController<WorldProtocol> *worldVc
         RMProxy* proxy
         HelloClass *helloObj

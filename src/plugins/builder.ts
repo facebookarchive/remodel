@@ -250,15 +250,26 @@ export function importsForTypeLookupsOfObjectType(objectType:ObjectSpec.Type):Ob
          });
 }
 
+function makePublicImportsForValueType(objectType:ObjectSpec.Type):boolean {
+  return objectType.includes.indexOf('UseForwardDeclarations') === -1;
+}
 
+function skipAttributePrivateImportsForValueType(objectType:ObjectSpec.Type):boolean {
+  return objectType.includes.indexOf('SkipAttributePrivateImports') !== -1
+}
 
 function importsForBuilder(objectType:ObjectSpec.Type):ObjC.Import[] {
   const typeLookupImports:ObjC.Import[] = importsForTypeLookupsOfObjectType(objectType);
 
-  const attributeImports:ObjC.Import[] = objectType.attributes.filter(FunctionUtils.pApplyf2(objectType.typeLookups, mustDeclareImportForAttribute))
-                                                           .map(function(attribute:ObjectSpec.Attribute):ObjC.Import {
-                                                             return importForAttribute(objectType.libraryName, false, attribute);
-                                                           });
+  const makePublicImports = makePublicImportsForValueType(objectType);
+  const skipAttributeImports = !makePublicImports && skipAttributePrivateImportsForValueType(objectType);
+
+  const attributeImports:ObjC.Import[] = (skipAttributeImports 
+                                          ? [] 
+                                          : objectType.attributes.filter(FunctionUtils.pApplyf2(objectType.typeLookups, mustDeclareImportForAttribute))
+                                                                                                   .map(function(attribute:ObjectSpec.Attribute):ObjC.Import {
+                                                                                                     return importForAttribute(objectType.libraryName, false, attribute);
+                                                                                                   }));
 
   return [
     {file:'Foundation.h', isPublic:true, library:Maybe.Just('Foundation')},

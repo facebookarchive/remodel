@@ -266,6 +266,9 @@ Feature: Outputting Value Objects With Forward Declarations
         RMProxy* proxy
         HelloClass *helloObj
         NSArray<RMSomeType *>* followers
+        SomeClass *x
+        NSInteger primitives
+        AnEnun(NSUInteger) bla
       }
       """
     And a file named "project/.valueObjectConfig" with:
@@ -278,5 +281,39 @@ Feature: Outputting Value Objects With Forward Declarations
       #import "RMPage.h"
 
       @implementation RMPage
+
+      """
+  @announce
+  Scenario: Generating Builders with SkipAttributePrivateImports results in no additional imports
+    Given a file named "project/values/RMPage.value" with:
+      """
+      RMPage includes(UseForwardDeclarations, SkipAttributePrivateImports, RMBuilder) {
+        UIViewController<WorldProtocol> *worldVc
+        RMProxy* proxy
+        HelloClass *helloObj
+        NSArray<RMSomeType *>* followers
+        SomeClass *x
+        NSInteger primitives
+        AnEnun(NSUInteger) bla
+      }
+      """
+    And a file named "project/.valueObjectConfig" with:
+      """
+      { }
+      """
+    When I run `../../bin/generate project`
+    Then the file "project/values/RMPage.m" should contain:
+      """
+      #import "RMPage.h"
+
+      @implementation RMPage
+
+      """
+    And the file "project/values/RMPageBuilder.m" should contain:
+      """
+      #import "RMPage.h"
+      #import "RMPageBuilder.h"
+
+      @implementation RMPageBuilder
 
       """

@@ -59,6 +59,7 @@ Feature: Outputting forward declarations in Algebraic Types
    And the file "project/values/SimpleADT.m" should contain:
       """
       #import "SimpleADT.h"
+      #import "SomeType.h"
       #import <RMLib/RMProxy.h>
 
       typedef NS_ENUM(NSUInteger, _SimpleADTSubtypes) {

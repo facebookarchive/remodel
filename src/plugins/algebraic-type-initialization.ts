@@ -180,10 +180,6 @@ function internalPropertiesForImplementationOfAlgebraicType(algebraicType:Algebr
   return [enumerationProperty].concat(attributeProperties);
 }
 
-function isImportRequiredForTypeLookup(algebraicType:AlgebraicType.Type, typeLookup:ObjectGeneration.TypeLookup):boolean {
-  return !isForwardDeclarationRequiredForTypeLookup(algebraicType, typeLookup);
-}
-
 function isImportRequiredForAttribute(typeLookups:ObjectGeneration.TypeLookup[], attribute:AlgebraicType.SubtypeAttribute):boolean {
   return ObjCImportUtils.shouldIncludeImportForType(typeLookups, attribute.type.name);
 }
@@ -220,7 +216,13 @@ function forwardDeclarationForAttribute(attribute:AlgebraicType.SubtypeAttribute
 }
 
 function isForwardDeclarationRequiredForTypeLookup(algebraicType:AlgebraicType.Type, typeLookup:ObjectGeneration.TypeLookup):boolean {
-  return typeLookup.name === algebraicType.name || (typeLookup.canForwardDeclare && !makePublicImportsForAlgebraicType(algebraicType));
+  return (typeLookup.name === algebraicType.name
+          || (typeLookup.canForwardDeclare
+              && !makePublicImportsForAlgebraicType(algebraicType)));
+}
+
+function isImportRequiredForTypeLookup(algebraicType:AlgebraicType.Type, typeLookup:ObjectGeneration.TypeLookup):boolean {
+  return (typeLookup.name !== algebraicType.name);
 }
 
 function forwardDeclarationForTypeLookup(typeLookup:ObjectGeneration.TypeLookup):ObjC.ForwardDeclaration {
@@ -259,8 +261,8 @@ function buildAlgebraicTypeValidationErrors(soFar:ValidationErrorReductionTracke
 }
 
 function importForTypeLookup(libraryName:Maybe.Maybe<string>, makePublicImports:boolean, typeLookup:ObjectGeneration.TypeLookup):ObjC.Import {
-  const shouldImport = makePublicImports || !typeLookup.canForwardDeclare;
-  return ObjCImportUtils.importForTypeLookup(libraryName, shouldImport, typeLookup);
+  const isPublic = (makePublicImports || !typeLookup.canForwardDeclare);
+  return ObjCImportUtils.importForTypeLookup(libraryName, isPublic, typeLookup);
 }
 
 export function createAlgebraicTypePlugin():AlgebraicType.Plugin {

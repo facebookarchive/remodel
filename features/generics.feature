@@ -124,7 +124,7 @@ Feature: Outputting Objects With Generic Types
 
       - (instancetype)init NS_UNAVAILABLE;
 
-      - (void)matchFirstSubtype:(SimpleADTFirstSubtypeMatchHandler NS_NOESCAPE)firstSubtypeMatchHandler someAttributeSubtype:(SimpleADTSomeAttributeSubtypeMatchHandler NS_NOESCAPE)someAttributeSubtypeMatchHandler NS_SWIFT_NAME(match(firstSubtype:someAttributeSubtype:));
+      - (void)matchFirstSubtype:(NS_NOESCAPE SimpleADTFirstSubtypeMatchHandler)firstSubtypeMatchHandler someAttributeSubtype:(NS_NOESCAPE SimpleADTSomeAttributeSubtypeMatchHandler)someAttributeSubtypeMatchHandler NS_SWIFT_NAME(match(firstSubtype:someAttributeSubtype:));
 
       @end
 
@@ -210,7 +210,7 @@ Feature: Outputting Objects With Generic Types
           (_someAttributeSubtype == object->_someAttributeSubtype ? YES : [_someAttributeSubtype isEqual:object->_someAttributeSubtype]);
       }
 
-      - (void)matchFirstSubtype:(SimpleADTFirstSubtypeMatchHandler NS_NOESCAPE)firstSubtypeMatchHandler someAttributeSubtype:(SimpleADTSomeAttributeSubtypeMatchHandler NS_NOESCAPE)someAttributeSubtypeMatchHandler
+      - (void)matchFirstSubtype:(NS_NOESCAPE SimpleADTFirstSubtypeMatchHandler)firstSubtypeMatchHandler someAttributeSubtype:(NS_NOESCAPE SimpleADTSomeAttributeSubtypeMatchHandler)someAttributeSubtypeMatchHandler
       {
         switch (_subtype) {
           case _SimpleADTSubtypesFirstSubtype: {

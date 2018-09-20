@@ -178,10 +178,10 @@ describe('Plugins.AlgebraicTypeVoidMatching', function() {
             name: 'matchSomeSubtype',
             argument: Maybe.Just<ObjC.KeywordArgument>({
               name: 'someSubtypeMatchHandler',
-              modifiers: [],
+              modifiers: [ObjC.KeywordArgumentModifier.Noescape()],
               type: {
                 name: 'TestSomeSubtypeMatchHandler',
-                reference:'TestSomeSubtypeMatchHandler NS_NOESCAPE'
+                reference:'TestSomeSubtypeMatchHandler'
               }
             })
           },
@@ -189,10 +189,10 @@ describe('Plugins.AlgebraicTypeVoidMatching', function() {
             name: 'singleAttributeSubtype',
             argument: Maybe.Just<ObjC.KeywordArgument>({
               name: 'singleAttributeSubtypeMatchHandler',
-              modifiers: [],
+              modifiers: [ObjC.KeywordArgumentModifier.Noescape()],
               type: {
                 name: 'TestSingleAttributeSubtypeMatchHandler',
-                reference:'TestSingleAttributeSubtypeMatchHandler NS_NOESCAPE'
+                reference:'TestSingleAttributeSubtypeMatchHandler'
               }
             })
           }
@@ -309,10 +309,10 @@ describe('Plugins.AlgebraicTypeBoolMatching', function() {
             name: 'matchBooleanSomeSubtype',
             argument: Maybe.Just<ObjC.KeywordArgument>({
               name: 'someSubtypeMatchHandler',
-              modifiers: [],
+              modifiers: [ObjC.KeywordArgumentModifier.Noescape()],
               type: {
                 name: 'TestBooleanSomeSubtypeMatchHandler',
-                reference:'TestBooleanSomeSubtypeMatchHandler NS_NOESCAPE'
+                reference:'TestBooleanSomeSubtypeMatchHandler'
               }
             })
           },
@@ -320,10 +320,10 @@ describe('Plugins.AlgebraicTypeBoolMatching', function() {
             name: 'singleAttributeSubtype',
             argument: Maybe.Just<ObjC.KeywordArgument>({
               name: 'singleAttributeSubtypeMatchHandler',
-              modifiers: [],
+              modifiers: [ObjC.KeywordArgumentModifier.Noescape()],
               type: {
                 name: 'TestBooleanSingleAttributeSubtypeMatchHandler',
-                reference:'TestBooleanSingleAttributeSubtypeMatchHandler NS_NOESCAPE'
+                reference:'TestBooleanSingleAttributeSubtypeMatchHandler'
               }
             })
           }
@@ -446,10 +446,10 @@ describe('Plugins.AlgebraicTypeIntegerMatching', function() {
             name: 'matchIntegerSomeSubtype',
             argument: Maybe.Just<ObjC.KeywordArgument>({
               name: 'someSubtypeMatchHandler',
-              modifiers: [],
+              modifiers: [ObjC.KeywordArgumentModifier.Noescape()],
               type: {
                 name: 'TestIntegerSomeSubtypeMatchHandler',
-                reference:'TestIntegerSomeSubtypeMatchHandler NS_NOESCAPE'
+                reference:'TestIntegerSomeSubtypeMatchHandler'
               }
             })
           },
@@ -457,10 +457,10 @@ describe('Plugins.AlgebraicTypeIntegerMatching', function() {
             name: 'singleAttributeSubtype',
             argument: Maybe.Just<ObjC.KeywordArgument>({
               name: 'singleAttributeSubtypeMatchHandler',
-              modifiers: [],
+              modifiers: [ObjC.KeywordArgumentModifier.Noescape()],
               type: {
                 name: 'TestIntegerSingleAttributeSubtypeMatchHandler',
-                reference:'TestIntegerSingleAttributeSubtypeMatchHandler NS_NOESCAPE'
+                reference:'TestIntegerSingleAttributeSubtypeMatchHandler'
               }
             })
           }
@@ -583,10 +583,10 @@ describe('Plugins.AlgebraicTypeDoubleMatching', function() {
             name: 'matchDoubleSomeSubtype',
             argument: Maybe.Just<ObjC.KeywordArgument>({
               name: 'someSubtypeMatchHandler',
-              modifiers: [],
+              modifiers: [ObjC.KeywordArgumentModifier.Noescape()],
               type: {
                 name: 'TestDoubleSomeSubtypeMatchHandler',
-                reference:'TestDoubleSomeSubtypeMatchHandler NS_NOESCAPE'
+                reference:'TestDoubleSomeSubtypeMatchHandler'
               }
             })
           },
@@ -594,10 +594,10 @@ describe('Plugins.AlgebraicTypeDoubleMatching', function() {
             name: 'singleAttributeSubtype',
             argument: Maybe.Just<ObjC.KeywordArgument>({
               name: 'singleAttributeSubtypeMatchHandler',
-              modifiers: [],
+              modifiers: [ObjC.KeywordArgumentModifier.Noescape()],
               type: {
                 name: 'TestDoubleSingleAttributeSubtypeMatchHandler',
-                reference:'TestDoubleSingleAttributeSubtypeMatchHandler NS_NOESCAPE'
+                reference:'TestDoubleSingleAttributeSubtypeMatchHandler'
               }
             })
           }
@@ -735,10 +735,10 @@ describe('Plugins.AlgebraicTypeGenericMatching', function() {
             name: 'someSubtype',
             argument: Maybe.Just<ObjC.KeywordArgument>({
               name: 'someSubtypeMatchHandler',
-              modifiers: [],
+              modifiers: [ObjC.KeywordArgumentModifier.Noescape()],
               type: {
                 name: 'TestObjectTypeSomeSubtypeMatchHandler',
-                reference:'TestObjectTypeSomeSubtypeMatchHandler NS_NOESCAPE'
+                reference:'TestObjectTypeSomeSubtypeMatchHandler'
               }
             })
           },
@@ -746,10 +746,10 @@ describe('Plugins.AlgebraicTypeGenericMatching', function() {
             name: 'singleAttributeSubtype',
             argument: Maybe.Just<ObjC.KeywordArgument>({
               name: 'singleAttributeSubtypeMatchHandler',
-              modifiers: [],
+              modifiers: [ObjC.KeywordArgumentModifier.Noescape()],
               type: {
                 name: 'TestObjectTypeSingleAttributeSubtypeMatchHandler',
-                reference:'TestObjectTypeSingleAttributeSubtypeMatchHandler NS_NOESCAPE'
+                reference:'TestObjectTypeSingleAttributeSubtypeMatchHandler'
               }
             })
           }

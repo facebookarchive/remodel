@@ -53,6 +53,7 @@ export interface Import {
 enum KeywordArgumentModifierType {
   nonnull,
   nullable,
+  noescape,
 }
 
 export class KeywordArgumentModifier {
@@ -69,12 +70,18 @@ export class KeywordArgumentModifier {
     return new KeywordArgumentModifier(KeywordArgumentModifierType.nullable);
   }
 
-  match<T>(nonnull:() => T, nullable:() => T) {
+  static Noescape() {
+    return new KeywordArgumentModifier(KeywordArgumentModifierType.noescape);
+  }
+
+  match<T>(nonnull:() => T, nullable:() => T, noescape:() => T) {
     switch(this.modifierType) {
       case KeywordArgumentModifierType.nonnull:
         return nonnull();
       case KeywordArgumentModifierType.nullable:
         return nullable();
+      case KeywordArgumentModifierType.noescape:
+        return noescape();
     }
   }
 }

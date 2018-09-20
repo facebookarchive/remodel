@@ -35,13 +35,13 @@ Feature: Outputting expected Algebraic Type matching methods
 
       - (instancetype)init NS_UNAVAILABLE;
 
-      - (BOOL)matchBooleanSubtypeA:(SimpleADTBooleanSubtypeAMatchHandler NS_NOESCAPE)subtypeAMatchHandler subtypeB:(SimpleADTBooleanSubtypeBMatchHandler NS_NOESCAPE)subtypeBMatchHandler NS_SWIFT_NAME(match(subtypeA:subtypeB:));
+      - (BOOL)matchBooleanSubtypeA:(NS_NOESCAPE SimpleADTBooleanSubtypeAMatchHandler)subtypeAMatchHandler subtypeB:(NS_NOESCAPE SimpleADTBooleanSubtypeBMatchHandler)subtypeBMatchHandler NS_SWIFT_NAME(match(subtypeA:subtypeB:));
 
       @end
       """
    And the file "project/values/SimpleADT.m" should contain:
       """
-      - (BOOL)matchBooleanSubtypeA:(SimpleADTBooleanSubtypeAMatchHandler NS_NOESCAPE)subtypeAMatchHandler subtypeB:(SimpleADTBooleanSubtypeBMatchHandler NS_NOESCAPE)subtypeBMatchHandler
+      - (BOOL)matchBooleanSubtypeA:(NS_NOESCAPE SimpleADTBooleanSubtypeAMatchHandler)subtypeAMatchHandler subtypeB:(NS_NOESCAPE SimpleADTBooleanSubtypeBMatchHandler)subtypeBMatchHandler
       {
         __block BOOL result = NO;
         switch (_subtype) {
@@ -99,13 +99,13 @@ Feature: Outputting expected Algebraic Type matching methods
 
       - (instancetype)init NS_UNAVAILABLE;
 
-      - (NSInteger)matchIntegerSubtypeA:(SimpleADTIntegerSubtypeAMatchHandler NS_NOESCAPE)subtypeAMatchHandler subtypeB:(SimpleADTIntegerSubtypeBMatchHandler NS_NOESCAPE)subtypeBMatchHandler NS_SWIFT_NAME(match(subtypeA:subtypeB:));
+      - (NSInteger)matchIntegerSubtypeA:(NS_NOESCAPE SimpleADTIntegerSubtypeAMatchHandler)subtypeAMatchHandler subtypeB:(NS_NOESCAPE SimpleADTIntegerSubtypeBMatchHandler)subtypeBMatchHandler NS_SWIFT_NAME(match(subtypeA:subtypeB:));
 
       @end
       """
    And the file "project/values/SimpleADT.m" should contain:
       """
-      - (NSInteger)matchIntegerSubtypeA:(SimpleADTIntegerSubtypeAMatchHandler NS_NOESCAPE)subtypeAMatchHandler subtypeB:(SimpleADTIntegerSubtypeBMatchHandler NS_NOESCAPE)subtypeBMatchHandler
+      - (NSInteger)matchIntegerSubtypeA:(NS_NOESCAPE SimpleADTIntegerSubtypeAMatchHandler)subtypeAMatchHandler subtypeB:(NS_NOESCAPE SimpleADTIntegerSubtypeBMatchHandler)subtypeBMatchHandler
       {
         __block NSInteger result = 0;
         switch (_subtype) {
@@ -163,13 +163,13 @@ Feature: Outputting expected Algebraic Type matching methods
 
       - (instancetype)init NS_UNAVAILABLE;
 
-      - (double)matchDoubleSubtypeA:(SimpleADTDoubleSubtypeAMatchHandler NS_NOESCAPE)subtypeAMatchHandler subtypeB:(SimpleADTDoubleSubtypeBMatchHandler NS_NOESCAPE)subtypeBMatchHandler NS_SWIFT_NAME(match(subtypeA:subtypeB:));
+      - (double)matchDoubleSubtypeA:(NS_NOESCAPE SimpleADTDoubleSubtypeAMatchHandler)subtypeAMatchHandler subtypeB:(NS_NOESCAPE SimpleADTDoubleSubtypeBMatchHandler)subtypeBMatchHandler NS_SWIFT_NAME(match(subtypeA:subtypeB:));
 
       @end
       """
    And the file "project/values/SimpleADT.m" should contain:
       """
-      - (double)matchDoubleSubtypeA:(SimpleADTDoubleSubtypeAMatchHandler NS_NOESCAPE)subtypeAMatchHandler subtypeB:(SimpleADTDoubleSubtypeBMatchHandler NS_NOESCAPE)subtypeBMatchHandler
+      - (double)matchDoubleSubtypeA:(NS_NOESCAPE SimpleADTDoubleSubtypeAMatchHandler)subtypeAMatchHandler subtypeB:(NS_NOESCAPE SimpleADTDoubleSubtypeBMatchHandler)subtypeBMatchHandler
       {
         __block double result = 0.0f;
         switch (_subtype) {
@@ -221,13 +221,13 @@ Feature: Outputting expected Algebraic Type matching methods
       typedef ObjectType (^SimpleADTObjectTypeSubtypeAMatchHandler)(void);
       typedef ObjectType (^SimpleADTObjectTypeSubtypeBMatchHandler)(void);
 
-      + (ObjectType)match:(SimpleADT *)simpleADT subtypeA:(SimpleADTObjectTypeSubtypeAMatchHandler NS_NOESCAPE)subtypeAMatchHandler subtypeB:(SimpleADTObjectTypeSubtypeBMatchHandler NS_NOESCAPE)subtypeBMatchHandler;
+      + (ObjectType)match:(SimpleADT *)simpleADT subtypeA:(NS_NOESCAPE SimpleADTObjectTypeSubtypeAMatchHandler)subtypeAMatchHandler subtypeB:(NS_NOESCAPE SimpleADTObjectTypeSubtypeBMatchHandler)subtypeBMatchHandler;
 
       @end
       """
    And the file "project/values/SimpleADTMatcher.m" should contain:
       """
-      + (id)match:(SimpleADT *)simpleADT subtypeA:(SimpleADTObjectTypeSubtypeAMatchHandler NS_NOESCAPE)subtypeAMatchHandler subtypeB:(SimpleADTObjectTypeSubtypeBMatchHandler NS_NOESCAPE)subtypeBMatchHandler
+      + (id)match:(SimpleADT *)simpleADT subtypeA:(NS_NOESCAPE SimpleADTObjectTypeSubtypeAMatchHandler)subtypeAMatchHandler subtypeB:(NS_NOESCAPE SimpleADTObjectTypeSubtypeBMatchHandler)subtypeBMatchHandler
       {
         __block id result = nil;
 

@@ -184,10 +184,10 @@ export function keywordForMatchMethodFromSubtype(algebraicType:AlgebraicType.Typ
     name: StringUtils.lowercased(subtypeNameFromSubtype(subtype)),
     argument: Maybe.Just({
       name: blockParameterNameForMatchMethodFromSubtype(subtype),
-      modifiers: [],
+      modifiers: [ObjC.KeywordArgumentModifier.Noescape()],
       type: {
         name: blockType.name,
-        reference: `${blockType.name} NS_NOESCAPE`,
+        reference: blockType.name,
       }
     })
   };

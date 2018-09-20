@@ -207,6 +207,14 @@ export function firstKeywordForMatchMethodFromSubtype(algebraicType:AlgebraicTyp
   };
 }
 
+function swiftNameForAlgebraicTypeMatcher(algebraicType:AlgebraicType.Type):string {
+  const keywords = algebraicType.subtypes.map(subtype => 
+    StringUtils.lowercased(subtypeNameFromSubtype(subtype)) + ':'
+  ).join('');
+
+  return `NS_SWIFT_NAME(match(${keywords}))`;
+}
+
 function instanceMethodKeywordsForMatchingSubtypesOfAlgebraicType(algebraicType:AlgebraicType.Type, matchingBlockType:Maybe.Maybe<MatchingBlockType>):ObjC.Keyword[] {
   const firstKeyword:ObjC.Keyword = firstKeywordForMatchMethodFromSubtype(algebraicType, matchingBlockType, algebraicType.subtypes[0]);
   const additionalKeywords:ObjC.Keyword[] = algebraicType.subtypes.slice(1).map(FunctionUtils.pApply2f3(algebraicType, matchingBlockType, keywordForMatchMethodFromSubtype));
@@ -248,7 +256,7 @@ export function instanceMethodForMatchingSubtypesOfAlgebraicType(algebraicType:A
     belongsToProtocol:Maybe.Nothing<string>(),
     code: matcherCodeForAlgebraicType(algebraicType, matchingBlockType),
     comments: [],
-    compilerAttributes:[],
+    compilerAttributes:[swiftNameForAlgebraicTypeMatcher(algebraicType)],
     keywords: instanceMethodKeywordsForMatchingSubtypesOfAlgebraicType(algebraicType, matchingBlockType),
     returnType: returnTypeForMatchingBlockType(matchingBlockType)
   };

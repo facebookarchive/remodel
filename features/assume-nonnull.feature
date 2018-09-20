@@ -142,7 +142,7 @@ Feature: Outputting Value Objects / Algebraic Types decorated with NS_ASSUME_NON
 
       - (instancetype)init NS_UNAVAILABLE;
 
-      - (void)matchBar:(RMFooBarMatchHandler)barMatchHandler baz:(RMFooBazMatchHandler)bazMatchHandler;
+      - (void)matchBar:(RMFooBarMatchHandler)barMatchHandler baz:(RMFooBazMatchHandler)bazMatchHandler NS_SWIFT_NAME(match(bar:baz:));
 
       @end
 

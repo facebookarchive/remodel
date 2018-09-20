@@ -35,7 +35,7 @@ Feature: Outputting expected Algebraic Type matching methods
 
       - (instancetype)init NS_UNAVAILABLE;
 
-      - (BOOL)matchBooleanSubtypeA:(SimpleADTBooleanSubtypeAMatchHandler)subtypeAMatchHandler subtypeB:(SimpleADTBooleanSubtypeBMatchHandler)subtypeBMatchHandler;
+      - (BOOL)matchBooleanSubtypeA:(SimpleADTBooleanSubtypeAMatchHandler)subtypeAMatchHandler subtypeB:(SimpleADTBooleanSubtypeBMatchHandler)subtypeBMatchHandler NS_SWIFT_NAME(match(subtypeA:subtypeB:));
 
       @end
       """
@@ -99,7 +99,7 @@ Feature: Outputting expected Algebraic Type matching methods
 
       - (instancetype)init NS_UNAVAILABLE;
 
-      - (NSInteger)matchIntegerSubtypeA:(SimpleADTIntegerSubtypeAMatchHandler)subtypeAMatchHandler subtypeB:(SimpleADTIntegerSubtypeBMatchHandler)subtypeBMatchHandler;
+      - (NSInteger)matchIntegerSubtypeA:(SimpleADTIntegerSubtypeAMatchHandler)subtypeAMatchHandler subtypeB:(SimpleADTIntegerSubtypeBMatchHandler)subtypeBMatchHandler NS_SWIFT_NAME(match(subtypeA:subtypeB:));
 
       @end
       """
@@ -163,7 +163,7 @@ Feature: Outputting expected Algebraic Type matching methods
 
       - (instancetype)init NS_UNAVAILABLE;
 
-      - (double)matchDoubleSubtypeA:(SimpleADTDoubleSubtypeAMatchHandler)subtypeAMatchHandler subtypeB:(SimpleADTDoubleSubtypeBMatchHandler)subtypeBMatchHandler;
+      - (double)matchDoubleSubtypeA:(SimpleADTDoubleSubtypeAMatchHandler)subtypeAMatchHandler subtypeB:(SimpleADTDoubleSubtypeBMatchHandler)subtypeBMatchHandler NS_SWIFT_NAME(match(subtypeA:subtypeB:));
 
       @end
       """

@@ -169,7 +169,9 @@ describe('Plugins.AlgebraicTypeVoidMatching', function() {
           '  }',
           '}'
         ],
-        compilerAttributes:[],
+        compilerAttributes:[
+          'NS_SWIFT_NAME(match(someSubtype:singleAttributeSubtype:))'
+        ],
         comments: [],
         keywords: [
           {
@@ -298,7 +300,9 @@ describe('Plugins.AlgebraicTypeBoolMatching', function() {
           '}',
           'return result;'
         ],
-        compilerAttributes:[],
+        compilerAttributes:[
+          'NS_SWIFT_NAME(match(someSubtype:singleAttributeSubtype:))'
+        ],
         comments: [],
         keywords: [
           {
@@ -433,7 +437,9 @@ describe('Plugins.AlgebraicTypeIntegerMatching', function() {
           '}',
           'return result;'
         ],
-        compilerAttributes:[],
+        compilerAttributes:[
+          'NS_SWIFT_NAME(match(someSubtype:singleAttributeSubtype:))'
+        ],
         comments: [],
         keywords: [
           {
@@ -568,7 +574,9 @@ describe('Plugins.AlgebraicTypeDoubleMatching', function() {
           '}',
           'return result;'
         ],
-        compilerAttributes:[],
+        compilerAttributes:[
+          'NS_SWIFT_NAME(match(someSubtype:singleAttributeSubtype:))'
+        ],
         comments: [],
         keywords: [
           {

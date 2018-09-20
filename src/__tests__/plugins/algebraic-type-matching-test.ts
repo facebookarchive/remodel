@@ -181,7 +181,7 @@ describe('Plugins.AlgebraicTypeVoidMatching', function() {
               modifiers: [],
               type: {
                 name: 'TestSomeSubtypeMatchHandler',
-                reference:'TestSomeSubtypeMatchHandler'
+                reference:'TestSomeSubtypeMatchHandler NS_NOESCAPE'
               }
             })
           },
@@ -192,7 +192,7 @@ describe('Plugins.AlgebraicTypeVoidMatching', function() {
               modifiers: [],
               type: {
                 name: 'TestSingleAttributeSubtypeMatchHandler',
-                reference:'TestSingleAttributeSubtypeMatchHandler'
+                reference:'TestSingleAttributeSubtypeMatchHandler NS_NOESCAPE'
               }
             })
           }
@@ -312,7 +312,7 @@ describe('Plugins.AlgebraicTypeBoolMatching', function() {
               modifiers: [],
               type: {
                 name: 'TestBooleanSomeSubtypeMatchHandler',
-                reference:'TestBooleanSomeSubtypeMatchHandler'
+                reference:'TestBooleanSomeSubtypeMatchHandler NS_NOESCAPE'
               }
             })
           },
@@ -323,7 +323,7 @@ describe('Plugins.AlgebraicTypeBoolMatching', function() {
               modifiers: [],
               type: {
                 name: 'TestBooleanSingleAttributeSubtypeMatchHandler',
-                reference:'TestBooleanSingleAttributeSubtypeMatchHandler'
+                reference:'TestBooleanSingleAttributeSubtypeMatchHandler NS_NOESCAPE'
               }
             })
           }
@@ -449,7 +449,7 @@ describe('Plugins.AlgebraicTypeIntegerMatching', function() {
               modifiers: [],
               type: {
                 name: 'TestIntegerSomeSubtypeMatchHandler',
-                reference:'TestIntegerSomeSubtypeMatchHandler'
+                reference:'TestIntegerSomeSubtypeMatchHandler NS_NOESCAPE'
               }
             })
           },
@@ -460,7 +460,7 @@ describe('Plugins.AlgebraicTypeIntegerMatching', function() {
               modifiers: [],
               type: {
                 name: 'TestIntegerSingleAttributeSubtypeMatchHandler',
-                reference:'TestIntegerSingleAttributeSubtypeMatchHandler'
+                reference:'TestIntegerSingleAttributeSubtypeMatchHandler NS_NOESCAPE'
               }
             })
           }
@@ -586,7 +586,7 @@ describe('Plugins.AlgebraicTypeDoubleMatching', function() {
               modifiers: [],
               type: {
                 name: 'TestDoubleSomeSubtypeMatchHandler',
-                reference:'TestDoubleSomeSubtypeMatchHandler'
+                reference:'TestDoubleSomeSubtypeMatchHandler NS_NOESCAPE'
               }
             })
           },
@@ -597,7 +597,7 @@ describe('Plugins.AlgebraicTypeDoubleMatching', function() {
               modifiers: [],
               type: {
                 name: 'TestDoubleSingleAttributeSubtypeMatchHandler',
-                reference:'TestDoubleSingleAttributeSubtypeMatchHandler'
+                reference:'TestDoubleSingleAttributeSubtypeMatchHandler NS_NOESCAPE'
               }
             })
           }
@@ -738,7 +738,7 @@ describe('Plugins.AlgebraicTypeGenericMatching', function() {
               modifiers: [],
               type: {
                 name: 'TestObjectTypeSomeSubtypeMatchHandler',
-                reference:'TestObjectTypeSomeSubtypeMatchHandler'
+                reference:'TestObjectTypeSomeSubtypeMatchHandler NS_NOESCAPE'
               }
             })
           },
@@ -749,7 +749,7 @@ describe('Plugins.AlgebraicTypeGenericMatching', function() {
               modifiers: [],
               type: {
                 name: 'TestObjectTypeSingleAttributeSubtypeMatchHandler',
-                reference:'TestObjectTypeSingleAttributeSubtypeMatchHandler'
+                reference:'TestObjectTypeSingleAttributeSubtypeMatchHandler NS_NOESCAPE'
               }
             })
           }

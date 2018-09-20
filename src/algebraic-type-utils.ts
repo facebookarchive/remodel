@@ -187,7 +187,7 @@ export function keywordForMatchMethodFromSubtype(algebraicType:AlgebraicType.Typ
       modifiers: [],
       type: {
         name: blockType.name,
-        reference: blockType.name
+        reference: `${blockType.name} NS_NOESCAPE`,
       }
     })
   };

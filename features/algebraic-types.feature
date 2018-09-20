@@ -72,7 +72,7 @@ Feature: Outputting Algebraic Types
 
       - (instancetype)init NS_UNAVAILABLE;
 
-      - (void)matchFirstSubtype:(SimpleADTFirstSubtypeMatchHandler)firstSubtypeMatchHandler someRandomSubtype:(SimpleADTSomeRandomSubtypeMatchHandler)someRandomSubtypeMatchHandler someAttributeSubtype:(SimpleADTSomeAttributeSubtypeMatchHandler)someAttributeSubtypeMatchHandler secondSubtype:(SimpleADTSecondSubtypeMatchHandler)secondSubtypeMatchHandler NS_SWIFT_NAME(match(firstSubtype:someRandomSubtype:someAttributeSubtype:secondSubtype:));
+      - (void)matchFirstSubtype:(SimpleADTFirstSubtypeMatchHandler NS_NOESCAPE)firstSubtypeMatchHandler someRandomSubtype:(SimpleADTSomeRandomSubtypeMatchHandler NS_NOESCAPE)someRandomSubtypeMatchHandler someAttributeSubtype:(SimpleADTSomeAttributeSubtypeMatchHandler NS_NOESCAPE)someAttributeSubtypeMatchHandler secondSubtype:(SimpleADTSecondSubtypeMatchHandler NS_NOESCAPE)secondSubtypeMatchHandler NS_SWIFT_NAME(match(firstSubtype:someRandomSubtype:someAttributeSubtype:secondSubtype:));
 
       @end
 
@@ -188,7 +188,7 @@ Feature: Outputting Algebraic Types
           (_firstSubtype_firstValue == object->_firstSubtype_firstValue ? YES : [_firstSubtype_firstValue isEqual:object->_firstSubtype_firstValue]);
       }
 
-      - (void)matchFirstSubtype:(SimpleADTFirstSubtypeMatchHandler)firstSubtypeMatchHandler someRandomSubtype:(SimpleADTSomeRandomSubtypeMatchHandler)someRandomSubtypeMatchHandler someAttributeSubtype:(SimpleADTSomeAttributeSubtypeMatchHandler)someAttributeSubtypeMatchHandler secondSubtype:(SimpleADTSecondSubtypeMatchHandler)secondSubtypeMatchHandler
+      - (void)matchFirstSubtype:(SimpleADTFirstSubtypeMatchHandler NS_NOESCAPE)firstSubtypeMatchHandler someRandomSubtype:(SimpleADTSomeRandomSubtypeMatchHandler NS_NOESCAPE)someRandomSubtypeMatchHandler someAttributeSubtype:(SimpleADTSomeAttributeSubtypeMatchHandler NS_NOESCAPE)someAttributeSubtypeMatchHandler secondSubtype:(SimpleADTSecondSubtypeMatchHandler NS_NOESCAPE)secondSubtypeMatchHandler
       {
         switch (_subtype) {
           case _SimpleADTSubtypesFirstSubtype: {
@@ -263,7 +263,7 @@ Feature: Outputting Algebraic Types
 
       - (instancetype)init NS_UNAVAILABLE;
 
-      - (void)matchFirstSubtype:(SimpleADTFirstSubtypeMatchHandler)firstSubtypeMatchHandler secondSubtype:(SimpleADTSecondSubtypeMatchHandler)secondSubtypeMatchHandler NS_SWIFT_NAME(match(firstSubtype:secondSubtype:));
+      - (void)matchFirstSubtype:(SimpleADTFirstSubtypeMatchHandler NS_NOESCAPE)firstSubtypeMatchHandler secondSubtype:(SimpleADTSecondSubtypeMatchHandler NS_NOESCAPE)secondSubtypeMatchHandler NS_SWIFT_NAME(match(firstSubtype:secondSubtype:));
 
       @end
 
@@ -355,7 +355,7 @@ Feature: Outputting Algebraic Types
           (_firstSubtype_firstValue == object->_firstSubtype_firstValue ? YES : [_firstSubtype_firstValue isEqual:object->_firstSubtype_firstValue]);
       }
 
-      - (void)matchFirstSubtype:(SimpleADTFirstSubtypeMatchHandler)firstSubtypeMatchHandler secondSubtype:(SimpleADTSecondSubtypeMatchHandler)secondSubtypeMatchHandler
+      - (void)matchFirstSubtype:(SimpleADTFirstSubtypeMatchHandler NS_NOESCAPE)firstSubtypeMatchHandler secondSubtype:(SimpleADTSecondSubtypeMatchHandler NS_NOESCAPE)secondSubtypeMatchHandler
       {
         switch (_subtype) {
           case _SimpleADTSubtypesFirstSubtype: {
@@ -423,7 +423,7 @@ Feature: Outputting Algebraic Types
 
       - (instancetype)init NS_UNAVAILABLE;
 
-      - (void)matchFirstSubtype:(SimpleADTFirstSubtypeMatchHandler)firstSubtypeMatchHandler someRandomSubtype:(SimpleADTSomeRandomSubtypeMatchHandler)someRandomSubtypeMatchHandler secondSubtype:(SimpleADTSecondSubtypeMatchHandler)secondSubtypeMatchHandler NS_SWIFT_NAME(match(firstSubtype:someRandomSubtype:secondSubtype:));
+      - (void)matchFirstSubtype:(SimpleADTFirstSubtypeMatchHandler NS_NOESCAPE)firstSubtypeMatchHandler someRandomSubtype:(SimpleADTSomeRandomSubtypeMatchHandler NS_NOESCAPE)someRandomSubtypeMatchHandler secondSubtype:(SimpleADTSecondSubtypeMatchHandler NS_NOESCAPE)secondSubtypeMatchHandler NS_SWIFT_NAME(match(firstSubtype:someRandomSubtype:secondSubtype:));
 
       @end
 
@@ -525,7 +525,7 @@ Feature: Outputting Algebraic Types
           (_firstSubtype_firstValue == object->_firstSubtype_firstValue ? YES : [_firstSubtype_firstValue isEqual:object->_firstSubtype_firstValue]);
       }
 
-      - (void)matchFirstSubtype:(SimpleADTFirstSubtypeMatchHandler)firstSubtypeMatchHandler someRandomSubtype:(SimpleADTSomeRandomSubtypeMatchHandler)someRandomSubtypeMatchHandler secondSubtype:(SimpleADTSecondSubtypeMatchHandler)secondSubtypeMatchHandler
+      - (void)matchFirstSubtype:(SimpleADTFirstSubtypeMatchHandler NS_NOESCAPE)firstSubtypeMatchHandler someRandomSubtype:(SimpleADTSomeRandomSubtypeMatchHandler NS_NOESCAPE)someRandomSubtypeMatchHandler secondSubtype:(SimpleADTSecondSubtypeMatchHandler NS_NOESCAPE)secondSubtypeMatchHandler
       {
         switch (_subtype) {
           case _SimpleADTSubtypesFirstSubtype: {

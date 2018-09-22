@@ -40,5 +40,5 @@ Here is an example of what a fully qualified config file might look like:
 
 * **customBaseClass** - specifies the base class for all the Remodel objects.
 * **diagnosticIgnores** - specifies clang warnings to want to ignore in Remodel object implementations.
-* **defaultExcludes** - specifies on-by-default plugins to turn-off unless explicitly included in a given Remodel definition.
-
+* **defaultExcludes** - excludes given plugins from beeing executed by default, if not specified in a Remodel definition.
+* **defaultIncludes** - includes given plugins to be executed by default, even if not specified in a Remodel definition.

@@ -34,7 +34,7 @@
     "cucumber": "0.3.3",
     "diff": "1.0.7",
     "fs-extra": "0.26.7",
-    "jasmine": "2.2",
+    "jasmine": "3.2",
     "jsondiffpatch": "0.1.38",
     "typescript": "3.0"
   }

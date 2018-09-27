@@ -22,7 +22,7 @@ export interface SubtypeAttributeType {
 }
 
 export interface SubtypeAttribute {
-  annotations: {[name:string]: ObjectGeneration.Annotation[];};
+  annotations: ObjectGeneration.AnnotationMap;
   comments:string[];
   name:string;
   nullability:ObjC.Nullability;
@@ -70,7 +70,7 @@ export class Subtype {
 }
 
 export interface Type {
-  annotations: {[name:string]: ObjectGeneration.Annotation[];};
+  annotations: ObjectGeneration.AnnotationMap,
   comments:string[];
   includes:string[];
   excludes:string[];

@@ -649,6 +649,54 @@ describe('ObjectSpecPlugins.Coding', function() {
 
       expect(staticConstants).toEqualJSON(expectedStaticConstants);
     });
+
+    it('uses the codingKey attribute if provided', () => {
+      const objectType:ObjectSpec.Type = {
+        annotations: {},
+        attributes: [
+          {
+            annotations: {
+              'codingKey': [{
+                properties: {'name': 'test_custom_key'}
+              }]
+            },
+            comments: [],
+            name: 'test',
+            nullability:ObjC.Nullability.Inherited(),
+            type: {
+              fileTypeIsDefinedIn:Maybe.Nothing<string>(),
+              libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+              name:'NSString',
+              reference: 'NSString *',
+              underlyingType:Maybe.Just<string>('NSObject'),
+              conformingProtocol: Maybe.Nothing<string>()
+            }
+          }
+        ],
+        comments: [],
+        typeLookups:[],
+        excludes: [],
+        includes: [],
+        libraryName: Maybe.Nothing<string>(),
+        typeName: 'Foo'
+      };
+
+      const staticConstants:ObjC.Constant[] = ObjectSpecPlugin.staticConstants(objectType);
+      const expectedConstants:ObjC.Constant[] = [
+        {
+          comments: [],
+          type: {
+            name: 'NSString',
+            reference: 'NSString *'
+          },
+          name: 'kTestKey',
+          value: '@"test_custom_key"',
+          memorySemantic: ObjC.MemorySemantic.UnsafeUnretained(),
+        }
+      ];
+
+      expect(staticConstants).toEqualJSON(expectedConstants);
+    });
   });
 
   describe('#decodeStatementForAttribute', function() {
@@ -657,6 +705,7 @@ describe('ObjectSpecPlugins.Coding', function() {
         name: 'doesUserLike',
         valueAccessor: '_doesUserLike',
         constantName: 'kDoesUserLikeKey',
+        constantValue: 'DOES_USER_LIKE',
         legacyKeyNames: [],
         type: {
           name: 'BOOL',
@@ -674,6 +723,7 @@ describe('ObjectSpecPlugins.Coding', function() {
         name: 'foo',
         valueAccessor: '_foo',
         constantName: 'kFooKey',
+        constantValue: 'FOO',
         legacyKeyNames: [],
         type: {
           name: 'id',
@@ -691,6 +741,7 @@ describe('ObjectSpecPlugins.Coding', function() {
         name: 'name',
         valueAccessor: '_name',
         constantName: 'kNameKey',
+        constantValue: 'NAME',
         legacyKeyNames: [],
         type: {
           name: 'NSObject',
@@ -708,6 +759,7 @@ describe('ObjectSpecPlugins.Coding', function() {
         name: 'age',
         valueAccessor: '_age',
         constantName: 'kAgeKey',
+        constantValue: 'AGE',
         legacyKeyNames: [],
         type: {
           name: 'NSInteger',
@@ -725,6 +777,7 @@ describe('ObjectSpecPlugins.Coding', function() {
         name: 'age',
         valueAccessor: '_age',
         constantName: 'kAgeKey',
+        constantValue: 'AGE',
         legacyKeyNames: [],
         type: {
           name: 'NSUInteger',
@@ -742,6 +795,7 @@ describe('ObjectSpecPlugins.Coding', function() {
         name: 'callbackMethod',
         valueAccessor: '_callbackMethod',
         constantName: 'kCallbackMethodKey',
+        constantValue: 'CALLBACK_METHOD',
         legacyKeyNames: [],
         type: {
           name: 'SEL',
@@ -761,6 +815,7 @@ describe('ObjectSpecPlugins.Coding', function() {
         name: 'doesUserLike',
         valueAccessor: '_doesUserLike',
         constantName: 'kDoesUserLikeKey',
+        constantValue: 'DOES_USER_LIKE',
         legacyKeyNames: [],
         type: {
           name: 'BOOL',
@@ -778,6 +833,7 @@ describe('ObjectSpecPlugins.Coding', function() {
         name: 'name',
         valueAccessor: '_name',
         constantName: 'kNameKey',
+        constantValue: 'NAME',
         legacyKeyNames: [],
         type: {
           name: 'NSObject',
@@ -795,6 +851,7 @@ describe('ObjectSpecPlugins.Coding', function() {
         name: 'age',
         valueAccessor: '_age',
         constantName: 'kAgeKey',
+        constantValue: 'AGE',
         legacyKeyNames: [],
         type: {
           name: 'NSInteger',
@@ -812,6 +869,7 @@ describe('ObjectSpecPlugins.Coding', function() {
         name: 'age',
         valueAccessor: '_age',
         constantName: 'kAgeKey',
+        constantValue: 'AGE',
         legacyKeyNames: [],
         type: {
           name: 'NSUInteger',
@@ -829,6 +887,7 @@ describe('ObjectSpecPlugins.Coding', function() {
         name: 'callbackMethod',
         valueAccessor: '_callbackMethod',
         constantName: 'kCallbackMethodKey',
+        constantValue: 'CALLBACK_METHOD',
         legacyKeyNames: [],
         type: {
           name: 'SEL',

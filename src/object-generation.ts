@@ -18,3 +18,7 @@ export interface TypeLookup {
 export interface Annotation {
   properties: {[name:string]:string};
 }
+
+export interface AnnotationMap {
+  [name:string]: Annotation[];
+};

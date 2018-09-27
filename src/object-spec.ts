@@ -22,7 +22,7 @@ export interface AttributeType {
 }
 
 export interface Attribute {
-  annotations: {[name:string] : ObjectGeneration.Annotation[];};
+  annotations: ObjectGeneration.AnnotationMap;
   comments: string[];
   name: string;
   nullability: ObjC.Nullability;
@@ -30,7 +30,7 @@ export interface Attribute {
 }
 
 export interface Type {
-  annotations: {[name:string]: ObjectGeneration.Annotation[];};
+  annotations: ObjectGeneration.AnnotationMap;
   attributes: Attribute[];
   comments: string[];
   excludes: string[];

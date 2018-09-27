@@ -36,7 +36,14 @@ Feature: Outputting Value Objects With Coded Values
       @end
 
       """
-   And the file "project/values/RMPage.m" should contain:
+    And the file "project/values/RMPage.m" should contain:
+      """
+      static __unsafe_unretained NSString * const kDoesUserLikeKey = @"DOES_USER_LIKE";
+      static __unsafe_unretained NSString * const kIdentifierKey = @"IDENTIFIER";
+      static __unsafe_unretained NSString * const kLikeCountKey = @"LIKE_COUNT";
+      static __unsafe_unretained NSString * const kNumberOfRatingsKey = @"NUMBER_OF_RATINGS";
+      """
+    And the file "project/values/RMPage.m" should contain:
       """
       @implementation RMPage
 
@@ -126,6 +133,50 @@ Feature: Outputting Value Objects With Coded Values
           }
           if (_numberOfRatings == 0) {
             _numberOfRatings = [aDecoder decodeIntegerForKey:@"even_older_number_of_ratings"];
+          }
+        }
+        return self;
+      }
+      """
+  
+  @announce
+  Scenario: Generating correct NSCoding implementation with specified codingKeys
+    Given a file named "project/values/RMPage.value" with:
+      """
+      RMPage includes(RMCoding) {
+        %codingKey name=custom_does_user_like
+        BOOL doesUserLike
+        %codingKey name=custom_identifier
+        NSString* identifier
+        NSInteger likeCount
+        %codingKey name=custom_number_of_ratings
+        %codingLegacyKey name=old_number_of_ratings
+        NSUInteger numberOfRatings
+      }
+      """
+    And a file named "project/.valueObjectConfig" with:
+      """
+      { }
+      """
+    When I run `../../bin/generate project`
+    And the file "project/values/RMPage.m" should contain:
+      """
+      static __unsafe_unretained NSString * const kDoesUserLikeKey = @"custom_does_user_like";
+      static __unsafe_unretained NSString * const kIdentifierKey = @"custom_identifier";
+      static __unsafe_unretained NSString * const kLikeCountKey = @"LIKE_COUNT";
+      static __unsafe_unretained NSString * const kNumberOfRatingsKey = @"custom_number_of_ratings";
+      """
+    And the file "project/values/RMPage.m" should contain:
+      """
+      - (nullable instancetype)initWithCoder:(NSCoder *)aDecoder
+      {
+        if ((self = [super init])) {
+          _doesUserLike = [aDecoder decodeBoolForKey:kDoesUserLikeKey];
+          _identifier = [aDecoder decodeObjectForKey:kIdentifierKey];
+          _likeCount = [aDecoder decodeIntegerForKey:kLikeCountKey];
+          _numberOfRatings = [aDecoder decodeIntegerForKey:kNumberOfRatingsKey];
+          if (_numberOfRatings == 0) {
+            _numberOfRatings = [aDecoder decodeIntegerForKey:@"old_number_of_ratings"];
           }
         }
         return self;

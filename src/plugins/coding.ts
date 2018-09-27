@@ -28,8 +28,23 @@ export interface CodeableAttribute {
   name:string;
   valueAccessor:string;
   constantName:string;
+  constantValue:string;
   legacyKeyNames:string[];
   type:ObjC.Type;
+}
+
+// We only support a single non-legacy coding key, but it's possible to write the annotation
+// multiple times per-property. We catch this as a validation error, so that it won't affect
+// code generation.
+function codingKeysFromAnnotations(annotationMap: ObjectGeneration.AnnotationMap): string[] {
+  const codingKeyAnnotations = annotationMap['codingKey'];
+  if (codingKeyAnnotations == null) {
+    return [];
+  }
+
+  return Maybe.catMaybes(codingKeyAnnotations.map(
+    annotation => new Maybe.Maybe(annotation.properties['name'])
+  ));
 }
 
 function legacyCodingKeyNameForAnnotation(legacyKeyAnnotation:ObjectGeneration.Annotation):string {
@@ -47,10 +62,16 @@ function legacyCodingKeyNamesForAttribute(attribute:ObjectSpec.Attribute):string
 }
 
 export function codingAttributeForValueAttribute(attribute:ObjectSpec.Attribute):CodeableAttribute {
+  const codingKeys = codingKeysFromAnnotations(attribute.annotations);
+  const constantValue = codingKeys.length === 1
+    ? `@"${codingKeys[0]}"`
+    : constantValueForAttributeName(attribute.name);
+
   return {
     name: attribute.name,
     valueAccessor: ObjectSpecCodeUtils.ivarForAttribute(attribute),
     constantName: nameOfConstantForValueName(attribute.name),
+    constantValue: constantValue,
     legacyKeyNames: legacyCodingKeyNamesForAttribute(attribute),
     type: ObjectSpecCodeUtils.computeTypeOfAttribute(attribute)
   };
@@ -137,7 +158,7 @@ function staticConstantForAttribute(attribute:CodeableAttribute):ObjC.Constant {
     },
     comments: [],
     name: attribute.constantName,
-    value: constantValueForAttributeName(attribute.name),
+    value: attribute.constantValue,
     memorySemantic: ObjC.MemorySemantic.UnsafeUnretained()
   };
 }
@@ -393,6 +414,13 @@ function valueAttributeToUnsupportedLegacyKeyTypeError(objectType:ObjectSpec.Typ
   }, attribute.type.underlyingType);
 }
 
+function multipleCodingKeyAnnotationErrorForValueAttribute(objectType:ObjectSpec.Type, attribute:ObjectSpec.Attribute):Maybe.Maybe<Error.Error> {
+  const length = codingKeysFromAnnotations(attribute.annotations).length;
+  return length > 1
+    ? Maybe.Just(Error.Error(`Only one %codingKey name is supported: ${objectType.typeName}.${attribute.name} has ${length}.`))
+    : Maybe.Nothing();
+}
+
 function importForAttributeCodingMethod(attribute:ObjectSpec.Attribute):Maybe.Maybe<ObjC.Import> {
   const codeableAttribute:CodeableAttribute = codingAttributeForValueAttribute(attribute);
   const codingStatements:CodingUtils.CodingStatements = CodingUtils.codingStatementsForType(codeableAttribute.type);
@@ -467,7 +495,8 @@ export function createPlugin():ObjectSpec.Plugin {
       const unknownTypeErrors = objectType.attributes.filter(doesValueAttributeContainAnUnknownType).map(FunctionUtils.pApplyf2(objectType, valueAttributeToUnknownTypeError));
       const unsupportedTypeErrors = objectType.attributes.filter(doesValueAttributeContainAnUnsupportedType).map(FunctionUtils.pApplyf2(objectType, valueAttributeToUnsupportedTypeError));
       const unsupportedLegacyKeyTypeErrors = objectType.attributes.filter(doesValueAttributeContainAnLegacyKeyForUnsupportedType).map(FunctionUtils.pApplyf2(objectType, valueAttributeToUnsupportedLegacyKeyTypeError));
-      return unknownTypeErrors.concat(unsupportedTypeErrors).concat(unsupportedLegacyKeyTypeErrors);
+      const multipleCodingKeyErrors = Maybe.catMaybes(objectType.attributes.map(FunctionUtils.pApplyf2(objectType, multipleCodingKeyAnnotationErrorForValueAttribute)));
+      return unknownTypeErrors.concat(unsupportedTypeErrors, unsupportedLegacyKeyTypeErrors, multipleCodingKeyErrors);
     },
     nullability: function(objectType:ObjectSpec.Type):Maybe.Maybe<ObjC.ClassNullability> {
       return Maybe.Nothing<ObjC.ClassNullability>();
@@ -483,6 +512,7 @@ function codeableAttributeForSubtypePropertyOfAlgebraicType():CodeableAttribute 
     name: 'codedSubtype',
     valueAccessor: 'codedSubtype',
     constantName: nameOfConstantForValueName('codedSubtype'),
+    constantValue: constantValueForAttributeName('codedSubtype'),
     legacyKeyNames: [],
     type: {
       name: 'NSObject',
@@ -500,10 +530,12 @@ function codeableAttributeForAlgebraicSubtypeAttribute(subtype:AlgebraicType.Sub
       return StringUtils.capitalize(attribute.name);
     });
 
+  const name = AlgebraicTypeUtils.nameOfInternalPropertyForAttribute(subtype, attribute);
   return {
-    name: AlgebraicTypeUtils.nameOfInternalPropertyForAttribute(subtype, attribute),
+    name: name,
     valueAccessor: AlgebraicTypeUtils.valueAccessorForInternalPropertyForAttribute(subtype, attribute),
     constantName: nameOfConstantForValueName(valueName),
+    constantValue: constantValueForAttributeName(name),
     legacyKeyNames: legacyCodingKeyNamesForAttribute(attribute),
     type: AlgebraicTypeUtils.computeTypeOfAttribute(attribute)
   };
@@ -572,6 +604,12 @@ function algebraicAttributeToUnsupportedTypeError(algebraicType:AlgebraicType.Ty
   }, function():Error.Error {
     return Error.Error('The Coding plugin does not know how to decode and encode the type "' + attribute.type.name + '" from ' + algebraicType.name + '.' + attribute.name + '. ' + attribute.type.name + ' is not NSCoding-compilant.');
   }, attribute.type.underlyingType);
+}
+
+function unsupportedAnnotationErrorForAlgebraicAttribute(attribute:AlgebraicType.SubtypeAttribute):Maybe.Maybe<Error.Error> {
+  return codingKeysFromAnnotations(attribute.annotations).length != 0
+    ? Maybe.Just(Error.Error('Custom coding keys are not supported for algebraic type attributes'))
+    : Maybe.Nothing();
 }
 
 export function CodingNameForSubtype(subtype:AlgebraicType.Subtype):string {
@@ -651,9 +689,11 @@ export function createAlgebraicTypePlugin():AlgebraicType.Plugin {
       return codeableAttributes.map(staticConstantForAttribute);
     },
     validationErrors: function(algebraicType:AlgebraicType.Type):Error.Error[] {
-      const unknownTypeErrors = AlgebraicTypeUtils.allAttributesFromSubtypes(algebraicType.subtypes).filter(doesAlgebraicAttributeContainAnUnknownType).map(FunctionUtils.pApplyf2(algebraicType, algebraicAttributeToUnknownTypeError));
-      const unsupportedTypeErrors = AlgebraicTypeUtils.allAttributesFromSubtypes(algebraicType.subtypes).filter(doesAlgebraicAttributeContainAnUnsupportedType).map(FunctionUtils.pApplyf2(algebraicType, algebraicAttributeToUnsupportedTypeError));
-      return unknownTypeErrors.concat(unsupportedTypeErrors);
+      const attributes = AlgebraicTypeUtils.allAttributesFromSubtypes(algebraicType.subtypes);
+      const unknownTypeErrors = attributes.filter(doesAlgebraicAttributeContainAnUnknownType).map(FunctionUtils.pApplyf2(algebraicType, algebraicAttributeToUnknownTypeError));
+      const unsupportedTypeErrors = attributes.filter(doesAlgebraicAttributeContainAnUnsupportedType).map(FunctionUtils.pApplyf2(algebraicType, algebraicAttributeToUnsupportedTypeError));
+      const unsupportedAnnotationErrors = Maybe.catMaybes(attributes.map(unsupportedAnnotationErrorForAlgebraicAttribute));
+      return unknownTypeErrors.concat(unsupportedTypeErrors).concat(unsupportedAnnotationErrors);
     },
     nullability: function(algebraicType:AlgebraicType.Type):Maybe.Maybe<ObjC.ClassNullability> {
       return Maybe.Nothing<ObjC.ClassNullability>();

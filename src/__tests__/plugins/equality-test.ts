@@ -689,7 +689,8 @@ describe('ObjectSpecPlugins.Equality', function() {
           code: [
             'return fabsf(givenFloat - floatToCompare) < FLT_EPSILON * fabsf(givenFloat + floatToCompare) || fabsf(givenFloat - floatToCompare) < FLT_MIN;'
           ],
-          isPublic: false
+          isPublic: false,
+          compilerAttributes: [],
         },
         {
           comments: [],
@@ -732,7 +733,8 @@ describe('ObjectSpecPlugins.Equality', function() {
             '#endif',
             'return h;'
           ],
-          isPublic: false
+          isPublic: false,
+          compilerAttributes: [],
         }
       ];
       expect(functions).toEqualJSON(expectedFunctions);
@@ -808,7 +810,8 @@ describe('ObjectSpecPlugins.Equality', function() {
           code: [
             'return fabsf(givenFloat - floatToCompare) < FLT_EPSILON * fabsf(givenFloat + floatToCompare) || fabsf(givenFloat - floatToCompare) < FLT_MIN;'
           ],
-          isPublic: false
+          isPublic: false,
+          compilerAttributes: [],
         },
         {
           comments: [],
@@ -851,7 +854,8 @@ describe('ObjectSpecPlugins.Equality', function() {
             '#endif',
             'return h;'
           ],
-          isPublic: false
+          isPublic: false,
+          compilerAttributes: [],
         }
       ];
       expect(functions).toEqualJSON(expectedFunctions);
@@ -913,7 +917,8 @@ describe('ObjectSpecPlugins.Equality', function() {
           code: [
             'return fabs(givenDouble - doubleToCompare) < DBL_EPSILON * fabs(givenDouble + doubleToCompare) || fabs(givenDouble - doubleToCompare) < DBL_MIN;'
           ],
-          isPublic: false
+          isPublic: false,
+          compilerAttributes: [],
         },
         {
           comments: [],
@@ -946,7 +951,8 @@ describe('ObjectSpecPlugins.Equality', function() {
             'p ^= (p >> 22);',
             'return (NSUInteger) p;'
           ],
-          isPublic: false
+          isPublic: false,
+          compilerAttributes: [],
         }
       ];
       expect(functions).toEqualJSON(expectedFunctions);
@@ -1009,7 +1015,8 @@ describe('ObjectSpecPlugins.Equality', function() {
           code: [
             'return fabsf(givenFloat - floatToCompare) < FLT_EPSILON * fabsf(givenFloat + floatToCompare) || fabsf(givenFloat - floatToCompare) < FLT_MIN;'
           ],
-          isPublic: false
+          isPublic: false,
+          compilerAttributes: [],
         },
         {
           comments: [],
@@ -1037,7 +1044,8 @@ describe('ObjectSpecPlugins.Equality', function() {
           code: [
             'return fabs(givenDouble - doubleToCompare) < DBL_EPSILON * fabs(givenDouble + doubleToCompare) || fabs(givenDouble - doubleToCompare) < DBL_MIN;'
           ],
-          isPublic: false
+          isPublic: false,
+          compilerAttributes: [],
         },
         {
           comments: [],
@@ -1074,7 +1082,8 @@ describe('ObjectSpecPlugins.Equality', function() {
             '    return CompareFloats(givenCGFloat, cgFloatToCompare);',
             '  }'
           ],
-          isPublic: false
+          isPublic: false,
+          compilerAttributes: [],
         },
         {
           comments: [],
@@ -1117,7 +1126,8 @@ describe('ObjectSpecPlugins.Equality', function() {
             '#endif',
             'return h;'
           ],
-          isPublic: false
+          isPublic: false,
+          compilerAttributes: [],
         },
         {
           comments: [],
@@ -1150,7 +1160,8 @@ describe('ObjectSpecPlugins.Equality', function() {
             'p ^= (p >> 22);',
             'return (NSUInteger) p;'
           ],
-          isPublic: false
+          isPublic: false,
+          compilerAttributes: [],
         },
         {
           comments: [],
@@ -1180,7 +1191,8 @@ describe('ObjectSpecPlugins.Equality', function() {
             '    return HashFloat(givenCGFloat);',
             '  }'
           ],
-          isPublic: false
+          isPublic: false,
+          compilerAttributes: [],
         }
       ];
       expect(functions).toEqualJSON(expectedFunctions);

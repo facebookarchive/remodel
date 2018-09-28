@@ -31,7 +31,7 @@ function includeMethodInHeader(implementedProtocols:ObjC.Protocol[], instanceMet
     return true;
   } else {
     const implementedProtocolNames:string[] = implementedProtocols.map(toProtocolString);
-    return Maybe.match(FunctionUtils.pApplyf2(implementedProtocolNames, doesNotBelongToAnImplementedProtocol), returnTrue, instanceMethod.belongsToProtocol);  
+    return Maybe.match(FunctionUtils.pApplyf2(implementedProtocolNames, doesNotBelongToAnImplementedProtocol), returnTrue, instanceMethod.belongsToProtocol);
   }
 }
 
@@ -190,7 +190,7 @@ function toMethodHeaderString(methodModifier:string, method:ObjC.Method):string 
   const compilerAttributesString = method.compilerAttributes.length > 0 ? " " + method.compilerAttributes.join(" ") : "";
 
   return toOptionalPreprocessorOpeningCodeString(method) +
-         methodCommentsSection + methodModifier +' (' + toTypeString(method.returnType) + ')' + method.keywords.map(FunctionUtils.pApplyf2([], toKeywordString)).join(' ') + compilerAttributesString + ";" + 
+         methodCommentsSection + methodModifier +' (' + toTypeString(method.returnType) + ')' + method.keywords.map(FunctionUtils.pApplyf2([], toKeywordString)).join(' ') + compilerAttributesString + ";" +
          toOptionalPreprocessorClosingCodeString(method);
 }
 
@@ -202,7 +202,7 @@ function toMethodImplementationString(methodModifier:string, covariantTypes:stri
                     methodModifier + ' (' + toGenericizedTypeString(covariantTypes, method.returnType) + ')' + method.keywords.map(FunctionUtils.pApplyf2(covariantTypes, toKeywordString)).join(' ') + '\n' +
                     '{\n' +
                     method.code.map(StringUtils.indent(2)).join('\n') +
-                    '\n}' + 
+                    '\n}' +
                     toOptionalPreprocessorClosingCodeString(method);
   return methodStr;
 }
@@ -502,10 +502,10 @@ export function renderHeader(file:Code.File):Maybe.Maybe<string> {
   const functionsSection = codeSectionForCodeString(headerFunctionsSection(file.functions));
 
   const classSection = file.classes.map(FunctionUtils.pApplyf2(file, headerClassSection)).join('\n\n');
-  
+
   const structsStr = file.structs.map(toStructContents).join('\n');
   const structsSection = codeSectionForCodeString(structsStr);
-  
+
   const namespacesStr:string = file.namespaces.map(toNamespaceContents).join('\n');
   const namespacesSection:string = codeSectionForCodeString(namespacesStr);
 
@@ -560,7 +560,12 @@ function declarationCommentsForFunctionImplementation(functionDefinition:ObjC.Fu
 }
 
 function functionDeclarationForFunction(functionDefinition:ObjC.Function):string {
-  return qualifierForFunction(functionDefinition) + ' ' + toFunctionReturnTypeString(functionDefinition.returnType) + functionDefinition.name + '(' + functionDefinition.parameters.map(toFunctionParameterString).join(', ') + ')';
+  // don't add a newline if there are no attributes
+  const attributes = functionDefinition.compilerAttributes.length > 0
+    ? functionDefinition.compilerAttributes.join(' ') + '\n'
+    : '';
+
+  return attributes + qualifierForFunction(functionDefinition) + ' ' + toFunctionReturnTypeString(functionDefinition.returnType) + functionDefinition.name + '(' + functionDefinition.parameters.map(toFunctionParameterString).join(', ') + ')';
 }
 
 const BEGINNING_OF_DEFINE = '#';

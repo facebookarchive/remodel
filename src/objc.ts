@@ -129,6 +129,7 @@ export interface Function {
   returnType:ReturnType;
   code:string[];
   isPublic:boolean;
+  compilerAttributes:string[];
 }
 
 export interface Macro {

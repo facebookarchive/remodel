@@ -718,7 +718,8 @@ const COMPARE_FLOATS_FN:ObjC.Function = {
   code: [
     'return fabsf(givenFloat - floatToCompare) < FLT_EPSILON * fabsf(givenFloat + floatToCompare) || fabsf(givenFloat - floatToCompare) < FLT_MIN;'
   ],
-  isPublic: false
+  isPublic: false,
+  compilerAttributes: [],
 };
 
 const HASH_FLOAT_FN:ObjC.Function = {
@@ -765,7 +766,8 @@ const HASH_FLOAT_FN:ObjC.Function = {
     '#endif',
     'return h;'
   ],
-  isPublic: false
+  isPublic: false,
+  compilerAttributes: [],
 };
 
 const COMPARE_DOUBLES_FN:ObjC.Function = {
@@ -797,7 +799,8 @@ const COMPARE_DOUBLES_FN:ObjC.Function = {
   code: [
     'return fabs(givenDouble - doubleToCompare) < DBL_EPSILON * fabs(givenDouble + doubleToCompare) || fabs(givenDouble - doubleToCompare) < DBL_MIN;'
   ],
-  isPublic: false
+  isPublic: false,
+  compilerAttributes: [],
 };
 
 const HASH_DOUBLE_FN:ObjC.Function = {
@@ -834,7 +837,8 @@ const HASH_DOUBLE_FN:ObjC.Function = {
     'p ^= (p >> 22);',
     'return (NSUInteger) p;'
   ],
-  isPublic: false
+  isPublic: false,
+  compilerAttributes: [],
 };
 
 function wrapCGFloatTypeComparisonCodeToAvoidUnusedFunctionWarning(doubleCode:string, floatCode:string):string[] {
@@ -882,7 +886,8 @@ const COMPARE_CGFLOATS_FN:ObjC.Function = {
     'return CompareDoubles(givenCGFloat, cgFloatToCompare);',
     'return CompareFloats(givenCGFloat, cgFloatToCompare);'
   ),
-  isPublic: false
+  isPublic: false,
+  compilerAttributes: [],
 };
 
 const HASH_CGFLOATS_FN:ObjC.Function = {
@@ -908,7 +913,8 @@ const HASH_CGFLOATS_FN:ObjC.Function = {
     'return HashDouble(givenCGFloat);',
     'return HashFloat(givenCGFloat);'
   ),
-  isPublic: false
+  isPublic: false,
+  compilerAttributes: [],
 };
 
 function functionDefinitionForEqualityFunction(equalityFunction:EqualityFunction):ObjC.Function {

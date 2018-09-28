@@ -1208,7 +1208,8 @@ describe('ObjCRenderer', function() {
               'return @"bar";',
               '#endif'
             ],
-            isPublic: true
+            isPublic: true,
+            compilerAttributes: [],
           },
           {
               comments: [],
@@ -1221,7 +1222,8 @@ describe('ObjCRenderer', function() {
               code: [
                 'return 17;'
               ],
-              isPublic: true
+              isPublic: true,
+              compilerAttributes: [],
             },
           {
             comments: [ ],
@@ -1232,7 +1234,8 @@ describe('ObjCRenderer', function() {
             code: [
               'something();'
             ],
-            isPublic: false
+            isPublic: false,
+            compilerAttributes: [],
           }
         ],
         diagnosticIgnores:[],
@@ -1481,7 +1484,8 @@ describe('ObjCRenderer', function() {
             code: [
               'something();'
             ],
-            isPublic: false
+            isPublic: false,
+            compilerAttributes: [],
           }
         ],
         classes:[
@@ -3024,7 +3028,8 @@ describe('ObjCRenderer', function() {
               'return @"bar";',
               '#endif'
             ],
-            isPublic: true
+            isPublic: true,
+            compilerAttributes: [],
           },
           {
             comments: [ { content: '// Functions are like fungus' } ],
@@ -3035,7 +3040,8 @@ describe('ObjCRenderer', function() {
             code: [
               'something();'
             ],
-            isPublic: false
+            isPublic: false,
+            compilerAttributes: [],
           }
         ],
         classes: [
@@ -3657,6 +3663,7 @@ describe('ObjCRenderer', function() {
             }), modifiers:[] },
             code: [],
             isPublic: false,
+            compilerAttributes: [],
           }
         ],
         diagnosticIgnores: [],
@@ -3857,6 +3864,26 @@ static int RMSomeFunction(BOOL parameter) {
       const type:string = 'Foo<Bar *, Baz *>*';
       const renderableType:string = ObjCRenderer.renderableTypeReferenceNestingSubsequentToken(type);
       expect(renderableType).toEqualJSON('Foo<Bar *, Baz *> *');
+    });
+  });
+
+  describe('#toFunctionImplementationString', () => {
+    it('renders compiler attributes', () => {
+      const definition: ObjC.Function = {
+        name: 'TestFunction',
+        parameters: [],
+        returnType: {
+          type: Maybe.Nothing(),
+          modifiers: [],
+        },
+        comments: [],
+        code: [],
+        isPublic:false,
+        compilerAttributes: ['__attribute__((some_attribute))'],
+      };
+
+      expect(ObjCRenderer.toFunctionImplementationString(definition))
+        .toContain('__attribute__((some_attribute))');
     });
   });
 });

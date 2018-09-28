@@ -24,6 +24,7 @@ export const VALUE_OBJECT_DEFAULT_CONFIG = {
     'builder',
     'coding',
     'copying',
+    'copying-type-safety',
     'description',
     'equality',
     'fetch-status',

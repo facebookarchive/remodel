@@ -16,7 +16,7 @@ import ObjectGeneration = require('./object-generation');
 import ObjectGenerationParsingUtils = require('./object-generation-parsing-utils');
 import ObjectMonaParser = require('./js/object-mona-parser/object-mona-parser');
 
-function underlyingTypeForType(providedUnderlyingType:string, typeReference:string):Maybe.Maybe<string> {
+export function underlyingTypeForType(providedUnderlyingType:string, typeReference:string):Maybe.Maybe<string> {
   const underlyingType:Maybe.Maybe<string> = ObjectGenerationParsingUtils.possiblyUndefinedStringToMaybe(providedUnderlyingType);
   return Maybe.match(function Just(type:string) {
                        return underlyingType;

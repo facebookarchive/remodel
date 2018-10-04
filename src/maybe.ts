@@ -55,3 +55,11 @@ export function mbind<T,U>(f:(t:T) => Maybe<U>, maybe:Maybe<T>):Maybe<U> {
   const nothing = function() { return Nothing<U>(); };
   return match(f, nothing, maybe);
 }
+
+export function and<A, B>(a: Maybe<A>, b: Maybe<B>): Maybe<[A, B]> {
+  if (a.value !== null && b.value !== null) {
+    return Just<[A, B]>([a.value, b.value]);
+  } else {
+    return Nothing<[A, B]>();
+  }
+}

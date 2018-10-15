@@ -14,6 +14,7 @@ import Error = require('../../error');
 import Maybe = require('../../maybe');
 import ObjC = require('../../objc');
 import ObjectSpec = require('../../object-spec');
+import { type } from 'os';
 
 const ObjectSpecPlugin = Coding.createPlugin();
 const AlgebraicTypePlugin = Coding.createAlgebraicTypePlugin();
@@ -256,9 +257,9 @@ describe('ObjectSpecPlugins.Coding', function() {
           belongsToProtocol:Maybe.Just<string>('NSCoding'),
           code: [
             'if ((self = [super init])) {',
-            '  _name = [aDecoder decodeObjectForKey:kNameKey];',
+            '  _name = (id)[aDecoder decodeObjectForKey:kNameKey];',
             '  if (_name == nil) {',
-            '    _name = [aDecoder decodeObjectForKey:@"oldNameKey"];',
+            '    _name = (id)[aDecoder decodeObjectForKey:@"oldNameKey"];',
             '  }',
             '}',
             'return self;'
@@ -377,7 +378,7 @@ describe('ObjectSpecPlugins.Coding', function() {
           belongsToProtocol:Maybe.Just<string>('NSCoding'),
           code: [
             'if ((self = [super init])) {',
-            '  _name = [aDecoder decodeObjectForKey:kNameKey];',
+            '  _name = (id)[aDecoder decodeObjectForKey:kNameKey];',
             '  _doesUserLike = [aDecoder decodeBoolForKey:kDoesUserLikeKey];',
             '  _someObject = [aDecoder decodeObjectForKey:kSomeObjectKey];',
             '}',
@@ -750,7 +751,7 @@ describe('ObjectSpecPlugins.Coding', function() {
       };
 
       const code: string = Coding.decodeStatementForAttribute(attribute);
-      const expectedCode: string = '_name = [aDecoder decodeObjectForKey:kNameKey];';
+      const expectedCode: string = '_name = (id)[aDecoder decodeObjectForKey:kNameKey];';
       expect(code).toEqualJSON(expectedCode);
     });
 
@@ -977,12 +978,12 @@ describe('AlgebraicTypePlugins.Coding', function() {
             'if ((self = [super init])) {',
             '  NSString *codedSubtype = [aDecoder decodeObjectForKey:kCodedSubtypeKey];',
             '  if([codedSubtype isEqualToString:@\"SUBTYPE_SOME_SUBTYPE\"]) {',
-            '    _someSubtype_someString = [aDecoder decodeObjectForKey:kSomeSubtypeSomeStringKey];',
+            '    _someSubtype_someString = (id)[aDecoder decodeObjectForKey:kSomeSubtypeSomeStringKey];',
             '    _someSubtype_someUnsignedInteger = [aDecoder decodeIntegerForKey:kSomeSubtypeSomeUnsignedIntegerKey];',
             '    _subtype = _TestSubtypesSomeSubtype;',
             '  }',
             '  else if([codedSubtype isEqualToString:@\"SUBTYPE_COOL_SINGLE_ATTRIBUTE_SUBTYPE\"]) {',
-            '    _coolSingleAttributeSubtype = [aDecoder decodeObjectForKey:kCoolSingleAttributeSubtypeKey];',
+            '    _coolSingleAttributeSubtype = (id)[aDecoder decodeObjectForKey:kCoolSingleAttributeSubtypeKey];',
             '    _subtype = _TestSubtypesCoolSingleAttributeSubtype;',
             '  }',
             '  else {',

@@ -51,7 +51,7 @@ Feature: Outputting Value Objects With Coded Values
       {
         if ((self = [super init])) {
           _doesUserLike = [aDecoder decodeBoolForKey:kDoesUserLikeKey];
-          _identifier = [aDecoder decodeObjectForKey:kIdentifierKey];
+          _identifier = (id)[aDecoder decodeObjectForKey:kIdentifierKey];
           _likeCount = [aDecoder decodeIntegerForKey:kLikeCountKey];
           _numberOfRatings = [aDecoder decodeIntegerForKey:kNumberOfRatingsKey];
         }
@@ -119,9 +119,9 @@ Feature: Outputting Value Objects With Coded Values
           if (_doesUserLike == NO) {
             _doesUserLike = [aDecoder decodeBoolForKey:@"old_does_user_like"];
           }
-          _identifier = [aDecoder decodeObjectForKey:kIdentifierKey];
+          _identifier = (id)[aDecoder decodeObjectForKey:kIdentifierKey];
           if (_identifier == nil) {
-            _identifier = [aDecoder decodeObjectForKey:@"old_identifier"];
+            _identifier = (id)[aDecoder decodeObjectForKey:@"old_identifier"];
           }
           _likeCount = [aDecoder decodeIntegerForKey:kLikeCountKey];
           if (_likeCount == 0) {
@@ -172,7 +172,7 @@ Feature: Outputting Value Objects With Coded Values
       {
         if ((self = [super init])) {
           _doesUserLike = [aDecoder decodeBoolForKey:kDoesUserLikeKey];
-          _identifier = [aDecoder decodeObjectForKey:kIdentifierKey];
+          _identifier = (id)[aDecoder decodeObjectForKey:kIdentifierKey];
           _likeCount = [aDecoder decodeIntegerForKey:kLikeCountKey];
           _numberOfRatings = [aDecoder decodeIntegerForKey:kNumberOfRatingsKey];
           if (_numberOfRatings == 0) {

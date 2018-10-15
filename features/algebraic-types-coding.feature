@@ -89,7 +89,7 @@ Feature: Outputting Algebraic Types
         if ((self = [super init])) {
           NSString *codedSubtype = [aDecoder decodeObjectForKey:kCodedSubtypeKey];
           if([codedSubtype isEqualToString:@"SUBTYPE_FIRST_SUBTYPE"]) {
-            _firstSubtype_firstValue = [aDecoder decodeObjectForKey:kFirstSubtypeFirstValueKey];
+            _firstSubtype_firstValue = (id)[aDecoder decodeObjectForKey:kFirstSubtypeFirstValueKey];
             _firstSubtype_secondValue = [aDecoder decodeIntegerForKey:kFirstSubtypeSecondValueKey];
             _subtype = _SimpleADTSubtypesFirstSubtype;
           }

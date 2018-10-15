@@ -124,7 +124,12 @@ export function decodeStatementForAttribute(attribute:CodeableAttribute):string 
 
 function decodeStatementForTypeValueAccessorAndCodingKey(type:ObjC.Type, valueAccessor:string, codingKey:string):string {
   const codingStatements:CodingUtils.CodingStatements = CodingUtils.codingStatementsForType(type);
-  const decodedRawValuePart:string = '[aDecoder ' + codingStatements.decodeStatement + ':' + codingKey + ']';
+  // we cast over to the id type to silence -Wnullable-to-nonnull-conversion errors, otherwise the flag
+  // needs to be disabled for the entire target. This is better than using the valueObjectConfig, as it
+  // allows the flag to remain on for the rest of the generated code, in case there are bugs in any other
+  // plugins that lead to unsafe nullability issues.
+  const cast = ObjCTypeUtils.isNSObject(type) ? `(id)` : '';
+  const decodedRawValuePart:string = `${cast}[aDecoder ${codingStatements.decodeStatement}:${codingKey}]`;
   const decodedValuePart = codingStatements.decodeValueStatementGenerator(decodedRawValuePart);
   return valueAccessor + ' = ' + decodedValuePart + ';';
 }

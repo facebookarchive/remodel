@@ -14,7 +14,6 @@ import Error = require('../../error');
 import Maybe = require('../../maybe');
 import ObjC = require('../../objc');
 import ObjectSpec = require('../../object-spec');
-import { type } from 'os';
 
 const ObjectSpecPlugin = Coding.createPlugin();
 const AlgebraicTypePlugin = Coding.createAlgebraicTypePlugin();

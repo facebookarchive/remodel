@@ -1,3 +1,5 @@
+# Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved.
+
 Feature: Specifying an output directory to put results in
 
   @announce

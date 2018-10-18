@@ -1,3 +1,5 @@
+# Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved.
+
 Feature: Outputting Value Objects / Algebraic Types decorated with NS_ASSUME_NONNULL_* macros
 
   @announce

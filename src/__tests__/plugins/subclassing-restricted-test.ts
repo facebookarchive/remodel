@@ -53,7 +53,8 @@ describe('AlgebraicTypePlugins.SubclassingRestricted', function() {
           {
             name: 'subtypeOne',
             comments: [],
-            attributes: []
+            attributes: [],
+            annotations: {},
           })
         ],
       };

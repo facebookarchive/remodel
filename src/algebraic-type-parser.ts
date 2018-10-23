@@ -56,7 +56,8 @@ function subtypeFromParsedSubtype(subtype:ObjectMonaParser.AlgebraicParsedSubtyp
     AlgebraicType.Subtype.NamedAttributeCollectionDefinition({
       name:subtype.namedCollectionValue.typeName,
       comments:subtype.namedCollectionValue.comments,
-      attributes:subtype.namedCollectionValue.attributes.map(subtypeAttributeFromParseResultAttribute)
+      attributes:subtype.namedCollectionValue.attributes.map(subtypeAttributeFromParseResultAttribute),
+      annotations:ObjectGenerationParsingUtils.foundAnnotationFromParsedAnnotations(subtype.namedCollectionValue.annotations),
     });
 }
 

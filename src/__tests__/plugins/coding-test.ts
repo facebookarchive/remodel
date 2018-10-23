@@ -947,7 +947,8 @@ describe('AlgebraicTypePlugins.Coding', function() {
                   conformingProtocol: Maybe.Nothing<string>()
                 }
               }
-            ]
+            ],
+            annotations: {},
           }),
           AlgebraicType.Subtype.SingleAttributeSubtypeDefinition(
           {
@@ -1100,7 +1101,8 @@ describe('AlgebraicTypePlugins.Coding', function() {
                   conformingProtocol: Maybe.Nothing<string>()
                 }
               }
-            ]
+            ],
+            annotations: {},
           }),
           AlgebraicType.Subtype.SingleAttributeSubtypeDefinition(
           {
@@ -1183,12 +1185,14 @@ describe('AlgebraicTypePlugins.Coding', function() {
           {
             name: 'ASubType',
             comments: [],
-            attributes: []
+            attributes: [],
+            annotations: {},
           }),
           AlgebraicType.Subtype.NamedAttributeCollectionDefinition({
             name: 'AnotherSubtype',
             comments: [],
-            attributes: []
+            attributes: [],
+            annotations: {},
           })
         ]
       };
@@ -1226,7 +1230,8 @@ describe('AlgebraicTypePlugins.Coding', function() {
                   conformingProtocol: Maybe.Nothing<string>()
                 }
               }
-            ]
+            ],
+            annotations: {},
           })
         ]
       };
@@ -1266,7 +1271,8 @@ describe('AlgebraicTypePlugins.Coding', function() {
                   conformingProtocol: Maybe.Nothing<string>()
                 }
               }
-            ]
+            ],
+            annotations: {},
           }),
           AlgebraicType.Subtype.NamedAttributeCollectionDefinition({
             name: 'AnotherSubtype',
@@ -1286,7 +1292,8 @@ describe('AlgebraicTypePlugins.Coding', function() {
                   conformingProtocol: Maybe.Nothing<string>()
                 }
               }
-            ]
+            ],
+            annotations: {},
           })
         ]
       };
@@ -1327,7 +1334,8 @@ describe('AlgebraicTypePlugins.Coding', function() {
                   conformingProtocol: Maybe.Nothing<string>()
                 }
               }
-            ]
+            ],
+            annotations: {},
           })
         ]
       };

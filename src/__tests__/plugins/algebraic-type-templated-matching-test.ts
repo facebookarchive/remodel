@@ -62,13 +62,15 @@ describe('Plugins.AlgebraicTypeTemplatedMatching', function() {
                   conformingProtocol: Maybe.Nothing<string>()
                 }
               }
-            ]
+            ],
+            annotations: {},
           }),
           AlgebraicType.Subtype.NamedAttributeCollectionDefinition(
           {
             name: 'GreatThing',
             comments: [],
-            attributes: []
+            attributes: [],
+            annotations: {},
           }),
           AlgebraicType.Subtype.SingleAttributeSubtypeDefinition(
           {

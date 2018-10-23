@@ -30,6 +30,7 @@ describe('AlgebraicTypeParser', function() {
         typeLookups:[],
         subtypes: [
           AlgebraicType.Subtype.NamedAttributeCollectionDefinition({
+            annotations: {},
             name: 'RMOption',
             comments: [],
             attributes: [
@@ -181,6 +182,7 @@ describe('AlgebraicTypeParser', function() {
         subtypes: [
           AlgebraicType.Subtype.NamedAttributeCollectionDefinition(
           {
+            annotations: {},
             name: 'RMOption',
             comments: [],
             attributes: [
@@ -248,6 +250,7 @@ describe('AlgebraicTypeParser', function() {
         subtypes: [
           AlgebraicType.Subtype.NamedAttributeCollectionDefinition(
           {
+            annotations: {},
             name: 'RMOption',
             comments: [],
             attributes: [
@@ -305,6 +308,60 @@ describe('AlgebraicTypeParser', function() {
       const actualResult:Either.Either<Error.Error[], AlgebraicType.Type> = AlgebraicTypeParser.parse(valueFileContents);
       const expectedResult:Either.Either<Error.Error[], AlgebraicType.Type> = Either.Left<Error.Error[], AlgebraicType.Type>(
                             [Error.Error('(line 1, column 16) expected string matching {}}')]);
+      expect(actualResult).toEqualJSON(expectedResult);
+    });
+
+    it('parses annotations on named attribute collection subtypes', function() {
+      const fileContents = [
+        'RMADT {',
+        '  %testAnnotation key=value',
+        '  subtype {',
+        '    %innerAnnotation',
+        '    NSString *string',
+        '  }',
+        '}',
+      ].join('\n');
+
+      const actualResult = AlgebraicTypeParser.parse(fileContents);
+      const expectedResult = Either.Right({
+        annotations: {},
+        comments: [],
+        name: "RMADT",
+        includes: [],
+        excludes: [],
+        libraryName: Maybe.Nothing(),
+        typeLookups: [],
+        subtypes: [
+          AlgebraicType.Subtype.NamedAttributeCollectionDefinition({
+            name: 'subtype',
+            comments: [],
+            annotations: {
+              testAnnotation: [{
+                properties: { key: "value" }
+              }],
+            },
+            attributes: [{
+              annotations: {
+                innerAnnotation: [
+                  { properties: {} },
+                ],
+              },
+              name: "string",
+              comments: [],
+              type: {
+                fileTypeIsDefinedIn: Maybe.Nothing(),
+                libraryTypeIsDefinedIn: Maybe.Nothing(),
+                name: "NSString",
+                reference: "NSString*",
+                underlyingType: Maybe.Just("NSObject"),
+                conformingProtocol: Maybe.Nothing(),
+              },
+              nullability: ObjC.Nullability.Inherited(),
+            }],
+          }),
+        ],
+      });
+
       expect(actualResult).toEqualJSON(expectedResult);
     });
   });

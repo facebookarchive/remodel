@@ -1345,7 +1345,8 @@ describe('AlgebraicTypePlugins.Description', function() {
                   conformingProtocol: Maybe.Nothing<string>()
                 }
               }
-            ]
+            ],
+            annotations: {},
           }),
           AlgebraicType.Subtype.SingleAttributeSubtypeDefinition(
           {
@@ -1419,7 +1420,8 @@ describe('AlgebraicTypePlugins.Description', function() {
                   conformingProtocol: Maybe.Nothing<string>()
                 }
               }
-            ]
+            ],
+            annotations: {},
           }),
           AlgebraicType.Subtype.SingleAttributeSubtypeDefinition(
           {
@@ -1491,12 +1493,14 @@ describe('AlgebraicTypePlugins.Description', function() {
           {
             name: 'ASubType',
             comments: [],
-            attributes: []
+            attributes: [],
+            annotations: {},
           }),
           AlgebraicType.Subtype.NamedAttributeCollectionDefinition({
             name: 'AnotherSubtype',
             comments: [],
-            attributes: []
+            attributes: [],
+            annotations: {},
           })
         ]
       };
@@ -1533,7 +1537,8 @@ describe('AlgebraicTypePlugins.Description', function() {
                   conformingProtocol: Maybe.Nothing<string>()
                 }
               }
-            ]
+            ],
+            annotations: {},
           })
         ]
       };
@@ -1572,7 +1577,8 @@ describe('AlgebraicTypePlugins.Description', function() {
                   conformingProtocol: Maybe.Nothing<string>()
                 }
               }
-            ]
+            ],
+            annotations: {},
           }),
           AlgebraicType.Subtype.SingleAttributeSubtypeDefinition(
           {
@@ -1627,7 +1633,8 @@ describe('AlgebraicTypePlugins.Description', function() {
                   conformingProtocol: Maybe.Nothing<string>()
                 }
               }
-            ]
+            ],
+            annotations: {},
           })
         ]
       };

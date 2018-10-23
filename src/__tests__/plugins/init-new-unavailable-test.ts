@@ -135,7 +135,8 @@ describe('AlgebraicTypePlugins.InitNewUnavailable', function() {
           {
             name: 'subtypeOne',
             comments: [],
-            attributes: []
+            attributes: [],
+            annotations: {},
           })
         ],
       };

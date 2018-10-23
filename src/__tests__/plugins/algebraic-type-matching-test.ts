@@ -67,7 +67,8 @@ function algebraicTestTypeWithTwoSubtypes():AlgebraicType.Type {
               conformingProtocol: Maybe.Nothing<string>()
             }
           }
-        ]
+        ],
+        annotations: {},
       }),
       AlgebraicType.Subtype.SingleAttributeSubtypeDefinition(
       {

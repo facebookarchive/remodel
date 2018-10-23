@@ -35,6 +35,7 @@ export enum SubtypeDefinitionType {
 }
 
 export interface NamedAttributeCollectionSubtype {
+  annotations:ObjectGeneration.AnnotationMap;
   name:string;
   comments:string[];
   attributes:SubtypeAttribute[];

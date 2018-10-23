@@ -24,6 +24,7 @@ export interface ObjectSpecParseResult {
 // Algebraic type parse result types
 
 export interface AlgebraicParsedNamedCollectionSubtype {
+  annotations:{[name:string]: {[key:string]: string;}[];};
   attributes:ParsedAttribute[];
   comments:string[];
   typeName:string;

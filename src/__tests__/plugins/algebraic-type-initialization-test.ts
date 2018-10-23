@@ -33,7 +33,8 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
           {
             name: 'ASubType',
             comments: [],
-            attributes: []
+            attributes: [],
+            annotations: {},
           })
         ]
       };
@@ -61,7 +62,8 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
           {
             name: 'ASubType',
             comments: [],
-            attributes: []
+            attributes: [],
+            annotations: {},
           })
         ]
       };
@@ -97,7 +99,8 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
           {
             name: 'ASubType',
             comments: [],
-            attributes: []
+            attributes: [],
+            annotations: {},
           })
         ]
       };
@@ -154,7 +157,8 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
                   conformingProtocol: Maybe.Nothing<string>()
                 }
               }
-            ]
+            ],
+            annotations: {},
           }),
           AlgebraicType.Subtype.SingleAttributeSubtypeDefinition(
           {
@@ -254,7 +258,8 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
           {
             name: 'SomeSubtype',
             comments: [],
-            attributes: []
+            attributes: [],
+            annotations: {},
           })
         ]
       };
@@ -277,7 +282,8 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
           {
             name: 'SomeSubtype',
             comments: [],
-            attributes: []
+            attributes: [],
+            annotations: {},
           })
         ]
       };
@@ -353,7 +359,8 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
                   conformingProtocol: Maybe.Nothing<string>()
                 }
               }
-            ]
+            ],
+            annotations: {},
           }),
           AlgebraicType.Subtype.SingleAttributeSubtypeDefinition(
           {
@@ -495,7 +502,8 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
                   conformingProtocol: Maybe.Nothing<string>()
                 }
               }
-            ]
+            ],
+            annotations: {},
           }),
           AlgebraicType.Subtype.SingleAttributeSubtypeDefinition(
           {
@@ -606,7 +614,8 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
                   conformingProtocol: Maybe.Nothing<string>()
                 }
               }
-            ]
+            ],
+            annotations: {},
           }),
           AlgebraicType.Subtype.SingleAttributeSubtypeDefinition(
           {
@@ -655,12 +664,14 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
           {
             name: 'ASubType',
             comments: [],
-            attributes: []
+            attributes: [],
+            annotations: {},
           }),
           AlgebraicType.Subtype.NamedAttributeCollectionDefinition({
             name: 'AnotherSubtype',
             comments: [],
-            attributes: []
+            attributes: [],
+            annotations: {},
           })
         ]
       };
@@ -698,7 +709,8 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
                   conformingProtocol: Maybe.Nothing<string>()
                 }
               }
-            ]
+            ],
+            annotations: {},
           }),
           AlgebraicType.Subtype.NamedAttributeCollectionDefinition(
           {
@@ -719,7 +731,8 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
                   conformingProtocol: Maybe.Nothing<string>()
                 }
               }
-            ]
+            ],
+            annotations: {},
           })
         ]
       };
@@ -808,7 +821,8 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
                 conformingProtocol: Maybe.Nothing<string>()
               }
             }
-          ]
+          ],
+          annotations: {},
         }),
         AlgebraicType.Subtype.SingleAttributeSubtypeDefinition(
         {
@@ -866,7 +880,8 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
                 conformingProtocol: Maybe.Nothing<string>()
               }
             }
-          ]
+          ],
+          annotations: {},
         })
         ]
       };
@@ -914,7 +929,8 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
                 conformingProtocol: Maybe.Nothing<string>()
               }
             }
-          ]
+          ],
+          annotations: {},
         })
         ]
       };
@@ -955,7 +971,8 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
                 conformingProtocol: Maybe.Nothing<string>()
               }
             }
-          ]
+          ],
+          annotations: {},
         })
         ]
       };

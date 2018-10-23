@@ -201,7 +201,7 @@ function withInstanceMethodForAttribute(supportsValueSemantics:boolean, attribut
   };
 }
 
-function instanceVariableForAttribute(attribute:ObjectSpec.Attribute):ObjC.Property {
+function instanceVariableForAttribute(attribute:ObjectSpec.Attribute):ObjC.InstanceVariable {
   return {
     name: attribute.name,
     comments: [],
@@ -210,7 +210,7 @@ function instanceVariableForAttribute(attribute:ObjectSpec.Attribute):ObjC.Prope
       reference: attribute.type.reference
     },
     modifiers: [],
-    access: ObjC.PropertyAccess.Private()
+    access: ObjC.InstanceVariableAccess.Private()
   };
 }
 

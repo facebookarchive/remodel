@@ -355,9 +355,94 @@ export class PropertyModifier {
   }
 }
 
-enum PropertyAccessType {
+enum InstanceVariableModifierType {
+  nonnull,
+  nullable,
+  strong,
+  weak,
+  unsafeUnretained
+}
+
+export class InstanceVariableModifier {
+  private modifierType;
+  constructor(type:InstanceVariableModifierType) {
+    this.modifierType = type;
+  }
+
+  static Nonnull() {
+    return new InstanceVariableModifier(InstanceVariableModifierType.nonnull);
+  }
+
+  static Nullable() {
+    return new InstanceVariableModifier(InstanceVariableModifierType.nullable);
+  }
+
+  static Strong() {
+    return new InstanceVariableModifier(InstanceVariableModifierType.strong);
+  }
+
+  static Weak() {
+    return new InstanceVariableModifier(InstanceVariableModifierType.weak);
+  }
+
+  static UnsafeUnretained() {
+    return new InstanceVariableModifier(InstanceVariableModifierType.unsafeUnretained);
+  }
+
+  match<T>(nonnull:() => T, nullable:() => T, strong:() => T, weak:() => T, unsafeUnretained:() => T) {
+    switch(this.modifierType) {
+      case InstanceVariableModifierType.nonnull:
+        return nonnull();
+      case InstanceVariableModifierType.nullable:
+        return nullable();
+      case InstanceVariableModifierType.strong:
+        return strong();
+      case InstanceVariableModifierType.weak:
+        return weak();
+      case InstanceVariableModifierType.unsafeUnretained:
+        return unsafeUnretained();
+    }
+  }
+}
+
+enum InstanceVariableAccessType {
   privateAccess,
   packageAccess,
+  publicAccess
+}
+
+export class InstanceVariableAccess {
+  private accessType;
+  constructor(type:InstanceVariableAccessType) {
+    this.accessType = type;
+  }
+
+  static Private() {
+    return new InstanceVariableAccess(InstanceVariableAccessType.privateAccess);
+  }
+
+  static Package() {
+    return new InstanceVariableAccess(InstanceVariableAccessType.packageAccess);
+  }
+
+  static Public() {
+    return new InstanceVariableAccess(InstanceVariableAccessType.publicAccess);
+  }
+
+  match<T>(privateAccess:() => T, packageAccess:() => T, publicAccess:() => T) {
+    switch(this.accessType) {
+      case InstanceVariableAccessType.privateAccess:
+        return privateAccess();
+      case InstanceVariableAccessType.packageAccess:
+        return packageAccess();
+      case InstanceVariableAccessType.publicAccess:
+        return publicAccess();
+    }
+  }
+}
+
+enum PropertyAccessType {
+  privateAccess,
   publicAccess
 }
 
@@ -371,20 +456,14 @@ export class PropertyAccess {
     return new PropertyAccess(PropertyAccessType.privateAccess);
   }
 
-  static Package() {
-    return new PropertyAccess(PropertyAccessType.packageAccess);
-  }
-
   static Public() {
     return new PropertyAccess(PropertyAccessType.publicAccess);
   }
 
-  match<T>(privateAccess:() => T, packageAccess:() => T, publicAccess:() => T) {
+  match<T>(privateAccess:() => T, publicAccess:() => T) {
     switch(this.accessType) {
       case PropertyAccessType.privateAccess:
         return privateAccess();
-      case PropertyAccessType.packageAccess:
-        return packageAccess();
       case PropertyAccessType.publicAccess:
         return publicAccess();
     }
@@ -399,6 +478,14 @@ export interface Property {
   returnType:Type;
 }
 
+export interface InstanceVariable {
+  comments:Comment[];
+  modifiers:InstanceVariableModifier[];
+  access:InstanceVariableAccess;
+  name:string;
+  returnType:Type;
+}
+
 export interface Class {
   baseClassName:string;
   covariantTypes:string[];
@@ -407,7 +494,7 @@ export interface Class {
   instanceMethods:Method[];
   name:string;
   properties:Property[];
-  instanceVariables:Property[];
+  instanceVariables:InstanceVariable[];
   implementedProtocols:Protocol[];
   nullability:ClassNullability;
   subclassingRestricted:boolean;

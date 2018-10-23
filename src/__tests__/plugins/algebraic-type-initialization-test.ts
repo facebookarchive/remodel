@@ -515,8 +515,8 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
         ]
       };
 
-      const instanceVariables:ObjC.Property[] = AlgebraicTypePlugin.instanceVariables(algebraicType);
-      const expectedInstanceVariables:ObjC.Property[] = [
+      const instanceVariables:ObjC.InstanceVariable[] = AlgebraicTypePlugin.instanceVariables(algebraicType);
+      const expectedInstanceVariables:ObjC.InstanceVariable[] = [
         {
           comments:[],
           name:'subtype',
@@ -525,7 +525,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
             reference: '_TestSubtypes'
           },
           modifiers:[],
-          access: ObjC.PropertyAccess.Private()
+          access: ObjC.InstanceVariableAccess.Private()
         },
         {
           comments:[],
@@ -535,7 +535,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
             reference: 'NSString *'
           },
           modifiers:[],
-          access: ObjC.PropertyAccess.Private()
+          access: ObjC.InstanceVariableAccess.Private()
         },
         {
           comments:[],
@@ -545,7 +545,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
             reference: 'NSUInteger'
           },
           modifiers:[],
-          access: ObjC.PropertyAccess.Private()
+          access: ObjC.InstanceVariableAccess.Private()
         },
         {
           comments: [],
@@ -555,7 +555,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
             reference: 'SingleAttributeType *'
           },
           modifiers:[],
-          access: ObjC.PropertyAccess.Private()
+          access: ObjC.InstanceVariableAccess.Private()
         }
       ];
       expect(instanceVariables).toEqualJSON(expectedInstanceVariables);

@@ -66,7 +66,7 @@ function createAlgebraicTypeObjCPlugIn(plugin:AlgebraicType.Plugin) : AlgebraicT
       return plugin.imports(typeInformation);
     },
 
-    instanceVariables: function(typeInformation:AlgebraicType.Type):ObjC.Property[] {
+    instanceVariables: function(typeInformation:AlgebraicType.Type):ObjC.InstanceVariable[] {
       return plugin.instanceVariables(typeInformation);
     },
 

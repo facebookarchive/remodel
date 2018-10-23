@@ -147,7 +147,7 @@ function internalImportForFileWithName(name:string):ObjC.Import {
   };
 }
 
-function instanceVariableForEnumeration(algebraicType:AlgebraicType.Type):ObjC.Property {
+function instanceVariableForEnumeration(algebraicType:AlgebraicType.Type):ObjC.InstanceVariable {
   const enumerationName:string = AlgebraicTypeUtils.EnumerationNameForAlgebraicType(algebraicType);
   return {
     name:AlgebraicTypeUtils.nameForInstanceVariableStoringSubtype(),
@@ -157,11 +157,11 @@ function instanceVariableForEnumeration(algebraicType:AlgebraicType.Type):ObjC.P
       reference:enumerationName
     },
     modifiers:[],
-    access: ObjC.PropertyAccess.Private()
+    access: ObjC.InstanceVariableAccess.Private()
   };
 }
 
-function instanceVariableFromAttribute(subtype:AlgebraicType.Subtype, attribute:AlgebraicType.SubtypeAttribute):ObjC.Property {
+function instanceVariableFromAttribute(subtype:AlgebraicType.Subtype, attribute:AlgebraicType.SubtypeAttribute):ObjC.InstanceVariable {
   return {
     name: AlgebraicTypeUtils.nameOfInstanceVariableForAttribute(subtype, attribute),
     comments: [],
@@ -170,14 +170,14 @@ function instanceVariableFromAttribute(subtype:AlgebraicType.Subtype, attribute:
       reference:attribute.type.reference
     },
     modifiers:[],
-    access: ObjC.PropertyAccess.Private()
+    access: ObjC.InstanceVariableAccess.Private()
   };
 }
 
-function instanceVariablesForImplementationOfAlgebraicType(algebraicType:AlgebraicType.Type):ObjC.Property[] {
-  const enumerationProperty:ObjC.Property = instanceVariableForEnumeration(algebraicType);
-  const attributeProperties:ObjC.Property[] = AlgebraicTypeUtils.mapAttributesWithSubtypeFromSubtypes(algebraicType.subtypes, instanceVariableFromAttribute);
-  return [enumerationProperty].concat(attributeProperties);
+function instanceVariablesForImplementationOfAlgebraicType(algebraicType:AlgebraicType.Type):ObjC.InstanceVariable[] {
+  const enumerationInstanceVariable:ObjC.InstanceVariable = instanceVariableForEnumeration(algebraicType);
+  const attributeInstanceVariables:ObjC.InstanceVariable[] = AlgebraicTypeUtils.mapAttributesWithSubtypeFromSubtypes(algebraicType.subtypes, instanceVariableFromAttribute);
+  return [enumerationInstanceVariable].concat(attributeInstanceVariables);
 }
 
 function isImportRequiredForAttribute(typeLookups:ObjectGeneration.TypeLookup[], attribute:AlgebraicType.SubtypeAttribute):boolean {
@@ -319,7 +319,7 @@ export function createAlgebraicTypePlugin():AlgebraicType.Plugin {
     instanceMethods: function(algebraicType:AlgebraicType.Type):ObjC.Method[] {
       return [];
     },
-    instanceVariables: function(algebraicType:AlgebraicType.Type):ObjC.Property[] {
+    instanceVariables: function(algebraicType:AlgebraicType.Type):ObjC.InstanceVariable[] {
       return instanceVariablesForImplementationOfAlgebraicType(algebraicType);
     },
     macros: function(algebraicType:AlgebraicType.Type):ObjC.Macro[] {

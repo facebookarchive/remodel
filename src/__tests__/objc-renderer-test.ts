@@ -174,7 +174,7 @@ describe('ObjCRenderer', function() {
               {
                 comments:[],
                 modifiers:[],
-                access: ObjC.PropertyAccess.Private(),
+                access: ObjC.InstanceVariableAccess.Private(),
                 name:'value3',
                 returnType: {
                   name:'RMSomethingElse',
@@ -184,7 +184,7 @@ describe('ObjCRenderer', function() {
               {
                 comments:[],
                 modifiers:[],
-                access: ObjC.PropertyAccess.Private(),
+                access: ObjC.InstanceVariableAccess.Private(),
                 name:'value4',
                 returnType: {
                   name:'RMSomething',
@@ -194,7 +194,7 @@ describe('ObjCRenderer', function() {
               {
                 comments:[],
                 modifiers:[],
-                access: ObjC.PropertyAccess.Package(),
+                access: ObjC.InstanceVariableAccess.Package(),
                 name:'value5',
                 returnType: {
                   name:'NSString',
@@ -204,7 +204,7 @@ describe('ObjCRenderer', function() {
               {
                 comments:[],
                 modifiers:[],
-                access: ObjC.PropertyAccess.Public(),
+                access: ObjC.InstanceVariableAccess.Public(),
                 name:'value6',
                 returnType: {
                   name:'NSNumber',
@@ -411,7 +411,7 @@ describe('ObjCRenderer', function() {
               {
                 comments:[],
                 modifiers:[],
-                access: ObjC.PropertyAccess.Private(),
+                access: ObjC.InstanceVariableAccess.Private(),
                 name:'value3',
                 returnType: {
                   name:'RMSomethingElse',
@@ -421,7 +421,7 @@ describe('ObjCRenderer', function() {
               {
                 comments:[],
                 modifiers:[],
-                access: ObjC.PropertyAccess.Private(),
+                access: ObjC.InstanceVariableAccess.Private(),
                 name:'value4',
                 returnType: {
                   name:'RMSomething',
@@ -623,7 +623,7 @@ describe('ObjCRenderer', function() {
               {
                 comments:[],
                 modifiers:[],
-                access: ObjC.PropertyAccess.Private(),
+                access: ObjC.InstanceVariableAccess.Private(),
                 name:'value3',
                 returnType: {
                   name:'RMSomethingElse',
@@ -633,7 +633,7 @@ describe('ObjCRenderer', function() {
               {
                 comments:[],
                 modifiers:[],
-                access: ObjC.PropertyAccess.Private(),
+                access: ObjC.InstanceVariableAccess.Private(),
                 name:'value4',
                 returnType: {
                   name:'RMSomething',
@@ -2472,7 +2472,7 @@ describe('ObjCRenderer', function() {
               {
                 comments:[],
                 modifiers:[],
-                access: ObjC.PropertyAccess.Private(),
+                access: ObjC.InstanceVariableAccess.Private(),
                 name:'value3',
                 returnType: {
                   name:'RMSomethingElse',
@@ -2482,7 +2482,7 @@ describe('ObjCRenderer', function() {
               {
                 comments:[],
                 modifiers:[],
-                access: ObjC.PropertyAccess.Private(),
+                access: ObjC.InstanceVariableAccess.Private(),
                 name:'value4',
                 returnType: {
                   name:'RMSomething',
@@ -2491,8 +2491,8 @@ describe('ObjCRenderer', function() {
               },
               {
                 comments:[],
-                modifiers:[ObjC.PropertyModifier.Weak()],
-                access: ObjC.PropertyAccess.Private(),
+                modifiers:[ObjC.InstanceVariableModifier.Weak()],
+                access: ObjC.InstanceVariableAccess.Private(),
                 name:'value5',
                 returnType: {
                   name:'RMSomething',
@@ -2502,7 +2502,7 @@ describe('ObjCRenderer', function() {
               {
                 comments:[],
                 modifiers:[],
-                access: ObjC.PropertyAccess.Package(),
+                access: ObjC.InstanceVariableAccess.Package(),
                 name:'value5',
                 returnType: {
                   name:'NSString',
@@ -2512,7 +2512,7 @@ describe('ObjCRenderer', function() {
               {
                 comments:[],
                 modifiers:[],
-                access: ObjC.PropertyAccess.Public(),
+                access: ObjC.InstanceVariableAccess.Public(),
                 name:'value6',
                 returnType: {
                   name:'NSNumber',
@@ -2876,7 +2876,7 @@ describe('ObjCRenderer', function() {
               {
                 comments:[],
                 modifiers:[],
-                access: ObjC.PropertyAccess.Private(),
+                access: ObjC.InstanceVariableAccess.Private(),
                 name:'value3',
                 returnType: {
                   name:'RMSomethingElse',
@@ -2886,7 +2886,7 @@ describe('ObjCRenderer', function() {
               {
                 comments:[],
                 modifiers:[],
-                access: ObjC.PropertyAccess.Private(),
+                access: ObjC.InstanceVariableAccess.Private(),
                 name:'value4',
                 returnType: {
                   name:'RMSomething',
@@ -2895,8 +2895,8 @@ describe('ObjCRenderer', function() {
               },
               {
                 comments:[],
-                modifiers:[ObjC.PropertyModifier.Weak()],
-                access: ObjC.PropertyAccess.Private(),
+                modifiers:[ObjC.InstanceVariableModifier.Weak()],
+                access: ObjC.InstanceVariableAccess.Private(),
                 name:'value5',
                 returnType: {
                   name:'RMSomething',
@@ -2906,7 +2906,7 @@ describe('ObjCRenderer', function() {
               {
                 comments:[],
                 modifiers:[],
-                access: ObjC.PropertyAccess.Package(),
+                access: ObjC.InstanceVariableAccess.Package(),
                 name:'value5',
                 returnType: {
                   name:'NSString',
@@ -2916,7 +2916,7 @@ describe('ObjCRenderer', function() {
               {
                 comments:[],
                 modifiers:[],
-                access: ObjC.PropertyAccess.Public(),
+                access: ObjC.InstanceVariableAccess.Public(),
                 name:'value6',
                 returnType: {
                   name:'NSNumber',
@@ -3584,7 +3584,7 @@ describe('ObjCRenderer', function() {
             {
               comments:[],
               modifiers:[],
-              access: ObjC.PropertyAccess.Package(),
+              access: ObjC.InstanceVariableAccess.Package(),
               name:'value3',
               returnType: {
                 name:'RMSomethingElse',
@@ -3594,7 +3594,7 @@ describe('ObjCRenderer', function() {
             {
               comments:[],
               modifiers:[],
-              access: ObjC.PropertyAccess.Public(),
+              access: ObjC.InstanceVariableAccess.Public(),
               name:'value4',
               returnType: {
                 name:'RMSomething',

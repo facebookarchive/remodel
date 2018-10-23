@@ -431,7 +431,7 @@ export function createAlgebraicTypePlugin():AlgebraicType.Plugin {
       const code:string[] = descriptionInstanceMethodCodeForAlgebraicType(algebraicType);
       return [descriptionInstanceMethodWithCode(code)];
     },
-    instanceVariables: function(algebraicType:AlgebraicType.Type):ObjC.Property[] {
+    instanceVariables: function(algebraicType:AlgebraicType.Type):ObjC.InstanceVariable[] {
       return [];
     },
     macros: function(algebraicType:AlgebraicType.Type):ObjC.Macro[] {

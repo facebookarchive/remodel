@@ -1155,7 +1155,7 @@ export function createAlgebraicTypePlugin():AlgebraicType.Plugin {
         hashInstanceMethod(generatedTypeEqualityInformation)
       ];
     },
-    instanceVariables: function(algebraicType:AlgebraicType.Type):ObjC.Property[] {
+    instanceVariables: function(algebraicType:AlgebraicType.Type):ObjC.InstanceVariable[] {
       return [];
     },
     macros: function(algebraicType:AlgebraicType.Type):ObjC.Macro[] {

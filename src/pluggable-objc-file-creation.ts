@@ -30,7 +30,7 @@ export interface ObjCGenerationPlugIn<T> {
   forwardDeclarations: (typeInformation:T) => ObjC.ForwardDeclaration[];
   functions: (typeInformation:T) => ObjC.Function[];
   imports: (typeInformation:T) => ObjC.Import[];
-  instanceVariables: (typeInformation:T) => ObjC.Property[];
+  instanceVariables: (typeInformation:T) => ObjC.InstanceVariable[];
   instanceMethods: (typeInformation:T) => ObjC.Method[];
   macros: (typeInformation:T) => ObjC.Macro[];
   properties: (typeInformation:T) => ObjC.Property[];
@@ -91,7 +91,7 @@ function buildProperties<T>(typeInformation:T, soFar:ObjC.Property[], plugin:Obj
   return soFar.concat(plugin.properties(typeInformation));
 }
 
-function buildInstanceVariables<T>(typeInformation:T, soFar:ObjC.Property[], plugin:ObjCGenerationPlugIn<T>):ObjC.Property[] {
+function buildInstanceVariables<T>(typeInformation:T, soFar:ObjC.InstanceVariable[], plugin:ObjCGenerationPlugIn<T>):ObjC.InstanceVariable[] {
   return soFar.concat(plugin.instanceVariables(typeInformation));
 }
 
@@ -248,7 +248,7 @@ function classFileCreationFunctionWithBaseClassAndPlugins<T>(baseClassName:strin
                             .sort(sortInstanceMethodComparitor),
           name:typeName,
           properties:List.foldl<ObjCGenerationPlugIn<T>, ObjC.Property[]>(FunctionUtils.pApplyf3(typeInformation, buildProperties), [], plugins),
-          instanceVariables:List.foldl<ObjCGenerationPlugIn<T>, ObjC.Property[]>(FunctionUtils.pApplyf3(typeInformation, buildInstanceVariables), [], plugins),
+          instanceVariables:List.foldl<ObjCGenerationPlugIn<T>, ObjC.InstanceVariable[]>(FunctionUtils.pApplyf3(typeInformation, buildInstanceVariables), [], plugins),
           implementedProtocols:List.foldr<ObjCGenerationPlugIn<T>, ObjC.Protocol[]>(FunctionUtils.pApplyf3(typeInformation, buildProtocols), [], plugins),
           extensionName:Maybe.Nothing<string>(),
           nullability:Either.match(function() {

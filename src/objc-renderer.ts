@@ -404,7 +404,7 @@ function toNamespaceContents(namespace:CPlusPlus.Namespace):string {
   return [namespaceDeclaration].concat(namespace.templates.map(toTemplateContents).reduce(buildTemplateContents, []).map(StringUtils.indent(2))).concat(endNamespaceDeclaration).join('\n');
 }
 
-function headerNeedsToIncludeInstanceVariable(instanceVariable:ObjC.Property):boolean {
+function headerNeedsToIncludeInstanceVariable(instanceVariable:ObjC.InstanceVariable):boolean {
   return instanceVariable.access.match(function privateAccess():boolean {
     return false;
   }, function packageAccess():boolean {
@@ -414,11 +414,11 @@ function headerNeedsToIncludeInstanceVariable(instanceVariable:ObjC.Property):bo
   });
 }
 
-function implementationNeedsToIncludeInstanceVariable(instanceVariable:ObjC.Property):boolean {
+function implementationNeedsToIncludeInstanceVariable(instanceVariable:ObjC.InstanceVariable):boolean {
   return !headerNeedsToIncludeInstanceVariable(instanceVariable);
 }
 
-function accessIdentifierForAccess(propertyAccess:ObjC.PropertyAccess):string {
+function accessIdentifierForAccess(propertyAccess:ObjC.InstanceVariableAccess):string {
   return propertyAccess.match(function privateAccess():string {
     return '@private';
   }, function packageAccess():string {
@@ -428,7 +428,7 @@ function accessIdentifierForAccess(propertyAccess:ObjC.PropertyAccess):string {
   });
 }
 
-function buildInstanceVariablesContainingAccessIdentifiers(soFar:string[], instanceVariable:ObjC.Property):string[] {
+function buildInstanceVariablesContainingAccessIdentifiers(soFar:string[], instanceVariable:ObjC.InstanceVariable):string[] {
   return soFar.concat([accessIdentifierForAccess(instanceVariable.access), toInstanceVariableString(instanceVariable)]);
 }
 
@@ -589,27 +589,21 @@ export function toFunctionImplementationString(functionDefinition:ObjC.Function)
     '\n}';
 }
 
-function toInstanceVariableModifierString(modifier:ObjC.PropertyModifier):string {
+function toInstanceVariableModifierString(modifier:ObjC.InstanceVariableModifier):string {
   return modifier.match(returnString(''),
-                        returnString(''),
-                        returnString(''),
-                        returnString(''),
-                        returnString(''),
-                        returnString(''),
-                        returnString(''),
                         returnString(''),
                         returnString('__strong'),
                         returnString('__weak'),
                         returnString('__unsafe_unretained'));
 }
 
-function toInstanceVariableString(property:ObjC.Property):string {
-  const propertyComments = property.comments.map(toCommentString).join('\n');
-  const propertyCommentsSection = codeSectionForCodeStringWithoutExtraSpace(propertyComments);
-  const memorySemantics:string = property.modifiers.map(toInstanceVariableModifierString).join(' ');
-  const typeString:string = renderableTypeReferenceNestingSubsequentToken(property.returnType.reference);
-  const name:string = '_' + property.name;
-  return propertyCommentsSection + (memorySemantics.length > 0 ? memorySemantics + ' ' : '') + typeString + name + ';';
+function toInstanceVariableString(instanceVariable:ObjC.InstanceVariable):string {
+  const instanceVariableComments = instanceVariable.comments.map(toCommentString).join('\n');
+  const instanceVariableCommentsSection = codeSectionForCodeStringWithoutExtraSpace(instanceVariableComments);
+  const memorySemantics:string = instanceVariable.modifiers.map(toInstanceVariableModifierString).join(' ');
+  const typeString:string = renderableTypeReferenceNestingSubsequentToken(instanceVariable.returnType.reference);
+  const name:string = '_' + instanceVariable.name;
+  return instanceVariableCommentsSection + (memorySemantics.length > 0 ? memorySemantics + ' ' : '') + typeString + name + ';';
 }
 
 function toDiagnosticIgnoreString(diagnosticIgnore:string):string {

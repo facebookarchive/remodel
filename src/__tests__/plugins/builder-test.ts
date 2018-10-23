@@ -554,7 +554,7 @@ describe('Plugins.Builder', function() {
                     reference: 'NSUInteger'
                   },
                   modifiers: [],
-                  access: ObjC.PropertyAccess.Private()
+                  access: ObjC.InstanceVariableAccess.Private()
                 },
                 {
                   comments:[],
@@ -564,7 +564,7 @@ describe('Plugins.Builder', function() {
                     reference: 'RMCustomObject *'
                   },
                   modifiers: [],
-                  access: ObjC.PropertyAccess.Private()
+                  access: ObjC.InstanceVariableAccess.Private()
                 },
                 {
                   comments:[],
@@ -574,7 +574,7 @@ describe('Plugins.Builder', function() {
                     reference: 'BOOL'
                   },
                   modifiers: [],
-                  access: ObjC.PropertyAccess.Private()
+                  access: ObjC.InstanceVariableAccess.Private()
                 }
               ],
               implementedProtocols: [],
@@ -854,7 +854,7 @@ describe('Plugins.Builder', function() {
                     reference: 'NSUInteger'
                   },
                   modifiers: [],
-                  access: ObjC.PropertyAccess.Private()
+                  access: ObjC.InstanceVariableAccess.Private()
                 },
                 {
                   comments:[],
@@ -864,7 +864,7 @@ describe('Plugins.Builder', function() {
                     reference: 'RMCustomObject *'
                   },
                   modifiers: [],
-                  access: ObjC.PropertyAccess.Private()
+                  access: ObjC.InstanceVariableAccess.Private()
                 },
                 {
                   comments:[],
@@ -874,7 +874,7 @@ describe('Plugins.Builder', function() {
                     reference: 'BOOL'
                   },
                   modifiers: [],
-                  access: ObjC.PropertyAccess.Private()
+                  access: ObjC.InstanceVariableAccess.Private()
                 }
               ],
               implementedProtocols: [],

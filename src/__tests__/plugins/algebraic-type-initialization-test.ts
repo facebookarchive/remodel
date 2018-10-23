@@ -450,7 +450,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
     });
   });
 
-  describe('#internalProperties', function() {
+  describe('#instanceVariables', function() {
     it('returns internal properties for storing the subtypes attributes as well ' +
        'as the type', function() {
       const algebraicType:AlgebraicType.Type = {
@@ -515,8 +515,8 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
         ]
       };
 
-      const internalProperties:ObjC.Property[] = AlgebraicTypePlugin.internalProperties(algebraicType);
-      const expectedInternalProperties:ObjC.Property[] = [
+      const instanceVariables:ObjC.Property[] = AlgebraicTypePlugin.instanceVariables(algebraicType);
+      const expectedInstanceVariables:ObjC.Property[] = [
         {
           comments:[],
           name:'subtype',
@@ -558,7 +558,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
           access: ObjC.PropertyAccess.Private()
         }
       ];
-      expect(internalProperties).toEqualJSON(expectedInternalProperties);
+      expect(instanceVariables).toEqualJSON(expectedInstanceVariables);
     });
   });
 

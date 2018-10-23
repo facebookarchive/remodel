@@ -36,7 +36,7 @@ function nameOfKeywordParameterForAttribute(attribute:AlgebraicType.SubtypeAttri
 }
 
 function internalValueSettingCodeForAttribute(subtype:AlgebraicType.Subtype, attribute:AlgebraicType.SubtypeAttribute):string {
-  return nameOfObjectWithinInitializer() + '->' + AlgebraicTypeUtils.valueAccessorForInternalPropertyForAttribute(subtype, attribute) + ' = ' + nameOfKeywordParameterForAttribute(attribute) + ';';
+  return nameOfObjectWithinInitializer() + '->' + AlgebraicTypeUtils.valueAccessorForInstanceVariableForAttribute(subtype, attribute) + ' = ' + nameOfKeywordParameterForAttribute(attribute) + ';';
 }
 
 function keywordArgumentFromAttribute(attribute:AlgebraicType.SubtypeAttribute):Maybe.Maybe<ObjC.KeywordArgument> {
@@ -115,7 +115,7 @@ function toRequiredAssertion(attribute:AlgebraicType.SubtypeAttribute):string {
 function initializationClassMethodForSubtype(algebraicType:AlgebraicType.Type, subtype:AlgebraicType.Subtype):ObjC.Method {
   const openingCode:string[] = [
     algebraicType.name + ' *' + nameOfObjectWithinInitializer() + ' = [(id)self new];',
-    nameOfObjectWithinInitializer() + '->' + AlgebraicTypeUtils.valueAccessorForInternalPropertyStoringSubtype() + ' = ' + AlgebraicTypeUtils.EnumerationValueNameForSubtype(algebraicType, subtype) + ';'
+    nameOfObjectWithinInitializer() + '->' + AlgebraicTypeUtils.valueAccessorForInstanceVariableStoringSubtype() + ' = ' + AlgebraicTypeUtils.EnumerationValueNameForSubtype(algebraicType, subtype) + ';'
   ];
   const assumeNonnull:boolean = algebraicType.includes.indexOf('RMAssumeNonnull') >= 0;
   const attributes:AlgebraicType.SubtypeAttribute[] = AlgebraicTypeUtils.attributesFromSubtype(subtype);
@@ -147,10 +147,10 @@ function internalImportForFileWithName(name:string):ObjC.Import {
   };
 }
 
-function internalPropertyForEnumeration(algebraicType:AlgebraicType.Type):ObjC.Property {
+function instanceVariableForEnumeration(algebraicType:AlgebraicType.Type):ObjC.Property {
   const enumerationName:string = AlgebraicTypeUtils.EnumerationNameForAlgebraicType(algebraicType);
   return {
-    name:AlgebraicTypeUtils.nameForInternalPropertyStoringSubtype(),
+    name:AlgebraicTypeUtils.nameForInstanceVariableStoringSubtype(),
     comments: [],
     returnType: {
       name:enumerationName,
@@ -161,9 +161,9 @@ function internalPropertyForEnumeration(algebraicType:AlgebraicType.Type):ObjC.P
   };
 }
 
-function internalPropertyFromAttribute(subtype:AlgebraicType.Subtype, attribute:AlgebraicType.SubtypeAttribute):ObjC.Property {
+function instanceVariableFromAttribute(subtype:AlgebraicType.Subtype, attribute:AlgebraicType.SubtypeAttribute):ObjC.Property {
   return {
-    name: AlgebraicTypeUtils.nameOfInternalPropertyForAttribute(subtype, attribute),
+    name: AlgebraicTypeUtils.nameOfInstanceVariableForAttribute(subtype, attribute),
     comments: [],
     returnType: {
       name:attribute.type.name,
@@ -174,9 +174,9 @@ function internalPropertyFromAttribute(subtype:AlgebraicType.Subtype, attribute:
   };
 }
 
-function internalPropertiesForImplementationOfAlgebraicType(algebraicType:AlgebraicType.Type):ObjC.Property[] {
-  const enumerationProperty:ObjC.Property = internalPropertyForEnumeration(algebraicType);
-  const attributeProperties:ObjC.Property[] = AlgebraicTypeUtils.mapAttributesWithSubtypeFromSubtypes(algebraicType.subtypes, internalPropertyFromAttribute);
+function instanceVariablesForImplementationOfAlgebraicType(algebraicType:AlgebraicType.Type):ObjC.Property[] {
+  const enumerationProperty:ObjC.Property = instanceVariableForEnumeration(algebraicType);
+  const attributeProperties:ObjC.Property[] = AlgebraicTypeUtils.mapAttributesWithSubtypeFromSubtypes(algebraicType.subtypes, instanceVariableFromAttribute);
   return [enumerationProperty].concat(attributeProperties);
 }
 
@@ -319,8 +319,8 @@ export function createAlgebraicTypePlugin():AlgebraicType.Plugin {
     instanceMethods: function(algebraicType:AlgebraicType.Type):ObjC.Method[] {
       return [];
     },
-    internalProperties: function(algebraicType:AlgebraicType.Type):ObjC.Property[] {
-      return internalPropertiesForImplementationOfAlgebraicType(algebraicType);
+    instanceVariables: function(algebraicType:AlgebraicType.Type):ObjC.Property[] {
+      return instanceVariablesForImplementationOfAlgebraicType(algebraicType);
     },
     macros: function(algebraicType:AlgebraicType.Type):ObjC.Macro[] {
       return [];

@@ -1083,13 +1083,13 @@ function generatedTypeEqualityInformationForSubtypeAttributeForAlgebraicType(alg
     reference: 'NSUInteger'
   };
   const generationGroup:TypeEqualityGenerationGroup = generationGroupForType(type);
-  return generatedTypeEqualityInformationForGenerationGroup(generationGroup, AlgebraicTypeUtils.valueAccessorForInternalPropertyStoringSubtype());
+  return generatedTypeEqualityInformationForGenerationGroup(generationGroup, AlgebraicTypeUtils.valueAccessorForInstanceVariableStoringSubtype());
 }
 
 function generatedTypeEqualityInformationForAlgebraicSubtypeAttribute(subtype:AlgebraicType.Subtype, attribute:AlgebraicType.SubtypeAttribute):GeneratedTypeEqualityInformation {
   const type:ObjC.Type = AlgebraicTypeUtils.computeTypeOfAttribute(attribute);
   const generationGroup:TypeEqualityGenerationGroup = generationGroupForType(type);
-  return generatedTypeEqualityInformationForGenerationGroup(generationGroup, AlgebraicTypeUtils.valueAccessorForInternalPropertyForAttribute(subtype, attribute));
+  return generatedTypeEqualityInformationForGenerationGroup(generationGroup, AlgebraicTypeUtils.valueAccessorForInstanceVariableForAttribute(subtype, attribute));
 }
 
 function generatedTypeEqualityInformationForAlgebraicType(algebraicType:AlgebraicType.Type):GeneratedTypeEqualityInformation[] {
@@ -1155,7 +1155,7 @@ export function createAlgebraicTypePlugin():AlgebraicType.Plugin {
         hashInstanceMethod(generatedTypeEqualityInformation)
       ];
     },
-    internalProperties: function(algebraicType:AlgebraicType.Type):ObjC.Property[] {
+    instanceVariables: function(algebraicType:AlgebraicType.Type):ObjC.Property[] {
       return [];
     },
     macros: function(algebraicType:AlgebraicType.Type):ObjC.Macro[] {

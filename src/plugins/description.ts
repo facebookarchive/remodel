@@ -358,7 +358,7 @@ export function createPlugin():ObjectSpec.Plugin {
 
 function computedAttributeDescriptionFromAlgebraicSubtypeAttribute(subtype:AlgebraicType.Subtype, attribute:AlgebraicType.SubtypeAttribute):ComputedAttributeDescription {
   const attributeDescription:AttributeDescription = attributeDescriptionForType(AlgebraicTypeUtils.computeTypeOfAttribute(attribute));
-  return computedAttributeDescriptionFromAttributeDescription(attributeDescription, attribute.name, AlgebraicTypeUtils.valueAccessorForInternalPropertyForAttribute(subtype, attribute));
+  return computedAttributeDescriptionFromAttributeDescription(attributeDescription, attribute.name, AlgebraicTypeUtils.valueAccessorForInstanceVariableForAttribute(subtype, attribute));
 }
 
 function returnStatementForAlgebraicSubtype(algebraicType:AlgebraicType.Type, subtype:AlgebraicType.Subtype):string[] {
@@ -374,7 +374,7 @@ function returnStatementForAlgebraicSubtype(algebraicType:AlgebraicType.Type, su
 }
 
 function descriptionInstanceMethodCodeForAlgebraicType(algebraicType:AlgebraicType.Type):string[] {
-  return AlgebraicTypeUtils.codeForSwitchingOnSubtypeWithSubtypeMapper(algebraicType, AlgebraicTypeUtils.valueAccessorForInternalPropertyStoringSubtype(), returnStatementForAlgebraicSubtype);
+  return AlgebraicTypeUtils.codeForSwitchingOnSubtypeWithSubtypeMapper(algebraicType, AlgebraicTypeUtils.valueAccessorForInstanceVariableStoringSubtype(), returnStatementForAlgebraicSubtype);
 }
 
 function doesAlgebraicAttributeContainAnUnknownType(attribute:AlgebraicType.SubtypeAttribute):boolean {
@@ -431,7 +431,7 @@ export function createAlgebraicTypePlugin():AlgebraicType.Plugin {
       const code:string[] = descriptionInstanceMethodCodeForAlgebraicType(algebraicType);
       return [descriptionInstanceMethodWithCode(code)];
     },
-    internalProperties: function(algebraicType:AlgebraicType.Type):ObjC.Property[] {
+    instanceVariables: function(algebraicType:AlgebraicType.Type):ObjC.Property[] {
       return [];
     },
     macros: function(algebraicType:AlgebraicType.Type):ObjC.Macro[] {

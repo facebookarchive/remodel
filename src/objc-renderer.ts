@@ -404,8 +404,8 @@ function toNamespaceContents(namespace:CPlusPlus.Namespace):string {
   return [namespaceDeclaration].concat(namespace.templates.map(toTemplateContents).reduce(buildTemplateContents, []).map(StringUtils.indent(2))).concat(endNamespaceDeclaration).join('\n');
 }
 
-function headerNeedsToIncludeInternalProperty(internalProperty:ObjC.Property):boolean {
-  return internalProperty.access.match(function privateAccess():boolean {
+function headerNeedsToIncludeInstanceVariable(instanceVariable:ObjC.Property):boolean {
+  return instanceVariable.access.match(function privateAccess():boolean {
     return false;
   }, function packageAccess():boolean {
     return true;
@@ -414,8 +414,8 @@ function headerNeedsToIncludeInternalProperty(internalProperty:ObjC.Property):bo
   });
 }
 
-function implementationNeedsToIncludeInternalProperty(internalProperty:ObjC.Property):boolean {
-  return !headerNeedsToIncludeInternalProperty(internalProperty);
+function implementationNeedsToIncludeInstanceVariable(instanceVariable:ObjC.Property):boolean {
+  return !headerNeedsToIncludeInstanceVariable(instanceVariable);
 }
 
 function accessIdentifierForAccess(propertyAccess:ObjC.PropertyAccess):string {
@@ -428,8 +428,8 @@ function accessIdentifierForAccess(propertyAccess:ObjC.PropertyAccess):string {
   });
 }
 
-function buildInternalPropertiesContainingAccessIdentifiers(soFar:string[], internalProperty:ObjC.Property):string[] {
-  return soFar.concat([accessIdentifierForAccess(internalProperty.access), toInternalPropertyString(internalProperty)]);
+function buildInstanceVariablesContainingAccessIdentifiers(soFar:string[], instanceVariable:ObjC.Property):string[] {
+  return soFar.concat([accessIdentifierForAccess(instanceVariable.access), toInstanceVariableString(instanceVariable)]);
 }
 
 function headerClassSection(file:Code.File, classInfo:ObjC.Class):string {
@@ -447,8 +447,8 @@ function headerClassSection(file:Code.File, classInfo:ObjC.Class):string {
   const subclassingRestrictedStr = classInfo.subclassingRestricted ? '__attribute__((objc_subclassing_restricted)) \n' : '';
   const classSection = '@interface ' + classInfo.name + covariantTypesStr + ' : ' + classInfo.baseClassName + protocolsStr;
 
-  const internalPropertiesStr:string = classInfo.internalProperties.filter(headerNeedsToIncludeInternalProperty).reduce(buildInternalPropertiesContainingAccessIdentifiers, []).map(StringUtils.indent(2)).join('\n');
-  const internalPropertiesSection:string = internalPropertiesStr !== '' ? '{\n' + internalPropertiesStr + '\n}\n\n' : '\n';
+  const instanceVariablesStr:string = classInfo.instanceVariables.filter(headerNeedsToIncludeInstanceVariable).reduce(buildInstanceVariablesContainingAccessIdentifiers, []).map(StringUtils.indent(2)).join('\n');
+  const instanceVariablesSection:string = instanceVariablesStr !== '' ? '{\n' + instanceVariablesStr + '\n}\n\n' : '\n';
 
   const propertiesStr = classInfo.properties.map(toPropertyString).join('\n');
   const propertiesSection = codeSectionForCodeString(propertiesStr);
@@ -468,7 +468,7 @@ function headerClassSection(file:Code.File, classInfo:ObjC.Class):string {
   const postfixClassMacrosStr:string = macros.map(toPostfixMacroString).join('\n');
   const postfixClassMacrosSection:string = postfixClassMacrosStr !== '' ? '\n\n' + postfixClassMacrosStr : '';
 
-  return prefixClassMacrosSection + classCommentsSection + subclassingRestrictedStr + classSection + '\n' + internalPropertiesSection + propertiesSection + inlinedBlocksSection + classMethodsSection + instanceMethodsSection + '@end' + postfixClassMacrosSection;
+  return prefixClassMacrosSection + classCommentsSection + subclassingRestrictedStr + classSection + '\n' + instanceVariablesSection + propertiesSection + inlinedBlocksSection + classMethodsSection + instanceMethodsSection + '@end' + postfixClassMacrosSection;
 }
 
 function toDeclarationString(forwardDeclaration:ObjC.ForwardDeclaration) {
@@ -589,7 +589,7 @@ export function toFunctionImplementationString(functionDefinition:ObjC.Function)
     '\n}';
 }
 
-function toInternalPropertyModifierString(modifier:ObjC.PropertyModifier):string {
+function toInstanceVariableModifierString(modifier:ObjC.PropertyModifier):string {
   return modifier.match(returnString(''),
                         returnString(''),
                         returnString(''),
@@ -603,10 +603,10 @@ function toInternalPropertyModifierString(modifier:ObjC.PropertyModifier):string
                         returnString('__unsafe_unretained'));
 }
 
-function toInternalPropertyString(property:ObjC.Property):string {
+function toInstanceVariableString(property:ObjC.Property):string {
   const propertyComments = property.comments.map(toCommentString).join('\n');
   const propertyCommentsSection = codeSectionForCodeStringWithoutExtraSpace(propertyComments);
-  const memorySemantics:string = property.modifiers.map(toInternalPropertyModifierString).join(' ');
+  const memorySemantics:string = property.modifiers.map(toInstanceVariableModifierString).join(' ');
   const typeString:string = renderableTypeReferenceNestingSubsequentToken(property.returnType.reference);
   const name:string = '_' + property.name;
   return propertyCommentsSection + (memorySemantics.length > 0 ? memorySemantics + ' ' : '') + typeString + name + ';';
@@ -637,8 +637,8 @@ function implementationClassSection(classInfo:ObjC.Class):string {
   const prefixClassMacrosSection:string = prefixClassMacrosStr !== '' ? prefixClassMacrosStr + '\n\n' : '';
 
   const classSection:string = '@implementation ' + classInfo.name + '\n';
-  const internalPropertiesStr:string = classInfo.internalProperties.filter(implementationNeedsToIncludeInternalProperty).map(toInternalPropertyString).map(StringUtils.indent(2)).join('\n');
-  const internalPropertiesSection:string = internalPropertiesStr !== '' ? '{\n' + internalPropertiesStr + '\n}\n\n' : '\n';
+  const instanceVariablesStr:string = classInfo.instanceVariables.filter(implementationNeedsToIncludeInstanceVariable).map(toInstanceVariableString).map(StringUtils.indent(2)).join('\n');
+  const instanceVariablesSection:string = instanceVariablesStr !== '' ? '{\n' + instanceVariablesStr + '\n}\n\n' : '\n';
   const classMethodsStr:string = classInfo.classMethods.filter(methodIsNotUnavailableNSObjectMethod).map(FunctionUtils.pApplyf2(classInfo.covariantTypes, toClassMethodImplementationString)).join('\n\n');
   const classMethodsSection = codeSectionForCodeString(classMethodsStr);
   const instanceMethodsSection = classInfo.instanceMethods.filter(methodIsNotUnavailableNSObjectMethod).map(FunctionUtils.pApplyf2(classInfo.covariantTypes, toInstanceMethodImplementationString)).join('\n\n');
@@ -646,7 +646,7 @@ function implementationClassSection(classInfo:ObjC.Class):string {
   const postfixClassMacrosStr:string = macros.map(toPostfixMacroString).join('\n');
   const postfixClassMacrosSection:string = postfixClassMacrosStr !== '' ? '\n\n' + postfixClassMacrosStr : '';
 
-  return prefixClassMacrosSection + classSection + internalPropertiesSection + classMethodsSection + instanceMethodsSection + '\n\n@end' + postfixClassMacrosSection;
+  return prefixClassMacrosSection + classSection + instanceVariablesSection + classMethodsSection + instanceMethodsSection + '\n\n@end' + postfixClassMacrosSection;
 }
 
 function codeSectionForCodeString(codeStr:string):string {
@@ -664,7 +664,7 @@ function importIsPublic(isPublic:boolean):(importToCheck:ObjC.Import) => boolean
 }
 
 function willHaveImplementationForClass(classInfo:ObjC.Class):boolean {
-  return classInfo.classMethods.length > 0 || classInfo.instanceMethods.length > 0 || classInfo.internalProperties.filter(implementationNeedsToIncludeInternalProperty).length > 0;
+  return classInfo.classMethods.length > 0 || classInfo.instanceMethods.length > 0 || classInfo.instanceVariables.filter(implementationNeedsToIncludeInstanceVariable).length > 0;
 }
 
 function willHaveImplementationForFunction(func:ObjC.Function):boolean {

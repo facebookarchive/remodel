@@ -93,7 +93,7 @@ export interface Plugin {
   implementedProtocols: (algebraicType:Type) => ObjC.Protocol[];
   imports: (algebraicType:Type) => ObjC.Import[];
   instanceMethods: (algebraicType:Type) => ObjC.Method[];
-  internalProperties: (algebraicType:Type) => ObjC.Property[];
+  instanceVariables: (algebraicType:Type) => ObjC.Property[];
   macros: (algebraicType:Type) => ObjC.Macro[];
   requiredIncludesToRun:string[];
   staticConstants: (algebraicType:Type) => ObjC.Constant[];

@@ -535,10 +535,10 @@ function codeableAttributeForAlgebraicSubtypeAttribute(subtype:AlgebraicType.Sub
       return StringUtils.capitalize(attribute.name);
     });
 
-  const name = AlgebraicTypeUtils.nameOfInternalPropertyForAttribute(subtype, attribute);
+  const name = AlgebraicTypeUtils.nameOfInstanceVariableForAttribute(subtype, attribute);
   return {
     name: name,
-    valueAccessor: AlgebraicTypeUtils.valueAccessorForInternalPropertyForAttribute(subtype, attribute),
+    valueAccessor: AlgebraicTypeUtils.valueAccessorForInstanceVariableForAttribute(subtype, attribute),
     constantName: nameOfConstantForValueName(valueName),
     constantValue: constantValueForAttributeName(name),
     legacyKeyNames: legacyCodingKeyNamesForAttribute(attribute),
@@ -557,7 +557,7 @@ function decodeStatementsForAlgebraicSubtype(algebraicType:AlgebraicType.Type, s
 }
 
 function decodedStatementForSubtypeProperty(algebraicType:AlgebraicType.Type, subtype:AlgebraicType.Subtype):string {
-  return AlgebraicTypeUtils.valueAccessorForInternalPropertyStoringSubtype() + ' = ' + AlgebraicTypeUtils.EnumerationValueNameForSubtype(algebraicType, subtype) + ';';
+  return AlgebraicTypeUtils.valueAccessorForInstanceVariableStoringSubtype() + ' = ' + AlgebraicTypeUtils.EnumerationValueNameForSubtype(algebraicType, subtype) + ';';
 }
 
 function decodeCodeForAlgebraicType(algebraicType:AlgebraicType.Type):string[] {
@@ -583,7 +583,7 @@ function encodeStatementsForAlgebraicSubtype(algebraicType:AlgebraicType.Type, s
 }
 
 function encodeCodeForAlgebraicType(algebraicType:AlgebraicType.Type):string[] {
-  return AlgebraicTypeUtils.codeForSwitchingOnSubtypeWithSubtypeMapper(algebraicType, AlgebraicTypeUtils.valueAccessorForInternalPropertyStoringSubtype(), encodeStatementsForAlgebraicSubtype);
+  return AlgebraicTypeUtils.codeForSwitchingOnSubtypeWithSubtypeMapper(algebraicType, AlgebraicTypeUtils.valueAccessorForInstanceVariableStoringSubtype(), encodeStatementsForAlgebraicSubtype);
 }
 
 function doesAlgebraicAttributeContainAnUnknownType(attribute:AlgebraicType.SubtypeAttribute):boolean {
@@ -680,7 +680,7 @@ export function createAlgebraicTypePlugin():AlgebraicType.Plugin {
         encodeMethodWithCode(encodeCode)
       ];
     },
-    internalProperties: function(algebraicType:AlgebraicType.Type):ObjC.Property[] {
+    instanceVariables: function(algebraicType:AlgebraicType.Type):ObjC.Property[] {
       return [];
     },
     macros: function(algebraicType:AlgebraicType.Type):ObjC.Macro[] {

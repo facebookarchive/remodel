@@ -407,7 +407,7 @@ export interface Class {
   instanceMethods:Method[];
   name:string;
   properties:Property[];
-  internalProperties:Property[];
+  instanceVariables:Property[];
   implementedProtocols:Protocol[];
   nullability:ClassNullability;
   subclassingRestricted:boolean;

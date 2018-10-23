@@ -66,7 +66,7 @@ function createObjectSpecObjCPlugIn(plugin:ObjectSpec.Plugin) : ObjectSpecObjCPl
       return plugin.imports(typeInformation);
     },
 
-    internalProperties: function(typeInformation:ObjectSpec.Type):ObjC.Property[] {
+    instanceVariables: function(typeInformation:ObjectSpec.Type):ObjC.Property[] {
       return [];
     },
 

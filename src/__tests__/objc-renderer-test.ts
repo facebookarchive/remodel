@@ -170,7 +170,7 @@ describe('ObjCRenderer', function() {
                 }
               }
             ],
-            internalProperties:[
+            instanceVariables:[
               {
                 comments:[],
                 modifiers:[],
@@ -407,7 +407,7 @@ describe('ObjCRenderer', function() {
                 }
               }
             ],
-            internalProperties:[
+            instanceVariables:[
               {
                 comments:[],
                 modifiers:[],
@@ -619,7 +619,7 @@ describe('ObjCRenderer', function() {
                 }
               }
             ],
-            internalProperties:[
+            instanceVariables:[
               {
                 comments:[],
                 modifiers:[],
@@ -810,7 +810,7 @@ describe('ObjCRenderer', function() {
                 }
               }
             ],
-            internalProperties:[],
+            instanceVariables:[],
             implementedProtocols: [],
             nullability: ObjC.ClassNullability.default,
             subclassingRestricted: false,
@@ -929,7 +929,7 @@ describe('ObjCRenderer', function() {
             ],
             name:'RMSomeValue',
             properties: [],
-            internalProperties:[],
+            instanceVariables:[],
             implementedProtocols: [],
             nullability: ObjC.ClassNullability.default,
             subclassingRestricted: false,
@@ -1051,7 +1051,7 @@ describe('ObjCRenderer', function() {
             ],
             name:'RMSomeValue',
             properties: [],
-            internalProperties:[],
+            instanceVariables:[],
             implementedProtocols: [],
             nullability: ObjC.ClassNullability.default,
             subclassingRestricted: false,
@@ -1132,7 +1132,7 @@ describe('ObjCRenderer', function() {
                 }
               }
             ],
-            internalProperties:[],
+            instanceVariables:[],
             implementedProtocols: [],
             nullability: ObjC.ClassNullability.default,
             subclassingRestricted: false,
@@ -1248,7 +1248,7 @@ describe('ObjCRenderer', function() {
             instanceMethods: [],
             name:'RMSomeValue',
             properties: [],
-            internalProperties:[],
+            instanceVariables:[],
             implementedProtocols: [],
             nullability: ObjC.ClassNullability.default,
             subclassingRestricted: false,
@@ -1324,7 +1324,7 @@ describe('ObjCRenderer', function() {
           instanceMethods: [],
           name:'RMSomeValue',
           properties: [],
-          internalProperties:[],
+          instanceVariables:[],
           implementedProtocols: [],
           nullability: ObjC.ClassNullability.default,
           subclassingRestricted: false,
@@ -1427,7 +1427,7 @@ describe('ObjCRenderer', function() {
           instanceMethods: [],
           name:'RMSomeValue',
           properties: [],
-          internalProperties:[],
+          instanceVariables:[],
           implementedProtocols: [],
           nullability: ObjC.ClassNullability.default,
           subclassingRestricted: false,
@@ -1497,7 +1497,7 @@ describe('ObjCRenderer', function() {
             instanceMethods: [],
             name:'RMSomeValue',
             properties: [],
-            internalProperties:[],
+            instanceVariables:[],
             implementedProtocols: [],
             nullability: ObjC.ClassNullability.default,
             subclassingRestricted: false,
@@ -1573,7 +1573,7 @@ describe('ObjCRenderer', function() {
               }
             }
           ],
-          internalProperties:[],
+          instanceVariables:[],
           implementedProtocols: [
             {
               name: 'NSCoding'
@@ -1661,7 +1661,7 @@ describe('ObjCRenderer', function() {
               }
             }
           ],
-          internalProperties:[],
+          instanceVariables:[],
           implementedProtocols: [
             {
               name: 'NSCoding'
@@ -1765,7 +1765,7 @@ describe('ObjCRenderer', function() {
                 }
               }
             ],
-            internalProperties:[],
+            instanceVariables:[],
             implementedProtocols: [],
             nullability: ObjC.ClassNullability.default,
             subclassingRestricted: false,
@@ -1942,7 +1942,7 @@ describe('ObjCRenderer', function() {
                 }
               }
             ],
-            internalProperties:[],
+            instanceVariables:[],
             implementedProtocols:[],
             nullability: ObjC.ClassNullability.default,
             subclassingRestricted: false,
@@ -2058,7 +2058,7 @@ describe('ObjCRenderer', function() {
                 }
               }
             ],
-            internalProperties:[],
+            instanceVariables:[],
             implementedProtocols:[],
             nullability: ObjC.ClassNullability.default,
             subclassingRestricted: false,
@@ -2150,7 +2150,7 @@ describe('ObjCRenderer', function() {
             instanceMethods: [],
             name:'RMSomeValue',
             properties: [],
-            internalProperties:[],
+            instanceVariables:[],
             implementedProtocols: [],
             nullability: ObjC.ClassNullability.default,
             subclassingRestricted: false,
@@ -2231,7 +2231,7 @@ describe('ObjCRenderer', function() {
             ],
             name:'RMSomeValue',
             properties: [],
-            internalProperties:[],
+            instanceVariables:[],
             implementedProtocols: [],
             nullability: ObjC.ClassNullability.default,
             subclassingRestricted: false,
@@ -2299,7 +2299,7 @@ describe('ObjCRenderer', function() {
                 }
               }
             ],
-            internalProperties:[
+            instanceVariables:[
             ],
             implementedProtocols: [
               {
@@ -2468,7 +2468,7 @@ describe('ObjCRenderer', function() {
                 }
               }
             ],
-            internalProperties:[
+            instanceVariables:[
               {
                 comments:[],
                 modifiers:[],
@@ -2687,7 +2687,7 @@ describe('ObjCRenderer', function() {
             }
           }
           ],
-          internalProperties:[],
+          instanceVariables:[],
           implementedProtocols: [],
           nullability: ObjC.ClassNullability.default,
           subclassingRestricted: false,
@@ -2872,7 +2872,7 @@ describe('ObjCRenderer', function() {
                 }
               }
             ],
-            internalProperties:[
+            instanceVariables:[
               {
                 comments:[],
                 modifiers:[],
@@ -3053,7 +3053,7 @@ describe('ObjCRenderer', function() {
           instanceMethods: [],
           name:'RMSomeValue',
           properties: [],
-          internalProperties:[],
+          instanceVariables:[],
           implementedProtocols: [],
           nullability: ObjC.ClassNullability.default,
           subclassingRestricted: false,
@@ -3158,7 +3158,7 @@ describe('ObjCRenderer', function() {
             instanceMethods: [],
             name:'RMSomeValue',
             properties: [],
-            internalProperties:[],
+            instanceVariables:[],
             implementedProtocols: [],
             nullability: ObjC.ClassNullability.default,
             subclassingRestricted: false,
@@ -3244,7 +3244,7 @@ describe('ObjCRenderer', function() {
             ],
             name:'RMSomeValue',
             properties: [],
-            internalProperties:[],
+            instanceVariables:[],
             implementedProtocols: [],
             nullability: ObjC.ClassNullability.default,
             subclassingRestricted: false,
@@ -3315,7 +3315,7 @@ describe('ObjCRenderer', function() {
           instanceMethods: [],
           name:'RMSomeValue',
           properties: [],
-          internalProperties:[],
+          instanceVariables:[],
           implementedProtocols: [],
           nullability: ObjC.ClassNullability.default,
           subclassingRestricted: false,
@@ -3539,7 +3539,7 @@ describe('ObjCRenderer', function() {
           instanceMethods: [],
           name:'RMSomeValue',
           properties: [],
-          internalProperties:[],
+          instanceVariables:[],
           implementedProtocols: [],
           nullability: ObjC.ClassNullability.default,
           subclassingRestricted: false,
@@ -3580,7 +3580,7 @@ describe('ObjCRenderer', function() {
           instanceMethods: [],
           name:'RMSomeValue',
           properties: [],
-          internalProperties:[
+          instanceVariables:[
             {
               comments:[],
               modifiers:[],
@@ -3729,7 +3729,7 @@ static int RMSomeFunction(BOOL parameter) {
           instanceMethods:[],
           name:'RMSomeValue',
           properties: [],
-          internalProperties: [],
+          instanceVariables: [],
           implementedProtocols: [{name: 'RMTestProtocol'}],
           nullability:ObjC.ClassNullability.default,
           subclassingRestricted:true,

@@ -112,7 +112,7 @@ function genericMatchingClassForAlgebraicType(algebraicType:AlgebraicType.Type):
     instanceMethods: [],
     name: fileNameForAlgebraicType(algebraicType),
     properties: [],
-    internalProperties:[],
+    instanceVariables:[],
     implementedProtocols: [],
     nullability:ObjC.ClassNullability.default,
     subclassingRestricted: true,
@@ -178,7 +178,7 @@ export function createAlgebraicTypePlugin():AlgebraicType.Plugin {
     instanceMethods: function(algebraicType:AlgebraicType.Type):ObjC.Method[] {
       return [];
     },
-    internalProperties: function(algebraicType:AlgebraicType.Type):ObjC.Property[] {
+    instanceVariables: function(algebraicType:AlgebraicType.Type):ObjC.Property[] {
       return [];
     },
     macros: function(algebraicType:AlgebraicType.Type):ObjC.Macro[] {

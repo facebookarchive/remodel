@@ -207,7 +207,7 @@ describe('ObjectSpecCreation', function() {
                   name:'FooMore',
                   comments: [],
                   properties: [],
-                  internalProperties:[],
+                  instanceVariables:[],
                   implementedProtocols: [],
                   nullability: ObjC.ClassNullability.default,
                   subclassingRestricted: false,

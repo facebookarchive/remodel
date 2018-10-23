@@ -140,7 +140,7 @@ describe('Plugins.Builder', function() {
               ],
               name:'FooBarBazBuilder',
               properties: [],
-              internalProperties: [],
+              instanceVariables: [],
               implementedProtocols: [],
               nullability: ObjC.ClassNullability.default,
               subclassingRestricted: false,
@@ -276,7 +276,7 @@ describe('Plugins.Builder', function() {
               ],
               name:'RMFerrBuilder',
               properties: [],
-              internalProperties: [],
+              instanceVariables: [],
               implementedProtocols: [],
               nullability: ObjC.ClassNullability.default,
               subclassingRestricted: false,
@@ -545,7 +545,7 @@ describe('Plugins.Builder', function() {
               ],
               name:'RMFerrBuilder',
               properties: [],
-              internalProperties: [
+              instanceVariables: [
                 {
                   comments:[],
                   name: 'someUnsignedInteger',
@@ -845,7 +845,7 @@ describe('Plugins.Builder', function() {
               ],
               name:'RMFerrBuilder',
               properties: [],
-              internalProperties: [
+              instanceVariables: [
                 {
                   comments:[],
                   name: 'someUnsignedInteger',

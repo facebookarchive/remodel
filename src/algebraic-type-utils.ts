@@ -17,12 +17,12 @@ export interface MatchingBlockType {
   defaultValue:string;
 }
 
-export function nameForInternalPropertyStoringSubtype():string {
+export function nameForInstanceVariableStoringSubtype():string {
   return 'subtype';
 }
 
-export function valueAccessorForInternalPropertyStoringSubtype():string {
-  return '_' + nameForInternalPropertyStoringSubtype();
+export function valueAccessorForInstanceVariableStoringSubtype():string {
+  return '_' + nameForInstanceVariableStoringSubtype();
 }
 
 export function attributesFromSubtype(subtype:AlgebraicType.Subtype):AlgebraicType.SubtypeAttribute[] {
@@ -75,7 +75,7 @@ export function computeTypeOfAttribute(attribute:AlgebraicType.SubtypeAttribute)
   }, attribute.type.underlyingType);
 }
 
-export function nameOfInternalPropertyForAttribute(subtype:AlgebraicType.Subtype, attribute:AlgebraicType.SubtypeAttribute):string {
+export function nameOfInstanceVariableForAttribute(subtype:AlgebraicType.Subtype, attribute:AlgebraicType.SubtypeAttribute):string {
   return subtype.match(
     function(namedAttributeCollectionSubtype:AlgebraicType.NamedAttributeCollectionSubtype) {
       return StringUtils.lowercased(namedAttributeCollectionSubtype.name) + '_' + StringUtils.lowercased(attribute.name);
@@ -85,8 +85,8 @@ export function nameOfInternalPropertyForAttribute(subtype:AlgebraicType.Subtype
     });
 }
 
-export function valueAccessorForInternalPropertyForAttribute(subtype:AlgebraicType.Subtype, attribute:AlgebraicType.SubtypeAttribute):string {
-  return '_' + nameOfInternalPropertyForAttribute(subtype, attribute);
+export function valueAccessorForInstanceVariableForAttribute(subtype:AlgebraicType.Subtype, attribute:AlgebraicType.SubtypeAttribute):string {
+  return '_' + nameOfInstanceVariableForAttribute(subtype, attribute);
 }
 
 export function EnumerationNameForAlgebraicType(algebraicType:AlgebraicType.Type):string {
@@ -234,18 +234,18 @@ function resultReturningBlockInvocationWithNilCheckForSubtype(algebraicType:Alge
 }
 
 function blockInvocationForSubtype(algebraicType:AlgebraicType.Type, subtype:AlgebraicType.Subtype):string {
-  return blockParameterNameForMatchMethodFromSubtype(subtype) + '(' + attributesFromSubtype(subtype).map(FunctionUtils.pApplyf2(subtype, valueAccessorForInternalPropertyForAttribute)).join(', ') + ');';
+  return blockParameterNameForMatchMethodFromSubtype(subtype) + '(' + attributesFromSubtype(subtype).map(FunctionUtils.pApplyf2(subtype, valueAccessorForInstanceVariableForAttribute)).join(', ') + ');';
 }
 
 function matcherCodeForAlgebraicType(algebraicType:AlgebraicType.Type, matchingBlockType:Maybe.Maybe<MatchingBlockType>):string[] {
   return Maybe.match(function Just(matchingBlockType:MatchingBlockType) {
-                       const switchStatement:string[] = codeForSwitchingOnSubtypeWithSubtypeMapper(algebraicType, valueAccessorForInternalPropertyStoringSubtype(), resultReturningBlockInvocationWithNilCheckForSubtype);
+                       const switchStatement:string[] = codeForSwitchingOnSubtypeWithSubtypeMapper(algebraicType, valueAccessorForInstanceVariableStoringSubtype(), resultReturningBlockInvocationWithNilCheckForSubtype);
                        return ['__block ' + matchingBlockType.underlyingType + ' result = ' + matchingBlockType.defaultValue + ';']
                                 .concat(switchStatement)
                                 .concat('return result;');
                      },
                      function Nothing() {
-                       return codeForSwitchingOnSubtypeWithSubtypeMapper(algebraicType, valueAccessorForInternalPropertyStoringSubtype(), blockInvocationWithNilCheckForSubtype);
+                       return codeForSwitchingOnSubtypeWithSubtypeMapper(algebraicType, valueAccessorForInstanceVariableStoringSubtype(), blockInvocationWithNilCheckForSubtype);
                      },
                      matchingBlockType);
 }

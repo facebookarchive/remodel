@@ -149,7 +149,7 @@ export function createAlgebraicTypePlugin():AlgebraicType.Plugin {
     instanceMethods: function(algebraicType:AlgebraicType.Type):ObjC.Method[] {
       return [copyInstanceMethod()];
     },
-    internalProperties: function(algebraicType:AlgebraicType.Type):ObjC.Property[] {
+    instanceVariables: function(algebraicType:AlgebraicType.Type):ObjC.Property[] {
       return [];
     },
     macros: function(algebraicType:AlgebraicType.Type):ObjC.Macro[] {

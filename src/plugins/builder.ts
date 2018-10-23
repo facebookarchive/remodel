@@ -201,7 +201,7 @@ function withInstanceMethodForAttribute(supportsValueSemantics:boolean, attribut
   };
 }
 
-function internalPropertyForAttribute(attribute:ObjectSpec.Attribute):ObjC.Property {
+function instanceVariableForAttribute(attribute:ObjectSpec.Attribute):ObjC.Property {
   return {
     name: attribute.name,
     comments: [],
@@ -323,7 +323,7 @@ function builderFileForValueType(objectType:ObjectSpec.Type):Code.File {
         instanceMethods: [buildObjectInstanceMethodForValueType(objectType)].concat(objectType.attributes.map(FunctionUtils.pApplyf2(ObjectSpecUtils.typeSupportsValueObjectSemantics(objectType), withInstanceMethodForAttribute))),
         name: nameOfBuilderForValueTypeWithName(objectType.typeName),
         properties: [],
-        internalProperties:objectType.attributes.map(internalPropertyForAttribute),
+        instanceVariables:objectType.attributes.map(instanceVariableForAttribute),
         implementedProtocols: [],
         nullability:ObjC.ClassNullability.default,
         subclassingRestricted: false,

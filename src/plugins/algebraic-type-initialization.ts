@@ -87,7 +87,7 @@ function commentsForSubtype(subtype:AlgebraicType.Subtype):string[] {
     });
 }
 
-function keywordsForSubtype(subtype:AlgebraicType.Subtype):ObjC.Keyword[] {
+export function keywordsForSubtype(subtype:AlgebraicType.Subtype):ObjC.Keyword[] {
   return subtype.match(
     function(namedAttributeCollectionSubtype:AlgebraicType.NamedAttributeCollectionSubtype) {
       return keywordsForNamedAttributeSubtype(namedAttributeCollectionSubtype);

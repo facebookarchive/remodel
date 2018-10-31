@@ -23,15 +23,16 @@ function typeReferenceFromParsedDefinition(parsedTypeReference, genericsSection,
 
 // ex:
 // EnumName(NSUInteger)
-function parseAttributeTypeReferenceSection() {
+function parseAttributeTypeReferenceSection(allowUnderlyingType) {
   return mona.sequence(function(s) {
     const typeReferenceSection = s(mona.trimLeft(mona.text(mona.or(mona.alphanum(), mona.string('_')))));
     const protocolSection = s(mona.maybe(mona.between(mona.string('<'), mona.string('>'), mona.text(mona.or(mona.alphanum())))));
-    const genericsSection = s(mona.maybe(mona.between(mona.string('<'), mona.string('>'), mona.text(mona.or(mona.alphanum(), mona.string('_'), mona.string('*'), mona.spaces(), mona.string(','))))));
-    const underlyingType = s(mona.maybe(mona.between(mona.string('('),
+    const genericsSection = s(mona.maybe(mona.between(mona.string('<'), mona.string('>'), parseAttributeTypeReferenceGenericSection())));
+    const underlyingType = !allowUnderlyingType ? null :
+    s(mona.maybe(mona.between(mona.string('('),
     mona.string(')'),
     mona.text(mona.or(mona.alphanum(), mona.string('_'))))));
-    s(mona.maybe(mona.spaces()));
+    const suffixSpaceSection = s(mona.maybe(mona.spaces()));
 
     const typeReference = typeReferenceFromParsedDefinition(typeReferenceSection, genericsSection, protocolSection);
 
@@ -39,9 +40,38 @@ function parseAttributeTypeReferenceSection() {
       typeReference: typeReference,
       typeName: typeReferenceSection,
       underlyingType: underlyingType,
-      conformingProtocol: protocolSection
+      conformingProtocol: protocolSection,
+      suffixSpaces: suffixSpaceSection != null ? suffixSpaceSection : ''
     };
     return mona.value(parsedAttributeTypeReferenceSection);
+  });
+}
+
+function parseAttributeTypeReferenceGenericSection() {
+  return mona.sequence(function(s) {
+    const referencePrefixSpaceSection = s(mona.maybe(mona.spaces()));
+    const typeReferenceSection = s(parseAttributeTypeReferenceSection(false));
+    const pointerSection = s(mona.maybe(mona.string('*')));
+    const pointerSuffixSpaceSection = s(mona.maybe(mona.spaces()));
+
+    const nextGenericSection = s(mona.maybe(mona.sequence(function (ss) {
+      const commaSection = ss(mona.string(','));
+      const suffixSpaceSection = ss(mona.maybe(mona.spaces()));
+      const genericSection = ss(parseAttributeTypeReferenceGenericSection());
+
+      const suffixSpaceValue = suffixSpaceSection != null ? suffixSpaceSection : '';
+      return mona.value(',' + suffixSpaceValue + genericSection);
+    })));
+
+    const referenceValue =
+    (referencePrefixSpaceSection != null ? referencePrefixSpaceSection : '') +
+    (typeReferenceSection.typeReference != null ? typeReferenceSection.typeReference : '') +
+    typeReferenceSection.suffixSpaces;
+    const pointerValue =
+    (pointerSection != null ? pointerSection : '') +
+    (pointerSuffixSpaceSection != null ? pointerSuffixSpaceSection : '');
+    const genericValue = nextGenericSection != null ? nextGenericSection : '';
+    return mona.value(referenceValue + pointerValue + genericValue);
   });
 }
 
@@ -141,7 +171,7 @@ function parseAttribute() {
 // AttributeType attributeName;
 function parseAttributeNameValuePair() {
   return mona.sequence(function(s) {
-    const attributeTypeReferenceSection = s(parseAttributeTypeReferenceSection());
+    const attributeTypeReferenceSection = s(parseAttributeTypeReferenceSection(true));
     const pointerSection = s(mona.trimRight(mona.maybe(mona.string('*'))));
     const attributeNameSection = s(mona.text(mona.or(mona.alphanum(), mona.string('_'))));
     s(mona.maybe(mona.string(';')));
@@ -321,7 +351,7 @@ function namedAttributeGroupFoundType(comments, parsedAnnotations, typeNameSecti
 
 function parseAttributeTypeReferenceSectionWithOptionalPointer() {
   return mona.sequence(function(s) {
-    const attributeTypeReferenceSection = s(parseAttributeTypeReferenceSection());
+    const attributeTypeReferenceSection = s(parseAttributeTypeReferenceSection(true));
     const pointerSection = s(mona.trimRight(mona.maybe(mona.string('*'))));
 
     return mona.value({

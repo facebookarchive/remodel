@@ -226,6 +226,92 @@ describe('ObjectSpecParser', function() {
       expect(actualResult).toEqualJSON(expectedResult);
     });
 
+    it('parses a value object with properties with generics', function() {
+      const valueFileContents = '%library name=RMSomethingLibrary\n' +
+                              'RMSomething {\n' +
+                              '  NSEvolvedDictionary<BOOL, NSFoo *, NSBar *, NSInteger> *multiple\n' +
+                              '  NSArray<NSDictionary<NSArray<NSString *>, NSString *> *> *nested\n' +
+                              '  NSDictionary<id<FooProtocol>, NSArray<id<BarProtocol>> *> *protocols\n' +
+                              '  CKAction<NSDictionary<NSArray<NSString *> *, id<FooProtocol>> *> ckAction\n' +
+                              '}';
+      const actualResult:Either.Either<Error.Error[], ObjectSpec.Type> = ObjectSpecParser.parse(valueFileContents);
+      const expectedFoundType:ObjectSpec.Type = {
+        annotations: {
+          library: [{
+            properties: {
+              name: 'RMSomethingLibrary'
+            }
+          }]
+        },
+        attributes: [
+          {
+            annotations: {},
+            comments: [],
+            name: 'multiple',
+            nullability:ObjC.Nullability.Inherited(),
+            type: {
+              fileTypeIsDefinedIn:Maybe.Nothing<string>(),
+              libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+              name:'NSEvolvedDictionary',
+              reference: 'NSEvolvedDictionary<BOOL, NSFoo *, NSBar *, NSInteger>*',
+              underlyingType:Maybe.Just<string>('NSObject'),
+              conformingProtocol: Maybe.Nothing<string>()
+            }
+          },
+          {
+            annotations: {},
+            comments: [],
+            name: 'nested',
+            nullability:ObjC.Nullability.Inherited(),
+            type: {
+              fileTypeIsDefinedIn:Maybe.Nothing<string>(),
+              libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+              name:'NSArray',
+              reference: 'NSArray<NSDictionary<NSArray<NSString *>, NSString *> *>*',
+              underlyingType:Maybe.Just<string>('NSObject'),
+              conformingProtocol: Maybe.Nothing<string>()
+            }
+          },
+          {
+            annotations: {},
+            comments: [],
+            name: 'protocols',
+            nullability:ObjC.Nullability.Inherited(),
+            type: {
+              fileTypeIsDefinedIn:Maybe.Nothing<string>(),
+              libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+              name:'NSDictionary',
+              reference: 'NSDictionary<id<FooProtocol>, NSArray<id<BarProtocol>> *>*',
+              underlyingType:Maybe.Just<string>('NSObject'),
+              conformingProtocol: Maybe.Nothing<string>()
+            }
+          },
+          {
+            annotations: {},
+            comments: [],
+            name: 'ckAction',
+            nullability:ObjC.Nullability.Inherited(),
+            type: {
+              fileTypeIsDefinedIn:Maybe.Nothing<string>(),
+              libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+              name:'CKAction',
+              reference: 'CKAction<NSDictionary<NSArray<NSString *> *, id<FooProtocol>> *>',
+              underlyingType:Maybe.Just<string>('NSObject'),
+              conformingProtocol: Maybe.Nothing<string>()
+            }
+          }
+        ],
+        comments: [],
+        typeLookups:[],
+        excludes: [],
+        includes: [],
+        typeName: 'RMSomething',
+        libraryName: Maybe.Just('RMSomethingLibrary')
+      };
+      const expectedResult:Either.Either<Error.Error[], ObjectSpec.Type> = Either.Right<Error.Error[], ObjectSpec.Type>(expectedFoundType);
+      expect(actualResult).toEqualJSON(expectedResult);
+    });
+
     it('parses a value object which is invalid', function() {
       const valueFileContents = 'RMSomething {{}';
       const actualResult:Either.Either<Error.Error[], ObjectSpec.Type> = ObjectSpecParser.parse(valueFileContents);

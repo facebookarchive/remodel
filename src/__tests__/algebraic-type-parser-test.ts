@@ -303,6 +303,95 @@ describe('AlgebraicTypeParser', function() {
       expect(actualResult).toEqualJSON(expectedResult);
     });
 
+    it('parses an ADT with subtypes with generics', function() {
+      const fileContents = 'RMSomething {\n' +
+                         '  RMOption {\n' +
+                         '    NSEvolvedDictionary<BOOL, NSFoo *, NSBar *, NSInteger> *multiple\n' +
+                         '    NSArray<NSDictionary<NSArray<NSString *>, NSString *> *> *nested\n' +
+                         '    NSDictionary<id<FooProtocol>, NSArray<id<BarProtocol>> *> *protocols\n' +
+                         '    CKAction<NSDictionary<NSArray<NSString *> *, id<FooProtocol>> *> ckAction\n' +
+                         '  }\n' +
+                         '}';
+      const actualResult:Either.Either<Error.Error[], AlgebraicType.Type> = AlgebraicTypeParser.parse(fileContents);
+      const expectedADT:AlgebraicType.Type = {
+        annotations: {},
+        name: 'RMSomething',
+        comments: [],
+        includes: [],
+        excludes: [],
+        typeLookups:[],
+        subtypes: [
+          AlgebraicType.Subtype.NamedAttributeCollectionDefinition(
+          {
+            annotations: {},
+            name: 'RMOption',
+            comments: [],
+            attributes: [
+              {
+                annotations: {},
+                comments: [],
+                name: 'multiple',
+                nullability:ObjC.Nullability.Inherited(),
+                type: {
+                  fileTypeIsDefinedIn:Maybe.Nothing<string>(),
+                  libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+                  name:'NSEvolvedDictionary',
+                  reference: 'NSEvolvedDictionary<BOOL, NSFoo *, NSBar *, NSInteger>*',
+                  underlyingType:Maybe.Just<string>('NSObject'),
+                  conformingProtocol:Maybe.Nothing<string>()
+                }
+              },
+              {
+                annotations: {},
+                comments: [],
+                name: 'nested',
+                nullability:ObjC.Nullability.Inherited(),
+                type: {
+                  fileTypeIsDefinedIn:Maybe.Nothing<string>(),
+                  libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+                  name:'NSArray',
+                  reference: 'NSArray<NSDictionary<NSArray<NSString *>, NSString *> *>*',
+                  underlyingType:Maybe.Just<string>('NSObject'),
+                  conformingProtocol:Maybe.Nothing<string>()
+                }
+              },
+              {
+                annotations: {},
+                comments: [],
+                name: 'protocols',
+                nullability:ObjC.Nullability.Inherited(),
+                type: {
+                  fileTypeIsDefinedIn:Maybe.Nothing<string>(),
+                  libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+                  name:'NSDictionary',
+                  reference: 'NSDictionary<id<FooProtocol>, NSArray<id<BarProtocol>> *>*',
+                  underlyingType:Maybe.Just<string>('NSObject'),
+                  conformingProtocol:Maybe.Nothing<string>()
+                }
+              },
+              {
+                annotations: {},
+                comments: [],
+                name: 'ckAction',
+                nullability:ObjC.Nullability.Inherited(),
+                type: {
+                  fileTypeIsDefinedIn:Maybe.Nothing<string>(),
+                  libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+                  name:'CKAction',
+                  reference: 'CKAction<NSDictionary<NSArray<NSString *> *, id<FooProtocol>> *>',
+                  underlyingType:Maybe.Just<string>('NSObject'),
+                  conformingProtocol:Maybe.Nothing<string>()
+                }
+              },
+            ]
+          })
+        ],
+        libraryName: Maybe.Nothing<string>()
+      };
+      const expectedResult:Either.Either<Error.Error[], AlgebraicType.Type> = Either.Right<Error.Error[], AlgebraicType.Type>(expectedADT);
+      expect(actualResult).toEqualJSON(expectedResult);
+    });
+
     it('parses a value object which is invalid', function() {
       const valueFileContents = 'RMSomething {{}';
       const actualResult:Either.Either<Error.Error[], AlgebraicType.Type> = AlgebraicTypeParser.parse(valueFileContents);

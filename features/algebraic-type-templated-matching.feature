@@ -38,22 +38,22 @@ Feature: Outputting Algebraic Types With Templated Matching
       
         static T match(SimpleADT *simpleADT, T(^firstSubtypeMatchHandler)(NSString *firstValue, NSUInteger secondValue), T(^someRandomSubtypeMatchHandler)(), T(^someAttributeSubtypeMatchHandler)(NSUInteger someAttributeSubtype), T(^secondSubtypeMatchHandler)(BOOL something)) {
           NSCAssert(simpleADT != nil, @"The ADT object simpleADT is nil");
-          __block std::shared_ptr<T> result;
+          __block std::unique_ptr<T> result;
 
           SimpleADTFirstSubtypeMatchHandler matchFirstSubtype = ^(NSString *firstValue, NSUInteger secondValue) {
-            result = std::make_shared<T>(firstSubtypeMatchHandler(firstValue, secondValue));
+            result = std::make_unique<T>(firstSubtypeMatchHandler(firstValue, secondValue));
           };
 
           SimpleADTSomeRandomSubtypeMatchHandler matchSomeRandomSubtype = ^(void) {
-            result = std::make_shared<T>(someRandomSubtypeMatchHandler());
+            result = std::make_unique<T>(someRandomSubtypeMatchHandler());
           };
 
           SimpleADTSomeAttributeSubtypeMatchHandler matchSomeAttributeSubtype = ^(NSUInteger someAttributeSubtype) {
-            result = std::make_shared<T>(someAttributeSubtypeMatchHandler(someAttributeSubtype));
+            result = std::make_unique<T>(someAttributeSubtypeMatchHandler(someAttributeSubtype));
           };
 
           SimpleADTSecondSubtypeMatchHandler matchSecondSubtype = ^(BOOL something) {
-            result = std::make_shared<T>(secondSubtypeMatchHandler(something));
+            result = std::make_unique<T>(secondSubtypeMatchHandler(something));
           };
 
           [simpleADT matchFirstSubtype:matchFirstSubtype someRandomSubtype:matchSomeRandomSubtype someAttributeSubtype:matchSomeAttributeSubtype secondSubtype:matchSecondSubtype];
@@ -61,22 +61,22 @@ Feature: Outputting Algebraic Types With Templated Matching
         }
         static T match(T(^firstSubtypeMatchHandler)(NSString *firstValue, NSUInteger secondValue), T(^someRandomSubtypeMatchHandler)(), T(^someAttributeSubtypeMatchHandler)(NSUInteger someAttributeSubtype), T(^secondSubtypeMatchHandler)(BOOL something), SimpleADT *simpleADT) {
           NSCAssert(simpleADT != nil, @"The ADT object simpleADT is nil");
-          __block std::shared_ptr<T> result;
+          __block std::unique_ptr<T> result;
 
           SimpleADTFirstSubtypeMatchHandler matchFirstSubtype = ^(NSString *firstValue, NSUInteger secondValue) {
-            result = std::make_shared<T>(firstSubtypeMatchHandler(firstValue, secondValue));
+            result = std::make_unique<T>(firstSubtypeMatchHandler(firstValue, secondValue));
           };
 
           SimpleADTSomeRandomSubtypeMatchHandler matchSomeRandomSubtype = ^(void) {
-            result = std::make_shared<T>(someRandomSubtypeMatchHandler());
+            result = std::make_unique<T>(someRandomSubtypeMatchHandler());
           };
 
           SimpleADTSomeAttributeSubtypeMatchHandler matchSomeAttributeSubtype = ^(NSUInteger someAttributeSubtype) {
-            result = std::make_shared<T>(someAttributeSubtypeMatchHandler(someAttributeSubtype));
+            result = std::make_unique<T>(someAttributeSubtypeMatchHandler(someAttributeSubtype));
           };
 
           SimpleADTSecondSubtypeMatchHandler matchSecondSubtype = ^(BOOL something) {
-            result = std::make_shared<T>(secondSubtypeMatchHandler(something));
+            result = std::make_unique<T>(secondSubtypeMatchHandler(something));
           };
 
           [simpleADT matchFirstSubtype:matchFirstSubtype someRandomSubtype:matchSomeRandomSubtype someAttributeSubtype:matchSomeAttributeSubtype secondSubtype:matchSecondSubtype];

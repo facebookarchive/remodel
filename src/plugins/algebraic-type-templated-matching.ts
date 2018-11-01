@@ -43,7 +43,7 @@ function matcherFunctionParameterForAlgebraicType(algebraicType:AlgebraicType.Ty
 }
 
 function blockInvocationWrapper(blockInvocation:string):string {
-  return 'result = std::make_shared<T>(' + blockInvocation + ');';
+  return 'result = std::make_unique<T>(' + blockInvocation + ');';
 }
 
 function buildLocalFunctionBlockDefinitionsForSubtype(algebraicType:AlgebraicType.Type, soFar:string[], subtype:AlgebraicType.Subtype):string[] {
@@ -62,7 +62,7 @@ function matcherFunctionCodeForAlgebraicType(algebraicType:AlgebraicType.Type, f
   const functionDeclaration:string = 'static T match(' + functionParameterProvider(algebraicType).join(', ') + ') {';
   const matcherFunctionParameterName:string = matcherFunctionParameterNameForAlgebraicType(algebraicType);
   const assertionCode:string = 'NSCAssert(' + matcherFunctionParameterName + ' != nil, @"The ADT object ' + matcherFunctionParameterName + ' is nil");';
-  const resultDeclaration:string = '__block std::shared_ptr<T> result;';
+  const resultDeclaration:string = '__block std::unique_ptr<T> result;';
 
   const blockCode:string[] = algebraicType.subtypes.reduce(FunctionUtils.pApplyf3(algebraicType, buildLocalFunctionBlockDefinitionsForSubtype), []);
 

@@ -224,10 +224,6 @@ const GENERATOR_FOR_COMPARING_OBJECT_EQUALITY = function(attributeValueAccessor:
   ];
 };
 
-const GENERATOR_FOR_NOT_INCLUDING_VALUE = function(attributeValueAccessor:string):TypeEqualityValue[] {
-  return [];
-};
-
 const GENERATOR_FOR_HASHING_POINTER_VALUE = function(attributeValueAccessor:string):TypeEqualityValue[] {
   return [
     {
@@ -459,7 +455,12 @@ function generationGroupForType(type:ObjC.Type):TypeEqualityGenerationGroup {
             isPublic:false
           })
         }),
-        hashGenerator: GENERATOR_FOR_NOT_INCLUDING_VALUE
+        hashGenerator: attributeValueAccessor => [{
+          value: `NSStringFromSelector(${attributeValueAccessor}).hash`,
+          functionsToInclude: [],
+          importsToInclude: [],
+          computationCost: ComputationCost.ObjectMessageSend(),
+        }],
       };
     },
     NSRange: function() {

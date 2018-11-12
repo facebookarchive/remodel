@@ -55,7 +55,11 @@ export function createAlgebraicTypePlugin():AlgebraicType.Plugin {
       return [];
     },
     instanceMethods: function(algebraicType:AlgebraicType.Type):ObjC.Method[] {
-      return [AlgebraicTypeUtils.instanceMethodForMatchingSubtypesOfAlgebraicType(algebraicType, matchingBlockTypeForPlugin())];
+      // While ADT matchers are always nil-checked (and thus nullable), we only want to insert an annotation for this
+      // if the nullability plugin is enabled, to avoid partial nullability annotations in the file, which trigger a
+      // compiler error.
+      const assumesNonnull = algebraicType.includes.indexOf('RMAssumeNonnull') >= 0;
+      return [AlgebraicTypeUtils.instanceMethodForMatchingSubtypesOfAlgebraicType(algebraicType, matchingBlockTypeForPlugin(), assumesNonnull)];
     },
     instanceVariables: function(algebraicType:AlgebraicType.Type):ObjC.InstanceVariable[] {
       return [];

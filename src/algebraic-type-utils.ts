@@ -178,13 +178,14 @@ export function blockParameterNameForMatchMethodFromSubtype(subtype:AlgebraicTyp
   return StringUtils.lowercased(subtypeNameFromSubtype(subtype) + 'MatchHandler');
 }
 
-export function keywordForMatchMethodFromSubtype(algebraicType:AlgebraicType.Type, matchingBlockType:Maybe.Maybe<MatchingBlockType>, subtype:AlgebraicType.Subtype):ObjC.Keyword {
+export function keywordForMatchMethodFromSubtype(algebraicType:AlgebraicType.Type, matchingBlockType:Maybe.Maybe<MatchingBlockType>, assumesNonnull:boolean, subtype:AlgebraicType.Subtype):ObjC.Keyword {
   const blockType:ObjC.BlockType = blockTypeForSubtype(algebraicType, matchingBlockType, false, subtype);
   return {
     name: StringUtils.lowercased(subtypeNameFromSubtype(subtype)),
     argument: Maybe.Just({
       name: blockParameterNameForMatchMethodFromSubtype(subtype),
-      modifiers: [ObjC.KeywordArgumentModifier.Noescape()],
+      modifiers: (assumesNonnull ? [ObjC.KeywordArgumentModifier.Nullable()] : [])
+        .concat(ObjC.KeywordArgumentModifier.Noescape()),
       type: {
         name: blockType.name,
         reference: blockType.name,
@@ -193,8 +194,8 @@ export function keywordForMatchMethodFromSubtype(algebraicType:AlgebraicType.Typ
   };
 }
 
-export function firstKeywordForMatchMethodFromSubtype(algebraicType:AlgebraicType.Type, matchingBlockType:Maybe.Maybe<MatchingBlockType>, subtype:AlgebraicType.Subtype):ObjC.Keyword {
-  const normalKeyword:ObjC.Keyword = keywordForMatchMethodFromSubtype(algebraicType, matchingBlockType, subtype);
+export function firstKeywordForMatchMethodFromSubtype(algebraicType:AlgebraicType.Type, matchingBlockType:Maybe.Maybe<MatchingBlockType>, assumesNonnull:boolean, subtype:AlgebraicType.Subtype):ObjC.Keyword {
+  const normalKeyword:ObjC.Keyword = keywordForMatchMethodFromSubtype(algebraicType, matchingBlockType, assumesNonnull, subtype);
   return {
     argument: normalKeyword.argument,
     name: Maybe.match(function Just(matchingBlockType:MatchingBlockType) {
@@ -215,9 +216,9 @@ function swiftNameForAlgebraicTypeMatcher(algebraicType:AlgebraicType.Type):stri
   return `NS_SWIFT_NAME(match(${keywords}))`;
 }
 
-function instanceMethodKeywordsForMatchingSubtypesOfAlgebraicType(algebraicType:AlgebraicType.Type, matchingBlockType:Maybe.Maybe<MatchingBlockType>):ObjC.Keyword[] {
-  const firstKeyword:ObjC.Keyword = firstKeywordForMatchMethodFromSubtype(algebraicType, matchingBlockType, algebraicType.subtypes[0]);
-  const additionalKeywords:ObjC.Keyword[] = algebraicType.subtypes.slice(1).map(FunctionUtils.pApply2f3(algebraicType, matchingBlockType, keywordForMatchMethodFromSubtype));
+function instanceMethodKeywordsForMatchingSubtypesOfAlgebraicType(algebraicType:AlgebraicType.Type, matchingBlockType:Maybe.Maybe<MatchingBlockType>, nullable: boolean):ObjC.Keyword[] {
+  const firstKeyword:ObjC.Keyword = firstKeywordForMatchMethodFromSubtype(algebraicType, matchingBlockType, nullable, algebraicType.subtypes[0]);
+  const additionalKeywords:ObjC.Keyword[] = algebraicType.subtypes.slice(1).map(FunctionUtils.pApply3f4(algebraicType, matchingBlockType, nullable, keywordForMatchMethodFromSubtype));
   return [firstKeyword].concat(additionalKeywords);
 }
 
@@ -250,14 +251,14 @@ function matcherCodeForAlgebraicType(algebraicType:AlgebraicType.Type, matchingB
                      matchingBlockType);
 }
 
-export function instanceMethodForMatchingSubtypesOfAlgebraicType(algebraicType:AlgebraicType.Type, matchingBlockType:Maybe.Maybe<MatchingBlockType>):ObjC.Method {
+export function instanceMethodForMatchingSubtypesOfAlgebraicType(algebraicType:AlgebraicType.Type, matchingBlockType:Maybe.Maybe<MatchingBlockType>, assumesNonnull:boolean):ObjC.Method {
   return {
     preprocessors:[],
     belongsToProtocol:Maybe.Nothing<string>(),
     code: matcherCodeForAlgebraicType(algebraicType, matchingBlockType),
     comments: [],
     compilerAttributes:[swiftNameForAlgebraicTypeMatcher(algebraicType)],
-    keywords: instanceMethodKeywordsForMatchingSubtypesOfAlgebraicType(algebraicType, matchingBlockType),
+    keywords: instanceMethodKeywordsForMatchingSubtypesOfAlgebraicType(algebraicType, matchingBlockType, assumesNonnull),
     returnType: returnTypeForMatchingBlockType(matchingBlockType)
   };
 }

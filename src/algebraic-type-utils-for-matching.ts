@@ -26,9 +26,9 @@ function nameOfBlockTypeParameter(parameter:ObjC.BlockTypeParameter):string {
 
 function keywordForInvokingMatchMethodForSubtype(algebraicType:AlgebraicType.Type, subtype:AlgebraicType.Subtype, index:number):ObjC.Keyword {
   if (index === 0) {
-    return AlgebraicTypeUtils.firstKeywordForMatchMethodFromSubtype(algebraicType, Maybe.Nothing<AlgebraicTypeUtils.MatchingBlockType>(), subtype);
+    return AlgebraicTypeUtils.firstKeywordForMatchMethodFromSubtype(algebraicType, Maybe.Nothing<AlgebraicTypeUtils.MatchingBlockType>(), false, subtype);
   } else {
-    return AlgebraicTypeUtils.keywordForMatchMethodFromSubtype(algebraicType, Maybe.Nothing<AlgebraicTypeUtils.MatchingBlockType>(), subtype);
+    return AlgebraicTypeUtils.keywordForMatchMethodFromSubtype(algebraicType, Maybe.Nothing<AlgebraicTypeUtils.MatchingBlockType>(), false, subtype);
   }
 }
 

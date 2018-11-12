@@ -84,7 +84,7 @@ function firstKeywordForGenericMatchMethod(algebraicType:AlgebraicType.Type):Obj
 
 function keywordsForGenericAlgebraicTypeMatcher(algebraicType:AlgebraicType.Type, matchingBlockType:Maybe.Maybe<AlgebraicTypeUtils.MatchingBlockType>):ObjC.Keyword[] {
   const firstKeyword:ObjC.Keyword = firstKeywordForGenericMatchMethod(algebraicType);
-  const subtypeKeywords:ObjC.Keyword[] = algebraicType.subtypes.map(FunctionUtils.pApply2f3(algebraicType, matchingBlockType, AlgebraicTypeUtils.keywordForMatchMethodFromSubtype));
+  const subtypeKeywords:ObjC.Keyword[] = algebraicType.subtypes.map(FunctionUtils.pApply3f4(algebraicType, matchingBlockType, false, AlgebraicTypeUtils.keywordForMatchMethodFromSubtype));
   return [firstKeyword].concat(subtypeKeywords);
 }
 

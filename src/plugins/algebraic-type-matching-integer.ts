@@ -59,7 +59,7 @@ export function createAlgebraicTypePlugin():AlgebraicType.Plugin {
       return [];
     },
     instanceMethods: function(algebraicType:AlgebraicType.Type):ObjC.Method[] {
-      return [AlgebraicTypeUtils.instanceMethodForMatchingSubtypesOfAlgebraicType(algebraicType, matchingBlockTypeForPlugin())];
+      return [AlgebraicTypeUtils.instanceMethodForMatchingSubtypesOfAlgebraicType(algebraicType, matchingBlockTypeForPlugin(), false)];
     },
     instanceVariables: function(algebraicType:AlgebraicType.Type):ObjC.InstanceVariable[] {
       return [];

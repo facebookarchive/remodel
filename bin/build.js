@@ -13,7 +13,7 @@ const fsExtra = require('fs-extra');
 
 const OUTPUT_DIR_COMMAND = '--outDir ' + __dirname + '/dist ';
 const TSC_PROJECT_LOCATION_TAG = '-p ' + __dirname + '/../src ';
-const TSC = __dirname + '/../node_modules/typescript/bin/tsc --pretty -t es5 ';
+const TSC = __dirname + '/../node_modules/typescript/bin/tsc --pretty -t es2015 ';
 
 const SOURCE_JS_DIR = __dirname + '/../src/js';
 const TARGET_JS_DIR = __dirname + '/dist/js';

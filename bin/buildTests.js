@@ -7,7 +7,7 @@
 
 const exec = require('child_process').exec;
 function build(alwaysBuild, callback) {
-  exec('./node_modules/typescript/bin/tsc ' + '-p ' + __dirname + '/../src/__tests__ ' + '--outDir ' + __dirname + '/dist', callback);
+  exec('./node_modules/typescript/bin/tsc -t es5 ' + '-p ' + __dirname + '/../src/__tests__ ' + '--outDir ' + __dirname + '/dist', callback);
 }
 
 module.exports = {

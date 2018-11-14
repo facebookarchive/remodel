@@ -14,52 +14,61 @@ import minimist = require('minimist');
 import OutputControl = require('./output-control');
 
 export interface Arguments {
-  givenPath:string;
-  adtConfigPath:string;
-  valueObjectConfigPath:string;
-  objectConfigPath:string;
-  interestedLoggingTypes:List.List<Logging.LoggingType>;
-  minimalLevel:number;
-  dryRun:boolean;
-  outputPath:string;
-  includes:string[];
-  excludes:string[];
-  prohibitPluginDirectives:boolean;
-  outputFlags:OutputControl.OutputFlags;
+  givenPath: string;
+  adtConfigPath: string;
+  valueObjectConfigPath: string;
+  objectConfigPath: string;
+  interestedLoggingTypes: List.List<Logging.LoggingType>;
+  minimalLevel: number;
+  dryRun: boolean;
+  outputPath: string;
+  includes: string[];
+  excludes: string[];
+  prohibitPluginDirectives: boolean;
+  outputFlags: OutputControl.OutputFlags;
 }
 
-const VERBOSE_FLAG:string = 'verbose';
-const PERF_LOGGING_FLAG:string = 'perf-log';
-const DEBUG_LOGGING_FLAG:string = 'debug';
-const SILENT_LOGGING_FLAG:string = 'silent';
-const DRY_RUN_FLAG:string = 'dry-run';
-const OUTPUT_PATH:string = 'output-path';
-const INCLUDE:string = 'include';
-const EXCLUDE:string = 'exclude';
-const PROHIBIT_PLUGIN_DIRECTIVES_FLAG:string = 'prohibit-plugin-directives';
-const EMIT_HEADER:string = 'emit-header';
-const HEADERS_ONLY:string = 'headers-only';
-const IMPL_ONLY:string = 'implementations-only';
-const EMIT:string = 'emit';
+const VERBOSE_FLAG: string = 'verbose';
+const PERF_LOGGING_FLAG: string = 'perf-log';
+const DEBUG_LOGGING_FLAG: string = 'debug';
+const SILENT_LOGGING_FLAG: string = 'silent';
+const DRY_RUN_FLAG: string = 'dry-run';
+const OUTPUT_PATH: string = 'output-path';
+const INCLUDE: string = 'include';
+const EXCLUDE: string = 'exclude';
+const PROHIBIT_PLUGIN_DIRECTIVES_FLAG: string = 'prohibit-plugin-directives';
+const EMIT_HEADER: string = 'emit-header';
+const HEADERS_ONLY: string = 'headers-only';
+const IMPL_ONLY: string = 'implementations-only';
+const EMIT: string = 'emit';
 
-const ADT_CONFIG_PATH:string = 'adt-config-path';
-const VALUE_OBJECT_CONFIG_PATH:string = 'value-object-config-path';
-const OBJECT_CONFIG_PATH:string = 'object-config-path';
+const ADT_CONFIG_PATH: string = 'adt-config-path';
+const VALUE_OBJECT_CONFIG_PATH: string = 'value-object-config-path';
+const OBJECT_CONFIG_PATH: string = 'object-config-path';
 
-function interestedTypesForArgs(args:minimist.ParsedArgs):List.List<Logging.LoggingType> {
+function interestedTypesForArgs(
+  args: minimist.ParsedArgs,
+): List.List<Logging.LoggingType> {
   if (args[SILENT_LOGGING_FLAG]) {
     return List.of<Logging.LoggingType>();
   } else {
     const baseList = List.of<Logging.LoggingType>();
-    const baseListIncludingPerformance = args[PERF_LOGGING_FLAG] ? List.cons(Logging.LoggingType.performance, baseList) : baseList;
-    const baseListIncludingDebug = args[DEBUG_LOGGING_FLAG] ? List.cons(Logging.LoggingType.debug, baseListIncludingPerformance) : baseListIncludingPerformance;
-    const baseListIncludingError = List.cons(Logging.LoggingType.error, baseListIncludingDebug);
+    const baseListIncludingPerformance = args[PERF_LOGGING_FLAG]
+      ? List.cons(Logging.LoggingType.performance, baseList)
+      : baseList;
+    const baseListIncludingDebug = args[DEBUG_LOGGING_FLAG]
+      ? List.cons(Logging.LoggingType.debug, baseListIncludingPerformance)
+      : baseListIncludingPerformance;
+    const baseListIncludingError = List.cons(
+      Logging.LoggingType.error,
+      baseListIncludingDebug,
+    );
     return List.cons(Logging.LoggingType.info, baseListIncludingError);
   }
 }
 
-function sanitizeArrayArg(arg:any): string[] {
-  if (typeof arg == "string") {
+function sanitizeArrayArg(arg: any): string[] {
+  if (typeof arg == 'string') {
     return [arg];
   } else if (Array.isArray(arg)) {
     return arg;
@@ -68,7 +77,10 @@ function sanitizeArrayArg(arg:any): string[] {
   }
 }
 
-function findInArray(list:string[], findFunc:(value:string) => boolean): boolean {
+function findInArray(
+  list: string[],
+  findFunc: (value: string) => boolean,
+): boolean {
   var item;
   for (item of list) {
     if (findFunc(item)) {
@@ -78,60 +90,92 @@ function findInArray(list:string[], findFunc:(value:string) => boolean): boolean
   return false;
 }
 
-function sanitizeEmitOption(arg:any): string[] {
+function sanitizeEmitOption(arg: any): string[] {
   const sanitized = sanitizeArrayArg(arg);
-  if (findInArray(sanitized, function(element) { return element.toLowerCase() == "all"; }) === true) {
+  if (
+    findInArray(sanitized, function(element) {
+      return element.toLowerCase() == 'all';
+    }) === true
+  ) {
     return [];
   } else {
     return sanitized;
   }
 }
 
-function sanitizeBooleanArg(arg:any, defaultValue:boolean): boolean {
-  if (typeof arg == "boolean") {
+function sanitizeBooleanArg(arg: any, defaultValue: boolean): boolean {
+  if (typeof arg == 'boolean') {
     return arg;
-  } else if (typeof arg == "string") {
-    if (arg.toLowerCase() == "true" || arg.toLowerCase() == "yes" || arg.toLowerCase() == "y") {
+  } else if (typeof arg == 'string') {
+    if (
+      arg.toLowerCase() == 'true' ||
+      arg.toLowerCase() == 'yes' ||
+      arg.toLowerCase() == 'y'
+    ) {
       return true;
     } else {
       return false;
     }
-  } else if (typeof arg == "number") {
+  } else if (typeof arg == 'number') {
     return arg == 1;
   } else {
     return defaultValue;
   }
 }
 
-export function parseArgs(args:string[]):Maybe.Maybe<Arguments> {
+export function parseArgs(args: string[]): Maybe.Maybe<Arguments> {
   const opts = {
-    boolean: [VERBOSE_FLAG, PERF_LOGGING_FLAG, DEBUG_LOGGING_FLAG, SILENT_LOGGING_FLAG, DRY_RUN_FLAG, PROHIBIT_PLUGIN_DIRECTIVES_FLAG, HEADERS_ONLY, IMPL_ONLY],
-    string: [ADT_CONFIG_PATH, VALUE_OBJECT_CONFIG_PATH, OBJECT_CONFIG_PATH, INCLUDE, EXCLUDE, OUTPUT_PATH, EMIT],
-    default: { [HEADERS_ONLY]:false, [IMPL_ONLY]: false },
+    boolean: [
+      VERBOSE_FLAG,
+      PERF_LOGGING_FLAG,
+      DEBUG_LOGGING_FLAG,
+      SILENT_LOGGING_FLAG,
+      DRY_RUN_FLAG,
+      PROHIBIT_PLUGIN_DIRECTIVES_FLAG,
+      HEADERS_ONLY,
+      IMPL_ONLY,
+    ],
+    string: [
+      ADT_CONFIG_PATH,
+      VALUE_OBJECT_CONFIG_PATH,
+      OBJECT_CONFIG_PATH,
+      INCLUDE,
+      EXCLUDE,
+      OUTPUT_PATH,
+      EMIT,
+    ],
+    default: {[HEADERS_ONLY]: false, [IMPL_ONLY]: false},
   };
   const parsedArgs = minimist(args, opts);
 
-  const sanitizedHeadersOnly = sanitizeBooleanArg(parsedArgs[HEADERS_ONLY], false);
+  const sanitizedHeadersOnly = sanitizeBooleanArg(
+    parsedArgs[HEADERS_ONLY],
+    false,
+  );
   const sanitizedImplsOnly = sanitizeBooleanArg(parsedArgs[IMPL_ONLY], false);
 
   if (parsedArgs._.length === 0) {
     return Maybe.Nothing<Arguments>();
   } else if (sanitizedHeadersOnly && sanitizedImplsOnly) {
-    console.log('Error: %s and %s cannot both be set simultaneously', HEADERS_ONLY, IMPL_ONLY);
+    console.log(
+      'Error: %s and %s cannot both be set simultaneously',
+      HEADERS_ONLY,
+      IMPL_ONLY,
+    );
     return Maybe.Nothing<Arguments>();
   } else {
     return Maybe.Just({
-      givenPath:parsedArgs._[0],
-      adtConfigPath:parsedArgs[ADT_CONFIG_PATH],
-      valueObjectConfigPath:parsedArgs[VALUE_OBJECT_CONFIG_PATH],
-      objectConfigPath:parsedArgs[OBJECT_CONFIG_PATH],
-      interestedLoggingTypes:interestedTypesForArgs(parsedArgs),
-      minimalLevel:parsedArgs[VERBOSE_FLAG] ? 1 : 10,
-      dryRun:parsedArgs[DRY_RUN_FLAG],
-      outputPath:parsedArgs[OUTPUT_PATH],
-      includes:sanitizeArrayArg(parsedArgs[INCLUDE]),
-      excludes:sanitizeArrayArg(parsedArgs[EXCLUDE]),
-      prohibitPluginDirectives:parsedArgs[PROHIBIT_PLUGIN_DIRECTIVES_FLAG],
+      givenPath: parsedArgs._[0],
+      adtConfigPath: parsedArgs[ADT_CONFIG_PATH],
+      valueObjectConfigPath: parsedArgs[VALUE_OBJECT_CONFIG_PATH],
+      objectConfigPath: parsedArgs[OBJECT_CONFIG_PATH],
+      interestedLoggingTypes: interestedTypesForArgs(parsedArgs),
+      minimalLevel: parsedArgs[VERBOSE_FLAG] ? 1 : 10,
+      dryRun: parsedArgs[DRY_RUN_FLAG],
+      outputPath: parsedArgs[OUTPUT_PATH],
+      includes: sanitizeArrayArg(parsedArgs[INCLUDE]),
+      excludes: sanitizeArrayArg(parsedArgs[EXCLUDE]),
+      prohibitPluginDirectives: parsedArgs[PROHIBIT_PLUGIN_DIRECTIVES_FLAG],
       outputFlags: {
         emitHeaders: !sanitizedImplsOnly,
         emitImplementations: !sanitizedHeadersOnly,

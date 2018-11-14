@@ -21,181 +21,203 @@ const AlgebraicTypePlugin = Coding.createAlgebraicTypePlugin();
 describe('ObjectSpecPlugins.Coding', function() {
   describe('#validationErrors', function() {
     it('returns no validation errors when there are no attributes on the found type', function() {
-      const objectType:ObjectSpec.Type = {
+      const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [],
         comments: [],
-        typeLookups:[],
+        typeLookups: [],
         excludes: [],
         includes: [],
         libraryName: Maybe.Nothing<string>(),
-        typeName: 'Foo'
+        typeName: 'Foo',
       };
-      const errors:Error.Error[] = ObjectSpecPlugin.validationErrors(objectType);
+      const errors: Error.Error[] = ObjectSpecPlugin.validationErrors(
+        objectType,
+      );
       expect(errors).toEqualJSON([]);
     });
 
     it('returns a validation error when there is an attribute with an unknown type', function() {
-      const objectType:ObjectSpec.Type = {
+      const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
           {
             annotations: {},
             comments: [],
             name: 'name',
-            nullability:ObjC.Nullability.Inherited(),
+            nullability: ObjC.Nullability.Inherited(),
             type: {
-              fileTypeIsDefinedIn:Maybe.Nothing<string>(),
-              libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+              fileTypeIsDefinedIn: Maybe.Nothing<string>(),
+              libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
               name: 'NSString',
               reference: 'NSString *',
-              underlyingType:Maybe.Just<string>('NSObject'),
-              conformingProtocol: Maybe.Nothing<string>()
-            }
+              underlyingType: Maybe.Just<string>('NSObject'),
+              conformingProtocol: Maybe.Nothing<string>(),
+            },
           },
           {
             annotations: {},
             comments: [],
             name: 'likeStatus',
-            nullability:ObjC.Nullability.Inherited(),
+            nullability: ObjC.Nullability.Inherited(),
             type: {
-              fileTypeIsDefinedIn:Maybe.Nothing<string>(),
-              libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+              fileTypeIsDefinedIn: Maybe.Nothing<string>(),
+              libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
               name: 'LikeStatus',
               reference: 'LikeStatus',
-              underlyingType:Maybe.Nothing<string>(),
-              conformingProtocol: Maybe.Nothing<string>()
-            }
-          }
+              underlyingType: Maybe.Nothing<string>(),
+              conformingProtocol: Maybe.Nothing<string>(),
+            },
+          },
         ],
         comments: [],
-        typeLookups:[],
+        typeLookups: [],
         excludes: [],
         includes: [],
         libraryName: Maybe.Nothing<string>(),
-        typeName: 'Foo'
+        typeName: 'Foo',
       };
-      const errors:Error.Error[] = ObjectSpecPlugin.validationErrors(objectType);
-      const expectedErrors:Error.Error[] = [
-        Error.Error('The Coding plugin does not know how to decode and encode the type "LikeStatus" from Foo.likeStatus. Did you forget to declare a backing type?')
+      const errors: Error.Error[] = ObjectSpecPlugin.validationErrors(
+        objectType,
+      );
+      const expectedErrors: Error.Error[] = [
+        Error.Error(
+          'The Coding plugin does not know how to decode and encode the type "LikeStatus" from Foo.likeStatus. Did you forget to declare a backing type?',
+        ),
       ];
       expect(errors).toEqualJSON(expectedErrors);
     });
 
     it('returns two validation errors when there are two attributes with unknown types', function() {
-      const objectType:ObjectSpec.Type = {
+      const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
           {
             annotations: {},
             comments: [],
             name: 'name',
-            nullability:ObjC.Nullability.Inherited(),
+            nullability: ObjC.Nullability.Inherited(),
             type: {
-              fileTypeIsDefinedIn:Maybe.Nothing<string>(),
-              libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+              fileTypeIsDefinedIn: Maybe.Nothing<string>(),
+              libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
               name: 'Name',
               reference: 'Name',
-              underlyingType:Maybe.Nothing<string>(),
-              conformingProtocol: Maybe.Nothing<string>()
-            }
+              underlyingType: Maybe.Nothing<string>(),
+              conformingProtocol: Maybe.Nothing<string>(),
+            },
           },
           {
             annotations: {},
             comments: [],
             name: 'likeStatus',
-            nullability:ObjC.Nullability.Inherited(),
+            nullability: ObjC.Nullability.Inherited(),
             type: {
-              fileTypeIsDefinedIn:Maybe.Nothing<string>(),
-              libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+              fileTypeIsDefinedIn: Maybe.Nothing<string>(),
+              libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
               name: 'LikeStatus',
               reference: 'LikeStatus',
-              underlyingType:Maybe.Nothing<string>(),
-              conformingProtocol: Maybe.Nothing<string>()
-            }
-          }
+              underlyingType: Maybe.Nothing<string>(),
+              conformingProtocol: Maybe.Nothing<string>(),
+            },
+          },
         ],
         comments: [],
-        typeLookups:[],
+        typeLookups: [],
         excludes: [],
         includes: [],
         libraryName: Maybe.Nothing<string>(),
-        typeName: 'Foo'
+        typeName: 'Foo',
       };
-      const errors:Error.Error[] = ObjectSpecPlugin.validationErrors(objectType);
-      const expectedErrors:Error.Error[] = [
-        Error.Error('The Coding plugin does not know how to decode and encode the type "Name" from Foo.name. Did you forget to declare a backing type?'),
-        Error.Error('The Coding plugin does not know how to decode and encode the type "LikeStatus" from Foo.likeStatus. Did you forget to declare a backing type?')
+      const errors: Error.Error[] = ObjectSpecPlugin.validationErrors(
+        objectType,
+      );
+      const expectedErrors: Error.Error[] = [
+        Error.Error(
+          'The Coding plugin does not know how to decode and encode the type "Name" from Foo.name. Did you forget to declare a backing type?',
+        ),
+        Error.Error(
+          'The Coding plugin does not know how to decode and encode the type "LikeStatus" from Foo.likeStatus. Did you forget to declare a backing type?',
+        ),
       ];
       expect(errors).toEqualJSON(expectedErrors);
     });
 
     it('returns a validation error when there is an attribute with an unknown underlying type', function() {
-      const objectType:ObjectSpec.Type = {
+      const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
           {
             annotations: {},
             comments: [],
             name: 'name',
-            nullability:ObjC.Nullability.Inherited(),
+            nullability: ObjC.Nullability.Inherited(),
             type: {
-              fileTypeIsDefinedIn:Maybe.Nothing<string>(),
-              libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+              fileTypeIsDefinedIn: Maybe.Nothing<string>(),
+              libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
               name: 'FooBar',
               reference: 'FooBar',
-              underlyingType:Maybe.Just<string>('Baz'),
-              conformingProtocol: Maybe.Nothing<string>()
-            }
-          }
+              underlyingType: Maybe.Just<string>('Baz'),
+              conformingProtocol: Maybe.Nothing<string>(),
+            },
+          },
         ],
         comments: [],
-        typeLookups:[],
+        typeLookups: [],
         excludes: [],
         includes: [],
         libraryName: Maybe.Nothing<string>(),
-        typeName: 'Foo'
+        typeName: 'Foo',
       };
-      const errors:Error.Error[] = ObjectSpecPlugin.validationErrors(objectType);
-      const expectedErrors:Error.Error[] = [
-        Error.Error('The Coding plugin does not know how to decode and encode the backing type "Baz" from Foo.name. Did you declare the wrong backing type?')
+      const errors: Error.Error[] = ObjectSpecPlugin.validationErrors(
+        objectType,
+      );
+      const expectedErrors: Error.Error[] = [
+        Error.Error(
+          'The Coding plugin does not know how to decode and encode the backing type "Baz" from Foo.name. Did you declare the wrong backing type?',
+        ),
       ];
       expect(errors).toEqualJSON(expectedErrors);
     });
 
     it('returns a validation error when there is an attribute with legacy key with unsupported type', function() {
-      const objectType:ObjectSpec.Type = {
+      const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
           {
             annotations: {
-              codingLegacyKey: [{
-                properties: {name: 'legacySizeCodingKey'}
-              }]
+              codingLegacyKey: [
+                {
+                  properties: {name: 'legacySizeCodingKey'},
+                },
+              ],
             },
             comments: [],
             name: 'size',
-            nullability:ObjC.Nullability.Inherited(),
+            nullability: ObjC.Nullability.Inherited(),
             type: {
-              fileTypeIsDefinedIn:Maybe.Nothing<string>(),
-              libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
-              name:'CGSize',
+              fileTypeIsDefinedIn: Maybe.Nothing<string>(),
+              libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+              name: 'CGSize',
               reference: 'CGSize',
-              underlyingType:Maybe.Nothing<string>(),
-              conformingProtocol: Maybe.Nothing<string>()
-            }
-          }
+              underlyingType: Maybe.Nothing<string>(),
+              conformingProtocol: Maybe.Nothing<string>(),
+            },
+          },
         ],
         comments: [],
-        typeLookups:[],
+        typeLookups: [],
         excludes: [],
         includes: [],
         libraryName: Maybe.Nothing<string>(),
-        typeName: 'Foo'
+        typeName: 'Foo',
       };
-      const errors:Error.Error[] = ObjectSpecPlugin.validationErrors(objectType);
-      const expectedErrors:Error.Error[] = [
-        Error.Error('%codingLegacyKey can\'t be used with "CGSize" at Foo.size.')
+      const errors: Error.Error[] = ObjectSpecPlugin.validationErrors(
+        objectType,
+      );
+      const expectedErrors: Error.Error[] = [
+        Error.Error(
+          '%codingLegacyKey can\'t be used with "CGSize" at Foo.size.',
+        ),
       ];
       expect(errors).toEqualJSON(expectedErrors);
     });
@@ -203,57 +225,63 @@ describe('ObjectSpecPlugins.Coding', function() {
 
   describe('#instanceMethods', function() {
     it('returns no instance methods when there are no attributes on the found type', function() {
-      const objectType:ObjectSpec.Type = {
+      const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [],
         comments: [],
-        typeLookups:[],
+        typeLookups: [],
         excludes: [],
         includes: [],
         libraryName: Maybe.Nothing<string>(),
-        typeName: 'Foo'
+        typeName: 'Foo',
       };
-      const instanceMethods:ObjC.Method[] = ObjectSpecPlugin.instanceMethods(objectType);
+      const instanceMethods: ObjC.Method[] = ObjectSpecPlugin.instanceMethods(
+        objectType,
+      );
       expect(instanceMethods).toEqualJSON([]);
     });
 
     it('returns two instance methods which will encode and decode a value, respecting the legacy key name', function() {
-      const objectType:ObjectSpec.Type = {
+      const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
           {
             annotations: {
-              codingLegacyKey: [{
-                properties: {name: 'oldNameKey'}
-              }]
+              codingLegacyKey: [
+                {
+                  properties: {name: 'oldNameKey'},
+                },
+              ],
             },
             comments: [],
             name: 'name',
-            nullability:ObjC.Nullability.Inherited(),
+            nullability: ObjC.Nullability.Inherited(),
             type: {
-              fileTypeIsDefinedIn:Maybe.Nothing<string>(),
-              libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+              fileTypeIsDefinedIn: Maybe.Nothing<string>(),
+              libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
               name: 'NSString',
               reference: 'NSString *',
-              underlyingType:Maybe.Just<string>('NSObject'),
-              conformingProtocol: Maybe.Nothing<string>()
-            }
-          }
+              underlyingType: Maybe.Just<string>('NSObject'),
+              conformingProtocol: Maybe.Nothing<string>(),
+            },
+          },
         ],
         comments: [],
-        typeLookups:[],
+        typeLookups: [],
         excludes: [],
         includes: [],
         libraryName: Maybe.Nothing<string>(),
-        typeName: 'Foo'
+        typeName: 'Foo',
       };
 
-      const instanceMethods:ObjC.Method[] = ObjectSpecPlugin.instanceMethods(objectType);
+      const instanceMethods: ObjC.Method[] = ObjectSpecPlugin.instanceMethods(
+        objectType,
+      );
 
-      const expectedInstanceMethods:ObjC.Method[] = [
+      const expectedInstanceMethods: ObjC.Method[] = [
         {
-          preprocessors:[],
-          belongsToProtocol:Maybe.Just<string>('NSCoding'),
+          preprocessors: [],
+          belongsToProtocol: Maybe.Just<string>('NSCoding'),
           code: [
             'if ((self = [super init])) {',
             '  _name = (id)[aDecoder decodeObjectForKey:kNameKey];',
@@ -261,10 +289,10 @@ describe('ObjectSpecPlugins.Coding', function() {
             '    _name = (id)[aDecoder decodeObjectForKey:@"oldNameKey"];',
             '  }',
             '}',
-            'return self;'
+            'return self;',
           ],
           comments: [],
-          compilerAttributes:[],
+          compilerAttributes: [],
           keywords: [
             {
               name: 'initWithCoder',
@@ -273,27 +301,25 @@ describe('ObjectSpecPlugins.Coding', function() {
                 modifiers: [],
                 type: {
                   name: 'NSCoder',
-                  reference: 'NSCoder *'
-                }
-              })
-            }
+                  reference: 'NSCoder *',
+                },
+              }),
+            },
           ],
           returnType: {
-            type:Maybe.Just<ObjC.Type>({
+            type: Maybe.Just<ObjC.Type>({
               name: 'instancetype',
-              reference: 'instancetype'
+              reference: 'instancetype',
             }),
-            modifiers:[ObjC.KeywordArgumentModifier.Nullable()]
-          }
+            modifiers: [ObjC.KeywordArgumentModifier.Nullable()],
+          },
         },
         {
-          preprocessors:[],
-          belongsToProtocol:Maybe.Just<string>('NSCoding'),
-          code: [
-            '[aCoder encodeObject:_name forKey:kNameKey];',
-          ],
+          preprocessors: [],
+          belongsToProtocol: Maybe.Just<string>('NSCoding'),
+          code: ['[aCoder encodeObject:_name forKey:kNameKey];'],
           comments: [],
-          compilerAttributes:[],
+          compilerAttributes: [],
           keywords: [
             {
               name: 'encodeWithCoder',
@@ -302,89 +328,91 @@ describe('ObjectSpecPlugins.Coding', function() {
                 modifiers: [],
                 type: {
                   name: 'NSCoder',
-                  reference: 'NSCoder *'
-                }
-              })
-            }
+                  reference: 'NSCoder *',
+                },
+              }),
+            },
           ],
-          returnType:{ type:Maybe.Nothing<ObjC.Type>(), modifiers:[] },
-        }
+          returnType: {type: Maybe.Nothing<ObjC.Type>(), modifiers: []},
+        },
       ];
 
       expect(instanceMethods).toEqualJSON(expectedInstanceMethods);
     });
 
     it('returns two instance methods which will encode and decode three values when called', function() {
-      const objectType:ObjectSpec.Type = {
+      const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
           {
             annotations: {},
             comments: [],
             name: 'name',
-            nullability:ObjC.Nullability.Inherited(),
+            nullability: ObjC.Nullability.Inherited(),
             type: {
-              fileTypeIsDefinedIn:Maybe.Nothing<string>(),
-              libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+              fileTypeIsDefinedIn: Maybe.Nothing<string>(),
+              libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
               name: 'NSString',
               reference: 'NSString *',
-              underlyingType:Maybe.Just<string>('NSObject'),
-              conformingProtocol: Maybe.Nothing<string>()
-            }
+              underlyingType: Maybe.Just<string>('NSObject'),
+              conformingProtocol: Maybe.Nothing<string>(),
+            },
           },
           {
             annotations: {},
             comments: [],
             name: 'doesUserLike',
-            nullability:ObjC.Nullability.Inherited(),
+            nullability: ObjC.Nullability.Inherited(),
             type: {
-              fileTypeIsDefinedIn:Maybe.Nothing<string>(),
-              libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+              fileTypeIsDefinedIn: Maybe.Nothing<string>(),
+              libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
               name: 'BOOL',
               reference: 'BOOL',
-              underlyingType:Maybe.Nothing<string>(),
-              conformingProtocol: Maybe.Nothing<string>()
-            }
+              underlyingType: Maybe.Nothing<string>(),
+              conformingProtocol: Maybe.Nothing<string>(),
+            },
           },
           {
             annotations: {},
             comments: [],
             name: 'someObject',
-            nullability:ObjC.Nullability.Inherited(),
+            nullability: ObjC.Nullability.Inherited(),
             type: {
-              fileTypeIsDefinedIn:Maybe.Nothing<string>(),
-              libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+              fileTypeIsDefinedIn: Maybe.Nothing<string>(),
+              libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
               name: 'id',
               reference: 'id',
-              underlyingType:Maybe.Nothing<string>(),
-              conformingProtocol: Maybe.Nothing<string>()
-            }
-          }
+              underlyingType: Maybe.Nothing<string>(),
+              conformingProtocol: Maybe.Nothing<string>(),
+            },
+          },
         ],
         comments: [],
-        typeLookups:[],
+        typeLookups: [],
         excludes: [],
         includes: [],
         libraryName: Maybe.Nothing<string>(),
-        typeName: 'Foo'
+        typeName: 'Foo',
       };
 
-      const instanceMethods:ObjC.Method[] = ObjectSpecPlugin.instanceMethods(objectType);
+      const instanceMethods: ObjC.Method[] = ObjectSpecPlugin.instanceMethods(
+        objectType,
+      );
 
-      const expectedInstanceMethods:ObjC.Method[] = [
+      const expectedInstanceMethods: ObjC.Method[] = [
         {
-          preprocessors:[],
-          belongsToProtocol:Maybe.Just<string>('NSCoding'),
+          preprocessors: [],
+          belongsToProtocol: Maybe.Just<string>('NSCoding'),
           code: [
             'if ((self = [super init])) {',
             '  _name = (id)[aDecoder decodeObjectForKey:kNameKey];',
             '  _doesUserLike = [aDecoder decodeBoolForKey:kDoesUserLikeKey];',
             '  _someObject = [aDecoder decodeObjectForKey:kSomeObjectKey];',
             '}',
-            'return self;'
+            'return self;',
           ],
           comments: [],
-          compilerAttributes:[],
+          compilerAttributes: [],
           keywords: [
             {
               name: 'initWithCoder',
@@ -393,29 +421,29 @@ describe('ObjectSpecPlugins.Coding', function() {
                 modifiers: [],
                 type: {
                   name: 'NSCoder',
-                  reference: 'NSCoder *'
-                }
-              })
-            }
+                  reference: 'NSCoder *',
+                },
+              }),
+            },
           ],
           returnType: {
-            type:Maybe.Just<ObjC.Type>({
+            type: Maybe.Just<ObjC.Type>({
               name: 'instancetype',
-              reference: 'instancetype'
+              reference: 'instancetype',
             }),
-            modifiers:[ObjC.KeywordArgumentModifier.Nullable()]
-          }
+            modifiers: [ObjC.KeywordArgumentModifier.Nullable()],
+          },
         },
         {
-          preprocessors:[],
-          belongsToProtocol:Maybe.Just<string>('NSCoding'),
+          preprocessors: [],
+          belongsToProtocol: Maybe.Just<string>('NSCoding'),
           code: [
             '[aCoder encodeObject:_name forKey:kNameKey];',
             '[aCoder encodeBool:_doesUserLike forKey:kDoesUserLikeKey];',
-            '[aCoder encodeObject:_someObject forKey:kSomeObjectKey];'
+            '[aCoder encodeObject:_someObject forKey:kSomeObjectKey];',
           ],
           comments: [],
-          compilerAttributes:[],
+          compilerAttributes: [],
           keywords: [
             {
               name: 'encodeWithCoder',
@@ -424,13 +452,13 @@ describe('ObjectSpecPlugins.Coding', function() {
                 modifiers: [],
                 type: {
                   name: 'NSCoder',
-                  reference: 'NSCoder *'
-                }
-              })
-            }
+                  reference: 'NSCoder *',
+                },
+              }),
+            },
           ],
-          returnType:{ type:Maybe.Nothing<ObjC.Type>(), modifiers:[] },
-        }
+          returnType: {type: Maybe.Nothing<ObjC.Type>(), modifiers: []},
+        },
       ];
 
       expect(instanceMethods).toEqualJSON(expectedInstanceMethods);
@@ -439,260 +467,283 @@ describe('ObjectSpecPlugins.Coding', function() {
 
   describe('#imports', function() {
     it('A correct import the found type', function() {
-      const objectType:ObjectSpec.Type = {
+      const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
           {
             annotations: {},
             comments: [],
             name: 'size',
-            nullability:ObjC.Nullability.Inherited(),
+            nullability: ObjC.Nullability.Inherited(),
             type: {
-              fileTypeIsDefinedIn:Maybe.Nothing<string>(),
-              libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
-              name:'CGSize',
+              fileTypeIsDefinedIn: Maybe.Nothing<string>(),
+              libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+              name: 'CGSize',
               reference: 'CGSize',
-              underlyingType:Maybe.Nothing<string>(),
-              conformingProtocol: Maybe.Nothing<string>()
-            }
-          }
+              underlyingType: Maybe.Nothing<string>(),
+              conformingProtocol: Maybe.Nothing<string>(),
+            },
+          },
         ],
         comments: [],
-        typeLookups:[],
+        typeLookups: [],
         excludes: [],
         includes: [],
         libraryName: Maybe.Nothing<string>(),
-        typeName: 'Foo'
+        typeName: 'Foo',
       };
 
-      const imports:ObjC.Import[] = ObjectSpecPlugin.imports(objectType);
-      const expectedImports:ObjC.Import[] = [{
-        file:'UIGeometry.h',
-        isPublic:false,
-        library:Maybe.Just('UIKit')
-      }];
+      const imports: ObjC.Import[] = ObjectSpecPlugin.imports(objectType);
+      const expectedImports: ObjC.Import[] = [
+        {
+          file: 'UIGeometry.h',
+          isPublic: false,
+          library: Maybe.Just('UIKit'),
+        },
+      ];
       expect(imports).toEqualJSON(expectedImports);
     });
   });
 
   describe('#staticConstants', function() {
     it('returns no constants when there are no attributes on the found type', function() {
-      const objectType:ObjectSpec.Type = {
+      const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [],
         comments: [],
-        typeLookups:[],
+        typeLookups: [],
         excludes: [],
         includes: [],
         libraryName: Maybe.Nothing<string>(),
-        typeName: 'Foo'
+        typeName: 'Foo',
       };
-      const staticConstants:ObjC.Constant[] = ObjectSpecPlugin.staticConstants(objectType);
+      const staticConstants: ObjC.Constant[] = ObjectSpecPlugin.staticConstants(
+        objectType,
+      );
       expect(staticConstants).toEqualJSON([]);
     });
 
-    it('returns a constant referencing to the key for coding when the found type ' +
-      'has a single attribute', function() {
-      const objectType:ObjectSpec.Type = {
-        annotations: {},
-        attributes: [
+    it(
+      'returns a constant referencing to the key for coding when the found type ' +
+        'has a single attribute',
+      function() {
+        const objectType: ObjectSpec.Type = {
+          annotations: {},
+          attributes: [
+            {
+              annotations: {},
+              comments: [],
+              name: 'name',
+              nullability: ObjC.Nullability.Inherited(),
+              type: {
+                fileTypeIsDefinedIn: Maybe.Nothing<string>(),
+                libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+                name: 'NSString',
+                reference: 'NSString *',
+                underlyingType: Maybe.Just<string>('NSObject'),
+                conformingProtocol: Maybe.Nothing<string>(),
+              },
+            },
+          ],
+          comments: [],
+          typeLookups: [],
+          excludes: [],
+          includes: [],
+          libraryName: Maybe.Nothing<string>(),
+          typeName: 'Foo',
+        };
+
+        const staticConstants: ObjC.Constant[] = ObjectSpecPlugin.staticConstants(
+          objectType,
+        );
+        const expectedStaticConstants: ObjC.Constant[] = [
           {
-            annotations: {},
-            comments: [],
-            name: 'name',
-            nullability:ObjC.Nullability.Inherited(),
             type: {
-              fileTypeIsDefinedIn:Maybe.Nothing<string>(),
-              libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
-              name:'NSString',
+              name: 'NSString',
               reference: 'NSString *',
-              underlyingType:Maybe.Just<string>('NSObject'),
-              conformingProtocol: Maybe.Nothing<string>()
-            }
-          }
-        ],
-        comments: [],
-        typeLookups:[],
-        excludes: [],
-        includes: [],
-        libraryName: Maybe.Nothing<string>(),
-        typeName: 'Foo'
-      };
-
-      const staticConstants:ObjC.Constant[] = ObjectSpecPlugin.staticConstants(objectType);
-      const expectedStaticConstants:ObjC.Constant[] = [
-        {
-          type: {
-            name: 'NSString',
-            reference: 'NSString *'
-          },
-          comments: [],
-          name: 'kNameKey',
-          value: '@"NAME"',
-          memorySemantic: ObjC.MemorySemantic.UnsafeUnretained()
-        }
-      ];
-
-      expect(staticConstants).toEqualJSON(expectedStaticConstants);
-    });
-
-    it('returns a constant referencing to the key for coding when the found type ' +
-      'has a single attribute of a different name', function() {
-      const objectType:ObjectSpec.Type = {
-        annotations: {},
-        attributes: [
-          {
-            annotations: {},
+            },
             comments: [],
-            name: 'givenName',
-            nullability:ObjC.Nullability.Inherited(),
+            name: 'kNameKey',
+            value: '@"NAME"',
+            memorySemantic: ObjC.MemorySemantic.UnsafeUnretained(),
+          },
+        ];
+
+        expect(staticConstants).toEqualJSON(expectedStaticConstants);
+      },
+    );
+
+    it(
+      'returns a constant referencing to the key for coding when the found type ' +
+        'has a single attribute of a different name',
+      function() {
+        const objectType: ObjectSpec.Type = {
+          annotations: {},
+          attributes: [
+            {
+              annotations: {},
+              comments: [],
+              name: 'givenName',
+              nullability: ObjC.Nullability.Inherited(),
+              type: {
+                fileTypeIsDefinedIn: Maybe.Nothing<string>(),
+                libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+                name: 'NSString',
+                reference: 'NSString *',
+                underlyingType: Maybe.Just<string>('NSObject'),
+                conformingProtocol: Maybe.Nothing<string>(),
+              },
+            },
+          ],
+          comments: [],
+          typeLookups: [],
+          excludes: [],
+          includes: [],
+          libraryName: Maybe.Nothing<string>(),
+          typeName: 'Foo',
+        };
+
+        const staticConstants: ObjC.Constant[] = ObjectSpecPlugin.staticConstants(
+          objectType,
+        );
+        const expectedStaticConstants: ObjC.Constant[] = [
+          {
+            comments: [],
             type: {
-              fileTypeIsDefinedIn:Maybe.Nothing<string>(),
-              libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
-              name:'NSString',
+              name: 'NSString',
               reference: 'NSString *',
-              underlyingType:Maybe.Just<string>('NSObject'),
-              conformingProtocol: Maybe.Nothing<string>()
-            }
-          }
-        ],
-        comments: [],
-        typeLookups:[],
-        excludes: [],
-        includes: [],
-        libraryName: Maybe.Nothing<string>(),
-        typeName: 'Foo'
-      };
-
-      const staticConstants:ObjC.Constant[] = ObjectSpecPlugin.staticConstants(objectType);
-      const expectedStaticConstants:ObjC.Constant[] = [
-        {
-          comments: [],
-          type: {
-            name: 'NSString',
-            reference: 'NSString *'
+            },
+            name: 'kGivenNameKey',
+            value: '@"GIVEN_NAME"',
+            memorySemantic: ObjC.MemorySemantic.UnsafeUnretained(),
           },
-          name: 'kGivenNameKey',
-          value: '@"GIVEN_NAME"',
-          memorySemantic: ObjC.MemorySemantic.UnsafeUnretained()
-        }
-      ];
+        ];
 
-      expect(staticConstants).toEqualJSON(expectedStaticConstants);
-    });
+        expect(staticConstants).toEqualJSON(expectedStaticConstants);
+      },
+    );
 
-    it('returns two constants referencing to the key for coding when the found type ' +
-      'has two attributes', function() {
-      const objectType:ObjectSpec.Type = {
-        annotations: {},
-        attributes: [
+    it(
+      'returns two constants referencing to the key for coding when the found type ' +
+        'has two attributes',
+      function() {
+        const objectType: ObjectSpec.Type = {
+          annotations: {},
+          attributes: [
+            {
+              annotations: {},
+              comments: [],
+              name: 'givenName',
+              nullability: ObjC.Nullability.Inherited(),
+              type: {
+                fileTypeIsDefinedIn: Maybe.Nothing<string>(),
+                libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+                name: 'NSString',
+                reference: 'NSString *',
+                underlyingType: Maybe.Just<string>('NSObject'),
+                conformingProtocol: Maybe.Nothing<string>(),
+              },
+            },
+            {
+              annotations: {},
+              comments: [],
+              name: 'age',
+              nullability: ObjC.Nullability.Inherited(),
+              type: {
+                fileTypeIsDefinedIn: Maybe.Nothing<string>(),
+                libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+                name: 'NSUInteger',
+                reference: 'NSUInteger',
+                underlyingType: Maybe.Nothing<string>(),
+                conformingProtocol: Maybe.Nothing<string>(),
+              },
+            },
+          ],
+          comments: [],
+          typeLookups: [],
+          excludes: [],
+          includes: [],
+          libraryName: Maybe.Nothing<string>(),
+          typeName: 'Foo',
+        };
+
+        const staticConstants: ObjC.Constant[] = ObjectSpecPlugin.staticConstants(
+          objectType,
+        );
+        const expectedStaticConstants: ObjC.Constant[] = [
           {
-            annotations: {},
             comments: [],
-            name: 'givenName',
-            nullability:ObjC.Nullability.Inherited(),
             type: {
-              fileTypeIsDefinedIn:Maybe.Nothing<string>(),
-              libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
-              name:'NSString',
+              name: 'NSString',
               reference: 'NSString *',
-              underlyingType:Maybe.Just<string>('NSObject'),
-              conformingProtocol: Maybe.Nothing<string>()
-            }
+            },
+            name: 'kGivenNameKey',
+            value: '@"GIVEN_NAME"',
+            memorySemantic: ObjC.MemorySemantic.UnsafeUnretained(),
           },
           {
-            annotations: {},
             comments: [],
-            name: 'age',
-            nullability:ObjC.Nullability.Inherited(),
             type: {
-              fileTypeIsDefinedIn:Maybe.Nothing<string>(),
-              libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
-              name:'NSUInteger',
-              reference: 'NSUInteger',
-              underlyingType:Maybe.Nothing<string>(),
-              conformingProtocol: Maybe.Nothing<string>()
-            }
-          }
-        ],
-        comments: [],
-        typeLookups:[],
-        excludes: [],
-        includes: [],
-        libraryName: Maybe.Nothing<string>(),
-        typeName: 'Foo'
-      };
-
-      const staticConstants:ObjC.Constant[] = ObjectSpecPlugin.staticConstants(objectType);
-      const expectedStaticConstants:ObjC.Constant[] = [
-        {
-          comments: [],
-          type: {
-            name: 'NSString',
-            reference: 'NSString *'
+              name: 'NSString',
+              reference: 'NSString *',
+            },
+            name: 'kAgeKey',
+            value: '@"AGE"',
+            memorySemantic: ObjC.MemorySemantic.UnsafeUnretained(),
           },
-          name: 'kGivenNameKey',
-          value: '@"GIVEN_NAME"',
-          memorySemantic: ObjC.MemorySemantic.UnsafeUnretained()
-        },
-        {
-          comments: [],
-          type: {
-            name: 'NSString',
-            reference: 'NSString *'
-          },
-          name: 'kAgeKey',
-          value: '@"AGE"',
-          memorySemantic: ObjC.MemorySemantic.UnsafeUnretained()
-        }
-      ];
+        ];
 
-      expect(staticConstants).toEqualJSON(expectedStaticConstants);
-    });
+        expect(staticConstants).toEqualJSON(expectedStaticConstants);
+      },
+    );
 
     it('uses the codingKey attribute if provided', () => {
-      const objectType:ObjectSpec.Type = {
+      const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
           {
             annotations: {
-              'codingKey': [{
-                properties: {'name': 'test_custom_key'}
-              }]
+              codingKey: [
+                {
+                  properties: {name: 'test_custom_key'},
+                },
+              ],
             },
             comments: [],
             name: 'test',
-            nullability:ObjC.Nullability.Inherited(),
+            nullability: ObjC.Nullability.Inherited(),
             type: {
-              fileTypeIsDefinedIn:Maybe.Nothing<string>(),
-              libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
-              name:'NSString',
+              fileTypeIsDefinedIn: Maybe.Nothing<string>(),
+              libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+              name: 'NSString',
               reference: 'NSString *',
-              underlyingType:Maybe.Just<string>('NSObject'),
-              conformingProtocol: Maybe.Nothing<string>()
-            }
-          }
+              underlyingType: Maybe.Just<string>('NSObject'),
+              conformingProtocol: Maybe.Nothing<string>(),
+            },
+          },
         ],
         comments: [],
-        typeLookups:[],
+        typeLookups: [],
         excludes: [],
         includes: [],
         libraryName: Maybe.Nothing<string>(),
-        typeName: 'Foo'
+        typeName: 'Foo',
       };
 
-      const staticConstants:ObjC.Constant[] = ObjectSpecPlugin.staticConstants(objectType);
-      const expectedConstants:ObjC.Constant[] = [
+      const staticConstants: ObjC.Constant[] = ObjectSpecPlugin.staticConstants(
+        objectType,
+      );
+      const expectedConstants: ObjC.Constant[] = [
         {
           comments: [],
           type: {
             name: 'NSString',
-            reference: 'NSString *'
+            reference: 'NSString *',
           },
           name: 'kTestKey',
           value: '@"test_custom_key"',
           memorySemantic: ObjC.MemorySemantic.UnsafeUnretained(),
-        }
+        },
       ];
 
       expect(staticConstants).toEqualJSON(expectedConstants);
@@ -701,7 +752,7 @@ describe('ObjectSpecPlugins.Coding', function() {
 
   describe('#decodeStatementForAttribute', function() {
     it('returns code which will decode a BOOL value when called', function() {
-      const attribute:Coding.CodeableAttribute = {
+      const attribute: Coding.CodeableAttribute = {
         name: 'doesUserLike',
         valueAccessor: '_doesUserLike',
         constantName: 'kDoesUserLikeKey',
@@ -709,17 +760,18 @@ describe('ObjectSpecPlugins.Coding', function() {
         legacyKeyNames: [],
         type: {
           name: 'BOOL',
-          reference: 'BOOL'
-        }
+          reference: 'BOOL',
+        },
       };
 
       const code: string = Coding.decodeStatementForAttribute(attribute);
-      const expectedCode: string = '_doesUserLike = [aDecoder decodeBoolForKey:kDoesUserLikeKey];';
+      const expectedCode: string =
+        '_doesUserLike = [aDecoder decodeBoolForKey:kDoesUserLikeKey];';
       expect(code).toEqualJSON(expectedCode);
     });
 
     it('returns code which will decode an id value when called', function() {
-      const attribute:Coding.CodeableAttribute = {
+      const attribute: Coding.CodeableAttribute = {
         name: 'foo',
         valueAccessor: '_foo',
         constantName: 'kFooKey',
@@ -727,17 +779,18 @@ describe('ObjectSpecPlugins.Coding', function() {
         legacyKeyNames: [],
         type: {
           name: 'id',
-          reference: 'id'
-        }
+          reference: 'id',
+        },
       };
 
       const code: string = Coding.decodeStatementForAttribute(attribute);
-      const expectedCode: string = '_foo = [aDecoder decodeObjectForKey:kFooKey];';
+      const expectedCode: string =
+        '_foo = [aDecoder decodeObjectForKey:kFooKey];';
       expect(code).toEqualJSON(expectedCode);
     });
 
     it('returns code which will decode an NSObject value when called', function() {
-      const attribute:Coding.CodeableAttribute = {
+      const attribute: Coding.CodeableAttribute = {
         name: 'name',
         valueAccessor: '_name',
         constantName: 'kNameKey',
@@ -745,17 +798,18 @@ describe('ObjectSpecPlugins.Coding', function() {
         legacyKeyNames: [],
         type: {
           name: 'NSObject',
-          reference: 'NSObject *'
-        }
+          reference: 'NSObject *',
+        },
       };
 
       const code: string = Coding.decodeStatementForAttribute(attribute);
-      const expectedCode: string = '_name = (id)[aDecoder decodeObjectForKey:kNameKey];';
+      const expectedCode: string =
+        '_name = (id)[aDecoder decodeObjectForKey:kNameKey];';
       expect(code).toEqualJSON(expectedCode);
     });
 
     it('returns code which will decode an NSInteger value when called', function() {
-      const attribute:Coding.CodeableAttribute = {
+      const attribute: Coding.CodeableAttribute = {
         name: 'age',
         valueAccessor: '_age',
         constantName: 'kAgeKey',
@@ -763,17 +817,18 @@ describe('ObjectSpecPlugins.Coding', function() {
         legacyKeyNames: [],
         type: {
           name: 'NSInteger',
-          reference: 'NSInteger'
-        }
+          reference: 'NSInteger',
+        },
       };
 
       const code: string = Coding.decodeStatementForAttribute(attribute);
-      const expectedCode: string = '_age = [aDecoder decodeIntegerForKey:kAgeKey];';
+      const expectedCode: string =
+        '_age = [aDecoder decodeIntegerForKey:kAgeKey];';
       expect(code).toEqualJSON(expectedCode);
     });
 
     it('returns code which will decode an NSUInteger value when called', function() {
-      const attribute:Coding.CodeableAttribute = {
+      const attribute: Coding.CodeableAttribute = {
         name: 'age',
         valueAccessor: '_age',
         constantName: 'kAgeKey',
@@ -781,17 +836,18 @@ describe('ObjectSpecPlugins.Coding', function() {
         legacyKeyNames: [],
         type: {
           name: 'NSUInteger',
-          reference: 'NSUInteger'
-        }
+          reference: 'NSUInteger',
+        },
       };
 
       const code: string = Coding.decodeStatementForAttribute(attribute);
-      const expectedCode: string = '_age = [aDecoder decodeIntegerForKey:kAgeKey];';
+      const expectedCode: string =
+        '_age = [aDecoder decodeIntegerForKey:kAgeKey];';
       expect(code).toEqualJSON(expectedCode);
     });
 
     it('returns code which will decode a selector value when called', function() {
-      const attribute:Coding.CodeableAttribute = {
+      const attribute: Coding.CodeableAttribute = {
         name: 'callbackMethod',
         valueAccessor: '_callbackMethod',
         constantName: 'kCallbackMethodKey',
@@ -799,19 +855,20 @@ describe('ObjectSpecPlugins.Coding', function() {
         legacyKeyNames: [],
         type: {
           name: 'SEL',
-          reference: 'SEL'
-        }
+          reference: 'SEL',
+        },
       };
 
       const code: string = Coding.decodeStatementForAttribute(attribute);
-      const expectedCode: string = '_callbackMethod = NSSelectorFromString([aDecoder decodeObjectForKey:kCallbackMethodKey]);';
+      const expectedCode: string =
+        '_callbackMethod = NSSelectorFromString([aDecoder decodeObjectForKey:kCallbackMethodKey]);';
       expect(code).toEqualJSON(expectedCode);
     });
   });
 
   describe('#encodeStatementForAttribute', function() {
     it('returns code which will encode a BOOL value when called', function() {
-      const attribute:Coding.CodeableAttribute = {
+      const attribute: Coding.CodeableAttribute = {
         name: 'doesUserLike',
         valueAccessor: '_doesUserLike',
         constantName: 'kDoesUserLikeKey',
@@ -819,17 +876,18 @@ describe('ObjectSpecPlugins.Coding', function() {
         legacyKeyNames: [],
         type: {
           name: 'BOOL',
-          reference: 'BOOL'
-        }
+          reference: 'BOOL',
+        },
       };
 
       const code: string = Coding.encodeStatementForAttribute(attribute);
-      const expectedCode: string = '[aCoder encodeBool:_doesUserLike forKey:kDoesUserLikeKey];';
+      const expectedCode: string =
+        '[aCoder encodeBool:_doesUserLike forKey:kDoesUserLikeKey];';
       expect(code).toEqualJSON(expectedCode);
     });
 
     it('returns code which will encode an NSObject value when called', function() {
-      const attribute:Coding.CodeableAttribute = {
+      const attribute: Coding.CodeableAttribute = {
         name: 'name',
         valueAccessor: '_name',
         constantName: 'kNameKey',
@@ -837,17 +895,18 @@ describe('ObjectSpecPlugins.Coding', function() {
         legacyKeyNames: [],
         type: {
           name: 'NSObject',
-          reference: 'NSObject *'
-        }
+          reference: 'NSObject *',
+        },
       };
 
       const code: string = Coding.encodeStatementForAttribute(attribute);
-      const expectedCode: string = '[aCoder encodeObject:_name forKey:kNameKey];';
+      const expectedCode: string =
+        '[aCoder encodeObject:_name forKey:kNameKey];';
       expect(code).toEqualJSON(expectedCode);
     });
 
     it('returns code which will encode an NSInteger value when called', function() {
-      const attribute:Coding.CodeableAttribute = {
+      const attribute: Coding.CodeableAttribute = {
         name: 'age',
         valueAccessor: '_age',
         constantName: 'kAgeKey',
@@ -855,17 +914,18 @@ describe('ObjectSpecPlugins.Coding', function() {
         legacyKeyNames: [],
         type: {
           name: 'NSInteger',
-          reference: 'NSInteger'
-        }
+          reference: 'NSInteger',
+        },
       };
 
       const code: string = Coding.encodeStatementForAttribute(attribute);
-      const expectedCode: string = '[aCoder encodeInteger:_age forKey:kAgeKey];';
+      const expectedCode: string =
+        '[aCoder encodeInteger:_age forKey:kAgeKey];';
       expect(code).toEqualJSON(expectedCode);
     });
 
     it('returns code which will encode an NSUInteger value when called', function() {
-      const attribute:Coding.CodeableAttribute = {
+      const attribute: Coding.CodeableAttribute = {
         name: 'age',
         valueAccessor: '_age',
         constantName: 'kAgeKey',
@@ -873,17 +933,18 @@ describe('ObjectSpecPlugins.Coding', function() {
         legacyKeyNames: [],
         type: {
           name: 'NSUInteger',
-          reference: 'NSUInteger'
-        }
+          reference: 'NSUInteger',
+        },
       };
 
       const code: string = Coding.encodeStatementForAttribute(attribute);
-      const expectedCode: string = '[aCoder encodeInteger:_age forKey:kAgeKey];';
+      const expectedCode: string =
+        '[aCoder encodeInteger:_age forKey:kAgeKey];';
       expect(code).toEqualJSON(expectedCode);
     });
 
     it('returns code which will encode a selector as a string value when called', function() {
-      const attribute:Coding.CodeableAttribute = {
+      const attribute: Coding.CodeableAttribute = {
         name: 'callbackMethod',
         valueAccessor: '_callbackMethod',
         constantName: 'kCallbackMethodKey',
@@ -891,12 +952,13 @@ describe('ObjectSpecPlugins.Coding', function() {
         legacyKeyNames: [],
         type: {
           name: 'SEL',
-          reference: 'SEL'
-        }
+          reference: 'SEL',
+        },
       };
 
       const code: string = Coding.encodeStatementForAttribute(attribute);
-      const expectedCode: string = '[aCoder encodeObject:NSStringFromSelector(_callbackMethod) forKey:kCallbackMethodKey];';
+      const expectedCode: string =
+        '[aCoder encodeObject:NSStringFromSelector(_callbackMethod) forKey:kCallbackMethodKey];';
       expect(code).toEqualJSON(expectedCode);
     });
   });
@@ -905,17 +967,16 @@ describe('ObjectSpecPlugins.Coding', function() {
 describe('AlgebraicTypePlugins.Coding', function() {
   describe('#instanceMethods', function() {
     it('returns two instance methods which will encode and decode two values when called', function() {
-      const algebraicType:AlgebraicType.Type = {
+      const algebraicType: AlgebraicType.Type = {
         annotations: {},
         name: 'Test',
         includes: [],
-        typeLookups:[],
+        typeLookups: [],
         excludes: [],
         libraryName: Maybe.Nothing<string>(),
         comments: [],
         subtypes: [
-          AlgebraicType.Subtype.NamedAttributeCollectionDefinition(
-          {
+          AlgebraicType.Subtype.NamedAttributeCollectionDefinition({
             name: 'SomeSubtype',
             comments: [],
             attributes: [
@@ -923,77 +984,78 @@ describe('AlgebraicTypePlugins.Coding', function() {
                 annotations: {},
                 name: 'someString',
                 comments: [],
-                nullability:ObjC.Nullability.Inherited(),
+                nullability: ObjC.Nullability.Inherited(),
                 type: {
                   name: 'NSString',
                   reference: 'NSString *',
                   libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
                   fileTypeIsDefinedIn: Maybe.Nothing<string>(),
                   underlyingType: Maybe.Just<string>('NSObject'),
-                  conformingProtocol: Maybe.Nothing<string>()
-                }
+                  conformingProtocol: Maybe.Nothing<string>(),
+                },
               },
               {
                 annotations: {},
                 name: 'someUnsignedInteger',
                 comments: [],
-                nullability:ObjC.Nullability.Inherited(),
+                nullability: ObjC.Nullability.Inherited(),
                 type: {
                   name: 'NSUInteger',
                   reference: 'NSUInteger',
                   libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
                   fileTypeIsDefinedIn: Maybe.Nothing<string>(),
                   underlyingType: Maybe.Nothing<string>(),
-                  conformingProtocol: Maybe.Nothing<string>()
-                }
-              }
+                  conformingProtocol: Maybe.Nothing<string>(),
+                },
+              },
             ],
             annotations: {},
           }),
-          AlgebraicType.Subtype.SingleAttributeSubtypeDefinition(
-          {
+          AlgebraicType.Subtype.SingleAttributeSubtypeDefinition({
             annotations: {},
             name: 'coolSingleAttributeSubtype',
             comments: [],
-            nullability:ObjC.Nullability.Inherited(),
+            nullability: ObjC.Nullability.Inherited(),
             type: {
               name: 'SingleAttributeType',
               reference: 'SingleAttributeType *',
               libraryTypeIsDefinedIn: Maybe.Just('SomeLib'),
               fileTypeIsDefinedIn: Maybe.Nothing<string>(),
               underlyingType: Maybe.Just<string>('NSObject'),
-              conformingProtocol: Maybe.Nothing<string>()
-            }
-          })
-        ]
+              conformingProtocol: Maybe.Nothing<string>(),
+            },
+          }),
+        ],
       };
 
-      const instanceMethods:ObjC.Method[] = AlgebraicTypePlugin.instanceMethods(algebraicType);
+      const instanceMethods: ObjC.Method[] = AlgebraicTypePlugin.instanceMethods(
+        algebraicType,
+      );
 
-      const expectedInstanceMethods:ObjC.Method[] = [
+      const expectedInstanceMethods: ObjC.Method[] = [
         {
-          preprocessors:[],
-          belongsToProtocol:Maybe.Just<string>('NSCoding'),
+          preprocessors: [],
+          belongsToProtocol: Maybe.Just<string>('NSCoding'),
           code: [
             'if ((self = [super init])) {',
             '  NSString *codedSubtype = [aDecoder decodeObjectForKey:kCodedSubtypeKey];',
-            '  if([codedSubtype isEqualToString:@\"SUBTYPE_SOME_SUBTYPE\"]) {',
+            '  if([codedSubtype isEqualToString:@"SUBTYPE_SOME_SUBTYPE"]) {',
             '    _someSubtype_someString = (id)[aDecoder decodeObjectForKey:kSomeSubtypeSomeStringKey];',
             '    _someSubtype_someUnsignedInteger = [aDecoder decodeIntegerForKey:kSomeSubtypeSomeUnsignedIntegerKey];',
             '    _subtype = _TestSubtypesSomeSubtype;',
             '  }',
-            '  else if([codedSubtype isEqualToString:@\"SUBTYPE_COOL_SINGLE_ATTRIBUTE_SUBTYPE\"]) {',
+            '  else if([codedSubtype isEqualToString:@"SUBTYPE_COOL_SINGLE_ATTRIBUTE_SUBTYPE"]) {',
             '    _coolSingleAttributeSubtype = (id)[aDecoder decodeObjectForKey:kCoolSingleAttributeSubtypeKey];',
             '    _subtype = _TestSubtypesCoolSingleAttributeSubtype;',
             '  }',
             '  else {',
-            '    @throw([NSException exceptionWithName:@\"InvalidSubtypeException\" reason:@\"nil or unknown subtype provided\" userInfo:@{@\"subtype\": codedSubtype}]);',
+            '    @throw([NSException exceptionWithName:@"InvalidSubtypeException" reason:@"nil or unknown subtype provided" userInfo:@{@"subtype": codedSubtype}]);',
             '  }',
             '}',
-            'return self;'
+            'return self;',
           ],
           comments: [],
-          compilerAttributes:[],
+          compilerAttributes: [],
           keywords: [
             {
               name: 'initWithCoder',
@@ -1002,22 +1064,22 @@ describe('AlgebraicTypePlugins.Coding', function() {
                 modifiers: [],
                 type: {
                   name: 'NSCoder',
-                  reference: 'NSCoder *'
-                }
-              })
-            }
+                  reference: 'NSCoder *',
+                },
+              }),
+            },
           ],
           returnType: {
-            type:Maybe.Just<ObjC.Type>({
+            type: Maybe.Just<ObjC.Type>({
               name: 'instancetype',
-              reference: 'instancetype'
+              reference: 'instancetype',
             }),
-            modifiers:[ObjC.KeywordArgumentModifier.Nullable()]
-          }
+            modifiers: [ObjC.KeywordArgumentModifier.Nullable()],
+          },
         },
         {
-          preprocessors:[],
-          belongsToProtocol:Maybe.Just<string>('NSCoding'),
+          preprocessors: [],
+          belongsToProtocol: Maybe.Just<string>('NSCoding'),
           code: [
             'switch (_subtype) {',
             '  case _TestSubtypesSomeSubtype: {',
@@ -1031,10 +1093,10 @@ describe('AlgebraicTypePlugins.Coding', function() {
             '    [aCoder encodeObject:@"SUBTYPE_COOL_SINGLE_ATTRIBUTE_SUBTYPE" forKey:kCodedSubtypeKey];',
             '    break;',
             '  }',
-            '}'
+            '}',
           ],
           comments: [],
-          compilerAttributes:[],
+          compilerAttributes: [],
           keywords: [
             {
               name: 'encodeWithCoder',
@@ -1043,13 +1105,13 @@ describe('AlgebraicTypePlugins.Coding', function() {
                 modifiers: [],
                 type: {
                   name: 'NSCoder',
-                  reference: 'NSCoder *'
-                }
-              })
-            }
+                  reference: 'NSCoder *',
+                },
+              }),
+            },
           ],
-          returnType:{ type:Maybe.Nothing<ObjC.Type>(), modifiers:[] },
-        }
+          returnType: {type: Maybe.Nothing<ObjC.Type>(), modifiers: []},
+        },
       ];
 
       expect(instanceMethods).toEqualJSON(expectedInstanceMethods);
@@ -1057,132 +1119,134 @@ describe('AlgebraicTypePlugins.Coding', function() {
   });
 
   describe('#staticConstants', function() {
-    it('returns four constants referencing to the key for coding when the algebraic type ' +
-      'has two subtypes with three cumulative attributes', function() {
-      const algebraicType:AlgebraicType.Type = {
-        annotations: {},
-        name: 'Test',
-        includes: [],
-        typeLookups:[],
-        excludes: [],
-        libraryName: Maybe.Nothing<string>(),
-        comments: [],
-        subtypes: [
-          AlgebraicType.Subtype.NamedAttributeCollectionDefinition(
-          {
-            name: 'SomeSubtype',
-            comments: [],
-            attributes: [
-              {
-                annotations: {},
-                name: 'someString',
-                comments: [],
-                nullability:ObjC.Nullability.Inherited(),
-                type: {
-                  name: 'NSString',
-                  reference: 'NSString *',
-                  libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
-                  fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-                  underlyingType: Maybe.Just<string>('NSObject'),
-                  conformingProtocol: Maybe.Nothing<string>()
-                }
+    it(
+      'returns four constants referencing to the key for coding when the algebraic type ' +
+        'has two subtypes with three cumulative attributes',
+      function() {
+        const algebraicType: AlgebraicType.Type = {
+          annotations: {},
+          name: 'Test',
+          includes: [],
+          typeLookups: [],
+          excludes: [],
+          libraryName: Maybe.Nothing<string>(),
+          comments: [],
+          subtypes: [
+            AlgebraicType.Subtype.NamedAttributeCollectionDefinition({
+              name: 'SomeSubtype',
+              comments: [],
+              attributes: [
+                {
+                  annotations: {},
+                  name: 'someString',
+                  comments: [],
+                  nullability: ObjC.Nullability.Inherited(),
+                  type: {
+                    name: 'NSString',
+                    reference: 'NSString *',
+                    libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+                    fileTypeIsDefinedIn: Maybe.Nothing<string>(),
+                    underlyingType: Maybe.Just<string>('NSObject'),
+                    conformingProtocol: Maybe.Nothing<string>(),
+                  },
+                },
+                {
+                  annotations: {},
+                  name: 'someUnsignedInteger',
+                  comments: [],
+                  nullability: ObjC.Nullability.Inherited(),
+                  type: {
+                    name: 'NSUInteger',
+                    reference: 'NSUInteger',
+                    libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+                    fileTypeIsDefinedIn: Maybe.Nothing<string>(),
+                    underlyingType: Maybe.Nothing<string>(),
+                    conformingProtocol: Maybe.Nothing<string>(),
+                  },
+                },
+              ],
+              annotations: {},
+            }),
+            AlgebraicType.Subtype.SingleAttributeSubtypeDefinition({
+              annotations: {},
+              name: 'coolSingleAttributeSubtype',
+              comments: [],
+              nullability: ObjC.Nullability.Inherited(),
+              type: {
+                name: 'SingleAttributeType',
+                reference: 'SingleAttributeType *',
+                libraryTypeIsDefinedIn: Maybe.Just('SomeLib'),
+                fileTypeIsDefinedIn: Maybe.Nothing<string>(),
+                underlyingType: Maybe.Just<string>('NSObject'),
+                conformingProtocol: Maybe.Nothing<string>(),
               },
-              {
-                annotations: {},
-                name: 'someUnsignedInteger',
-                comments: [],
-                nullability:ObjC.Nullability.Inherited(),
-                type: {
-                  name: 'NSUInteger',
-                  reference: 'NSUInteger',
-                  libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
-                  fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-                  underlyingType: Maybe.Nothing<string>(),
-                  conformingProtocol: Maybe.Nothing<string>()
-                }
-              }
-            ],
-            annotations: {},
-          }),
-          AlgebraicType.Subtype.SingleAttributeSubtypeDefinition(
+            }),
+          ],
+        };
+
+        const staticConstants: ObjC.Constant[] = AlgebraicTypePlugin.staticConstants(
+          algebraicType,
+        );
+        const expectedStaticConstants: ObjC.Constant[] = [
           {
-            annotations: {},
-            name: 'coolSingleAttributeSubtype',
             comments: [],
-            nullability:ObjC.Nullability.Inherited(),
             type: {
-              name: 'SingleAttributeType',
-              reference: 'SingleAttributeType *',
-              libraryTypeIsDefinedIn: Maybe.Just('SomeLib'),
-              fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-              underlyingType: Maybe.Just<string>('NSObject'),
-              conformingProtocol: Maybe.Nothing<string>()
-            }
-          })
-        ]
-      };
+              name: 'NSString',
+              reference: 'NSString *',
+            },
+            name: 'kCodedSubtypeKey',
+            value: '@"CODED_SUBTYPE"',
+            memorySemantic: ObjC.MemorySemantic.UnsafeUnretained(),
+          },
+          {
+            comments: [],
+            type: {
+              name: 'NSString',
+              reference: 'NSString *',
+            },
+            name: 'kSomeSubtypeSomeStringKey',
+            value: '@"SOME_SUBTYPE_SOME_STRING"',
+            memorySemantic: ObjC.MemorySemantic.UnsafeUnretained(),
+          },
+          {
+            comments: [],
+            type: {
+              name: 'NSString',
+              reference: 'NSString *',
+            },
+            name: 'kSomeSubtypeSomeUnsignedIntegerKey',
+            value: '@"SOME_SUBTYPE_SOME_UNSIGNED_INTEGER"',
+            memorySemantic: ObjC.MemorySemantic.UnsafeUnretained(),
+          },
+          {
+            comments: [],
+            type: {
+              name: 'NSString',
+              reference: 'NSString *',
+            },
+            name: 'kCoolSingleAttributeSubtypeKey',
+            value: '@"COOL_SINGLE_ATTRIBUTE_SUBTYPE"',
+            memorySemantic: ObjC.MemorySemantic.UnsafeUnretained(),
+          },
+        ];
 
-      const staticConstants:ObjC.Constant[] = AlgebraicTypePlugin.staticConstants(algebraicType);
-      const expectedStaticConstants:ObjC.Constant[] = [
-        {
-          comments: [],
-          type: {
-            name: 'NSString',
-            reference: 'NSString *',
-          },
-          name: 'kCodedSubtypeKey',
-          value: '@"CODED_SUBTYPE"',
-          memorySemantic: ObjC.MemorySemantic.UnsafeUnretained()
-        },
-        {
-          comments: [],
-          type: {
-            name: 'NSString',
-            reference: 'NSString *'
-          },
-          name: 'kSomeSubtypeSomeStringKey',
-          value: '@"SOME_SUBTYPE_SOME_STRING"',
-          memorySemantic: ObjC.MemorySemantic.UnsafeUnretained()
-        },
-        {
-          comments: [],
-          type: {
-            name: 'NSString',
-            reference: 'NSString *'
-          },
-          name: 'kSomeSubtypeSomeUnsignedIntegerKey',
-          value: '@"SOME_SUBTYPE_SOME_UNSIGNED_INTEGER"',
-          memorySemantic: ObjC.MemorySemantic.UnsafeUnretained()
-        },
-        {
-          comments: [],
-          type: {
-            name: 'NSString',
-            reference: 'NSString *'
-          },
-          name: 'kCoolSingleAttributeSubtypeKey',
-          value: '@"COOL_SINGLE_ATTRIBUTE_SUBTYPE"',
-          memorySemantic: ObjC.MemorySemantic.UnsafeUnretained()
-        }
-      ];
-
-      expect(staticConstants).toEqualJSON(expectedStaticConstants);
-    });
+        expect(staticConstants).toEqualJSON(expectedStaticConstants);
+      },
+    );
   });
 
   describe('#validationErrors', function() {
     it('returns no validation errors when there are no attributes on the provided subtypes', function() {
-      const algebraicType:AlgebraicType.Type = {
+      const algebraicType: AlgebraicType.Type = {
         annotations: {},
         name: 'Foo',
         includes: [],
-        typeLookups:[],
+        typeLookups: [],
         excludes: [],
         libraryName: Maybe.Nothing<string>(),
         comments: [],
         subtypes: [
-          AlgebraicType.Subtype.NamedAttributeCollectionDefinition(
-          {
+          AlgebraicType.Subtype.NamedAttributeCollectionDefinition({
             name: 'ASubType',
             comments: [],
             attributes: [],
@@ -1193,26 +1257,27 @@ describe('AlgebraicTypePlugins.Coding', function() {
             comments: [],
             attributes: [],
             annotations: {},
-          })
-        ]
+          }),
+        ],
       };
 
-      const errors:Error.Error[] = AlgebraicTypePlugin.validationErrors(algebraicType);
+      const errors: Error.Error[] = AlgebraicTypePlugin.validationErrors(
+        algebraicType,
+      );
       expect(errors).toEqualJSON([]);
     });
 
     it('returns a validation error when there is an attribute with an unknown type', function() {
-      const algebraicType:AlgebraicType.Type = {
+      const algebraicType: AlgebraicType.Type = {
         annotations: {},
         name: 'Test',
         includes: [],
-        typeLookups:[],
+        typeLookups: [],
         excludes: [],
         libraryName: Maybe.Nothing<string>(),
         comments: [],
         subtypes: [
-          AlgebraicType.Subtype.NamedAttributeCollectionDefinition(
-          {
+          AlgebraicType.Subtype.NamedAttributeCollectionDefinition({
             name: 'SomeSubtype',
             comments: [],
             attributes: [
@@ -1220,40 +1285,43 @@ describe('AlgebraicTypePlugins.Coding', function() {
                 annotations: {},
                 name: 'someFoo',
                 comments: [],
-                nullability:ObjC.Nullability.Inherited(),
+                nullability: ObjC.Nullability.Inherited(),
                 type: {
                   name: 'Foo',
                   reference: 'Foo *',
                   libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
                   fileTypeIsDefinedIn: Maybe.Nothing<string>(),
                   underlyingType: Maybe.Nothing<string>(),
-                  conformingProtocol: Maybe.Nothing<string>()
-                }
-              }
+                  conformingProtocol: Maybe.Nothing<string>(),
+                },
+              },
             ],
             annotations: {},
-          })
-        ]
+          }),
+        ],
       };
-      const errors:Error.Error[] = AlgebraicTypePlugin.validationErrors(algebraicType);
-      const expectedErrors:Error.Error[] = [
-        Error.Error('The Coding plugin does not know how to decode and encode the type "Foo" from Test.someFoo. Did you forget to declare a backing type?')
+      const errors: Error.Error[] = AlgebraicTypePlugin.validationErrors(
+        algebraicType,
+      );
+      const expectedErrors: Error.Error[] = [
+        Error.Error(
+          'The Coding plugin does not know how to decode and encode the type "Foo" from Test.someFoo. Did you forget to declare a backing type?',
+        ),
       ];
       expect(errors).toEqualJSON(expectedErrors);
     });
 
     it('returns two validation errors when there are two attributes with unknown types', function() {
-      const algebraicType:AlgebraicType.Type = {
+      const algebraicType: AlgebraicType.Type = {
         annotations: {},
         name: 'Test',
         includes: [],
-        typeLookups:[],
+        typeLookups: [],
         excludes: [],
         libraryName: Maybe.Nothing<string>(),
         comments: [],
         subtypes: [
-          AlgebraicType.Subtype.NamedAttributeCollectionDefinition(
-          {
+          AlgebraicType.Subtype.NamedAttributeCollectionDefinition({
             name: 'SomeSubtype',
             comments: [],
             attributes: [
@@ -1261,16 +1329,16 @@ describe('AlgebraicTypePlugins.Coding', function() {
                 annotations: {},
                 name: 'someFoo',
                 comments: [],
-                nullability:ObjC.Nullability.Inherited(),
+                nullability: ObjC.Nullability.Inherited(),
                 type: {
                   name: 'Foo',
                   reference: 'Foo *',
                   libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
                   fileTypeIsDefinedIn: Maybe.Nothing<string>(),
                   underlyingType: Maybe.Nothing<string>(),
-                  conformingProtocol: Maybe.Nothing<string>()
-                }
-              }
+                  conformingProtocol: Maybe.Nothing<string>(),
+                },
+              },
             ],
             annotations: {},
           }),
@@ -1282,41 +1350,46 @@ describe('AlgebraicTypePlugins.Coding', function() {
                 annotations: {},
                 name: 'someFerr',
                 comments: [],
-                nullability:ObjC.Nullability.Inherited(),
+                nullability: ObjC.Nullability.Inherited(),
                 type: {
                   name: 'Ferr',
                   reference: 'Ferr',
                   libraryTypeIsDefinedIn: Maybe.Just<string>('SomeLib'),
                   fileTypeIsDefinedIn: Maybe.Just<string>('SomethingElse'),
                   underlyingType: Maybe.Nothing<string>(),
-                  conformingProtocol: Maybe.Nothing<string>()
-                }
-              }
+                  conformingProtocol: Maybe.Nothing<string>(),
+                },
+              },
             ],
             annotations: {},
-          })
-        ]
+          }),
+        ],
       };
-      const errors:Error.Error[] = AlgebraicTypePlugin.validationErrors(algebraicType);
-      const expectedErrors:Error.Error[] = [
-        Error.Error('The Coding plugin does not know how to decode and encode the type "Foo" from Test.someFoo. Did you forget to declare a backing type?'),
-        Error.Error('The Coding plugin does not know how to decode and encode the type "Ferr" from Test.someFerr. Did you forget to declare a backing type?')
+      const errors: Error.Error[] = AlgebraicTypePlugin.validationErrors(
+        algebraicType,
+      );
+      const expectedErrors: Error.Error[] = [
+        Error.Error(
+          'The Coding plugin does not know how to decode and encode the type "Foo" from Test.someFoo. Did you forget to declare a backing type?',
+        ),
+        Error.Error(
+          'The Coding plugin does not know how to decode and encode the type "Ferr" from Test.someFerr. Did you forget to declare a backing type?',
+        ),
       ];
       expect(errors).toEqualJSON(expectedErrors);
     });
 
     it('returns a validation error when there is an attribute with an unknown underlying type', function() {
-      const algebraicType:AlgebraicType.Type = {
+      const algebraicType: AlgebraicType.Type = {
         annotations: {},
         name: 'Test',
         includes: [],
-        typeLookups:[],
+        typeLookups: [],
         excludes: [],
         libraryName: Maybe.Nothing<string>(),
         comments: [],
         subtypes: [
-          AlgebraicType.Subtype.NamedAttributeCollectionDefinition(
-          {
+          AlgebraicType.Subtype.NamedAttributeCollectionDefinition({
             name: 'AnotherSubtype',
             comments: [],
             attributes: [
@@ -1324,24 +1397,28 @@ describe('AlgebraicTypePlugins.Coding', function() {
                 annotations: {},
                 name: 'someFerr',
                 comments: [],
-                nullability:ObjC.Nullability.Inherited(),
+                nullability: ObjC.Nullability.Inherited(),
                 type: {
                   name: 'Ferr',
                   reference: 'Ferr',
                   libraryTypeIsDefinedIn: Maybe.Just<string>('SomeLib'),
                   fileTypeIsDefinedIn: Maybe.Just<string>('SomethingElse'),
                   underlyingType: Maybe.Just<string>('SomethingRandom'),
-                  conformingProtocol: Maybe.Nothing<string>()
-                }
-              }
+                  conformingProtocol: Maybe.Nothing<string>(),
+                },
+              },
             ],
             annotations: {},
-          })
-        ]
+          }),
+        ],
       };
-      const errors:Error.Error[] = AlgebraicTypePlugin.validationErrors(algebraicType);
-      const expectedErrors:Error.Error[] = [
-        Error.Error('The Coding plugin does not know how to decode and encode the backing type "SomethingRandom" from Test.someFerr. Did you declare the wrong backing type?')
+      const errors: Error.Error[] = AlgebraicTypePlugin.validationErrors(
+        algebraicType,
+      );
+      const expectedErrors: Error.Error[] = [
+        Error.Error(
+          'The Coding plugin does not know how to decode and encode the backing type "SomethingRandom" from Test.someFerr. Did you declare the wrong backing type?',
+        ),
       ];
       expect(errors).toEqualJSON(expectedErrors);
     });

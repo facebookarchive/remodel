@@ -7,10 +7,12 @@
 
 import ObjectSpec = require('./object-spec');
 
-export function typeReferenceForValueTypeWithName(name:string):string {
+export function typeReferenceForValueTypeWithName(name: string): string {
   return name + ' *';
 }
 
-export function typeSupportsValueObjectSemantics(objectSpec:ObjectSpec.Type):boolean {
+export function typeSupportsValueObjectSemantics(
+  objectSpec: ObjectSpec.Type,
+): boolean {
   return objectSpec.includes.indexOf('RMValueObjectSemantics') >= 0;
 }

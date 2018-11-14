@@ -14,7 +14,7 @@ import StringUtils = require('../string-utils');
 import ObjectSpec = require('../object-spec');
 import ObjectSpecUtils = require('../object-spec-utils');
 
-function nameOfFetchStatusForValueTypeWithName(valueTypeName: string):string {
+function nameOfFetchStatusForValueTypeWithName(valueTypeName: string): string {
   return valueTypeName + 'FetchStatus';
 }
 
@@ -22,124 +22,148 @@ function nameOfFetchStatusAttributeForAttribute(attributeName: string): string {
   return 'hasFetched' + StringUtils.capitalize(attributeName);
 }
 
-function isFetchStatusAttribute(attribute:ObjectSpec.Attribute, objectType:ObjectSpec.Type):boolean {
-  return attribute.type.name !== nameOfFetchStatusForValueTypeWithName(objectType.typeName);
+function isFetchStatusAttribute(
+  attribute: ObjectSpec.Attribute,
+  objectType: ObjectSpec.Type,
+): boolean {
+  return (
+    attribute.type.name !==
+    nameOfFetchStatusForValueTypeWithName(objectType.typeName)
+  );
 }
 
-function fetchStatusAttributeForAttribute(attribute:ObjectSpec.Attribute):ObjectSpec.Attribute {
+function fetchStatusAttributeForAttribute(
+  attribute: ObjectSpec.Attribute,
+): ObjectSpec.Attribute {
   return {
     annotations: {},
     comments: [],
     name: nameOfFetchStatusAttributeForAttribute(attribute.name),
-    nullability:ObjC.Nullability.Inherited(),
+    nullability: ObjC.Nullability.Inherited(),
     type: {
-      fileTypeIsDefinedIn:Maybe.Nothing<string>(),
-      libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
-      name:'BOOL',
-      reference:'BOOL',
-      underlyingType:Maybe.Nothing<string>(),
-      conformingProtocol:Maybe.Nothing<string>()
-    }
+      fileTypeIsDefinedIn: Maybe.Nothing<string>(),
+      libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+      name: 'BOOL',
+      reference: 'BOOL',
+      underlyingType: Maybe.Nothing<string>(),
+      conformingProtocol: Maybe.Nothing<string>(),
+    },
   };
 }
 
-function fetchedAttributesForValueType(objectType:ObjectSpec.Type) {
-  return objectType.attributes.filter(function(attribute:ObjectSpec.Attribute) {
+function fetchedAttributesForValueType(objectType: ObjectSpec.Type) {
+  return objectType.attributes
+    .filter(function(attribute: ObjectSpec.Attribute) {
       return isFetchStatusAttribute(attribute, objectType);
-    }).map(fetchStatusAttributeForAttribute);
+    })
+    .map(fetchStatusAttributeForAttribute);
 }
 
-function fetchStatusValueTypeForValueType(objectType:ObjectSpec.Type):ObjectSpec.Type {
+function fetchStatusValueTypeForValueType(
+  objectType: ObjectSpec.Type,
+): ObjectSpec.Type {
   return {
-    annotations:{},
+    annotations: {},
     attributes: fetchedAttributesForValueType(objectType),
     comments: [],
     excludes: [],
     includes: [],
     libraryName: objectType.libraryName,
-    typeLookups:[],
-    typeName: nameOfFetchStatusForValueTypeWithName(objectType.typeName)
+    typeLookups: [],
+    typeName: nameOfFetchStatusForValueTypeWithName(objectType.typeName),
   };
 }
 
-function fetchStatusAttributeForValueType(objectType:ObjectSpec.Type):ObjectSpec.Attribute {
-  const fetchStatusTypeName:string = nameOfFetchStatusForValueTypeWithName(objectType.typeName);
+function fetchStatusAttributeForValueType(
+  objectType: ObjectSpec.Type,
+): ObjectSpec.Attribute {
+  const fetchStatusTypeName: string = nameOfFetchStatusForValueTypeWithName(
+    objectType.typeName,
+  );
 
   return {
     annotations: {},
     comments: [],
     name: 'fetchStatus',
-    nullability:ObjC.Nullability.Inherited(),
+    nullability: ObjC.Nullability.Inherited(),
     type: {
-      fileTypeIsDefinedIn:Maybe.Nothing<string>(),
-      libraryTypeIsDefinedIn:objectType.libraryName,
-      name:fetchStatusTypeName,
-      reference:ObjectSpecUtils.typeReferenceForValueTypeWithName(fetchStatusTypeName),
-      underlyingType:Maybe.Just<string>('NSObject'),
-      conformingProtocol:Maybe.Nothing<string>()
-    }
+      fileTypeIsDefinedIn: Maybe.Nothing<string>(),
+      libraryTypeIsDefinedIn: objectType.libraryName,
+      name: fetchStatusTypeName,
+      reference: ObjectSpecUtils.typeReferenceForValueTypeWithName(
+        fetchStatusTypeName,
+      ),
+      underlyingType: Maybe.Just<string>('NSObject'),
+      conformingProtocol: Maybe.Nothing<string>(),
+    },
   };
 }
 
-export function createPlugin():ObjectSpec.Plugin {
+export function createPlugin(): ObjectSpec.Plugin {
   return {
-    additionalFiles: function(objectType:ObjectSpec.Type):Code.File[] {
+    additionalFiles: function(objectType: ObjectSpec.Type): Code.File[] {
       return [];
     },
-    additionalTypes: function(objectType:ObjectSpec.Type):ObjectSpec.Type[] {
-      return [
-        fetchStatusValueTypeForValueType(objectType)
-      ];
+    additionalTypes: function(objectType: ObjectSpec.Type): ObjectSpec.Type[] {
+      return [fetchStatusValueTypeForValueType(objectType)];
     },
-    attributes: function(objectType:ObjectSpec.Type):ObjectSpec.Attribute[] {
-      return [
-        fetchStatusAttributeForValueType(objectType)
-      ];
+    attributes: function(objectType: ObjectSpec.Type): ObjectSpec.Attribute[] {
+      return [fetchStatusAttributeForValueType(objectType)];
     },
-    classMethods: function(objectType:ObjectSpec.Type):ObjC.Method[] {
+    classMethods: function(objectType: ObjectSpec.Type): ObjC.Method[] {
       return [];
     },
-    fileTransformation: function(request:FileWriter.Request):FileWriter.Request {
+    fileTransformation: function(
+      request: FileWriter.Request,
+    ): FileWriter.Request {
       return request;
     },
-    fileType: function(objectType:ObjectSpec.Type):Maybe.Maybe<Code.FileType> {
+    fileType: function(
+      objectType: ObjectSpec.Type,
+    ): Maybe.Maybe<Code.FileType> {
       return Maybe.Nothing<Code.FileType>();
     },
-    forwardDeclarations: function(objectType:ObjectSpec.Type):ObjC.ForwardDeclaration[] {
+    forwardDeclarations: function(
+      objectType: ObjectSpec.Type,
+    ): ObjC.ForwardDeclaration[] {
       return [];
     },
-    functions: function(objectType:ObjectSpec.Type):ObjC.Function[] {
+    functions: function(objectType: ObjectSpec.Type): ObjC.Function[] {
       return [];
     },
-    headerComments: function(objectType:ObjectSpec.Type):ObjC.Comment[] {
+    headerComments: function(objectType: ObjectSpec.Type): ObjC.Comment[] {
       return [];
     },
-    implementedProtocols: function(objectType:ObjectSpec.Type):ObjC.Protocol[] {
+    implementedProtocols: function(
+      objectType: ObjectSpec.Type,
+    ): ObjC.Protocol[] {
       return [];
     },
-    imports: function(objectType:ObjectSpec.Type):ObjC.Import[] {
+    imports: function(objectType: ObjectSpec.Type): ObjC.Import[] {
       return [];
     },
-    instanceMethods: function(objectType:ObjectSpec.Type):ObjC.Method[] {
+    instanceMethods: function(objectType: ObjectSpec.Type): ObjC.Method[] {
       return [];
     },
-    macros: function(valueType:ObjectSpec.Type):ObjC.Macro[] {
+    macros: function(valueType: ObjectSpec.Type): ObjC.Macro[] {
       return [];
     },
-    properties: function(objectType:ObjectSpec.Type):ObjC.Property[] {
+    properties: function(objectType: ObjectSpec.Type): ObjC.Property[] {
       return [];
     },
-    requiredIncludesToRun:['RMFetchStatus'],
-    staticConstants: function(objectType:ObjectSpec.Type):ObjC.Constant[] {
+    requiredIncludesToRun: ['RMFetchStatus'],
+    staticConstants: function(objectType: ObjectSpec.Type): ObjC.Constant[] {
       return [];
     },
-    validationErrors: function(objectType:ObjectSpec.Type):Error.Error[] {
+    validationErrors: function(objectType: ObjectSpec.Type): Error.Error[] {
       return [];
     },
-    nullability: function(objectType:ObjectSpec.Type):Maybe.Maybe<ObjC.ClassNullability> {
+    nullability: function(
+      objectType: ObjectSpec.Type,
+    ): Maybe.Maybe<ObjC.ClassNullability> {
       return Maybe.Nothing<ObjC.ClassNullability>();
     },
-    subclassingRestricted: function(objectType:ObjectSpec.Type):boolean {
+    subclassingRestricted: function(objectType: ObjectSpec.Type): boolean {
       return false;
     },
   };

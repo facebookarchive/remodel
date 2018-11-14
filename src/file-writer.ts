@@ -15,28 +15,35 @@ import Maybe = require('./maybe');
 import Promise = require('./promise');
 
 export interface Request {
-  content:string;
-  path:File.AbsoluteFilePath;
+  content: string;
+  path: File.AbsoluteFilePath;
 }
 
 export interface FileWriteRequest {
-  name:string;
-  requests:List.List<Request>;
+  name: string;
+  requests: List.List<Request>;
 }
 
-export function Request(path:File.AbsoluteFilePath, content:string) {
-  return {path:path, content:content};
+export function Request(path: File.AbsoluteFilePath, content: string) {
+  return {path: path, content: content};
 }
 
-export function write(request:Request):Promise.Future<Maybe.Maybe<Error.Error>> {
+export function write(
+  request: Request,
+): Promise.Future<Maybe.Maybe<Error.Error>> {
   const promise = Promise.pending<Maybe.Maybe<Error.Error>>();
-  fs.writeFile(File.getAbsolutePathString(request.path), request.content, {encoding: 'utf8'}, function(err) {
-    if (err) {
-      promise.setValue(Maybe.Just(Error.Error(err.message)));
-    } else {
-      promise.setValue(Maybe.Nothing<Error.Error>());
-    }
-  });
+  fs.writeFile(
+    File.getAbsolutePathString(request.path),
+    request.content,
+    {encoding: 'utf8'},
+    function(err) {
+      if (err) {
+        promise.setValue(Maybe.Just(Error.Error(err.message)));
+      } else {
+        promise.setValue(Maybe.Nothing<Error.Error>());
+      }
+    },
+  );
 
   return promise.getFuture();
 }

@@ -6,14 +6,14 @@
  */
 
 import Configuration = require('./configuration');
-import List = require('./list')
+import List = require('./list');
 
 export const OBJECT_SPEC_DEFAULT_CONFIG = {
   baseIncludes: List.of(
     'RMAssertNullability',
     'RMDescription',
     'RMImmutableProperties',
-    'RMInitNewUnavailable'
+    'RMInitNewUnavailable',
   ),
   basePlugins: List.of(
     'assert-nullability',
@@ -25,6 +25,6 @@ export const OBJECT_SPEC_DEFAULT_CONFIG = {
     'immutable-properties',
     'init-new-unavailable',
     'subclassing-restricted',
-    'use-cpp'
-  )
+    'use-cpp',
+  ),
 };

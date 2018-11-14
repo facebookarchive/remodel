@@ -6,13 +6,13 @@
  */
 
 export interface Error {
-  reason:string;
+  reason: string;
 }
 
-export function Error(reason:string) {
-  return {reason:reason};
+export function Error(reason: string) {
+  return {reason: reason};
 }
 
-export function getReason(error:Error) {
+export function getReason(error: Error) {
   return error.reason;
 }

@@ -18,92 +18,95 @@ const Plugin = FetchStatus.createPlugin();
 describe('Plugins.FetchStatus', function() {
   describe('#attributes', function() {
     it('returns a fetch status attribute', function() {
-      const objectType:ObjectSpec.Type = {
+      const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [],
         comments: [],
-        typeLookups:[],
+        typeLookups: [],
         excludes: [],
         includes: [],
-        libraryName:Maybe.Just<string>('FooLib'),
-        typeName: 'Foo'
+        libraryName: Maybe.Just<string>('FooLib'),
+        typeName: 'Foo',
       };
 
-      const attributes:ObjectSpec.Attribute[] = Plugin.attributes(objectType);
+      const attributes: ObjectSpec.Attribute[] = Plugin.attributes(objectType);
 
-      const expectedAttributes:ObjectSpec.Attribute[] = [
-      {
-        annotations: {},
-        comments: [],
-        name: 'fetchStatus',
-        nullability:ObjC.Nullability.Inherited(),
-        type: {
-          fileTypeIsDefinedIn:Maybe.Nothing<string>(),
-          libraryTypeIsDefinedIn:Maybe.Just<string>('FooLib'),
-          name:'FooFetchStatus',
-          reference: 'FooFetchStatus *',
-          underlyingType:Maybe.Just<string>('NSObject'),
-          conformingProtocol: Maybe.Nothing<string>()
-        }
-      }];
+      const expectedAttributes: ObjectSpec.Attribute[] = [
+        {
+          annotations: {},
+          comments: [],
+          name: 'fetchStatus',
+          nullability: ObjC.Nullability.Inherited(),
+          type: {
+            fileTypeIsDefinedIn: Maybe.Nothing<string>(),
+            libraryTypeIsDefinedIn: Maybe.Just<string>('FooLib'),
+            name: 'FooFetchStatus',
+            reference: 'FooFetchStatus *',
+            underlyingType: Maybe.Just<string>('NSObject'),
+            conformingProtocol: Maybe.Nothing<string>(),
+          },
+        },
+      ];
 
       expect(attributes).toEqualJSON(expectedAttributes);
     });
   });
   describe('#additionalTypes', function() {
     it('returns a fetch-status type with correct attributes', function() {
-      const objectType:ObjectSpec.Type = {
+      const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
-        {
-          annotations: {},
-          comments: [],
-          name: 'someUnsignedInteger',
-          nullability:ObjC.Nullability.Inherited(),
-          type: {
-            fileTypeIsDefinedIn:Maybe.Nothing<string>(),
-            libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
-            name: 'NSUInteger',
-            reference: 'NSUInteger',
-            underlyingType:Maybe.Nothing<string>(),
-            conformingProtocol: Maybe.Nothing<string>()
-          }
-        }
+          {
+            annotations: {},
+            comments: [],
+            name: 'someUnsignedInteger',
+            nullability: ObjC.Nullability.Inherited(),
+            type: {
+              fileTypeIsDefinedIn: Maybe.Nothing<string>(),
+              libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+              name: 'NSUInteger',
+              reference: 'NSUInteger',
+              underlyingType: Maybe.Nothing<string>(),
+              conformingProtocol: Maybe.Nothing<string>(),
+            },
+          },
         ],
         comments: [],
-        typeLookups:[],
+        typeLookups: [],
         excludes: [],
         includes: [],
-        libraryName:Maybe.Just<string>('FooLib'),
-        typeName: 'Foo'
+        libraryName: Maybe.Just<string>('FooLib'),
+        typeName: 'Foo',
       };
 
-      const additionalType:ObjectSpec.Type = Plugin.additionalTypes(objectType)[0];
+      const additionalType: ObjectSpec.Type = Plugin.additionalTypes(
+        objectType,
+      )[0];
 
-      const expectedValueType:ObjectSpec.Type = {
+      const expectedValueType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
-        {
-          annotations: {},
-          comments: [],
-          name: 'hasFetchedSomeUnsignedInteger',
-          nullability:ObjC.Nullability.Inherited(),
-          type: {
-            fileTypeIsDefinedIn:Maybe.Nothing<string>(),
-            libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
-            name:'BOOL',
-            reference: 'BOOL',
-            underlyingType:Maybe.Nothing<string>(),
-            conformingProtocol: Maybe.Nothing<string>()
-          }
-        }
+          {
+            annotations: {},
+            comments: [],
+            name: 'hasFetchedSomeUnsignedInteger',
+            nullability: ObjC.Nullability.Inherited(),
+            type: {
+              fileTypeIsDefinedIn: Maybe.Nothing<string>(),
+              libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+              name: 'BOOL',
+              reference: 'BOOL',
+              underlyingType: Maybe.Nothing<string>(),
+              conformingProtocol: Maybe.Nothing<string>(),
+            },
+          },
         ],
         comments: [],
-        typeLookups:[],
+        typeLookups: [],
         excludes: [],
         includes: [],
-        libraryName:Maybe.Just<string>('FooLib'),
-        typeName: 'FooFetchStatus'
+        libraryName: Maybe.Just<string>('FooLib'),
+        typeName: 'FooFetchStatus',
       };
 
       expect(additionalType).toEqualJSON(expectedValueType);

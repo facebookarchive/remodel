@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-  ///<reference path='./type-defs/node-0.11.d.ts'/>
+///<reference path='./type-defs/node-0.11.d.ts'/>
 
 import AlgebraicType = require('./algebraic-type');
 import Code = require('./code');
@@ -19,84 +19,111 @@ import Maybe = require('./maybe');
 import ObjC = require('./objc');
 import PluggableObjCFileCreation = require('./pluggable-objc-file-creation');
 
-export interface Request extends PluggableObjCFileCreation.ObjCGenerationRequest<AlgebraicType.Type> { }
+export interface Request
+  extends PluggableObjCFileCreation.ObjCGenerationRequest<AlgebraicType.Type> {}
 
-interface AlgebraicTypeObjCPlugIn extends PluggableObjCFileCreation.ObjCGenerationPlugIn<AlgebraicType.Type> { }
+interface AlgebraicTypeObjCPlugIn
+  extends PluggableObjCFileCreation.ObjCGenerationPlugIn<AlgebraicType.Type> {}
 
-function createAlgebraicTypeObjCPlugIn(plugin:AlgebraicType.Plugin) : AlgebraicTypeObjCPlugIn
-{
+function createAlgebraicTypeObjCPlugIn(
+  plugin: AlgebraicType.Plugin,
+): AlgebraicTypeObjCPlugIn {
   return {
-    additionalFiles: function(typeInformation:AlgebraicType.Type): Code.File[] {
+    additionalFiles: function(
+      typeInformation: AlgebraicType.Type,
+    ): Code.File[] {
       return plugin.additionalFiles(typeInformation);
     },
 
-    blockTypes: function(typeInformation:AlgebraicType.Type):ObjC.BlockType[] {
+    blockTypes: function(
+      typeInformation: AlgebraicType.Type,
+    ): ObjC.BlockType[] {
       return plugin.blockTypes(typeInformation);
     },
 
-    classMethods: function(typeInformation:AlgebraicType.Type):ObjC.Method[] {
+    classMethods: function(typeInformation: AlgebraicType.Type): ObjC.Method[] {
       return plugin.classMethods(typeInformation);
     },
 
-    comments: function(typeInformation:AlgebraicType.Type):ObjC.Comment[] {
+    comments: function(typeInformation: AlgebraicType.Type): ObjC.Comment[] {
       return plugin.headerComments(typeInformation);
     },
 
-    enumerations: function(typeInformation:AlgebraicType.Type):ObjC.Enumeration[] {
+    enumerations: function(
+      typeInformation: AlgebraicType.Type,
+    ): ObjC.Enumeration[] {
       return plugin.enumerations(typeInformation);
     },
 
-    fileTransformation: function(writeRequest:FileWriter.Request):FileWriter.Request {
+    fileTransformation: function(
+      writeRequest: FileWriter.Request,
+    ): FileWriter.Request {
       return plugin.fileTransformation(writeRequest);
     },
 
-    fileType: function(typeInformation:AlgebraicType.Type):Maybe.Maybe<Code.FileType> {
+    fileType: function(
+      typeInformation: AlgebraicType.Type,
+    ): Maybe.Maybe<Code.FileType> {
       return plugin.fileType(typeInformation);
     },
 
-    forwardDeclarations: function(typeInformation:AlgebraicType.Type):ObjC.ForwardDeclaration[] {
+    forwardDeclarations: function(
+      typeInformation: AlgebraicType.Type,
+    ): ObjC.ForwardDeclaration[] {
       return plugin.forwardDeclarations(typeInformation);
     },
 
-    functions: function(typeInformation:AlgebraicType.Type):ObjC.Function[] {
+    functions: function(typeInformation: AlgebraicType.Type): ObjC.Function[] {
       return plugin.functions(typeInformation);
     },
 
-    imports: function(typeInformation:AlgebraicType.Type):ObjC.Import[] {
+    imports: function(typeInformation: AlgebraicType.Type): ObjC.Import[] {
       return plugin.imports(typeInformation);
     },
 
-    instanceVariables: function(typeInformation:AlgebraicType.Type):ObjC.InstanceVariable[] {
+    instanceVariables: function(
+      typeInformation: AlgebraicType.Type,
+    ): ObjC.InstanceVariable[] {
       return plugin.instanceVariables(typeInformation);
     },
 
-    instanceMethods: function(typeInformation:AlgebraicType.Type):ObjC.Method[] {
+    instanceMethods: function(
+      typeInformation: AlgebraicType.Type,
+    ): ObjC.Method[] {
       return plugin.instanceMethods(typeInformation);
     },
 
     macros: plugin.macros,
 
-    properties: function(typeInformation:AlgebraicType.Type):ObjC.Property[] {
+    properties: function(typeInformation: AlgebraicType.Type): ObjC.Property[] {
       return [];
     },
 
-    protocols: function(typeInformation:AlgebraicType.Type):ObjC.Protocol[] {
+    protocols: function(typeInformation: AlgebraicType.Type): ObjC.Protocol[] {
       return plugin.implementedProtocols(typeInformation);
     },
 
-    staticConstants: function(typeInformation:AlgebraicType.Type):ObjC.Constant[] {
+    staticConstants: function(
+      typeInformation: AlgebraicType.Type,
+    ): ObjC.Constant[] {
       return plugin.staticConstants(typeInformation);
     },
 
-    validationErrors: function(typeInformation:AlgebraicType.Type):Error.Error[] {
+    validationErrors: function(
+      typeInformation: AlgebraicType.Type,
+    ): Error.Error[] {
       return plugin.validationErrors(typeInformation);
     },
 
-    nullability: function(typeInformation:AlgebraicType.Type):Maybe.Maybe<ObjC.ClassNullability> {
+    nullability: function(
+      typeInformation: AlgebraicType.Type,
+    ): Maybe.Maybe<ObjC.ClassNullability> {
       return plugin.nullability(typeInformation);
     },
 
-    subclassingRestricted: function(typeInformation:AlgebraicType.Type):boolean {
+    subclassingRestricted: function(
+      typeInformation: AlgebraicType.Type,
+    ): boolean {
       return plugin.subclassingRestricted(typeInformation);
     },
 
@@ -104,39 +131,72 @@ function createAlgebraicTypeObjCPlugIn(plugin:AlgebraicType.Plugin) : AlgebraicT
   };
 }
 
-function shouldRunPluginForInclude(includes:string[], requiredIncludeToRun:string):boolean {
+function shouldRunPluginForInclude(
+  includes: string[],
+  requiredIncludeToRun: string,
+): boolean {
   return includes.indexOf(requiredIncludeToRun) !== -1;
 }
 
-function shouldRunPluginForIncludes(includes:string[], plugin:AlgebraicType.Plugin):boolean {
-  return plugin.requiredIncludesToRun.every(FunctionUtils.pApplyf2(includes, shouldRunPluginForInclude));
+function shouldRunPluginForIncludes(
+  includes: string[],
+  plugin: AlgebraicType.Plugin,
+): boolean {
+  return plugin.requiredIncludesToRun.every(
+    FunctionUtils.pApplyf2(includes, shouldRunPluginForInclude),
+  );
 }
 
-function pluginsToRunForAlgebraicType(plugins:List.List<AlgebraicType.Plugin>, algebraicType:AlgebraicType.Type):List.List<AlgebraicType.Plugin> {
-  return List.filter(FunctionUtils.pApplyf2(algebraicType.includes, shouldRunPluginForIncludes), plugins);
+function pluginsToRunForAlgebraicType(
+  plugins: List.List<AlgebraicType.Plugin>,
+  algebraicType: AlgebraicType.Type,
+): List.List<AlgebraicType.Plugin> {
+  return List.filter(
+    FunctionUtils.pApplyf2(algebraicType.includes, shouldRunPluginForIncludes),
+    plugins,
+  );
 }
 
-function objcPluginForAlgebraicTypePlugin(plugin:AlgebraicType.Plugin):AlgebraicTypeObjCPlugIn {
+function objcPluginForAlgebraicTypePlugin(
+  plugin: AlgebraicType.Plugin,
+): AlgebraicTypeObjCPlugIn {
   return createAlgebraicTypeObjCPlugIn(plugin);
 }
 
-function typeNameForType(typeInformation:AlgebraicType.Type):string {
+function typeNameForType(typeInformation: AlgebraicType.Type): string {
   return typeInformation.name;
 }
 
-function commentsForType(typeInformation:AlgebraicType.Type):string[] {
+function commentsForType(typeInformation: AlgebraicType.Type): string[] {
   return typeInformation.comments;
 }
 
-export function fileWriteRequest(request:Request, plugins:List.List<AlgebraicType.Plugin>):Either.Either<Error.Error[], FileWriter.FileWriteRequest> {
-  const pluginsToRun = pluginsToRunForAlgebraicType(plugins, request.typeInformation);
-  const wrappedPlugins:List.List<AlgebraicTypeObjCPlugIn> = List.map(objcPluginForAlgebraicTypePlugin, pluginsToRun);
+export function fileWriteRequest(
+  request: Request,
+  plugins: List.List<AlgebraicType.Plugin>,
+): Either.Either<Error.Error[], FileWriter.FileWriteRequest> {
+  const pluginsToRun = pluginsToRunForAlgebraicType(
+    plugins,
+    request.typeInformation,
+  );
+  const wrappedPlugins: List.List<AlgebraicTypeObjCPlugIn> = List.map(
+    objcPluginForAlgebraicTypePlugin,
+    pluginsToRun,
+  );
 
-  const typeInfoProvider:PluggableObjCFileCreation.ObjCGenerationTypeInfoProvider<AlgebraicType.Type> = {
-    additionalTypesForType: function(typeInformation: AlgebraicType.Type) { return []; },
+  const typeInfoProvider: PluggableObjCFileCreation.ObjCGenerationTypeInfoProvider<
+    AlgebraicType.Type
+  > = {
+    additionalTypesForType: function(typeInformation: AlgebraicType.Type) {
+      return [];
+    },
     typeNameForType: typeNameForType,
     commentsForType: commentsForType,
   };
 
-  return PluggableObjCFileCreation.fileWriteRequest(request, typeInfoProvider, wrappedPlugins);
+  return PluggableObjCFileCreation.fileWriteRequest(
+    request,
+    typeInfoProvider,
+    wrappedPlugins,
+  );
 }

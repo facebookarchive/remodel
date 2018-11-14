@@ -15,13 +15,25 @@ beforeEach(function() {
     toEqualJSON: function(util, customEqualityTesters) {
       return {
         compare: function(actual: any, expected: any) {
-          const areObjectsEqual = util.equals(actual, expected, customEqualityTesters);
+          const areObjectsEqual = util.equals(
+            actual,
+            expected,
+            customEqualityTesters,
+          );
           return {
             pass: areObjectsEqual,
-            message: areObjectsEqual ? 'Equal' : '' + jsondiffpatch.console.format(jsondiffpatch.diff(JSON.parse(JSON.stringify(expected)), JSON.parse(JSON.stringify(actual)))),
+            message: areObjectsEqual
+              ? 'Equal'
+              : '' +
+                jsondiffpatch.console.format(
+                  jsondiffpatch.diff(
+                    JSON.parse(JSON.stringify(expected)),
+                    JSON.parse(JSON.stringify(actual)),
+                  ),
+                ),
           };
-        }
-      }
-    }
+        },
+      };
+    },
   });
 });

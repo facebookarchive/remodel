@@ -18,41 +18,52 @@ import ObjCTypeUtils = require('../objc-type-utils');
 import StringUtils = require('../string-utils');
 import ObjectSpec = require('../object-spec');
 import ObjectSpecCodeUtils = require('../object-spec-code-utils');
-import CodingUtils = require('./coding-utils')
+import CodingUtils = require('./coding-utils');
 
 function underscored(str: string): string {
-  return str.replace(/([a-z\d])([A-Z]+)/g, '$1_$2').replace(/[-\s]+/g, '_').toLowerCase();
+  return str
+    .replace(/([a-z\d])([A-Z]+)/g, '$1_$2')
+    .replace(/[-\s]+/g, '_')
+    .toLowerCase();
 }
 
 export interface CodeableAttribute {
-  name:string;
-  valueAccessor:string;
-  constantName:string;
-  constantValue:string;
-  legacyKeyNames:string[];
-  type:ObjC.Type;
+  name: string;
+  valueAccessor: string;
+  constantName: string;
+  constantValue: string;
+  legacyKeyNames: string[];
+  type: ObjC.Type;
 }
 
 // We only support a single non-legacy coding key, but it's possible to write the annotation
 // multiple times per-property. We catch this as a validation error, so that it won't affect
 // code generation.
-function codingKeysFromAnnotations(annotationMap: ObjectGeneration.AnnotationMap): string[] {
+function codingKeysFromAnnotations(
+  annotationMap: ObjectGeneration.AnnotationMap,
+): string[] {
   const codingKeyAnnotations = annotationMap['codingKey'];
   if (codingKeyAnnotations == null) {
     return [];
   }
 
-  return Maybe.catMaybes(codingKeyAnnotations.map(
-    annotation => new Maybe.Maybe(annotation.properties['name'])
-  ));
+  return Maybe.catMaybes(
+    codingKeyAnnotations.map(
+      annotation => new Maybe.Maybe(annotation.properties['name']),
+    ),
+  );
 }
 
-function legacyCodingKeyNameForAnnotation(legacyKeyAnnotation:ObjectGeneration.Annotation):string {
-  const legacyKey:string = legacyKeyAnnotation.properties['name'];
-  return (legacyKey === undefined ? '' : legacyKey);
+function legacyCodingKeyNameForAnnotation(
+  legacyKeyAnnotation: ObjectGeneration.Annotation,
+): string {
+  const legacyKey: string = legacyKeyAnnotation.properties['name'];
+  return legacyKey === undefined ? '' : legacyKey;
 }
 
-function legacyCodingKeyNamesForAttribute(attribute:ObjectSpec.Attribute):string[] {
+function legacyCodingKeyNamesForAttribute(
+  attribute: ObjectSpec.Attribute,
+): string[] {
   const legacyKeyAnnotations = attribute.annotations['codingLegacyKey'];
   if (legacyKeyAnnotations && legacyKeyAnnotations.length > 0) {
     return legacyKeyAnnotations.map(legacyCodingKeyNameForAnnotation);
@@ -61,11 +72,14 @@ function legacyCodingKeyNamesForAttribute(attribute:ObjectSpec.Attribute):string
   }
 }
 
-export function codingAttributeForValueAttribute(attribute:ObjectSpec.Attribute):CodeableAttribute {
+export function codingAttributeForValueAttribute(
+  attribute: ObjectSpec.Attribute,
+): CodeableAttribute {
   const codingKeys = codingKeysFromAnnotations(attribute.annotations);
-  const constantValue = codingKeys.length === 1
-    ? `@"${codingKeys[0]}"`
-    : constantValueForAttributeName(attribute.name);
+  const constantValue =
+    codingKeys.length === 1
+      ? `@"${codingKeys[0]}"`
+      : constantValueForAttributeName(attribute.name);
 
   return {
     name: attribute.name,
@@ -73,22 +87,36 @@ export function codingAttributeForValueAttribute(attribute:ObjectSpec.Attribute)
     constantName: nameOfConstantForValueName(attribute.name),
     constantValue: constantValue,
     legacyKeyNames: legacyCodingKeyNamesForAttribute(attribute),
-    type: ObjectSpecCodeUtils.computeTypeOfAttribute(attribute)
+    type: ObjectSpecCodeUtils.computeTypeOfAttribute(attribute),
   };
 }
 
-function legacyCheckingDecodeStatementReducerForAttributes(existingArray:string[], attribute:CodeableAttribute):string[] {
-  return existingArray.concat(legacyKeyRespectingDecodeStatementForAttribute(attribute));
+function legacyCheckingDecodeStatementReducerForAttributes(
+  existingArray: string[],
+  attribute: CodeableAttribute,
+): string[] {
+  return existingArray.concat(
+    legacyKeyRespectingDecodeStatementForAttribute(attribute),
+  );
 }
 
-function legacyKeyRespectingDecodeStatementForAttribute(attribute:CodeableAttribute):string[] {
-  const defaultDecodeStatement:string = decodeStatementForAttribute(attribute);
-  const decodeStatements:string[] = [defaultDecodeStatement];
-  
+function legacyKeyRespectingDecodeStatementForAttribute(
+  attribute: CodeableAttribute,
+): string[] {
+  const defaultDecodeStatement: string = decodeStatementForAttribute(attribute);
+  const decodeStatements: string[] = [defaultDecodeStatement];
+
   if (attribute.legacyKeyNames.length > 0) {
-    const nilValueForAttribute:string = nilValueForType(attribute.type);
+    const nilValueForAttribute: string = nilValueForType(attribute.type);
     if (nilValueForAttribute.length > 0) {
-      const legacyDecodeStatements:string[] = attribute.legacyKeyNames.reduce(FunctionUtils.pApply2f4(attribute, nilValueForAttribute, decodeStatementForAttributeAndLegacyKey), []);
+      const legacyDecodeStatements: string[] = attribute.legacyKeyNames.reduce(
+        FunctionUtils.pApply2f4(
+          attribute,
+          nilValueForAttribute,
+          decodeStatementForAttributeAndLegacyKey,
+        ),
+        [],
+      );
       if (legacyDecodeStatements.length > 0) {
         return decodeStatements.concat(legacyDecodeStatements);
       }
@@ -98,88 +126,137 @@ function legacyKeyRespectingDecodeStatementForAttribute(attribute:CodeableAttrib
   return decodeStatements;
 }
 
-function decodeStatementForAttributeAndLegacyKey(attribute:CodeableAttribute,
-                                                 nilValueForAttribute:string,
-                                                 decodeStatements:string[],
-                                                 legacyKeyName:string):string[] {
+function decodeStatementForAttributeAndLegacyKey(
+  attribute: CodeableAttribute,
+  nilValueForAttribute: string,
+  decodeStatements: string[],
+  legacyKeyName: string,
+): string[] {
   if (legacyKeyName.length > 0) {
-    const legacyDecodeStatement:string = decodeStatementForTypeValueAccessorAndCodingKey(
-                                           attribute.type,
-                                           attribute.valueAccessor,
-                                           '@"' + legacyKeyName + '"');
-    const conditionalStatement:string[] = ['if (' + attribute.valueAccessor + ' == ' + nilValueForAttribute + ') {',
-                                           StringUtils.indent(2)(legacyDecodeStatement),
-                                           '}'];
+    const legacyDecodeStatement: string = decodeStatementForTypeValueAccessorAndCodingKey(
+      attribute.type,
+      attribute.valueAccessor,
+      '@"' + legacyKeyName + '"',
+    );
+    const conditionalStatement: string[] = [
+      'if (' + attribute.valueAccessor + ' == ' + nilValueForAttribute + ') {',
+      StringUtils.indent(2)(legacyDecodeStatement),
+      '}',
+    ];
     return decodeStatements.concat(conditionalStatement);
   } else {
     return decodeStatements;
   }
 }
 
-export function decodeStatementForAttribute(attribute:CodeableAttribute):string {
-  return decodeStatementForTypeValueAccessorAndCodingKey(attribute.type,
-                                                         attribute.valueAccessor,
-                                                         attribute.constantName);
+export function decodeStatementForAttribute(
+  attribute: CodeableAttribute,
+): string {
+  return decodeStatementForTypeValueAccessorAndCodingKey(
+    attribute.type,
+    attribute.valueAccessor,
+    attribute.constantName,
+  );
 }
 
-function decodeStatementForTypeValueAccessorAndCodingKey(type:ObjC.Type, valueAccessor:string, codingKey:string):string {
-  const codingStatements:CodingUtils.CodingStatements = CodingUtils.codingStatementsForType(type);
+function decodeStatementForTypeValueAccessorAndCodingKey(
+  type: ObjC.Type,
+  valueAccessor: string,
+  codingKey: string,
+): string {
+  const codingStatements: CodingUtils.CodingStatements = CodingUtils.codingStatementsForType(
+    type,
+  );
   // we cast over to the id type to silence -Wnullable-to-nonnull-conversion errors, otherwise the flag
   // needs to be disabled for the entire target. This is better than using the valueObjectConfig, as it
   // allows the flag to remain on for the rest of the generated code, in case there are bugs in any other
   // plugins that lead to unsafe nullability issues.
   const cast = ObjCTypeUtils.isNSObject(type) ? `(id)` : '';
-  const decodedRawValuePart:string = `${cast}[aDecoder ${codingStatements.decodeStatement}:${codingKey}]`;
-  const decodedValuePart = codingStatements.decodeValueStatementGenerator(decodedRawValuePart);
+  const decodedRawValuePart: string = `${cast}[aDecoder ${
+    codingStatements.decodeStatement
+  }:${codingKey}]`;
+  const decodedValuePart = codingStatements.decodeValueStatementGenerator(
+    decodedRawValuePart,
+  );
   return valueAccessor + ' = ' + decodedValuePart + ';';
 }
 
-function decodeStatementForSubtype(attribute:CodeableAttribute):string {
-  const codingStatements:CodingUtils.CodingStatements = CodingUtils.codingStatementsForType(attribute.type);
-  const decodedRawValuePart:string = '[aDecoder ' + codingStatements.decodeStatement + ':' + attribute.constantName + ']';
-  const decodedValuePart = codingStatements.decodeValueStatementGenerator(decodedRawValuePart);
-  return 'NSString *' + attribute.valueAccessor + ' = ' + decodedValuePart + ';';
+function decodeStatementForSubtype(attribute: CodeableAttribute): string {
+  const codingStatements: CodingUtils.CodingStatements = CodingUtils.codingStatementsForType(
+    attribute.type,
+  );
+  const decodedRawValuePart: string =
+    '[aDecoder ' +
+    codingStatements.decodeStatement +
+    ':' +
+    attribute.constantName +
+    ']';
+  const decodedValuePart = codingStatements.decodeValueStatementGenerator(
+    decodedRawValuePart,
+  );
+  return (
+    'NSString *' + attribute.valueAccessor + ' = ' + decodedValuePart + ';'
+  );
 }
 
-export function encodeStatementForAttribute(attribute:CodeableAttribute):string {
-  const codingStatements: CodingUtils.CodingStatements = CodingUtils.codingStatementsForType(attribute.type);
-  const encodeValuePart = codingStatements.encodeValueStatementGenerator(attribute.valueAccessor);
-  return '[aCoder ' + codingStatements.encodeStatement + ':' + encodeValuePart + ' forKey:' + attribute.constantName + '];';
+export function encodeStatementForAttribute(
+  attribute: CodeableAttribute,
+): string {
+  const codingStatements: CodingUtils.CodingStatements = CodingUtils.codingStatementsForType(
+    attribute.type,
+  );
+  const encodeValuePart = codingStatements.encodeValueStatementGenerator(
+    attribute.valueAccessor,
+  );
+  return (
+    '[aCoder ' +
+    codingStatements.encodeStatement +
+    ':' +
+    encodeValuePart +
+    ' forKey:' +
+    attribute.constantName +
+    '];'
+  );
 }
 
-function nameOfConstantForValueName(valueName:string): string {
+function nameOfConstantForValueName(valueName: string): string {
   return 'k' + StringUtils.capitalize(valueName) + 'Key';
 }
 
-function constantValueForAttributeName(attributeName:string):string {
+function constantValueForAttributeName(attributeName: string): string {
   return '@"' + underscored(attributeName).toUpperCase() + '"';
 }
 
-function staticConstantForAttribute(attribute:CodeableAttribute):ObjC.Constant {
+function staticConstantForAttribute(
+  attribute: CodeableAttribute,
+): ObjC.Constant {
   return {
     type: {
-      name:'NSString',
-      reference:'NSString *'
+      name: 'NSString',
+      reference: 'NSString *',
     },
     comments: [],
     name: attribute.constantName,
     value: attribute.constantValue,
-    memorySemantic: ObjC.MemorySemantic.UnsafeUnretained()
+    memorySemantic: ObjC.MemorySemantic.UnsafeUnretained(),
   };
 }
 
-function initBlockWithInternalCode(internalCode:string[]):string[] {
-  const returnStatement:string = 'return self;';
-  return ['if ((self = [super init])) {'].concat(internalCode.map(StringUtils.indent(2))).concat('}').concat(returnStatement);
+function initBlockWithInternalCode(internalCode: string[]): string[] {
+  const returnStatement: string = 'return self;';
+  return ['if ((self = [super init])) {']
+    .concat(internalCode.map(StringUtils.indent(2)))
+    .concat('}')
+    .concat(returnStatement);
 }
 
-function decodeMethodWithCode(code:string[]):ObjC.Method {
+function decodeMethodWithCode(code: string[]): ObjC.Method {
   return {
-    preprocessors:[],
-    belongsToProtocol:Maybe.Just<string>('NSCoding'),
+    preprocessors: [],
+    belongsToProtocol: Maybe.Just<string>('NSCoding'),
     code: initBlockWithInternalCode(code),
-    comments:[],
-    compilerAttributes:[],
+    comments: [],
+    compilerAttributes: [],
     keywords: [
       {
         name: 'initWithCoder',
@@ -188,28 +265,28 @@ function decodeMethodWithCode(code:string[]):ObjC.Method {
           modifiers: [],
           type: {
             name: 'NSCoder',
-            reference: 'NSCoder *'
-          }
-        })
-      }
+            reference: 'NSCoder *',
+          },
+        }),
+      },
     ],
     returnType: {
       type: Maybe.Just<ObjC.Type>({
         name: 'instancetype',
-        reference: 'instancetype'
+        reference: 'instancetype',
       }),
-      modifiers: [ObjC.KeywordArgumentModifier.Nullable()]
-    }
+      modifiers: [ObjC.KeywordArgumentModifier.Nullable()],
+    },
   };
 }
 
-function encodeMethodWithCode(code:string[]):ObjC.Method {
+function encodeMethodWithCode(code: string[]): ObjC.Method {
   return {
-    preprocessors:[],
-    belongsToProtocol:Maybe.Just('NSCoding'),
+    preprocessors: [],
+    belongsToProtocol: Maybe.Just('NSCoding'),
     code: code,
-    comments:[],
-    compilerAttributes:[],
+    comments: [],
+    compilerAttributes: [],
     keywords: [
       {
         name: 'encodeWithCoder',
@@ -218,301 +295,460 @@ function encodeMethodWithCode(code:string[]):ObjC.Method {
           modifiers: [],
           type: {
             name: 'NSCoder',
-            reference: 'NSCoder *'
-          }
-        })
-      }
+            reference: 'NSCoder *',
+          },
+        }),
+      },
     ],
     returnType: {
       type: Maybe.Nothing<ObjC.Type>(),
-      modifiers: []
-    }
+      modifiers: [],
+    },
   };
 }
 
-function isTypeNSCodingCompliant(type:ObjC.Type):boolean {
-  return ObjCTypeUtils.matchType({
-    id: function() {
-      return true;
+function isTypeNSCodingCompliant(type: ObjC.Type): boolean {
+  return ObjCTypeUtils.matchType(
+    {
+      id: function() {
+        return true;
+      },
+      NSObject: function() {
+        return true;
+      },
+      BOOL: function() {
+        return true;
+      },
+      NSInteger: function() {
+        return true;
+      },
+      NSUInteger: function() {
+        return true;
+      },
+      double: function() {
+        return true;
+      },
+      float: function() {
+        return true;
+      },
+      CGFloat: function() {
+        return true;
+      },
+      NSTimeInterval: function() {
+        return true;
+      },
+      uintptr_t: function() {
+        return true;
+      },
+      uint32_t: function() {
+        return true;
+      },
+      uint64_t: function() {
+        return true;
+      },
+      int32_t: function() {
+        return true;
+      },
+      int64_t: function() {
+        return true;
+      },
+      SEL: function() {
+        return true;
+      },
+      NSRange: function() {
+        return true;
+      },
+      CGRect: function() {
+        return true;
+      },
+      CGPoint: function() {
+        return true;
+      },
+      CGSize: function() {
+        return true;
+      },
+      UIEdgeInsets: function() {
+        return true;
+      },
+      Class: function() {
+        return false;
+      },
+      dispatch_block_t: function() {
+        return false;
+      },
+      unmatchedType: function() {
+        return true;
+      },
     },
-    NSObject: function() {
-      return true;
-    },
-    BOOL: function() {
-      return true;
-    },
-    NSInteger: function() {
-      return true;
-    },
-    NSUInteger: function() {
-      return true;
-    },
-    double: function() {
-      return true;
-    },
-    float: function() {
-      return true;
-    },
-    CGFloat: function() {
-      return true;
-    },
-    NSTimeInterval: function() {
-      return true;
-    },
-    uintptr_t: function() {
-      return true;
-    },
-    uint32_t: function() {
-      return true;
-    },
-    uint64_t: function() {
-      return true;
-    },
-    int32_t: function() {
-      return true;
-    },
-    int64_t: function() {
-      return true;
-    },
-    SEL: function() {
-      return true;
-    },
-    NSRange: function() {
-      return true;
-    },
-    CGRect: function() {
-      return true;
-    },
-    CGPoint: function() {
-      return true;
-    },
-    CGSize: function() {
-      return true;
-    },
-    UIEdgeInsets: function() {
-      return true;
-    },
-    Class: function() {
-      return false;
-    },
-    dispatch_block_t: function() {
-      return false;
-    },
-    unmatchedType: function() {
-      return true;
-    }
-  },
-  type);
+    type,
+  );
 }
 
-function nilValueForType(type:ObjC.Type):string {
-  return ObjCTypeUtils.matchType({
-    id: function() {
-      return 'nil';
+function nilValueForType(type: ObjC.Type): string {
+  return ObjCTypeUtils.matchType(
+    {
+      id: function() {
+        return 'nil';
+      },
+      NSObject: function() {
+        return 'nil';
+      },
+      BOOL: function() {
+        return 'NO';
+      },
+      NSInteger: function() {
+        return '0';
+      },
+      NSUInteger: function() {
+        return '0';
+      },
+      double: function() {
+        return '0';
+      },
+      float: function() {
+        return '0';
+      },
+      CGFloat: function() {
+        return '0';
+      },
+      NSTimeInterval: function() {
+        return '0';
+      },
+      uintptr_t: function() {
+        return '0';
+      },
+      uint32_t: function() {
+        return '0';
+      },
+      uint64_t: function() {
+        return '0';
+      },
+      int32_t: function() {
+        return '0';
+      },
+      int64_t: function() {
+        return '0';
+      },
+      SEL: function() {
+        return '';
+      },
+      NSRange: function() {
+        return '';
+      },
+      CGRect: function() {
+        return '';
+      },
+      CGPoint: function() {
+        return '';
+      },
+      CGSize: function() {
+        return '';
+      },
+      UIEdgeInsets: function() {
+        return '';
+      },
+      Class: function() {
+        return 'nil';
+      },
+      dispatch_block_t: function() {
+        return '';
+      },
+      unmatchedType: function() {
+        return '';
+      },
     },
-    NSObject: function() {
-      return 'nil';
-    },
-    BOOL: function() {
-      return 'NO';
-    },
-    NSInteger: function() {
-      return '0';
-    },
-    NSUInteger: function() {
-      return '0';
-    },
-    double: function() {
-      return '0';
-    },
-    float: function() {
-      return '0';
-    },
-    CGFloat: function() {
-      return '0';
-    },
-    NSTimeInterval: function() {
-      return '0';
-    },
-    uintptr_t: function() {
-      return '0';
-    },
-    uint32_t: function() {
-      return '0';
-    },
-    uint64_t: function() {
-      return '0';
-    },
-    int32_t: function() {
-      return '0';
-    },
-    int64_t: function() {
-      return '0';
-    },
-    SEL: function() {
-      return '';
-    },
-    NSRange: function() {
-      return '';
-    },
-    CGRect: function() {
-      return '';
-    },
-    CGPoint: function() {
-      return '';
-    },
-    CGSize: function() {
-      return '';
-    },
-    UIEdgeInsets: function() {
-      return '';
-    },
-    Class: function() {
-      return 'nil';
-    },
-    dispatch_block_t: function() {
-      return '';
-    },
-    unmatchedType: function() {
-      return '';
-    }
-  },
-  type);
+    type,
+  );
 }
 
-function doesValueAttributeContainAnUnknownType(attribute:ObjectSpec.Attribute):boolean {
-  const codeableAttribute:CodeableAttribute = codingAttributeForValueAttribute(attribute);
-  const codingStatements:CodingUtils.CodingStatements = CodingUtils.codingStatementsForType(codeableAttribute.type);
+function doesValueAttributeContainAnUnknownType(
+  attribute: ObjectSpec.Attribute,
+): boolean {
+  const codeableAttribute: CodeableAttribute = codingAttributeForValueAttribute(
+    attribute,
+  );
+  const codingStatements: CodingUtils.CodingStatements = CodingUtils.codingStatementsForType(
+    codeableAttribute.type,
+  );
   return codingStatements == null;
 }
 
-function doesValueAttributeContainAnUnsupportedType(attribute:ObjectSpec.Attribute):boolean {
-  return isTypeNSCodingCompliant(ObjectSpecCodeUtils.computeTypeOfAttribute(attribute)) === false;
+function doesValueAttributeContainAnUnsupportedType(
+  attribute: ObjectSpec.Attribute,
+): boolean {
+  return (
+    isTypeNSCodingCompliant(
+      ObjectSpecCodeUtils.computeTypeOfAttribute(attribute),
+    ) === false
+  );
 }
 
-function doesValueAttributeContainAnLegacyKeyForUnsupportedType(attribute:ObjectSpec.Attribute):boolean {
-  return (legacyCodingKeyNamesForAttribute(attribute).length > 0 &&
-          nilValueForType(ObjectSpecCodeUtils.computeTypeOfAttribute(attribute)).length == 0);
+function doesValueAttributeContainAnLegacyKeyForUnsupportedType(
+  attribute: ObjectSpec.Attribute,
+): boolean {
+  return (
+    legacyCodingKeyNamesForAttribute(attribute).length > 0 &&
+    nilValueForType(ObjectSpecCodeUtils.computeTypeOfAttribute(attribute))
+      .length == 0
+  );
 }
 
-function valueAttributeToUnknownTypeError(objectType:ObjectSpec.Type, attribute:ObjectSpec.Attribute):Error.Error {
-  return Maybe.match(function(underlyingType: string):Error.Error {
-    return Error.Error('The Coding plugin does not know how to decode and encode the backing type "' + underlyingType + '" from ' + objectType.typeName + '.' + attribute.name + '. Did you declare the wrong backing type?');
-  }, function():Error.Error {
-    return Error.Error('The Coding plugin does not know how to decode and encode the type "' + attribute.type.name + '" from ' + objectType.typeName + '.' + attribute.name + '. Did you forget to declare a backing type?');
-  }, attribute.type.underlyingType);
+function valueAttributeToUnknownTypeError(
+  objectType: ObjectSpec.Type,
+  attribute: ObjectSpec.Attribute,
+): Error.Error {
+  return Maybe.match(
+    function(underlyingType: string): Error.Error {
+      return Error.Error(
+        'The Coding plugin does not know how to decode and encode the backing type "' +
+          underlyingType +
+          '" from ' +
+          objectType.typeName +
+          '.' +
+          attribute.name +
+          '. Did you declare the wrong backing type?',
+      );
+    },
+    function(): Error.Error {
+      return Error.Error(
+        'The Coding plugin does not know how to decode and encode the type "' +
+          attribute.type.name +
+          '" from ' +
+          objectType.typeName +
+          '.' +
+          attribute.name +
+          '. Did you forget to declare a backing type?',
+      );
+    },
+    attribute.type.underlyingType,
+  );
 }
 
-function valueAttributeToUnsupportedTypeError(objectType:ObjectSpec.Type, attribute:ObjectSpec.Attribute):Error.Error {
-   return Maybe.match(function(underlyingType: string):Error.Error {
-    return Error.Error('The Coding plugin does not know how to decode and encode the backing type "' + underlyingType + '" from ' + objectType.typeName + '.' + attribute.name + '. ' + attribute.type.name + ' is not NSCoding-compilant.');
-  }, function():Error.Error {
-    return Error.Error('The Coding plugin does not know how to decode and encode the type "' + attribute.type.name + '" from ' + objectType.typeName + '.' + attribute.name + '. ' + attribute.type.name + ' is not NSCoding-compilant.');
-  }, attribute.type.underlyingType);
+function valueAttributeToUnsupportedTypeError(
+  objectType: ObjectSpec.Type,
+  attribute: ObjectSpec.Attribute,
+): Error.Error {
+  return Maybe.match(
+    function(underlyingType: string): Error.Error {
+      return Error.Error(
+        'The Coding plugin does not know how to decode and encode the backing type "' +
+          underlyingType +
+          '" from ' +
+          objectType.typeName +
+          '.' +
+          attribute.name +
+          '. ' +
+          attribute.type.name +
+          ' is not NSCoding-compilant.',
+      );
+    },
+    function(): Error.Error {
+      return Error.Error(
+        'The Coding plugin does not know how to decode and encode the type "' +
+          attribute.type.name +
+          '" from ' +
+          objectType.typeName +
+          '.' +
+          attribute.name +
+          '. ' +
+          attribute.type.name +
+          ' is not NSCoding-compilant.',
+      );
+    },
+    attribute.type.underlyingType,
+  );
 }
 
-function valueAttributeToUnsupportedLegacyKeyTypeError(objectType:ObjectSpec.Type, attribute:ObjectSpec.Attribute):Error.Error {
-   return Maybe.match(function(underlyingType: string):Error.Error {
-    return Error.Error('%codingLegacyKey can\'t be used with "' + underlyingType + '" at ' + objectType.typeName + '.' + attribute.name + '.');
-  }, function():Error.Error {
-    return Error.Error('%codingLegacyKey can\'t be used with "' + attribute.type.name + '" at ' + objectType.typeName + '.' + attribute.name + '.');
-  }, attribute.type.underlyingType);
+function valueAttributeToUnsupportedLegacyKeyTypeError(
+  objectType: ObjectSpec.Type,
+  attribute: ObjectSpec.Attribute,
+): Error.Error {
+  return Maybe.match(
+    function(underlyingType: string): Error.Error {
+      return Error.Error(
+        '%codingLegacyKey can\'t be used with "' +
+          underlyingType +
+          '" at ' +
+          objectType.typeName +
+          '.' +
+          attribute.name +
+          '.',
+      );
+    },
+    function(): Error.Error {
+      return Error.Error(
+        '%codingLegacyKey can\'t be used with "' +
+          attribute.type.name +
+          '" at ' +
+          objectType.typeName +
+          '.' +
+          attribute.name +
+          '.',
+      );
+    },
+    attribute.type.underlyingType,
+  );
 }
 
-function multipleCodingKeyAnnotationErrorForValueAttribute(objectType:ObjectSpec.Type, attribute:ObjectSpec.Attribute):Maybe.Maybe<Error.Error> {
+function multipleCodingKeyAnnotationErrorForValueAttribute(
+  objectType: ObjectSpec.Type,
+  attribute: ObjectSpec.Attribute,
+): Maybe.Maybe<Error.Error> {
   const length = codingKeysFromAnnotations(attribute.annotations).length;
   return length > 1
-    ? Maybe.Just(Error.Error(`Only one %codingKey name is supported: ${objectType.typeName}.${attribute.name} has ${length}.`))
+    ? Maybe.Just(
+        Error.Error(
+          `Only one %codingKey name is supported: ${objectType.typeName}.${
+            attribute.name
+          } has ${length}.`,
+        ),
+      )
     : Maybe.Nothing();
 }
 
-function importForAttributeCodingMethod(attribute:ObjectSpec.Attribute):Maybe.Maybe<ObjC.Import> {
-  const codeableAttribute:CodeableAttribute = codingAttributeForValueAttribute(attribute);
-  const codingStatements:CodingUtils.CodingStatements = CodingUtils.codingStatementsForType(codeableAttribute.type);
+function importForAttributeCodingMethod(
+  attribute: ObjectSpec.Attribute,
+): Maybe.Maybe<ObjC.Import> {
+  const codeableAttribute: CodeableAttribute = codingAttributeForValueAttribute(
+    attribute,
+  );
+  const codingStatements: CodingUtils.CodingStatements = CodingUtils.codingStatementsForType(
+    codeableAttribute.type,
+  );
   return codingStatements.codingFunctionImport;
 }
 
-export function createPlugin():ObjectSpec.Plugin {
+export function createPlugin(): ObjectSpec.Plugin {
   return {
-    additionalFiles: function(objectType:ObjectSpec.Type):Code.File[] {
+    additionalFiles: function(objectType: ObjectSpec.Type): Code.File[] {
       return [];
     },
-    additionalTypes: function(objectType:ObjectSpec.Type):ObjectSpec.Type[] {
+    additionalTypes: function(objectType: ObjectSpec.Type): ObjectSpec.Type[] {
       return [];
     },
-    classMethods: function(objectType:ObjectSpec.Type):ObjC.Method[] {
+    classMethods: function(objectType: ObjectSpec.Type): ObjC.Method[] {
       return [];
     },
-    attributes: function(objectType:ObjectSpec.Type):ObjectSpec.Attribute[] {
+    attributes: function(objectType: ObjectSpec.Type): ObjectSpec.Attribute[] {
       return [];
     },
-    fileTransformation: function(request:FileWriter.Request):FileWriter.Request {
+    fileTransformation: function(
+      request: FileWriter.Request,
+    ): FileWriter.Request {
       return request;
     },
-    fileType: function(objectType:ObjectSpec.Type):Maybe.Maybe<Code.FileType> {
+    fileType: function(
+      objectType: ObjectSpec.Type,
+    ): Maybe.Maybe<Code.FileType> {
       return Maybe.Nothing<Code.FileType>();
     },
-    forwardDeclarations: function(objectType:ObjectSpec.Type):ObjC.ForwardDeclaration[] {
+    forwardDeclarations: function(
+      objectType: ObjectSpec.Type,
+    ): ObjC.ForwardDeclaration[] {
       return [];
     },
-    functions: function(objectType:ObjectSpec.Type):ObjC.Function[] {
+    functions: function(objectType: ObjectSpec.Type): ObjC.Function[] {
       return [];
     },
-    headerComments: function(objectType:ObjectSpec.Type):ObjC.Comment[] {
+    headerComments: function(objectType: ObjectSpec.Type): ObjC.Comment[] {
       return [];
     },
-    implementedProtocols: function(objectType:ObjectSpec.Type):ObjC.Protocol[] {
+    implementedProtocols: function(
+      objectType: ObjectSpec.Type,
+    ): ObjC.Protocol[] {
       return [
         {
-          name: 'NSCoding'
-        }
+          name: 'NSCoding',
+        },
       ];
     },
-    imports: function(objectType:ObjectSpec.Type):ObjC.Import[] {
-      const codingImportMaybes:Maybe.Maybe<ObjC.Import>[] = objectType.attributes.map(importForAttributeCodingMethod);
+    imports: function(objectType: ObjectSpec.Type): ObjC.Import[] {
+      const codingImportMaybes: Maybe.Maybe<
+        ObjC.Import
+      >[] = objectType.attributes.map(importForAttributeCodingMethod);
 
       return Maybe.catMaybes(codingImportMaybes);
     },
-    instanceMethods: function(objectType:ObjectSpec.Type):ObjC.Method[] {
+    instanceMethods: function(objectType: ObjectSpec.Type): ObjC.Method[] {
       if (objectType.attributes.length > 0) {
-        const codingAttributes:CodeableAttribute[] = objectType.attributes.map(codingAttributeForValueAttribute);
-        const decodeCode:string[] = codingAttributes.reduce(legacyCheckingDecodeStatementReducerForAttributes, []);
-        const encodeCode:string[] = codingAttributes.map(encodeStatementForAttribute);
+        const codingAttributes: CodeableAttribute[] = objectType.attributes.map(
+          codingAttributeForValueAttribute,
+        );
+        const decodeCode: string[] = codingAttributes.reduce(
+          legacyCheckingDecodeStatementReducerForAttributes,
+          [],
+        );
+        const encodeCode: string[] = codingAttributes.map(
+          encodeStatementForAttribute,
+        );
         return [
           decodeMethodWithCode(decodeCode),
-          encodeMethodWithCode(encodeCode)
+          encodeMethodWithCode(encodeCode),
         ];
       } else {
         return [];
       }
     },
-    macros: function(valueType:ObjectSpec.Type):ObjC.Macro[] {
+    macros: function(valueType: ObjectSpec.Type): ObjC.Macro[] {
       return [];
     },
-    properties: function(objectType:ObjectSpec.Type):ObjC.Property[] {
+    properties: function(objectType: ObjectSpec.Type): ObjC.Property[] {
       return [];
     },
-    requiredIncludesToRun:['RMCoding'],
-    staticConstants: function(objectType:ObjectSpec.Type):ObjC.Constant[] {
-      return objectType.attributes.map(codingAttributeForValueAttribute).map(staticConstantForAttribute);
+    requiredIncludesToRun: ['RMCoding'],
+    staticConstants: function(objectType: ObjectSpec.Type): ObjC.Constant[] {
+      return objectType.attributes
+        .map(codingAttributeForValueAttribute)
+        .map(staticConstantForAttribute);
     },
-    validationErrors: function(objectType:ObjectSpec.Type):Error.Error[] {
-      const unknownTypeErrors = objectType.attributes.filter(doesValueAttributeContainAnUnknownType).map(FunctionUtils.pApplyf2(objectType, valueAttributeToUnknownTypeError));
-      const unsupportedTypeErrors = objectType.attributes.filter(doesValueAttributeContainAnUnsupportedType).map(FunctionUtils.pApplyf2(objectType, valueAttributeToUnsupportedTypeError));
-      const unsupportedLegacyKeyTypeErrors = objectType.attributes.filter(doesValueAttributeContainAnLegacyKeyForUnsupportedType).map(FunctionUtils.pApplyf2(objectType, valueAttributeToUnsupportedLegacyKeyTypeError));
-      const multipleCodingKeyErrors = Maybe.catMaybes(objectType.attributes.map(FunctionUtils.pApplyf2(objectType, multipleCodingKeyAnnotationErrorForValueAttribute)));
-      return unknownTypeErrors.concat(unsupportedTypeErrors, unsupportedLegacyKeyTypeErrors, multipleCodingKeyErrors);
+    validationErrors: function(objectType: ObjectSpec.Type): Error.Error[] {
+      const unknownTypeErrors = objectType.attributes
+        .filter(doesValueAttributeContainAnUnknownType)
+        .map(
+          FunctionUtils.pApplyf2(objectType, valueAttributeToUnknownTypeError),
+        );
+      const unsupportedTypeErrors = objectType.attributes
+        .filter(doesValueAttributeContainAnUnsupportedType)
+        .map(
+          FunctionUtils.pApplyf2(
+            objectType,
+            valueAttributeToUnsupportedTypeError,
+          ),
+        );
+      const unsupportedLegacyKeyTypeErrors = objectType.attributes
+        .filter(doesValueAttributeContainAnLegacyKeyForUnsupportedType)
+        .map(
+          FunctionUtils.pApplyf2(
+            objectType,
+            valueAttributeToUnsupportedLegacyKeyTypeError,
+          ),
+        );
+      const multipleCodingKeyErrors = Maybe.catMaybes(
+        objectType.attributes.map(
+          FunctionUtils.pApplyf2(
+            objectType,
+            multipleCodingKeyAnnotationErrorForValueAttribute,
+          ),
+        ),
+      );
+      return unknownTypeErrors.concat(
+        unsupportedTypeErrors,
+        unsupportedLegacyKeyTypeErrors,
+        multipleCodingKeyErrors,
+      );
     },
-    nullability: function(objectType:ObjectSpec.Type):Maybe.Maybe<ObjC.ClassNullability> {
+    nullability: function(
+      objectType: ObjectSpec.Type,
+    ): Maybe.Maybe<ObjC.ClassNullability> {
       return Maybe.Nothing<ObjC.ClassNullability>();
     },
-    subclassingRestricted: function(objectType:ObjectSpec.Type):boolean {
+    subclassingRestricted: function(objectType: ObjectSpec.Type): boolean {
       return false;
     },
   };
 }
 
-function codeableAttributeForSubtypePropertyOfAlgebraicType():CodeableAttribute {
+function codeableAttributeForSubtypePropertyOfAlgebraicType(): CodeableAttribute {
   return {
     name: 'codedSubtype',
     valueAccessor: 'codedSubtype',
@@ -521,189 +757,429 @@ function codeableAttributeForSubtypePropertyOfAlgebraicType():CodeableAttribute 
     legacyKeyNames: [],
     type: {
       name: 'NSObject',
-      reference: 'NSObject'
-    }
+      reference: 'NSObject',
+    },
   };
 }
 
-function codeableAttributeForAlgebraicSubtypeAttribute(subtype:AlgebraicType.Subtype, attribute:AlgebraicType.SubtypeAttribute):CodeableAttribute {
-  const valueName:string = subtype.match(
-    function(namedAttributeCollectionSubtype:AlgebraicType.NamedAttributeCollectionSubtype) {
-      return StringUtils.capitalize(namedAttributeCollectionSubtype.name) + StringUtils.capitalize(attribute.name) ;
+function codeableAttributeForAlgebraicSubtypeAttribute(
+  subtype: AlgebraicType.Subtype,
+  attribute: AlgebraicType.SubtypeAttribute,
+): CodeableAttribute {
+  const valueName: string = subtype.match(
+    function(
+      namedAttributeCollectionSubtype: AlgebraicType.NamedAttributeCollectionSubtype,
+    ) {
+      return (
+        StringUtils.capitalize(namedAttributeCollectionSubtype.name) +
+        StringUtils.capitalize(attribute.name)
+      );
     },
-    function(attribute:AlgebraicType.SubtypeAttribute) {
+    function(attribute: AlgebraicType.SubtypeAttribute) {
       return StringUtils.capitalize(attribute.name);
-    });
+    },
+  );
 
-  const name = AlgebraicTypeUtils.nameOfInstanceVariableForAttribute(subtype, attribute);
+  const name = AlgebraicTypeUtils.nameOfInstanceVariableForAttribute(
+    subtype,
+    attribute,
+  );
   return {
     name: name,
-    valueAccessor: AlgebraicTypeUtils.valueAccessorForInstanceVariableForAttribute(subtype, attribute),
+    valueAccessor: AlgebraicTypeUtils.valueAccessorForInstanceVariableForAttribute(
+      subtype,
+      attribute,
+    ),
     constantName: nameOfConstantForValueName(valueName),
     constantValue: constantValueForAttributeName(name),
     legacyKeyNames: legacyCodingKeyNamesForAttribute(attribute),
-    type: AlgebraicTypeUtils.computeTypeOfAttribute(attribute)
+    type: AlgebraicTypeUtils.computeTypeOfAttribute(attribute),
   };
 }
 
-function decodeStatementForAlgebraicSubtypeAttribute(subtype:AlgebraicType.Subtype, attribute:AlgebraicType.SubtypeAttribute):string {
-  const codeableAttribute:CodeableAttribute = codeableAttributeForAlgebraicSubtypeAttribute(subtype, attribute);
+function decodeStatementForAlgebraicSubtypeAttribute(
+  subtype: AlgebraicType.Subtype,
+  attribute: AlgebraicType.SubtypeAttribute,
+): string {
+  const codeableAttribute: CodeableAttribute = codeableAttributeForAlgebraicSubtypeAttribute(
+    subtype,
+    attribute,
+  );
   return decodeStatementForAttribute(codeableAttribute);
 }
 
-function decodeStatementsForAlgebraicSubtype(algebraicType:AlgebraicType.Type, subtype:AlgebraicType.Subtype):string[] {
-  const decodeAttributes:string[] = AlgebraicTypeUtils.attributesFromSubtype(subtype).map(FunctionUtils.pApplyf2(subtype, decodeStatementForAlgebraicSubtypeAttribute));
-  return decodeAttributes.concat(decodedStatementForSubtypeProperty(algebraicType, subtype))
+function decodeStatementsForAlgebraicSubtype(
+  algebraicType: AlgebraicType.Type,
+  subtype: AlgebraicType.Subtype,
+): string[] {
+  const decodeAttributes: string[] = AlgebraicTypeUtils.attributesFromSubtype(
+    subtype,
+  ).map(
+    FunctionUtils.pApplyf2(
+      subtype,
+      decodeStatementForAlgebraicSubtypeAttribute,
+    ),
+  );
+  return decodeAttributes.concat(
+    decodedStatementForSubtypeProperty(algebraicType, subtype),
+  );
 }
 
-function decodedStatementForSubtypeProperty(algebraicType:AlgebraicType.Type, subtype:AlgebraicType.Subtype):string {
-  return AlgebraicTypeUtils.valueAccessorForInstanceVariableStoringSubtype() + ' = ' + AlgebraicTypeUtils.EnumerationValueNameForSubtype(algebraicType, subtype) + ';';
+function decodedStatementForSubtypeProperty(
+  algebraicType: AlgebraicType.Type,
+  subtype: AlgebraicType.Subtype,
+): string {
+  return (
+    AlgebraicTypeUtils.valueAccessorForInstanceVariableStoringSubtype() +
+    ' = ' +
+    AlgebraicTypeUtils.EnumerationValueNameForSubtype(algebraicType, subtype) +
+    ';'
+  );
 }
 
-function decodeCodeForAlgebraicType(algebraicType:AlgebraicType.Type):string[] {
-  const codeableAttributeForSubtypeProperty:CodeableAttribute = codeableAttributeForSubtypePropertyOfAlgebraicType();
-  const switchStatement:string[] = codeForBranchingOnSubtypeWithSubtypeMapper(algebraicType, codeableAttributeForSubtypeProperty.valueAccessor, decodeStatementsForAlgebraicSubtype);
-  return [decodeStatementForSubtype(codeableAttributeForSubtypeProperty)].concat(switchStatement);
+function decodeCodeForAlgebraicType(
+  algebraicType: AlgebraicType.Type,
+): string[] {
+  const codeableAttributeForSubtypeProperty: CodeableAttribute = codeableAttributeForSubtypePropertyOfAlgebraicType();
+  const switchStatement: string[] = codeForBranchingOnSubtypeWithSubtypeMapper(
+    algebraicType,
+    codeableAttributeForSubtypeProperty.valueAccessor,
+    decodeStatementsForAlgebraicSubtype,
+  );
+  return [
+    decodeStatementForSubtype(codeableAttributeForSubtypeProperty),
+  ].concat(switchStatement);
 }
 
-function encodeStatementForAlgebraicSubtypeAttribute(subtype:AlgebraicType.Subtype, attribute:AlgebraicType.SubtypeAttribute):string {
-  const codeableAttribute:CodeableAttribute = codeableAttributeForAlgebraicSubtypeAttribute(subtype, attribute);
+function encodeStatementForAlgebraicSubtypeAttribute(
+  subtype: AlgebraicType.Subtype,
+  attribute: AlgebraicType.SubtypeAttribute,
+): string {
+  const codeableAttribute: CodeableAttribute = codeableAttributeForAlgebraicSubtypeAttribute(
+    subtype,
+    attribute,
+  );
   return encodeStatementForAttribute(codeableAttribute);
 }
 
-function encodedStatementForSubtypeProperty(subtype:AlgebraicType.Subtype):string {
-  const subtypeAttribute:CodeableAttribute = codeableAttributeForSubtypePropertyOfAlgebraicType();
-  const codingStatements: CodingUtils.CodingStatements = CodingUtils.codingStatementsForType(subtypeAttribute.type);
-  return '[aCoder ' + codingStatements.encodeStatement + ':' + CodingNameForSubtype(subtype) + ' forKey:' + subtypeAttribute.constantName + '];';
+function encodedStatementForSubtypeProperty(
+  subtype: AlgebraicType.Subtype,
+): string {
+  const subtypeAttribute: CodeableAttribute = codeableAttributeForSubtypePropertyOfAlgebraicType();
+  const codingStatements: CodingUtils.CodingStatements = CodingUtils.codingStatementsForType(
+    subtypeAttribute.type,
+  );
+  return (
+    '[aCoder ' +
+    codingStatements.encodeStatement +
+    ':' +
+    CodingNameForSubtype(subtype) +
+    ' forKey:' +
+    subtypeAttribute.constantName +
+    '];'
+  );
 }
 
-function encodeStatementsForAlgebraicSubtype(algebraicType:AlgebraicType.Type, subtype:AlgebraicType.Subtype):string[] {
-  const encodeAttributes:string[] = AlgebraicTypeUtils.attributesFromSubtype(subtype).map(FunctionUtils.pApplyf2(subtype, encodeStatementForAlgebraicSubtypeAttribute));
+function encodeStatementsForAlgebraicSubtype(
+  algebraicType: AlgebraicType.Type,
+  subtype: AlgebraicType.Subtype,
+): string[] {
+  const encodeAttributes: string[] = AlgebraicTypeUtils.attributesFromSubtype(
+    subtype,
+  ).map(
+    FunctionUtils.pApplyf2(
+      subtype,
+      encodeStatementForAlgebraicSubtypeAttribute,
+    ),
+  );
   return encodeAttributes.concat(encodedStatementForSubtypeProperty(subtype));
 }
 
-function encodeCodeForAlgebraicType(algebraicType:AlgebraicType.Type):string[] {
-  return AlgebraicTypeUtils.codeForSwitchingOnSubtypeWithSubtypeMapper(algebraicType, AlgebraicTypeUtils.valueAccessorForInstanceVariableStoringSubtype(), encodeStatementsForAlgebraicSubtype);
+function encodeCodeForAlgebraicType(
+  algebraicType: AlgebraicType.Type,
+): string[] {
+  return AlgebraicTypeUtils.codeForSwitchingOnSubtypeWithSubtypeMapper(
+    algebraicType,
+    AlgebraicTypeUtils.valueAccessorForInstanceVariableStoringSubtype(),
+    encodeStatementsForAlgebraicSubtype,
+  );
 }
 
-function doesAlgebraicAttributeContainAnUnknownType(attribute:AlgebraicType.SubtypeAttribute):boolean {
-  const codingStatements:CodingUtils.CodingStatements = CodingUtils.codingStatementsForType(AlgebraicTypeUtils.computeTypeOfAttribute(attribute));
+function doesAlgebraicAttributeContainAnUnknownType(
+  attribute: AlgebraicType.SubtypeAttribute,
+): boolean {
+  const codingStatements: CodingUtils.CodingStatements = CodingUtils.codingStatementsForType(
+    AlgebraicTypeUtils.computeTypeOfAttribute(attribute),
+  );
   return codingStatements == null;
 }
 
-function doesAlgebraicAttributeContainAnUnsupportedType(attribute:AlgebraicType.SubtypeAttribute):boolean {
-  return isTypeNSCodingCompliant(AlgebraicTypeUtils.computeTypeOfAttribute(attribute)) === false;
+function doesAlgebraicAttributeContainAnUnsupportedType(
+  attribute: AlgebraicType.SubtypeAttribute,
+): boolean {
+  return (
+    isTypeNSCodingCompliant(
+      AlgebraicTypeUtils.computeTypeOfAttribute(attribute),
+    ) === false
+  );
 }
 
-function algebraicAttributeToUnknownTypeError(algebraicType:AlgebraicType.Type, attribute:AlgebraicType.SubtypeAttribute):Error.Error {
-  return Maybe.match(function(underlyingType: string):Error.Error {
-    return Error.Error('The Coding plugin does not know how to decode and encode the backing type "' + underlyingType + '" from ' + algebraicType.name + '.' + attribute.name + '. Did you declare the wrong backing type?');
-  }, function():Error.Error {
-    return Error.Error('The Coding plugin does not know how to decode and encode the type "' + attribute.type.name + '" from ' + algebraicType.name + '.' + attribute.name + '. Did you forget to declare a backing type?');
-  }, attribute.type.underlyingType);
+function algebraicAttributeToUnknownTypeError(
+  algebraicType: AlgebraicType.Type,
+  attribute: AlgebraicType.SubtypeAttribute,
+): Error.Error {
+  return Maybe.match(
+    function(underlyingType: string): Error.Error {
+      return Error.Error(
+        'The Coding plugin does not know how to decode and encode the backing type "' +
+          underlyingType +
+          '" from ' +
+          algebraicType.name +
+          '.' +
+          attribute.name +
+          '. Did you declare the wrong backing type?',
+      );
+    },
+    function(): Error.Error {
+      return Error.Error(
+        'The Coding plugin does not know how to decode and encode the type "' +
+          attribute.type.name +
+          '" from ' +
+          algebraicType.name +
+          '.' +
+          attribute.name +
+          '. Did you forget to declare a backing type?',
+      );
+    },
+    attribute.type.underlyingType,
+  );
 }
 
-function algebraicAttributeToUnsupportedTypeError(algebraicType:AlgebraicType.Type, attribute:AlgebraicType.SubtypeAttribute):Error.Error {
-  return Maybe.match(function(underlyingType: string):Error.Error {
-    return Error.Error('The Coding plugin does not know how to decode and encode the backing type "' + underlyingType + '" from ' + algebraicType.name + '.' + attribute.name + '. ' + attribute.type.name + ' is not NSCoding-compilant.');
-  }, function():Error.Error {
-    return Error.Error('The Coding plugin does not know how to decode and encode the type "' + attribute.type.name + '" from ' + algebraicType.name + '.' + attribute.name + '. ' + attribute.type.name + ' is not NSCoding-compilant.');
-  }, attribute.type.underlyingType);
+function algebraicAttributeToUnsupportedTypeError(
+  algebraicType: AlgebraicType.Type,
+  attribute: AlgebraicType.SubtypeAttribute,
+): Error.Error {
+  return Maybe.match(
+    function(underlyingType: string): Error.Error {
+      return Error.Error(
+        'The Coding plugin does not know how to decode and encode the backing type "' +
+          underlyingType +
+          '" from ' +
+          algebraicType.name +
+          '.' +
+          attribute.name +
+          '. ' +
+          attribute.type.name +
+          ' is not NSCoding-compilant.',
+      );
+    },
+    function(): Error.Error {
+      return Error.Error(
+        'The Coding plugin does not know how to decode and encode the type "' +
+          attribute.type.name +
+          '" from ' +
+          algebraicType.name +
+          '.' +
+          attribute.name +
+          '. ' +
+          attribute.type.name +
+          ' is not NSCoding-compilant.',
+      );
+    },
+    attribute.type.underlyingType,
+  );
 }
 
-function unsupportedAnnotationErrorForAlgebraicAttribute(attribute:AlgebraicType.SubtypeAttribute):Maybe.Maybe<Error.Error> {
+function unsupportedAnnotationErrorForAlgebraicAttribute(
+  attribute: AlgebraicType.SubtypeAttribute,
+): Maybe.Maybe<Error.Error> {
   return codingKeysFromAnnotations(attribute.annotations).length != 0
-    ? Maybe.Just(Error.Error('Custom coding keys are not supported for algebraic type attributes'))
+    ? Maybe.Just(
+        Error.Error(
+          'Custom coding keys are not supported for algebraic type attributes',
+        ),
+      )
     : Maybe.Nothing();
 }
 
-export function CodingNameForSubtype(subtype:AlgebraicType.Subtype):string {
-  return constantValueForAttributeName('SUBTYPE_' + AlgebraicTypeUtils.subtypeNameFromSubtype(subtype));
+export function CodingNameForSubtype(subtype: AlgebraicType.Subtype): string {
+  return constantValueForAttributeName(
+    'SUBTYPE_' + AlgebraicTypeUtils.subtypeNameFromSubtype(subtype),
+  );
 }
 
-function codeForSubtypeBranchesWithSubtypeMapper(algebraicType:AlgebraicType.Type, subtypeValueAccessor:string, subtypeMapper:(algebraicType:AlgebraicType.Type, subtype:AlgebraicType.Subtype) => string[], soFar:string[], subtype:AlgebraicType.Subtype):string[] {
-  const internalCode:string[] = subtypeMapper(algebraicType, subtype);
-  const code:string[] = [(soFar.length ? 'else if([' : 'if([') + subtypeValueAccessor + ' isEqualToString:' + CodingNameForSubtype(subtype) + ']) {'].concat(internalCode.map(StringUtils.indent(2))).concat(['}']);
+function codeForSubtypeBranchesWithSubtypeMapper(
+  algebraicType: AlgebraicType.Type,
+  subtypeValueAccessor: string,
+  subtypeMapper: (
+    algebraicType: AlgebraicType.Type,
+    subtype: AlgebraicType.Subtype,
+  ) => string[],
+  soFar: string[],
+  subtype: AlgebraicType.Subtype,
+): string[] {
+  const internalCode: string[] = subtypeMapper(algebraicType, subtype);
+  const code: string[] = [
+    (soFar.length ? 'else if([' : 'if([') +
+      subtypeValueAccessor +
+      ' isEqualToString:' +
+      CodingNameForSubtype(subtype) +
+      ']) {',
+  ]
+    .concat(internalCode.map(StringUtils.indent(2)))
+    .concat(['}']);
   return soFar.concat(code);
 }
 
-function codeForBranchingOnSubtypeWithSubtypeMapper(algebraicType:AlgebraicType.Type, subtypeValueAccessor:string, subtypeMapper:(algebraicType:AlgebraicType.Type, subtype:AlgebraicType.Subtype) => string[]):string[] {
-  const subtypeBranches:string[] = algebraicType.subtypes.reduce(FunctionUtils.pApply3f5(algebraicType, subtypeValueAccessor, subtypeMapper, codeForSubtypeBranchesWithSubtypeMapper), []);
-  const failureCase:string[] = ['else {', StringUtils.indent(2)('@throw([NSException exceptionWithName:@"InvalidSubtypeException" reason:@"nil or unknown subtype provided" userInfo:@{@"subtype": ' + codeableAttributeForSubtypePropertyOfAlgebraicType().valueAccessor +'}]);'), '}'];
+function codeForBranchingOnSubtypeWithSubtypeMapper(
+  algebraicType: AlgebraicType.Type,
+  subtypeValueAccessor: string,
+  subtypeMapper: (
+    algebraicType: AlgebraicType.Type,
+    subtype: AlgebraicType.Subtype,
+  ) => string[],
+): string[] {
+  const subtypeBranches: string[] = algebraicType.subtypes.reduce(
+    FunctionUtils.pApply3f5(
+      algebraicType,
+      subtypeValueAccessor,
+      subtypeMapper,
+      codeForSubtypeBranchesWithSubtypeMapper,
+    ),
+    [],
+  );
+  const failureCase: string[] = [
+    'else {',
+    StringUtils.indent(2)(
+      '@throw([NSException exceptionWithName:@"InvalidSubtypeException" reason:@"nil or unknown subtype provided" userInfo:@{@"subtype": ' +
+        codeableAttributeForSubtypePropertyOfAlgebraicType().valueAccessor +
+        '}]);',
+    ),
+    '}',
+  ];
   return subtypeBranches.concat(failureCase);
 }
 
-export function createAlgebraicTypePlugin():AlgebraicType.Plugin {
+export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
   return {
-    additionalFiles: function(algebraicType:AlgebraicType.Type):Code.File[] {
+    additionalFiles: function(algebraicType: AlgebraicType.Type): Code.File[] {
       return [];
     },
-    blockTypes: function(algebraicType:AlgebraicType.Type):ObjC.BlockType[] {
+    blockTypes: function(algebraicType: AlgebraicType.Type): ObjC.BlockType[] {
       return [];
     },
-    classMethods: function(algebraicType:AlgebraicType.Type):ObjC.Method[] {
+    classMethods: function(algebraicType: AlgebraicType.Type): ObjC.Method[] {
       return [];
     },
-    enumerations: function(algebraicType:AlgebraicType.Type):ObjC.Enumeration[] {
+    enumerations: function(
+      algebraicType: AlgebraicType.Type,
+    ): ObjC.Enumeration[] {
       return [];
     },
-    fileTransformation: function(request:FileWriter.Request):FileWriter.Request {
+    fileTransformation: function(
+      request: FileWriter.Request,
+    ): FileWriter.Request {
       return request;
     },
-    fileType: function(algebraicType:AlgebraicType.Type):Maybe.Maybe<Code.FileType> {
+    fileType: function(
+      algebraicType: AlgebraicType.Type,
+    ): Maybe.Maybe<Code.FileType> {
       return Maybe.Nothing<Code.FileType>();
     },
-    forwardDeclarations: function(algebraicType:AlgebraicType.Type):ObjC.ForwardDeclaration[] {
+    forwardDeclarations: function(
+      algebraicType: AlgebraicType.Type,
+    ): ObjC.ForwardDeclaration[] {
       return [];
     },
-    functions: function(algebraicType:AlgebraicType.Type):ObjC.Function[] {
+    functions: function(algebraicType: AlgebraicType.Type): ObjC.Function[] {
       return [];
     },
-    headerComments: function(algebraicType:AlgebraicType.Type):ObjC.Comment[] {
+    headerComments: function(
+      algebraicType: AlgebraicType.Type,
+    ): ObjC.Comment[] {
       return [];
     },
-    implementedProtocols: function(algebraicType:AlgebraicType.Type):ObjC.Protocol[] {
+    implementedProtocols: function(
+      algebraicType: AlgebraicType.Type,
+    ): ObjC.Protocol[] {
       return [
         {
-          name: 'NSCoding'
-        }
+          name: 'NSCoding',
+        },
       ];
     },
-    imports: function(algebraicType:AlgebraicType.Type):ObjC.Import[] {
+    imports: function(algebraicType: AlgebraicType.Type): ObjC.Import[] {
       return [];
     },
-    instanceMethods: function(algebraicType:AlgebraicType.Type):ObjC.Method[] {
-      const decodeCode:string[] = decodeCodeForAlgebraicType(algebraicType);
-      const encodeCode:string[] = encodeCodeForAlgebraicType(algebraicType);
+    instanceMethods: function(
+      algebraicType: AlgebraicType.Type,
+    ): ObjC.Method[] {
+      const decodeCode: string[] = decodeCodeForAlgebraicType(algebraicType);
+      const encodeCode: string[] = encodeCodeForAlgebraicType(algebraicType);
       return [
         decodeMethodWithCode(decodeCode),
-        encodeMethodWithCode(encodeCode)
+        encodeMethodWithCode(encodeCode),
       ];
     },
-    instanceVariables: function(algebraicType:AlgebraicType.Type):ObjC.InstanceVariable[] {
+    instanceVariables: function(
+      algebraicType: AlgebraicType.Type,
+    ): ObjC.InstanceVariable[] {
       return [];
     },
-    macros: function(algebraicType:AlgebraicType.Type):ObjC.Macro[] {
+    macros: function(algebraicType: AlgebraicType.Type): ObjC.Macro[] {
       return [];
     },
     requiredIncludesToRun: ['RMCoding'],
-    staticConstants: function(algebraicType:AlgebraicType.Type):ObjC.Constant[] {
-      const codeableAttributeForSubtypeProperty:CodeableAttribute = codeableAttributeForSubtypePropertyOfAlgebraicType();
-      const codeableAttributeForSubtypeAttributes:CodeableAttribute[] = AlgebraicTypeUtils.mapAttributesWithSubtypeFromSubtypes(algebraicType.subtypes, codeableAttributeForAlgebraicSubtypeAttribute);
-      const codeableAttributes:CodeableAttribute[] = [codeableAttributeForSubtypeProperty].concat(codeableAttributeForSubtypeAttributes);
+    staticConstants: function(
+      algebraicType: AlgebraicType.Type,
+    ): ObjC.Constant[] {
+      const codeableAttributeForSubtypeProperty: CodeableAttribute = codeableAttributeForSubtypePropertyOfAlgebraicType();
+      const codeableAttributeForSubtypeAttributes: CodeableAttribute[] = AlgebraicTypeUtils.mapAttributesWithSubtypeFromSubtypes(
+        algebraicType.subtypes,
+        codeableAttributeForAlgebraicSubtypeAttribute,
+      );
+      const codeableAttributes: CodeableAttribute[] = [
+        codeableAttributeForSubtypeProperty,
+      ].concat(codeableAttributeForSubtypeAttributes);
       return codeableAttributes.map(staticConstantForAttribute);
     },
-    validationErrors: function(algebraicType:AlgebraicType.Type):Error.Error[] {
-      const attributes = AlgebraicTypeUtils.allAttributesFromSubtypes(algebraicType.subtypes);
-      const unknownTypeErrors = attributes.filter(doesAlgebraicAttributeContainAnUnknownType).map(FunctionUtils.pApplyf2(algebraicType, algebraicAttributeToUnknownTypeError));
-      const unsupportedTypeErrors = attributes.filter(doesAlgebraicAttributeContainAnUnsupportedType).map(FunctionUtils.pApplyf2(algebraicType, algebraicAttributeToUnsupportedTypeError));
-      const unsupportedAnnotationErrors = Maybe.catMaybes(attributes.map(unsupportedAnnotationErrorForAlgebraicAttribute));
-      return unknownTypeErrors.concat(unsupportedTypeErrors).concat(unsupportedAnnotationErrors);
+    validationErrors: function(
+      algebraicType: AlgebraicType.Type,
+    ): Error.Error[] {
+      const attributes = AlgebraicTypeUtils.allAttributesFromSubtypes(
+        algebraicType.subtypes,
+      );
+      const unknownTypeErrors = attributes
+        .filter(doesAlgebraicAttributeContainAnUnknownType)
+        .map(
+          FunctionUtils.pApplyf2(
+            algebraicType,
+            algebraicAttributeToUnknownTypeError,
+          ),
+        );
+      const unsupportedTypeErrors = attributes
+        .filter(doesAlgebraicAttributeContainAnUnsupportedType)
+        .map(
+          FunctionUtils.pApplyf2(
+            algebraicType,
+            algebraicAttributeToUnsupportedTypeError,
+          ),
+        );
+      const unsupportedAnnotationErrors = Maybe.catMaybes(
+        attributes.map(unsupportedAnnotationErrorForAlgebraicAttribute),
+      );
+      return unknownTypeErrors
+        .concat(unsupportedTypeErrors)
+        .concat(unsupportedAnnotationErrors);
     },
-    nullability: function(algebraicType:AlgebraicType.Type):Maybe.Maybe<ObjC.ClassNullability> {
+    nullability: function(
+      algebraicType: AlgebraicType.Type,
+    ): Maybe.Maybe<ObjC.ClassNullability> {
       return Maybe.Nothing<ObjC.ClassNullability>();
     },
-    subclassingRestricted: function(algebraicType:AlgebraicType.Type):boolean {
+    subclassingRestricted: function(
+      algebraicType: AlgebraicType.Type,
+    ): boolean {
       return false;
     },
   };

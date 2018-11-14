@@ -7,7 +7,7 @@
 
 import FunctionUtils = require('./function-utils');
 
-export function stringContainingSpaces(spaces:number):string {
+export function stringContainingSpaces(spaces: number): string {
   var str = '';
   for (var i = 0; i < spaces; i++) {
     str += ' ';
@@ -15,7 +15,7 @@ export function stringContainingSpaces(spaces:number):string {
   return str;
 }
 
-function indentFunc(spaces:number, str:string):string {
+function indentFunc(spaces: number, str: string): string {
   if (str !== '') {
     return stringContainingSpaces(spaces) + str;
   } else {
@@ -23,10 +23,9 @@ function indentFunc(spaces:number, str:string):string {
   }
 }
 
-export function indent(spaces:number):(str:string) => string {
+export function indent(spaces: number): (str: string) => string {
   return FunctionUtils.pApplyf2(spaces, indentFunc);
 }
-
 
 export function capitalize(str: string): string {
   const capitalizedFirstCharacter = str.substring(0, 1).toUpperCase();
@@ -39,13 +38,17 @@ export function lowercased(str: string): string {
 }
 
 export function removeWhitespace(name: string): string {
-  return name.replace(/\s/g,'');
+  return name.replace(/\s/g, '');
 }
 
 const PREFIX_REGEX = /([A-Z]+)/;
 
-function prefixIncludingFirstCharacterOfNameFromString(stringIncludingPrefix: string):string {
-  const matchIncludingFirstCharacterOfName:string[] = PREFIX_REGEX.exec(stringIncludingPrefix);
+function prefixIncludingFirstCharacterOfNameFromString(
+  stringIncludingPrefix: string,
+): string {
+  const matchIncludingFirstCharacterOfName: string[] = PREFIX_REGEX.exec(
+    stringIncludingPrefix,
+  );
   if (matchIncludingFirstCharacterOfName != null) {
     return matchIncludingFirstCharacterOfName[0];
   } else {
@@ -53,7 +56,13 @@ function prefixIncludingFirstCharacterOfNameFromString(stringIncludingPrefix: st
   }
 }
 
-export function stringRemovingCapitalizedPrefix(stringIncludingPrefix:string):string {
-  const prefixIncludingFirstCharacter:string = prefixIncludingFirstCharacterOfNameFromString(stringIncludingPrefix);
-  return stringIncludingPrefix.substring(prefixIncludingFirstCharacter.length - 1);
+export function stringRemovingCapitalizedPrefix(
+  stringIncludingPrefix: string,
+): string {
+  const prefixIncludingFirstCharacter: string = prefixIncludingFirstCharacterOfNameFromString(
+    stringIncludingPrefix,
+  );
+  return stringIncludingPrefix.substring(
+    prefixIncludingFirstCharacter.length - 1,
+  );
 }

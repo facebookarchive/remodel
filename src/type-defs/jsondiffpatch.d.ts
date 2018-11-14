@@ -1,11 +1,10 @@
-
 declare module 'jsondiffpatch' {
-  module jsondiffpatch {
+  namespace jsondiffpatch {
     interface ConsoleFormatter {
       format(input: any): string;
     }
 
-    var console:ConsoleFormatter;
+    var console: ConsoleFormatter;
 
     function diff(left: any, right: any): any;
   }

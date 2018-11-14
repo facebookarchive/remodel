@@ -20,18 +20,20 @@ const AlgebraicTypePlugin = SubclassingRestricted.createAlgebraicTypePlugin();
 describe('ObjectSpecPlugins.SubclassingRestricted', function() {
   describe('#instanceMethods', function() {
     it('generates class with subclassing restricted compiler annotation', function() {
-      const objectType:ObjectSpec.Type = {
+      const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [],
         comments: [],
-        typeLookups:[],
+        typeLookups: [],
         excludes: [],
         includes: ['RMSubclassingRestricted'],
         libraryName: Maybe.Nothing<string>(),
-        typeName: 'Foo'
+        typeName: 'Foo',
       };
 
-      const subclassingRestricted:boolean = ObjectSpecPlugin.subclassingRestricted(objectType);
+      const subclassingRestricted: boolean = ObjectSpecPlugin.subclassingRestricted(
+        objectType,
+      );
       expect(subclassingRestricted).toEqual(true);
     });
   });
@@ -40,26 +42,27 @@ describe('ObjectSpecPlugins.SubclassingRestricted', function() {
 describe('AlgebraicTypePlugins.SubclassingRestricted', function() {
   describe('#instanceMethods', function() {
     it('always generates unavailable init/new methods for ADTs', function() {
-      const algebraicType:AlgebraicType.Type = {
+      const algebraicType: AlgebraicType.Type = {
         annotations: {},
         name: 'Foo',
         includes: ['RMSubclassingRestricted'],
-        typeLookups:[],
+        typeLookups: [],
         excludes: [],
         libraryName: Maybe.Nothing<string>(),
         comments: [],
         subtypes: [
-          AlgebraicType.Subtype.NamedAttributeCollectionDefinition(
-          {
+          AlgebraicType.Subtype.NamedAttributeCollectionDefinition({
             name: 'subtypeOne',
             comments: [],
             attributes: [],
             annotations: {},
-          })
+          }),
         ],
       };
 
-      const subclassingRestricted:boolean = AlgebraicTypePlugin.subclassingRestricted(algebraicType);
+      const subclassingRestricted: boolean = AlgebraicTypePlugin.subclassingRestricted(
+        algebraicType,
+      );
       expect(subclassingRestricted).toEqual(true);
     });
   });

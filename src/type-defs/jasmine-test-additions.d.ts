@@ -1,6 +1,5 @@
-
-declare module jasmine {
+declare namespace jasmine {
   interface Matchers {
-    toEqualJSON(expected:any, expectationFailOutput?: any): boolean;
+    toEqualJSON(expected: any, expectationFailOutput?: any): boolean;
   }
 }

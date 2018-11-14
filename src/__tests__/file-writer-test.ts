@@ -24,38 +24,64 @@ function nullFunc() {
 
 describe('FileWriter', function() {
   describe('#write', function() {
-    it('gives a future for the write information and actually does write ' +
-       'the contents of the request to disk', function(finished) {
+    it(
+      'gives a future for the write information and actually does write ' +
+        'the contents of the request to disk',
+      function(finished) {
         fsExtra.removeSync(__dirname + '/tmp');
-       fs.mkdirSync(__dirname + '/tmp');
-       const path:File.AbsoluteFilePath = File.getAbsoluteFilePath(__dirname + '/tmp/test.value');
-       const request:FileWriter.Request = FileWriter.Request(path, 'some contents');
-       const future:Promise.Future<Maybe.Maybe<Error.Error>> = FileWriter.write(request);
-       Promise.then(function(result:Maybe.Maybe<Error.Error>) {
-         const val:string = Maybe.match(Error.getReason, nullFunc, result);
+        fs.mkdirSync(__dirname + '/tmp');
+        const path: File.AbsoluteFilePath = File.getAbsoluteFilePath(
+          __dirname + '/tmp/test.value',
+        );
+        const request: FileWriter.Request = FileWriter.Request(
+          path,
+          'some contents',
+        );
+        const future: Promise.Future<
+          Maybe.Maybe<Error.Error>
+        > = FileWriter.write(request);
+        Promise.then(function(result: Maybe.Maybe<Error.Error>) {
+          const val: string = Maybe.match(Error.getReason, nullFunc, result);
 
-         expect(val).toBe(null);
+          expect(val).toBe(null);
 
-         fs.readFile(__dirname + '/tmp/test.value', 'utf8', function(err, data) {
-           expect(data).toEqualJSON('some contents');
-           fsExtra.removeSync(__dirname + '/tmp');
-           finished();
-         });
-       }, future);
-    });
+          fs.readFile(__dirname + '/tmp/test.value', 'utf8', function(
+            err,
+            data,
+          ) {
+            expect(data).toEqualJSON('some contents');
+            fsExtra.removeSync(__dirname + '/tmp');
+            finished();
+          });
+        }, future);
+      },
+    );
 
-    it('gives a future for the write information and gives back an actual ' +
-       'error when the write to disk fails', function(finished) {
-       const path:File.AbsoluteFilePath = File.getAbsoluteFilePath(__dirname + '/tmp/test.value');
-       const request:FileWriter.Request = FileWriter.Request(path, 'some contents');
-       const future:Promise.Future<Maybe.Maybe<Error.Error>> = FileWriter.write(request);
-       Promise.then(function(result:Maybe.Maybe<Error.Error>) {
-         const val:string = Maybe.match(Error.getReason, nullFunc, result);
+    it(
+      'gives a future for the write information and gives back an actual ' +
+        'error when the write to disk fails',
+      function(finished) {
+        const path: File.AbsoluteFilePath = File.getAbsoluteFilePath(
+          __dirname + '/tmp/test.value',
+        );
+        const request: FileWriter.Request = FileWriter.Request(
+          path,
+          'some contents',
+        );
+        const future: Promise.Future<
+          Maybe.Maybe<Error.Error>
+        > = FileWriter.write(request);
+        Promise.then(function(result: Maybe.Maybe<Error.Error>) {
+          const val: string = Maybe.match(Error.getReason, nullFunc, result);
 
-         expect(val.indexOf('ENOENT') != -1 && val.indexOf(__dirname + '/tmp/test.value\'')).toBeTruthy();
+          expect(
+            val.indexOf('ENOENT') != -1 &&
+              val.indexOf(__dirname + "/tmp/test.value'"),
+          ).toBeTruthy();
 
-         finished();
-       }, future);
-    });
+          finished();
+        }, future);
+      },
+    );
   });
 });

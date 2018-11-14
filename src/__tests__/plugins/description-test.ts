@@ -22,144 +22,160 @@ describe('ObjectSpecPlugins.Description', function() {
   describe('Value Object', function() {
     describe('#validationErrors', function() {
       it('returns no validation errors when there are no attributes on the found type', function() {
-        const objectType:ObjectSpec.Type = {
+        const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [],
           comments: [],
           excludes: [],
           includes: [],
           libraryName: Maybe.Nothing<string>(),
-          typeLookups:[],
-          typeName: 'Foo'
+          typeLookups: [],
+          typeName: 'Foo',
         };
-        const errors:Error.Error[] = ObjectSpecPlugin.validationErrors(objectType);
+        const errors: Error.Error[] = ObjectSpecPlugin.validationErrors(
+          objectType,
+        );
         expect(errors).toEqualJSON([]);
       });
 
       it('returns a validation error when there is an attribute with an unknown type', function() {
-        const objectType:ObjectSpec.Type = {
+        const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
             {
               annotations: {},
               comments: [],
               name: 'name',
-              nullability:ObjC.Nullability.Inherited(),
+              nullability: ObjC.Nullability.Inherited(),
               type: {
-                fileTypeIsDefinedIn:Maybe.Nothing<string>(),
-                libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+                fileTypeIsDefinedIn: Maybe.Nothing<string>(),
+                libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
                 name: 'NSString',
                 reference: 'NSString *',
-                underlyingType:Maybe.Just<string>('NSObject'),
-                conformingProtocol: Maybe.Nothing<string>()
-              }
+                underlyingType: Maybe.Just<string>('NSObject'),
+                conformingProtocol: Maybe.Nothing<string>(),
+              },
             },
             {
               annotations: {},
               comments: [],
               name: 'likeStatus',
-              nullability:ObjC.Nullability.Inherited(),
+              nullability: ObjC.Nullability.Inherited(),
               type: {
-                fileTypeIsDefinedIn:Maybe.Nothing<string>(),
-                libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+                fileTypeIsDefinedIn: Maybe.Nothing<string>(),
+                libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
                 name: 'LikeStatus',
                 reference: 'LikeStatus',
-                underlyingType:Maybe.Nothing<string>(),
-                conformingProtocol: Maybe.Nothing<string>()
-              }
-            }
+                underlyingType: Maybe.Nothing<string>(),
+                conformingProtocol: Maybe.Nothing<string>(),
+              },
+            },
           ],
           comments: [],
           excludes: [],
           includes: [],
           libraryName: Maybe.Nothing<string>(),
-          typeLookups:[],
-          typeName: 'Foo'
+          typeLookups: [],
+          typeName: 'Foo',
         };
-        const errors:Error.Error[] = ObjectSpecPlugin.validationErrors(objectType);
-        const expectedErrors:Error.Error[] = [
-          Error.Error('The Description plugin does not know how to format the type "LikeStatus" from Foo.likeStatus. Did you forget to declare a backing type?')
+        const errors: Error.Error[] = ObjectSpecPlugin.validationErrors(
+          objectType,
+        );
+        const expectedErrors: Error.Error[] = [
+          Error.Error(
+            'The Description plugin does not know how to format the type "LikeStatus" from Foo.likeStatus. Did you forget to declare a backing type?',
+          ),
         ];
         expect(errors).toEqualJSON(expectedErrors);
       });
 
       it('returns two validation errors when there are two attributes with unknown types', function() {
-        const objectType:ObjectSpec.Type = {
+        const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
             {
               annotations: {},
               comments: [],
               name: 'name',
-              nullability:ObjC.Nullability.Inherited(),
+              nullability: ObjC.Nullability.Inherited(),
               type: {
-                fileTypeIsDefinedIn:Maybe.Nothing<string>(),
-                libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+                fileTypeIsDefinedIn: Maybe.Nothing<string>(),
+                libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
                 name: 'Name',
                 reference: 'Name',
-                underlyingType:Maybe.Nothing<string>(),
-                conformingProtocol: Maybe.Nothing<string>()
-              }
+                underlyingType: Maybe.Nothing<string>(),
+                conformingProtocol: Maybe.Nothing<string>(),
+              },
             },
             {
               annotations: {},
               comments: [],
               name: 'likeStatus',
-              nullability:ObjC.Nullability.Inherited(),
+              nullability: ObjC.Nullability.Inherited(),
               type: {
-                fileTypeIsDefinedIn:Maybe.Nothing<string>(),
-                libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+                fileTypeIsDefinedIn: Maybe.Nothing<string>(),
+                libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
                 name: 'LikeStatus',
                 reference: 'LikeStatus',
-                underlyingType:Maybe.Nothing<string>(),
-                conformingProtocol: Maybe.Nothing<string>()
-              }
-            }
+                underlyingType: Maybe.Nothing<string>(),
+                conformingProtocol: Maybe.Nothing<string>(),
+              },
+            },
           ],
           comments: [],
           excludes: [],
           includes: [],
           libraryName: Maybe.Nothing<string>(),
-          typeLookups:[],
-          typeName: 'Foo'
+          typeLookups: [],
+          typeName: 'Foo',
         };
-        const errors:Error.Error[] = ObjectSpecPlugin.validationErrors(objectType);
-        const expectedErrors:Error.Error[] = [
-          Error.Error('The Description plugin does not know how to format the type "Name" from Foo.name. Did you forget to declare a backing type?'),
-          Error.Error('The Description plugin does not know how to format the type "LikeStatus" from Foo.likeStatus. Did you forget to declare a backing type?')
+        const errors: Error.Error[] = ObjectSpecPlugin.validationErrors(
+          objectType,
+        );
+        const expectedErrors: Error.Error[] = [
+          Error.Error(
+            'The Description plugin does not know how to format the type "Name" from Foo.name. Did you forget to declare a backing type?',
+          ),
+          Error.Error(
+            'The Description plugin does not know how to format the type "LikeStatus" from Foo.likeStatus. Did you forget to declare a backing type?',
+          ),
         ];
         expect(errors).toEqualJSON(expectedErrors);
       });
 
       it('returns a validation error when there is an attribute with an unknown underlying type', function() {
-        const objectType:ObjectSpec.Type = {
+        const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
             {
               annotations: {},
               comments: [],
               name: 'name',
-              nullability:ObjC.Nullability.Inherited(),
+              nullability: ObjC.Nullability.Inherited(),
               type: {
-                fileTypeIsDefinedIn:Maybe.Nothing<string>(),
-                libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+                fileTypeIsDefinedIn: Maybe.Nothing<string>(),
+                libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
                 name: 'FooBar',
                 reference: 'FooBar',
-                underlyingType:Maybe.Just<string>('Baz'),
-                conformingProtocol: Maybe.Nothing<string>()
-              }
-            }
+                underlyingType: Maybe.Just<string>('Baz'),
+                conformingProtocol: Maybe.Nothing<string>(),
+              },
+            },
           ],
           comments: [],
           excludes: [],
           includes: [],
           libraryName: Maybe.Nothing<string>(),
-          typeLookups:[],
-          typeName: 'Foo'
+          typeLookups: [],
+          typeName: 'Foo',
         };
-        const errors:Error.Error[] = ObjectSpecPlugin.validationErrors(objectType);
-        const expectedErrors:Error.Error[] = [
-          Error.Error('The Description plugin does not know how to format the backing type "Baz" from Foo.name. Did you declare the wrong backing type?')
+        const errors: Error.Error[] = ObjectSpecPlugin.validationErrors(
+          objectType,
+        );
+        const expectedErrors: Error.Error[] = [
+          Error.Error(
+            'The Description plugin does not know how to format the backing type "Baz" from Foo.name. Did you declare the wrong backing type?',
+          ),
         ];
         expect(errors).toEqualJSON(expectedErrors);
       });
@@ -167,1132 +183,1239 @@ describe('ObjectSpecPlugins.Description', function() {
 
     describe('#imports', function() {
       it('correctly finds imports for description functions that require them', function() {
-        const objectType:ObjectSpec.Type = {
+        const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
             {
               annotations: {},
               comments: [],
               name: 'rect',
-              nullability:ObjC.Nullability.Inherited(),
+              nullability: ObjC.Nullability.Inherited(),
               type: {
-                fileTypeIsDefinedIn:Maybe.Nothing<string>(),
-                libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+                fileTypeIsDefinedIn: Maybe.Nothing<string>(),
+                libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
                 name: 'CGRect',
                 reference: 'CGRect',
-                underlyingType:Maybe.Nothing<string>(),
-                conformingProtocol: Maybe.Nothing<string>()
-              }
-            }
+                underlyingType: Maybe.Nothing<string>(),
+                conformingProtocol: Maybe.Nothing<string>(),
+              },
+            },
           ],
           comments: [],
           excludes: [],
           includes: [],
           libraryName: Maybe.Nothing<string>(),
-          typeLookups:[],
-          typeName: 'Foo'
+          typeLookups: [],
+          typeName: 'Foo',
         };
-        const imports:ObjC.Import[] = ObjectSpecPlugin.imports(objectType);
-        const expectedImports:ObjC.Import[] = [{
-          file:'UIGeometry.h',
-          isPublic:false,
-          library:Maybe.Just('UIKit')
-        }];
+        const imports: ObjC.Import[] = ObjectSpecPlugin.imports(objectType);
+        const expectedImports: ObjC.Import[] = [
+          {
+            file: 'UIGeometry.h',
+            isPublic: false,
+            library: Maybe.Just('UIKit'),
+          },
+        ];
         expect(imports).toEqualJSON(expectedImports);
       });
     });
 
     describe('#instanceMethods', function() {
       it('returns no instance methods when there are no attributes on the found type', function() {
-        const objectType:ObjectSpec.Type = {
+        const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [],
           comments: [],
           excludes: [],
           includes: [],
           libraryName: Maybe.Nothing<string>(),
-          typeLookups:[],
-          typeName: 'Foo'
+          typeLookups: [],
+          typeName: 'Foo',
         };
-        const instanceMethods:ObjC.Method[] = ObjectSpecPlugin.instanceMethods(objectType);
+        const instanceMethods: ObjC.Method[] = ObjectSpecPlugin.instanceMethods(
+          objectType,
+        );
         expect(instanceMethods).toEqualJSON([]);
       });
 
       it('returns an instance method which will output a BOOL attribute when called', function() {
-        const objectType:ObjectSpec.Type = {
+        const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
             {
               annotations: {},
               comments: [],
               name: 'doesUserLike',
-              nullability:ObjC.Nullability.Inherited(),
+              nullability: ObjC.Nullability.Inherited(),
               type: {
-                fileTypeIsDefinedIn:Maybe.Nothing<string>(),
-                libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+                fileTypeIsDefinedIn: Maybe.Nothing<string>(),
+                libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
                 name: 'BOOL',
                 reference: 'BOOL',
-                underlyingType:Maybe.Nothing<string>(),
-                conformingProtocol: Maybe.Nothing<string>()
-              }
-            }
+                underlyingType: Maybe.Nothing<string>(),
+                conformingProtocol: Maybe.Nothing<string>(),
+              },
+            },
           ],
           comments: [],
           excludes: [],
           includes: [],
           libraryName: Maybe.Nothing<string>(),
-          typeLookups:[],
-          typeName: 'Foo'
+          typeLookups: [],
+          typeName: 'Foo',
         };
 
-        const instanceMethods:ObjC.Method[] = ObjectSpecPlugin.instanceMethods(objectType);
+        const instanceMethods: ObjC.Method[] = ObjectSpecPlugin.instanceMethods(
+          objectType,
+        );
 
-        const expectedInstanceMethods:ObjC.Method[] = [
+        const expectedInstanceMethods: ObjC.Method[] = [
           {
-            preprocessors:[],
-            belongsToProtocol:Maybe.Just('NSObject'),
+            preprocessors: [],
+            belongsToProtocol: Maybe.Just('NSObject'),
             code: [
-              'return [NSString stringWithFormat:@"%@ - \\n\\t doesUserLike: %@; \\n", [super description], _doesUserLike ? @"YES" : @"NO"];'
+              'return [NSString stringWithFormat:@"%@ - \\n\\t doesUserLike: %@; \\n", [super description], _doesUserLike ? @"YES" : @"NO"];',
             ],
             comments: [],
-            compilerAttributes:[],
+            compilerAttributes: [],
             keywords: [
               {
                 name: 'description',
-                argument: Maybe.Nothing<ObjC.KeywordArgument>()
-              }
+                argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+              },
             ],
-            returnType:{ type:Maybe.Just({
-              name: 'NSString',
-              reference: 'NSString *'
-            }), modifiers:[] }
-          }
+            returnType: {
+              type: Maybe.Just({
+                name: 'NSString',
+                reference: 'NSString *',
+              }),
+              modifiers: [],
+            },
+          },
         ];
 
         expect(instanceMethods).toEqualJSON(expectedInstanceMethods);
       });
 
       it('returns an instance method which will output an NSString* attribute when called', function() {
-        const objectType:ObjectSpec.Type = {
+        const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
             {
               annotations: {},
               comments: [],
               name: 'name',
-              nullability:ObjC.Nullability.Inherited(),
+              nullability: ObjC.Nullability.Inherited(),
               type: {
-                fileTypeIsDefinedIn:Maybe.Nothing<string>(),
-                libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+                fileTypeIsDefinedIn: Maybe.Nothing<string>(),
+                libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
                 name: 'NSString',
                 reference: 'NSString *',
-                underlyingType:Maybe.Just<string>('NSObject'),
-                conformingProtocol: Maybe.Nothing<string>()
-              }
-            }
+                underlyingType: Maybe.Just<string>('NSObject'),
+                conformingProtocol: Maybe.Nothing<string>(),
+              },
+            },
           ],
           comments: [],
           excludes: [],
           includes: [],
           libraryName: Maybe.Nothing<string>(),
-          typeLookups:[],
-          typeName: 'Foo'
+          typeLookups: [],
+          typeName: 'Foo',
         };
 
-        const instanceMethods:ObjC.Method[] = ObjectSpecPlugin.instanceMethods(objectType);
+        const instanceMethods: ObjC.Method[] = ObjectSpecPlugin.instanceMethods(
+          objectType,
+        );
 
-        const expectedInstanceMethods:ObjC.Method[] = [
+        const expectedInstanceMethods: ObjC.Method[] = [
           {
-            preprocessors:[],
-            belongsToProtocol:Maybe.Just('NSObject'),
+            preprocessors: [],
+            belongsToProtocol: Maybe.Just('NSObject'),
             code: [
-              'return [NSString stringWithFormat:@"%@ - \\n\\t name: %@; \\n", [super description], _name];'
+              'return [NSString stringWithFormat:@"%@ - \\n\\t name: %@; \\n", [super description], _name];',
             ],
             comments: [],
-            compilerAttributes:[],
+            compilerAttributes: [],
             keywords: [
               {
                 name: 'description',
-                argument: Maybe.Nothing<ObjC.KeywordArgument>()
-              }
+                argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+              },
             ],
-            returnType:{ type:Maybe.Just({
-              name: 'NSString',
-              reference: 'NSString *'
-            }), modifiers:[] }
-          }
+            returnType: {
+              type: Maybe.Just({
+                name: 'NSString',
+                reference: 'NSString *',
+              }),
+              modifiers: [],
+            },
+          },
         ];
 
         expect(instanceMethods).toEqualJSON(expectedInstanceMethods);
       });
 
       it('returns an instance method which will output an id attribute when called', function() {
-        const objectType:ObjectSpec.Type = {
+        const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
             {
               annotations: {},
               comments: [],
               name: 'something',
-              nullability:ObjC.Nullability.Inherited(),
+              nullability: ObjC.Nullability.Inherited(),
               type: {
-                fileTypeIsDefinedIn:Maybe.Nothing<string>(),
-                libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+                fileTypeIsDefinedIn: Maybe.Nothing<string>(),
+                libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
                 name: 'id',
                 reference: 'id',
-                underlyingType:Maybe.Nothing<string>(),
-                conformingProtocol: Maybe.Nothing<string>()
-              }
-            }
+                underlyingType: Maybe.Nothing<string>(),
+                conformingProtocol: Maybe.Nothing<string>(),
+              },
+            },
           ],
           comments: [],
           excludes: [],
           includes: [],
           libraryName: Maybe.Nothing<string>(),
-          typeLookups:[],
-          typeName: 'Foo'
+          typeLookups: [],
+          typeName: 'Foo',
         };
 
-        const instanceMethods:ObjC.Method[] = ObjectSpecPlugin.instanceMethods(objectType);
+        const instanceMethods: ObjC.Method[] = ObjectSpecPlugin.instanceMethods(
+          objectType,
+        );
 
-        const expectedInstanceMethods:ObjC.Method[] = [
+        const expectedInstanceMethods: ObjC.Method[] = [
           {
-            preprocessors:[],
-            belongsToProtocol:Maybe.Just('NSObject'),
+            preprocessors: [],
+            belongsToProtocol: Maybe.Just('NSObject'),
             code: [
-              'return [NSString stringWithFormat:@"%@ - \\n\\t something: %@; \\n", [super description], _something];'
+              'return [NSString stringWithFormat:@"%@ - \\n\\t something: %@; \\n", [super description], _something];',
             ],
             comments: [],
-            compilerAttributes:[],
+            compilerAttributes: [],
             keywords: [
               {
                 name: 'description',
-                argument: Maybe.Nothing<ObjC.KeywordArgument>()
-              }
+                argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+              },
             ],
-            returnType:{ type:Maybe.Just({
-              name: 'NSString',
-              reference: 'NSString *'
-            }), modifiers:[] }
-          }
+            returnType: {
+              type: Maybe.Just({
+                name: 'NSString',
+                reference: 'NSString *',
+              }),
+              modifiers: [],
+            },
+          },
         ];
 
         expect(instanceMethods).toEqualJSON(expectedInstanceMethods);
       });
 
       it('returns an instance method which will output an NSInteger attribute when called', function() {
-        const objectType:ObjectSpec.Type = {
+        const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
             {
               annotations: {},
               comments: [],
               name: 'age',
-              nullability:ObjC.Nullability.Inherited(),
+              nullability: ObjC.Nullability.Inherited(),
               type: {
-                fileTypeIsDefinedIn:Maybe.Nothing<string>(),
-                libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+                fileTypeIsDefinedIn: Maybe.Nothing<string>(),
+                libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
                 name: 'NSInteger',
                 reference: 'NSInteger',
-                underlyingType:Maybe.Nothing<string>(),
-                conformingProtocol: Maybe.Nothing<string>()
-              }
-            }
+                underlyingType: Maybe.Nothing<string>(),
+                conformingProtocol: Maybe.Nothing<string>(),
+              },
+            },
           ],
           comments: [],
           excludes: [],
           includes: [],
           libraryName: Maybe.Nothing<string>(),
-          typeLookups:[],
-          typeName: 'Foo'
+          typeLookups: [],
+          typeName: 'Foo',
         };
 
-        const instanceMethods:ObjC.Method[] = ObjectSpecPlugin.instanceMethods(objectType);
+        const instanceMethods: ObjC.Method[] = ObjectSpecPlugin.instanceMethods(
+          objectType,
+        );
 
-        const expectedInstanceMethods:ObjC.Method[] = [
+        const expectedInstanceMethods: ObjC.Method[] = [
           {
-            preprocessors:[],
-            belongsToProtocol:Maybe.Just('NSObject'),
+            preprocessors: [],
+            belongsToProtocol: Maybe.Just('NSObject'),
             code: [
-              'return [NSString stringWithFormat:@"%@ - \\n\\t age: %lld; \\n", [super description], (long long)_age];'
+              'return [NSString stringWithFormat:@"%@ - \\n\\t age: %lld; \\n", [super description], (long long)_age];',
             ],
             comments: [],
-            compilerAttributes:[],
+            compilerAttributes: [],
             keywords: [
               {
                 name: 'description',
-                argument: Maybe.Nothing<ObjC.KeywordArgument>()
-              }
+                argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+              },
             ],
-            returnType:{ type:Maybe.Just({
-              name: 'NSString',
-              reference: 'NSString *'
-            }), modifiers:[] }
-          }
+            returnType: {
+              type: Maybe.Just({
+                name: 'NSString',
+                reference: 'NSString *',
+              }),
+              modifiers: [],
+            },
+          },
         ];
 
         expect(instanceMethods).toEqualJSON(expectedInstanceMethods);
       });
 
       it('returns an instance method which will output an NSUInteger attribute when called', function() {
-        const objectType:ObjectSpec.Type = {
+        const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
             {
               annotations: {},
               comments: [],
               name: 'age',
-              nullability:ObjC.Nullability.Inherited(),
+              nullability: ObjC.Nullability.Inherited(),
               type: {
-                fileTypeIsDefinedIn:Maybe.Nothing<string>(),
-                libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+                fileTypeIsDefinedIn: Maybe.Nothing<string>(),
+                libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
                 name: 'NSUInteger',
                 reference: 'NSUInteger',
-                underlyingType:Maybe.Nothing<string>(),
-                conformingProtocol: Maybe.Nothing<string>()
-              }
-            }
+                underlyingType: Maybe.Nothing<string>(),
+                conformingProtocol: Maybe.Nothing<string>(),
+              },
+            },
           ],
           comments: [],
           excludes: [],
           includes: [],
           libraryName: Maybe.Nothing<string>(),
-          typeLookups:[],
-          typeName: 'Foo'
+          typeLookups: [],
+          typeName: 'Foo',
         };
 
-        const instanceMethods:ObjC.Method[] = ObjectSpecPlugin.instanceMethods(objectType);
+        const instanceMethods: ObjC.Method[] = ObjectSpecPlugin.instanceMethods(
+          objectType,
+        );
 
-        const expectedInstanceMethods:ObjC.Method[] = [
+        const expectedInstanceMethods: ObjC.Method[] = [
           {
-            preprocessors:[],
-            belongsToProtocol:Maybe.Just('NSObject'),
+            preprocessors: [],
+            belongsToProtocol: Maybe.Just('NSObject'),
             code: [
-              'return [NSString stringWithFormat:@"%@ - \\n\\t age: %llu; \\n", [super description], (unsigned long long)_age];'
+              'return [NSString stringWithFormat:@"%@ - \\n\\t age: %llu; \\n", [super description], (unsigned long long)_age];',
             ],
             comments: [],
-            compilerAttributes:[],
+            compilerAttributes: [],
             keywords: [
               {
                 name: 'description',
-                argument: Maybe.Nothing<ObjC.KeywordArgument>()
-              }
+                argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+              },
             ],
-            returnType:{ type:Maybe.Just({
-              name: 'NSString',
-              reference: 'NSString *'
-            }), modifiers:[] }
-          }
+            returnType: {
+              type: Maybe.Just({
+                name: 'NSString',
+                reference: 'NSString *',
+              }),
+              modifiers: [],
+            },
+          },
         ];
 
         expect(instanceMethods).toEqualJSON(expectedInstanceMethods);
       });
 
       it('returns an instance method which will output a double attribute when called', function() {
-        const objectType:ObjectSpec.Type = {
+        const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
             {
               annotations: {},
               comments: [],
               name: 'age',
-              nullability:ObjC.Nullability.Inherited(),
+              nullability: ObjC.Nullability.Inherited(),
               type: {
-                fileTypeIsDefinedIn:Maybe.Nothing<string>(),
-                libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+                fileTypeIsDefinedIn: Maybe.Nothing<string>(),
+                libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
                 name: 'double',
                 reference: 'double',
-                underlyingType:Maybe.Nothing<string>(),
-                conformingProtocol: Maybe.Nothing<string>()
-              }
-            }
+                underlyingType: Maybe.Nothing<string>(),
+                conformingProtocol: Maybe.Nothing<string>(),
+              },
+            },
           ],
           comments: [],
           excludes: [],
           includes: [],
           libraryName: Maybe.Nothing<string>(),
-          typeLookups:[],
-          typeName: 'Foo'
+          typeLookups: [],
+          typeName: 'Foo',
         };
 
-        const instanceMethods:ObjC.Method[] = ObjectSpecPlugin.instanceMethods(objectType);
+        const instanceMethods: ObjC.Method[] = ObjectSpecPlugin.instanceMethods(
+          objectType,
+        );
 
-        const expectedInstanceMethods:ObjC.Method[] = [
+        const expectedInstanceMethods: ObjC.Method[] = [
           {
-            preprocessors:[],
-            belongsToProtocol:Maybe.Just('NSObject'),
+            preprocessors: [],
+            belongsToProtocol: Maybe.Just('NSObject'),
             code: [
-              'return [NSString stringWithFormat:@"%@ - \\n\\t age: %lf; \\n", [super description], _age];'
+              'return [NSString stringWithFormat:@"%@ - \\n\\t age: %lf; \\n", [super description], _age];',
             ],
             comments: [],
-            compilerAttributes:[],
+            compilerAttributes: [],
             keywords: [
               {
                 name: 'description',
-                argument: Maybe.Nothing<ObjC.KeywordArgument>()
-              }
+                argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+              },
             ],
-            returnType:{ type:Maybe.Just({
-              name: 'NSString',
-              reference: 'NSString *'
-            }), modifiers:[] }
-          }
+            returnType: {
+              type: Maybe.Just({
+                name: 'NSString',
+                reference: 'NSString *',
+              }),
+              modifiers: [],
+            },
+          },
         ];
 
         expect(instanceMethods).toEqualJSON(expectedInstanceMethods);
       });
 
       it('returns an instance method which will output a float attribute when called', function() {
-        const objectType:ObjectSpec.Type = {
+        const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
             {
               annotations: {},
               comments: [],
               name: 'age',
-              nullability:ObjC.Nullability.Inherited(),
+              nullability: ObjC.Nullability.Inherited(),
               type: {
-                fileTypeIsDefinedIn:Maybe.Nothing<string>(),
-                libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+                fileTypeIsDefinedIn: Maybe.Nothing<string>(),
+                libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
                 name: 'float',
                 reference: 'float',
-                underlyingType:Maybe.Nothing<string>(),
-                conformingProtocol: Maybe.Nothing<string>()
-              }
-            }
+                underlyingType: Maybe.Nothing<string>(),
+                conformingProtocol: Maybe.Nothing<string>(),
+              },
+            },
           ],
           comments: [],
           excludes: [],
           includes: [],
           libraryName: Maybe.Nothing<string>(),
-          typeLookups:[],
-          typeName: 'Foo'
+          typeLookups: [],
+          typeName: 'Foo',
         };
 
-        const instanceMethods:ObjC.Method[] = ObjectSpecPlugin.instanceMethods(objectType);
+        const instanceMethods: ObjC.Method[] = ObjectSpecPlugin.instanceMethods(
+          objectType,
+        );
 
-        const expectedInstanceMethods:ObjC.Method[] = [
+        const expectedInstanceMethods: ObjC.Method[] = [
           {
-            preprocessors:[],
-            belongsToProtocol:Maybe.Just('NSObject'),
+            preprocessors: [],
+            belongsToProtocol: Maybe.Just('NSObject'),
             code: [
-              'return [NSString stringWithFormat:@"%@ - \\n\\t age: %f; \\n", [super description], _age];'
+              'return [NSString stringWithFormat:@"%@ - \\n\\t age: %f; \\n", [super description], _age];',
             ],
             comments: [],
-            compilerAttributes:[],
+            compilerAttributes: [],
             keywords: [
               {
                 name: 'description',
-                argument: Maybe.Nothing<ObjC.KeywordArgument>()
-              }
+                argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+              },
             ],
-            returnType:{ type:Maybe.Just({
-              name: 'NSString',
-              reference: 'NSString *'
-            }), modifiers:[] }
-          }
+            returnType: {
+              type: Maybe.Just({
+                name: 'NSString',
+                reference: 'NSString *',
+              }),
+              modifiers: [],
+            },
+          },
         ];
 
         expect(instanceMethods).toEqualJSON(expectedInstanceMethods);
       });
 
       it('returns an instance method which will output a CGFloat attribute when called', function() {
-        const objectType:ObjectSpec.Type = {
+        const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
             {
               annotations: {},
               comments: [],
               name: 'age',
-              nullability:ObjC.Nullability.Inherited(),
+              nullability: ObjC.Nullability.Inherited(),
               type: {
-                fileTypeIsDefinedIn:Maybe.Nothing<string>(),
-                libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+                fileTypeIsDefinedIn: Maybe.Nothing<string>(),
+                libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
                 name: 'CGFloat',
                 reference: 'CGFloat',
-                underlyingType:Maybe.Nothing<string>(),
-                conformingProtocol: Maybe.Nothing<string>()
-              }
-            }
+                underlyingType: Maybe.Nothing<string>(),
+                conformingProtocol: Maybe.Nothing<string>(),
+              },
+            },
           ],
           comments: [],
           excludes: [],
           includes: [],
           libraryName: Maybe.Nothing<string>(),
-          typeLookups:[],
-          typeName: 'Foo'
+          typeLookups: [],
+          typeName: 'Foo',
         };
 
-        const instanceMethods:ObjC.Method[] = ObjectSpecPlugin.instanceMethods(objectType);
+        const instanceMethods: ObjC.Method[] = ObjectSpecPlugin.instanceMethods(
+          objectType,
+        );
 
-        const expectedInstanceMethods:ObjC.Method[] = [
+        const expectedInstanceMethods: ObjC.Method[] = [
           {
-            preprocessors:[],
-            belongsToProtocol:Maybe.Just('NSObject'),
+            preprocessors: [],
+            belongsToProtocol: Maybe.Just('NSObject'),
             code: [
-              'return [NSString stringWithFormat:@"%@ - \\n\\t age: %f; \\n", [super description], _age];'
+              'return [NSString stringWithFormat:@"%@ - \\n\\t age: %f; \\n", [super description], _age];',
             ],
             comments: [],
-            compilerAttributes:[],
+            compilerAttributes: [],
             keywords: [
               {
                 name: 'description',
-                argument: Maybe.Nothing<ObjC.KeywordArgument>()
-              }
+                argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+              },
             ],
-            returnType:{ type:Maybe.Just({
-              name: 'NSString',
-              reference: 'NSString *'
-            }), modifiers:[] }
-          }
+            returnType: {
+              type: Maybe.Just({
+                name: 'NSString',
+                reference: 'NSString *',
+              }),
+              modifiers: [],
+            },
+          },
         ];
 
         expect(instanceMethods).toEqualJSON(expectedInstanceMethods);
       });
 
       it('returns an instance method which will output an NSTimeInterval attribute when called', function() {
-        const objectType:ObjectSpec.Type = {
-        annotations: {},
+        const objectType: ObjectSpec.Type = {
+          annotations: {},
           attributes: [
             {
               annotations: {},
               comments: [],
               name: 'age',
-              nullability:ObjC.Nullability.Inherited(),
+              nullability: ObjC.Nullability.Inherited(),
               type: {
-                fileTypeIsDefinedIn:Maybe.Nothing<string>(),
-                libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+                fileTypeIsDefinedIn: Maybe.Nothing<string>(),
+                libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
                 name: 'NSTimeInterval',
                 reference: 'NSTimeInterval',
-                underlyingType:Maybe.Nothing<string>(),
-                conformingProtocol: Maybe.Nothing<string>()
-              }
-            }
+                underlyingType: Maybe.Nothing<string>(),
+                conformingProtocol: Maybe.Nothing<string>(),
+              },
+            },
           ],
           comments: [],
           excludes: [],
           includes: [],
           libraryName: Maybe.Nothing<string>(),
-          typeLookups:[],
-          typeName: 'Foo'
+          typeLookups: [],
+          typeName: 'Foo',
         };
 
-        const instanceMethods:ObjC.Method[] = ObjectSpecPlugin.instanceMethods(objectType);
+        const instanceMethods: ObjC.Method[] = ObjectSpecPlugin.instanceMethods(
+          objectType,
+        );
 
-        const expectedInstanceMethods:ObjC.Method[] = [
+        const expectedInstanceMethods: ObjC.Method[] = [
           {
-            preprocessors:[],
-            belongsToProtocol:Maybe.Just('NSObject'),
+            preprocessors: [],
+            belongsToProtocol: Maybe.Just('NSObject'),
             code: [
-              'return [NSString stringWithFormat:@"%@ - \\n\\t age: %lf; \\n", [super description], _age];'
+              'return [NSString stringWithFormat:@"%@ - \\n\\t age: %lf; \\n", [super description], _age];',
             ],
             comments: [],
-            compilerAttributes:[],
+            compilerAttributes: [],
             keywords: [
               {
                 name: 'description',
-                argument: Maybe.Nothing<ObjC.KeywordArgument>()
-              }
+                argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+              },
             ],
-            returnType:{ type:Maybe.Just({
-              name: 'NSString',
-              reference: 'NSString *'
-            }), modifiers:[] }
-          }
+            returnType: {
+              type: Maybe.Just({
+                name: 'NSString',
+                reference: 'NSString *',
+              }),
+              modifiers: [],
+            },
+          },
         ];
 
         expect(instanceMethods).toEqualJSON(expectedInstanceMethods);
       });
 
       it('returns an instance method which will output a uintptr_t attribute when called', function() {
-        const objectType:ObjectSpec.Type = {
+        const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
             {
               annotations: {},
               comments: [],
               name: 'age',
-              nullability:ObjC.Nullability.Inherited(),
+              nullability: ObjC.Nullability.Inherited(),
               type: {
-                fileTypeIsDefinedIn:Maybe.Nothing<string>(),
-                libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+                fileTypeIsDefinedIn: Maybe.Nothing<string>(),
+                libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
                 name: 'uintptr_t',
                 reference: 'uintptr_t',
-                underlyingType:Maybe.Nothing<string>(),
-                conformingProtocol: Maybe.Nothing<string>()
-              }
-            }
+                underlyingType: Maybe.Nothing<string>(),
+                conformingProtocol: Maybe.Nothing<string>(),
+              },
+            },
           ],
           comments: [],
           excludes: [],
           includes: [],
           libraryName: Maybe.Nothing<string>(),
-          typeLookups:[],
-          typeName: 'Foo'
+          typeLookups: [],
+          typeName: 'Foo',
         };
 
-        const instanceMethods:ObjC.Method[] = ObjectSpecPlugin.instanceMethods(objectType);
+        const instanceMethods: ObjC.Method[] = ObjectSpecPlugin.instanceMethods(
+          objectType,
+        );
 
-        const expectedInstanceMethods:ObjC.Method[] = [
+        const expectedInstanceMethods: ObjC.Method[] = [
           {
-            preprocessors:[],
-            belongsToProtocol:Maybe.Just('NSObject'),
+            preprocessors: [],
+            belongsToProtocol: Maybe.Just('NSObject'),
             code: [
-              'return [NSString stringWithFormat:@"%@ - \\n\\t age: %ld; \\n", [super description], _age];'
+              'return [NSString stringWithFormat:@"%@ - \\n\\t age: %ld; \\n", [super description], _age];',
             ],
             comments: [],
-            compilerAttributes:[],
+            compilerAttributes: [],
             keywords: [
               {
                 name: 'description',
-                argument: Maybe.Nothing<ObjC.KeywordArgument>()
-              }
+                argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+              },
             ],
-            returnType:{ type:Maybe.Just({
-              name: 'NSString',
-              reference: 'NSString *'
-            }), modifiers:[] }
-          }
+            returnType: {
+              type: Maybe.Just({
+                name: 'NSString',
+                reference: 'NSString *',
+              }),
+              modifiers: [],
+            },
+          },
         ];
 
         expect(instanceMethods).toEqualJSON(expectedInstanceMethods);
       });
 
       it('returns an instance method which will output an uint64_t attribute when called', function() {
-        const objectType:ObjectSpec.Type = {
+        const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
             {
               annotations: {},
               comments: [],
               name: 'age',
-              nullability:ObjC.Nullability.Inherited(),
+              nullability: ObjC.Nullability.Inherited(),
               type: {
-                fileTypeIsDefinedIn:Maybe.Nothing<string>(),
-                libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+                fileTypeIsDefinedIn: Maybe.Nothing<string>(),
+                libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
                 name: 'uint64_t',
                 reference: 'uint64_t',
-                underlyingType:Maybe.Nothing<string>(),
-                conformingProtocol: Maybe.Nothing<string>()
-              }
-            }
+                underlyingType: Maybe.Nothing<string>(),
+                conformingProtocol: Maybe.Nothing<string>(),
+              },
+            },
           ],
           comments: [],
           excludes: [],
           includes: [],
           libraryName: Maybe.Nothing<string>(),
-          typeLookups:[],
-          typeName: 'Foo'
+          typeLookups: [],
+          typeName: 'Foo',
         };
 
-        const instanceMethods:ObjC.Method[] = ObjectSpecPlugin.instanceMethods(objectType);
+        const instanceMethods: ObjC.Method[] = ObjectSpecPlugin.instanceMethods(
+          objectType,
+        );
 
-        const expectedInstanceMethods:ObjC.Method[] = [
+        const expectedInstanceMethods: ObjC.Method[] = [
           {
-            preprocessors:[],
-            belongsToProtocol:Maybe.Just('NSObject'),
+            preprocessors: [],
+            belongsToProtocol: Maybe.Just('NSObject'),
             code: [
-              'return [NSString stringWithFormat:@"%@ - \\n\\t age: %llu; \\n", [super description], (unsigned long long)_age];'
+              'return [NSString stringWithFormat:@"%@ - \\n\\t age: %llu; \\n", [super description], (unsigned long long)_age];',
             ],
             comments: [],
-            compilerAttributes:[],
+            compilerAttributes: [],
             keywords: [
               {
                 name: 'description',
-                argument: Maybe.Nothing<ObjC.KeywordArgument>()
-              }
+                argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+              },
             ],
-            returnType:{ type:Maybe.Just({
-              name: 'NSString',
-              reference: 'NSString *'
-            }), modifiers:[] }
-          }
+            returnType: {
+              type: Maybe.Just({
+                name: 'NSString',
+                reference: 'NSString *',
+              }),
+              modifiers: [],
+            },
+          },
         ];
 
         expect(instanceMethods).toEqualJSON(expectedInstanceMethods);
       });
 
       it('returns an instance method which will output an int32_t attribute when called', function() {
-        const objectType:ObjectSpec.Type = {
+        const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
             {
               annotations: {},
               comments: [],
               name: 'age',
-              nullability:ObjC.Nullability.Inherited(),
+              nullability: ObjC.Nullability.Inherited(),
               type: {
-                fileTypeIsDefinedIn:Maybe.Nothing<string>(),
-                libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+                fileTypeIsDefinedIn: Maybe.Nothing<string>(),
+                libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
                 name: 'int32_t',
                 reference: 'int32_t',
-                underlyingType:Maybe.Nothing<string>(),
-                conformingProtocol: Maybe.Nothing<string>()
-              }
-            }
+                underlyingType: Maybe.Nothing<string>(),
+                conformingProtocol: Maybe.Nothing<string>(),
+              },
+            },
           ],
           comments: [],
           excludes: [],
           includes: [],
           libraryName: Maybe.Nothing<string>(),
-          typeLookups:[],
-          typeName: 'Foo'
+          typeLookups: [],
+          typeName: 'Foo',
         };
 
-        const instanceMethods:ObjC.Method[] = ObjectSpecPlugin.instanceMethods(objectType);
+        const instanceMethods: ObjC.Method[] = ObjectSpecPlugin.instanceMethods(
+          objectType,
+        );
 
-        const expectedInstanceMethods:ObjC.Method[] = [
+        const expectedInstanceMethods: ObjC.Method[] = [
           {
-            preprocessors:[],
-            belongsToProtocol:Maybe.Just('NSObject'),
+            preprocessors: [],
+            belongsToProtocol: Maybe.Just('NSObject'),
             code: [
-              'return [NSString stringWithFormat:@"%@ - \\n\\t age: %d; \\n", [super description], _age];'
+              'return [NSString stringWithFormat:@"%@ - \\n\\t age: %d; \\n", [super description], _age];',
             ],
             comments: [],
-            compilerAttributes:[],
+            compilerAttributes: [],
             keywords: [
               {
                 name: 'description',
-                argument: Maybe.Nothing<ObjC.KeywordArgument>()
-              }
+                argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+              },
             ],
-            returnType:{ type:Maybe.Just({
-              name: 'NSString',
-              reference: 'NSString *'
-            }), modifiers:[] }
-          }
+            returnType: {
+              type: Maybe.Just({
+                name: 'NSString',
+                reference: 'NSString *',
+              }),
+              modifiers: [],
+            },
+          },
         ];
 
         expect(instanceMethods).toEqualJSON(expectedInstanceMethods);
       });
 
       it('returns an instance method which will output an int64_t attribute when called', function() {
-        const objectType:ObjectSpec.Type = {
+        const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
             {
               annotations: {},
               comments: [],
               name: 'age',
-              nullability:ObjC.Nullability.Inherited(),
+              nullability: ObjC.Nullability.Inherited(),
               type: {
-                fileTypeIsDefinedIn:Maybe.Nothing<string>(),
-                libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+                fileTypeIsDefinedIn: Maybe.Nothing<string>(),
+                libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
                 name: 'int64_t',
                 reference: 'int64_t',
-                underlyingType:Maybe.Nothing<string>(),
-                conformingProtocol: Maybe.Nothing<string>()
-              }
-            }
+                underlyingType: Maybe.Nothing<string>(),
+                conformingProtocol: Maybe.Nothing<string>(),
+              },
+            },
           ],
           comments: [],
           excludes: [],
           includes: [],
           libraryName: Maybe.Nothing<string>(),
-          typeLookups:[],
-          typeName: 'Foo'
+          typeLookups: [],
+          typeName: 'Foo',
         };
 
-        const instanceMethods:ObjC.Method[] = ObjectSpecPlugin.instanceMethods(objectType);
+        const instanceMethods: ObjC.Method[] = ObjectSpecPlugin.instanceMethods(
+          objectType,
+        );
 
-        const expectedInstanceMethods:ObjC.Method[] = [
+        const expectedInstanceMethods: ObjC.Method[] = [
           {
-            preprocessors:[],
-            belongsToProtocol:Maybe.Just('NSObject'),
+            preprocessors: [],
+            belongsToProtocol: Maybe.Just('NSObject'),
             code: [
-              'return [NSString stringWithFormat:@"%@ - \\n\\t age: %lld; \\n", [super description], (long long)_age];'
+              'return [NSString stringWithFormat:@"%@ - \\n\\t age: %lld; \\n", [super description], (long long)_age];',
             ],
             comments: [],
-            compilerAttributes:[],
+            compilerAttributes: [],
             keywords: [
               {
                 name: 'description',
-                argument: Maybe.Nothing<ObjC.KeywordArgument>()
-              }
+                argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+              },
             ],
-            returnType:{ type:Maybe.Just({
-              name: 'NSString',
-              reference: 'NSString *'
-            }), modifiers:[] }
-          }
+            returnType: {
+              type: Maybe.Just({
+                name: 'NSString',
+                reference: 'NSString *',
+              }),
+              modifiers: [],
+            },
+          },
         ];
 
         expect(instanceMethods).toEqualJSON(expectedInstanceMethods);
       });
 
-      it('returns an instance method which will output an NSUInteger attribute ' +
-         'when called and the attribute type has an underlying type of NSUInteger', function() {
-        const objectType:ObjectSpec.Type = {
-          annotations: {},
-          attributes: [
+      it(
+        'returns an instance method which will output an NSUInteger attribute ' +
+          'when called and the attribute type has an underlying type of NSUInteger',
+        function() {
+          const objectType: ObjectSpec.Type = {
+            annotations: {},
+            attributes: [
+              {
+                annotations: {},
+                comments: [],
+                name: 'age',
+                nullability: ObjC.Nullability.Inherited(),
+                type: {
+                  fileTypeIsDefinedIn: Maybe.Nothing<string>(),
+                  libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+                  name: 'SomeEnum',
+                  reference: 'SomeEnum',
+                  underlyingType: Maybe.Just('NSUInteger'),
+                  conformingProtocol: Maybe.Nothing<string>(),
+                },
+              },
+            ],
+            comments: [],
+            excludes: [],
+            includes: [],
+            libraryName: Maybe.Nothing<string>(),
+            typeLookups: [],
+            typeName: 'Foo',
+          };
+
+          const instanceMethods: ObjC.Method[] = ObjectSpecPlugin.instanceMethods(
+            objectType,
+          );
+
+          const expectedInstanceMethods: ObjC.Method[] = [
             {
-              annotations: {},
+              preprocessors: [],
+              belongsToProtocol: Maybe.Just('NSObject'),
+              code: [
+                'return [NSString stringWithFormat:@"%@ - \\n\\t age: %llu; \\n", [super description], (unsigned long long)_age];',
+              ],
               comments: [],
-              name: 'age',
-              nullability:ObjC.Nullability.Inherited(),
-              type: {
-                fileTypeIsDefinedIn:Maybe.Nothing<string>(),
-                libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
-                name: 'SomeEnum',
-                reference: 'SomeEnum',
-                underlyingType:Maybe.Just('NSUInteger'),
-                conformingProtocol: Maybe.Nothing<string>()
-              }
-            }
-          ],
-          comments: [],
-          excludes: [],
-          includes: [],
-          libraryName: Maybe.Nothing<string>(),
-          typeLookups:[],
-          typeName: 'Foo'
-        };
+              compilerAttributes: [],
+              keywords: [
+                {
+                  name: 'description',
+                  argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+                },
+              ],
+              returnType: {
+                type: Maybe.Just({
+                  name: 'NSString',
+                  reference: 'NSString *',
+                }),
+                modifiers: [],
+              },
+            },
+          ];
 
-        const instanceMethods:ObjC.Method[] = ObjectSpecPlugin.instanceMethods(objectType);
-
-        const expectedInstanceMethods:ObjC.Method[] = [
-          {
-            preprocessors:[],
-            belongsToProtocol:Maybe.Just('NSObject'),
-            code: [
-              'return [NSString stringWithFormat:@"%@ - \\n\\t age: %llu; \\n", [super description], (unsigned long long)_age];'
-            ],
-            comments: [],
-            compilerAttributes:[],
-            keywords: [
-              {
-                name: 'description',
-                argument: Maybe.Nothing<ObjC.KeywordArgument>()
-              }
-            ],
-            returnType:{ type:Maybe.Just({
-              name: 'NSString',
-              reference: 'NSString *'
-            }), modifiers:[] }
-          }
-        ];
-
-        expect(instanceMethods).toEqualJSON(expectedInstanceMethods);
-      });
+          expect(instanceMethods).toEqualJSON(expectedInstanceMethods);
+        },
+      );
 
       it('returns an instance method which will output a selector attribute when called', function() {
-        const objectType:ObjectSpec.Type = {
+        const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
             {
               annotations: {},
               comments: [],
               name: 'action',
-              nullability:ObjC.Nullability.Inherited(),
+              nullability: ObjC.Nullability.Inherited(),
               type: {
-                fileTypeIsDefinedIn:Maybe.Nothing<string>(),
-                libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+                fileTypeIsDefinedIn: Maybe.Nothing<string>(),
+                libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
                 name: 'SEL',
                 reference: 'SEL',
-                underlyingType:Maybe.Nothing<string>(),
-                conformingProtocol: Maybe.Nothing<string>()
-              }
-            }
+                underlyingType: Maybe.Nothing<string>(),
+                conformingProtocol: Maybe.Nothing<string>(),
+              },
+            },
           ],
           comments: [],
           excludes: [],
           includes: [],
           libraryName: Maybe.Nothing<string>(),
-          typeLookups:[],
-          typeName: 'Foo'
+          typeLookups: [],
+          typeName: 'Foo',
         };
 
-        const instanceMethods:ObjC.Method[] = ObjectSpecPlugin.instanceMethods(objectType);
+        const instanceMethods: ObjC.Method[] = ObjectSpecPlugin.instanceMethods(
+          objectType,
+        );
 
-        const expectedInstanceMethods:ObjC.Method[] = [
+        const expectedInstanceMethods: ObjC.Method[] = [
           {
-            preprocessors:[],
-            belongsToProtocol:Maybe.Just('NSObject'),
+            preprocessors: [],
+            belongsToProtocol: Maybe.Just('NSObject'),
             code: [
-              'return [NSString stringWithFormat:@"%@ - \\n\\t action: %@; \\n", [super description], NSStringFromSelector(_action)];'
+              'return [NSString stringWithFormat:@"%@ - \\n\\t action: %@; \\n", [super description], NSStringFromSelector(_action)];',
             ],
             comments: [],
-            compilerAttributes:[],
+            compilerAttributes: [],
             keywords: [
               {
                 name: 'description',
-                argument: Maybe.Nothing<ObjC.KeywordArgument>()
-              }
+                argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+              },
             ],
-            returnType:{ type:Maybe.Just({
-              name: 'NSString',
-              reference: 'NSString *'
-            }), modifiers:[] }
-          }
+            returnType: {
+              type: Maybe.Just({
+                name: 'NSString',
+                reference: 'NSString *',
+              }),
+              modifiers: [],
+            },
+          },
         ];
 
         expect(instanceMethods).toEqualJSON(expectedInstanceMethods);
       });
 
       it('returns an instance method which will output an NSRange attribute when called', function() {
-        const objectType:ObjectSpec.Type = {
+        const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
             {
               annotations: {},
               comments: [],
               name: 'range',
-              nullability:ObjC.Nullability.Inherited(),
+              nullability: ObjC.Nullability.Inherited(),
               type: {
-                fileTypeIsDefinedIn:Maybe.Nothing<string>(),
-                libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+                fileTypeIsDefinedIn: Maybe.Nothing<string>(),
+                libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
                 name: 'NSRange',
                 reference: 'NSRange',
-                underlyingType:Maybe.Nothing<string>(),
-                conformingProtocol: Maybe.Nothing<string>()
-              }
-            }
+                underlyingType: Maybe.Nothing<string>(),
+                conformingProtocol: Maybe.Nothing<string>(),
+              },
+            },
           ],
           comments: [],
           excludes: [],
           includes: [],
           libraryName: Maybe.Nothing<string>(),
-          typeLookups:[],
-          typeName: 'Foo'
+          typeLookups: [],
+          typeName: 'Foo',
         };
 
-        const instanceMethods:ObjC.Method[] = ObjectSpecPlugin.instanceMethods(objectType);
+        const instanceMethods: ObjC.Method[] = ObjectSpecPlugin.instanceMethods(
+          objectType,
+        );
 
-        const expectedInstanceMethods:ObjC.Method[] = [
+        const expectedInstanceMethods: ObjC.Method[] = [
           {
-            preprocessors:[],
-            belongsToProtocol:Maybe.Just('NSObject'),
+            preprocessors: [],
+            belongsToProtocol: Maybe.Just('NSObject'),
             code: [
-              'return [NSString stringWithFormat:@"%@ - \\n\\t range: %@; \\n", [super description], NSStringFromRange(_range)];'
+              'return [NSString stringWithFormat:@"%@ - \\n\\t range: %@; \\n", [super description], NSStringFromRange(_range)];',
             ],
             comments: [],
-            compilerAttributes:[],
+            compilerAttributes: [],
             keywords: [
               {
                 name: 'description',
-                argument: Maybe.Nothing<ObjC.KeywordArgument>()
-              }
+                argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+              },
             ],
-            returnType:{ type:Maybe.Just({
-              name: 'NSString',
-              reference: 'NSString *'
-            }), modifiers:[] }
-          }
+            returnType: {
+              type: Maybe.Just({
+                name: 'NSString',
+                reference: 'NSString *',
+              }),
+              modifiers: [],
+            },
+          },
         ];
 
         expect(instanceMethods).toEqualJSON(expectedInstanceMethods);
       });
 
       it('returns an instance method which will output a CGRect attribute when called', function() {
-        const objectType:ObjectSpec.Type = {
+        const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
             {
               annotations: {},
               comments: [],
               name: 'rect',
-              nullability:ObjC.Nullability.Inherited(),
+              nullability: ObjC.Nullability.Inherited(),
               type: {
-                fileTypeIsDefinedIn:Maybe.Nothing<string>(),
-                libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+                fileTypeIsDefinedIn: Maybe.Nothing<string>(),
+                libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
                 name: 'CGRect',
                 reference: 'CGRect',
-                underlyingType:Maybe.Nothing<string>(),
-                conformingProtocol: Maybe.Nothing<string>()
-              }
-            }
+                underlyingType: Maybe.Nothing<string>(),
+                conformingProtocol: Maybe.Nothing<string>(),
+              },
+            },
           ],
           comments: [],
           excludes: [],
           includes: [],
           libraryName: Maybe.Nothing<string>(),
-          typeLookups:[],
-          typeName: 'Foo'
+          typeLookups: [],
+          typeName: 'Foo',
         };
 
-        const instanceMethods:ObjC.Method[] = ObjectSpecPlugin.instanceMethods(objectType);
+        const instanceMethods: ObjC.Method[] = ObjectSpecPlugin.instanceMethods(
+          objectType,
+        );
 
-        const expectedInstanceMethods:ObjC.Method[] = [
+        const expectedInstanceMethods: ObjC.Method[] = [
           {
-            preprocessors:[],
-            belongsToProtocol:Maybe.Just('NSObject'),
+            preprocessors: [],
+            belongsToProtocol: Maybe.Just('NSObject'),
             code: [
-              'return [NSString stringWithFormat:@"%@ - \\n\\t rect: %@; \\n", [super description], NSStringFromCGRect(_rect)];'
+              'return [NSString stringWithFormat:@"%@ - \\n\\t rect: %@; \\n", [super description], NSStringFromCGRect(_rect)];',
             ],
             comments: [],
-            compilerAttributes:[],
+            compilerAttributes: [],
             keywords: [
               {
                 name: 'description',
-                argument: Maybe.Nothing<ObjC.KeywordArgument>()
-              }
+                argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+              },
             ],
-            returnType:{ type:Maybe.Just({
-              name: 'NSString',
-              reference: 'NSString *'
-            }), modifiers:[] }
-          }
+            returnType: {
+              type: Maybe.Just({
+                name: 'NSString',
+                reference: 'NSString *',
+              }),
+              modifiers: [],
+            },
+          },
         ];
 
         expect(instanceMethods).toEqualJSON(expectedInstanceMethods);
       });
 
       it('returns an instance method which will output a CGPoint attribute when called', function() {
-        const objectType:ObjectSpec.Type = {
+        const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
             {
               annotations: {},
               comments: [],
               name: 'origin',
-              nullability:ObjC.Nullability.Inherited(),
+              nullability: ObjC.Nullability.Inherited(),
               type: {
-                fileTypeIsDefinedIn:Maybe.Nothing<string>(),
-                libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+                fileTypeIsDefinedIn: Maybe.Nothing<string>(),
+                libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
                 name: 'CGPoint',
                 reference: 'CGPoint',
-                underlyingType:Maybe.Nothing<string>(),
-                conformingProtocol: Maybe.Nothing<string>()
-              }
-            }
+                underlyingType: Maybe.Nothing<string>(),
+                conformingProtocol: Maybe.Nothing<string>(),
+              },
+            },
           ],
           comments: [],
           excludes: [],
           includes: [],
           libraryName: Maybe.Nothing<string>(),
-          typeLookups:[],
-          typeName: 'Foo'
+          typeLookups: [],
+          typeName: 'Foo',
         };
 
-        const instanceMethods:ObjC.Method[] = ObjectSpecPlugin.instanceMethods(objectType);
+        const instanceMethods: ObjC.Method[] = ObjectSpecPlugin.instanceMethods(
+          objectType,
+        );
 
-        const expectedInstanceMethods:ObjC.Method[] = [
+        const expectedInstanceMethods: ObjC.Method[] = [
           {
-            preprocessors:[],
-            belongsToProtocol:Maybe.Just('NSObject'),
+            preprocessors: [],
+            belongsToProtocol: Maybe.Just('NSObject'),
             code: [
-              'return [NSString stringWithFormat:@"%@ - \\n\\t origin: %@; \\n", [super description], NSStringFromCGPoint(_origin)];'
+              'return [NSString stringWithFormat:@"%@ - \\n\\t origin: %@; \\n", [super description], NSStringFromCGPoint(_origin)];',
             ],
             comments: [],
-            compilerAttributes:[],
+            compilerAttributes: [],
             keywords: [
               {
                 name: 'description',
-                argument: Maybe.Nothing<ObjC.KeywordArgument>()
-              }
+                argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+              },
             ],
-            returnType:{ type:Maybe.Just({
-              name: 'NSString',
-              reference: 'NSString *'
-            }), modifiers:[] }
-          }
+            returnType: {
+              type: Maybe.Just({
+                name: 'NSString',
+                reference: 'NSString *',
+              }),
+              modifiers: [],
+            },
+          },
         ];
 
         expect(instanceMethods).toEqualJSON(expectedInstanceMethods);
       });
 
       it('returns an instance method which will output a CGSize attribute when called', function() {
-        const objectType:ObjectSpec.Type = {
+        const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
             {
               annotations: {},
               comments: [],
               name: 'size',
-              nullability:ObjC.Nullability.Inherited(),
+              nullability: ObjC.Nullability.Inherited(),
               type: {
-                fileTypeIsDefinedIn:Maybe.Nothing<string>(),
-                libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+                fileTypeIsDefinedIn: Maybe.Nothing<string>(),
+                libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
                 name: 'CGSize',
                 reference: 'CGSize',
-                underlyingType:Maybe.Nothing<string>(),
-                conformingProtocol: Maybe.Nothing<string>()
-              }
-            }
+                underlyingType: Maybe.Nothing<string>(),
+                conformingProtocol: Maybe.Nothing<string>(),
+              },
+            },
           ],
           comments: [],
           excludes: [],
           includes: [],
           libraryName: Maybe.Nothing<string>(),
-          typeLookups:[],
-          typeName: 'Foo'
+          typeLookups: [],
+          typeName: 'Foo',
         };
 
-        const instanceMethods:ObjC.Method[] = ObjectSpecPlugin.instanceMethods(objectType);
+        const instanceMethods: ObjC.Method[] = ObjectSpecPlugin.instanceMethods(
+          objectType,
+        );
 
-        const expectedInstanceMethods:ObjC.Method[] = [
+        const expectedInstanceMethods: ObjC.Method[] = [
           {
-            preprocessors:[],
-            belongsToProtocol:Maybe.Just('NSObject'),
+            preprocessors: [],
+            belongsToProtocol: Maybe.Just('NSObject'),
             code: [
-              'return [NSString stringWithFormat:@"%@ - \\n\\t size: %@; \\n", [super description], NSStringFromCGSize(_size)];'
+              'return [NSString stringWithFormat:@"%@ - \\n\\t size: %@; \\n", [super description], NSStringFromCGSize(_size)];',
             ],
             comments: [],
-            compilerAttributes:[],
+            compilerAttributes: [],
             keywords: [
               {
                 name: 'description',
-                argument: Maybe.Nothing<ObjC.KeywordArgument>()
-              }
+                argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+              },
             ],
-            returnType:{ type:Maybe.Just({
-              name: 'NSString',
-              reference: 'NSString *'
-            }), modifiers:[] }
-          }
+            returnType: {
+              type: Maybe.Just({
+                name: 'NSString',
+                reference: 'NSString *',
+              }),
+              modifiers: [],
+            },
+          },
         ];
 
         expect(instanceMethods).toEqualJSON(expectedInstanceMethods);
       });
 
       it('returns an instance method which will output a UIEdgeInsets attribute when called', function() {
-        const objectType:ObjectSpec.Type = {
+        const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
             {
               annotations: {},
               comments: [],
               name: 'insets',
-              nullability:ObjC.Nullability.Inherited(),
+              nullability: ObjC.Nullability.Inherited(),
               type: {
-                fileTypeIsDefinedIn:Maybe.Nothing<string>(),
-                libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+                fileTypeIsDefinedIn: Maybe.Nothing<string>(),
+                libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
                 name: 'UIEdgeInsets',
                 reference: 'UIEdgeInsets',
-                underlyingType:Maybe.Nothing<string>(),
-                conformingProtocol: Maybe.Nothing<string>()
-              }
-            }
+                underlyingType: Maybe.Nothing<string>(),
+                conformingProtocol: Maybe.Nothing<string>(),
+              },
+            },
           ],
           comments: [],
           excludes: [],
           includes: [],
           libraryName: Maybe.Nothing<string>(),
-          typeLookups:[],
-          typeName: 'Foo'
+          typeLookups: [],
+          typeName: 'Foo',
         };
-        const instanceMethods:ObjC.Method[] = ObjectSpecPlugin.instanceMethods(objectType);
+        const instanceMethods: ObjC.Method[] = ObjectSpecPlugin.instanceMethods(
+          objectType,
+        );
 
-        const expectedInstanceMethods:ObjC.Method[] = [
+        const expectedInstanceMethods: ObjC.Method[] = [
           {
-            preprocessors:[],
-            belongsToProtocol:Maybe.Just('NSObject'),
+            preprocessors: [],
+            belongsToProtocol: Maybe.Just('NSObject'),
             code: [
-              'return [NSString stringWithFormat:@"%@ - \\n\\t insets: %@; \\n", [super description], NSStringFromUIEdgeInsets(_insets)];'
+              'return [NSString stringWithFormat:@"%@ - \\n\\t insets: %@; \\n", [super description], NSStringFromUIEdgeInsets(_insets)];',
             ],
             comments: [],
-            compilerAttributes:[],
+            compilerAttributes: [],
             keywords: [
               {
                 name: 'description',
-                argument: Maybe.Nothing<ObjC.KeywordArgument>()
-              }
+                argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+              },
             ],
-            returnType:{ type:Maybe.Just({
-              name: 'NSString',
-              reference: 'NSString *'
-            }), modifiers:[] }
-          }
+            returnType: {
+              type: Maybe.Just({
+                name: 'NSString',
+                reference: 'NSString *',
+              }),
+              modifiers: [],
+            },
+          },
         ];
 
         expect(instanceMethods).toEqualJSON(expectedInstanceMethods);
@@ -1303,17 +1426,16 @@ describe('ObjectSpecPlugins.Description', function() {
 describe('AlgebraicTypePlugins.Description', function() {
   describe('#imports', function() {
     it('correctly finds imports for description functions that require them', function() {
-      const algebraicType:AlgebraicType.Type = {
+      const algebraicType: AlgebraicType.Type = {
         annotations: {},
         name: 'Test',
         includes: [],
         excludes: [],
-        typeLookups:[],
+        typeLookups: [],
         libraryName: Maybe.Nothing<string>(),
         comments: [],
         subtypes: [
-          AlgebraicType.Subtype.NamedAttributeCollectionDefinition(
-          {
+          AlgebraicType.Subtype.NamedAttributeCollectionDefinition({
             name: 'SomeSubtype',
             comments: [],
             attributes: [
@@ -1321,176 +1443,182 @@ describe('AlgebraicTypePlugins.Description', function() {
                 annotations: {},
                 name: 'someString',
                 comments: [],
-                nullability:ObjC.Nullability.Inherited(),
+                nullability: ObjC.Nullability.Inherited(),
                 type: {
                   name: 'NSString',
                   reference: 'NSString *',
                   libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
                   fileTypeIsDefinedIn: Maybe.Nothing<string>(),
                   underlyingType: Maybe.Just<string>('NSObject'),
-                  conformingProtocol: Maybe.Nothing<string>()
-                }
+                  conformingProtocol: Maybe.Nothing<string>(),
+                },
               },
               {
                 annotations: {},
                 name: 'someUnsignedInteger',
                 comments: [],
-                nullability:ObjC.Nullability.Inherited(),
+                nullability: ObjC.Nullability.Inherited(),
                 type: {
                   name: 'NSUInteger',
                   reference: 'NSUInteger',
                   libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
                   fileTypeIsDefinedIn: Maybe.Nothing<string>(),
                   underlyingType: Maybe.Nothing<string>(),
-                  conformingProtocol: Maybe.Nothing<string>()
-                }
-              }
+                  conformingProtocol: Maybe.Nothing<string>(),
+                },
+              },
             ],
             annotations: {},
           }),
-          AlgebraicType.Subtype.SingleAttributeSubtypeDefinition(
-          {
+          AlgebraicType.Subtype.SingleAttributeSubtypeDefinition({
             annotations: {},
             name: 'coolSingleAttributeRectSubtype',
             comments: [],
-            nullability:ObjC.Nullability.Inherited(),
+            nullability: ObjC.Nullability.Inherited(),
             type: {
               name: 'CGRect',
               reference: 'CGRect',
-              libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
+              libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
               fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-              underlyingType:Maybe.Nothing<string>(),
-              conformingProtocol: Maybe.Nothing<string>()
-            }
-          })
-        ]
+              underlyingType: Maybe.Nothing<string>(),
+              conformingProtocol: Maybe.Nothing<string>(),
+            },
+          }),
+        ],
       };
 
-      const imports:ObjC.Import[] = AlgebraicTypePlugin.imports(algebraicType);
-      const expectedImports:ObjC.Import[] = [{
-        file:'UIGeometry.h',
-        isPublic:false,
-        library:Maybe.Just('UIKit')
-      }];
+      const imports: ObjC.Import[] = AlgebraicTypePlugin.imports(algebraicType);
+      const expectedImports: ObjC.Import[] = [
+        {
+          file: 'UIGeometry.h',
+          isPublic: false,
+          library: Maybe.Just('UIKit'),
+        },
+      ];
       expect(imports).toEqualJSON(expectedImports);
     });
   });
   describe('#instanceMethods', function() {
-    it('returns an instance method which will output a different description ' +
-       'depending on which subtype is being represented', function() {
-      const algebraicType:AlgebraicType.Type = {
-        annotations: {},
-        name: 'Test',
-        includes: [],
-        excludes: [],
-        typeLookups:[],
-        libraryName: Maybe.Nothing<string>(),
-        comments: [],
-        subtypes: [
-          AlgebraicType.Subtype.NamedAttributeCollectionDefinition(
-          {
-            name: 'SomeSubtype',
-            comments: [],
-            attributes: [
-              {
-                annotations: {},
-                name: 'someString',
-                comments: [],
-                nullability:ObjC.Nullability.Inherited(),
-              type: {
-                  name: 'NSString',
-                  reference: 'NSString *',
-                  libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
-                  fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-                  underlyingType: Maybe.Just<string>('NSObject'),
-                  conformingProtocol: Maybe.Nothing<string>()
-                }
-              },
-              {
-                annotations: {},
-                name: 'someUnsignedInteger',
-                comments: [],
-                nullability:ObjC.Nullability.Inherited(),
-                type: {
-                  name: 'NSUInteger',
-                  reference: 'NSUInteger',
-                  libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
-                  fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-                  underlyingType: Maybe.Nothing<string>(),
-                  conformingProtocol: Maybe.Nothing<string>()
-                }
-              }
-            ],
-            annotations: {},
-          }),
-          AlgebraicType.Subtype.SingleAttributeSubtypeDefinition(
-          {
-            annotations: {},
-            name: 'coolSingleAttributeBoolSubtype',
-            comments: [],
-            nullability:ObjC.Nullability.Inherited(),
-            type: {
-              name: 'BOOL',
-              reference: 'BOOL',
-              libraryTypeIsDefinedIn:Maybe.Nothing<string>(),
-              fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-              underlyingType:Maybe.Nothing<string>(),
-              conformingProtocol: Maybe.Nothing<string>()
-            }
-          })
-        ]
-      };
-
-      const instanceMethods:ObjC.Method[] = AlgebraicTypePlugin.instanceMethods(algebraicType);
-
-      const expectedInstanceMethods:ObjC.Method[] = [
-        {
-          preprocessors:[],
-          belongsToProtocol:Maybe.Just('NSObject'),
-          code: [
-            'switch (_subtype) {',
-            '  case _TestSubtypesSomeSubtype: {',
-            '    return [NSString stringWithFormat:@"%@ - SomeSubtype \\n\\t someString: %@; \\n\\t someUnsignedInteger: %llu; \\n", [super description], _someSubtype_someString, (unsigned long long)_someSubtype_someUnsignedInteger];',
-            '    break;',
-            '  }',
-            '  case _TestSubtypesCoolSingleAttributeBoolSubtype: {',
-            '    return [NSString stringWithFormat:@"%@ - \\n\\t coolSingleAttributeBoolSubtype: %@; \\n", [super description], _coolSingleAttributeBoolSubtype ? @"YES" : @"NO"];',
-            '    break;',
-            '  }',
-            '}'
-          ],
+    it(
+      'returns an instance method which will output a different description ' +
+        'depending on which subtype is being represented',
+      function() {
+        const algebraicType: AlgebraicType.Type = {
+          annotations: {},
+          name: 'Test',
+          includes: [],
+          excludes: [],
+          typeLookups: [],
+          libraryName: Maybe.Nothing<string>(),
           comments: [],
-          compilerAttributes:[],
-          keywords: [
-            {
-              name: 'description',
-              argument: Maybe.Nothing<ObjC.KeywordArgument>()
-            }
+          subtypes: [
+            AlgebraicType.Subtype.NamedAttributeCollectionDefinition({
+              name: 'SomeSubtype',
+              comments: [],
+              attributes: [
+                {
+                  annotations: {},
+                  name: 'someString',
+                  comments: [],
+                  nullability: ObjC.Nullability.Inherited(),
+                  type: {
+                    name: 'NSString',
+                    reference: 'NSString *',
+                    libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+                    fileTypeIsDefinedIn: Maybe.Nothing<string>(),
+                    underlyingType: Maybe.Just<string>('NSObject'),
+                    conformingProtocol: Maybe.Nothing<string>(),
+                  },
+                },
+                {
+                  annotations: {},
+                  name: 'someUnsignedInteger',
+                  comments: [],
+                  nullability: ObjC.Nullability.Inherited(),
+                  type: {
+                    name: 'NSUInteger',
+                    reference: 'NSUInteger',
+                    libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+                    fileTypeIsDefinedIn: Maybe.Nothing<string>(),
+                    underlyingType: Maybe.Nothing<string>(),
+                    conformingProtocol: Maybe.Nothing<string>(),
+                  },
+                },
+              ],
+              annotations: {},
+            }),
+            AlgebraicType.Subtype.SingleAttributeSubtypeDefinition({
+              annotations: {},
+              name: 'coolSingleAttributeBoolSubtype',
+              comments: [],
+              nullability: ObjC.Nullability.Inherited(),
+              type: {
+                name: 'BOOL',
+                reference: 'BOOL',
+                libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+                fileTypeIsDefinedIn: Maybe.Nothing<string>(),
+                underlyingType: Maybe.Nothing<string>(),
+                conformingProtocol: Maybe.Nothing<string>(),
+              },
+            }),
           ],
-          returnType:{ type:Maybe.Just({
-            name: 'NSString',
-            reference: 'NSString *'
-          }), modifiers:[] }
-        }
-      ];
+        };
 
-      expect(instanceMethods).toEqualJSON(expectedInstanceMethods);
-    });
+        const instanceMethods: ObjC.Method[] = AlgebraicTypePlugin.instanceMethods(
+          algebraicType,
+        );
+
+        const expectedInstanceMethods: ObjC.Method[] = [
+          {
+            preprocessors: [],
+            belongsToProtocol: Maybe.Just('NSObject'),
+            code: [
+              'switch (_subtype) {',
+              '  case _TestSubtypesSomeSubtype: {',
+              '    return [NSString stringWithFormat:@"%@ - SomeSubtype \\n\\t someString: %@; \\n\\t someUnsignedInteger: %llu; \\n", [super description], _someSubtype_someString, (unsigned long long)_someSubtype_someUnsignedInteger];',
+              '    break;',
+              '  }',
+              '  case _TestSubtypesCoolSingleAttributeBoolSubtype: {',
+              '    return [NSString stringWithFormat:@"%@ - \\n\\t coolSingleAttributeBoolSubtype: %@; \\n", [super description], _coolSingleAttributeBoolSubtype ? @"YES" : @"NO"];',
+              '    break;',
+              '  }',
+              '}',
+            ],
+            comments: [],
+            compilerAttributes: [],
+            keywords: [
+              {
+                name: 'description',
+                argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+              },
+            ],
+            returnType: {
+              type: Maybe.Just({
+                name: 'NSString',
+                reference: 'NSString *',
+              }),
+              modifiers: [],
+            },
+          },
+        ];
+
+        expect(instanceMethods).toEqualJSON(expectedInstanceMethods);
+      },
+    );
   });
 
   describe('#validationErrors', function() {
     it('returns no validation errors when there are no attributes on the provided subtypes', function() {
-      const algebraicType:AlgebraicType.Type = {
+      const algebraicType: AlgebraicType.Type = {
         annotations: {},
         name: 'Foo',
         includes: [],
         excludes: [],
-        typeLookups:[],
+        typeLookups: [],
         libraryName: Maybe.Nothing<string>(),
         comments: [],
         subtypes: [
-          AlgebraicType.Subtype.NamedAttributeCollectionDefinition(
-          {
+          AlgebraicType.Subtype.NamedAttributeCollectionDefinition({
             name: 'ASubType',
             comments: [],
             attributes: [],
@@ -1501,25 +1629,26 @@ describe('AlgebraicTypePlugins.Description', function() {
             comments: [],
             attributes: [],
             annotations: {},
-          })
-        ]
+          }),
+        ],
       };
 
-      const errors:Error.Error[] = AlgebraicTypePlugin.validationErrors(algebraicType);
+      const errors: Error.Error[] = AlgebraicTypePlugin.validationErrors(
+        algebraicType,
+      );
       expect(errors).toEqualJSON([]);
     });
     it('returns a validation error when there is an attribute with an unknown type', function() {
-      const algebraicType:AlgebraicType.Type = {
+      const algebraicType: AlgebraicType.Type = {
         annotations: {},
         name: 'Test',
         includes: [],
         excludes: [],
-        typeLookups:[],
+        typeLookups: [],
         libraryName: Maybe.Nothing<string>(),
         comments: [],
         subtypes: [
-          AlgebraicType.Subtype.NamedAttributeCollectionDefinition(
-          {
+          AlgebraicType.Subtype.NamedAttributeCollectionDefinition({
             name: 'SomeSubtype',
             comments: [],
             attributes: [
@@ -1527,39 +1656,42 @@ describe('AlgebraicTypePlugins.Description', function() {
                 annotations: {},
                 name: 'someFoo',
                 comments: [],
-                nullability:ObjC.Nullability.Inherited(),
+                nullability: ObjC.Nullability.Inherited(),
                 type: {
                   name: 'Foo',
                   reference: 'Foo *',
                   libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
                   fileTypeIsDefinedIn: Maybe.Nothing<string>(),
                   underlyingType: Maybe.Nothing<string>(),
-                  conformingProtocol: Maybe.Nothing<string>()
-                }
-              }
+                  conformingProtocol: Maybe.Nothing<string>(),
+                },
+              },
             ],
             annotations: {},
-          })
-        ]
+          }),
+        ],
       };
-      const errors:Error.Error[] = AlgebraicTypePlugin.validationErrors(algebraicType);
-      const expectedErrors:Error.Error[] = [
-        Error.Error('The Description plugin does not know how to format the type "Foo" from Test.someFoo. Did you forget to declare a backing type?')
+      const errors: Error.Error[] = AlgebraicTypePlugin.validationErrors(
+        algebraicType,
+      );
+      const expectedErrors: Error.Error[] = [
+        Error.Error(
+          'The Description plugin does not know how to format the type "Foo" from Test.someFoo. Did you forget to declare a backing type?',
+        ),
       ];
       expect(errors).toEqualJSON(expectedErrors);
     });
     it('returns two validation errors when there are two attributes with unknown types', function() {
-      const algebraicType:AlgebraicType.Type = {
+      const algebraicType: AlgebraicType.Type = {
         annotations: {},
         name: 'Test',
         includes: [],
         excludes: [],
-        typeLookups:[],
+        typeLookups: [],
         libraryName: Maybe.Nothing<string>(),
         comments: [],
         subtypes: [
-          AlgebraicType.Subtype.NamedAttributeCollectionDefinition(
-          {
+          AlgebraicType.Subtype.NamedAttributeCollectionDefinition({
             name: 'SomeSubtype',
             comments: [],
             attributes: [
@@ -1567,55 +1699,59 @@ describe('AlgebraicTypePlugins.Description', function() {
                 annotations: {},
                 name: 'someFoo',
                 comments: [],
-                nullability:ObjC.Nullability.Inherited(),
+                nullability: ObjC.Nullability.Inherited(),
                 type: {
                   name: 'Foo',
                   reference: 'Foo *',
                   libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
                   fileTypeIsDefinedIn: Maybe.Nothing<string>(),
                   underlyingType: Maybe.Nothing<string>(),
-                  conformingProtocol: Maybe.Nothing<string>()
-                }
-              }
+                  conformingProtocol: Maybe.Nothing<string>(),
+                },
+              },
             ],
             annotations: {},
           }),
-          AlgebraicType.Subtype.SingleAttributeSubtypeDefinition(
-          {
+          AlgebraicType.Subtype.SingleAttributeSubtypeDefinition({
             annotations: {},
             name: 'someFerr',
             comments: [],
-            nullability:ObjC.Nullability.Inherited(),
+            nullability: ObjC.Nullability.Inherited(),
             type: {
               name: 'Ferr',
               reference: 'Ferr',
               libraryTypeIsDefinedIn: Maybe.Just<string>('SomeLib'),
               fileTypeIsDefinedIn: Maybe.Just<string>('SomethingElse'),
               underlyingType: Maybe.Nothing<string>(),
-              conformingProtocol: Maybe.Nothing<string>()
-            }
-          })
-        ]
+              conformingProtocol: Maybe.Nothing<string>(),
+            },
+          }),
+        ],
       };
-      const errors:Error.Error[] = AlgebraicTypePlugin.validationErrors(algebraicType);
-      const expectedErrors:Error.Error[] = [
-        Error.Error('The Description plugin does not know how to format the type "Foo" from Test.someFoo. Did you forget to declare a backing type?'),
-        Error.Error('The Description plugin does not know how to format the type "Ferr" from Test.someFerr. Did you forget to declare a backing type?')
+      const errors: Error.Error[] = AlgebraicTypePlugin.validationErrors(
+        algebraicType,
+      );
+      const expectedErrors: Error.Error[] = [
+        Error.Error(
+          'The Description plugin does not know how to format the type "Foo" from Test.someFoo. Did you forget to declare a backing type?',
+        ),
+        Error.Error(
+          'The Description plugin does not know how to format the type "Ferr" from Test.someFerr. Did you forget to declare a backing type?',
+        ),
       ];
       expect(errors).toEqualJSON(expectedErrors);
     });
     it('returns a validation error when there is an attribute with an unknown underlying type', function() {
-      const algebraicType:AlgebraicType.Type = {
+      const algebraicType: AlgebraicType.Type = {
         annotations: {},
         name: 'Test',
         includes: [],
         excludes: [],
-        typeLookups:[],
+        typeLookups: [],
         libraryName: Maybe.Nothing<string>(),
         comments: [],
         subtypes: [
-          AlgebraicType.Subtype.NamedAttributeCollectionDefinition(
-          {
+          AlgebraicType.Subtype.NamedAttributeCollectionDefinition({
             name: 'AnotherSubtype',
             comments: [],
             attributes: [
@@ -1623,24 +1759,28 @@ describe('AlgebraicTypePlugins.Description', function() {
                 annotations: {},
                 name: 'someFerr',
                 comments: [],
-                nullability:ObjC.Nullability.Inherited(),
+                nullability: ObjC.Nullability.Inherited(),
                 type: {
                   name: 'Ferr',
                   reference: 'Ferr',
                   libraryTypeIsDefinedIn: Maybe.Just<string>('SomeLib'),
                   fileTypeIsDefinedIn: Maybe.Just<string>('SomethingElse'),
                   underlyingType: Maybe.Just<string>('SomethingRandom'),
-                  conformingProtocol: Maybe.Nothing<string>()
-                }
-              }
+                  conformingProtocol: Maybe.Nothing<string>(),
+                },
+              },
             ],
             annotations: {},
-          })
-        ]
+          }),
+        ],
       };
-      const errors:Error.Error[] = AlgebraicTypePlugin.validationErrors(algebraicType);
-      const expectedErrors:Error.Error[] = [
-        Error.Error('The Description plugin does not know how to format the backing type "SomethingRandom" from Test.someFerr. Did you declare the wrong backing type?')
+      const errors: Error.Error[] = AlgebraicTypePlugin.validationErrors(
+        algebraicType,
+      );
+      const expectedErrors: Error.Error[] = [
+        Error.Error(
+          'The Description plugin does not know how to format the backing type "SomethingRandom" from Test.someFerr. Did you declare the wrong backing type?',
+        ),
       ];
       expect(errors).toEqualJSON(expectedErrors);
     });

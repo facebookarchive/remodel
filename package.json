@@ -37,5 +37,11 @@
     "jasmine": "3.2",
     "jsondiffpatch": "0.1.38",
     "typescript": "3.0"
+  },
+  "prettier": {
+    "singleQuote": true,
+    "trailingComma": "all",
+    "bracketSpacing": false,
+    "parser": "typescript"
   }
 }

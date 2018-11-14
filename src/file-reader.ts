@@ -13,13 +13,21 @@ import File = require('./file');
 import fs = require('fs');
 import Promise = require('./promise');
 
-export function read(path:File.AbsoluteFilePath):Promise.Future<Either.Either<Error.Error[], File.Contents>> {
-  const promise = Promise.pending<Either.Either<Error.Error[], File.Contents>>();
+export function read(
+  path: File.AbsoluteFilePath,
+): Promise.Future<Either.Either<Error.Error[], File.Contents>> {
+  const promise = Promise.pending<
+    Either.Either<Error.Error[], File.Contents>
+  >();
   fs.readFile(File.getAbsolutePathString(path), 'utf8', function(err, data) {
     if (err) {
-      promise.setValue(Either.Left<Error.Error[], File.Contents>([Error.Error(err.message)]));
+      promise.setValue(
+        Either.Left<Error.Error[], File.Contents>([Error.Error(err.message)]),
+      );
     } else {
-      promise.setValue(Either.Right<Error.Error[], File.Contents>(File.Contents(data)));
+      promise.setValue(
+        Either.Right<Error.Error[], File.Contents>(File.Contents(data)),
+      );
     }
   });
   return promise.getFuture();

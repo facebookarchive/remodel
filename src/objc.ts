@@ -8,34 +8,37 @@
 import Maybe = require('./maybe');
 
 export interface Type {
-  name:string;
-  reference:string;
+  name: string;
+  reference: string;
 }
 
 enum ForwardDeclarationType {
   class,
-  protocol
+  protocol,
 }
 
 export class ForwardDeclaration {
-  private name:string;
-  private declarationType:ForwardDeclarationType;
+  private name: string;
+  private declarationType: ForwardDeclarationType;
 
-  constructor(type:ForwardDeclarationType, name:string) {
+  constructor(type: ForwardDeclarationType, name: string) {
     this.name = name;
     this.declarationType = type;
   }
 
-  static ForwardClassDeclaration(name:string) {
-    return new ForwardDeclaration(ForwardDeclarationType.class ,name);
+  static ForwardClassDeclaration(name: string) {
+    return new ForwardDeclaration(ForwardDeclarationType.class, name);
   }
 
-  static ForwardProtocolDeclaration(name:string) {
-    return new ForwardDeclaration(ForwardDeclarationType.protocol ,name);
+  static ForwardProtocolDeclaration(name: string) {
+    return new ForwardDeclaration(ForwardDeclarationType.protocol, name);
   }
 
-  match<T>(classDeclaration:(name:string) => T, protocolDeclaration:(name:string) => T) {
-    switch(this.declarationType) {
+  match<T>(
+    classDeclaration: (name: string) => T,
+    protocolDeclaration: (name: string) => T,
+  ) {
+    switch (this.declarationType) {
       case ForwardDeclarationType.class:
         return classDeclaration(this.name);
       case ForwardDeclarationType.protocol:
@@ -45,9 +48,9 @@ export class ForwardDeclaration {
 }
 
 export interface Import {
-  file:string;
-  isPublic:boolean;
-  library:Maybe.Maybe<string>;
+  file: string;
+  isPublic: boolean;
+  library: Maybe.Maybe<string>;
 }
 
 enum KeywordArgumentModifierType {
@@ -58,7 +61,7 @@ enum KeywordArgumentModifierType {
 
 export class KeywordArgumentModifier {
   private modifierType;
-  constructor(type:KeywordArgumentModifierType) {
+  constructor(type: KeywordArgumentModifierType) {
     this.modifierType = type;
   }
 
@@ -74,8 +77,8 @@ export class KeywordArgumentModifier {
     return new KeywordArgumentModifier(KeywordArgumentModifierType.noescape);
   }
 
-  match<T>(nonnull:() => T, nullable:() => T, noescape:() => T) {
-    switch(this.modifierType) {
+  match<T>(nonnull: () => T, nullable: () => T, noescape: () => T) {
+    switch (this.modifierType) {
       case KeywordArgumentModifierType.nonnull:
         return nonnull();
       case KeywordArgumentModifierType.nullable:
@@ -87,19 +90,19 @@ export class KeywordArgumentModifier {
 }
 
 export interface KeywordArgument {
-  name:string;
-  modifiers:KeywordArgumentModifier[];
-  type:Type;
+  name: string;
+  modifiers: KeywordArgumentModifier[];
+  type: Type;
 }
 
 export interface Keyword {
-  argument:Maybe.Maybe<KeywordArgument>;
-  name:string;
+  argument: Maybe.Maybe<KeywordArgument>;
+  name: string;
 }
 
 export interface ReturnType {
-  type:Maybe.Maybe<Type>;
-  modifiers:KeywordArgumentModifier[];
+  type: Maybe.Maybe<Type>;
+  modifiers: KeywordArgumentModifier[];
 }
 
 export interface Preprocessor {
@@ -108,76 +111,76 @@ export interface Preprocessor {
 }
 
 export interface Method {
-  preprocessors:Preprocessor[];
-  belongsToProtocol:Maybe.Maybe<string>;
-  code:string[];
-  comments:Comment[];
-  compilerAttributes:string[];
-  keywords:Keyword[];
-  returnType:ReturnType;
+  preprocessors: Preprocessor[];
+  belongsToProtocol: Maybe.Maybe<string>;
+  code: string[];
+  comments: Comment[];
+  compilerAttributes: string[];
+  keywords: Keyword[];
+  returnType: ReturnType;
 }
 
 export interface FunctionParameter {
-  name:string;
-  type:Type;
+  name: string;
+  type: Type;
 }
 
 export interface Function {
-  comments:Comment[];
-  name:string;
-  parameters:FunctionParameter[];
-  returnType:ReturnType;
-  code:string[];
-  isPublic:boolean;
-  compilerAttributes:string[];
+  comments: Comment[];
+  name: string;
+  parameters: FunctionParameter[];
+  returnType: ReturnType;
+  code: string[];
+  isPublic: boolean;
+  compilerAttributes: string[];
 }
 
 export interface Macro {
-  comments:Comment[];
-  name:string;
-  parameters:String[],
-  code:string
+  comments: Comment[];
+  name: string;
+  parameters: String[];
+  code: string;
 }
 
 export interface BlockTypeParameter {
-  name:string;
-  type:Type;
-  nullability:Nullability;
+  name: string;
+  type: Type;
+  nullability: Nullability;
 }
 
 export interface BlockType {
-  comments:Comment[];
-  name:string;
-  parameters:BlockTypeParameter[];
-  returnType:ReturnType;
-  isPublic:boolean;
-  isInlined:boolean;
-  nullability:ClassNullability;
+  comments: Comment[];
+  name: string;
+  parameters: BlockTypeParameter[];
+  returnType: ReturnType;
+  isPublic: boolean;
+  isInlined: boolean;
+  nullability: ClassNullability;
 }
 
 export interface Enumeration {
-  comments:Comment[];
-  name:string;
-  underlyingType:string;
-  values:string[];
-  isPublic:boolean;
+  comments: Comment[];
+  name: string;
+  underlyingType: string;
+  values: string[];
+  isPublic: boolean;
 }
 
 enum NullabilityType {
   inherited,
   nonnull,
-  nullable
+  nullable,
 }
 
 export enum ClassNullability {
   default,
-  assumeNonnull
+  assumeNonnull,
 }
 
 export class Nullability {
   private nullabilityType;
 
-  constructor(type:NullabilityType) {
+  constructor(type: NullabilityType) {
     this.nullabilityType = type;
   }
 
@@ -193,7 +196,7 @@ export class Nullability {
     return new Nullability(NullabilityType.nullable);
   }
 
-  match<T>(inherited:() => T, nonnull:() => T, nullable:() => T) {
+  match<T>(inherited: () => T, nonnull: () => T, nullable: () => T) {
     switch (this.nullabilityType) {
       case NullabilityType.inherited:
         return inherited();
@@ -210,12 +213,12 @@ enum MemorySemanticType {
   copy,
   strong,
   unsafeUnretained,
-  weak
+  weak,
 }
 
 export class MemorySemantic {
   private memoryType;
-  constructor(type:MemorySemanticType) {
+  constructor(type: MemorySemanticType) {
     this.memoryType = type;
   }
 
@@ -239,8 +242,14 @@ export class MemorySemantic {
     return new MemorySemantic(MemorySemanticType.weak);
   }
 
-  match<T>(assign:() => T, copy:() => T, strong:() => T, unsafeUnretained:() => T, weak:() => T) {
-    switch(this.memoryType) {
+  match<T>(
+    assign: () => T,
+    copy: () => T,
+    strong: () => T,
+    unsafeUnretained: () => T,
+    weak: () => T,
+  ) {
+    switch (this.memoryType) {
       case MemorySemanticType.assign:
         return assign();
       case MemorySemanticType.copy:
@@ -256,11 +265,11 @@ export class MemorySemantic {
 }
 
 export interface Constant {
-  comments:Comment[];
-  memorySemantic:MemorySemantic;
-  name:string;
-  type:Type;
-  value:string;
+  comments: Comment[];
+  memorySemantic: MemorySemantic;
+  name: string;
+  type: Type;
+  value: string;
 }
 
 enum PropertyModifierType {
@@ -274,12 +283,12 @@ enum PropertyModifierType {
   readwrite,
   strong,
   weak,
-  unsafeUnretained
+  unsafeUnretained,
 }
 
 export class PropertyModifier {
   private modifierType;
-  constructor(type:PropertyModifierType) {
+  constructor(type: PropertyModifierType) {
     this.modifierType = type;
   }
 
@@ -327,8 +336,20 @@ export class PropertyModifier {
     return new PropertyModifier(PropertyModifierType.unsafeUnretained);
   }
 
-  match<T>(assign:() => T, atomic:() => T, copy:() => T, nonatomic:() => T, nonnull:() => T, nullable:() => T, readonly:() => T, readwrite:() => T, strong:() => T, weak:() => T, unsafeUnretained:() => T) {
-    switch(this.modifierType) {
+  match<T>(
+    assign: () => T,
+    atomic: () => T,
+    copy: () => T,
+    nonatomic: () => T,
+    nonnull: () => T,
+    nullable: () => T,
+    readonly: () => T,
+    readwrite: () => T,
+    strong: () => T,
+    weak: () => T,
+    unsafeUnretained: () => T,
+  ) {
+    switch (this.modifierType) {
       case PropertyModifierType.assign:
         return assign();
       case PropertyModifierType.atomic:
@@ -360,12 +381,12 @@ enum InstanceVariableModifierType {
   nullable,
   strong,
   weak,
-  unsafeUnretained
+  unsafeUnretained,
 }
 
 export class InstanceVariableModifier {
   private modifierType;
-  constructor(type:InstanceVariableModifierType) {
+  constructor(type: InstanceVariableModifierType) {
     this.modifierType = type;
   }
 
@@ -386,11 +407,19 @@ export class InstanceVariableModifier {
   }
 
   static UnsafeUnretained() {
-    return new InstanceVariableModifier(InstanceVariableModifierType.unsafeUnretained);
+    return new InstanceVariableModifier(
+      InstanceVariableModifierType.unsafeUnretained,
+    );
   }
 
-  match<T>(nonnull:() => T, nullable:() => T, strong:() => T, weak:() => T, unsafeUnretained:() => T) {
-    switch(this.modifierType) {
+  match<T>(
+    nonnull: () => T,
+    nullable: () => T,
+    strong: () => T,
+    weak: () => T,
+    unsafeUnretained: () => T,
+  ) {
+    switch (this.modifierType) {
       case InstanceVariableModifierType.nonnull:
         return nonnull();
       case InstanceVariableModifierType.nullable:
@@ -408,12 +437,12 @@ export class InstanceVariableModifier {
 enum InstanceVariableAccessType {
   privateAccess,
   packageAccess,
-  publicAccess
+  publicAccess,
 }
 
 export class InstanceVariableAccess {
   private accessType;
-  constructor(type:InstanceVariableAccessType) {
+  constructor(type: InstanceVariableAccessType) {
     this.accessType = type;
   }
 
@@ -429,8 +458,12 @@ export class InstanceVariableAccess {
     return new InstanceVariableAccess(InstanceVariableAccessType.publicAccess);
   }
 
-  match<T>(privateAccess:() => T, packageAccess:() => T, publicAccess:() => T) {
-    switch(this.accessType) {
+  match<T>(
+    privateAccess: () => T,
+    packageAccess: () => T,
+    publicAccess: () => T,
+  ) {
+    switch (this.accessType) {
       case InstanceVariableAccessType.privateAccess:
         return privateAccess();
       case InstanceVariableAccessType.packageAccess:
@@ -443,12 +476,12 @@ export class InstanceVariableAccess {
 
 enum PropertyAccessType {
   privateAccess,
-  publicAccess
+  publicAccess,
 }
 
 export class PropertyAccess {
   private accessType;
-  constructor(type:PropertyAccessType) {
+  constructor(type: PropertyAccessType) {
     this.accessType = type;
   }
 
@@ -460,8 +493,8 @@ export class PropertyAccess {
     return new PropertyAccess(PropertyAccessType.publicAccess);
   }
 
-  match<T>(privateAccess:() => T, publicAccess:() => T) {
-    switch(this.accessType) {
+  match<T>(privateAccess: () => T, publicAccess: () => T) {
+    switch (this.accessType) {
       case PropertyAccessType.privateAccess:
         return privateAccess();
       case PropertyAccessType.publicAccess:
@@ -471,39 +504,39 @@ export class PropertyAccess {
 }
 
 export interface Property {
-  comments:Comment[];
-  modifiers:PropertyModifier[];
-  access:PropertyAccess;
-  name:string;
-  returnType:Type;
+  comments: Comment[];
+  modifiers: PropertyModifier[];
+  access: PropertyAccess;
+  name: string;
+  returnType: Type;
 }
 
 export interface InstanceVariable {
-  comments:Comment[];
-  modifiers:InstanceVariableModifier[];
-  access:InstanceVariableAccess;
-  name:string;
-  returnType:Type;
+  comments: Comment[];
+  modifiers: InstanceVariableModifier[];
+  access: InstanceVariableAccess;
+  name: string;
+  returnType: Type;
 }
 
 export interface Class {
-  baseClassName:string;
-  covariantTypes:string[];
-  classMethods:Method[];
-  comments:Comment[];
-  instanceMethods:Method[];
-  name:string;
-  properties:Property[];
-  instanceVariables:InstanceVariable[];
-  implementedProtocols:Protocol[];
-  nullability:ClassNullability;
-  subclassingRestricted:boolean;
+  baseClassName: string;
+  covariantTypes: string[];
+  classMethods: Method[];
+  comments: Comment[];
+  instanceMethods: Method[];
+  name: string;
+  properties: Property[];
+  instanceVariables: InstanceVariable[];
+  implementedProtocols: Protocol[];
+  nullability: ClassNullability;
+  subclassingRestricted: boolean;
 }
 
 export interface Protocol {
-  name:string;
+  name: string;
 }
 
 export interface Comment {
-  content:string
+  content: string;
 }

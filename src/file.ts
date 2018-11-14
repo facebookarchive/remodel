@@ -6,25 +6,25 @@
  */
 
 export interface Contents {
-  contents:string;
+  contents: string;
 }
 
-export function Contents(contents:string) {
-  return {contents:contents};
+export function Contents(contents: string) {
+  return {contents: contents};
 }
 
-export function getContents(contents:Contents) {
+export function getContents(contents: Contents) {
   return contents.contents;
 }
 
 export interface AbsoluteFilePath {
-  absolutePath:string;
+  absolutePath: string;
 }
 
-export function getAbsoluteFilePath(path:string) {
-  return {absolutePath:path};
+export function getAbsoluteFilePath(path: string) {
+  return {absolutePath: path};
 }
 
-export function getAbsolutePathString(path:AbsoluteFilePath):string {
+export function getAbsolutePathString(path: AbsoluteFilePath): string {
   return path.absolutePath;
 }

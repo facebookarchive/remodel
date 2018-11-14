@@ -5,20 +5,19 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-
 import Maybe = require('./maybe');
 
 export interface TypeLookup {
-  name:string;
-  library:Maybe.Maybe<string>;
-  file:Maybe.Maybe<string>;
-  canForwardDeclare:boolean;
+  name: string;
+  library: Maybe.Maybe<string>;
+  file: Maybe.Maybe<string>;
+  canForwardDeclare: boolean;
 }
 
 export interface Annotation {
-  properties: {[name:string]:string};
+  properties: {[name: string]: string};
 }
 
 export interface AnnotationMap {
-  [name:string]: Annotation[];
-};
+  [name: string]: Annotation[];
+}

@@ -6,7 +6,7 @@
  */
 
 import Configuration = require('./configuration');
-import List = require('./list')
+import List = require('./list');
 
 export const VALUE_OBJECT_DEFAULT_CONFIG = {
   baseIncludes: List.of(
@@ -16,7 +16,7 @@ export const VALUE_OBJECT_DEFAULT_CONFIG = {
     'RMEquality',
     'RMImmutableProperties',
     'RMInitNewUnavailable',
-    'RMValueObjectSemantics'
+    'RMValueObjectSemantics',
   ),
   basePlugins: List.of(
     'assert-nullability',
@@ -31,6 +31,6 @@ export const VALUE_OBJECT_DEFAULT_CONFIG = {
     'immutable-properties',
     'init-new-unavailable',
     'subclassing-restricted',
-    'use-cpp'
-  )
+    'use-cpp',
+  ),
 };

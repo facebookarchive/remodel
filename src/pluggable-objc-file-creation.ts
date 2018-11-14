@@ -20,148 +20,257 @@ import OutputControl = require('./output-control');
 import path = require('path');
 
 export interface ObjCGenerationPlugIn<T> {
-  additionalFiles: (typeInformation:T) => Code.File[];
-  blockTypes: (typeInformation:T) => ObjC.BlockType[];
-  classMethods: (typeInformation:T) => ObjC.Method[];
-  comments: (typeInformation:T) => ObjC.Comment[];
-  enumerations: (typeInformation:T) => ObjC.Enumeration[];
-  fileTransformation: (writeRequest:FileWriter.Request) => FileWriter.Request;
-  fileType: (typeInformation:T) => Maybe.Maybe<Code.FileType>;
-  forwardDeclarations: (typeInformation:T) => ObjC.ForwardDeclaration[];
-  functions: (typeInformation:T) => ObjC.Function[];
-  imports: (typeInformation:T) => ObjC.Import[];
-  instanceVariables: (typeInformation:T) => ObjC.InstanceVariable[];
-  instanceMethods: (typeInformation:T) => ObjC.Method[];
-  macros: (typeInformation:T) => ObjC.Macro[];
-  properties: (typeInformation:T) => ObjC.Property[];
-  protocols: (typeInformation:T) => ObjC.Protocol[];
-  staticConstants: (typeInformation:T) => ObjC.Constant[];
-  validationErrors: (typeInformation:T) => Error.Error[];
-  nullability: (typeInformation:T) => Maybe.Maybe<ObjC.ClassNullability>;
-  subclassingRestricted: (typeInformation:T) => boolean;
+  additionalFiles: (typeInformation: T) => Code.File[];
+  blockTypes: (typeInformation: T) => ObjC.BlockType[];
+  classMethods: (typeInformation: T) => ObjC.Method[];
+  comments: (typeInformation: T) => ObjC.Comment[];
+  enumerations: (typeInformation: T) => ObjC.Enumeration[];
+  fileTransformation: (writeRequest: FileWriter.Request) => FileWriter.Request;
+  fileType: (typeInformation: T) => Maybe.Maybe<Code.FileType>;
+  forwardDeclarations: (typeInformation: T) => ObjC.ForwardDeclaration[];
+  functions: (typeInformation: T) => ObjC.Function[];
+  imports: (typeInformation: T) => ObjC.Import[];
+  instanceVariables: (typeInformation: T) => ObjC.InstanceVariable[];
+  instanceMethods: (typeInformation: T) => ObjC.Method[];
+  macros: (typeInformation: T) => ObjC.Macro[];
+  properties: (typeInformation: T) => ObjC.Property[];
+  protocols: (typeInformation: T) => ObjC.Protocol[];
+  staticConstants: (typeInformation: T) => ObjC.Constant[];
+  validationErrors: (typeInformation: T) => Error.Error[];
+  nullability: (typeInformation: T) => Maybe.Maybe<ObjC.ClassNullability>;
+  subclassingRestricted: (typeInformation: T) => boolean;
   requiredIncludesToRun: string[];
 }
 
 export interface ObjCGenerationRequest<T> {
-  diagnosticIgnores:List.List<string>;
-  baseClassLibraryName:Maybe.Maybe<string>;
-  baseClassName:string;
-  path:File.AbsoluteFilePath;
-  outputPath:Maybe.Maybe<File.AbsoluteFilePath>;
-  outputFlags:OutputControl.OutputFlags;
-  typeInformation:T;
+  diagnosticIgnores: List.List<string>;
+  baseClassLibraryName: Maybe.Maybe<string>;
+  baseClassName: string;
+  path: File.AbsoluteFilePath;
+  outputPath: Maybe.Maybe<File.AbsoluteFilePath>;
+  outputFlags: OutputControl.OutputFlags;
+  typeInformation: T;
 }
 
 export interface ObjCGenerationTypeInfoProvider<T> {
-  additionalTypesForType: (typeInformation:T)=>T[];
-  typeNameForType: (typeInformation:T)=>string;
-  commentsForType: (typeInformation:T)=>string[];
+  additionalTypesForType: (typeInformation: T) => T[];
+  typeNameForType: (typeInformation: T) => string;
+  commentsForType: (typeInformation: T) => string[];
 }
 
 interface ObjCRenderingOptions {
-  renderHeader:boolean;
-  renderImpl:boolean;
+  renderHeader: boolean;
+  renderImpl: boolean;
 }
 
-function buildImports<T>(typeInformation:T, soFar:ObjC.Import[], plugin:ObjCGenerationPlugIn<T>):ObjC.Import[] {
+function buildImports<T>(
+  typeInformation: T,
+  soFar: ObjC.Import[],
+  plugin: ObjCGenerationPlugIn<T>,
+): ObjC.Import[] {
   return soFar.concat(plugin.imports(typeInformation));
 }
 
-function buildStaticConstants<T>(typeInformation:T, soFar:ObjC.Constant[], plugin:ObjCGenerationPlugIn<T>):ObjC.Constant[] {
+function buildStaticConstants<T>(
+  typeInformation: T,
+  soFar: ObjC.Constant[],
+  plugin: ObjCGenerationPlugIn<T>,
+): ObjC.Constant[] {
   return soFar.concat(plugin.staticConstants(typeInformation));
 }
 
-function buildBlockTypes<T>(typeInformation:T, soFar:ObjC.BlockType[], plugin:ObjCGenerationPlugIn<T>):ObjC.BlockType[] {
+function buildBlockTypes<T>(
+  typeInformation: T,
+  soFar: ObjC.BlockType[],
+  plugin: ObjCGenerationPlugIn<T>,
+): ObjC.BlockType[] {
   return soFar.concat(plugin.blockTypes(typeInformation));
 }
 
-function buildClassMethods<T>(typeInformation:T, soFar:ObjC.Method[], plugin:ObjCGenerationPlugIn<T>):ObjC.Method[] {
+function buildClassMethods<T>(
+  typeInformation: T,
+  soFar: ObjC.Method[],
+  plugin: ObjCGenerationPlugIn<T>,
+): ObjC.Method[] {
   return soFar.concat(plugin.classMethods(typeInformation));
 }
 
-function buildEnumerations<T>(typeInformation:T, soFar:ObjC.Enumeration[], plugin:ObjCGenerationPlugIn<T>):ObjC.Enumeration[] {
+function buildEnumerations<T>(
+  typeInformation: T,
+  soFar: ObjC.Enumeration[],
+  plugin: ObjCGenerationPlugIn<T>,
+): ObjC.Enumeration[] {
   return soFar.concat(plugin.enumerations(typeInformation));
 }
 
-function buildInstanceMethods<T>(typeInformation:T, soFar:ObjC.Method[], plugin:ObjCGenerationPlugIn<T>):ObjC.Method[] {
+function buildInstanceMethods<T>(
+  typeInformation: T,
+  soFar: ObjC.Method[],
+  plugin: ObjCGenerationPlugIn<T>,
+): ObjC.Method[] {
   return soFar.concat(plugin.instanceMethods(typeInformation));
 }
 
-function buildProperties<T>(typeInformation:T, soFar:ObjC.Property[], plugin:ObjCGenerationPlugIn<T>):ObjC.Property[] {
+function buildProperties<T>(
+  typeInformation: T,
+  soFar: ObjC.Property[],
+  plugin: ObjCGenerationPlugIn<T>,
+): ObjC.Property[] {
   return soFar.concat(plugin.properties(typeInformation));
 }
 
-function buildInstanceVariables<T>(typeInformation:T, soFar:ObjC.InstanceVariable[], plugin:ObjCGenerationPlugIn<T>):ObjC.InstanceVariable[] {
+function buildInstanceVariables<T>(
+  typeInformation: T,
+  soFar: ObjC.InstanceVariable[],
+  plugin: ObjCGenerationPlugIn<T>,
+): ObjC.InstanceVariable[] {
   return soFar.concat(plugin.instanceVariables(typeInformation));
 }
 
-function buildProtocols<T>(typeInformation:T, soFar:ObjC.Protocol[], plugin:ObjCGenerationPlugIn<T>):ObjC.Protocol[] {
+function buildProtocols<T>(
+  typeInformation: T,
+  soFar: ObjC.Protocol[],
+  plugin: ObjCGenerationPlugIn<T>,
+): ObjC.Protocol[] {
   return soFar.concat(plugin.protocols(typeInformation));
 }
 
-function checkSubclassingRestricted<T>(typeInformation:T, soFar:boolean, plugin:ObjCGenerationPlugIn<T>):boolean {
+function checkSubclassingRestricted<T>(
+  typeInformation: T,
+  soFar: boolean,
+  plugin: ObjCGenerationPlugIn<T>,
+): boolean {
   return soFar || plugin.subclassingRestricted(typeInformation);
 }
 
-function buildFileType<T>(typeInformation:T, soFar:Either.Either<Error.Error, Maybe.Maybe<Code.FileType>>, plugin:ObjCGenerationPlugIn<T>):Either.Either<Error.Error, Maybe.Maybe<Code.FileType>> {
+function buildFileType<T>(
+  typeInformation: T,
+  soFar: Either.Either<Error.Error, Maybe.Maybe<Code.FileType>>,
+  plugin: ObjCGenerationPlugIn<T>,
+): Either.Either<Error.Error, Maybe.Maybe<Code.FileType>> {
   return Either.mbind(function(maybeExistingType: Maybe.Maybe<Code.FileType>) {
-    return Maybe.match(function(existingType: Code.FileType) {
-      return Maybe.match(function(newType: Code.FileType) {
-        if (newType === existingType) {
-          return Either.Right<Error.Error, Maybe.Maybe<Code.FileType>>(Maybe.Just(newType));
-        }
-        throw Either.Left<Error.Error, Maybe.Maybe<Code.FileType>>(Error.Error('conflicting file type requirements'));
-      }, function() {
-        return Either.Right<Error.Error, Maybe.Maybe<Code.FileType>>(Maybe.Just(existingType));
-      }, plugin.fileType(typeInformation));
-    }, function() {
-      return Either.Right<Error.Error, Maybe.Maybe<Code.FileType>>(plugin.fileType(typeInformation));
-    }, maybeExistingType);
+    return Maybe.match(
+      function(existingType: Code.FileType) {
+        return Maybe.match(
+          function(newType: Code.FileType) {
+            if (newType === existingType) {
+              return Either.Right<Error.Error, Maybe.Maybe<Code.FileType>>(
+                Maybe.Just(newType),
+              );
+            }
+            throw Either.Left<Error.Error, Maybe.Maybe<Code.FileType>>(
+              Error.Error('conflicting file type requirements'),
+            );
+          },
+          function() {
+            return Either.Right<Error.Error, Maybe.Maybe<Code.FileType>>(
+              Maybe.Just(existingType),
+            );
+          },
+          plugin.fileType(typeInformation),
+        );
+      },
+      function() {
+        return Either.Right<Error.Error, Maybe.Maybe<Code.FileType>>(
+          plugin.fileType(typeInformation),
+        );
+      },
+      maybeExistingType,
+    );
   }, soFar);
 }
 
-function buildNullability<T>(typeInformation:T, soFar:Either.Either<Error.Error, Maybe.Maybe<ObjC.ClassNullability>>, plugin:ObjCGenerationPlugIn<T>):Either.Either<Error.Error, Maybe.Maybe<ObjC.ClassNullability>> {
-  return Either.mbind(function(maybeExistingType: Maybe.Maybe<ObjC.ClassNullability>) {
-    return Maybe.match(function(existingType: ObjC.ClassNullability) {
-      return Maybe.match(function(newType: ObjC.ClassNullability) {
-        if (newType === existingType) {
-          return Either.Right<Error.Error, Maybe.Maybe<ObjC.ClassNullability>>(Maybe.Just(newType));
-        }
-        throw Either.Left<Error.Error, Maybe.Maybe<ObjC.ClassNullability>>(Error.Error('conflicting file type requirements'));
-      }, function() {
-        return Either.Right<Error.Error, Maybe.Maybe<ObjC.ClassNullability>>(Maybe.Just(existingType));
-      }, plugin.nullability(typeInformation));
-    }, function() {
-      return Either.Right<Error.Error, Maybe.Maybe<ObjC.ClassNullability>>(plugin.nullability(typeInformation));
-    }, maybeExistingType);
-  }, soFar);
+function buildNullability<T>(
+  typeInformation: T,
+  soFar: Either.Either<Error.Error, Maybe.Maybe<ObjC.ClassNullability>>,
+  plugin: ObjCGenerationPlugIn<T>,
+): Either.Either<Error.Error, Maybe.Maybe<ObjC.ClassNullability>> {
+  return Either.mbind(function(
+    maybeExistingType: Maybe.Maybe<ObjC.ClassNullability>,
+  ) {
+    return Maybe.match(
+      function(existingType: ObjC.ClassNullability) {
+        return Maybe.match(
+          function(newType: ObjC.ClassNullability) {
+            if (newType === existingType) {
+              return Either.Right<
+                Error.Error,
+                Maybe.Maybe<ObjC.ClassNullability>
+              >(Maybe.Just(newType));
+            }
+            throw Either.Left<Error.Error, Maybe.Maybe<ObjC.ClassNullability>>(
+              Error.Error('conflicting file type requirements'),
+            );
+          },
+          function() {
+            return Either.Right<
+              Error.Error,
+              Maybe.Maybe<ObjC.ClassNullability>
+            >(Maybe.Just(existingType));
+          },
+          plugin.nullability(typeInformation),
+        );
+      },
+      function() {
+        return Either.Right<Error.Error, Maybe.Maybe<ObjC.ClassNullability>>(
+          plugin.nullability(typeInformation),
+        );
+      },
+      maybeExistingType,
+    );
+  },
+  soFar);
 }
 
-function buildForwardDeclarations<T>(typeInformation:T, soFar:ObjC.ForwardDeclaration[], plugin:ObjCGenerationPlugIn<T>):ObjC.ForwardDeclaration[] {
+function buildForwardDeclarations<T>(
+  typeInformation: T,
+  soFar: ObjC.ForwardDeclaration[],
+  plugin: ObjCGenerationPlugIn<T>,
+): ObjC.ForwardDeclaration[] {
   return soFar.concat(plugin.forwardDeclarations(typeInformation));
 }
 
-function buildFunctions<T>(typeInformation:T, soFar:ObjC.Function[], plugin:ObjCGenerationPlugIn<T>):ObjC.Function[] {
+function buildFunctions<T>(
+  typeInformation: T,
+  soFar: ObjC.Function[],
+  plugin: ObjCGenerationPlugIn<T>,
+): ObjC.Function[] {
   return soFar.concat(plugin.functions(typeInformation));
 }
 
-function buildMacros<T>(typeInformation:T, soFar:ObjC.Macro[], plugin:ObjCGenerationPlugIn<T>):ObjC.Macro[] {
-  return soFar.concat(plugin.macros(typeInformation))
+function buildMacros<T>(
+  typeInformation: T,
+  soFar: ObjC.Macro[],
+  plugin: ObjCGenerationPlugIn<T>,
+): ObjC.Macro[] {
+  return soFar.concat(plugin.macros(typeInformation));
 }
 
-function buildComments<T>(typeInformation:T, soFar:ObjC.Comment[], plugin:ObjCGenerationPlugIn<T>):ObjC.Comment[] {
+function buildComments<T>(
+  typeInformation: T,
+  soFar: ObjC.Comment[],
+  plugin: ObjCGenerationPlugIn<T>,
+): ObjC.Comment[] {
   return soFar.concat(plugin.comments(typeInformation));
 }
 
-function buildAdditionalFiles<T>(typeInformation:T, soFar:Code.File[], plugin:ObjCGenerationPlugIn<T>):Code.File[] {
+function buildAdditionalFiles<T>(
+  typeInformation: T,
+  soFar: Code.File[],
+  plugin: ObjCGenerationPlugIn<T>,
+): Code.File[] {
   return soFar.concat(plugin.additionalFiles(typeInformation));
 }
 
-function buildValidationErrors<T>(typeInformation:T,  soFar:Error.Error[], plugin:ObjCGenerationPlugIn<T>):Error.Error[] {
+function buildValidationErrors<T>(
+  typeInformation: T,
+  soFar: Error.Error[],
+  plugin: ObjCGenerationPlugIn<T>,
+): Error.Error[] {
   return soFar.concat(plugin.validationErrors(typeInformation));
 }
 
-function strComparitor(str1:string, str2:string):number {
+function strComparitor(str1: string, str2: string): number {
   if (str1 > str2) {
     return 1;
   } else if (str1 < str2) {
@@ -171,7 +280,10 @@ function strComparitor(str1:string, str2:string):number {
   }
 }
 
-function sortInstanceMethodComparitor(method1:ObjC.Method, method2:ObjC.Method):number {
+function sortInstanceMethodComparitor(
+  method1: ObjC.Method,
+  method2: ObjC.Method,
+): number {
   const significantKeyword1 = method1.keywords[0].name;
   const significantKeyword2 = method2.keywords[0].name;
   const firstIsInit = significantKeyword1.indexOf('init') !== -1;
@@ -192,161 +304,406 @@ function sortInstanceMethodComparitor(method1:ObjC.Method, method2:ObjC.Method):
   }
 }
 
-function importListWithBaseImportAppended(baseClassName:string, baseClassLibraryName:Maybe.Maybe<string>, pluginImports:ObjC.Import[]):ObjC.Import[] {
+function importListWithBaseImportAppended(
+  baseClassName: string,
+  baseClassLibraryName: Maybe.Maybe<string>,
+  pluginImports: ObjC.Import[],
+): ObjC.Import[] {
   return Maybe.match(
-    function(libraryName:string):ObjC.Import[] {
-      const importForBaseClass:ObjC.Import = {
-        file:baseClassName + '.h',
-        isPublic:true,
-        library:baseClassLibraryName
+    function(libraryName: string): ObjC.Import[] {
+      const importForBaseClass: ObjC.Import = {
+        file: baseClassName + '.h',
+        isPublic: true,
+        library: baseClassLibraryName,
       };
-      return [ importForBaseClass ].concat(pluginImports);
-    }, function():ObjC.Import[] {
+      return [importForBaseClass].concat(pluginImports);
+    },
+    function(): ObjC.Import[] {
       return pluginImports;
-    }, baseClassLibraryName);
+    },
+    baseClassLibraryName,
+  );
 }
 
-function commentListWithPathToValueFile(pathToValueFile:File.AbsoluteFilePath, comments:ObjC.Comment[]):ObjC.Comment[] {
+function commentListWithPathToValueFile(
+  pathToValueFile: File.AbsoluteFilePath,
+  comments: ObjC.Comment[],
+): ObjC.Comment[] {
   const commentsToUse = comments || [];
 
-  return commentsToUse.concat(ObjCCommentUtils.commentsAsBlockFromStringArray(
-    ['This file is generated using the remodel generation script.',
-     'The name of the input file is ' + path.basename(pathToValueFile.absolutePath)]
-     ));
+  return commentsToUse.concat(
+    ObjCCommentUtils.commentsAsBlockFromStringArray([
+      'This file is generated using the remodel generation script.',
+      'The name of the input file is ' +
+        path.basename(pathToValueFile.absolutePath),
+    ]),
+  );
 }
 
-function classFileCreationFunctionWithBaseClassAndPlugins<T>(baseClassName:string, baseClassLibraryName:Maybe.Maybe<string>, diagnosticIgnores:List.List<string>, pathToValueFile:File.AbsoluteFilePath, plugins:List.List<ObjCGenerationPlugIn<T>>):(typeInformation:T, typeName:string, comments:string[]) => Either.Either<Error.Error, Code.File> {
-  return function(typeInformation:T, typeName:string, comments:string[]):Either.Either<Error.Error, Code.File> {
-    const fileType = List.foldl<ObjCGenerationPlugIn<T>, Either.Either<Error.Error, Maybe.Maybe<Code.FileType>>>(FunctionUtils.pApplyf3(typeInformation, buildFileType), Either.Right<Error.Error, Maybe.Maybe<Code.FileType>>(Maybe.Nothing<Code.FileType>()), plugins);
-    const nullability = List.foldl<ObjCGenerationPlugIn<T>, Either.Either<Error.Error, Maybe.Maybe<ObjC.ClassNullability>>>(FunctionUtils.pApplyf3(typeInformation, buildNullability), Either.Right<Error.Error, Maybe.Maybe<ObjC.ClassNullability>>(Maybe.Nothing<ObjC.ClassNullability>()), plugins);
+function classFileCreationFunctionWithBaseClassAndPlugins<T>(
+  baseClassName: string,
+  baseClassLibraryName: Maybe.Maybe<string>,
+  diagnosticIgnores: List.List<string>,
+  pathToValueFile: File.AbsoluteFilePath,
+  plugins: List.List<ObjCGenerationPlugIn<T>>,
+): (
+  typeInformation: T,
+  typeName: string,
+  comments: string[],
+) => Either.Either<Error.Error, Code.File> {
+  return function(
+    typeInformation: T,
+    typeName: string,
+    comments: string[],
+  ): Either.Either<Error.Error, Code.File> {
+    const fileType = List.foldl<
+      ObjCGenerationPlugIn<T>,
+      Either.Either<Error.Error, Maybe.Maybe<Code.FileType>>
+    >(
+      FunctionUtils.pApplyf3(typeInformation, buildFileType),
+      Either.Right<Error.Error, Maybe.Maybe<Code.FileType>>(
+        Maybe.Nothing<Code.FileType>(),
+      ),
+      plugins,
+    );
+    const nullability = List.foldl<
+      ObjCGenerationPlugIn<T>,
+      Either.Either<Error.Error, Maybe.Maybe<ObjC.ClassNullability>>
+    >(
+      FunctionUtils.pApplyf3(typeInformation, buildNullability),
+      Either.Right<Error.Error, Maybe.Maybe<ObjC.ClassNullability>>(
+        Maybe.Nothing<ObjC.ClassNullability>(),
+      ),
+      plugins,
+    );
     return Either.map(function(maybeFileType) {
-      const fileType = Maybe.match(function(fileType: Code.FileType) {
+      const fileType = Maybe.match(
+        function(fileType: Code.FileType) {
           return fileType;
-        }, function() {
+        },
+        function() {
           return Code.FileType.ObjectiveC();
-        }, maybeFileType);
+        },
+        maybeFileType,
+      );
       return {
         name: typeName,
         type: fileType,
-        imports:importListWithBaseImportAppended(baseClassName, baseClassLibraryName, List.foldl<ObjCGenerationPlugIn<T>, ObjC.Import[]>(FunctionUtils.pApplyf3(typeInformation, buildImports), [], plugins)),
-        comments:commentListWithPathToValueFile(pathToValueFile, List.foldl<ObjCGenerationPlugIn<T>, ObjC.Comment[]>(FunctionUtils.pApplyf3(typeInformation, buildComments), [], plugins)),
-        enumerations:List.foldl<ObjCGenerationPlugIn<T>, ObjC.Enumeration[]>(FunctionUtils.pApplyf3(typeInformation, buildEnumerations), [], plugins),
-        forwardDeclarations:List.foldl<ObjCGenerationPlugIn<T>, ObjC.ForwardDeclaration[]>(FunctionUtils.pApplyf3(typeInformation, buildForwardDeclarations), [], plugins),
-        blockTypes:List.foldl<ObjCGenerationPlugIn<T>, ObjC.BlockType[]>(FunctionUtils.pApplyf3(typeInformation, buildBlockTypes), [], plugins),
-        diagnosticIgnores:List.toArray(diagnosticIgnores),
-        staticConstants:List.foldl<ObjCGenerationPlugIn<T>, ObjC.Constant[]>(FunctionUtils.pApplyf3(typeInformation, buildStaticConstants), [], plugins),
-        functions:List.foldl<ObjCGenerationPlugIn<T>, ObjC.Function[]>(FunctionUtils.pApplyf3(typeInformation, buildFunctions), [], plugins),
-        macros:List.foldl<ObjCGenerationPlugIn<T>, ObjC.Macro[]>(FunctionUtils.pApplyf3(typeInformation, buildMacros), [], plugins),
+        imports: importListWithBaseImportAppended(
+          baseClassName,
+          baseClassLibraryName,
+          List.foldl<ObjCGenerationPlugIn<T>, ObjC.Import[]>(
+            FunctionUtils.pApplyf3(typeInformation, buildImports),
+            [],
+            plugins,
+          ),
+        ),
+        comments: commentListWithPathToValueFile(
+          pathToValueFile,
+          List.foldl<ObjCGenerationPlugIn<T>, ObjC.Comment[]>(
+            FunctionUtils.pApplyf3(typeInformation, buildComments),
+            [],
+            plugins,
+          ),
+        ),
+        enumerations: List.foldl<ObjCGenerationPlugIn<T>, ObjC.Enumeration[]>(
+          FunctionUtils.pApplyf3(typeInformation, buildEnumerations),
+          [],
+          plugins,
+        ),
+        forwardDeclarations: List.foldl<
+          ObjCGenerationPlugIn<T>,
+          ObjC.ForwardDeclaration[]
+        >(
+          FunctionUtils.pApplyf3(typeInformation, buildForwardDeclarations),
+          [],
+          plugins,
+        ),
+        blockTypes: List.foldl<ObjCGenerationPlugIn<T>, ObjC.BlockType[]>(
+          FunctionUtils.pApplyf3(typeInformation, buildBlockTypes),
+          [],
+          plugins,
+        ),
+        diagnosticIgnores: List.toArray(diagnosticIgnores),
+        staticConstants: List.foldl<ObjCGenerationPlugIn<T>, ObjC.Constant[]>(
+          FunctionUtils.pApplyf3(typeInformation, buildStaticConstants),
+          [],
+          plugins,
+        ),
+        functions: List.foldl<ObjCGenerationPlugIn<T>, ObjC.Function[]>(
+          FunctionUtils.pApplyf3(typeInformation, buildFunctions),
+          [],
+          plugins,
+        ),
+        macros: List.foldl<ObjCGenerationPlugIn<T>, ObjC.Macro[]>(
+          FunctionUtils.pApplyf3(typeInformation, buildMacros),
+          [],
+          plugins,
+        ),
         classes: [
-        {
-          baseClassName:baseClassName,
-          covariantTypes:[],
-          comments:ObjCCommentUtils.commentsAsBlockFromStringArray(comments),
-          classMethods: List.foldl<ObjCGenerationPlugIn<T>, ObjC.Method[]>(FunctionUtils.pApplyf3(typeInformation, buildClassMethods), [], plugins)
-                            .sort(sortInstanceMethodComparitor),
-          instanceMethods:List.foldl<ObjCGenerationPlugIn<T>, ObjC.Method[]>(FunctionUtils.pApplyf3(typeInformation, buildInstanceMethods), [], plugins)
-                            .sort(sortInstanceMethodComparitor),
-          name:typeName,
-          properties:List.foldl<ObjCGenerationPlugIn<T>, ObjC.Property[]>(FunctionUtils.pApplyf3(typeInformation, buildProperties), [], plugins),
-          instanceVariables:List.foldl<ObjCGenerationPlugIn<T>, ObjC.InstanceVariable[]>(FunctionUtils.pApplyf3(typeInformation, buildInstanceVariables), [], plugins),
-          implementedProtocols:List.foldr<ObjCGenerationPlugIn<T>, ObjC.Protocol[]>(FunctionUtils.pApplyf3(typeInformation, buildProtocols), [], plugins),
-          extensionName:Maybe.Nothing<string>(),
-          nullability:Either.match(function() {
-            return ObjC.ClassNullability.default;
-          }, function(maybeNullability: Maybe.Maybe<ObjC.ClassNullability>) {
-            return Maybe.match(function(nullability: ObjC.ClassNullability) {
-              return nullability;
-            }, function() {
-              return ObjC.ClassNullability.default;
-            }, maybeNullability)
-          }, nullability),
-          subclassingRestricted: List.foldr<ObjCGenerationPlugIn<T>, boolean>(FunctionUtils.pApplyf3(typeInformation, checkSubclassingRestricted), false, plugins),
-        }
+          {
+            baseClassName: baseClassName,
+            covariantTypes: [],
+            comments: ObjCCommentUtils.commentsAsBlockFromStringArray(comments),
+            classMethods: List.foldl<ObjCGenerationPlugIn<T>, ObjC.Method[]>(
+              FunctionUtils.pApplyf3(typeInformation, buildClassMethods),
+              [],
+              plugins,
+            ).sort(sortInstanceMethodComparitor),
+            instanceMethods: List.foldl<ObjCGenerationPlugIn<T>, ObjC.Method[]>(
+              FunctionUtils.pApplyf3(typeInformation, buildInstanceMethods),
+              [],
+              plugins,
+            ).sort(sortInstanceMethodComparitor),
+            name: typeName,
+            properties: List.foldl<ObjCGenerationPlugIn<T>, ObjC.Property[]>(
+              FunctionUtils.pApplyf3(typeInformation, buildProperties),
+              [],
+              plugins,
+            ),
+            instanceVariables: List.foldl<
+              ObjCGenerationPlugIn<T>,
+              ObjC.InstanceVariable[]
+            >(
+              FunctionUtils.pApplyf3(typeInformation, buildInstanceVariables),
+              [],
+              plugins,
+            ),
+            implementedProtocols: List.foldr<
+              ObjCGenerationPlugIn<T>,
+              ObjC.Protocol[]
+            >(
+              FunctionUtils.pApplyf3(typeInformation, buildProtocols),
+              [],
+              plugins,
+            ),
+            extensionName: Maybe.Nothing<string>(),
+            nullability: Either.match(
+              function() {
+                return ObjC.ClassNullability.default;
+              },
+              function(maybeNullability: Maybe.Maybe<ObjC.ClassNullability>) {
+                return Maybe.match(
+                  function(nullability: ObjC.ClassNullability) {
+                    return nullability;
+                  },
+                  function() {
+                    return ObjC.ClassNullability.default;
+                  },
+                  maybeNullability,
+                );
+              },
+              nullability,
+            ),
+            subclassingRestricted: List.foldr<ObjCGenerationPlugIn<T>, boolean>(
+              FunctionUtils.pApplyf3(
+                typeInformation,
+                checkSubclassingRestricted,
+              ),
+              false,
+              plugins,
+            ),
+          },
         ],
         structs: [],
-        namespaces: []
+        namespaces: [],
       };
     }, fileType);
   };
 }
 
-function fileCreationRequestContainingArrayOfPossibleError(fileCreationRequest:Either.Either<Error.Error, FileWriter.FileWriteRequest>):Either.Either<Error.Error[], FileWriter.FileWriteRequest> {
-  return Either.match(function(error: Error.Error):Either.Either<Error.Error[], FileWriter.FileWriteRequest> {
-    return Either.Left<Error.Error[], FileWriter.FileWriteRequest>([error]);
-  }, function(fileWriteRequest:FileWriter.FileWriteRequest):Either.Either<Error.Error[], FileWriter.FileWriteRequest> {
-    return Either.Right<Error.Error[], FileWriter.FileWriteRequest>(fileWriteRequest);
-  }, fileCreationRequest);
+function fileCreationRequestContainingArrayOfPossibleError(
+  fileCreationRequest: Either.Either<Error.Error, FileWriter.FileWriteRequest>,
+): Either.Either<Error.Error[], FileWriter.FileWriteRequest> {
+  return Either.match(
+    function(
+      error: Error.Error,
+    ): Either.Either<Error.Error[], FileWriter.FileWriteRequest> {
+      return Either.Left<Error.Error[], FileWriter.FileWriteRequest>([error]);
+    },
+    function(
+      fileWriteRequest: FileWriter.FileWriteRequest,
+    ): Either.Either<Error.Error[], FileWriter.FileWriteRequest> {
+      return Either.Right<Error.Error[], FileWriter.FileWriteRequest>(
+        fileWriteRequest,
+      );
+    },
+    fileCreationRequest,
+  );
 }
 
-function fileWriteRequestContainingAdditionalFile(outputFlags:OutputControl.OutputFlags, containingFolderPath:File.AbsoluteFilePath, file:Code.File, fileWriteRequest:FileWriter.FileWriteRequest):Either.Either<Error.Error[], FileWriter.FileWriteRequest> {
-  const fileCreationRequestForAdditionalFile:Either.Either<Error.Error[], FileWriter.FileWriteRequest> = fileCreationRequestContainingArrayOfPossibleError(ObjCFileCreation.fileCreationRequest(containingFolderPath, file, outputFlags.emitHeaders, outputFlags.emitImplementations));
+function fileWriteRequestContainingAdditionalFile(
+  outputFlags: OutputControl.OutputFlags,
+  containingFolderPath: File.AbsoluteFilePath,
+  file: Code.File,
+  fileWriteRequest: FileWriter.FileWriteRequest,
+): Either.Either<Error.Error[], FileWriter.FileWriteRequest> {
+  const fileCreationRequestForAdditionalFile: Either.Either<
+    Error.Error[],
+    FileWriter.FileWriteRequest
+  > = fileCreationRequestContainingArrayOfPossibleError(
+    ObjCFileCreation.fileCreationRequest(
+      containingFolderPath,
+      file,
+      outputFlags.emitHeaders,
+      outputFlags.emitImplementations,
+    ),
+  );
 
-  return Either.map(function(fileWriteRequestForAdditionalFile:FileWriter.FileWriteRequest):FileWriter.FileWriteRequest {
-    const updatedRequest:FileWriter.FileWriteRequest = {
+  return Either.map(function(
+    fileWriteRequestForAdditionalFile: FileWriter.FileWriteRequest,
+  ): FileWriter.FileWriteRequest {
+    const updatedRequest: FileWriter.FileWriteRequest = {
       name: fileWriteRequest.name,
-      requests: List.append(fileWriteRequest.requests, fileWriteRequestForAdditionalFile.requests)
+      requests: List.append(
+        fileWriteRequest.requests,
+        fileWriteRequestForAdditionalFile.requests,
+      ),
     };
     return updatedRequest;
-  }, fileCreationRequestForAdditionalFile);
+  },
+  fileCreationRequestForAdditionalFile);
 }
 
 function fileCreationRequestContainingAdditionalFile(
-  renderOptions:OutputControl.OutputFlags,
-  containingFolderPath:File.AbsoluteFilePath, 
-  fileCreationRequest:Either.Either<Error.Error, FileWriter.FileWriteRequest>, 
-  file:Code.File
-):Either.Either<Error.Error, FileWriter.FileWriteRequest> {
-  const generator:(fileWriteRequest:FileWriter.FileWriteRequest) => Either.Either<Error.Error, FileWriter.FileWriteRequest> = fileWriteRequestContainingAdditionalFile.bind(null, renderOptions, containingFolderPath, file);
+  renderOptions: OutputControl.OutputFlags,
+  containingFolderPath: File.AbsoluteFilePath,
+  fileCreationRequest: Either.Either<Error.Error, FileWriter.FileWriteRequest>,
+  file: Code.File,
+): Either.Either<Error.Error, FileWriter.FileWriteRequest> {
+  const generator: (
+    fileWriteRequest: FileWriter.FileWriteRequest,
+  ) => Either.Either<
+    Error.Error,
+    FileWriter.FileWriteRequest
+  > = fileWriteRequestContainingAdditionalFile.bind(
+    null,
+    renderOptions,
+    containingFolderPath,
+    file,
+  );
   return Either.mbind(generator, fileCreationRequest);
 }
 
-function buildFileWriteRequest<T>(request:ObjCGenerationRequest<T>, typeInfoProvider:ObjCGenerationTypeInfoProvider<T>, plugins:List.List<ObjCGenerationPlugIn<T>>):Either.Either<Error.Error[], FileWriter.FileWriteRequest> {
-  const typeInfos = [request.typeInformation].concat(typeInfoProvider.additionalTypesForType(request.typeInformation));
+function buildFileWriteRequest<T>(
+  request: ObjCGenerationRequest<T>,
+  typeInfoProvider: ObjCGenerationTypeInfoProvider<T>,
+  plugins: List.List<ObjCGenerationPlugIn<T>>,
+): Either.Either<Error.Error[], FileWriter.FileWriteRequest> {
+  const typeInfos = [request.typeInformation].concat(
+    typeInfoProvider.additionalTypesForType(request.typeInformation),
+  );
 
-  const classFileFromTypeInfo:(typeInformation:T, typeName:string, comments:string[]) => Either.Either<Error.Error, Code.File> = classFileCreationFunctionWithBaseClassAndPlugins(request.baseClassName, request.baseClassLibraryName, request.diagnosticIgnores, request.path, plugins);
+  const classFileFromTypeInfo: (
+    typeInformation: T,
+    typeName: string,
+    comments: string[],
+  ) => Either.Either<
+    Error.Error,
+    Code.File
+  > = classFileCreationFunctionWithBaseClassAndPlugins(
+    request.baseClassName,
+    request.baseClassLibraryName,
+    request.diagnosticIgnores,
+    request.path,
+    plugins,
+  );
 
-  const outputPath:File.AbsoluteFilePath = Maybe.match(function(file:File.AbsoluteFilePath):File.AbsoluteFilePath {
-    return file;
-  }, function(): File.AbsoluteFilePath {
-    const fullPathAsString:string = File.getAbsolutePathString(request.path);
-    return File.getAbsoluteFilePath(path.dirname(fullPathAsString));
-  }, request.outputPath)
+  const outputPath: File.AbsoluteFilePath = Maybe.match(
+    function(file: File.AbsoluteFilePath): File.AbsoluteFilePath {
+      return file;
+    },
+    function(): File.AbsoluteFilePath {
+      const fullPathAsString: string = File.getAbsolutePathString(request.path);
+      return File.getAbsoluteFilePath(path.dirname(fullPathAsString));
+    },
+    request.outputPath,
+  );
 
-  const allFileRequests = typeInfos.map(function(type:T) {
-    const classFile:Either.Either<Error.Error, Code.File> = classFileFromTypeInfo(type, typeInfoProvider.typeNameForType(type), typeInfoProvider.commentsForType(type));
+  const allFileRequests = typeInfos.map(function(type: T) {
+    const classFile: Either.Either<
+      Error.Error,
+      Code.File
+    > = classFileFromTypeInfo(
+      type,
+      typeInfoProvider.typeNameForType(type),
+      typeInfoProvider.commentsForType(type),
+    );
 
-    const fileCreationRequest:Either.Either<Error.Error, FileWriter.FileWriteRequest> = Either.mbind(function(classFile) {
-    return (OutputControl.ShouldEmitObject(request.outputFlags)
-     ? ObjCFileCreation.fileCreationRequest(outputPath, classFile, request.outputFlags.emitHeaders, request.outputFlags.emitImplementations)
-     : Either.Right<Error.Error, FileWriter.FileWriteRequest>({
-      name:classFile.name,
-      requests:List.of<FileWriter.Request>(),
-     }));
+    const fileCreationRequest: Either.Either<
+      Error.Error,
+      FileWriter.FileWriteRequest
+    > = Either.mbind(function(classFile) {
+      return OutputControl.ShouldEmitObject(request.outputFlags)
+        ? ObjCFileCreation.fileCreationRequest(
+            outputPath,
+            classFile,
+            request.outputFlags.emitHeaders,
+            request.outputFlags.emitImplementations,
+          )
+        : Either.Right<Error.Error, FileWriter.FileWriteRequest>({
+            name: classFile.name,
+            requests: List.of<FileWriter.Request>(),
+          });
     }, classFile);
 
     // filter down to the plugins that we want to emit if we are filtered
-    const filteredPlugins = List.filter(function (p) {
-      return OutputControl.ShouldEmitPluginFile(request.outputFlags, p.requiredIncludesToRun[0]);
+    const filteredPlugins = List.filter(function(p) {
+      return OutputControl.ShouldEmitPluginFile(
+        request.outputFlags,
+        p.requiredIncludesToRun[0],
+      );
     }, plugins);
 
-    const additionalFiles:Code.File[] = List.foldl<ObjCGenerationPlugIn<T>, Code.File[]>(FunctionUtils.pApplyf3(type, buildAdditionalFiles), [], filteredPlugins);
+    const additionalFiles: Code.File[] = List.foldl<
+      ObjCGenerationPlugIn<T>,
+      Code.File[]
+    >(FunctionUtils.pApplyf3(type, buildAdditionalFiles), [], filteredPlugins);
 
-    const completeFileCreationRequest:Either.Either<Error.Error, FileWriter.FileWriteRequest> = additionalFiles.reduceRight(FunctionUtils.pApply2f4(request.outputFlags, outputPath, fileCreationRequestContainingAdditionalFile), fileCreationRequest);
-    return fileCreationRequestContainingArrayOfPossibleError(completeFileCreationRequest);
+    const completeFileCreationRequest: Either.Either<
+      Error.Error,
+      FileWriter.FileWriteRequest
+    > = additionalFiles.reduceRight(
+      FunctionUtils.pApply2f4(
+        request.outputFlags,
+        outputPath,
+        fileCreationRequestContainingAdditionalFile,
+      ),
+      fileCreationRequest,
+    );
+    return fileCreationRequestContainingArrayOfPossibleError(
+      completeFileCreationRequest,
+    );
   });
 
-  return allFileRequests.reduce(function(soFar:Either.Either<Error.Error[], FileWriter.FileWriteRequest>, current:Either.Either<Error.Error[], FileWriter.FileWriteRequest>) {
-    return Either.map(function(request:FileWriter.FileWriteRequest):FileWriter.FileWriteRequest {
+  return allFileRequests.reduce(function(
+    soFar: Either.Either<Error.Error[], FileWriter.FileWriteRequest>,
+    current: Either.Either<Error.Error[], FileWriter.FileWriteRequest>,
+  ) {
+    return Either.map(function(
+      request: FileWriter.FileWriteRequest,
+    ): FileWriter.FileWriteRequest {
       return {
-        name:request.name,
-        requests:List.append(request.requests, current.right.requests)
+        name: request.name,
+        requests: List.append(request.requests, current.right.requests),
       };
-    }, soFar);
+    },
+    soFar);
   });
 }
 
-function valueObjectsToCreateWithPlugins<T>(plugins:List.List<ObjCGenerationPlugIn<T>>, typeInformation:T):Either.Either<Error.Error[], T> {
-  const validationErrors:Error.Error[] = List.foldl<ObjCGenerationPlugIn<T>, Error.Error[]>(FunctionUtils.pApplyf3(typeInformation, buildValidationErrors), [], plugins);
+function valueObjectsToCreateWithPlugins<T>(
+  plugins: List.List<ObjCGenerationPlugIn<T>>,
+  typeInformation: T,
+): Either.Either<Error.Error[], T> {
+  const validationErrors: Error.Error[] = List.foldl<
+    ObjCGenerationPlugIn<T>,
+    Error.Error[]
+  >(
+    FunctionUtils.pApplyf3(typeInformation, buildValidationErrors),
+    [],
+    plugins,
+  );
   if (validationErrors.length > 0) {
     return Either.Left<Error.Error[], T>(validationErrors);
   } else {
@@ -354,23 +711,51 @@ function valueObjectsToCreateWithPlugins<T>(plugins:List.List<ObjCGenerationPlug
   }
 }
 
-export function fileWriteRequest<T>(request:ObjCGenerationRequest<T>, typeInfoProvider:ObjCGenerationTypeInfoProvider<T>, plugins:List.List<ObjCGenerationPlugIn<T>>):Either.Either<Error.Error[], FileWriter.FileWriteRequest> {
-  const validatedRequest:Either.Either<Error.Error[], T> = valueObjectsToCreateWithPlugins(plugins, request.typeInformation);
+export function fileWriteRequest<T>(
+  request: ObjCGenerationRequest<T>,
+  typeInfoProvider: ObjCGenerationTypeInfoProvider<T>,
+  plugins: List.List<ObjCGenerationPlugIn<T>>,
+): Either.Either<Error.Error[], FileWriter.FileWriteRequest> {
+  const validatedRequest: Either.Either<
+    Error.Error[],
+    T
+  > = valueObjectsToCreateWithPlugins(plugins, request.typeInformation);
 
-  return Either.match(function(errors:Error.Error[]) {
-    return Either.Left<Error.Error[], FileWriter.FileWriteRequest>(errors.map(function(error:Error.Error) {
-      return Error.Error('[' + request.path.absolutePath + ']' + Error.getReason(error));
-    }));
-  }, function(typeInformation:T) {
-    const eitherRequest:Either.Either<Error.Error[], FileWriter.FileWriteRequest> = buildFileWriteRequest(request, typeInfoProvider, plugins);
-    return List.foldr(function(soFar:Either.Either<Error.Error[], FileWriter.FileWriteRequest>, plugin:ObjCGenerationPlugIn<T>):Either.Either<Error.Error[], FileWriter.FileWriteRequest> {
-      return Either.map(function(request:FileWriter.FileWriteRequest):FileWriter.FileWriteRequest {
-        const writeRequest:FileWriter.FileWriteRequest = {
-          name:request.name,
-          requests:List.map(plugin.fileTransformation, request.requests)
-        };
-        return writeRequest;
-      }, soFar);
-    }, eitherRequest, plugins);
-  }, validatedRequest);
+  return Either.match(
+    function(errors: Error.Error[]) {
+      return Either.Left<Error.Error[], FileWriter.FileWriteRequest>(
+        errors.map(function(error: Error.Error) {
+          return Error.Error(
+            '[' + request.path.absolutePath + ']' + Error.getReason(error),
+          );
+        }),
+      );
+    },
+    function(typeInformation: T) {
+      const eitherRequest: Either.Either<
+        Error.Error[],
+        FileWriter.FileWriteRequest
+      > = buildFileWriteRequest(request, typeInfoProvider, plugins);
+      return List.foldr(
+        function(
+          soFar: Either.Either<Error.Error[], FileWriter.FileWriteRequest>,
+          plugin: ObjCGenerationPlugIn<T>,
+        ): Either.Either<Error.Error[], FileWriter.FileWriteRequest> {
+          return Either.map(function(
+            request: FileWriter.FileWriteRequest,
+          ): FileWriter.FileWriteRequest {
+            const writeRequest: FileWriter.FileWriteRequest = {
+              name: request.name,
+              requests: List.map(plugin.fileTransformation, request.requests),
+            };
+            return writeRequest;
+          },
+          soFar);
+        },
+        eitherRequest,
+        plugins,
+      );
+    },
+    validatedRequest,
+  );
 }

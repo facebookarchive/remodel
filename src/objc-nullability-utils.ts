@@ -9,7 +9,9 @@ import Maybe = require('./maybe');
 import ObjC = require('./objc');
 import ObjCTypeUtils = require('./objc-type-utils');
 
-export function keywordArgumentModifiersForNullability(nullability:ObjC.Nullability):ObjC.KeywordArgumentModifier[] {
+export function keywordArgumentModifiersForNullability(
+  nullability: ObjC.Nullability,
+): ObjC.KeywordArgumentModifier[] {
   return nullability.match(
     function inherited() {
       return [];
@@ -19,10 +21,13 @@ export function keywordArgumentModifiersForNullability(nullability:ObjC.Nullabil
     },
     function nullable() {
       return [ObjC.KeywordArgumentModifier.Nullable()];
-    });
+    },
+  );
 }
 
-export function propertyModifiersForNullability(nullability:ObjC.Nullability):ObjC.PropertyModifier[] {
+export function propertyModifiersForNullability(
+  nullability: ObjC.Nullability,
+): ObjC.PropertyModifier[] {
   return nullability.match(
     function inherited() {
       return [];
@@ -32,10 +37,14 @@ export function propertyModifiersForNullability(nullability:ObjC.Nullability):Ob
     },
     function nullable() {
       return [ObjC.PropertyModifier.Nullable()];
-    });
+    },
+  );
 }
 
-export function shouldProtectFromNilValuesForNullability(assumeNonnull:boolean, nullability:ObjC.Nullability):boolean {
+export function shouldProtectFromNilValuesForNullability(
+  assumeNonnull: boolean,
+  nullability: ObjC.Nullability,
+): boolean {
   return nullability.match(
     function inherited() {
       return assumeNonnull;
@@ -45,84 +54,92 @@ export function shouldProtectFromNilValuesForNullability(assumeNonnull:boolean, 
     },
     function nullable() {
       return false;
-    });
+    },
+  );
 }
 
-export function nullabilityRequiresNonnullProtection(assumeNonnull:boolean, attributeNullabilities:ObjC.Nullability[]):boolean {
-  return attributeNullabilities.some(nullability => shouldProtectFromNilValuesForNullability(assumeNonnull, nullability));
+export function nullabilityRequiresNonnullProtection(
+  assumeNonnull: boolean,
+  attributeNullabilities: ObjC.Nullability[],
+): boolean {
+  return attributeNullabilities.some(nullability =>
+    shouldProtectFromNilValuesForNullability(assumeNonnull, nullability),
+  );
 }
 
-export function canAssertExistenceForType(type:ObjC.Type):boolean {
-  return ObjCTypeUtils.matchType({
-    id: function() {
-      return true;
+export function canAssertExistenceForType(type: ObjC.Type): boolean {
+  return ObjCTypeUtils.matchType(
+    {
+      id: function() {
+        return true;
+      },
+      NSObject: function() {
+        return true;
+      },
+      BOOL: function() {
+        return false;
+      },
+      NSInteger: function() {
+        return false;
+      },
+      NSUInteger: function() {
+        return false;
+      },
+      double: function() {
+        return false;
+      },
+      float: function() {
+        return false;
+      },
+      CGFloat: function() {
+        return false;
+      },
+      NSTimeInterval: function() {
+        return false;
+      },
+      uintptr_t: function() {
+        return false;
+      },
+      uint32_t: function() {
+        return false;
+      },
+      uint64_t: function() {
+        return false;
+      },
+      int32_t: function() {
+        return false;
+      },
+      int64_t: function() {
+        return false;
+      },
+      SEL: function() {
+        return false;
+      },
+      NSRange: function() {
+        return false;
+      },
+      CGRect: function() {
+        return false;
+      },
+      CGPoint: function() {
+        return false;
+      },
+      CGSize: function() {
+        return false;
+      },
+      UIEdgeInsets: function() {
+        return false;
+      },
+      Class: function() {
+        return true;
+      },
+      dispatch_block_t: function() {
+        return true;
+      },
+      unmatchedType: function() {
+        return false;
+      },
     },
-    NSObject: function() {
-      return true;
-    },
-    BOOL: function() {
-      return false;
-    },
-    NSInteger: function() {
-      return false;
-    },
-    NSUInteger: function() {
-      return false;
-    },
-    double: function() {
-      return false;
-    },
-    float: function() {
-      return false;
-    },
-    CGFloat: function() {
-      return false;
-    },
-    NSTimeInterval: function() {
-      return false;
-    },
-    uintptr_t: function() {
-      return false;
-    },
-    uint32_t: function() {
-      return false;
-    },
-    uint64_t: function() {
-      return false;
-    },
-    int32_t: function() {
-      return false;
-    },
-    int64_t: function() {
-      return false;
-    },
-    SEL: function() {
-      return false;
-    },
-    NSRange: function() {
-      return false;
-    },
-    CGRect: function() {
-      return false;
-    },
-    CGPoint: function() {
-      return false;
-    },
-    CGSize: function() {
-      return false;
-    },
-    UIEdgeInsets: function() {
-      return false;
-    },
-    Class: function() {
-      return true;
-    },
-    dispatch_block_t: function() {
-      return true;
-    },
-    unmatchedType: function() {
-      return false;
-    }
-  },
-  type);
+    type,
+  );
 }

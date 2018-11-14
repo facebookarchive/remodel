@@ -5,33 +5,32 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-
 import ObjC = require('./objc');
 
 export interface TypeMatchers<T> {
-  id:() => T;
-  NSObject:() => T;
-  BOOL:() => T;
-  NSInteger:() => T;
-  NSUInteger:() => T;
-  double:() => T;
-  float:() => T;
-  CGFloat:() => T;
-  NSTimeInterval:() => T;
-  uintptr_t:() => T;
-  uint32_t:() => T;
-  uint64_t:() => T;
-  int32_t:() => T;
-  int64_t:() => T;
-  SEL:() => T;
-  NSRange:() => T;
-  CGRect:() => T;
-  CGPoint:() => T;
-  CGSize:() => T;
-  UIEdgeInsets:() => T;
-  Class:() => T;
-  dispatch_block_t:() => T;
-  unmatchedType:() => T;
+  id: () => T;
+  NSObject: () => T;
+  BOOL: () => T;
+  NSInteger: () => T;
+  NSUInteger: () => T;
+  double: () => T;
+  float: () => T;
+  CGFloat: () => T;
+  NSTimeInterval: () => T;
+  uintptr_t: () => T;
+  uint32_t: () => T;
+  uint64_t: () => T;
+  int32_t: () => T;
+  int64_t: () => T;
+  SEL: () => T;
+  NSRange: () => T;
+  CGRect: () => T;
+  CGPoint: () => T;
+  CGSize: () => T;
+  UIEdgeInsets: () => T;
+  Class: () => T;
+  dispatch_block_t: () => T;
+  unmatchedType: () => T;
 }
 
 /**
@@ -108,8 +107,7 @@ export interface TypeMatchers<T> {
   },
   type);
 */
-export function matchType<T>(matchers: TypeMatchers<T>,
-                             type:ObjC.Type):T {
+export function matchType<T>(matchers: TypeMatchers<T>, type: ObjC.Type): T {
   if (type.name === 'id') {
     return matchers.id();
   } else if (type.name === 'NSObject') {
@@ -159,33 +157,35 @@ export function matchType<T>(matchers: TypeMatchers<T>,
   }
 }
 
-export function isNSObject(type:ObjC.Type):boolean {
+export function isNSObject(type: ObjC.Type): boolean {
   const returnFalse = () => false;
 
-  return matchType({
-    id: returnFalse,
-    NSObject: () => true,
-    BOOL: returnFalse,
-    NSInteger: returnFalse,
-    NSUInteger: returnFalse,
-    double: returnFalse,
-    float: returnFalse,
-    CGFloat: returnFalse,
-    NSTimeInterval: returnFalse,
-    uintptr_t: returnFalse,
-    uint32_t: returnFalse,
-    uint64_t: returnFalse,
-    int32_t: returnFalse,
-    int64_t: returnFalse,
-    SEL: returnFalse,
-    NSRange: returnFalse,
-    CGRect: returnFalse,
-    CGPoint: returnFalse,
-    CGSize: returnFalse,
-    UIEdgeInsets: returnFalse,
-    Class: returnFalse,
-    dispatch_block_t: returnFalse,
-    unmatchedType: returnFalse,
-  },
-  type);
+  return matchType(
+    {
+      id: returnFalse,
+      NSObject: () => true,
+      BOOL: returnFalse,
+      NSInteger: returnFalse,
+      NSUInteger: returnFalse,
+      double: returnFalse,
+      float: returnFalse,
+      CGFloat: returnFalse,
+      NSTimeInterval: returnFalse,
+      uintptr_t: returnFalse,
+      uint32_t: returnFalse,
+      uint64_t: returnFalse,
+      int32_t: returnFalse,
+      int64_t: returnFalse,
+      SEL: returnFalse,
+      NSRange: returnFalse,
+      CGRect: returnFalse,
+      CGPoint: returnFalse,
+      CGSize: returnFalse,
+      UIEdgeInsets: returnFalse,
+      Class: returnFalse,
+      dispatch_block_t: returnFalse,
+      unmatchedType: returnFalse,
+    },
+    type,
+  );
 }

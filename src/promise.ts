@@ -9,30 +9,30 @@ import FunctionUtils = require('./function-utils');
 import List = require('./list');
 
 interface SharedState<T> {
-  value:T;
-  thenHandlers: {(val:T): void;}[];
+  value: T;
+  thenHandlers: {(val: T): void}[];
 }
 
-export function pending<T>():Promise<T> {
-  return new Promise<T>({value:null, thenHandlers:[]});
+export function pending<T>(): Promise<T> {
+  return new Promise<T>({value: null, thenHandlers: []});
 }
 
-export function resolved<T>(val:T):Promise<T> {
-  return new Promise<T>({value:val, thenHandlers:[]});
+export function resolved<T>(val: T): Promise<T> {
+  return new Promise<T>({value: val, thenHandlers: []});
 }
 
 export class Promise<T> {
-  private sharedState:SharedState<T>;
+  private sharedState: SharedState<T>;
 
-  constructor (sharedState:SharedState<T>) {
+  constructor(sharedState: SharedState<T>) {
     this.sharedState = sharedState;
   }
 
-  getFuture():Future<T> {
+  getFuture(): Future<T> {
     return new Future<T>(this.sharedState);
   }
 
-  setValue(val:T) {
+  setValue(val: T) {
     this.sharedState.value = val;
     this.sharedState.thenHandlers.forEach(function(f) {
       f(val);
@@ -47,7 +47,7 @@ export class Future<T> {
     no way to do this inside of typescript. Nobody should touch it, hence the
     `_` indicating that this should be treated as an implementation detail.
   */
-  public _sharedState:SharedState<T>;
+  public _sharedState: SharedState<T>;
 
   /**
     A Future<T> should never be allocated apart from reading one from a promise
@@ -55,16 +55,16 @@ export class Future<T> {
     constructor could be marked private for the module but typescript does not
     allow for that.
   */
-  constructor (sharedState:SharedState<T>) {
+  constructor(sharedState: SharedState<T>) {
     this._sharedState = sharedState;
   }
 
-  map<U> (f: (v:T) => U) {
+  map<U>(f: (v: T) => U) {
     return map(f, this);
   }
 }
 
-export function then<T>(f: (v:T) => void, future:Future<T>):void {
+export function then<T>(f: (v: T) => void, future: Future<T>): void {
   if (future._sharedState.value === null) {
     future._sharedState.thenHandlers.push(f);
   } else {
@@ -72,41 +72,56 @@ export function then<T>(f: (v:T) => void, future:Future<T>):void {
   }
 }
 
-export function map<T,U>(f: (v:T) => U, future:Future<T>):Future<U> {
+export function map<T, U>(f: (v: T) => U, future: Future<T>): Future<U> {
   const pendingPromise = pending<U>();
-  then(function(val:T) {
+  then(function(val: T) {
     pendingPromise.setValue(f(val));
   }, future);
   return pendingPromise.getFuture();
 }
 
-export function mbind<T,U>(f: (v:T) => Future<U>, future:Future<T>):Future<U> {
-  const pendingPromise:Promise<U> = pending<U>();
-  then(function(val:T) {
-    then(function(val2:U) {
+export function mbind<T, U>(
+  f: (v: T) => Future<U>,
+  future: Future<T>,
+): Future<U> {
+  const pendingPromise: Promise<U> = pending<U>();
+  then(function(val: T) {
+    then(function(val2: U) {
       pendingPromise.setValue(val2);
     }, f(val));
   }, future);
   return pendingPromise.getFuture();
 }
 
-export function munit<T>(t:T):Future<T> {
+export function munit<T>(t: T): Future<T> {
   return resolved(t).getFuture();
 }
 
-export function aapply<T,U>(futureFunc:Future<(a:T) => U>, futureVal:Future<T>):Future<U> {
-  return mbind(function(t:T) {
-    return map(function(f:(a:T) => U) {
+export function aapply<T, U>(
+  futureFunc: Future<(a: T) => U>,
+  futureVal: Future<T>,
+): Future<U> {
+  return mbind(function(t: T) {
+    return map(function(f: (a: T) => U) {
       return f(t);
     }, futureFunc);
   }, futureVal);
 }
 
-export function all<T>(futures:List.List<Future<T>>):Future<List.List<T>> {
-  const partialFutures = List.map(function(future:Future<T>) {
-    return map(function(val:T) { return FunctionUtils.pApplyf2(val, List.cons); }, future);
+export function all<T>(futures: List.List<Future<T>>): Future<List.List<T>> {
+  const partialFutures = List.map(function(future: Future<T>) {
+    return map(function(val: T) {
+      return FunctionUtils.pApplyf2(val, List.cons);
+    }, future);
   }, futures);
-  return List.foldr(function(soFarFuture:Future<List.List<T>>, thisFuture:Future<(list:List.List<T>) => List.List<T>>) {
-    return aapply(thisFuture, soFarFuture);
-  }, resolved<List.List<T>>(List.of<T>()).getFuture(), partialFutures);
+  return List.foldr(
+    function(
+      soFarFuture: Future<List.List<T>>,
+      thisFuture: Future<(list: List.List<T>) => List.List<T>>,
+    ) {
+      return aapply(thisFuture, soFarFuture);
+    },
+    resolved<List.List<T>>(List.of<T>()).getFuture(),
+    partialFutures,
+  );
 }

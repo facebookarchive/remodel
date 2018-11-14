@@ -7,13 +7,21 @@
 
 import List = require('./list');
 
-export function includesContainingDefaultIncludes(includesFromType:string[], excludesFromType:string[], defaultIncludes:List.List<string>):string[] {
-  const defaultIncludesToInclude:string[] = List.foldr(function(soFar:string[], defaultInclude:string):string[] {
-    if (excludesFromType.indexOf(defaultInclude) === -1) {
-      return soFar.concat(defaultInclude);
-    } else {
-      return soFar;
-    }
-  }, [], defaultIncludes);
+export function includesContainingDefaultIncludes(
+  includesFromType: string[],
+  excludesFromType: string[],
+  defaultIncludes: List.List<string>,
+): string[] {
+  const defaultIncludesToInclude: string[] = List.foldr(
+    function(soFar: string[], defaultInclude: string): string[] {
+      if (excludesFromType.indexOf(defaultInclude) === -1) {
+        return soFar.concat(defaultInclude);
+      } else {
+        return soFar;
+      }
+    },
+    [],
+    defaultIncludes,
+  );
   return includesFromType.concat(defaultIncludesToInclude);
 }

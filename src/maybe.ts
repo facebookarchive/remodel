@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-export function Just<T>(val:T) {
+export function Just<T>(val: T) {
   return new Maybe<T>(val);
 }
 
@@ -14,14 +14,18 @@ export function Nothing<T>() {
 }
 
 export class Maybe<T> {
-  public value:T;
+  public value: T;
 
-  constructor(value:T) {
+  constructor(value: T) {
     this.value = value;
   }
 }
 
-export function match<T,U>(just: (t:T) => U, nothing:() => U, maybe:Maybe<T>):U {
+export function match<T, U>(
+  just: (t: T) => U,
+  nothing: () => U,
+  maybe: Maybe<T>,
+): U {
   if (maybe.value === null) {
     return nothing();
   } else {
@@ -29,30 +33,38 @@ export function match<T,U>(just: (t:T) => U, nothing:() => U, maybe:Maybe<T>):U 
   }
 }
 
-export function catMaybes<T>(maybes:Maybe<T>[]):T[] {
-  return maybes.reduce(function(soFar:T[], thisVal:Maybe<T>) {
+export function catMaybes<T>(maybes: Maybe<T>[]): T[] {
+  return maybes.reduce(function(soFar: T[], thisVal: Maybe<T>) {
     return match(
-      function(val:T) {
+      function(val: T) {
         return soFar.concat(val);
       },
       function() {
         return soFar;
-      }, thisVal);
+      },
+      thisVal,
+    );
   }, []);
 }
 
-export function map<T,U>(f:(t:T) => U, maybe:Maybe<T>):Maybe<U> {
-  const just = function(t:T) { return Just(f(t)); };
-  const nothing = function() { return Nothing<U>(); };
+export function map<T, U>(f: (t: T) => U, maybe: Maybe<T>): Maybe<U> {
+  const just = function(t: T) {
+    return Just(f(t));
+  };
+  const nothing = function() {
+    return Nothing<U>();
+  };
   return match(just, nothing, maybe);
 }
 
-export function munit<T>(t:T) {
+export function munit<T>(t: T) {
   return Just(t);
 }
 
-export function mbind<T,U>(f:(t:T) => Maybe<U>, maybe:Maybe<T>):Maybe<U> {
-  const nothing = function() { return Nothing<U>(); };
+export function mbind<T, U>(f: (t: T) => Maybe<U>, maybe: Maybe<T>): Maybe<U> {
+  const nothing = function() {
+    return Nothing<U>();
+  };
   return match(f, nothing, maybe);
 }
 

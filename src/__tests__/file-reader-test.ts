@@ -18,45 +18,73 @@ import fs = require('fs');
 import fsExtra = require('fs-extra');
 import Promise = require('../promise');
 
-function concatenatedErrorStringFromErrors(errors:Error.Error[]):string {
+function concatenatedErrorStringFromErrors(errors: Error.Error[]): string {
   return errors.map(Error.getReason).join(',');
 }
 
 describe('FileReader', function() {
   describe('#read', function() {
-    it('gives a future with the value of the file in an either when the ' +
-       'file exists and the read is successful', function(finished) {
-       fsExtra.removeSync(__dirname + '/tmp');
-       fs.mkdirSync(__dirname + '/tmp');
-       fs.writeFileSync(__dirname + '/tmp/test.value', 'some contents');
-       const path:File.AbsoluteFilePath = File.getAbsoluteFilePath(__dirname + '/tmp/test.value');
-       const future:Promise.Future<Either.Either<Error.Error[], File.Contents>> = FileReader.read(path);
-       Promise.then(function(result:Either.Either<Error.Error[], File.Contents>) {
-         const val:string = Either.match(
-           function(errors:Error.Error[]):string {
-             return errors.join(', ');
-           },
-           File.getContents,
-           result);
+    it(
+      'gives a future with the value of the file in an either when the ' +
+        'file exists and the read is successful',
+      function(finished) {
+        fsExtra.removeSync(__dirname + '/tmp');
+        fs.mkdirSync(__dirname + '/tmp');
+        fs.writeFileSync(__dirname + '/tmp/test.value', 'some contents');
+        const path: File.AbsoluteFilePath = File.getAbsoluteFilePath(
+          __dirname + '/tmp/test.value',
+        );
+        const future: Promise.Future<
+          Either.Either<Error.Error[], File.Contents>
+        > = FileReader.read(path);
+        Promise.then(function(
+          result: Either.Either<Error.Error[], File.Contents>,
+        ) {
+          const val: string = Either.match(
+            function(errors: Error.Error[]): string {
+              return errors.join(', ');
+            },
+            File.getContents,
+            result,
+          );
 
-         expect(val).toEqualJSON('some contents');
+          expect(val).toEqualJSON('some contents');
 
-         fsExtra.removeSync(__dirname + '/tmp');
-         finished();
-       }, future);
-    });
+          fsExtra.removeSync(__dirname + '/tmp');
+          finished();
+        },
+        future);
+      },
+    );
 
-    it('gives a future with the errorin an either when the file does not ' +
-       'exist', function(finished) {
-       const path:File.AbsoluteFilePath = File.getAbsoluteFilePath(__dirname + '/tmp/test.value');
-       const future:Promise.Future<Either.Either<Error.Error[], File.Contents>> = FileReader.read(path);
-       Promise.then(function(result:Either.Either<Error.Error[], File.Contents>) {
-         const val:string = Either.match(concatenatedErrorStringFromErrors, File.getContents, result);
+    it(
+      'gives a future with the errorin an either when the file does not ' +
+        'exist',
+      function(finished) {
+        const path: File.AbsoluteFilePath = File.getAbsoluteFilePath(
+          __dirname + '/tmp/test.value',
+        );
+        const future: Promise.Future<
+          Either.Either<Error.Error[], File.Contents>
+        > = FileReader.read(path);
+        Promise.then(function(
+          result: Either.Either<Error.Error[], File.Contents>,
+        ) {
+          const val: string = Either.match(
+            concatenatedErrorStringFromErrors,
+            File.getContents,
+            result,
+          );
 
-         expect(val.indexOf('ENOENT') != -1 && val.indexOf(__dirname + '/tmp/test.value\'')).toBeTruthy();
+          expect(
+            val.indexOf('ENOENT') != -1 &&
+              val.indexOf(__dirname + "/tmp/test.value'"),
+          ).toBeTruthy();
 
-         finished();
-       }, future);
-    });
+          finished();
+        },
+        future);
+      },
+    );
   });
 });

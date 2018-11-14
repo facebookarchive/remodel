@@ -7,12 +7,12 @@
 
 enum TemplateTypeType {
   typenameTemplate,
-  classTemplate
+  classTemplate,
 }
 
 export class TemplateType {
   private templateType;
-  constructor(type:TemplateTypeType) {
+  constructor(type: TemplateTypeType) {
     this.templateType = type;
   }
 
@@ -24,8 +24,8 @@ export class TemplateType {
     return new TemplateType(TemplateTypeType.classTemplate);
   }
 
-  match<T>(typenameTemplate:() => T, classTemplate:() =>T):T {
-    switch(this.templateType) {
+  match<T>(typenameTemplate: () => T, classTemplate: () => T): T {
+    switch (this.templateType) {
       case TemplateTypeType.typenameTemplate:
         return typenameTemplate();
       case TemplateTypeType.classTemplate:
@@ -35,22 +35,22 @@ export class TemplateType {
 }
 
 export interface TemplatedType {
-  type:TemplateType;
-  value:string;
+  type: TemplateType;
+  value: string;
 }
 
 export interface Template {
-  templatedTypes:TemplatedType[];
-  code:string[];
+  templatedTypes: TemplatedType[];
+  code: string[];
 }
 
 export interface Struct {
-  name:string;
-  templates:Template[];
-  code:string[][];
+  name: string;
+  templates: Template[];
+  code: string[][];
 }
 
 export interface Namespace {
-  name:string;
-  templates:Template[];
+  name: string;
+  templates: Template[];
 }

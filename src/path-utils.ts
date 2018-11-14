@@ -8,7 +8,7 @@
 import File = require('./file');
 import path = require('path');
 
-function pathWithoutLastSlash(path:string):string {
+function pathWithoutLastSlash(path: string): string {
   const lastIndex = path.length - 1;
   if (path[lastIndex] === '/') {
     return path.slice(0, lastIndex);
@@ -17,7 +17,7 @@ function pathWithoutLastSlash(path:string):string {
   }
 }
 
-function extraPath(pathPassedIn:string) {
+function extraPath(pathPassedIn: string) {
   if (typeof pathPassedIn === 'undefined') {
     return '';
   } else {
@@ -25,14 +25,38 @@ function extraPath(pathPassedIn:string) {
   }
 }
 
-export function getAbsolutePathFromDirectoryAndRelativePath(directoryPath:File.AbsoluteFilePath, relativePath:string):File.AbsoluteFilePath {
-  return File.getAbsoluteFilePath(pathWithoutLastSlash(path.join(File.getAbsolutePathString(directoryPath), extraPath(relativePath))));
+export function getAbsolutePathFromDirectoryAndRelativePath(
+  directoryPath: File.AbsoluteFilePath,
+  relativePath: string,
+): File.AbsoluteFilePath {
+  return File.getAbsoluteFilePath(
+    pathWithoutLastSlash(
+      path.join(
+        File.getAbsolutePathString(directoryPath),
+        extraPath(relativePath),
+      ),
+    ),
+  );
 }
 
-export function getAbsolutePathFromDirectoryAndAbsoluteOrRelativePath(directoryPath:File.AbsoluteFilePath, relativePath:string):File.AbsoluteFilePath {
-  return File.getAbsoluteFilePath(pathWithoutLastSlash(path.resolve(File.getAbsolutePathString(directoryPath), extraPath(relativePath))));
+export function getAbsolutePathFromDirectoryAndAbsoluteOrRelativePath(
+  directoryPath: File.AbsoluteFilePath,
+  relativePath: string,
+): File.AbsoluteFilePath {
+  return File.getAbsoluteFilePath(
+    pathWithoutLastSlash(
+      path.resolve(
+        File.getAbsolutePathString(directoryPath),
+        extraPath(relativePath),
+      ),
+    ),
+  );
 }
 
-export function getDirectoryPathFromAbsolutePath(filePath:File.AbsoluteFilePath):File.AbsoluteFilePath {
-  return File.getAbsoluteFilePath(path.dirname(File.getAbsolutePathString(filePath)));
+export function getDirectoryPathFromAbsolutePath(
+  filePath: File.AbsoluteFilePath,
+): File.AbsoluteFilePath {
+  return File.getAbsoluteFilePath(
+    path.dirname(File.getAbsolutePathString(filePath)),
+  );
 }

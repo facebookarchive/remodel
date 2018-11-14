@@ -9,34 +9,34 @@ import File = require('./file');
 import List = require('./list');
 
 export enum RequestType {
-  findFilesRequest
+  findFilesRequest,
 }
 
 export enum ResponseType {
-  findFilesResponse
+  findFilesResponse,
 }
 
 export interface FindFilesRequest {
-  requestId:number;
-  directoryToSearch:File.AbsoluteFilePath;
-  fileExtension:string;
+  requestId: number;
+  directoryToSearch: File.AbsoluteFilePath;
+  fileExtension: string;
 }
 
 export interface FindFilesResponse {
-  didError:boolean;
-  requestId:number;
-  foundFilePaths:File.AbsoluteFilePath[];
-  foundDirectoriesToSearch:File.AbsoluteFilePath[];
-  fileExtension:string;
+  didError: boolean;
+  requestId: number;
+  foundFilePaths: File.AbsoluteFilePath[];
+  foundDirectoriesToSearch: File.AbsoluteFilePath[];
+  fileExtension: string;
 }
 
 export interface Request {
-  requestType:RequestType;
-  findFilesRequest:FindFilesRequest;
+  requestType: RequestType;
+  findFilesRequest: FindFilesRequest;
 }
 
 export interface Response {
-  pid:number;
-  responseType:ResponseType;
-  findFilesResponse:FindFilesResponse;
+  pid: number;
+  responseType: ResponseType;
+  findFilesResponse: FindFilesResponse;
 }

@@ -6,7 +6,7 @@
  */
 
 export interface PluginModule {
-  createPlugin:() => any;
+  createPlugin: () => any;
 }
 
-export function requirePlugin(absolutePath:string):PluginModule;
+export function requirePlugin(absolutePath: string): PluginModule;

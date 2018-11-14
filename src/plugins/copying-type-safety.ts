@@ -14,25 +14,34 @@ import ObjectSpecCodeUtils = require('../object-spec-code-utils');
 
 function shouldValidateNSCopyingConformanceOfAttribute(
   supportsValueSemantics: boolean,
-  attribute: ObjectSpec.Attribute
+  attribute: ObjectSpec.Attribute,
 ): boolean {
   return (
     // UIImage implements -copyWithZone:, but doesn't declare conformance with
     // NSCopying. Whitelist it manually to avoid breaking the build on any value
     // object with a UIImage attribute.
     attribute.type.name !== 'UIImage' &&
-    ObjectSpecCodeUtils.shouldCopyIncomingValueForAttribute(supportsValueSemantics, attribute)
+    ObjectSpecCodeUtils.shouldCopyIncomingValueForAttribute(
+      supportsValueSemantics,
+      attribute,
+    )
   );
 }
 
 function copyingValidatorFunction(
   supportsValueSemantics: boolean,
-  attributes: ObjectSpec.Attribute[]
+  attributes: ObjectSpec.Attribute[],
 ): ObjC.Function {
   return {
     comments: [
-      {content: '// This unused function ensures that all object fields conform to NSCopying.'},
-      {content: '// The -copy method is implemented on NSObject, and throws an exception at runtime.'},
+      {
+        content:
+          '// This unused function ensures that all object fields conform to NSCopying.',
+      },
+      {
+        content:
+          '// The -copy method is implemented on NSObject, and throws an exception at runtime.',
+      },
     ],
     name: 'RMCopyingValidatorFunction',
     parameters: [],
@@ -45,17 +54,22 @@ function copyingValidatorFunction(
         FunctionUtils.pApplyf2(
           supportsValueSemantics,
           shouldValidateNSCopyingConformanceOfAttribute,
-        )
+        ),
       )
-      .map(attribute =>
-        `id<NSCopying> ${attribute.name}_must_conform_to_NSCopying __unused = (${attribute.type.reference})nil;`
+      .map(
+        attribute =>
+          `id<NSCopying> ${
+            attribute.name
+          }_must_conform_to_NSCopying __unused = (${
+            attribute.type.reference
+          })nil;`,
       ),
     isPublic: false,
     compilerAttributes: ['__attribute__((unused))'],
   };
 }
 
-export function createPlugin():ObjectSpec.Plugin {
+export function createPlugin(): ObjectSpec.Plugin {
   return {
     additionalFiles: empty(),
     additionalTypes: empty(),
@@ -67,7 +81,7 @@ export function createPlugin():ObjectSpec.Plugin {
     functions: objectType => [
       copyingValidatorFunction(
         ObjectSpecUtils.typeSupportsValueObjectSemantics(objectType),
-        objectType.attributes
+        objectType.attributes,
       ),
     ],
     headerComments: empty(),
@@ -76,7 +90,7 @@ export function createPlugin():ObjectSpec.Plugin {
     instanceMethods: empty(),
     macros: empty(),
     properties: empty(),
-    requiredIncludesToRun:['RMCopyingTypeSafety'],
+    requiredIncludesToRun: ['RMCopyingTypeSafety'],
     staticConstants: empty(),
     validationErrors: empty(),
     nullability: nothing(),

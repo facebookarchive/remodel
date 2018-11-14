@@ -12,10 +12,14 @@ export interface OutputFlags {
   outputList: string[];
 }
 
-export function ShouldEmitObject(flags:OutputFlags) {
-  return flags.outputList.length == 0 || (flags.outputList.indexOf('object') !== -1);
+export function ShouldEmitObject(flags: OutputFlags) {
+  return (
+    flags.outputList.length == 0 || flags.outputList.indexOf('object') !== -1
+  );
 }
 
-export function ShouldEmitPluginFile(flags:OutputFlags, pluginName:string) {
-  return flags.outputList.length == 0 || (flags.outputList.indexOf(pluginName) !== -1);
+export function ShouldEmitPluginFile(flags: OutputFlags, pluginName: string) {
+  return (
+    flags.outputList.length == 0 || flags.outputList.indexOf(pluginName) !== -1
+  );
 }

@@ -10,12 +10,12 @@ import ObjC = require('./objc');
 
 enum FileTypeValue {
   objectiveC,
-  objectiveCPlusPlus
+  objectiveCPlusPlus,
 }
 
 export class FileType {
   private fileType;
-  constructor(type:FileTypeValue) {
+  constructor(type: FileTypeValue) {
     this.fileType = type;
   }
 
@@ -27,8 +27,8 @@ export class FileType {
     return new FileType(FileTypeValue.objectiveCPlusPlus);
   }
 
-  match<T>(objectiveC:() => T, objectiveCPlusPlus:() => T):T {
-    switch(this.fileType) {
+  match<T>(objectiveC: () => T, objectiveCPlusPlus: () => T): T {
+    switch (this.fileType) {
       case FileTypeValue.objectiveC:
         return objectiveC();
       case FileTypeValue.objectiveCPlusPlus:
@@ -38,18 +38,18 @@ export class FileType {
 }
 
 export interface File {
-  name:string;
-  type:FileType;
-  comments:ObjC.Comment[];
-  imports:ObjC.Import[];
-  forwardDeclarations:ObjC.ForwardDeclaration[];
-  enumerations:ObjC.Enumeration[];
-  blockTypes:ObjC.BlockType[];
-  staticConstants:ObjC.Constant[];
+  name: string;
+  type: FileType;
+  comments: ObjC.Comment[];
+  imports: ObjC.Import[];
+  forwardDeclarations: ObjC.ForwardDeclaration[];
+  enumerations: ObjC.Enumeration[];
+  blockTypes: ObjC.BlockType[];
+  staticConstants: ObjC.Constant[];
   macros: ObjC.Macro[];
-  functions:ObjC.Function[];
-  classes:ObjC.Class[];
-  diagnosticIgnores:string[];
-  structs:CPlusPlus.Struct[];
-  namespaces:CPlusPlus.Namespace[];
+  functions: ObjC.Function[];
+  classes: ObjC.Class[];
+  diagnosticIgnores: string[];
+  structs: CPlusPlus.Struct[];
+  namespaces: CPlusPlus.Namespace[];
 }

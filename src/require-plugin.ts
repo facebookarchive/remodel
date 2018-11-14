@@ -15,43 +15,70 @@ import Maybe = require('./maybe');
 import requireJsPlugin = require('./js/require-plugin/require-plugin');
 import ObjectSpec = require('./object-spec');
 
-function requiredModuleForPath(absolutePath:File.AbsoluteFilePath):Maybe.Maybe<any> {
+function requiredModuleForPath(
+  absolutePath: File.AbsoluteFilePath,
+): Maybe.Maybe<any> {
   try {
-    return Maybe.Just(requireJsPlugin.requirePlugin(File.getAbsolutePathString(absolutePath)));
-  } catch(e) {
+    return Maybe.Just(
+      requireJsPlugin.requirePlugin(File.getAbsolutePathString(absolutePath)),
+    );
+  } catch (e) {
     return Maybe.Nothing();
   }
 }
 
-function requirePlugin<T>(absolutePath:File.AbsoluteFilePath, loadPlugin:(requiredModule:any) => Maybe.Maybe<T>):Either.Either<Error.Error[], Maybe.Maybe<T>> {
-  const requiredModule:Maybe.Maybe<any> = requiredModuleForPath(absolutePath);
+function requirePlugin<T>(
+  absolutePath: File.AbsoluteFilePath,
+  loadPlugin: (requiredModule: any) => Maybe.Maybe<T>,
+): Either.Either<Error.Error[], Maybe.Maybe<T>> {
+  const requiredModule: Maybe.Maybe<any> = requiredModuleForPath(absolutePath);
   return Maybe.match(
-    function just(value:any):Either.Either<Error.Error[], Maybe.Maybe<T>> {
+    function just(value: any): Either.Either<Error.Error[], Maybe.Maybe<T>> {
       return Either.Right<Error.Error[], Maybe.Maybe<T>>(loadPlugin(value));
     },
-    function nothing():Either.Either<Error.Error[], Maybe.Maybe<T>> {
-      return Either.Left<Error.Error[], Maybe.Maybe<T>>([Error.Error('Plugin registered at ' + File.getAbsolutePathString(absolutePath) + ' does not exist')]);
+    function nothing(): Either.Either<Error.Error[], Maybe.Maybe<T>> {
+      return Either.Left<Error.Error[], Maybe.Maybe<T>>([
+        Error.Error(
+          'Plugin registered at ' +
+            File.getAbsolutePathString(absolutePath) +
+            ' does not exist',
+        ),
+      ]);
     },
-    requiredModule
+    requiredModule,
   );
 }
 
-function valueObjectPluginFromModule(module:any): Maybe.Maybe<ObjectSpec.Plugin> {
-  return module.createPlugin !== undefined ?
-    Maybe.Just<ObjectSpec.Plugin>(module.createPlugin()) :
-    Maybe.Nothing<ObjectSpec.Plugin>();
+function valueObjectPluginFromModule(
+  module: any,
+): Maybe.Maybe<ObjectSpec.Plugin> {
+  return module.createPlugin !== undefined
+    ? Maybe.Just<ObjectSpec.Plugin>(module.createPlugin())
+    : Maybe.Nothing<ObjectSpec.Plugin>();
 }
 
-function algebraicTypePluginFromModule(module:any): Maybe.Maybe<AlgebraicType.Plugin> {
-  return module.createAlgebraicTypePlugin !== undefined ?
-    Maybe.Just<AlgebraicType.Plugin>(module.createAlgebraicTypePlugin()) :
-    Maybe.Nothing<AlgebraicType.Plugin>();
+function algebraicTypePluginFromModule(
+  module: any,
+): Maybe.Maybe<AlgebraicType.Plugin> {
+  return module.createAlgebraicTypePlugin !== undefined
+    ? Maybe.Just<AlgebraicType.Plugin>(module.createAlgebraicTypePlugin())
+    : Maybe.Nothing<AlgebraicType.Plugin>();
 }
 
-export function requireObjectSpecPlugin(absolutePath:File.AbsoluteFilePath):Either.Either<Error.Error[], Maybe.Maybe<ObjectSpec.Plugin>> {
-  return requirePlugin<ObjectSpec.Plugin>(absolutePath, valueObjectPluginFromModule);
+export function requireObjectSpecPlugin(
+  absolutePath: File.AbsoluteFilePath,
+): Either.Either<Error.Error[], Maybe.Maybe<ObjectSpec.Plugin>> {
+  return requirePlugin<ObjectSpec.Plugin>(
+    absolutePath,
+    valueObjectPluginFromModule,
+  );
 }
 
-export function requireAlgebraicTypePlugin(absolutePath:File.AbsoluteFilePath):Either.Either<Error.Error[], Maybe.Maybe<AlgebraicType.Plugin>> {
-  return requirePlugin<AlgebraicType.Plugin>(absolutePath, algebraicTypePluginFromModule);
+export function requireAlgebraicTypePlugin(
+  absolutePath: File.AbsoluteFilePath,
+): Either.Either<Error.Error[], Maybe.Maybe<AlgebraicType.Plugin>> {
+  return requirePlugin<AlgebraicType.Plugin>(
+    absolutePath,
+    algebraicTypePluginFromModule,
+  );
 }

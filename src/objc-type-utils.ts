@@ -157,13 +157,14 @@ export function matchType<T>(matchers: TypeMatchers<T>, type: ObjC.Type): T {
   }
 }
 
-export function isNSObject(type: ObjC.Type): boolean {
-  const returnFalse = () => false;
+const returnFalse = () => false;
+const returnTrue = () => true;
 
+export function isNSObject(type: ObjC.Type): boolean {
   return matchType(
     {
       id: returnFalse,
-      NSObject: () => true,
+      NSObject: returnTrue,
       BOOL: returnFalse,
       NSInteger: returnFalse,
       NSUInteger: returnFalse,
@@ -184,6 +185,37 @@ export function isNSObject(type: ObjC.Type): boolean {
       UIEdgeInsets: returnFalse,
       Class: returnFalse,
       dispatch_block_t: returnFalse,
+      unmatchedType: returnFalse,
+    },
+    type,
+  );
+}
+
+export function isObject(type: ObjC.Type): boolean {
+  return matchType(
+    {
+      id: returnTrue,
+      NSObject: returnTrue,
+      BOOL: returnFalse,
+      NSInteger: returnFalse,
+      NSUInteger: returnFalse,
+      double: returnFalse,
+      float: returnFalse,
+      CGFloat: returnFalse,
+      NSTimeInterval: returnFalse,
+      uintptr_t: returnFalse,
+      uint32_t: returnFalse,
+      uint64_t: returnFalse,
+      int32_t: returnFalse,
+      int64_t: returnFalse,
+      SEL: returnFalse,
+      NSRange: returnFalse,
+      CGRect: returnFalse,
+      CGPoint: returnFalse,
+      CGSize: returnFalse,
+      UIEdgeInsets: returnFalse,
+      Class: returnTrue,
+      dispatch_block_t: returnTrue,
       unmatchedType: returnFalse,
     },
     type,

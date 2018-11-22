@@ -7,58 +7,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const fs = require('fs');
-const colors = require('cli-color');
-const List = require('./dist/list');
-
-function flattenResults(results) {
-    return List.foldl(function(currentValue, result) {
-        return {
-            errorCount: currentValue.errorCount + result.errorCount,
-            successCount: currentValue.successCount + result.successCount
-        };
-    }, { errorCount: 0, successCount:0 }, results);
-}
-
-function aggregateResults(results) {
-    const List = require('./dist/list');
-    
-    const flattenedOnce = List.map(flattenResults, results);
-    return flattenResults(flattenedOnce);
-}
-
-const Maybe = require('./dist/maybe');
+const main = require('./dist/main');
 const CommandLine = require('./dist/commandline');
-const ObjectSpecs = require('./dist/object-specs');
-const ParallelProcessQueue = require('./dist/parallel-process-queue');
 
 const parsedArgs = CommandLine.parseArgs(process.argv.slice(2));
-Maybe.match(function(args) {
-    const Promise = require('./dist/promise');
-    const List = require('./dist/list');
-    const ValueObjectDefaultConfig = require('./dist/value-object-default-config');
-    const valueObjectsFuture = ObjectSpecs.generate(process.cwd(), 'value', '.valueObjectConfig', args.valueObjectConfigPath, ValueObjectDefaultConfig.VALUE_OBJECT_DEFAULT_CONFIG, args);
-    const ObjectSpecDefaultConfig = require('./dist/object-spec-default-config');
-    const objectsFuture = ObjectSpecs.generate(process.cwd(), 'object', '.objectConfig', args.objectConfigPath, ObjectSpecDefaultConfig.OBJECT_SPEC_DEFAULT_CONFIG, args);
-    const algebraicTypesFuture = require('./dist/algebraic-types').generate(process.cwd(), args);
-
-    const promise = Promise.all(List.of(valueObjectsFuture, objectsFuture, algebraicTypesFuture));
-
-    Promise.then(function(results) {
-      const aggregatedResult = aggregateResults(results);
-
-      if (aggregatedResult.errorCount === 0) {
-        console.log(colors.green('Successfully generated ' + aggregatedResult.successCount + ' objects.'));
-      } else {
-        console.log(colors.red('Successfully generated ' + aggregatedResult.successCount + ' objects. Encountered ' + aggregatedResult.errorCount + ' errors in other files'));
-        process.exit(1);
-      }
-
-      ParallelProcessQueue.shutDown();
-    }, promise);
-  },
-  function() {
-    console.log('Expected use: ./generate [flags] pathToDirectory');
-    ParallelProcessQueue.shutDown();
-  }, parsedArgs);
-
+main.main(parsedArgs);

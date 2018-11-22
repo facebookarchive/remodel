@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+var {Given, Then, When} = require('cucumber');
 var colors = require('cli-color');
 var diff = require('diff');
 var exec = require('child_process').exec
@@ -47,38 +48,36 @@ function displayDiff(diff) {
   }
 }
 
-module.exports = function() {
-  this.Given(/^a file named "([^"]*)" with:$/, function(fileName, fileContent, callback) {
+  Given(/^a file named "([^"]*)" with:$/, function(fileName, fileContent, callback) {
     writeFile(fileName, fileContent, this.tmpDirectoryPath);
     callback();
   });
 
-  this.Given(/^a directory named "([^"]*)":$/, function(dirName, callback) {
+  Given(/^a directory named "([^"]*)":$/, function(dirName, callback) {
     mkdirp.sync(this.tmpDirectoryPath + '/' + dirName);
     callback();
   });
 
-  this.When(/^I run `([^`]*)`$/, function(cmd, callback) {
+  When(/^I run `([^`]*)`$/, function(cmd, callback) {
     run(unescape(cmd), this.tmpDirectoryPath, callback);
   });
 
-  this.Then(/^the file "([^"]*)" should contain:$/, function(fileName, expectedContents, callback) {
+  Then(/^the file "([^"]*)" should contain:$/, function(fileName, expectedContents, callback) {
     var fileLocation = this.tmpDirectoryPath + '/' + fileName;
     var actualContents = fs.readFileSync(fileLocation, 'utf8');
     if (actualContents.indexOf(expectedContents) !== -1) {
       callback();
     } else {
       var differences = diff.diffLines(actualContents, expectedContents).map(displayDiff).join('\n');
-      callback.fail('Within "' + this.tmpDirectoryPath + ' the file \"' + fileName + ' did had the following differences: \n'  + differences);
+      callback('Within "' + this.tmpDirectoryPath + ' the file \"' + fileName + ' did had the following differences: \n'  + differences);
     }
   });
 
-  this.Then(/^the file "([^"]*)" should not exist$/, function(fileName, callback) {
+  Then(/^the file "([^"]*)" should not exist$/, function(fileName, callback) {
     var fileLocation = this.tmpDirectoryPath + '/' + fileName;
     if (!fs.existsSync(fileLocation)) {
       callback();
     } else {
-      callback.fail(colors.red('File "' + fileName + '" should not exist'));
+      callback(colors.red('File "' + fileName + '" should not exist'));
     }
   });
-};

@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+var {After, Before} = require('cucumber');
 var remove = require('remove');
 var mkdirp = require('mkdirp');
 var fs = require('fs');
@@ -25,8 +26,7 @@ function isFirstBeforeRun() {
   }
 }
 
-module.exports = function() {
-  this.Before(function(callback) {
+Before(function(testCase, callback) {
     if (isFirstBeforeRun() && fs.existsSync(TMP_DIR_PATH)) {
       remove.removeSync(TMP_DIR_PATH);
     }
@@ -34,5 +34,4 @@ module.exports = function() {
     this.tmpDirectoryPath = tmpDirectoryPath(iterationNumber);
     mkdirp.sync(this.tmpDirectoryPath);
     callback();
-  });
-};
+});

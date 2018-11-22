@@ -304,47 +304,51 @@ function outputDirectory(
 export function generate(
   directoryRunFrom: string,
   parsedArgs: CommandLine.Arguments,
-): Promise.Future<WriteFileUtils.ConsoleOutputResults> {
-  const requestedPath: File.AbsoluteFilePath = PathUtils.getAbsolutePathFromDirectoryAndAbsoluteOrRelativePath(
-    File.getAbsoluteFilePath(directoryRunFrom),
-    parsedArgs.givenPath,
-  );
-  const outputPath: Maybe.Maybe<File.AbsoluteFilePath> = outputDirectory(
-    directoryRunFrom,
-    parsedArgs.outputPath,
-  );
+): Promise.Future<List.List<WriteFileUtils.ConsoleOutputResults>> {
+  const promises = parsedArgs.givenPaths.map(givenPath => {
+    const requestedPath: File.AbsoluteFilePath = PathUtils.getAbsolutePathFromDirectoryAndAbsoluteOrRelativePath(
+      File.getAbsoluteFilePath(directoryRunFrom),
+      givenPath,
+    );
+    const outputPath: Maybe.Maybe<File.AbsoluteFilePath> = outputDirectory(
+      directoryRunFrom,
+      parsedArgs.outputPath,
+    );
 
-  const algebraicTypeCreationContextFuture = getAlgebraicTypeCreationContext(
-    requestedPath,
-    parsedArgs,
-  );
+    const algebraicTypeCreationContextFuture = getAlgebraicTypeCreationContext(
+      requestedPath,
+      parsedArgs,
+    );
 
-  const readFileSequence = ReadFileUtils.loggedSequenceThatReadsFiles(
-    requestedPath,
-    'adtValue',
-  );
+    const readFileSequence = ReadFileUtils.loggedSequenceThatReadsFiles(
+      requestedPath,
+      'adtValue',
+    );
 
-  const parsedSequence = LoggingSequenceUtils.mapLoggedSequence(
-    readFileSequence,
-    parseValues,
-  );
+    const parsedSequence = LoggingSequenceUtils.mapLoggedSequence(
+      readFileSequence,
+      parseValues,
+    );
 
-  const options: GenerationOptions = {
-    outputPath: outputPath,
-    outputFlags: parsedArgs.outputFlags,
-  };
+    const options: GenerationOptions = {
+      outputPath: outputPath,
+      outputFlags: parsedArgs.outputFlags,
+    };
 
-  const pluginProcessedSequence = LoggingSequenceUtils.mapLoggedSequence(
-    parsedSequence,
-    FunctionUtils.pApply2f3(
-      options,
-      algebraicTypeCreationContextFuture,
-      processAlgebraicTypeCreationRequest,
-    ),
-  );
+    const pluginProcessedSequence = LoggingSequenceUtils.mapLoggedSequence(
+      parsedSequence,
+      FunctionUtils.pApply2f3(
+        options,
+        algebraicTypeCreationContextFuture,
+        processAlgebraicTypeCreationRequest,
+      ),
+    );
 
-  return WriteFileUtils.evaluateObjectFileWriteRequestSequence(
-    parsedArgs,
-    pluginProcessedSequence,
-  );
+    return WriteFileUtils.evaluateObjectFileWriteRequestSequence(
+      parsedArgs,
+      pluginProcessedSequence,
+    );
+  });
+
+  return Promise.all(List.fromArray(promises));
 }

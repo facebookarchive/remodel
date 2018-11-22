@@ -33,7 +33,7 @@ describe('CommandLine', function() {
       > = CommandLine.parseArgs(args);
 
       const expectedResult = Maybe.Just<CommandLine.Arguments>({
-        givenPath: 'project/to/generate',
+        givenPaths: ['project/to/generate'],
         adtConfigPath: undefined,
         valueObjectConfigPath: undefined,
         objectConfigPath: undefined,
@@ -64,7 +64,7 @@ describe('CommandLine', function() {
       > = CommandLine.parseArgs(args);
 
       const expectedResult = Maybe.Just<CommandLine.Arguments>({
-        givenPath: 'project/to/generate',
+        givenPaths: ['project/to/generate'],
         adtConfigPath: undefined,
         valueObjectConfigPath: undefined,
         objectConfigPath: undefined,
@@ -95,7 +95,7 @@ describe('CommandLine', function() {
       > = CommandLine.parseArgs(args);
 
       const expectedResult = Maybe.Just<CommandLine.Arguments>({
-        givenPath: 'project/to/generate',
+        givenPaths: ['project/to/generate'],
         adtConfigPath: undefined,
         valueObjectConfigPath: undefined,
         objectConfigPath: undefined,
@@ -127,7 +127,7 @@ describe('CommandLine', function() {
       > = CommandLine.parseArgs(args);
 
       const expectedResult = Maybe.Just<CommandLine.Arguments>({
-        givenPath: 'project/to/generate',
+        givenPaths: ['project/to/generate'],
         adtConfigPath: undefined,
         valueObjectConfigPath: undefined,
         objectConfigPath: undefined,
@@ -159,7 +159,7 @@ describe('CommandLine', function() {
       > = CommandLine.parseArgs(args);
 
       const expectedResult = Maybe.Just<CommandLine.Arguments>({
-        givenPath: 'project/to/generate',
+        givenPaths: ['project/to/generate'],
         adtConfigPath: undefined,
         valueObjectConfigPath: undefined,
         objectConfigPath: undefined,
@@ -195,7 +195,7 @@ describe('CommandLine', function() {
       > = CommandLine.parseArgs(args);
 
       const expectedResult = Maybe.Just<CommandLine.Arguments>({
-        givenPath: 'project/to/generate',
+        givenPaths: ['project/to/generate'],
         adtConfigPath: undefined,
         valueObjectConfigPath: undefined,
         objectConfigPath: undefined,
@@ -227,7 +227,7 @@ describe('CommandLine', function() {
       > = CommandLine.parseArgs(args);
 
       const expectedResult = Maybe.Just<CommandLine.Arguments>({
-        givenPath: 'project/to/generate',
+        givenPaths: ['project/to/generate'],
         adtConfigPath: undefined,
         valueObjectConfigPath: 'path/to/valueObjectConfig',
         objectConfigPath: undefined,
@@ -262,7 +262,7 @@ describe('CommandLine', function() {
       > = CommandLine.parseArgs(args);
 
       const expectedResult = Maybe.Just<CommandLine.Arguments>({
-        givenPath: 'project/to/generate',
+        givenPaths: ['project/to/generate'],
         adtConfigPath: undefined,
         valueObjectConfigPath: undefined,
         objectConfigPath: 'path/to/objectConfig',
@@ -296,7 +296,7 @@ describe('CommandLine', function() {
       > = CommandLine.parseArgs(args);
 
       const expectedResult = Maybe.Just<CommandLine.Arguments>({
-        givenPath: 'project/to/generate',
+        givenPaths: ['project/to/generate'],
         adtConfigPath: undefined,
         valueObjectConfigPath: undefined,
         objectConfigPath: undefined,
@@ -332,7 +332,7 @@ describe('CommandLine', function() {
       > = CommandLine.parseArgs(args);
 
       const expectedResult = Maybe.Just<CommandLine.Arguments>({
-        givenPath: 'project/to/generate',
+        givenPaths: ['project/to/generate'],
         adtConfigPath: undefined,
         valueObjectConfigPath: undefined,
         objectConfigPath: undefined,
@@ -366,7 +366,7 @@ describe('CommandLine', function() {
       > = CommandLine.parseArgs(args);
 
       const expectedResult = Maybe.Just<CommandLine.Arguments>({
-        givenPath: 'project/to/generate',
+        givenPaths: ['project/to/generate'],
         adtConfigPath: undefined,
         valueObjectConfigPath: undefined,
         objectConfigPath: undefined,
@@ -414,7 +414,7 @@ describe('CommandLine', function() {
       > = CommandLine.parseArgs(args);
 
       const expectedResult = Maybe.Just<CommandLine.Arguments>({
-        givenPath: 'project/to/generate',
+        givenPaths: ['project/to/generate'],
         adtConfigPath: undefined,
         valueObjectConfigPath: undefined,
         objectConfigPath: undefined,
@@ -451,7 +451,7 @@ describe('CommandLine', function() {
       > = CommandLine.parseArgs(args);
 
       const expectedResult = Maybe.Just<CommandLine.Arguments>({
-        givenPath: 'project/to/generate',
+        givenPaths: ['project/to/generate'],
         adtConfigPath: undefined,
         valueObjectConfigPath: undefined,
         objectConfigPath: undefined,

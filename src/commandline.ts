@@ -14,7 +14,7 @@ import minimist = require('minimist');
 import OutputControl = require('./output-control');
 
 export interface Arguments {
-  givenPath: string;
+  givenPaths: string[];
   adtConfigPath: string;
   valueObjectConfigPath: string;
   objectConfigPath: string;
@@ -165,7 +165,7 @@ export function parseArgs(args: string[]): Maybe.Maybe<Arguments> {
     return Maybe.Nothing<Arguments>();
   } else {
     return Maybe.Just({
-      givenPath: parsedArgs._[0],
+      givenPaths: parsedArgs._,
       adtConfigPath: parsedArgs[ADT_CONFIG_PATH],
       valueObjectConfigPath: parsedArgs[VALUE_OBJECT_CONFIG_PATH],
       objectConfigPath: parsedArgs[OBJECT_CONFIG_PATH],

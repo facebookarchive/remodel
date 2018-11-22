@@ -9,15 +9,22 @@
 
 const fs = require('fs');
 const colors = require('cli-color');
+const List = require('./dist/list');
 
-function aggregateResults(results) {
-  const List = require('./dist/list');
-  return List.foldl(function(currentValue, result) {
-    return {
+function flattenResults(results) {
+    return List.foldl(function(currentValue, result) {
+        return {
             errorCount: currentValue.errorCount + result.errorCount,
             successCount: currentValue.successCount + result.successCount
-           };
-  }, { errorCount: 0, successCount:0 }, results);
+        };
+    }, { errorCount: 0, successCount:0 }, results);
+}
+
+function aggregateResults(results) {
+    const List = require('./dist/list');
+    
+    const flattenedOnce = List.map(flattenResults, results);
+    return flattenResults(flattenedOnce);
 }
 
 const Maybe = require('./dist/maybe');

@@ -251,11 +251,7 @@ d@~0.1.1:
   dependencies:
     es5-ext "~0.10.2"
 
-diff@1.0.7:
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/diff/-/diff-1.0.7.tgz#24bbb001c4a7d5522169e7cabdb2c2814ed91cf4"
-
-diff@^3.0.0:
+diff@3.5, diff@^3.0.0:
   version "3.5.0"
   resolved "https://registry.yarnpkg.com/diff/-/diff-3.5.0.tgz#800c0dd1e0a8bfbc95835c202ad220fe317e5a12"
   integrity sha512-A46qtFgd+g7pDZinpnwiRJtxbC1hpgf0uzP3iG89scHk0AUC7A1TGxf5OiiOUv/JMZR8GOt8hL900hV0bOy5xA==

@@ -8,10 +8,9 @@
 var {Given, Then, When} = require('cucumber');
 var colors = require('cli-color');
 var diff = require('diff');
-var exec = require('child_process').exec
+var exec = require('child_process').exec;
 var fs = require('fs');
 var mkdirp = require('mkdirp');
-
 
 function pathToFile(fileName) {
   if (fileName.indexOf('/') == -1) {
@@ -33,7 +32,7 @@ function writeFile(fileName, fileContent, tmpDirectoryPath) {
 function run(cmd, tmpDirectoryPath, callback) {
   var localCommand = 'cd ' + tmpDirectoryPath + ' && ' + cmd;
 
-  exec(localCommand, function (error, stdout, stderr) {
+  exec(localCommand, function(error, stdout, stderr) {
     callback();
   });
 }
@@ -48,36 +47,83 @@ function displayDiff(diff) {
   }
 }
 
-  Given(/^a file named "([^"]*)" with:$/, function(fileName, fileContent, callback) {
-    writeFile(fileName, fileContent, this.tmpDirectoryPath);
+function toFeatureFileDocstring(s) {
+  const sixSpaces = '      ';
+  return (
+    `${sixSpaces}"""\n` +
+    s
+      .split('\n')
+      .map(line => (line === '' ? line : `${sixSpaces}${line}`))
+      .join('\n') +
+    `\n${sixSpaces}"""`
+  );
+}
+
+function fixFeature(testCase, expected, actual) {
+  const uri = testCase.sourceLocation.uri;
+  const featureContents = fs.readFileSync(uri, 'utf8');
+  const expectedDocstring = toFeatureFileDocstring(expected);
+  const actualDocstring = toFeatureFileDocstring(actual);
+  const patched = featureContents.replace(expectedDocstring, actualDocstring);
+  fs.writeFileSync(uri, patched);
+}
+
+Given(/^a file named "([^"]*)" with:$/, function(
+  fileName,
+  fileContent,
+  callback,
+) {
+  writeFile(fileName, fileContent, this.tmpDirectoryPath);
+  callback();
+});
+
+Given(/^a directory named "([^"]*)":$/, function(dirName, callback) {
+  mkdirp.sync(this.tmpDirectoryPath + '/' + dirName);
+  callback();
+});
+
+When(/^I run `([^`]*)`$/, function(cmd, callback) {
+  run(unescape(cmd), this.tmpDirectoryPath, callback);
+});
+
+Then(/^the file "([^"]*)" should contain:$/, function(
+  fileName,
+  expectedContents,
+  callback,
+) {
+  var fileLocation = this.tmpDirectoryPath + '/' + fileName;
+  var actualContents = fs.readFileSync(fileLocation, 'utf8');
+  if (this.parameters.forceResnapshot) {
+    fixFeature(this.testCase, expectedContents, actualContents);
     callback();
-  });
-
-  Given(/^a directory named "([^"]*)":$/, function(dirName, callback) {
-    mkdirp.sync(this.tmpDirectoryPath + '/' + dirName);
+    return;
+  }
+  if (actualContents.indexOf(expectedContents) !== -1) {
     callback();
-  });
-
-  When(/^I run `([^`]*)`$/, function(cmd, callback) {
-    run(unescape(cmd), this.tmpDirectoryPath, callback);
-  });
-
-  Then(/^the file "([^"]*)" should contain:$/, function(fileName, expectedContents, callback) {
-    var fileLocation = this.tmpDirectoryPath + '/' + fileName;
-    var actualContents = fs.readFileSync(fileLocation, 'utf8');
-    if (actualContents.indexOf(expectedContents) !== -1) {
-      callback();
-    } else {
-      var differences = diff.diffLines(actualContents, expectedContents).map(displayDiff).join('\n');
-      callback('Within "' + this.tmpDirectoryPath + ' the file \"' + fileName + ' did had the following differences: \n'  + differences);
+  } else {
+    if (this.parameters.resnapshot) {
+      fixFeature(this.testCase, expectedContents, actualContents);
     }
-  });
+    var differences = diff
+      .diffLines(actualContents, expectedContents)
+      .map(displayDiff)
+      .join('\n');
+    callback(
+      'Within "' +
+        this.tmpDirectoryPath +
+        ' the file "' +
+        fileName +
+        ' did had the following differences: \n' +
+        differences,
+    );
+  }
+});
 
-  Then(/^the file "([^"]*)" should not exist$/, function(fileName, callback) {
-    var fileLocation = this.tmpDirectoryPath + '/' + fileName;
-    if (!fs.existsSync(fileLocation)) {
-      callback();
-    } else {
-      callback(colors.red('File "' + fileName + '" should not exist'));
-    }
-  });
+Then(/^the file "([^"]*)" should not exist$/, function(fileName, callback) {
+  var fileLocation = this.tmpDirectoryPath + '/' + fileName;
+  if (!fs.existsSync(fileLocation)) {
+    callback();
+  } else {
+    callback(colors.red('File "' + fileName + '" should not exist'));
+  }
+});

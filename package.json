@@ -32,7 +32,7 @@
   },
   "devDependencies": {
     "cucumber": "5.0",
-    "diff": "1.0.7",
+    "diff": "3.5",
     "fs-extra": "0.26.7",
     "jasmine": "3.2",
     "jsondiffpatch": "0.1.38",

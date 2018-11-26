@@ -26,12 +26,12 @@ function isFirstBeforeRun() {
   }
 }
 
-Before(function(testCase, callback) {
-    if (isFirstBeforeRun() && fs.existsSync(TMP_DIR_PATH)) {
-      remove.removeSync(TMP_DIR_PATH);
-    }
-    iterationNumber += 1;
-    this.tmpDirectoryPath = tmpDirectoryPath(iterationNumber);
-    mkdirp.sync(this.tmpDirectoryPath);
-    callback();
+Before(function(testCase) {
+  if (isFirstBeforeRun() && fs.existsSync(TMP_DIR_PATH)) {
+    remove.removeSync(TMP_DIR_PATH);
+  }
+  iterationNumber += 1;
+  this.testCase = testCase;
+  this.tmpDirectoryPath = tmpDirectoryPath(iterationNumber);
+  mkdirp.sync(this.tmpDirectoryPath);
 });

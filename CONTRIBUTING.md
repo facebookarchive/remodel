@@ -44,6 +44,8 @@ You can run existing acceptance tests by going to the Remodel directory and call
 
 `bin/runAcceptanceTests`
 
+Rather than hand-editing all tests to reflect your changes, you can "resnapshot" failing tests by running `bin/runAcceptanceTests --world-parameters '{"resnapshot": true}'`. You can forcibly resnapshot all tests by running `bin/runAcceptanceTests --world-parameters '{"forceResnapshot": true}'`. Make sure to inspect your changes if you use these options!
+
 ## Unit Tests
 
 We also have unit tests, which cover smaller, individual pieces of Remodel. If you are adding new exported methods to an object or a new object which exposes functionality, please also add unit test for it.

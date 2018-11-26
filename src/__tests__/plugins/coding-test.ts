@@ -764,7 +764,7 @@ describe('ObjectSpecPlugins.Coding', function() {
         },
       };
 
-      const code: string = Coding.decodeStatementForAttribute(attribute);
+      const code: string = Coding.decodeStatementForAttribute(attribute, false);
       const expectedCode: string =
         '_doesUserLike = [aDecoder decodeBoolForKey:kDoesUserLikeKey];';
       expect(code).toEqualJSON(expectedCode);
@@ -783,7 +783,7 @@ describe('ObjectSpecPlugins.Coding', function() {
         },
       };
 
-      const code: string = Coding.decodeStatementForAttribute(attribute);
+      const code: string = Coding.decodeStatementForAttribute(attribute, false);
       const expectedCode: string =
         '_foo = [aDecoder decodeObjectForKey:kFooKey];';
       expect(code).toEqualJSON(expectedCode);
@@ -802,7 +802,7 @@ describe('ObjectSpecPlugins.Coding', function() {
         },
       };
 
-      const code: string = Coding.decodeStatementForAttribute(attribute);
+      const code: string = Coding.decodeStatementForAttribute(attribute, false);
       const expectedCode: string =
         '_name = (id)[aDecoder decodeObjectForKey:kNameKey];';
       expect(code).toEqualJSON(expectedCode);
@@ -821,7 +821,7 @@ describe('ObjectSpecPlugins.Coding', function() {
         },
       };
 
-      const code: string = Coding.decodeStatementForAttribute(attribute);
+      const code: string = Coding.decodeStatementForAttribute(attribute, false);
       const expectedCode: string =
         '_age = [aDecoder decodeIntegerForKey:kAgeKey];';
       expect(code).toEqualJSON(expectedCode);
@@ -840,7 +840,7 @@ describe('ObjectSpecPlugins.Coding', function() {
         },
       };
 
-      const code: string = Coding.decodeStatementForAttribute(attribute);
+      const code: string = Coding.decodeStatementForAttribute(attribute, false);
       const expectedCode: string =
         '_age = [aDecoder decodeIntegerForKey:kAgeKey];';
       expect(code).toEqualJSON(expectedCode);
@@ -859,7 +859,7 @@ describe('ObjectSpecPlugins.Coding', function() {
         },
       };
 
-      const code: string = Coding.decodeStatementForAttribute(attribute);
+      const code: string = Coding.decodeStatementForAttribute(attribute, false);
       const expectedCode: string =
         '_callbackMethod = NSSelectorFromString([aDecoder decodeObjectForKey:kCallbackMethodKey]);';
       expect(code).toEqualJSON(expectedCode);

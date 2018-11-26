@@ -19,7 +19,7 @@ const NSOBJECT_CODING_STATEMENTS: CodingStatements = {
   codingFunctionImport: Maybe.Nothing<ObjC.Import>(),
   encodeStatement: 'encodeObject',
   encodeValueStatementGenerator: encodeValueStatementGeneratorForEncodingValueDirectly,
-  decodeStatement: 'decodeObjectForKey',
+  decodeStatementGenerator: decodeObjectStatementGenerator,
   decodeValueStatementGenerator: decodeValueStatementGeneratorForDecodingValueDirectly,
 };
 
@@ -27,13 +27,17 @@ const UNSUPPORTED_TYPE_CODING_STATEMENTS: CodingStatements = {
   codingFunctionImport: Maybe.Nothing<ObjC.Import>(),
   encodeStatement: '',
   encodeValueStatementGenerator: null,
-  decodeStatement: '',
+  decodeStatementGenerator: null,
   decodeValueStatementGenerator: null,
 };
 
 export interface CodingStatements {
   codingFunctionImport: Maybe.Maybe<ObjC.Import>;
-  decodeStatement: string;
+  decodeStatementGenerator: (
+    valueClass: ObjC.Type,
+    key: string,
+    secureCoding: boolean,
+  ) => string;
   decodeValueStatementGenerator: (decodedValueCode: string) => string;
   encodeStatement: string;
   encodeValueStatementGenerator: (valueAccessor: string) => string;
@@ -67,6 +71,38 @@ function decodeValueStatementGeneratorForDecodingValueFromString(
   };
 }
 
+function decodeValueSatementGeneratorForValueStoredAsNSString(
+  type: ObjC.Type,
+  key: string,
+  secureCoding: boolean,
+): string {
+  if (secureCoding) {
+    return `[aDecoder decodeObjectOfClass:[NSString class] forKey:${key}]`;
+  } else {
+    return `[aDecoder decodeObjectForKey:${key}]`;
+  }
+}
+
+function insecureDecodeValueStatementGeneratorGenerator(
+  decodeStatement: string,
+): (type: ObjC.Type, key: string, secureCoding: boolean) => string {
+  return function(type: ObjC.Type, key: string, secureCoding: boolean): string {
+    return `[aDecoder ${decodeStatement}:${key}]`;
+  };
+}
+
+function decodeObjectStatementGenerator(
+  type: ObjC.Type,
+  key: string,
+  secureCoding: boolean,
+) {
+  if (secureCoding) {
+    return `[aDecoder decodeObjectOfClass:[${type.name} class] forKey:${key}]`;
+  } else {
+    return `[aDecoder decodeObjectForKey:${key}]`;
+  }
+}
+
 export function codingStatementsForType(type: ObjC.Type): CodingStatements {
   return ObjCTypeUtils.matchType(
     {
@@ -81,7 +117,9 @@ export function codingStatementsForType(type: ObjC.Type): CodingStatements {
           codingFunctionImport: Maybe.Nothing<ObjC.Import>(),
           encodeStatement: 'encodeBool',
           encodeValueStatementGenerator: encodeValueStatementGeneratorForEncodingValueDirectly,
-          decodeStatement: 'decodeBoolForKey',
+          decodeStatementGenerator: insecureDecodeValueStatementGeneratorGenerator(
+            'decodeBoolForKey',
+          ),
           decodeValueStatementGenerator: decodeValueStatementGeneratorForDecodingValueDirectly,
         };
       },
@@ -90,7 +128,9 @@ export function codingStatementsForType(type: ObjC.Type): CodingStatements {
           codingFunctionImport: Maybe.Nothing<ObjC.Import>(),
           encodeStatement: 'encodeInteger',
           encodeValueStatementGenerator: encodeValueStatementGeneratorForEncodingValueDirectly,
-          decodeStatement: 'decodeIntegerForKey',
+          decodeStatementGenerator: insecureDecodeValueStatementGeneratorGenerator(
+            'decodeIntegerForKey',
+          ),
           decodeValueStatementGenerator: decodeValueStatementGeneratorForDecodingValueDirectly,
         };
       },
@@ -99,7 +139,9 @@ export function codingStatementsForType(type: ObjC.Type): CodingStatements {
           codingFunctionImport: Maybe.Nothing<ObjC.Import>(),
           encodeStatement: 'encodeInteger',
           encodeValueStatementGenerator: encodeValueStatementGeneratorForEncodingValueDirectly,
-          decodeStatement: 'decodeIntegerForKey',
+          decodeStatementGenerator: insecureDecodeValueStatementGeneratorGenerator(
+            'decodeIntegerForKey',
+          ),
           decodeValueStatementGenerator: decodeValueStatementGeneratorForDecodingValueDirectly,
         };
       },
@@ -108,7 +150,9 @@ export function codingStatementsForType(type: ObjC.Type): CodingStatements {
           codingFunctionImport: Maybe.Nothing<ObjC.Import>(),
           encodeStatement: 'encodeDouble',
           encodeValueStatementGenerator: encodeValueStatementGeneratorForEncodingValueDirectly,
-          decodeStatement: 'decodeDoubleForKey',
+          decodeStatementGenerator: insecureDecodeValueStatementGeneratorGenerator(
+            'decodeDoubleForKey',
+          ),
           decodeValueStatementGenerator: decodeValueStatementGeneratorForDecodingValueDirectly,
         };
       },
@@ -117,7 +161,9 @@ export function codingStatementsForType(type: ObjC.Type): CodingStatements {
           codingFunctionImport: Maybe.Nothing<ObjC.Import>(),
           encodeStatement: 'encodeFloat',
           encodeValueStatementGenerator: encodeValueStatementGeneratorForEncodingValueDirectly,
-          decodeStatement: 'decodeFloatForKey',
+          decodeStatementGenerator: insecureDecodeValueStatementGeneratorGenerator(
+            'decodeFloatForKey',
+          ),
           decodeValueStatementGenerator: decodeValueStatementGeneratorForDecodingValueDirectly,
         };
       },
@@ -126,7 +172,9 @@ export function codingStatementsForType(type: ObjC.Type): CodingStatements {
           codingFunctionImport: Maybe.Nothing<ObjC.Import>(),
           encodeStatement: 'encodeFloat',
           encodeValueStatementGenerator: encodeValueStatementGeneratorForEncodingValueDirectly,
-          decodeStatement: 'decodeFloatForKey',
+          decodeStatementGenerator: insecureDecodeValueStatementGeneratorGenerator(
+            'decodeFloatForKey',
+          ),
           decodeValueStatementGenerator: decodeValueStatementGeneratorForDecodingValueDirectly,
         };
       },
@@ -135,7 +183,9 @@ export function codingStatementsForType(type: ObjC.Type): CodingStatements {
           codingFunctionImport: Maybe.Nothing<ObjC.Import>(),
           encodeStatement: 'encodeDouble',
           encodeValueStatementGenerator: encodeValueStatementGeneratorForEncodingValueDirectly,
-          decodeStatement: 'decodeDoubleForKey',
+          decodeStatementGenerator: insecureDecodeValueStatementGeneratorGenerator(
+            'decodeDoubleForKey',
+          ),
           decodeValueStatementGenerator: decodeValueStatementGeneratorForDecodingValueDirectly,
         };
       },
@@ -144,7 +194,9 @@ export function codingStatementsForType(type: ObjC.Type): CodingStatements {
           codingFunctionImport: Maybe.Nothing<ObjC.Import>(),
           encodeStatement: 'encodeInteger',
           encodeValueStatementGenerator: encodeValueStatementGeneratorForEncodingValueDirectly,
-          decodeStatement: 'decodeIntegerForKey',
+          decodeStatementGenerator: insecureDecodeValueStatementGeneratorGenerator(
+            'decodeIntegerForKey',
+          ),
           decodeValueStatementGenerator: decodeValueStatementGeneratorForDecodingValueDirectly,
         };
       },
@@ -153,7 +205,9 @@ export function codingStatementsForType(type: ObjC.Type): CodingStatements {
           codingFunctionImport: Maybe.Nothing<ObjC.Import>(),
           encodeStatement: 'encodeInt32',
           encodeValueStatementGenerator: encodeValueStatementGeneratorForEncodingValueDirectly,
-          decodeStatement: 'decodeInt32ForKey',
+          decodeStatementGenerator: insecureDecodeValueStatementGeneratorGenerator(
+            'decodeInt32ForKey',
+          ),
           decodeValueStatementGenerator: decodeValueStatementGeneratorForDecodingValueDirectly,
         };
       },
@@ -162,7 +216,9 @@ export function codingStatementsForType(type: ObjC.Type): CodingStatements {
           codingFunctionImport: Maybe.Nothing<ObjC.Import>(),
           encodeStatement: 'encodeInt64',
           encodeValueStatementGenerator: encodeValueStatementGeneratorForEncodingValueDirectly,
-          decodeStatement: 'decodeInt64ForKey',
+          decodeStatementGenerator: insecureDecodeValueStatementGeneratorGenerator(
+            'decodeInt64ForKey',
+          ),
           decodeValueStatementGenerator: decodeValueStatementGeneratorForDecodingValueDirectly,
         };
       },
@@ -171,7 +227,9 @@ export function codingStatementsForType(type: ObjC.Type): CodingStatements {
           codingFunctionImport: Maybe.Nothing<ObjC.Import>(),
           encodeStatement: 'encodeInt32',
           encodeValueStatementGenerator: encodeValueStatementGeneratorForEncodingValueDirectly,
-          decodeStatement: 'decodeInt32ForKey',
+          decodeStatementGenerator: insecureDecodeValueStatementGeneratorGenerator(
+            'decodeInt32ForKey',
+          ),
           decodeValueStatementGenerator: decodeValueStatementGeneratorForDecodingValueDirectly,
         };
       },
@@ -180,7 +238,9 @@ export function codingStatementsForType(type: ObjC.Type): CodingStatements {
           codingFunctionImport: Maybe.Nothing<ObjC.Import>(),
           encodeStatement: 'encodeInt64',
           encodeValueStatementGenerator: encodeValueStatementGeneratorForEncodingValueDirectly,
-          decodeStatement: 'decodeInt64ForKey',
+          decodeStatementGenerator: insecureDecodeValueStatementGeneratorGenerator(
+            'decodeInt64ForKey',
+          ),
           decodeValueStatementGenerator: decodeValueStatementGeneratorForDecodingValueDirectly,
         };
       },
@@ -191,7 +251,7 @@ export function codingStatementsForType(type: ObjC.Type): CodingStatements {
           encodeValueStatementGenerator: encodeValueStatementGeneratorForEncodingValueAsString(
             'NSStringFromSelector',
           ),
-          decodeStatement: 'decodeObjectForKey',
+          decodeStatementGenerator: decodeValueSatementGeneratorForValueStoredAsNSString,
           decodeValueStatementGenerator: decodeValueStatementGeneratorForDecodingValueFromString(
             'NSSelectorFromString',
           ),
@@ -204,7 +264,7 @@ export function codingStatementsForType(type: ObjC.Type): CodingStatements {
           encodeValueStatementGenerator: encodeValueStatementGeneratorForEncodingValueAsString(
             'NSStringFromRange',
           ),
-          decodeStatement: 'decodeObjectForKey',
+          decodeStatementGenerator: decodeValueSatementGeneratorForValueStoredAsNSString,
           decodeValueStatementGenerator: decodeValueStatementGeneratorForDecodingValueFromString(
             'NSRangeFromString',
           ),
@@ -217,7 +277,7 @@ export function codingStatementsForType(type: ObjC.Type): CodingStatements {
           encodeValueStatementGenerator: encodeValueStatementGeneratorForEncodingValueAsString(
             'NSStringFromCGRect',
           ),
-          decodeStatement: 'decodeObjectForKey',
+          decodeStatementGenerator: decodeValueSatementGeneratorForValueStoredAsNSString,
           decodeValueStatementGenerator: decodeValueStatementGeneratorForDecodingValueFromString(
             'CGRectFromString',
           ),
@@ -230,7 +290,7 @@ export function codingStatementsForType(type: ObjC.Type): CodingStatements {
           encodeValueStatementGenerator: encodeValueStatementGeneratorForEncodingValueAsString(
             'NSStringFromCGPoint',
           ),
-          decodeStatement: 'decodeObjectForKey',
+          decodeStatementGenerator: decodeValueSatementGeneratorForValueStoredAsNSString,
           decodeValueStatementGenerator: decodeValueStatementGeneratorForDecodingValueFromString(
             'CGPointFromString',
           ),
@@ -243,7 +303,7 @@ export function codingStatementsForType(type: ObjC.Type): CodingStatements {
           encodeValueStatementGenerator: encodeValueStatementGeneratorForEncodingValueAsString(
             'NSStringFromCGSize',
           ),
-          decodeStatement: 'decodeObjectForKey',
+          decodeStatementGenerator: decodeValueSatementGeneratorForValueStoredAsNSString,
           decodeValueStatementGenerator: decodeValueStatementGeneratorForDecodingValueFromString(
             'CGSizeFromString',
           ),
@@ -256,7 +316,7 @@ export function codingStatementsForType(type: ObjC.Type): CodingStatements {
           encodeValueStatementGenerator: encodeValueStatementGeneratorForEncodingValueAsString(
             'NSStringFromUIEdgeInsets',
           ),
-          decodeStatement: 'decodeObjectForKey',
+          decodeStatementGenerator: decodeValueSatementGeneratorForValueStoredAsNSString,
           decodeValueStatementGenerator: decodeValueStatementGeneratorForDecodingValueFromString(
             'UIEdgeInsetsFromString',
           ),
@@ -275,3 +335,24 @@ export function codingStatementsForType(type: ObjC.Type): CodingStatements {
     type,
   );
 }
+
+export const supportsSecureCodingMethod: ObjC.Method = {
+  preprocessors: [],
+  belongsToProtocol: Maybe.Just<string>('NSSecureCoding'),
+  code: ['return YES;'],
+  comments: [],
+  compilerAttributes: [],
+  keywords: [
+    {
+      name: 'supportsSecureCoding',
+      argument: Maybe.Nothing(),
+    },
+  ],
+  returnType: {
+    type: Maybe.Just<ObjC.Type>({
+      name: 'BOOL',
+      reference: 'BOOL',
+    }),
+    modifiers: [],
+  },
+};

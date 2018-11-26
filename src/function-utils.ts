@@ -86,3 +86,7 @@ export function zip2<A, B>(a: A[], b: B[]): [A, B][] {
   }
   return result;
 }
+
+export function flatMap<T, R>(array: T[], func: (T) => R[]): R[] {
+  return array.reduce((current, next) => current.concat(func(next)), []);
+}

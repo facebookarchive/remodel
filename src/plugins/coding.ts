@@ -91,31 +91,29 @@ export function codingAttributeForValueAttribute(
   };
 }
 
-function legacyCheckingDecodeStatementReducerForAttributes(
-  existingArray: string[],
-  attribute: CodeableAttribute,
-): string[] {
-  return existingArray.concat(
-    legacyKeyRespectingDecodeStatementForAttribute(attribute),
-  );
-}
-
 function legacyKeyRespectingDecodeStatementForAttribute(
   attribute: CodeableAttribute,
+  secureCoding: boolean,
 ): string[] {
-  const defaultDecodeStatement: string = decodeStatementForAttribute(attribute);
+  const defaultDecodeStatement: string = decodeStatementForAttribute(
+    attribute,
+    secureCoding,
+  );
   const decodeStatements: string[] = [defaultDecodeStatement];
 
   if (attribute.legacyKeyNames.length > 0) {
     const nilValueForAttribute: string = nilValueForType(attribute.type);
     if (nilValueForAttribute.length > 0) {
-      const legacyDecodeStatements: string[] = attribute.legacyKeyNames.reduce(
-        FunctionUtils.pApply2f4(
-          attribute,
-          nilValueForAttribute,
-          decodeStatementForAttributeAndLegacyKey,
-        ),
-        [],
+      const legacyDecodeStatements: string[] = FunctionUtils.flatMap(
+        attribute.legacyKeyNames,
+        legacyKeyName => {
+          return decodeStatementForAttributeAndLegacyKey(
+            attribute,
+            nilValueForAttribute,
+            legacyKeyName,
+            secureCoding,
+          );
+        },
       );
       if (legacyDecodeStatements.length > 0) {
         return decodeStatements.concat(legacyDecodeStatements);
@@ -129,33 +127,36 @@ function legacyKeyRespectingDecodeStatementForAttribute(
 function decodeStatementForAttributeAndLegacyKey(
   attribute: CodeableAttribute,
   nilValueForAttribute: string,
-  decodeStatements: string[],
   legacyKeyName: string,
+  secureCoding: boolean,
 ): string[] {
   if (legacyKeyName.length > 0) {
     const legacyDecodeStatement: string = decodeStatementForTypeValueAccessorAndCodingKey(
       attribute.type,
       attribute.valueAccessor,
       '@"' + legacyKeyName + '"',
+      secureCoding,
     );
     const conditionalStatement: string[] = [
       'if (' + attribute.valueAccessor + ' == ' + nilValueForAttribute + ') {',
       StringUtils.indent(2)(legacyDecodeStatement),
       '}',
     ];
-    return decodeStatements.concat(conditionalStatement);
+    return conditionalStatement;
   } else {
-    return decodeStatements;
+    return [];
   }
 }
 
 export function decodeStatementForAttribute(
   attribute: CodeableAttribute,
+  secureCoding: boolean,
 ): string {
   return decodeStatementForTypeValueAccessorAndCodingKey(
     attribute.type,
     attribute.valueAccessor,
     attribute.constantName,
+    secureCoding,
   );
 }
 
@@ -163,6 +164,7 @@ function decodeStatementForTypeValueAccessorAndCodingKey(
   type: ObjC.Type,
   valueAccessor: string,
   codingKey: string,
+  secureCoding: boolean,
 ): string {
   const codingStatements: CodingUtils.CodingStatements = CodingUtils.codingStatementsForType(
     type,
@@ -172,25 +174,29 @@ function decodeStatementForTypeValueAccessorAndCodingKey(
   // allows the flag to remain on for the rest of the generated code, in case there are bugs in any other
   // plugins that lead to unsafe nullability issues.
   const cast = ObjCTypeUtils.isNSObject(type) ? `(id)` : '';
-  const decodedRawValuePart: string = `${cast}[aDecoder ${
-    codingStatements.decodeStatement
-  }:${codingKey}]`;
+  const decodedRawValuePart: string = `${cast}${codingStatements.decodeStatementGenerator(
+    type,
+    codingKey,
+    secureCoding,
+  )}`;
   const decodedValuePart = codingStatements.decodeValueStatementGenerator(
     decodedRawValuePart,
   );
   return valueAccessor + ' = ' + decodedValuePart + ';';
 }
 
-function decodeStatementForSubtype(attribute: CodeableAttribute): string {
+function decodeStatementForSubtype(
+  attribute: CodeableAttribute,
+  secureCoding: boolean,
+): string {
   const codingStatements: CodingUtils.CodingStatements = CodingUtils.codingStatementsForType(
     attribute.type,
   );
-  const decodedRawValuePart: string =
-    '[aDecoder ' +
-    codingStatements.decodeStatement +
-    ':' +
-    attribute.constantName +
-    ']';
+  const decodedRawValuePart: string = codingStatements.decodeStatementGenerator(
+    attribute.type,
+    attribute.constantName,
+    secureCoding,
+  );
   const decodedValuePart = codingStatements.decodeValueStatementGenerator(
     decodedRawValuePart,
   );
@@ -627,7 +633,8 @@ export function createPlugin(): ObjectSpec.Plugin {
       return [];
     },
     classMethods: function(objectType: ObjectSpec.Type): ObjC.Method[] {
-      return [];
+      const secureCoding = objectType.includes.indexOf('NSSecureCoding') >= 0;
+      return secureCoding ? [CodingUtils.supportsSecureCodingMethod] : [];
     },
     attributes: function(objectType: ObjectSpec.Type): ObjectSpec.Attribute[] {
       return [];
@@ -656,11 +663,20 @@ export function createPlugin(): ObjectSpec.Plugin {
     implementedProtocols: function(
       objectType: ObjectSpec.Type,
     ): ObjC.Protocol[] {
-      return [
-        {
-          name: 'NSCoding',
-        },
-      ];
+      const secureCoding = objectType.includes.indexOf('NSSecureCoding') >= 0;
+      if (secureCoding) {
+        return [
+          {
+            name: 'NSSecureCoding',
+          },
+        ];
+      } else {
+        return [
+          {
+            name: 'NSCoding',
+          },
+        ];
+      }
     },
     imports: function(objectType: ObjectSpec.Type): ObjC.Import[] {
       const codingImportMaybes: Maybe.Maybe<
@@ -670,13 +686,19 @@ export function createPlugin(): ObjectSpec.Plugin {
       return Maybe.catMaybes(codingImportMaybes);
     },
     instanceMethods: function(objectType: ObjectSpec.Type): ObjC.Method[] {
+      const secureCoding = objectType.includes.indexOf('NSSecureCoding') >= 0;
       if (objectType.attributes.length > 0) {
         const codingAttributes: CodeableAttribute[] = objectType.attributes.map(
           codingAttributeForValueAttribute,
         );
-        const decodeCode: string[] = codingAttributes.reduce(
-          legacyCheckingDecodeStatementReducerForAttributes,
-          [],
+        const decodeCode: string[] = FunctionUtils.flatMap(
+          codingAttributes,
+          codingAttribute => {
+            return legacyKeyRespectingDecodeStatementForAttribute(
+              codingAttribute,
+              secureCoding,
+            );
+          },
         );
         const encodeCode: string[] = codingAttributes.map(
           encodeStatementForAttribute,
@@ -800,26 +822,29 @@ function codeableAttributeForAlgebraicSubtypeAttribute(
 function decodeStatementForAlgebraicSubtypeAttribute(
   subtype: AlgebraicType.Subtype,
   attribute: AlgebraicType.SubtypeAttribute,
+  secureCoding: boolean,
 ): string {
   const codeableAttribute: CodeableAttribute = codeableAttributeForAlgebraicSubtypeAttribute(
     subtype,
     attribute,
   );
-  return decodeStatementForAttribute(codeableAttribute);
+  return decodeStatementForAttribute(codeableAttribute, secureCoding);
 }
 
 function decodeStatementsForAlgebraicSubtype(
   algebraicType: AlgebraicType.Type,
   subtype: AlgebraicType.Subtype,
+  secureCoding: boolean,
 ): string[] {
   const decodeAttributes: string[] = AlgebraicTypeUtils.attributesFromSubtype(
     subtype,
-  ).map(
-    FunctionUtils.pApplyf2(
+  ).map(attribute => {
+    return decodeStatementForAlgebraicSubtypeAttribute(
       subtype,
-      decodeStatementForAlgebraicSubtypeAttribute,
-    ),
-  );
+      attribute,
+      secureCoding,
+    );
+  });
   return decodeAttributes.concat(
     decodedStatementForSubtypeProperty(algebraicType, subtype),
   );
@@ -839,15 +864,20 @@ function decodedStatementForSubtypeProperty(
 
 function decodeCodeForAlgebraicType(
   algebraicType: AlgebraicType.Type,
+  secureCoding: boolean,
 ): string[] {
   const codeableAttributeForSubtypeProperty: CodeableAttribute = codeableAttributeForSubtypePropertyOfAlgebraicType();
   const switchStatement: string[] = codeForBranchingOnSubtypeWithSubtypeMapper(
     algebraicType,
     codeableAttributeForSubtypeProperty.valueAccessor,
-    decodeStatementsForAlgebraicSubtype,
+    (algebraicType, subtype) =>
+      decodeStatementsForAlgebraicSubtype(algebraicType, subtype, secureCoding),
   );
   return [
-    decodeStatementForSubtype(codeableAttributeForSubtypeProperty),
+    decodeStatementForSubtype(
+      codeableAttributeForSubtypeProperty,
+      secureCoding,
+    ),
   ].concat(switchStatement);
 }
 
@@ -1069,7 +1099,9 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
       return [];
     },
     classMethods: function(algebraicType: AlgebraicType.Type): ObjC.Method[] {
-      return [];
+      const secureCoding =
+        algebraicType.includes.indexOf('NSSecureCoding') >= 0;
+      return secureCoding ? [CodingUtils.supportsSecureCodingMethod] : [];
     },
     enumerations: function(
       algebraicType: AlgebraicType.Type,
@@ -1102,11 +1134,21 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
     implementedProtocols: function(
       algebraicType: AlgebraicType.Type,
     ): ObjC.Protocol[] {
-      return [
-        {
-          name: 'NSCoding',
-        },
-      ];
+      const secureCoding =
+        algebraicType.includes.indexOf('NSSecureCoding') >= 0;
+      if (secureCoding) {
+        return [
+          {
+            name: 'NSSecureCoding',
+          },
+        ];
+      } else {
+        return [
+          {
+            name: 'NSCoding',
+          },
+        ];
+      }
     },
     imports: function(algebraicType: AlgebraicType.Type): ObjC.Import[] {
       return [];
@@ -1114,7 +1156,12 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
     instanceMethods: function(
       algebraicType: AlgebraicType.Type,
     ): ObjC.Method[] {
-      const decodeCode: string[] = decodeCodeForAlgebraicType(algebraicType);
+      const secureCoding =
+        algebraicType.includes.indexOf('NSSecureCoding') >= 0;
+      const decodeCode: string[] = decodeCodeForAlgebraicType(
+        algebraicType,
+        secureCoding,
+      );
       const encodeCode: string[] = encodeCodeForAlgebraicType(algebraicType);
       return [
         decodeMethodWithCode(decodeCode),

@@ -101,6 +101,11 @@ Feature: Outputting Value Objects With A Custom Plugin
     When I run `../../bin/generate project`
     Then the file "project/values/RMPage.h" should contain:
       """
+      /**
+       * This file is generated using the remodel generation script.
+       * The name of the input file is RMPage.value
+       */
+
       #import <Foundation/Foundation.h>
 
       @interface RMPage : NSObject <NSSomething, NSCopying>
@@ -118,9 +123,19 @@ Feature: Outputting Value Objects With A Custom Plugin
 
       @end
 
+
       """
    And the file "project/values/RMPage.m" should contain:
       """
+      /**
+       * This file is generated using the remodel generation script.
+       * The name of the input file is RMPage.value
+       */
+
+      #if  ! __has_feature(objc_arc)
+      #error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).
+      #endif
+
       #import "RMPage.h"
 
       @implementation RMPage
@@ -148,5 +163,6 @@ Feature: Outputting Value Objects With A Custom Plugin
       }
 
       @end
+
 
       """

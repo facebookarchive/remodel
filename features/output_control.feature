@@ -19,6 +19,11 @@ Feature: Specifying an output directory to put results in
     When I run `../../bin/generate project --headers-only`
     Then the file "project/values/RMValueTypeHeaderOnly.h" should contain:
       """
+      /**
+       * This file is generated using the remodel generation script.
+       * The name of the input file is RMValueTypeHeaderOnly.value
+       */
+
       #import <Foundation/Foundation.h>
 
       /**
@@ -36,6 +41,7 @@ Feature: Specifying an output directory to put results in
       - (instancetype)initWithDoesUserLike:(BOOL)doesUserLike identifier:(NSString *)identifier NS_DESIGNATED_INITIALIZER;
 
       @end
+
 
       """
    And the file "project/values/RMValueTypeHeaderOnly.m" should not exist
@@ -57,6 +63,15 @@ Feature: Specifying an output directory to put results in
     When I run `../../bin/generate project --implementations-only`
    Then the file "project/values/RMValueTypeImplOnly.m" should contain:
       """
+      /**
+       * This file is generated using the remodel generation script.
+       * The name of the input file is RMValueTypeImplOnly.value
+       */
+
+      #if  ! __has_feature(objc_arc)
+      #error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).
+      #endif
+
       #import "RMValueTypeImplOnly.h"
 
       @implementation RMValueTypeImplOnly
@@ -111,6 +126,7 @@ Feature: Specifying an output directory to put results in
       }
 
       @end
+
 
       """
    And the file "project/values/RMValueTypeImplOnly.h" should not exist

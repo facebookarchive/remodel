@@ -81,6 +81,15 @@ Feature: Outputting Algebraic Types
       """
    And the file "project/values/SimpleADT.m" should contain:
       """
+      /**
+       * This file is generated using the remodel generation script.
+       * The name of the input file is SimpleADT.adtValue
+       */
+
+      #if  ! __has_feature(objc_arc)
+      #error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).
+      #endif
+
       #import "SimpleADT.h"
 
       typedef NS_ENUM(NSUInteger, _SimpleADTSubtypes) {
@@ -222,6 +231,7 @@ Feature: Outputting Algebraic Types
 
       @end
 
+
       """
   @announce
   Scenario: Generating an algebraic type containing values in each subtype and a different base type
@@ -250,6 +260,11 @@ Feature: Outputting Algebraic Types
     When I run `../../bin/generate project`
     Then the file "project/values/SimpleADT.h" should contain:
       """
+      /**
+       * This file is generated using the remodel generation script.
+       * The name of the input file is SimpleADT.adtValue
+       */
+
       #import <Foundation/Foundation.h>
 
       typedef void (^SimpleADTFirstSubtypeMatchHandler)(NSString *firstValue, NSUInteger secondValue);
@@ -269,9 +284,19 @@ Feature: Outputting Algebraic Types
 
       @end
 
+
       """
    And the file "project/values/SimpleADT.m" should contain:
       """
+      /**
+       * This file is generated using the remodel generation script.
+       * The name of the input file is SimpleADT.adtValue
+       */
+
+      #if  ! __has_feature(objc_arc)
+      #error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).
+      #endif
+
       #import "SimpleADT.h"
 
       #pragma clang diagnostic push
@@ -378,6 +403,7 @@ Feature: Outputting Algebraic Types
       @end
       #pragma clang diagnostic pop
 
+
       """
   @announce
   Scenario: Generating an algebraic type with forward declarations
@@ -405,6 +431,11 @@ Feature: Outputting Algebraic Types
     When I run `../../bin/generate project`
     Then the file "project/values/SimpleADT.h" should contain:
       """
+      /**
+       * This file is generated using the remodel generation script.
+       * The name of the input file is SimpleADT.adtValue
+       */
+
       #import <Foundation/Foundation.h>
 
       @class Foo;
@@ -429,9 +460,19 @@ Feature: Outputting Algebraic Types
 
       @end
 
+
       """
    And the file "project/values/SimpleADT.m" should contain:
       """
+      /**
+       * This file is generated using the remodel generation script.
+       * The name of the input file is SimpleADT.adtValue
+       */
+
+      #if  ! __has_feature(objc_arc)
+      #error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).
+      #endif
+
       #import "SimpleADT.h"
       #import "Foo.h"
 
@@ -552,5 +593,6 @@ Feature: Outputting Algebraic Types
       }
 
       @end
+
 
       """

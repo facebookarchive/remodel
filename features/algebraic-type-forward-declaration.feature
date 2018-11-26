@@ -32,6 +32,11 @@ Feature: Outputting forward declarations in Algebraic Types
     When I run `../../bin/generate project`
     Then the file "project/values/SimpleADT.h" should contain:
       """
+      /**
+       * This file is generated using the remodel generation script.
+       * The name of the input file is SimpleADT.adtValue
+       */
+
       #import <Foundation/Foundation.h>
 
       @class RMProxy;
@@ -57,9 +62,19 @@ Feature: Outputting forward declarations in Algebraic Types
 
       @end
 
+
       """
    And the file "project/values/SimpleADT.m" should contain:
       """
+      /**
+       * This file is generated using the remodel generation script.
+       * The name of the input file is SimpleADT.adtValue
+       */
+
+      #if  ! __has_feature(objc_arc)
+      #error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).
+      #endif
+
       #import "SimpleADT.h"
       #import "SomeType.h"
       #import <RMLib/RMProxy.h>
@@ -103,6 +118,89 @@ Feature: Outputting forward declarations in Algebraic Types
         object->_subtype = _SimpleADTSubtypesSomeRandomSubtype;
         return object;
       }
+
+      - (id)copyWithZone:(nullable NSZone *)zone
+      {
+        return self;
+      }
+
+      - (NSString *)description
+      {
+        switch (_subtype) {
+          case _SimpleADTSubtypesFirstSubtype: {
+            return [NSString stringWithFormat:@"%@ - FirstSubtype \n\t firstValue: %@; \n\t secondValue: %llu; \n\t thirdValue: %@; \n", [super description], _firstSubtype_firstValue, (unsigned long long)_firstSubtype_secondValue, _firstSubtype_thirdValue];
+            break;
+          }
+          case _SimpleADTSubtypesSomeRandomSubtype: {
+            return [NSString stringWithFormat:@"%@ - SomeRandomSubtype \n", [super description]];
+            break;
+          }
+          case _SimpleADTSubtypesSecondSubtype: {
+            return [NSString stringWithFormat:@"%@ - SecondSubtype \n\t something: %@; \n", [super description], _secondSubtype_something ? @"YES" : @"NO"];
+            break;
+          }
+        }
+      }
+
+      - (NSUInteger)hash
+      {
+        NSUInteger subhashes[] = {_subtype, [_firstSubtype_firstValue hash], _firstSubtype_secondValue, [_firstSubtype_thirdValue hash], (NSUInteger)_secondSubtype_something};
+        NSUInteger result = subhashes[0];
+        for (int ii = 1; ii < 5; ++ii) {
+          unsigned long long base = (((unsigned long long)result) << 32 | subhashes[ii]);
+          base = (~base) + (base << 18);
+          base ^= (base >> 31);
+          base *=  21;
+          base ^= (base >> 11);
+          base += (base << 6);
+          base ^= (base >> 22);
+          result = base;
+        }
+        return result;
+      }
+
+      - (BOOL)isEqual:(SimpleADT *)object
+      {
+        if (self == object) {
+          return YES;
+        } else if (object == nil || ![object isKindOfClass:[self class]]) {
+          return NO;
+        }
+        return
+          _subtype == object->_subtype &&
+          _firstSubtype_secondValue == object->_firstSubtype_secondValue &&
+          _secondSubtype_something == object->_secondSubtype_something &&
+          (_firstSubtype_firstValue == object->_firstSubtype_firstValue ? YES : [_firstSubtype_firstValue isEqual:object->_firstSubtype_firstValue]) &&
+          (_firstSubtype_thirdValue == object->_firstSubtype_thirdValue ? YES : [_firstSubtype_thirdValue isEqual:object->_firstSubtype_thirdValue]);
+      }
+
+      - (void)matchFirstSubtype:(NS_NOESCAPE SimpleADTFirstSubtypeMatchHandler)firstSubtypeMatchHandler someRandomSubtype:(NS_NOESCAPE SimpleADTSomeRandomSubtypeMatchHandler)someRandomSubtypeMatchHandler secondSubtype:(NS_NOESCAPE SimpleADTSecondSubtypeMatchHandler)secondSubtypeMatchHandler
+      {
+        switch (_subtype) {
+          case _SimpleADTSubtypesFirstSubtype: {
+            if (firstSubtypeMatchHandler) {
+              firstSubtypeMatchHandler(_firstSubtype_firstValue, _firstSubtype_secondValue, _firstSubtype_thirdValue);
+            }
+            break;
+          }
+          case _SimpleADTSubtypesSomeRandomSubtype: {
+            if (someRandomSubtypeMatchHandler) {
+              someRandomSubtypeMatchHandler();
+            }
+            break;
+          }
+          case _SimpleADTSubtypesSecondSubtype: {
+            if (secondSubtypeMatchHandler) {
+              secondSubtypeMatchHandler(_secondSubtype_something);
+            }
+            break;
+          }
+        }
+      }
+
+      @end
+
+
       """
 
 
@@ -134,6 +232,11 @@ Feature: Outputting forward declarations in Algebraic Types
     When I run `../../bin/generate project`
     Then the file "project/values/SimpleADT.h" should contain:
       """
+      /**
+       * This file is generated using the remodel generation script.
+       * The name of the input file is SimpleADT.adtValue
+       */
+
       #import <Foundation/Foundation.h>
       #import <SomeLibrary/MyEnum.h>
 
@@ -159,9 +262,19 @@ Feature: Outputting forward declarations in Algebraic Types
 
       @end
 
+
       """
    And the file "project/values/SimpleADT.m" should contain:
       """
+      /**
+       * This file is generated using the remodel generation script.
+       * The name of the input file is SimpleADT.adtValue
+       */
+
+      #if  ! __has_feature(objc_arc)
+      #error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).
+      #endif
+
       #import "SimpleADT.h"
       #import <RMLib/RMProxy.h>
 
@@ -202,4 +315,86 @@ Feature: Outputting forward declarations in Algebraic Types
         object->_subtype = _SimpleADTSubtypesSomeRandomSubtype;
         return object;
       }
+
+      - (id)copyWithZone:(nullable NSZone *)zone
+      {
+        return self;
+      }
+
+      - (NSString *)description
+      {
+        switch (_subtype) {
+          case _SimpleADTSubtypesFirstSubtype: {
+            return [NSString stringWithFormat:@"%@ - FirstSubtype \n\t firstValue: %@; \n\t secondValue: %llu; \n", [super description], _firstSubtype_firstValue, (unsigned long long)_firstSubtype_secondValue];
+            break;
+          }
+          case _SimpleADTSubtypesSomeRandomSubtype: {
+            return [NSString stringWithFormat:@"%@ - SomeRandomSubtype \n", [super description]];
+            break;
+          }
+          case _SimpleADTSubtypesSecondSubtype: {
+            return [NSString stringWithFormat:@"%@ - SecondSubtype \n\t something: %@; \n", [super description], _secondSubtype_something ? @"YES" : @"NO"];
+            break;
+          }
+        }
+      }
+
+      - (NSUInteger)hash
+      {
+        NSUInteger subhashes[] = {_subtype, [_firstSubtype_firstValue hash], _firstSubtype_secondValue, (NSUInteger)_secondSubtype_something};
+        NSUInteger result = subhashes[0];
+        for (int ii = 1; ii < 4; ++ii) {
+          unsigned long long base = (((unsigned long long)result) << 32 | subhashes[ii]);
+          base = (~base) + (base << 18);
+          base ^= (base >> 31);
+          base *=  21;
+          base ^= (base >> 11);
+          base += (base << 6);
+          base ^= (base >> 22);
+          result = base;
+        }
+        return result;
+      }
+
+      - (BOOL)isEqual:(SimpleADT *)object
+      {
+        if (self == object) {
+          return YES;
+        } else if (object == nil || ![object isKindOfClass:[self class]]) {
+          return NO;
+        }
+        return
+          _subtype == object->_subtype &&
+          _firstSubtype_secondValue == object->_firstSubtype_secondValue &&
+          _secondSubtype_something == object->_secondSubtype_something &&
+          (_firstSubtype_firstValue == object->_firstSubtype_firstValue ? YES : [_firstSubtype_firstValue isEqual:object->_firstSubtype_firstValue]);
+      }
+
+      - (void)matchFirstSubtype:(NS_NOESCAPE SimpleADTFirstSubtypeMatchHandler)firstSubtypeMatchHandler someRandomSubtype:(NS_NOESCAPE SimpleADTSomeRandomSubtypeMatchHandler)someRandomSubtypeMatchHandler secondSubtype:(NS_NOESCAPE SimpleADTSecondSubtypeMatchHandler)secondSubtypeMatchHandler
+      {
+        switch (_subtype) {
+          case _SimpleADTSubtypesFirstSubtype: {
+            if (firstSubtypeMatchHandler) {
+              firstSubtypeMatchHandler(_firstSubtype_firstValue, _firstSubtype_secondValue);
+            }
+            break;
+          }
+          case _SimpleADTSubtypesSomeRandomSubtype: {
+            if (someRandomSubtypeMatchHandler) {
+              someRandomSubtypeMatchHandler();
+            }
+            break;
+          }
+          case _SimpleADTSubtypesSecondSubtype: {
+            if (secondSubtypeMatchHandler) {
+              secondSubtypeMatchHandler(_secondSubtype_something);
+            }
+            break;
+          }
+        }
+      }
+
+      @end
+
+
       """

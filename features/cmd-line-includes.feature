@@ -19,6 +19,11 @@ Feature: Controlling includes/excludes from command line
     When I run `../../bin/generate project --include=RMBuilder`
     Then the file "project/values/RMValueType.h" should contain:
       """
+      /**
+       * This file is generated using the remodel generation script.
+       * The name of the input file is RMValueType.value
+       */
+
       #import <Foundation/Foundation.h>
 
       /**
@@ -37,9 +42,19 @@ Feature: Controlling includes/excludes from command line
 
       @end
 
+
       """
    And the file "project/values/RMValueType.m" should contain:
       """
+      /**
+       * This file is generated using the remodel generation script.
+       * The name of the input file is RMValueType.value
+       */
+
+      #if  ! __has_feature(objc_arc)
+      #error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).
+      #endif
+
       #import "RMValueType.h"
 
       @implementation RMValueType
@@ -95,6 +110,7 @@ Feature: Controlling includes/excludes from command line
 
       @end
 
+
       """
     And the file "project/values/RMValueTypeBuilder.h" should contain:
       """
@@ -115,6 +131,7 @@ Feature: Controlling includes/excludes from command line
       - (instancetype)withIdentifier:(NSString *)identifier;
 
       @end
+
 
       """
     And the file "project/values/RMValueTypeBuilder.m" should contain:
@@ -162,6 +179,8 @@ Feature: Controlling includes/excludes from command line
       }
 
       @end
+
+
       """
 
   @announce

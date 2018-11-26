@@ -31,6 +31,11 @@ Feature: Outputting Objects
     When I run `../../bin/generate project`
     Then the file "project/objects/RMPage.h" should contain:
       """
+      /**
+       * This file is generated using the remodel generation script.
+       * The name of the input file is RMPage.object
+       */
+
       #import <Foundation/Foundation.h>
       #import <SomeLib/AnotherFile.h>
       #import <MyLib/RMFooObject.h>
@@ -59,9 +64,19 @@ Feature: Outputting Objects
 
       @end
 
+
       """
    And the file "project/objects/RMPage.m" should contain:
       """
+      /**
+       * This file is generated using the remodel generation script.
+       * The name of the input file is RMPage.object
+       */
+
+      #if  ! __has_feature(objc_arc)
+      #error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).
+      #endif
+
       #import "RMPage.h"
 
       @implementation RMPage
@@ -87,6 +102,7 @@ Feature: Outputting Objects
       }
 
       @end
+
 
       """
   @announce
@@ -138,9 +154,19 @@ Feature: Outputting Objects
 
       @end
 
+
       """
    And the file "project/objects/RMPage.m" should contain:
       """
+      /**
+       * This file is generated using the remodel generation script.
+       * The name of the input file is RMPage.object
+       */
+
+      #if  ! __has_feature(objc_arc)
+      #error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).
+      #endif
+
       #import "RMPage.h"
 
       #pragma clang diagnostic push
@@ -169,5 +195,6 @@ Feature: Outputting Objects
 
       @end
       #pragma clang diagnostic pop
+
 
       """

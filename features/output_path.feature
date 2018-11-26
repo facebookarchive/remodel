@@ -20,6 +20,11 @@ Feature: Specifying an output directory to put results in
     When I run `../../bin/generate project --output-path=project/output`
     Then the file "project/output/RMValueType.h" should contain:
       """
+      /**
+       * This file is generated using the remodel generation script.
+       * The name of the input file is RMValueType.value
+       */
+
       #import <Foundation/Foundation.h>
 
       /**
@@ -38,9 +43,19 @@ Feature: Specifying an output directory to put results in
 
       @end
 
+
       """
    And the file "project/output/RMValueType.m" should contain:
       """
+      /**
+       * This file is generated using the remodel generation script.
+       * The name of the input file is RMValueType.value
+       */
+
+      #if  ! __has_feature(objc_arc)
+      #error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).
+      #endif
+
       #import "RMValueType.h"
 
       @implementation RMValueType
@@ -95,5 +110,6 @@ Feature: Specifying an output directory to put results in
       }
 
       @end
+
 
       """

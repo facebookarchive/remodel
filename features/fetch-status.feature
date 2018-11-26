@@ -23,6 +23,11 @@ Feature: Outputting Value Objects
     When I run `../../bin/generate project`
     Then the file "project/values/RMPageFetchStatus.h" should contain:
       """
+      /**
+       * This file is generated using the remodel generation script.
+       * The name of the input file is RMPage.value
+       */
+
       #import <Foundation/Foundation.h>
 
       @interface RMPageFetchStatus : NSObject <NSCopying>
@@ -42,9 +47,19 @@ Feature: Outputting Value Objects
 
       @end
 
+
       """
    And the file "project/values/RMPageFetchStatus.m" should contain:
       """
+      /**
+       * This file is generated using the remodel generation script.
+       * The name of the input file is RMPage.value
+       */
+
+      #if  ! __has_feature(objc_arc)
+      #error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).
+      #endif
+
       #import "RMPageFetchStatus.h"
 
       @implementation RMPageFetchStatus
@@ -107,5 +122,6 @@ Feature: Outputting Value Objects
       }
 
       @end
+
 
       """

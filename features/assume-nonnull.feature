@@ -19,6 +19,11 @@ Feature: Outputting Value Objects / Algebraic Types decorated with NS_ASSUME_NON
     When I run `../../bin/generate project`
     Then the file "project/values/RMFoo.h" should contain:
       """
+      /**
+       * This file is generated using the remodel generation script.
+       * The name of the input file is RMFoo.value
+       */
+
       #import <Foundation/Foundation.h>
 
       NS_ASSUME_NONNULL_BEGIN
@@ -37,9 +42,20 @@ Feature: Outputting Value Objects / Algebraic Types decorated with NS_ASSUME_NON
       @end
 
       NS_ASSUME_NONNULL_END
+
+
       """
     And the file "project/values/RMFoo.m" should contain:
       """
+      /**
+       * This file is generated using the remodel generation script.
+       * The name of the input file is RMFoo.value
+       */
+
+      #if  ! __has_feature(objc_arc)
+      #error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).
+      #endif
+
       #import "RMFoo.h"
 
       #define RMParameterAssert(condition) NSCParameterAssert((condition))
@@ -101,6 +117,8 @@ Feature: Outputting Value Objects / Algebraic Types decorated with NS_ASSUME_NON
       @end
 
       NS_ASSUME_NONNULL_END
+
+
       """
 
   @announce
@@ -123,6 +141,11 @@ Feature: Outputting Value Objects / Algebraic Types decorated with NS_ASSUME_NON
     When I run `../../bin/generate project`
     Then the file "project/values/RMFoo.h" should contain:
       """
+      /**
+       * This file is generated using the remodel generation script.
+       * The name of the input file is RMFoo.adtValue
+       */
+
       #import <Foundation/Foundation.h>
 
       NS_ASSUME_NONNULL_BEGIN
@@ -149,9 +172,22 @@ Feature: Outputting Value Objects / Algebraic Types decorated with NS_ASSUME_NON
       @end
 
       NS_ASSUME_NONNULL_END
+
+
       """
     And the file "project/values/RMFoo.m" should contain:
       """
+      /**
+       * This file is generated using the remodel generation script.
+       * The name of the input file is RMFoo.adtValue
+       */
+
+      #if  ! __has_feature(objc_arc)
+      #error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).
+      #endif
+
+      #import "RMFoo.h"
+
       typedef NS_ENUM(NSUInteger, _RMFooSubtypes) {
         _RMFooSubtypesBar,
         _RMFooSubtypesBaz
@@ -255,4 +291,6 @@ Feature: Outputting Value Objects / Algebraic Types decorated with NS_ASSUME_NON
       @end
 
       NS_ASSUME_NONNULL_END
+
+
       """

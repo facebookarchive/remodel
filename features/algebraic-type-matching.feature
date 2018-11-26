@@ -22,6 +22,11 @@ Feature: Outputting expected Algebraic Type matching methods
     When I run `../../bin/generate project`
     Then the file "project/values/SimpleADT.h" should contain:
       """
+      /**
+       * This file is generated using the remodel generation script.
+       * The name of the input file is SimpleADT.adtValue
+       */
+
       #import <Foundation/Foundation.h>
 
       typedef BOOL (^SimpleADTBooleanSubtypeAMatchHandler)(void);
@@ -40,9 +45,93 @@ Feature: Outputting expected Algebraic Type matching methods
       - (BOOL)matchBooleanSubtypeA:(NS_NOESCAPE SimpleADTBooleanSubtypeAMatchHandler)subtypeAMatchHandler subtypeB:(NS_NOESCAPE SimpleADTBooleanSubtypeBMatchHandler)subtypeBMatchHandler NS_SWIFT_NAME(match(subtypeA:subtypeB:));
 
       @end
+
+
       """
    And the file "project/values/SimpleADT.m" should contain:
       """
+      /**
+       * This file is generated using the remodel generation script.
+       * The name of the input file is SimpleADT.adtValue
+       */
+
+      #if  ! __has_feature(objc_arc)
+      #error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).
+      #endif
+
+      #import "SimpleADT.h"
+
+      typedef NS_ENUM(NSUInteger, _SimpleADTSubtypes) {
+        _SimpleADTSubtypessubtypeA,
+        _SimpleADTSubtypessubtypeB
+      };
+
+      @implementation SimpleADT
+      {
+        _SimpleADTSubtypes _subtype;
+      }
+
+      + (instancetype)subtypeA
+      {
+        SimpleADT *object = [(id)self new];
+        object->_subtype = _SimpleADTSubtypessubtypeA;
+        return object;
+      }
+
+      + (instancetype)subtypeB
+      {
+        SimpleADT *object = [(id)self new];
+        object->_subtype = _SimpleADTSubtypessubtypeB;
+        return object;
+      }
+
+      - (id)copyWithZone:(nullable NSZone *)zone
+      {
+        return self;
+      }
+
+      - (NSString *)description
+      {
+        switch (_subtype) {
+          case _SimpleADTSubtypessubtypeA: {
+            return [NSString stringWithFormat:@"%@ - subtypeA \n", [super description]];
+            break;
+          }
+          case _SimpleADTSubtypessubtypeB: {
+            return [NSString stringWithFormat:@"%@ - subtypeB \n", [super description]];
+            break;
+          }
+        }
+      }
+
+      - (NSUInteger)hash
+      {
+        NSUInteger subhashes[] = {_subtype};
+        NSUInteger result = subhashes[0];
+        for (int ii = 1; ii < 1; ++ii) {
+          unsigned long long base = (((unsigned long long)result) << 32 | subhashes[ii]);
+          base = (~base) + (base << 18);
+          base ^= (base >> 31);
+          base *=  21;
+          base ^= (base >> 11);
+          base += (base << 6);
+          base ^= (base >> 22);
+          result = base;
+        }
+        return result;
+      }
+
+      - (BOOL)isEqual:(SimpleADT *)object
+      {
+        if (self == object) {
+          return YES;
+        } else if (object == nil || ![object isKindOfClass:[self class]]) {
+          return NO;
+        }
+        return
+          _subtype == object->_subtype;
+      }
+
       - (BOOL)matchBooleanSubtypeA:(NS_NOESCAPE SimpleADTBooleanSubtypeAMatchHandler)subtypeAMatchHandler subtypeB:(NS_NOESCAPE SimpleADTBooleanSubtypeBMatchHandler)subtypeBMatchHandler
       {
         __block BOOL result = NO;
@@ -64,6 +153,8 @@ Feature: Outputting expected Algebraic Type matching methods
       }
 
       @end
+
+
       """
 
   @announce
@@ -86,6 +177,11 @@ Feature: Outputting expected Algebraic Type matching methods
     When I run `../../bin/generate project`
     Then the file "project/values/SimpleADT.h" should contain:
       """
+      /**
+       * This file is generated using the remodel generation script.
+       * The name of the input file is SimpleADT.adtValue
+       */
+
       #import <Foundation/Foundation.h>
 
       typedef NSInteger (^SimpleADTIntegerSubtypeAMatchHandler)(void);
@@ -104,9 +200,93 @@ Feature: Outputting expected Algebraic Type matching methods
       - (NSInteger)matchIntegerSubtypeA:(NS_NOESCAPE SimpleADTIntegerSubtypeAMatchHandler)subtypeAMatchHandler subtypeB:(NS_NOESCAPE SimpleADTIntegerSubtypeBMatchHandler)subtypeBMatchHandler NS_SWIFT_NAME(match(subtypeA:subtypeB:));
 
       @end
+
+
       """
    And the file "project/values/SimpleADT.m" should contain:
       """
+      /**
+       * This file is generated using the remodel generation script.
+       * The name of the input file is SimpleADT.adtValue
+       */
+
+      #if  ! __has_feature(objc_arc)
+      #error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).
+      #endif
+
+      #import "SimpleADT.h"
+
+      typedef NS_ENUM(NSUInteger, _SimpleADTSubtypes) {
+        _SimpleADTSubtypessubtypeA,
+        _SimpleADTSubtypessubtypeB
+      };
+
+      @implementation SimpleADT
+      {
+        _SimpleADTSubtypes _subtype;
+      }
+
+      + (instancetype)subtypeA
+      {
+        SimpleADT *object = [(id)self new];
+        object->_subtype = _SimpleADTSubtypessubtypeA;
+        return object;
+      }
+
+      + (instancetype)subtypeB
+      {
+        SimpleADT *object = [(id)self new];
+        object->_subtype = _SimpleADTSubtypessubtypeB;
+        return object;
+      }
+
+      - (id)copyWithZone:(nullable NSZone *)zone
+      {
+        return self;
+      }
+
+      - (NSString *)description
+      {
+        switch (_subtype) {
+          case _SimpleADTSubtypessubtypeA: {
+            return [NSString stringWithFormat:@"%@ - subtypeA \n", [super description]];
+            break;
+          }
+          case _SimpleADTSubtypessubtypeB: {
+            return [NSString stringWithFormat:@"%@ - subtypeB \n", [super description]];
+            break;
+          }
+        }
+      }
+
+      - (NSUInteger)hash
+      {
+        NSUInteger subhashes[] = {_subtype};
+        NSUInteger result = subhashes[0];
+        for (int ii = 1; ii < 1; ++ii) {
+          unsigned long long base = (((unsigned long long)result) << 32 | subhashes[ii]);
+          base = (~base) + (base << 18);
+          base ^= (base >> 31);
+          base *=  21;
+          base ^= (base >> 11);
+          base += (base << 6);
+          base ^= (base >> 22);
+          result = base;
+        }
+        return result;
+      }
+
+      - (BOOL)isEqual:(SimpleADT *)object
+      {
+        if (self == object) {
+          return YES;
+        } else if (object == nil || ![object isKindOfClass:[self class]]) {
+          return NO;
+        }
+        return
+          _subtype == object->_subtype;
+      }
+
       - (NSInteger)matchIntegerSubtypeA:(NS_NOESCAPE SimpleADTIntegerSubtypeAMatchHandler)subtypeAMatchHandler subtypeB:(NS_NOESCAPE SimpleADTIntegerSubtypeBMatchHandler)subtypeBMatchHandler
       {
         __block NSInteger result = 0;
@@ -128,6 +308,8 @@ Feature: Outputting expected Algebraic Type matching methods
       }
 
       @end
+
+
       """
 
   @announce
@@ -150,6 +332,11 @@ Feature: Outputting expected Algebraic Type matching methods
     When I run `../../bin/generate project`
     Then the file "project/values/SimpleADT.h" should contain:
       """
+      /**
+       * This file is generated using the remodel generation script.
+       * The name of the input file is SimpleADT.adtValue
+       */
+
       #import <Foundation/Foundation.h>
 
       typedef double (^SimpleADTDoubleSubtypeAMatchHandler)(void);
@@ -168,9 +355,93 @@ Feature: Outputting expected Algebraic Type matching methods
       - (double)matchDoubleSubtypeA:(NS_NOESCAPE SimpleADTDoubleSubtypeAMatchHandler)subtypeAMatchHandler subtypeB:(NS_NOESCAPE SimpleADTDoubleSubtypeBMatchHandler)subtypeBMatchHandler NS_SWIFT_NAME(match(subtypeA:subtypeB:));
 
       @end
+
+
       """
    And the file "project/values/SimpleADT.m" should contain:
       """
+      /**
+       * This file is generated using the remodel generation script.
+       * The name of the input file is SimpleADT.adtValue
+       */
+
+      #if  ! __has_feature(objc_arc)
+      #error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).
+      #endif
+
+      #import "SimpleADT.h"
+
+      typedef NS_ENUM(NSUInteger, _SimpleADTSubtypes) {
+        _SimpleADTSubtypessubtypeA,
+        _SimpleADTSubtypessubtypeB
+      };
+
+      @implementation SimpleADT
+      {
+        _SimpleADTSubtypes _subtype;
+      }
+
+      + (instancetype)subtypeA
+      {
+        SimpleADT *object = [(id)self new];
+        object->_subtype = _SimpleADTSubtypessubtypeA;
+        return object;
+      }
+
+      + (instancetype)subtypeB
+      {
+        SimpleADT *object = [(id)self new];
+        object->_subtype = _SimpleADTSubtypessubtypeB;
+        return object;
+      }
+
+      - (id)copyWithZone:(nullable NSZone *)zone
+      {
+        return self;
+      }
+
+      - (NSString *)description
+      {
+        switch (_subtype) {
+          case _SimpleADTSubtypessubtypeA: {
+            return [NSString stringWithFormat:@"%@ - subtypeA \n", [super description]];
+            break;
+          }
+          case _SimpleADTSubtypessubtypeB: {
+            return [NSString stringWithFormat:@"%@ - subtypeB \n", [super description]];
+            break;
+          }
+        }
+      }
+
+      - (NSUInteger)hash
+      {
+        NSUInteger subhashes[] = {_subtype};
+        NSUInteger result = subhashes[0];
+        for (int ii = 1; ii < 1; ++ii) {
+          unsigned long long base = (((unsigned long long)result) << 32 | subhashes[ii]);
+          base = (~base) + (base << 18);
+          base ^= (base >> 31);
+          base *=  21;
+          base ^= (base >> 11);
+          base += (base << 6);
+          base ^= (base >> 22);
+          result = base;
+        }
+        return result;
+      }
+
+      - (BOOL)isEqual:(SimpleADT *)object
+      {
+        if (self == object) {
+          return YES;
+        } else if (object == nil || ![object isKindOfClass:[self class]]) {
+          return NO;
+        }
+        return
+          _subtype == object->_subtype;
+      }
+
       - (double)matchDoubleSubtypeA:(NS_NOESCAPE SimpleADTDoubleSubtypeAMatchHandler)subtypeAMatchHandler subtypeB:(NS_NOESCAPE SimpleADTDoubleSubtypeBMatchHandler)subtypeBMatchHandler
       {
         __block double result = 0.0f;
@@ -192,6 +463,8 @@ Feature: Outputting expected Algebraic Type matching methods
       }
 
       @end
+
+
       """
 
   @announce
@@ -226,9 +499,19 @@ Feature: Outputting expected Algebraic Type matching methods
       + (ObjectType)match:(SimpleADT *)simpleADT subtypeA:(NS_NOESCAPE SimpleADTObjectTypeSubtypeAMatchHandler)subtypeAMatchHandler subtypeB:(NS_NOESCAPE SimpleADTObjectTypeSubtypeBMatchHandler)subtypeBMatchHandler;
 
       @end
+
+
       """
    And the file "project/values/SimpleADTMatcher.m" should contain:
       """
+      #if  ! __has_feature(objc_arc)
+      #error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).
+      #endif
+
+      #import "SimpleADTMatcher.h"
+
+      @implementation SimpleADTMatcher
+
       + (id)match:(SimpleADT *)simpleADT subtypeA:(NS_NOESCAPE SimpleADTObjectTypeSubtypeAMatchHandler)subtypeAMatchHandler subtypeB:(NS_NOESCAPE SimpleADTObjectTypeSubtypeBMatchHandler)subtypeBMatchHandler
       {
         __block id result = nil;
@@ -245,4 +528,10 @@ Feature: Outputting expected Algebraic Type matching methods
 
         return result;
       }
+
+
+
+      @end
+
+
       """

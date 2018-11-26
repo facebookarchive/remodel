@@ -28,6 +28,11 @@ Feature: Outputting ObjC++ Algebraic Types
     When I run `../../bin/generate project`
     Then the file "project/values/SimpleADT.h" should contain:
       """
+      /**
+       * This file is generated using the remodel generation script.
+       * The name of the input file is SimpleADT.adtValue
+       */
+
       #import <Foundation/Foundation.h>
 
       typedef void (^SimpleADTFirstSubtypeMatchHandler)(NSString *firstValue, NSUInteger secondValue);
@@ -50,9 +55,19 @@ Feature: Outputting ObjC++ Algebraic Types
 
       @end
 
+
       """
    And the file "project/values/SimpleADT.mm" should contain:
       """
+      /**
+       * This file is generated using the remodel generation script.
+       * The name of the input file is SimpleADT.adtValue
+       */
+
+      #if  ! __has_feature(objc_arc)
+      #error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).
+      #endif
+
       #import "SimpleADT.h"
 
       typedef NS_ENUM(NSUInteger, _SimpleADTSubtypes) {
@@ -172,5 +187,6 @@ Feature: Outputting ObjC++ Algebraic Types
       }
 
       @end
+
 
       """

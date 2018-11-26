@@ -64,6 +64,7 @@ Feature: Outputting Value Objects
 
       @end
 
+
       """
    And the file "project/values/RMPageBuilder.m" should contain:
       """
@@ -179,6 +180,23 @@ Feature: Outputting Value Objects
       @class RMSomeObject;
       @class RMFooObject;
 
+      @interface RMPageBuilder : NSObject
+
+      + (instancetype)page;
+
+      + (instancetype)pageFromExistingPage:(RMPage *)existingPage;
+
+      - (RMPage *)build;
+
+      - (instancetype)withRating:(RMFooObject *)rating;
+
+      - (instancetype)withSomeEnumValue:(RMSomeEnum)someEnumValue;
+
+      - (instancetype)withCustomLibObject:(RMSomeObject *)customLibObject;
+
+      @end
+
+
       """
    And the file "project/values/RMPageBuilder.h" should contain:
       """
@@ -195,9 +213,24 @@ Feature: Outputting Value Objects
 
       + (instancetype)pageFromExistingPage:(RMPage *)existingPage;
 
+      - (RMPage *)build;
+
+      - (instancetype)withRating:(RMFooObject *)rating;
+
+      - (instancetype)withSomeEnumValue:(RMSomeEnum)someEnumValue;
+
+      - (instancetype)withCustomLibObject:(RMSomeObject *)customLibObject;
+
+      @end
+
+
       """
    And the file "project/values/RMPageBuilder.m" should contain:
       """
+      #if  ! __has_feature(objc_arc)
+      #error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).
+      #endif
+
       #import <MyLib/RMPage.h>
       #import "RMPageBuilder.h"
       #import <SomeLib/AnotherFile.h>
@@ -209,5 +242,44 @@ Feature: Outputting Value Objects
         RMSomeEnum _someEnumValue;
         RMSomeObject *_customLibObject;
       }
+
+      + (instancetype)page
+      {
+        return [RMPageBuilder new];
+      }
+
+      + (instancetype)pageFromExistingPage:(RMPage *)existingPage
+      {
+        return [[[[RMPageBuilder page]
+                  withRating:existingPage.rating]
+                 withSomeEnumValue:existingPage.someEnumValue]
+                withCustomLibObject:existingPage.customLibObject];
+      }
+
+      - (RMPage *)build
+      {
+        return [[RMPage alloc] initWithRating:_rating someEnumValue:_someEnumValue customLibObject:_customLibObject];
+      }
+
+      - (instancetype)withRating:(RMFooObject *)rating
+      {
+        _rating = [rating copy];
+        return self;
+      }
+
+      - (instancetype)withSomeEnumValue:(RMSomeEnum)someEnumValue
+      {
+        _someEnumValue = someEnumValue;
+        return self;
+      }
+
+      - (instancetype)withCustomLibObject:(RMSomeObject *)customLibObject
+      {
+        _customLibObject = [customLibObject copy];
+        return self;
+      }
+
+      @end
+
 
       """

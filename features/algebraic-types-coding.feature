@@ -27,6 +27,11 @@ Feature: Outputting Algebraic Types
     When I run `../../bin/generate project`
     Then the file "project/values/SimpleADT.h" should contain:
       """
+      /**
+       * This file is generated using the remodel generation script.
+       * The name of the input file is SimpleADT.adtValue
+       */
+
       #import <Foundation/Foundation.h>
 
       typedef void (^SimpleADTFirstSubtypeMatchHandler)(NSString *firstValue, NSUInteger secondValue);
@@ -46,9 +51,19 @@ Feature: Outputting Algebraic Types
 
       @end
 
+
       """
    And the file "project/values/SimpleADT.m" should contain:
       """
+      /**
+       * This file is generated using the remodel generation script.
+       * The name of the input file is SimpleADT.adtValue
+       */
+
+      #if  ! __has_feature(objc_arc)
+      #error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).
+      #endif
+
       #import "SimpleADT.h"
 
       static __unsafe_unretained NSString * const kCodedSubtypeKey = @"CODED_SUBTYPE";
@@ -192,5 +207,6 @@ Feature: Outputting Algebraic Types
       }
 
       @end
+
 
       """

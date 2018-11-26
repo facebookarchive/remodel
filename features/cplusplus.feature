@@ -24,6 +24,11 @@ Feature: Outputting C++ Value Objects
     When I run `../../bin/generate project`
     Then the file "project/values/RMPage.h" should contain:
       """
+      /**
+       * This file is generated using the remodel generation script.
+       * The name of the input file is RMPage.value
+       */
+
       #import <Foundation/Foundation.h>
 
       /**
@@ -49,9 +54,19 @@ Feature: Outputting C++ Value Objects
 
       @end
 
+
       """
    And the file "project/values/RMPage.mm" should contain:
       """
+      /**
+       * This file is generated using the remodel generation script.
+       * The name of the input file is RMPage.value
+       */
+
+      #if  ! __has_feature(objc_arc)
+      #error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).
+      #endif
+
       #import "RMPage.h"
 
       @implementation RMPage
@@ -110,5 +125,6 @@ Feature: Outputting C++ Value Objects
       }
 
       @end
+
 
       """

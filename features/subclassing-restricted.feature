@@ -18,6 +18,11 @@ Feature: Outputting Value Objects
     When I run `../../bin/generate project`
     And the file "project/values/RMFoo.h" should contain:
       """
+      /**
+       * This file is generated using the remodel generation script.
+       * The name of the input file is RMFoo.value
+       */
+
       #import <Foundation/Foundation.h>
 
       /**
@@ -27,6 +32,16 @@ Feature: Outputting Value Objects
       @interface RMFoo : NSObject <NSCopying>
 
       @property (nonatomic, readonly, copy) NSString *x;
+
+      + (instancetype)new NS_UNAVAILABLE;
+
+      - (instancetype)init NS_UNAVAILABLE;
+
+      - (instancetype)initWithX:(NSString *)x NS_DESIGNATED_INITIALIZER;
+
+      @end
+
+
       """
 
   @announce
@@ -45,6 +60,11 @@ Feature: Outputting Value Objects
     When I run `../../bin/generate project`
     And the file "project/values/RMFoo.h" should contain:
       """
+      /**
+       * This file is generated using the remodel generation script.
+       * The name of the input file is RMFoo.value
+       */
+
       #import <Foundation/Foundation.h>
 
       /**
@@ -53,4 +73,14 @@ Feature: Outputting Value Objects
       @interface RMFoo : NSObject <NSCopying>
 
       @property (nonatomic, readonly, copy) NSString *x;
+
+      + (instancetype)new NS_UNAVAILABLE;
+
+      - (instancetype)init NS_UNAVAILABLE;
+
+      - (instancetype)initWithX:(NSString *)x NS_DESIGNATED_INITIALIZER;
+
+      @end
+
+
       """

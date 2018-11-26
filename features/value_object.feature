@@ -31,6 +31,11 @@ Feature: Outputting Value Objects
     When I run `../../bin/generate project`
     Then the file "project/values/RMPage.h" should contain:
       """
+      /**
+       * This file is generated using the remodel generation script.
+       * The name of the input file is RMPage.value
+       */
+
       #import <Foundation/Foundation.h>
       #import <SomeLib/AnotherFile.h>
       #import <MyLib/RMFooObject.h>
@@ -60,9 +65,19 @@ Feature: Outputting Value Objects
 
       @end
 
+
       """
    And the file "project/values/RMPage.m" should contain:
       """
+      /**
+       * This file is generated using the remodel generation script.
+       * The name of the input file is RMPage.value
+       */
+
+      #if  ! __has_feature(objc_arc)
+      #error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).
+      #endif
+
       #import "RMPage.h"
 
       @implementation RMPage
@@ -128,6 +143,7 @@ Feature: Outputting Value Objects
 
       @end
 
+
       """
   @announce
   Scenario: Generating Files with no equality and a custom base type
@@ -181,9 +197,19 @@ Feature: Outputting Value Objects
 
       @end
 
+
       """
    And the file "project/values/RMPage.m" should contain:
       """
+      /**
+       * This file is generated using the remodel generation script.
+       * The name of the input file is RMPage.value
+       */
+
+      #if  ! __has_feature(objc_arc)
+      #error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).
+      #endif
+
       #import "RMPage.h"
 
       #pragma clang diagnostic push
@@ -217,5 +243,6 @@ Feature: Outputting Value Objects
 
       @end
       #pragma clang diagnostic pop
+
 
       """

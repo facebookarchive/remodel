@@ -18,6 +18,11 @@ Feature: Outputting Objects With Generic Types
     When I run `../../bin/generate project`
     Then the file "project/values/RMPage.h" should contain:
       """
+      /**
+       * This file is generated using the remodel generation script.
+       * The name of the input file is RMPage.value
+       */
+
       #import <Foundation/Foundation.h>
 
       @interface RMPage : NSObject <NSCopying>
@@ -33,9 +38,19 @@ Feature: Outputting Objects With Generic Types
 
       @end
 
+
       """
    And the file "project/values/RMPage.m" should contain:
       """
+      /**
+       * This file is generated using the remodel generation script.
+       * The name of the input file is RMPage.value
+       */
+
+      #if  ! __has_feature(objc_arc)
+      #error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).
+      #endif
+
       #import "RMPage.h"
 
       @implementation RMPage
@@ -91,6 +106,7 @@ Feature: Outputting Objects With Generic Types
 
       @end
 
+
       """
   @announce
   Scenario: Generating an algebraic type with generics
@@ -118,6 +134,11 @@ Feature: Outputting Objects With Generic Types
     When I run `../../bin/generate project`
     Then the file "project/values/SimpleADT.h" should contain:
       """
+      /**
+       * This file is generated using the remodel generation script.
+       * The name of the input file is SimpleADT.adtValue
+       */
+
       #import <Foundation/Foundation.h>
 
       typedef void (^SimpleADTFirstSubtypeMatchHandler)(NSDictionary<NSString *, NSNumber *> *namesToAges, NSDictionary<NSString *, NSArray<NSNumber *> *> *namesToInventory);
@@ -140,9 +161,19 @@ Feature: Outputting Objects With Generic Types
 
       @end
 
+
       """
    And the file "project/values/SimpleADT.m" should contain:
       """
+      /**
+       * This file is generated using the remodel generation script.
+       * The name of the input file is SimpleADT.adtValue
+       */
+
+      #if  ! __has_feature(objc_arc)
+      #error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).
+      #endif
+
       #import "SimpleADT.h"
 
       typedef NS_ENUM(NSUInteger, _SimpleADTSubtypes) {
@@ -265,5 +296,6 @@ Feature: Outputting Objects With Generic Types
       }
 
       @end
+
 
       """

@@ -34,6 +34,11 @@ Feature: Outputting Value Objects With Forward Declarations
     When I run `../../bin/generate project`
     Then the file "project/values/RMPage.h" should contain:
       """
+      /**
+       * This file is generated using the remodel generation script.
+       * The name of the input file is RMPage.value
+       */
+
       #import <Foundation/Foundation.h>
       #import <EnumLib/CustomEnum.h>
 
@@ -71,9 +76,19 @@ Feature: Outputting Value Objects With Forward Declarations
 
       @end
 
+
       """
    And the file "project/values/RMPage.m" should contain:
       """
+      /**
+       * This file is generated using the remodel generation script.
+       * The name of the input file is RMPage.value
+       */
+
+      #if  ! __has_feature(objc_arc)
+      #error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).
+      #endif
+
       #import "RMPage.h"
       #import <FooLibrary/RMSomeType.h>
       #import <UIKit/UIViewController.h>
@@ -99,6 +114,56 @@ Feature: Outputting Value Objects With Forward Declarations
 
         return self;
       }
+
+      - (id)copyWithZone:(nullable NSZone *)zone
+      {
+        return self;
+      }
+
+      - (NSString *)description
+      {
+        return [NSString stringWithFormat:@"%@ - \n\t doesUserLike: %@; \n\t identifier: %@; \n\t someEnum: %llu; \n\t likeCount: %lld; \n\t numberOfRatings: %llu; \n\t proxy: %@; \n\t followers: %@; \n\t helloObj: %@; \n\t worldVc: %@; \n", [super description], _doesUserLike ? @"YES" : @"NO", _identifier, (unsigned long long)_someEnum, (long long)_likeCount, (unsigned long long)_numberOfRatings, _proxy, _followers, _helloObj, _worldVc];
+      }
+
+      - (NSUInteger)hash
+      {
+        NSUInteger subhashes[] = {(NSUInteger)_doesUserLike, [_identifier hash], _someEnum, ABS(_likeCount), _numberOfRatings, [_proxy hash], [_followers hash], [_helloObj hash], [_worldVc hash]};
+        NSUInteger result = subhashes[0];
+        for (int ii = 1; ii < 9; ++ii) {
+          unsigned long long base = (((unsigned long long)result) << 32 | subhashes[ii]);
+          base = (~base) + (base << 18);
+          base ^= (base >> 31);
+          base *=  21;
+          base ^= (base >> 11);
+          base += (base << 6);
+          base ^= (base >> 22);
+          result = base;
+        }
+        return result;
+      }
+
+      - (BOOL)isEqual:(RMPage *)object
+      {
+        if (self == object) {
+          return YES;
+        } else if (object == nil || ![object isKindOfClass:[self class]]) {
+          return NO;
+        }
+        return
+          _doesUserLike == object->_doesUserLike &&
+          _someEnum == object->_someEnum &&
+          _likeCount == object->_likeCount &&
+          _numberOfRatings == object->_numberOfRatings &&
+          (_identifier == object->_identifier ? YES : [_identifier isEqual:object->_identifier]) &&
+          (_proxy == object->_proxy ? YES : [_proxy isEqual:object->_proxy]) &&
+          (_followers == object->_followers ? YES : [_followers isEqual:object->_followers]) &&
+          (_helloObj == object->_helloObj ? YES : [_helloObj isEqual:object->_helloObj]) &&
+          (_worldVc == object->_worldVc ? YES : [_worldVc isEqual:object->_worldVc]);
+      }
+
+      @end
+
+
       """
   @announce
   Scenario: Generating Files when defaulting to UseForwardDeclarations with canForwardDeclare
@@ -123,6 +188,11 @@ Feature: Outputting Value Objects With Forward Declarations
     When I run `../../bin/generate project`
     Then the file "project/values/RMPage.h" should contain:
       """
+      /**
+       * This file is generated using the remodel generation script.
+       * The name of the input file is RMPage.value
+       */
+
       #import <Foundation/Foundation.h>
       #import "SomeObject.h"
 
@@ -143,9 +213,19 @@ Feature: Outputting Value Objects With Forward Declarations
 
       @end
 
+
       """
    And the file "project/values/RMPage.m" should contain:
       """
+      /**
+       * This file is generated using the remodel generation script.
+       * The name of the input file is RMPage.value
+       */
+
+      #if  ! __has_feature(objc_arc)
+      #error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).
+      #endif
+
       #import "RMPage.h"
       #import "AnotherObject.h"
 
@@ -162,6 +242,51 @@ Feature: Outputting Value Objects With Forward Declarations
 
         return self;
       }
+
+      - (id)copyWithZone:(nullable NSZone *)zone
+      {
+        return self;
+      }
+
+      - (NSString *)description
+      {
+        return [NSString stringWithFormat:@"%@ - \n\t doesUserLike: %@; \n\t identifier: %@; \n\t obj: %@; \n\t obj2: %@; \n", [super description], _doesUserLike ? @"YES" : @"NO", _identifier, _obj, _obj2];
+      }
+
+      - (NSUInteger)hash
+      {
+        NSUInteger subhashes[] = {(NSUInteger)_doesUserLike, [_identifier hash], [_obj hash], [_obj2 hash]};
+        NSUInteger result = subhashes[0];
+        for (int ii = 1; ii < 4; ++ii) {
+          unsigned long long base = (((unsigned long long)result) << 32 | subhashes[ii]);
+          base = (~base) + (base << 18);
+          base ^= (base >> 31);
+          base *=  21;
+          base ^= (base >> 11);
+          base += (base << 6);
+          base ^= (base >> 22);
+          result = base;
+        }
+        return result;
+      }
+
+      - (BOOL)isEqual:(RMPage *)object
+      {
+        if (self == object) {
+          return YES;
+        } else if (object == nil || ![object isKindOfClass:[self class]]) {
+          return NO;
+        }
+        return
+          _doesUserLike == object->_doesUserLike &&
+          (_identifier == object->_identifier ? YES : [_identifier isEqual:object->_identifier]) &&
+          (_obj == object->_obj ? YES : [_obj isEqual:object->_obj]) &&
+          (_obj2 == object->_obj2 ? YES : [_obj2 isEqual:object->_obj2]);
+      }
+
+      @end
+
+
       """
   @announce
   Scenario: Generating Files with no equality and a custom base type
@@ -219,9 +344,19 @@ Feature: Outputting Value Objects With Forward Declarations
 
       @end
 
+
       """
    And the file "project/values/RMPage.m" should contain:
       """
+      /**
+       * This file is generated using the remodel generation script.
+       * The name of the input file is RMPage.value
+       */
+
+      #if  ! __has_feature(objc_arc)
+      #error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).
+      #endif
+
       #import "RMPage.h"
       #import "Foo.h"
 
@@ -258,6 +393,7 @@ Feature: Outputting Value Objects With Forward Declarations
       @end
       #pragma clang diagnostic pop
 
+
       """
   @announce
   Scenario: Generating Files with SkipImportsInImplementation results in no additional imports
@@ -280,9 +416,80 @@ Feature: Outputting Value Objects With Forward Declarations
     When I run `../../bin/generate project`
     Then the file "project/values/RMPage.m" should contain:
       """
+      /**
+       * This file is generated using the remodel generation script.
+       * The name of the input file is RMPage.value
+       */
+
+      #if  ! __has_feature(objc_arc)
+      #error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).
+      #endif
+
       #import "RMPage.h"
 
       @implementation RMPage
+
+      - (instancetype)initWithWorldVc:(UIViewController<WorldProtocol> *)worldVc proxy:(RMProxy *)proxy helloObj:(HelloClass *)helloObj followers:(NSArray<RMSomeType *> *)followers x:(SomeClass *)x primitives:(NSInteger)primitives bla:(AnEnun)bla
+      {
+        if ((self = [super init])) {
+          _worldVc = [worldVc copy];
+          _proxy = [proxy copy];
+          _helloObj = [helloObj copy];
+          _followers = [followers copy];
+          _x = [x copy];
+          _primitives = primitives;
+          _bla = bla;
+        }
+
+        return self;
+      }
+
+      - (id)copyWithZone:(nullable NSZone *)zone
+      {
+        return self;
+      }
+
+      - (NSString *)description
+      {
+        return [NSString stringWithFormat:@"%@ - \n\t worldVc: %@; \n\t proxy: %@; \n\t helloObj: %@; \n\t followers: %@; \n\t x: %@; \n\t primitives: %lld; \n\t bla: %llu; \n", [super description], _worldVc, _proxy, _helloObj, _followers, _x, (long long)_primitives, (unsigned long long)_bla];
+      }
+
+      - (NSUInteger)hash
+      {
+        NSUInteger subhashes[] = {[_worldVc hash], [_proxy hash], [_helloObj hash], [_followers hash], [_x hash], ABS(_primitives), _bla};
+        NSUInteger result = subhashes[0];
+        for (int ii = 1; ii < 7; ++ii) {
+          unsigned long long base = (((unsigned long long)result) << 32 | subhashes[ii]);
+          base = (~base) + (base << 18);
+          base ^= (base >> 31);
+          base *=  21;
+          base ^= (base >> 11);
+          base += (base << 6);
+          base ^= (base >> 22);
+          result = base;
+        }
+        return result;
+      }
+
+      - (BOOL)isEqual:(RMPage *)object
+      {
+        if (self == object) {
+          return YES;
+        } else if (object == nil || ![object isKindOfClass:[self class]]) {
+          return NO;
+        }
+        return
+          _primitives == object->_primitives &&
+          _bla == object->_bla &&
+          (_worldVc == object->_worldVc ? YES : [_worldVc isEqual:object->_worldVc]) &&
+          (_proxy == object->_proxy ? YES : [_proxy isEqual:object->_proxy]) &&
+          (_helloObj == object->_helloObj ? YES : [_helloObj isEqual:object->_helloObj]) &&
+          (_followers == object->_followers ? YES : [_followers isEqual:object->_followers]) &&
+          (_x == object->_x ? YES : [_x isEqual:object->_x]);
+      }
+
+      @end
+
 
       """
   @announce
@@ -306,16 +513,167 @@ Feature: Outputting Value Objects With Forward Declarations
     When I run `../../bin/generate project`
     Then the file "project/values/RMPage.m" should contain:
       """
+      /**
+       * This file is generated using the remodel generation script.
+       * The name of the input file is RMPage.value
+       */
+
+      #if  ! __has_feature(objc_arc)
+      #error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).
+      #endif
+
       #import "RMPage.h"
 
       @implementation RMPage
 
+      - (instancetype)initWithWorldVc:(UIViewController<WorldProtocol> *)worldVc proxy:(RMProxy *)proxy helloObj:(HelloClass *)helloObj followers:(NSArray<RMSomeType *> *)followers x:(SomeClass *)x primitives:(NSInteger)primitives bla:(AnEnun)bla
+      {
+        if ((self = [super init])) {
+          _worldVc = [worldVc copy];
+          _proxy = [proxy copy];
+          _helloObj = [helloObj copy];
+          _followers = [followers copy];
+          _x = [x copy];
+          _primitives = primitives;
+          _bla = bla;
+        }
+
+        return self;
+      }
+
+      - (id)copyWithZone:(nullable NSZone *)zone
+      {
+        return self;
+      }
+
+      - (NSString *)description
+      {
+        return [NSString stringWithFormat:@"%@ - \n\t worldVc: %@; \n\t proxy: %@; \n\t helloObj: %@; \n\t followers: %@; \n\t x: %@; \n\t primitives: %lld; \n\t bla: %llu; \n", [super description], _worldVc, _proxy, _helloObj, _followers, _x, (long long)_primitives, (unsigned long long)_bla];
+      }
+
+      - (NSUInteger)hash
+      {
+        NSUInteger subhashes[] = {[_worldVc hash], [_proxy hash], [_helloObj hash], [_followers hash], [_x hash], ABS(_primitives), _bla};
+        NSUInteger result = subhashes[0];
+        for (int ii = 1; ii < 7; ++ii) {
+          unsigned long long base = (((unsigned long long)result) << 32 | subhashes[ii]);
+          base = (~base) + (base << 18);
+          base ^= (base >> 31);
+          base *=  21;
+          base ^= (base >> 11);
+          base += (base << 6);
+          base ^= (base >> 22);
+          result = base;
+        }
+        return result;
+      }
+
+      - (BOOL)isEqual:(RMPage *)object
+      {
+        if (self == object) {
+          return YES;
+        } else if (object == nil || ![object isKindOfClass:[self class]]) {
+          return NO;
+        }
+        return
+          _primitives == object->_primitives &&
+          _bla == object->_bla &&
+          (_worldVc == object->_worldVc ? YES : [_worldVc isEqual:object->_worldVc]) &&
+          (_proxy == object->_proxy ? YES : [_proxy isEqual:object->_proxy]) &&
+          (_helloObj == object->_helloObj ? YES : [_helloObj isEqual:object->_helloObj]) &&
+          (_followers == object->_followers ? YES : [_followers isEqual:object->_followers]) &&
+          (_x == object->_x ? YES : [_x isEqual:object->_x]);
+      }
+
+      @end
+
+
       """
     And the file "project/values/RMPageBuilder.m" should contain:
       """
+      #if  ! __has_feature(objc_arc)
+      #error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).
+      #endif
+
       #import "RMPage.h"
       #import "RMPageBuilder.h"
 
       @implementation RMPageBuilder
+      {
+        UIViewController<WorldProtocol> *_worldVc;
+        RMProxy *_proxy;
+        HelloClass *_helloObj;
+        NSArray<RMSomeType *> *_followers;
+        SomeClass *_x;
+        NSInteger _primitives;
+        AnEnun _bla;
+      }
+
+      + (instancetype)page
+      {
+        return [RMPageBuilder new];
+      }
+
+      + (instancetype)pageFromExistingPage:(RMPage *)existingPage
+      {
+        return [[[[[[[[RMPageBuilder page]
+                      withWorldVc:existingPage.worldVc]
+                     withProxy:existingPage.proxy]
+                    withHelloObj:existingPage.helloObj]
+                   withFollowers:existingPage.followers]
+                  withX:existingPage.x]
+                 withPrimitives:existingPage.primitives]
+                withBla:existingPage.bla];
+      }
+
+      - (RMPage *)build
+      {
+        return [[RMPage alloc] initWithWorldVc:_worldVc proxy:_proxy helloObj:_helloObj followers:_followers x:_x primitives:_primitives bla:_bla];
+      }
+
+      - (instancetype)withWorldVc:(UIViewController<WorldProtocol> *)worldVc
+      {
+        _worldVc = [worldVc copy];
+        return self;
+      }
+
+      - (instancetype)withProxy:(RMProxy *)proxy
+      {
+        _proxy = [proxy copy];
+        return self;
+      }
+
+      - (instancetype)withHelloObj:(HelloClass *)helloObj
+      {
+        _helloObj = [helloObj copy];
+        return self;
+      }
+
+      - (instancetype)withFollowers:(NSArray<RMSomeType *> *)followers
+      {
+        _followers = [followers copy];
+        return self;
+      }
+
+      - (instancetype)withX:(SomeClass *)x
+      {
+        _x = [x copy];
+        return self;
+      }
+
+      - (instancetype)withPrimitives:(NSInteger)primitives
+      {
+        _primitives = primitives;
+        return self;
+      }
+
+      - (instancetype)withBla:(AnEnun)bla
+      {
+        _bla = bla;
+        return self;
+      }
+
+      @end
+
 
       """

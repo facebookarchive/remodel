@@ -18,6 +18,15 @@ Feature: Outputting Value Objects / Algebraic Types decorated with NS_ASSUME_NON
     When I run `../../bin/generate project`
     Then the file "project/values/RMFoo.m" should contain:
       """
+      /**
+       * This file is generated using the remodel generation script.
+       * The name of the input file is RMFoo.value
+       */
+
+      #if  ! __has_feature(objc_arc)
+      #error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).
+      #endif
+
       #import "RMFoo.h"
 
       #define RMParameterAssert(condition) NSCParameterAssert((condition))
@@ -37,6 +46,51 @@ Feature: Outputting Value Objects / Algebraic Types decorated with NS_ASSUME_NON
 
         return self;
       }
+
+      - (id)copyWithZone:(nullable NSZone *)zone
+      {
+        return self;
+      }
+
+      - (NSString *)description
+      {
+        return [NSString stringWithFormat:@"%@ - \n\t aString: %@; \n\t bString: %@; \n", [super description], _aString, _bString];
+      }
+
+      - (NSUInteger)hash
+      {
+        NSUInteger subhashes[] = {[_aString hash], [_bString hash]};
+        NSUInteger result = subhashes[0];
+        for (int ii = 1; ii < 2; ++ii) {
+          unsigned long long base = (((unsigned long long)result) << 32 | subhashes[ii]);
+          base = (~base) + (base << 18);
+          base ^= (base >> 31);
+          base *=  21;
+          base ^= (base >> 11);
+          base += (base << 6);
+          base ^= (base >> 22);
+          result = base;
+        }
+        return result;
+      }
+
+      - (BOOL)isEqual:(RMFoo *)object
+      {
+        if (self == object) {
+          return YES;
+        } else if (object == nil || ![object isKindOfClass:[self class]]) {
+          return NO;
+        }
+        return
+          (_aString == object->_aString ? YES : [_aString isEqual:object->_aString]) &&
+          (_bString == object->_bString ? YES : [_bString isEqual:object->_bString]);
+      }
+
+      @end
+
+      NS_ASSUME_NONNULL_END
+
+
       """
 
   @announce
@@ -56,6 +110,15 @@ Feature: Outputting Value Objects / Algebraic Types decorated with NS_ASSUME_NON
     When I run `../../bin/generate project`
     Then the file "project/values/RMFoo.m" should contain:
       """
+      /**
+       * This file is generated using the remodel generation script.
+       * The name of the input file is RMFoo.value
+       */
+
+      #if  ! __has_feature(objc_arc)
+      #error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).
+      #endif
+
       #import "RMFoo.h"
 
       #define RMParameterAssert(condition) NSCParameterAssert((condition))
@@ -72,6 +135,49 @@ Feature: Outputting Value Objects / Algebraic Types decorated with NS_ASSUME_NON
 
         return self;
       }
+
+      - (id)copyWithZone:(nullable NSZone *)zone
+      {
+        return self;
+      }
+
+      - (NSString *)description
+      {
+        return [NSString stringWithFormat:@"%@ - \n\t aString: %@; \n\t bString: %@; \n", [super description], _aString, _bString];
+      }
+
+      - (NSUInteger)hash
+      {
+        NSUInteger subhashes[] = {[_aString hash], [_bString hash]};
+        NSUInteger result = subhashes[0];
+        for (int ii = 1; ii < 2; ++ii) {
+          unsigned long long base = (((unsigned long long)result) << 32 | subhashes[ii]);
+          base = (~base) + (base << 18);
+          base ^= (base >> 31);
+          base *=  21;
+          base ^= (base >> 11);
+          base += (base << 6);
+          base ^= (base >> 22);
+          result = base;
+        }
+        return result;
+      }
+
+      - (BOOL)isEqual:(RMFoo *)object
+      {
+        if (self == object) {
+          return YES;
+        } else if (object == nil || ![object isKindOfClass:[self class]]) {
+          return NO;
+        }
+        return
+          (_aString == object->_aString ? YES : [_aString isEqual:object->_aString]) &&
+          (_bString == object->_bString ? YES : [_bString isEqual:object->_bString]);
+      }
+
+      @end
+
+
       """
 
   @announce
@@ -90,6 +196,15 @@ Feature: Outputting Value Objects / Algebraic Types decorated with NS_ASSUME_NON
     When I run `../../bin/generate project`
     Then the file "project/values/RMFoo.m" should contain:
       """
+      /**
+       * This file is generated using the remodel generation script.
+       * The name of the input file is RMFoo.value
+       */
+
+      #if  ! __has_feature(objc_arc)
+      #error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).
+      #endif
+
       #import "RMFoo.h"
 
       @implementation RMFoo
@@ -103,6 +218,49 @@ Feature: Outputting Value Objects / Algebraic Types decorated with NS_ASSUME_NON
 
         return self;
       }
+
+      - (id)copyWithZone:(nullable NSZone *)zone
+      {
+        return self;
+      }
+
+      - (NSString *)description
+      {
+        return [NSString stringWithFormat:@"%@ - \n\t countA: %lld; \n\t countB: %lld; \n", [super description], (long long)_countA, (long long)_countB];
+      }
+
+      - (NSUInteger)hash
+      {
+        NSUInteger subhashes[] = {ABS(_countA), ABS(_countB)};
+        NSUInteger result = subhashes[0];
+        for (int ii = 1; ii < 2; ++ii) {
+          unsigned long long base = (((unsigned long long)result) << 32 | subhashes[ii]);
+          base = (~base) + (base << 18);
+          base ^= (base >> 31);
+          base *=  21;
+          base ^= (base >> 11);
+          base += (base << 6);
+          base ^= (base >> 22);
+          result = base;
+        }
+        return result;
+      }
+
+      - (BOOL)isEqual:(RMFoo *)object
+      {
+        if (self == object) {
+          return YES;
+        } else if (object == nil || ![object isKindOfClass:[self class]]) {
+          return NO;
+        }
+        return
+          _countA == object->_countA &&
+          _countB == object->_countB;
+      }
+
+      @end
+
+
       """
 
   @announce
@@ -122,6 +280,15 @@ Feature: Outputting Value Objects / Algebraic Types decorated with NS_ASSUME_NON
     When I run `../../bin/generate project`
     Then the file "project/values/RMFoo.m" should contain:
       """
+      /**
+       * This file is generated using the remodel generation script.
+       * The name of the input file is RMFoo.value
+       */
+
+      #if  ! __has_feature(objc_arc)
+      #error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).
+      #endif
+
       #import "RMFoo.h"
 
       NS_ASSUME_NONNULL_BEGIN
@@ -137,6 +304,51 @@ Feature: Outputting Value Objects / Algebraic Types decorated with NS_ASSUME_NON
 
         return self;
       }
+
+      - (id)copyWithZone:(nullable NSZone *)zone
+      {
+        return self;
+      }
+
+      - (NSString *)description
+      {
+        return [NSString stringWithFormat:@"%@ - \n\t stringA: %@; \n\t countB: %lld; \n", [super description], _stringA, (long long)_countB];
+      }
+
+      - (NSUInteger)hash
+      {
+        NSUInteger subhashes[] = {[_stringA hash], ABS(_countB)};
+        NSUInteger result = subhashes[0];
+        for (int ii = 1; ii < 2; ++ii) {
+          unsigned long long base = (((unsigned long long)result) << 32 | subhashes[ii]);
+          base = (~base) + (base << 18);
+          base ^= (base >> 31);
+          base *=  21;
+          base ^= (base >> 11);
+          base += (base << 6);
+          base ^= (base >> 22);
+          result = base;
+        }
+        return result;
+      }
+
+      - (BOOL)isEqual:(RMFoo *)object
+      {
+        if (self == object) {
+          return YES;
+        } else if (object == nil || ![object isKindOfClass:[self class]]) {
+          return NO;
+        }
+        return
+          _countB == object->_countB &&
+          (_stringA == object->_stringA ? YES : [_stringA isEqual:object->_stringA]);
+      }
+
+      @end
+
+      NS_ASSUME_NONNULL_END
+
+
       """
 
   @announce
@@ -155,6 +367,15 @@ Feature: Outputting Value Objects / Algebraic Types decorated with NS_ASSUME_NON
     When I run `../../bin/generate project`
     Then the file "project/values/RMFoo.m" should contain:
       """
+      /**
+       * This file is generated using the remodel generation script.
+       * The name of the input file is RMFoo.value
+       */
+
+      #if  ! __has_feature(objc_arc)
+      #error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).
+      #endif
+
       #import "RMFoo.h"
 
       NS_ASSUME_NONNULL_BEGIN
@@ -170,4 +391,49 @@ Feature: Outputting Value Objects / Algebraic Types decorated with NS_ASSUME_NON
 
         return self;
       }
+
+      - (id)copyWithZone:(nullable NSZone *)zone
+      {
+        return self;
+      }
+
+      - (NSString *)description
+      {
+        return [NSString stringWithFormat:@"%@ - \n\t countA: %lld; \n\t countB: %lld; \n", [super description], (long long)_countA, (long long)_countB];
+      }
+
+      - (NSUInteger)hash
+      {
+        NSUInteger subhashes[] = {ABS(_countA), ABS(_countB)};
+        NSUInteger result = subhashes[0];
+        for (int ii = 1; ii < 2; ++ii) {
+          unsigned long long base = (((unsigned long long)result) << 32 | subhashes[ii]);
+          base = (~base) + (base << 18);
+          base ^= (base >> 31);
+          base *=  21;
+          base ^= (base >> 11);
+          base += (base << 6);
+          base ^= (base >> 22);
+          result = base;
+        }
+        return result;
+      }
+
+      - (BOOL)isEqual:(RMFoo *)object
+      {
+        if (self == object) {
+          return YES;
+        } else if (object == nil || ![object isKindOfClass:[self class]]) {
+          return NO;
+        }
+        return
+          _countA == object->_countA &&
+          _countB == object->_countB;
+      }
+
+      @end
+
+      NS_ASSUME_NONNULL_END
+
+
       """

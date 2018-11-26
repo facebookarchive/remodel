@@ -33,8 +33,8 @@ function aggregateResults(results) {
   return flattenResults(flattenedOnce);
 }
 
-export function main(parsedArgs) {
-  Maybe.match(
+export function main(parsedArgs, testEnv) {
+  return Maybe.match(
     function(args) {
       const valueObjectsFuture = ObjectSpecs.generate(
         process.cwd(),
@@ -61,33 +61,38 @@ export function main(parsedArgs) {
       Promise.then(function(results) {
         const aggregatedResult = aggregateResults(results);
 
-        if (aggregatedResult.errorCount === 0) {
-          console.log(
-            colors.green(
-              'Successfully generated ' +
-                aggregatedResult.successCount +
-                ' objects.',
-            ),
-          );
-        } else {
-          console.log(
-            colors.red(
-              'Successfully generated ' +
-                aggregatedResult.successCount +
-                ' objects. Encountered ' +
-                aggregatedResult.errorCount +
-                ' errors in other files',
-            ),
-          );
-          process.exit(1);
-        }
+        if (!testEnv) {
+          if (aggregatedResult.errorCount === 0) {
+            console.log(
+              colors.green(
+                'Successfully generated ' +
+                  aggregatedResult.successCount +
+                  ' objects.',
+              ),
+            );
+          } else {
+            console.log(
+              colors.red(
+                'Successfully generated ' +
+                  aggregatedResult.successCount +
+                  ' objects. Encountered ' +
+                  aggregatedResult.errorCount +
+                  ' errors in other files',
+              ),
+            );
+            process.exit(1);
+          }
 
-        ParallelProcessQueue.shutDown();
+          ParallelProcessQueue.shutDown();
+        }
       }, promise);
+      return promise;
     },
     function() {
       console.log('Expected use: ./generate [flags] pathToDirectory');
-      ParallelProcessQueue.shutDown();
+      if (!testEnv) {
+        ParallelProcessQueue.shutDown();
+      }
     },
     parsedArgs,
   );

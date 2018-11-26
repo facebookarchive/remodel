@@ -6,11 +6,14 @@
  */
 
 var {Given, Then, When} = require('cucumber');
+var CommandLine = require('../../bin/dist/commandline');
 var colors = require('cli-color');
 var diff = require('diff');
 var exec = require('child_process').exec;
 var fs = require('fs');
+var main = require('../../bin/dist/main');
 var mkdirp = require('mkdirp');
+var Promise = require('../../bin/dist/promise');
 
 function pathToFile(fileName) {
   if (fileName.indexOf('/') == -1) {
@@ -27,6 +30,27 @@ function writeFile(fileName, fileContent, tmpDirectoryPath) {
   var fileLocation = tmpDirectoryPath + '/' + fileName;
   mkdirp.sync(filePath);
   fs.writeFileSync(fileLocation, fileContent, 'utf8');
+}
+
+function fastrun(args, tmpDirectoryPath, callback) {
+  var curdir = process.cwd();
+  process.chdir(tmpDirectoryPath);
+  var promise;
+  try {
+    promise = main.main(CommandLine.parseArgs(args), true);
+  } catch (err) {
+    process.chdir(curdir);
+    callback('error running subprocess: ' + err + '\n' + err.stack);
+    return;
+  }
+  // If you try to delete this, you'll get lots of errors
+  // about missing output files. Need to sequence inspecting the
+  // output of the tool *after* the promises finish resolving! (and
+  // yes, it did take me way too long to realize I needed to do this.)
+  Promise.then(() => {
+    process.chdir(curdir);
+    callback();
+  }, promise);
 }
 
 function run(cmd, tmpDirectoryPath, callback) {
@@ -77,13 +101,19 @@ Given(/^a file named "([^"]*)" with:$/, function(
   callback();
 });
 
+When(/^I run `([^`]*)`$/, function(cmd, callback) {
+  cmd = unescape(cmd);
+  const knownCommand = '../../bin/generate ';
+  if (cmd.indexOf(knownCommand) === 0) {
+    fastrun(cmd.split(' ').slice(1), this.tmpDirectoryPath, callback);
+  } else {
+    run(unescape(cmd), this.tmpDirectoryPath, callback);
+  }
+});
+
 Given(/^a directory named "([^"]*)":$/, function(dirName, callback) {
   mkdirp.sync(this.tmpDirectoryPath + '/' + dirName);
   callback();
-});
-
-When(/^I run `([^`]*)`$/, function(cmd, callback) {
-  run(unescape(cmd), this.tmpDirectoryPath, callback);
 });
 
 Then(/^the file "([^"]*)" should contain:$/, function(

@@ -1070,12 +1070,14 @@ function codeForBranchingOnSubtypeWithSubtypeMapper(
   ) => string[],
 ): string[] {
   const subtypeBranches: string[] = algebraicType.subtypes.reduce(
-    FunctionUtils.pApply3f5(
-      algebraicType,
-      subtypeValueAccessor,
-      subtypeMapper,
-      codeForSubtypeBranchesWithSubtypeMapper,
-    ),
+    (soFar, subtype) =>
+      codeForSubtypeBranchesWithSubtypeMapper(
+        algebraicType,
+        subtypeValueAccessor,
+        subtypeMapper,
+        soFar,
+        subtype,
+      ),
     [],
   );
   const failureCase: string[] = [

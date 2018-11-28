@@ -77,38 +77,6 @@ describe('FunctionUtils', function() {
     });
   });
 
-  describe('#pApplyf5', function() {
-    it('partially applies a function with five parameters', function() {
-      const f: (
-        a: number,
-        b: number,
-        c: number,
-        d: number,
-        e: number,
-      ) => number = function(
-        a: number,
-        b: number,
-        c: number,
-        d: number,
-        e: number,
-      ): number {
-        return a + b + c + d + e;
-      };
-
-      const pf: (
-        b: number,
-        c: number,
-        d: number,
-        e: number,
-      ) => number = FunctionUtils.pApplyf5(2, f);
-
-      const actualVal = pf(4, 2, 3, 4);
-      const expectedVal = 15;
-
-      expect(actualVal).toEqualJSON(expectedVal);
-    });
-  });
-
   describe('#pApply2f3', function() {
     it('partially applies two parameters to a function with three parameters', function() {
       const f: (a: number, b: number, c: number) => number = function(
@@ -182,38 +150,6 @@ describe('FunctionUtils', function() {
 
       const actualVal = pf('D');
       const expectedVal = 'ABCD';
-
-      expect(actualVal).toEqualJSON(expectedVal);
-    });
-  });
-
-  describe('#pApply3f5', function() {
-    it('partially applies three parameters to a function with five parameters', function() {
-      const f: (
-        a: number,
-        b: number,
-        c: number,
-        d: number,
-        e: number,
-      ) => number = function(
-        a: number,
-        b: number,
-        c: number,
-        d: number,
-        e: number,
-      ): number {
-        return a + b + c + d + e;
-      };
-
-      const pf: (c: number, d: number) => number = FunctionUtils.pApply3f5(
-        2,
-        4,
-        5,
-        f,
-      );
-
-      const actualVal = pf(8, 13);
-      const expectedVal = 32;
 
       expect(actualVal).toEqualJSON(expectedVal);
     });

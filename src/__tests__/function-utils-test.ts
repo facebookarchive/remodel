@@ -11,21 +11,6 @@
 import FunctionUtils = require('../function-utils');
 
 describe('FunctionUtils', function() {
-  describe('#pApplyf1', function() {
-    it('partially applies a function with one parameter', function() {
-      const f: (a: number) => number = function(a: number): number {
-        return a * 2;
-      };
-
-      const pf: () => number = FunctionUtils.pApplyf1(2, f);
-
-      const actualVal = pf();
-      const expectedVal = 4;
-
-      expect(actualVal).toEqualJSON(expectedVal);
-    });
-  });
-
   describe('#pApplyf2', function() {
     it('partially applies a function with two parameters', function() {
       const f: (a: number, b: number) => number = function(

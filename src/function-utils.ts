@@ -5,12 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-export function pApplyf1<T, U>(val: T, f: (a: T) => U): () => U {
-  return function(): U {
-    return f(val);
-  };
-}
-
 export function pApplyf2<T, U, V>(val: T, f: (a: T, b: U) => V): (b: U) => V {
   return function(b: U): V {
     return f(val, b);

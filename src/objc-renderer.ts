@@ -101,8 +101,8 @@ function toTypeString(returnType: ObjC.ReturnType): string {
 
 function toImportString(givenImport: ObjC.Import): string {
   return Maybe.match<string, string>(
-    FunctionUtils.pApplyf2(givenImport.file, libraryImport),
-    FunctionUtils.pApplyf1(givenImport.file, localImport),
+    lib => libraryImport(givenImport.file, lib),
+    () => localImport(givenImport.file),
     givenImport.library,
   );
 }

@@ -423,11 +423,8 @@ function importsForBuilder(objectType: ObjectSpec.Type): ObjC.Import[] {
   const attributeImports: ObjC.Import[] = skipAttributeImports
     ? []
     : objectType.attributes
-        .filter(
-          FunctionUtils.pApplyf2(
-            objectType.typeLookups,
-            mustDeclareImportForAttribute,
-          ),
+        .filter(attribute =>
+          mustDeclareImportForAttribute(objectType.typeLookups, attribute),
         )
         .map(function(attribute: ObjectSpec.Attribute): ObjC.Import {
           return importForAttribute(objectType.libraryName, false, attribute);
@@ -512,10 +509,10 @@ function builderFileForValueType(objectType: ObjectSpec.Type): Code.File {
         instanceMethods: [
           buildObjectInstanceMethodForValueType(objectType),
         ].concat(
-          objectType.attributes.map(
-            FunctionUtils.pApplyf2(
+          objectType.attributes.map(attribute =>
+            withInstanceMethodForAttribute(
               ObjectSpecUtils.typeSupportsValueObjectSemantics(objectType),
-              withInstanceMethodForAttribute,
+              attribute,
             ),
           ),
         ),

@@ -127,18 +127,23 @@ function matcherFunctionCodeForAlgebraicType(
   const resultDeclaration: string = '__block std::unique_ptr<T> result;';
 
   const blockCode: string[] = algebraicType.subtypes.reduce(
-    FunctionUtils.pApplyf3(
-      algebraicType,
-      buildLocalFunctionBlockDefinitionsForSubtype,
-    ),
+    (soFar, subtype) =>
+      buildLocalFunctionBlockDefinitionsForSubtype(
+        algebraicType,
+        soFar,
+        subtype,
+      ),
     [],
   );
 
   const keywordPartsForMatchInvocation: string[] = algebraicType.subtypes.reduce(
-    FunctionUtils.pApplyf4(
-      algebraicType,
-      AlgebraicTypeUtilsForMatching.buildKeywordPartsForInvokingMatchMethodForSubtype,
-    ),
+    (soFar, subtype, idx) =>
+      AlgebraicTypeUtilsForMatching.buildKeywordPartsForInvokingMatchMethodForSubtype(
+        algebraicType,
+        soFar,
+        subtype,
+        idx,
+      ),
     [],
   );
   const matchInvocationCode: string =

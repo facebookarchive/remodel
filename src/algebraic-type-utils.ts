@@ -75,8 +75,8 @@ export function mapAttributesWithSubtypeFromSubtypes<T>(
 ): T[] {
   return subtypes.reduce(function(soFar: T[], subtype: AlgebraicType.Subtype) {
     return soFar.concat(
-      attributesFromSubtype(subtype).map(
-        FunctionUtils.pApplyf2(subtype, mapper),
+      attributesFromSubtype(subtype).map(attribute =>
+        mapper(subtype, attribute),
       ),
     );
   }, []);
@@ -174,11 +174,13 @@ export function codeForSwitchingOnSubtypeWithSubtypeMapper(
   ) => string[],
 ): string[] {
   const caseStatements: string[] = algebraicType.subtypes.reduce(
-    FunctionUtils.pApply2f4(
-      algebraicType,
-      subtypeMapper,
-      caseStatementForSubtypeWithSubtypeMapper,
-    ),
+    (soFar, subtype) =>
+      caseStatementForSubtypeWithSubtypeMapper(
+        algebraicType,
+        subtypeMapper,
+        soFar,
+        subtype,
+      ),
     [],
   );
   return ['switch (' + subtypeValueAccessor + ') {']
@@ -378,12 +380,12 @@ function instanceMethodKeywordsForMatchingSubtypesOfAlgebraicType(
   );
   const additionalKeywords: ObjC.Keyword[] = algebraicType.subtypes
     .slice(1)
-    .map(
-      FunctionUtils.pApply3f4(
+    .map(subtype =>
+      keywordForMatchMethodFromSubtype(
         algebraicType,
         matchingBlockType,
         nullable,
-        keywordForMatchMethodFromSubtype,
+        subtype,
       ),
     );
   return [firstKeyword].concat(additionalKeywords);
@@ -421,11 +423,8 @@ function blockInvocationForSubtype(
     blockParameterNameForMatchMethodFromSubtype(subtype) +
     '(' +
     attributesFromSubtype(subtype)
-      .map(
-        FunctionUtils.pApplyf2(
-          subtype,
-          valueAccessorForInstanceVariableForAttribute,
-        ),
+      .map(attribute =>
+        valueAccessorForInstanceVariableForAttribute(subtype, attribute),
       )
       .join(', ') +
     ');'

@@ -186,10 +186,8 @@ function writeFiles(
 > {
   return Either.match(
     propagateGenerationSuccessError,
-    FunctionUtils.pApplyf2(
-      fileWriter,
-      writeRequestToEitherErrorOrGenerationSuccess,
-    ),
+    request =>
+      writeRequestToEitherErrorOrGenerationSuccess(fileWriter, request),
     either,
   );
 }
@@ -248,7 +246,7 @@ export function evaluateObjectFileWriteRequestSequence(
 
   const writtenFileSequence = LoggingSequenceUtils.mapLoggedSequence3(
     writeRequestSequence,
-    FunctionUtils.pApplyf2(fileWriter, writeFiles),
+    request => writeFiles(fileWriter, request),
     generateOutput,
   );
 

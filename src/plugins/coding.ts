@@ -726,30 +726,24 @@ export function createPlugin(): ObjectSpec.Plugin {
     validationErrors: function(objectType: ObjectSpec.Type): Error.Error[] {
       const unknownTypeErrors = objectType.attributes
         .filter(doesValueAttributeContainAnUnknownType)
-        .map(
-          FunctionUtils.pApplyf2(objectType, valueAttributeToUnknownTypeError),
+        .map(attribute =>
+          valueAttributeToUnknownTypeError(objectType, attribute),
         );
       const unsupportedTypeErrors = objectType.attributes
         .filter(doesValueAttributeContainAnUnsupportedType)
-        .map(
-          FunctionUtils.pApplyf2(
-            objectType,
-            valueAttributeToUnsupportedTypeError,
-          ),
+        .map(attribute =>
+          valueAttributeToUnsupportedTypeError(objectType, attribute),
         );
       const unsupportedLegacyKeyTypeErrors = objectType.attributes
         .filter(doesValueAttributeContainAnLegacyKeyForUnsupportedType)
-        .map(
-          FunctionUtils.pApplyf2(
-            objectType,
-            valueAttributeToUnsupportedLegacyKeyTypeError,
-          ),
+        .map(attribute =>
+          valueAttributeToUnsupportedLegacyKeyTypeError(objectType, attribute),
         );
       const multipleCodingKeyErrors = Maybe.catMaybes(
-        objectType.attributes.map(
-          FunctionUtils.pApplyf2(
+        objectType.attributes.map(attribute =>
+          multipleCodingKeyAnnotationErrorForValueAttribute(
             objectType,
-            multipleCodingKeyAnnotationErrorForValueAttribute,
+            attribute,
           ),
         ),
       );
@@ -916,11 +910,8 @@ function encodeStatementsForAlgebraicSubtype(
 ): string[] {
   const encodeAttributes: string[] = AlgebraicTypeUtils.attributesFromSubtype(
     subtype,
-  ).map(
-    FunctionUtils.pApplyf2(
-      subtype,
-      encodeStatementForAlgebraicSubtypeAttribute,
-    ),
+  ).map(attribute =>
+    encodeStatementForAlgebraicSubtypeAttribute(subtype, attribute),
   );
   return encodeAttributes.concat(encodedStatementForSubtypeProperty(subtype));
 }
@@ -1200,19 +1191,13 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
       );
       const unknownTypeErrors = attributes
         .filter(doesAlgebraicAttributeContainAnUnknownType)
-        .map(
-          FunctionUtils.pApplyf2(
-            algebraicType,
-            algebraicAttributeToUnknownTypeError,
-          ),
+        .map(attribute =>
+          algebraicAttributeToUnknownTypeError(algebraicType, attribute),
         );
       const unsupportedTypeErrors = attributes
         .filter(doesAlgebraicAttributeContainAnUnsupportedType)
-        .map(
-          FunctionUtils.pApplyf2(
-            algebraicType,
-            algebraicAttributeToUnsupportedTypeError,
-          ),
+        .map(attribute =>
+          algebraicAttributeToUnsupportedTypeError(algebraicType, attribute),
         );
       const unsupportedAnnotationErrors = Maybe.catMaybes(
         attributes.map(unsupportedAnnotationErrorForAlgebraicAttribute),

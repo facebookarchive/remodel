@@ -144,7 +144,7 @@ function typeInformationWithAllAttributesFromPlugins(
   plugins: List.List<ObjectSpec.Plugin>,
 ): ObjectSpec.Type {
   const pluginAttributes: ObjectSpec.Attribute[] = List.foldl(
-    FunctionUtils.pApplyf3(typeInformation, buildExtraAttributes),
+    (soFar, plugin) => buildExtraAttributes(typeInformation, soFar, plugin),
     [],
     plugins,
   );
@@ -166,7 +166,7 @@ function additionalTypesFromPlugins(
   plugins: List.List<ObjectSpec.Plugin>,
 ): ObjectSpec.Type[] {
   return List.foldl(
-    FunctionUtils.pApplyf3(typeInformation, buildExtraTypes),
+    (soFar, plugin) => buildExtraTypes(typeInformation, soFar, plugin),
     [],
     plugins,
   );
@@ -183,8 +183,8 @@ function shouldRunPluginForIncludes(
   includes: string[],
   plugin: ObjectSpec.Plugin,
 ): boolean {
-  return plugin.requiredIncludesToRun.every(
-    FunctionUtils.pApplyf2(includes, shouldRunPluginForInclude),
+  return plugin.requiredIncludesToRun.every(requiredInclude =>
+    shouldRunPluginForInclude(includes, requiredInclude),
   );
 }
 
@@ -193,7 +193,7 @@ function pluginsToRunForValueType(
   objectType: ObjectSpec.Type,
 ): List.List<ObjectSpec.Plugin> {
   return List.filter(
-    FunctionUtils.pApplyf2(objectType.includes, shouldRunPluginForIncludes),
+    plugin => shouldRunPluginForIncludes(objectType.includes, plugin),
     plugins,
   );
 }
@@ -235,10 +235,7 @@ export function fileWriteRequest(
   const typeInfoProvider: PluggableObjCFileCreation.ObjCGenerationTypeInfoProvider<
     ObjectSpec.Type
   > = {
-    additionalTypesForType: FunctionUtils.pApplyf2(
-      pluginsToRun,
-      additionalTypesForType,
-    ),
+    additionalTypesForType: type => additionalTypesForType(pluginsToRun, type),
     typeNameForType: typeNameForType,
     commentsForType: commentsForType,
   };

@@ -107,11 +107,11 @@ function initializerCodeFromAttributes(
 ): string[] {
   const requiredParameterAssertions = attributes
     .filter(canAssertExistenceForTypeOfAttribute)
-    .filter(FunctionUtils.pApplyf2(assumeNonnull, isRequiredAttribute))
+    .filter(attribute => isRequiredAttribute(assumeNonnull, attribute))
     .map(toRequiredAssertion);
   const opening = ['if ((self = [super init])) {'];
   const iVarAssignements = attributes
-    .map(FunctionUtils.pApplyf2(supportsValueSemantics, toIvarAssignment))
+    .map(attribute => toIvarAssignment(supportsValueSemantics, attribute))
     .map(StringUtils.indent(2));
   const closing = ['}', '', 'return self;'];
   return requiredParameterAssertions
@@ -413,20 +413,17 @@ export function createPlugin(): ObjectSpec.Plugin {
     ): ObjC.ForwardDeclaration[] {
       const makePublicImports = makePublicImportsForValueType(objectType);
       const typeLookupForwardDeclarations = objectType.typeLookups
-        .filter(
-          FunctionUtils.pApplyf2(
-            objectType,
-            isForwardDeclarationRequiredForTypeLookup,
-          ),
+        .filter(typeLookup =>
+          isForwardDeclarationRequiredForTypeLookup(objectType, typeLookup),
         )
         .map(forwardDeclarationForTypeLookup);
       const attributeForwardClassDeclarations = objectType.attributes
-        .filter(
-          FunctionUtils.pApply3f4(
+        .filter(attribute =>
+          shouldForwardClassDeclareAttribute(
             objectType.typeName,
             objectType.typeLookups,
             makePublicImports,
-            shouldForwardClassDeclareAttribute,
+            attribute,
           ),
         )
         .map(forwardClassDeclarationForAttribute);
@@ -469,30 +466,27 @@ export function createPlugin(): ObjectSpec.Plugin {
         !makePublicImports &&
         SkipImportsInImplementationForValueType(objectType);
       const typeLookupImports = objectType.typeLookups
-        .filter(
-          FunctionUtils.pApplyf2(objectType, isImportRequiredForTypeLookup),
+        .filter(typeLookup =>
+          isImportRequiredForTypeLookup(objectType, typeLookup),
         )
-        .map(
-          FunctionUtils.pApply2f3(
+        .map(typeLookup =>
+          importForTypeLookup(
             objectType.libraryName,
             makePublicImports,
-            importForTypeLookup,
+            typeLookup,
           ),
         );
       const attributeImports = skipAttributeImports
         ? []
         : objectType.attributes
-            .filter(
-              FunctionUtils.pApplyf2(
-                objectType.typeLookups,
-                isImportRequiredForAttribute,
-              ),
+            .filter(attribute =>
+              isImportRequiredForAttribute(objectType.typeLookups, attribute),
             )
-            .map(
-              FunctionUtils.pApply2f3(
+            .map(attribute =>
+              importForAttribute(
                 objectType.libraryName,
                 makePublicImports,
-                importForAttribute,
+                attribute,
               ),
             );
       return baseImports.concat(typeLookupImports).concat(attributeImports);
@@ -519,8 +513,8 @@ export function createPlugin(): ObjectSpec.Plugin {
       const supportsValueSemantics: boolean = ObjectSpecUtils.typeSupportsValueObjectSemantics(
         objectType,
       );
-      return objectType.attributes.map(
-        FunctionUtils.pApplyf2(supportsValueSemantics, propertyFromAttribute),
+      return objectType.attributes.map(attribute =>
+        propertyFromAttribute(supportsValueSemantics, attribute),
       );
     },
     requiredIncludesToRun: ['RMImmutableProperties'],

@@ -132,7 +132,7 @@ function scriptConfigFromPluginCollectionInfo(
     info.basePlugins,
   );
   const additionalPluginConfigs = List.map(
-    FunctionUtils.pApplyf2(configFilePath, pluginConfigForAdditionalPlugin),
+    plugin => pluginConfigForAdditionalPlugin(configFilePath, plugin),
     info.customPluginPaths,
   );
   return List.append(basePluginConfigs, additionalPluginConfigs);
@@ -200,17 +200,13 @@ function parse(
     parsedJson,
   );
   const pluginCollectionEither = Either.map(
-    FunctionUtils.pApplyf2(
-      configurationContext.basePlugins,
-      parsedJsonToPluginCollectionInfo,
-    ),
+    json =>
+      parsedJsonToPluginCollectionInfo(configurationContext.basePlugins, json),
     parsedJson,
   );
   const scriptConfigEither = Either.map(
-    FunctionUtils.pApplyf2(
-      configFilePath,
-      scriptConfigFromPluginCollectionInfo,
-    ),
+    pluginCollection =>
+      scriptConfigFromPluginCollectionInfo(configFilePath, pluginCollection),
     pluginCollectionEither,
   );
   return Either.mbind(function(baseClass: ParsedBaseClassInformation) {
@@ -286,7 +282,7 @@ export function generateConfig(
         either: Either.Either<Error.Error[], File.Contents>,
       ): Either.Either<Error.Error[], GenerationConfig> {
         return Either.mbind(
-          FunctionUtils.pApply2f3(configurationContext, path, parse),
+          contents => parse(configurationContext, path, contents),
           either,
         );
       },

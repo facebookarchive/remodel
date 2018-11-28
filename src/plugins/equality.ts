@@ -455,10 +455,12 @@ function generatorForInvokingSubGenerators(
 ): (attributeValueAccessor: string) => TypeEqualityValue[] {
   return function(attributeValueAccessor: string): TypeEqualityValue[] {
     return generators.reduce(
-      FunctionUtils.pApplyf3(
-        attributeValueAccessor,
-        buildTypeEqualityValuesFromGenerators,
-      ),
+      (soFar, generator) =>
+        buildTypeEqualityValuesFromGenerators(
+          attributeValueAccessor,
+          soFar,
+          generator,
+        ),
       [],
     );
   };
@@ -1442,7 +1444,7 @@ export function createPlugin(): ObjectSpec.Plugin {
     validationErrors: function(objectType: ObjectSpec.Type): Error.Error[] {
       return objectType.attributes
         .filter(doesValueAttributeContainAnUnknownType)
-        .map(FunctionUtils.pApplyf2(objectType, attributeToUnknownTypeError));
+        .map(attribute => attributeToUnknownTypeError(objectType, attribute));
     },
     nullability: function(
       objectType: ObjectSpec.Type,
@@ -1643,11 +1645,8 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
         algebraicType.subtypes,
       )
         .filter(doesAlgebraicAttributeContainAnUnknownType)
-        .map(
-          FunctionUtils.pApplyf2(
-            algebraicType,
-            algebraicAttributeToUnknownTypeError,
-          ),
+        .map(attribute =>
+          algebraicAttributeToUnknownTypeError(algebraicType, attribute),
         );
     },
     nullability: function(

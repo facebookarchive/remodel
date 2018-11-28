@@ -95,11 +95,9 @@ function keywordsForNamedAttributeSubtype(
   subtype: AlgebraicType.NamedAttributeCollectionSubtype,
 ): ObjC.Keyword[] {
   if (subtype.attributes.length > 0) {
-    return [
-      FunctionUtils.pApplyf2(subtype, firstInitializerKeyword)(
-        subtype.attributes[0],
-      ),
-    ].concat(subtype.attributes.slice(1).map(attributeToKeyword));
+    return [firstInitializerKeyword(subtype, subtype.attributes[0])].concat(
+      subtype.attributes.slice(1).map(attributeToKeyword),
+    );
   } else {
     return [
       {
@@ -193,10 +191,10 @@ function initializationClassMethodForSubtype(
   );
   const requiredParameterAssertions: string[] = attributes
     .filter(canAssertExistenceForTypeOfAttribute)
-    .filter(FunctionUtils.pApplyf2(assumeNonnull, isRequiredAttribute))
+    .filter(attribute => isRequiredAttribute(assumeNonnull, attribute))
     .map(toRequiredAssertion);
-  const setterStatements: string[] = attributes.map(
-    FunctionUtils.pApplyf2(subtype, internalValueSettingCodeForAttribute),
+  const setterStatements: string[] = attributes.map(attribute =>
+    internalValueSettingCodeForAttribute(subtype, attribute),
   );
 
   return {
@@ -382,11 +380,8 @@ function enumerationForSubtypesOfAlgebraicType(
   return {
     name: AlgebraicTypeUtils.EnumerationNameForAlgebraicType(algebraicType),
     underlyingType: 'NSUInteger',
-    values: algebraicType.subtypes.map(
-      FunctionUtils.pApplyf2(
-        algebraicType,
-        AlgebraicTypeUtils.EnumerationValueNameForSubtype,
-      ),
+    values: algebraicType.subtypes.map(subtype =>
+      AlgebraicTypeUtils.EnumerationValueNameForSubtype(algebraicType, subtype),
     ),
     isPublic: false,
     comments: [],
@@ -444,11 +439,8 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
       return [];
     },
     classMethods: function(algebraicType: AlgebraicType.Type): ObjC.Method[] {
-      return algebraicType.subtypes.map(
-        FunctionUtils.pApplyf2(
-          algebraicType,
-          initializationClassMethodForSubtype,
-        ),
+      return algebraicType.subtypes.map(subtype =>
+        initializationClassMethodForSubtype(algebraicType, subtype),
       );
     },
     enumerations: function(
@@ -475,20 +467,17 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
       const attributeForwardDeclarations = AlgebraicTypeUtils.allAttributesFromSubtypes(
         algebraicType.subtypes,
       )
-        .filter(
-          FunctionUtils.pApply2f3(
+        .filter(attribute =>
+          shouldForwardDeclareAttribute(
             algebraicType.name,
             makePublicImports,
-            shouldForwardDeclareAttribute,
+            attribute,
           ),
         )
         .map(forwardDeclarationForAttribute);
       const typeLookupForwardDeclarations = algebraicType.typeLookups
-        .filter(
-          FunctionUtils.pApplyf2(
-            algebraicType,
-            isForwardDeclarationRequiredForTypeLookup,
-          ),
+        .filter(typeLookup =>
+          isForwardDeclarationRequiredForTypeLookup(algebraicType, typeLookup),
         )
         .map(forwardDeclarationForTypeLookup);
       return []
@@ -519,30 +508,27 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
         algebraicType,
       );
       const typeLookupImports = algebraicType.typeLookups
-        .filter(
-          FunctionUtils.pApplyf2(algebraicType, isImportRequiredForTypeLookup),
+        .filter(typeLookup =>
+          isImportRequiredForTypeLookup(algebraicType, typeLookup),
         )
-        .map(
-          FunctionUtils.pApply2f3(
+        .map(typeLookup =>
+          importForTypeLookup(
             algebraicType.libraryName,
             makePublicImports,
-            importForTypeLookup,
+            typeLookup,
           ),
         );
       const attributeImports: ObjC.Import[] = AlgebraicTypeUtils.allAttributesFromSubtypes(
         algebraicType.subtypes,
       )
-        .filter(
-          FunctionUtils.pApplyf2(
-            algebraicType.typeLookups,
-            isImportRequiredForAttribute,
-          ),
+        .filter(attribute =>
+          isImportRequiredForAttribute(algebraicType.typeLookups, attribute),
         )
-        .map(
-          FunctionUtils.pApply2f3(
+        .map(attribute =>
+          importForAttribute(
             algebraicType.libraryName,
             makePublicImports,
-            importForAttribute,
+            attribute,
           ),
         );
       return baseImports.concat(typeLookupImports).concat(attributeImports);

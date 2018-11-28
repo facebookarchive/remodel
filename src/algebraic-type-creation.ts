@@ -142,8 +142,8 @@ function shouldRunPluginForIncludes(
   includes: string[],
   plugin: AlgebraicType.Plugin,
 ): boolean {
-  return plugin.requiredIncludesToRun.every(
-    FunctionUtils.pApplyf2(includes, shouldRunPluginForInclude),
+  return plugin.requiredIncludesToRun.every(include =>
+    shouldRunPluginForInclude(includes, include),
   );
 }
 
@@ -152,7 +152,7 @@ function pluginsToRunForAlgebraicType(
   algebraicType: AlgebraicType.Type,
 ): List.List<AlgebraicType.Plugin> {
   return List.filter(
-    FunctionUtils.pApplyf2(algebraicType.includes, shouldRunPluginForIncludes),
+    plugin => shouldRunPluginForIncludes(algebraicType.includes, plugin),
     plugins,
   );
 }

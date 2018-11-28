@@ -40,10 +40,11 @@ function includeMethodInHeader(
       toProtocolString,
     );
     return Maybe.match(
-      FunctionUtils.pApplyf2(
-        implementedProtocolNames,
-        doesNotBelongToAnImplementedProtocol,
-      ),
+      belongsToProtocol =>
+        doesNotBelongToAnImplementedProtocol(
+          implementedProtocolNames,
+          belongsToProtocol,
+        ),
       returnTrue,
       instanceMethod.belongsToProtocol,
     );
@@ -81,18 +82,10 @@ function toGenericizedTypeString(
   returnType: ObjC.ReturnType,
 ): string {
   return Maybe.match(
-    FunctionUtils.pApply2f3(
-      returnType.modifiers,
-      covariantTypes,
-      genericizedType,
-    ),
-    returnVoid,
+    type => genericizedType(returnType.modifiers, covariantTypes, type),
+    () => 'void',
     returnType.type,
   );
-}
-
-function returnVoid(): string {
-  return 'void';
 }
 
 function toTypeString(returnType: ObjC.ReturnType): string {
@@ -248,7 +241,7 @@ function toKeywordString(
   return (
     keyword.name +
     Maybe.match(
-      FunctionUtils.pApplyf2(covariantTypes, toKeywordArgumentString),
+      arg => toKeywordArgumentString(covariantTypes, arg),
       emptyString,
       keyword.argument,
     )
@@ -302,21 +295,15 @@ function toMethodHeaderString(
     ' (' +
     toTypeString(method.returnType) +
     ')' +
-    method.keywords.map(FunctionUtils.pApplyf2([], toKeywordString)).join(' ') +
+    method.keywords.map(keyword => toKeywordString([], keyword)).join(' ') +
     compilerAttributesString +
     ';' +
     toOptionalPreprocessorClosingCodeString(method)
   );
 }
 
-var toClassMethodHeaderString = FunctionUtils.pApplyf2(
-  '+',
-  toMethodHeaderString,
-);
-var toInstanceMethodHeaderString = FunctionUtils.pApplyf2(
-  '-',
-  toMethodHeaderString,
-);
+var toClassMethodHeaderString = method => toMethodHeaderString('+', method);
+var toInstanceMethodHeaderString = method => toMethodHeaderString('-', method);
 
 function toMethodImplementationString(
   methodModifier: string,
@@ -330,7 +317,7 @@ function toMethodImplementationString(
     toGenericizedTypeString(covariantTypes, method.returnType) +
     ')' +
     method.keywords
-      .map(FunctionUtils.pApplyf2(covariantTypes, toKeywordString))
+      .map(keyword => toKeywordString(covariantTypes, keyword))
       .join(' ') +
     '\n' +
     '{\n' +
@@ -340,14 +327,11 @@ function toMethodImplementationString(
   return methodStr;
 }
 
-var toClassMethodImplementationString = FunctionUtils.pApplyf3(
-  '+',
-  toMethodImplementationString,
-);
-var toInstanceMethodImplementationString = FunctionUtils.pApplyf3(
-  '-',
-  toMethodImplementationString,
-);
+var toClassMethodImplementationString = (covariantTypes, method) =>
+  toMethodImplementationString('+', covariantTypes, method);
+
+var toInstanceMethodImplementationString = (covariantTypes, method) =>
+  toMethodImplementationString('-', covariantTypes, method);
 
 function toCovariantTypeString(covariantType: string): string {
   return '__covariant ' + covariantType;
@@ -741,28 +725,17 @@ function headerClassSection(file: Code.File, classInfo: ObjC.Class): string {
     inlinedBlocksStr,
   );
 
+  const implementedProtocols = implementedProtocolsIncludingNSObjectAndADTInit(
+    classInfo.implementedProtocols,
+  );
   const classMethodsStr = classInfo.classMethods
-    .filter(
-      FunctionUtils.pApplyf2(
-        implementedProtocolsIncludingNSObjectAndADTInit(
-          classInfo.implementedProtocols,
-        ),
-        includeMethodInHeader,
-      ),
-    )
+    .filter(method => includeMethodInHeader(implementedProtocols, method))
     .map(toClassMethodHeaderString)
     .join('\n\n');
   const classMethodsSection = codeSectionForCodeString(classMethodsStr);
 
   const instanceMethodsStr = classInfo.instanceMethods
-    .filter(
-      FunctionUtils.pApplyf2(
-        implementedProtocolsIncludingNSObjectAndADTInit(
-          classInfo.implementedProtocols,
-        ),
-        includeMethodInHeader,
-      ),
-    )
+    .filter(method => includeMethodInHeader(implementedProtocols, method))
     .map(toInstanceMethodHeaderString)
     .join('\n\n');
   const instanceMethodsSection = codeSectionForCodeString(instanceMethodsStr);
@@ -830,7 +803,7 @@ export function renderHeader(file: Code.File): Maybe.Maybe<string> {
   );
 
   const classSection = file.classes
-    .map(FunctionUtils.pApplyf2(file, headerClassSection))
+    .map(cls => headerClassSection(file, cls))
     .join('\n\n');
 
   const structsStr = file.structs.map(toStructContents).join('\n');
@@ -891,10 +864,6 @@ function qualifierForFunction(functionDefinition: ObjC.Function): string {
   } else {
     return 'static';
   }
-}
-
-function returnVoidWithASpace(): string {
-  return returnVoid() + ' ';
 }
 
 function toFunctionReturnTypeString(returnType: ObjC.ReturnType): string {
@@ -981,7 +950,7 @@ export function toFunctionImplementationString(
     functionDeclarationForFunction(functionDefinition) +
     ' {\n' +
     functionDefinition.code
-      .map(FunctionUtils.pApplyf2(StringUtils.indent(2), indentFunctionCode))
+      .map(line => indentFunctionCode(StringUtils.indent(2), line))
       .join('\n') +
     '\n}'
   );
@@ -1065,21 +1034,15 @@ function implementationClassSection(classInfo: ObjC.Class): string {
       : '\n';
   const classMethodsStr: string = classInfo.classMethods
     .filter(methodIsNotUnavailableNSObjectMethod)
-    .map(
-      FunctionUtils.pApplyf2(
-        classInfo.covariantTypes,
-        toClassMethodImplementationString,
-      ),
+    .map(method =>
+      toClassMethodImplementationString(classInfo.covariantTypes, method),
     )
     .join('\n\n');
   const classMethodsSection = codeSectionForCodeString(classMethodsStr);
   const instanceMethodsSection = classInfo.instanceMethods
     .filter(methodIsNotUnavailableNSObjectMethod)
-    .map(
-      FunctionUtils.pApplyf2(
-        classInfo.covariantTypes,
-        toInstanceMethodImplementationString,
-      ),
+    .map(method =>
+      toInstanceMethodImplementationString(classInfo.covariantTypes, method),
     )
     .join('\n\n');
 

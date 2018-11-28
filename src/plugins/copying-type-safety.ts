@@ -50,10 +50,10 @@ function copyingValidatorFunction(
       modifiers: [],
     },
     code: attributes
-      .filter(
-        FunctionUtils.pApplyf2(
+      .filter(attribute =>
+        shouldValidateNSCopyingConformanceOfAttribute(
           supportsValueSemantics,
-          shouldValidateNSCopyingConformanceOfAttribute,
+          attribute,
         ),
       )
       .map(

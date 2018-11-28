@@ -339,11 +339,12 @@ export function generate(
 
     const pluginProcessedSequence = LoggingSequenceUtils.mapLoggedSequence(
       parsedSequence,
-      FunctionUtils.pApply2f3(
-        options,
-        valueObjectCreationContextFuture,
-        processObjectSpecCreationRequest,
-      ),
+      context =>
+        processObjectSpecCreationRequest(
+          options,
+          valueObjectCreationContextFuture,
+          context,
+        ),
     );
 
     return WriteFileUtils.evaluateObjectFileWriteRequestSequence(

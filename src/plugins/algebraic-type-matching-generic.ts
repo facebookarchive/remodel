@@ -85,18 +85,23 @@ function genericMatchingCodeForAlgebraicType(
   const localVariableDeclaration: string[] = ['__block id result = nil;', ''];
 
   const matchingBlockCode: string[] = algebraicType.subtypes.reduce(
-    FunctionUtils.pApplyf3(
-      algebraicType,
-      buildLocalFunctionBlockDefinitionsForSubtype,
-    ),
+    (soFar, subtype) =>
+      buildLocalFunctionBlockDefinitionsForSubtype(
+        algebraicType,
+        soFar,
+        subtype,
+      ),
     [],
   );
 
   const keywordPartsForMatchInvocation: string[] = algebraicType.subtypes.reduce(
-    FunctionUtils.pApplyf4(
-      algebraicType,
-      AlgebraicTypeUtilsForMatching.buildKeywordPartsForInvokingMatchMethodForSubtype,
-    ),
+    (soFar, subtype, idx) =>
+      AlgebraicTypeUtilsForMatching.buildKeywordPartsForInvokingMatchMethodForSubtype(
+        algebraicType,
+        soFar,
+        subtype,
+        idx,
+      ),
     [],
   );
   const matchInvocation: string[] = [
@@ -140,12 +145,12 @@ function keywordsForGenericAlgebraicTypeMatcher(
   const firstKeyword: ObjC.Keyword = firstKeywordForGenericMatchMethod(
     algebraicType,
   );
-  const subtypeKeywords: ObjC.Keyword[] = algebraicType.subtypes.map(
-    FunctionUtils.pApply3f4(
+  const subtypeKeywords: ObjC.Keyword[] = algebraicType.subtypes.map(subtype =>
+    AlgebraicTypeUtils.keywordForMatchMethodFromSubtype(
       algebraicType,
       matchingBlockType,
       false,
-      AlgebraicTypeUtils.keywordForMatchMethodFromSubtype,
+      subtype,
     ),
   );
   return [firstKeyword].concat(subtypeKeywords);
@@ -196,6 +201,7 @@ function genericMatchingClassForAlgebraicType(
 function genericMatchingFileForAlgebraicType(
   algebraicType: AlgebraicType.Type,
 ): Code.File {
+  const matchingBlockType = matchingBlockTypeForPlugin();
   return {
     name: fileNameForAlgebraicType(algebraicType),
     type: Code.FileType.ObjectiveC(),
@@ -203,12 +209,12 @@ function genericMatchingFileForAlgebraicType(
     forwardDeclarations: [],
     comments: [],
     enumerations: [],
-    blockTypes: algebraicType.subtypes.map(
-      FunctionUtils.pApply3f4(
+    blockTypes: algebraicType.subtypes.map(subtype =>
+      AlgebraicTypeUtils.blockTypeForSubtype(
         algebraicType,
-        matchingBlockTypeForPlugin(),
+        matchingBlockType,
         true,
-        AlgebraicTypeUtils.blockTypeForSubtype,
+        subtype,
       ),
     ),
     staticConstants: [],

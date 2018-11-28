@@ -91,8 +91,8 @@ export function shouldIncludeImportForType(
 ) {
   return (
     isImportRequiredForTypeWithName(typeName) &&
-    typeLookups.filter(FunctionUtils.pApplyf2(typeName, typeLookupHasName))
-      .length == 0
+    typeLookups.filter(lookup => typeLookupHasName(typeName, lookup)).length ==
+      0
   );
 }
 

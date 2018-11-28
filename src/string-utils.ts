@@ -24,7 +24,7 @@ function indentFunc(spaces: number, str: string): string {
 }
 
 export function indent(spaces: number): (str: string) => string {
-  return FunctionUtils.pApplyf2(spaces, indentFunc);
+  return str => indentFunc(spaces, str);
 }
 
 export function capitalize(str: string): string {

@@ -5,55 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-export function pApplyf2<T, U, V>(val: T, f: (a: T, b: U) => V): (b: U) => V {
-  return function(b: U): V {
-    return f(val, b);
-  };
-}
-
-export function pApplyf3<T, U, V, W>(
-  val: T,
-  f: (a: T, b: U, c: V) => W,
-): (b: U, c: V) => W {
-  return function(b: U, c: V): W {
-    return f(val, b, c);
-  };
-}
-
-export function pApplyf4<T, U, V, W, X>(
-  val: T,
-  f: (a: T, b: U, c: V, d: W) => X,
-): (b: U, c: V, d: W) => X {
-  return function(b: U, c: V, d: W): X {
-    return f(val, b, c, d);
-  };
-}
-
-export function pApply2f3<T, U, V, W>(
-  val1: T,
-  val2: U,
-  f: (a: T, b: U, c: V) => W,
-): (c: V) => W {
-  return pApplyf2(val2, pApplyf3(val1, f));
-}
-
-export function pApply2f4<T, U, V, W, X>(
-  val1: T,
-  val2: U,
-  f: (a: T, b: U, c: V, d: W) => X,
-): (c: V, d: W) => X {
-  return pApplyf3(val2, pApplyf4(val1, f));
-}
-
-export function pApply3f4<T, U, V, W, Y>(
-  val1: T,
-  val2: U,
-  val3: V,
-  f: (a: T, b: U, c: V, d: W) => Y,
-): (d: W) => Y {
-  return pApplyf2(val3, pApplyf3(val2, pApplyf4(val1, f)));
-}
-
 export function zip2<A, B>(a: A[], b: B[]): [A, B][] {
   const length = Math.min(a.length, b.length);
   const result = [];

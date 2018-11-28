@@ -360,7 +360,7 @@ function classFileCreationFunctionWithBaseClassAndPlugins<T>(
       ObjCGenerationPlugIn<T>,
       Either.Either<Error.Error, Maybe.Maybe<Code.FileType>>
     >(
-      FunctionUtils.pApplyf3(typeInformation, buildFileType),
+      (soFar, plugin) => buildFileType(typeInformation, soFar, plugin),
       Either.Right<Error.Error, Maybe.Maybe<Code.FileType>>(
         Maybe.Nothing<Code.FileType>(),
       ),
@@ -370,7 +370,7 @@ function classFileCreationFunctionWithBaseClassAndPlugins<T>(
       ObjCGenerationPlugIn<T>,
       Either.Either<Error.Error, Maybe.Maybe<ObjC.ClassNullability>>
     >(
-      FunctionUtils.pApplyf3(typeInformation, buildNullability),
+      (soFar, plugin) => buildNullability(typeInformation, soFar, plugin),
       Either.Right<Error.Error, Maybe.Maybe<ObjC.ClassNullability>>(
         Maybe.Nothing<ObjC.ClassNullability>(),
       ),
@@ -393,7 +393,7 @@ function classFileCreationFunctionWithBaseClassAndPlugins<T>(
           baseClassName,
           baseClassLibraryName,
           List.foldl<ObjCGenerationPlugIn<T>, ObjC.Import[]>(
-            FunctionUtils.pApplyf3(typeInformation, buildImports),
+            (soFar, plugin) => buildImports(typeInformation, soFar, plugin),
             [],
             plugins,
           ),
@@ -401,13 +401,13 @@ function classFileCreationFunctionWithBaseClassAndPlugins<T>(
         comments: commentListWithPathToValueFile(
           pathToValueFile,
           List.foldl<ObjCGenerationPlugIn<T>, ObjC.Comment[]>(
-            FunctionUtils.pApplyf3(typeInformation, buildComments),
+            (soFar, plugin) => buildComments(typeInformation, soFar, plugin),
             [],
             plugins,
           ),
         ),
         enumerations: List.foldl<ObjCGenerationPlugIn<T>, ObjC.Enumeration[]>(
-          FunctionUtils.pApplyf3(typeInformation, buildEnumerations),
+          (soFar, plugin) => buildEnumerations(typeInformation, soFar, plugin),
           [],
           plugins,
         ),
@@ -415,28 +415,30 @@ function classFileCreationFunctionWithBaseClassAndPlugins<T>(
           ObjCGenerationPlugIn<T>,
           ObjC.ForwardDeclaration[]
         >(
-          FunctionUtils.pApplyf3(typeInformation, buildForwardDeclarations),
+          (soFar, plugin) =>
+            buildForwardDeclarations(typeInformation, soFar, plugin),
           [],
           plugins,
         ),
         blockTypes: List.foldl<ObjCGenerationPlugIn<T>, ObjC.BlockType[]>(
-          FunctionUtils.pApplyf3(typeInformation, buildBlockTypes),
+          (soFar, plugin) => buildBlockTypes(typeInformation, soFar, plugin),
           [],
           plugins,
         ),
         diagnosticIgnores: List.toArray(diagnosticIgnores),
         staticConstants: List.foldl<ObjCGenerationPlugIn<T>, ObjC.Constant[]>(
-          FunctionUtils.pApplyf3(typeInformation, buildStaticConstants),
+          (soFar, plugin) =>
+            buildStaticConstants(typeInformation, soFar, plugin),
           [],
           plugins,
         ),
         functions: List.foldl<ObjCGenerationPlugIn<T>, ObjC.Function[]>(
-          FunctionUtils.pApplyf3(typeInformation, buildFunctions),
+          (soFar, plugin) => buildFunctions(typeInformation, soFar, plugin),
           [],
           plugins,
         ),
         macros: List.foldl<ObjCGenerationPlugIn<T>, ObjC.Macro[]>(
-          FunctionUtils.pApplyf3(typeInformation, buildMacros),
+          (soFar, plugin) => buildMacros(typeInformation, soFar, plugin),
           [],
           plugins,
         ),
@@ -446,18 +448,21 @@ function classFileCreationFunctionWithBaseClassAndPlugins<T>(
             covariantTypes: [],
             comments: ObjCCommentUtils.commentsAsBlockFromStringArray(comments),
             classMethods: List.foldl<ObjCGenerationPlugIn<T>, ObjC.Method[]>(
-              FunctionUtils.pApplyf3(typeInformation, buildClassMethods),
+              (soFar, plugin) =>
+                buildClassMethods(typeInformation, soFar, plugin),
               [],
               plugins,
             ).sort(sortInstanceMethodComparitor),
             instanceMethods: List.foldl<ObjCGenerationPlugIn<T>, ObjC.Method[]>(
-              FunctionUtils.pApplyf3(typeInformation, buildInstanceMethods),
+              (soFar, plugin) =>
+                buildInstanceMethods(typeInformation, soFar, plugin),
               [],
               plugins,
             ).sort(sortInstanceMethodComparitor),
             name: typeName,
             properties: List.foldl<ObjCGenerationPlugIn<T>, ObjC.Property[]>(
-              FunctionUtils.pApplyf3(typeInformation, buildProperties),
+              (soFar, plugin) =>
+                buildProperties(typeInformation, soFar, plugin),
               [],
               plugins,
             ),
@@ -465,7 +470,8 @@ function classFileCreationFunctionWithBaseClassAndPlugins<T>(
               ObjCGenerationPlugIn<T>,
               ObjC.InstanceVariable[]
             >(
-              FunctionUtils.pApplyf3(typeInformation, buildInstanceVariables),
+              (soFar, plugin) =>
+                buildInstanceVariables(typeInformation, soFar, plugin),
               [],
               plugins,
             ),
@@ -473,7 +479,7 @@ function classFileCreationFunctionWithBaseClassAndPlugins<T>(
               ObjCGenerationPlugIn<T>,
               ObjC.Protocol[]
             >(
-              FunctionUtils.pApplyf3(typeInformation, buildProtocols),
+              (soFar, plugin) => buildProtocols(typeInformation, soFar, plugin),
               [],
               plugins,
             ),
@@ -496,10 +502,8 @@ function classFileCreationFunctionWithBaseClassAndPlugins<T>(
               nullability,
             ),
             subclassingRestricted: List.foldr<ObjCGenerationPlugIn<T>, boolean>(
-              FunctionUtils.pApplyf3(
-                typeInformation,
-                checkSubclassingRestricted,
-              ),
+              (soFar, plugin) =>
+                checkSubclassingRestricted(typeInformation, soFar, plugin),
               false,
               plugins,
             ),
@@ -658,17 +662,23 @@ function buildFileWriteRequest<T>(
     const additionalFiles: Code.File[] = List.foldl<
       ObjCGenerationPlugIn<T>,
       Code.File[]
-    >(FunctionUtils.pApplyf3(type, buildAdditionalFiles), [], filteredPlugins);
+    >(
+      (soFar, plugin) => buildAdditionalFiles(type, soFar, plugin),
+      [],
+      filteredPlugins,
+    );
 
     const completeFileCreationRequest: Either.Either<
       Error.Error,
       FileWriter.FileWriteRequest
     > = additionalFiles.reduceRight(
-      FunctionUtils.pApply2f4(
-        request.outputFlags,
-        outputPath,
-        fileCreationRequestContainingAdditionalFile,
-      ),
+      (creationRequest, file) =>
+        fileCreationRequestContainingAdditionalFile(
+          request.outputFlags,
+          outputPath,
+          creationRequest,
+          file,
+        ),
       fileCreationRequest,
     );
     return fileCreationRequestContainingArrayOfPossibleError(
@@ -700,7 +710,7 @@ function valueObjectsToCreateWithPlugins<T>(
     ObjCGenerationPlugIn<T>,
     Error.Error[]
   >(
-    FunctionUtils.pApplyf3(typeInformation, buildValidationErrors),
+    (soFar, plugin) => buildValidationErrors(typeInformation, soFar, plugin),
     [],
     plugins,
   );

@@ -454,8 +454,8 @@ export function createPlugin(): ObjectSpec.Plugin {
     validationErrors: function(objectType: ObjectSpec.Type): Error.Error[] {
       return objectType.attributes
         .filter(doesValueAttributeContainAnUnknownType)
-        .map(
-          FunctionUtils.pApplyf2(objectType, valueAttributeToUnknownTypeError),
+        .map(attribute =>
+          valueAttributeToUnknownTypeError(objectType, attribute),
         );
     },
     nullability: function(
@@ -495,10 +495,11 @@ function returnStatementForAlgebraicSubtype(
       namedAttributeCollectionSubtype: AlgebraicType.NamedAttributeCollectionSubtype,
     ) {
       const attributeDescriptions: ComputedAttributeDescription[] = namedAttributeCollectionSubtype.attributes.map(
-        FunctionUtils.pApplyf2(
-          subtype,
-          computedAttributeDescriptionFromAlgebraicSubtypeAttribute,
-        ),
+        attribute =>
+          computedAttributeDescriptionFromAlgebraicSubtypeAttribute(
+            subtype,
+            attribute,
+          ),
       );
       return [
         returnStatementForAttributeDescriptions(
@@ -651,11 +652,8 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
         algebraicType.subtypes,
       )
         .filter(doesAlgebraicAttributeContainAnUnknownType)
-        .map(
-          FunctionUtils.pApplyf2(
-            algebraicType,
-            algebraicAttributeToUnknownTypeError,
-          ),
+        .map(attribute =>
+          algebraicAttributeToUnknownTypeError(algebraicType, attribute),
         );
     },
     nullability: function(

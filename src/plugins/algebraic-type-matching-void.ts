@@ -27,12 +27,13 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
       return [];
     },
     blockTypes: function(algebraicType: AlgebraicType.Type): ObjC.BlockType[] {
-      return algebraicType.subtypes.map(
-        FunctionUtils.pApply3f4(
+      const matchingBlockType = matchingBlockTypeForPlugin();
+      return algebraicType.subtypes.map(subtype =>
+        AlgebraicTypeUtils.blockTypeForSubtype(
           algebraicType,
-          matchingBlockTypeForPlugin(),
+          matchingBlockType,
           false,
-          AlgebraicTypeUtils.blockTypeForSubtype,
+          subtype,
         ),
       );
     },

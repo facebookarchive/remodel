@@ -111,7 +111,7 @@ export function aapply<T, U>(
 export function all<T>(futures: List.List<Future<T>>): Future<List.List<T>> {
   const partialFutures = List.map(function(future: Future<T>) {
     return map(function(val: T) {
-      return FunctionUtils.pApplyf2(val, List.cons);
+      return result => List.cons(val, result);
     }, future);
   }, futures);
   return List.foldr(

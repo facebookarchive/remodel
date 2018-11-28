@@ -337,11 +337,12 @@ export function generate(
 
     const pluginProcessedSequence = LoggingSequenceUtils.mapLoggedSequence(
       parsedSequence,
-      FunctionUtils.pApply2f3(
-        options,
-        algebraicTypeCreationContextFuture,
-        processAlgebraicTypeCreationRequest,
-      ),
+      either =>
+        processAlgebraicTypeCreationRequest(
+          options,
+          algebraicTypeCreationContextFuture,
+          either,
+        ),
     );
 
     return WriteFileUtils.evaluateObjectFileWriteRequestSequence(

@@ -79,15 +79,15 @@ Feature: Outputting forward declarations in Algebraic Types
       #import "SomeType.h"
       #import <RMLib/RMProxy.h>
 
-      typedef NS_ENUM(NSUInteger, _SimpleADTSubtypes) {
-        _SimpleADTSubtypesFirstSubtype,
-        _SimpleADTSubtypesSomeRandomSubtype,
-        _SimpleADTSubtypesSecondSubtype
+      typedef NS_ENUM(NSUInteger, SimpleADTSubtypes) {
+        SimpleADTSubtypesFirstSubtype,
+        SimpleADTSubtypesSomeRandomSubtype,
+        SimpleADTSubtypesSecondSubtype
       };
 
       @implementation SimpleADT
       {
-        _SimpleADTSubtypes _subtype;
+        SimpleADTSubtypes _subtype;
         RMProxy *_firstSubtype_firstValue;
         NSUInteger _firstSubtype_secondValue;
         NSArray<SomeType *> *_firstSubtype_thirdValue;
@@ -97,7 +97,7 @@ Feature: Outputting forward declarations in Algebraic Types
       + (instancetype)firstSubtypeWithFirstValue:(RMProxy *)firstValue secondValue:(NSUInteger)secondValue thirdValue:(NSArray<SomeType *> *)thirdValue
       {
         SimpleADT *object = [(id)self new];
-        object->_subtype = _SimpleADTSubtypesFirstSubtype;
+        object->_subtype = SimpleADTSubtypesFirstSubtype;
         object->_firstSubtype_firstValue = firstValue;
         object->_firstSubtype_secondValue = secondValue;
         object->_firstSubtype_thirdValue = thirdValue;
@@ -107,7 +107,7 @@ Feature: Outputting forward declarations in Algebraic Types
       + (instancetype)secondSubtypeWithSomething:(BOOL)something
       {
         SimpleADT *object = [(id)self new];
-        object->_subtype = _SimpleADTSubtypesSecondSubtype;
+        object->_subtype = SimpleADTSubtypesSecondSubtype;
         object->_secondSubtype_something = something;
         return object;
       }
@@ -115,7 +115,7 @@ Feature: Outputting forward declarations in Algebraic Types
       + (instancetype)someRandomSubtype
       {
         SimpleADT *object = [(id)self new];
-        object->_subtype = _SimpleADTSubtypesSomeRandomSubtype;
+        object->_subtype = SimpleADTSubtypesSomeRandomSubtype;
         return object;
       }
 
@@ -127,15 +127,15 @@ Feature: Outputting forward declarations in Algebraic Types
       - (NSString *)description
       {
         switch (_subtype) {
-          case _SimpleADTSubtypesFirstSubtype: {
+          case SimpleADTSubtypesFirstSubtype: {
             return [NSString stringWithFormat:@"%@ - FirstSubtype \n\t firstValue: %@; \n\t secondValue: %llu; \n\t thirdValue: %@; \n", [super description], _firstSubtype_firstValue, (unsigned long long)_firstSubtype_secondValue, _firstSubtype_thirdValue];
             break;
           }
-          case _SimpleADTSubtypesSomeRandomSubtype: {
+          case SimpleADTSubtypesSomeRandomSubtype: {
             return [NSString stringWithFormat:@"%@ - SomeRandomSubtype \n", [super description]];
             break;
           }
-          case _SimpleADTSubtypesSecondSubtype: {
+          case SimpleADTSubtypesSecondSubtype: {
             return [NSString stringWithFormat:@"%@ - SecondSubtype \n\t something: %@; \n", [super description], _secondSubtype_something ? @"YES" : @"NO"];
             break;
           }
@@ -177,19 +177,19 @@ Feature: Outputting forward declarations in Algebraic Types
       - (void)matchFirstSubtype:(NS_NOESCAPE SimpleADTFirstSubtypeMatchHandler)firstSubtypeMatchHandler someRandomSubtype:(NS_NOESCAPE SimpleADTSomeRandomSubtypeMatchHandler)someRandomSubtypeMatchHandler secondSubtype:(NS_NOESCAPE SimpleADTSecondSubtypeMatchHandler)secondSubtypeMatchHandler
       {
         switch (_subtype) {
-          case _SimpleADTSubtypesFirstSubtype: {
+          case SimpleADTSubtypesFirstSubtype: {
             if (firstSubtypeMatchHandler) {
               firstSubtypeMatchHandler(_firstSubtype_firstValue, _firstSubtype_secondValue, _firstSubtype_thirdValue);
             }
             break;
           }
-          case _SimpleADTSubtypesSomeRandomSubtype: {
+          case SimpleADTSubtypesSomeRandomSubtype: {
             if (someRandomSubtypeMatchHandler) {
               someRandomSubtypeMatchHandler();
             }
             break;
           }
-          case _SimpleADTSubtypesSecondSubtype: {
+          case SimpleADTSubtypesSecondSubtype: {
             if (secondSubtypeMatchHandler) {
               secondSubtypeMatchHandler(_secondSubtype_something);
             }
@@ -278,15 +278,15 @@ Feature: Outputting forward declarations in Algebraic Types
       #import "SimpleADT.h"
       #import <RMLib/RMProxy.h>
 
-      typedef NS_ENUM(NSUInteger, _SimpleADTSubtypes) {
-        _SimpleADTSubtypesFirstSubtype,
-        _SimpleADTSubtypesSomeRandomSubtype,
-        _SimpleADTSubtypesSecondSubtype
+      typedef NS_ENUM(NSUInteger, SimpleADTSubtypes) {
+        SimpleADTSubtypesFirstSubtype,
+        SimpleADTSubtypesSomeRandomSubtype,
+        SimpleADTSubtypesSecondSubtype
       };
 
       @implementation SimpleADT
       {
-        _SimpleADTSubtypes _subtype;
+        SimpleADTSubtypes _subtype;
         RMProxy *_firstSubtype_firstValue;
         MyEnum _firstSubtype_secondValue;
         BOOL _secondSubtype_something;
@@ -295,7 +295,7 @@ Feature: Outputting forward declarations in Algebraic Types
       + (instancetype)firstSubtypeWithFirstValue:(RMProxy *)firstValue secondValue:(MyEnum)secondValue
       {
         SimpleADT *object = [(id)self new];
-        object->_subtype = _SimpleADTSubtypesFirstSubtype;
+        object->_subtype = SimpleADTSubtypesFirstSubtype;
         object->_firstSubtype_firstValue = firstValue;
         object->_firstSubtype_secondValue = secondValue;
         return object;
@@ -304,7 +304,7 @@ Feature: Outputting forward declarations in Algebraic Types
       + (instancetype)secondSubtypeWithSomething:(BOOL)something
       {
         SimpleADT *object = [(id)self new];
-        object->_subtype = _SimpleADTSubtypesSecondSubtype;
+        object->_subtype = SimpleADTSubtypesSecondSubtype;
         object->_secondSubtype_something = something;
         return object;
       }
@@ -312,7 +312,7 @@ Feature: Outputting forward declarations in Algebraic Types
       + (instancetype)someRandomSubtype
       {
         SimpleADT *object = [(id)self new];
-        object->_subtype = _SimpleADTSubtypesSomeRandomSubtype;
+        object->_subtype = SimpleADTSubtypesSomeRandomSubtype;
         return object;
       }
 
@@ -324,15 +324,15 @@ Feature: Outputting forward declarations in Algebraic Types
       - (NSString *)description
       {
         switch (_subtype) {
-          case _SimpleADTSubtypesFirstSubtype: {
+          case SimpleADTSubtypesFirstSubtype: {
             return [NSString stringWithFormat:@"%@ - FirstSubtype \n\t firstValue: %@; \n\t secondValue: %llu; \n", [super description], _firstSubtype_firstValue, (unsigned long long)_firstSubtype_secondValue];
             break;
           }
-          case _SimpleADTSubtypesSomeRandomSubtype: {
+          case SimpleADTSubtypesSomeRandomSubtype: {
             return [NSString stringWithFormat:@"%@ - SomeRandomSubtype \n", [super description]];
             break;
           }
-          case _SimpleADTSubtypesSecondSubtype: {
+          case SimpleADTSubtypesSecondSubtype: {
             return [NSString stringWithFormat:@"%@ - SecondSubtype \n\t something: %@; \n", [super description], _secondSubtype_something ? @"YES" : @"NO"];
             break;
           }
@@ -373,19 +373,19 @@ Feature: Outputting forward declarations in Algebraic Types
       - (void)matchFirstSubtype:(NS_NOESCAPE SimpleADTFirstSubtypeMatchHandler)firstSubtypeMatchHandler someRandomSubtype:(NS_NOESCAPE SimpleADTSomeRandomSubtypeMatchHandler)someRandomSubtypeMatchHandler secondSubtype:(NS_NOESCAPE SimpleADTSecondSubtypeMatchHandler)secondSubtypeMatchHandler
       {
         switch (_subtype) {
-          case _SimpleADTSubtypesFirstSubtype: {
+          case SimpleADTSubtypesFirstSubtype: {
             if (firstSubtypeMatchHandler) {
               firstSubtypeMatchHandler(_firstSubtype_firstValue, _firstSubtype_secondValue);
             }
             break;
           }
-          case _SimpleADTSubtypesSomeRandomSubtype: {
+          case SimpleADTSubtypesSomeRandomSubtype: {
             if (someRandomSubtypeMatchHandler) {
               someRandomSubtypeMatchHandler();
             }
             break;
           }
-          case _SimpleADTSubtypesSecondSubtype: {
+          case SimpleADTSubtypesSecondSubtype: {
             if (secondSubtypeMatchHandler) {
               secondSubtypeMatchHandler(_secondSubtype_something);
             }

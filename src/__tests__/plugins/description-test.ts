@@ -1574,11 +1574,11 @@ describe('AlgebraicTypePlugins.Description', function() {
             belongsToProtocol: Maybe.Just('NSObject'),
             code: [
               'switch (_subtype) {',
-              '  case _TestSubtypesSomeSubtype: {',
+              '  case TestSubtypesSomeSubtype: {',
               '    return [NSString stringWithFormat:@"%@ - SomeSubtype \\n\\t someString: %@; \\n\\t someUnsignedInteger: %llu; \\n", [super description], _someSubtype_someString, (unsigned long long)_someSubtype_someUnsignedInteger];',
               '    break;',
               '  }',
-              '  case _TestSubtypesCoolSingleAttributeBoolSubtype: {',
+              '  case TestSubtypesCoolSingleAttributeBoolSubtype: {',
               '    return [NSString stringWithFormat:@"%@ - \\n\\t coolSingleAttributeBoolSubtype: %@; \\n", [super description], _coolSingleAttributeBoolSubtype ? @"YES" : @"NO"];',
               '    break;',
               '  }',

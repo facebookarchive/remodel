@@ -61,27 +61,27 @@ Feature: Outputting expected Algebraic Type matching methods
 
       #import "SimpleADT.h"
 
-      typedef NS_ENUM(NSUInteger, _SimpleADTSubtypes) {
-        _SimpleADTSubtypessubtypeA,
-        _SimpleADTSubtypessubtypeB
+      typedef NS_ENUM(NSUInteger, SimpleADTSubtypes) {
+        SimpleADTSubtypesSubtypeA,
+        SimpleADTSubtypesSubtypeB
       };
 
       @implementation SimpleADT
       {
-        _SimpleADTSubtypes _subtype;
+        SimpleADTSubtypes _subtype;
       }
 
       + (instancetype)subtypeA
       {
         SimpleADT *object = [(id)self new];
-        object->_subtype = _SimpleADTSubtypessubtypeA;
+        object->_subtype = SimpleADTSubtypesSubtypeA;
         return object;
       }
 
       + (instancetype)subtypeB
       {
         SimpleADT *object = [(id)self new];
-        object->_subtype = _SimpleADTSubtypessubtypeB;
+        object->_subtype = SimpleADTSubtypesSubtypeB;
         return object;
       }
 
@@ -93,11 +93,11 @@ Feature: Outputting expected Algebraic Type matching methods
       - (NSString *)description
       {
         switch (_subtype) {
-          case _SimpleADTSubtypessubtypeA: {
+          case SimpleADTSubtypesSubtypeA: {
             return [NSString stringWithFormat:@"%@ - subtypeA \n", [super description]];
             break;
           }
-          case _SimpleADTSubtypessubtypeB: {
+          case SimpleADTSubtypesSubtypeB: {
             return [NSString stringWithFormat:@"%@ - subtypeB \n", [super description]];
             break;
           }
@@ -136,13 +136,13 @@ Feature: Outputting expected Algebraic Type matching methods
       {
         __block BOOL result = NO;
         switch (_subtype) {
-          case _SimpleADTSubtypessubtypeA: {
+          case SimpleADTSubtypesSubtypeA: {
             if (subtypeAMatchHandler) {
               result = subtypeAMatchHandler();
             }
             break;
           }
-          case _SimpleADTSubtypessubtypeB: {
+          case SimpleADTSubtypesSubtypeB: {
             if (subtypeBMatchHandler) {
               result = subtypeBMatchHandler();
             }
@@ -216,27 +216,27 @@ Feature: Outputting expected Algebraic Type matching methods
 
       #import "SimpleADT.h"
 
-      typedef NS_ENUM(NSUInteger, _SimpleADTSubtypes) {
-        _SimpleADTSubtypessubtypeA,
-        _SimpleADTSubtypessubtypeB
+      typedef NS_ENUM(NSUInteger, SimpleADTSubtypes) {
+        SimpleADTSubtypesSubtypeA,
+        SimpleADTSubtypesSubtypeB
       };
 
       @implementation SimpleADT
       {
-        _SimpleADTSubtypes _subtype;
+        SimpleADTSubtypes _subtype;
       }
 
       + (instancetype)subtypeA
       {
         SimpleADT *object = [(id)self new];
-        object->_subtype = _SimpleADTSubtypessubtypeA;
+        object->_subtype = SimpleADTSubtypesSubtypeA;
         return object;
       }
 
       + (instancetype)subtypeB
       {
         SimpleADT *object = [(id)self new];
-        object->_subtype = _SimpleADTSubtypessubtypeB;
+        object->_subtype = SimpleADTSubtypesSubtypeB;
         return object;
       }
 
@@ -248,11 +248,11 @@ Feature: Outputting expected Algebraic Type matching methods
       - (NSString *)description
       {
         switch (_subtype) {
-          case _SimpleADTSubtypessubtypeA: {
+          case SimpleADTSubtypesSubtypeA: {
             return [NSString stringWithFormat:@"%@ - subtypeA \n", [super description]];
             break;
           }
-          case _SimpleADTSubtypessubtypeB: {
+          case SimpleADTSubtypesSubtypeB: {
             return [NSString stringWithFormat:@"%@ - subtypeB \n", [super description]];
             break;
           }
@@ -291,13 +291,13 @@ Feature: Outputting expected Algebraic Type matching methods
       {
         __block NSInteger result = 0;
         switch (_subtype) {
-          case _SimpleADTSubtypessubtypeA: {
+          case SimpleADTSubtypesSubtypeA: {
             if (subtypeAMatchHandler) {
               result = subtypeAMatchHandler();
             }
             break;
           }
-          case _SimpleADTSubtypessubtypeB: {
+          case SimpleADTSubtypesSubtypeB: {
             if (subtypeBMatchHandler) {
               result = subtypeBMatchHandler();
             }
@@ -371,27 +371,27 @@ Feature: Outputting expected Algebraic Type matching methods
 
       #import "SimpleADT.h"
 
-      typedef NS_ENUM(NSUInteger, _SimpleADTSubtypes) {
-        _SimpleADTSubtypessubtypeA,
-        _SimpleADTSubtypessubtypeB
+      typedef NS_ENUM(NSUInteger, SimpleADTSubtypes) {
+        SimpleADTSubtypesSubtypeA,
+        SimpleADTSubtypesSubtypeB
       };
 
       @implementation SimpleADT
       {
-        _SimpleADTSubtypes _subtype;
+        SimpleADTSubtypes _subtype;
       }
 
       + (instancetype)subtypeA
       {
         SimpleADT *object = [(id)self new];
-        object->_subtype = _SimpleADTSubtypessubtypeA;
+        object->_subtype = SimpleADTSubtypesSubtypeA;
         return object;
       }
 
       + (instancetype)subtypeB
       {
         SimpleADT *object = [(id)self new];
-        object->_subtype = _SimpleADTSubtypessubtypeB;
+        object->_subtype = SimpleADTSubtypesSubtypeB;
         return object;
       }
 
@@ -403,11 +403,11 @@ Feature: Outputting expected Algebraic Type matching methods
       - (NSString *)description
       {
         switch (_subtype) {
-          case _SimpleADTSubtypessubtypeA: {
+          case SimpleADTSubtypesSubtypeA: {
             return [NSString stringWithFormat:@"%@ - subtypeA \n", [super description]];
             break;
           }
-          case _SimpleADTSubtypessubtypeB: {
+          case SimpleADTSubtypesSubtypeB: {
             return [NSString stringWithFormat:@"%@ - subtypeB \n", [super description]];
             break;
           }
@@ -446,13 +446,13 @@ Feature: Outputting expected Algebraic Type matching methods
       {
         __block double result = 0.0f;
         switch (_subtype) {
-          case _SimpleADTSubtypessubtypeA: {
+          case SimpleADTSubtypesSubtypeA: {
             if (subtypeAMatchHandler) {
               result = subtypeAMatchHandler();
             }
             break;
           }
-          case _SimpleADTSubtypessubtypeB: {
+          case SimpleADTSubtypesSubtypeB: {
             if (subtypeBMatchHandler) {
               result = subtypeBMatchHandler();
             }

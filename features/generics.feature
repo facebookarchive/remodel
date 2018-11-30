@@ -176,15 +176,15 @@ Feature: Outputting Objects With Generic Types
 
       #import "SimpleADT.h"
 
-      typedef NS_ENUM(NSUInteger, _SimpleADTSubtypes) {
-        _SimpleADTSubtypesFirstSubtype,
-        _SimpleADTSubtypesNamesToAgesSingleAttribute,
-        _SimpleADTSubtypesNamesToInventorySingleAttribute
+      typedef NS_ENUM(NSUInteger, SimpleADTSubtypes) {
+        SimpleADTSubtypesFirstSubtype,
+        SimpleADTSubtypesNamesToAgesSingleAttribute,
+        SimpleADTSubtypesNamesToInventorySingleAttribute
       };
 
       @implementation SimpleADT
       {
-        _SimpleADTSubtypes _subtype;
+        SimpleADTSubtypes _subtype;
         NSDictionary<NSString *, NSNumber *> *_firstSubtype_namesToAges;
         NSDictionary<NSString *, NSArray<NSNumber *> *> *_firstSubtype_namesToInventory;
         NSDictionary<NSString *, NSString *> *_namesToAgesSingleAttribute;
@@ -194,7 +194,7 @@ Feature: Outputting Objects With Generic Types
       + (instancetype)firstSubtypeWithNamesToAges:(NSDictionary<NSString *, NSNumber *> *)namesToAges namesToInventory:(NSDictionary<NSString *, NSArray<NSNumber *> *> *)namesToInventory
       {
         SimpleADT *object = [(id)self new];
-        object->_subtype = _SimpleADTSubtypesFirstSubtype;
+        object->_subtype = SimpleADTSubtypesFirstSubtype;
         object->_firstSubtype_namesToAges = namesToAges;
         object->_firstSubtype_namesToInventory = namesToInventory;
         return object;
@@ -203,7 +203,7 @@ Feature: Outputting Objects With Generic Types
       + (instancetype)namesToAgesSingleAttribute:(NSDictionary<NSString *, NSString *> *)namesToAgesSingleAttribute
       {
         SimpleADT *object = [(id)self new];
-        object->_subtype = _SimpleADTSubtypesNamesToAgesSingleAttribute;
+        object->_subtype = SimpleADTSubtypesNamesToAgesSingleAttribute;
         object->_namesToAgesSingleAttribute = namesToAgesSingleAttribute;
         return object;
       }
@@ -211,7 +211,7 @@ Feature: Outputting Objects With Generic Types
       + (instancetype)namesToInventorySingleAttribute:(NSDictionary<NSString *, NSArray<NSNumber *> *> *)namesToInventorySingleAttribute
       {
         SimpleADT *object = [(id)self new];
-        object->_subtype = _SimpleADTSubtypesNamesToInventorySingleAttribute;
+        object->_subtype = SimpleADTSubtypesNamesToInventorySingleAttribute;
         object->_namesToInventorySingleAttribute = namesToInventorySingleAttribute;
         return object;
       }
@@ -224,15 +224,15 @@ Feature: Outputting Objects With Generic Types
       - (NSString *)description
       {
         switch (_subtype) {
-          case _SimpleADTSubtypesFirstSubtype: {
+          case SimpleADTSubtypesFirstSubtype: {
             return [NSString stringWithFormat:@"%@ - FirstSubtype \n\t namesToAges: %@; \n\t namesToInventory: %@; \n", [super description], _firstSubtype_namesToAges, _firstSubtype_namesToInventory];
             break;
           }
-          case _SimpleADTSubtypesNamesToAgesSingleAttribute: {
+          case SimpleADTSubtypesNamesToAgesSingleAttribute: {
             return [NSString stringWithFormat:@"%@ - \n\t namesToAgesSingleAttribute: %@; \n", [super description], _namesToAgesSingleAttribute];
             break;
           }
-          case _SimpleADTSubtypesNamesToInventorySingleAttribute: {
+          case SimpleADTSubtypesNamesToInventorySingleAttribute: {
             return [NSString stringWithFormat:@"%@ - \n\t namesToInventorySingleAttribute: %@; \n", [super description], _namesToInventorySingleAttribute];
             break;
           }
@@ -274,19 +274,19 @@ Feature: Outputting Objects With Generic Types
       - (void)matchFirstSubtype:(NS_NOESCAPE SimpleADTFirstSubtypeMatchHandler)firstSubtypeMatchHandler namesToAgesSingleAttribute:(NS_NOESCAPE SimpleADTNamesToAgesSingleAttributeMatchHandler)namesToAgesSingleAttributeMatchHandler namesToInventorySingleAttribute:(NS_NOESCAPE SimpleADTNamesToInventorySingleAttributeMatchHandler)namesToInventorySingleAttributeMatchHandler
       {
         switch (_subtype) {
-          case _SimpleADTSubtypesFirstSubtype: {
+          case SimpleADTSubtypesFirstSubtype: {
             if (firstSubtypeMatchHandler) {
               firstSubtypeMatchHandler(_firstSubtype_namesToAges, _firstSubtype_namesToInventory);
             }
             break;
           }
-          case _SimpleADTSubtypesNamesToAgesSingleAttribute: {
+          case SimpleADTSubtypesNamesToAgesSingleAttribute: {
             if (namesToAgesSingleAttributeMatchHandler) {
               namesToAgesSingleAttributeMatchHandler(_namesToAgesSingleAttribute);
             }
             break;
           }
-          case _SimpleADTSubtypesNamesToInventorySingleAttribute: {
+          case SimpleADTSubtypesNamesToInventorySingleAttribute: {
             if (namesToInventorySingleAttributeMatchHandler) {
               namesToInventorySingleAttributeMatchHandler(_namesToInventorySingleAttribute);
             }

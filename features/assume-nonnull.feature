@@ -188,9 +188,9 @@ Feature: Outputting Value Objects / Algebraic Types decorated with NS_ASSUME_NON
 
       #import "RMFoo.h"
 
-      typedef NS_ENUM(NSUInteger, _RMFooSubtypes) {
-        _RMFooSubtypesBar,
-        _RMFooSubtypesBaz
+      typedef NS_ENUM(NSUInteger, RMFooSubtypes) {
+        RMFooSubtypesBar,
+        RMFooSubtypesBaz
       };
 
       #define RMParameterAssert(condition) NSCParameterAssert((condition))
@@ -199,7 +199,7 @@ Feature: Outputting Value Objects / Algebraic Types decorated with NS_ASSUME_NON
 
       @implementation RMFoo
       {
-        _RMFooSubtypes _subtype;
+        RMFooSubtypes _subtype;
         NSString *_baz_aString;
         NSString *_baz_bString;
       }
@@ -207,7 +207,7 @@ Feature: Outputting Value Objects / Algebraic Types decorated with NS_ASSUME_NON
       + (instancetype)bar
       {
         RMFoo *object = [(id)self new];
-        object->_subtype = _RMFooSubtypesBar;
+        object->_subtype = RMFooSubtypesBar;
         return object;
       }
 
@@ -215,7 +215,7 @@ Feature: Outputting Value Objects / Algebraic Types decorated with NS_ASSUME_NON
       {
         RMParameterAssert(aString != nil);
         RMFoo *object = [(id)self new];
-        object->_subtype = _RMFooSubtypesBaz;
+        object->_subtype = RMFooSubtypesBaz;
         object->_baz_aString = aString;
         object->_baz_bString = bString;
         return object;
@@ -229,11 +229,11 @@ Feature: Outputting Value Objects / Algebraic Types decorated with NS_ASSUME_NON
       - (NSString *)description
       {
         switch (_subtype) {
-          case _RMFooSubtypesBar: {
+          case RMFooSubtypesBar: {
             return [NSString stringWithFormat:@"%@ - Bar \n", [super description]];
             break;
           }
-          case _RMFooSubtypesBaz: {
+          case RMFooSubtypesBaz: {
             return [NSString stringWithFormat:@"%@ - Baz \n\t aString: %@; \n\t bString: %@; \n", [super description], _baz_aString, _baz_bString];
             break;
           }
@@ -273,13 +273,13 @@ Feature: Outputting Value Objects / Algebraic Types decorated with NS_ASSUME_NON
       - (void)matchBar:(nullable NS_NOESCAPE RMFooBarMatchHandler)barMatchHandler baz:(nullable NS_NOESCAPE RMFooBazMatchHandler)bazMatchHandler
       {
         switch (_subtype) {
-          case _RMFooSubtypesBar: {
+          case RMFooSubtypesBar: {
             if (barMatchHandler) {
               barMatchHandler();
             }
             break;
           }
-          case _RMFooSubtypesBaz: {
+          case RMFooSubtypesBaz: {
             if (bazMatchHandler) {
               bazMatchHandler(_baz_aString, _baz_bString);
             }

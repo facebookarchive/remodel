@@ -45,7 +45,7 @@ export function subtypeNameFromSubtype(subtype: AlgebraicType.Subtype): string {
     function(
       namedAttributeCollectionSubtype: AlgebraicType.NamedAttributeCollectionSubtype,
     ) {
-      return namedAttributeCollectionSubtype.name;
+      return StringUtils.capitalize(namedAttributeCollectionSubtype.name);
     },
     function(attribute: AlgebraicType.SubtypeAttribute) {
       return StringUtils.capitalize(attribute.name);
@@ -134,7 +134,7 @@ export function valueAccessorForInstanceVariableForAttribute(
 export function EnumerationNameForAlgebraicType(
   algebraicType: AlgebraicType.Type,
 ): string {
-  return '_' + algebraicType.name + 'Subtypes';
+  return algebraicType.name + 'Subtypes';
 }
 
 export function EnumerationValueNameForSubtype(

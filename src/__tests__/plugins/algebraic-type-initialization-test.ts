@@ -301,7 +301,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
             belongsToProtocol: Maybe.Nothing<string>(),
             code: [
               'Foo *object = [(id)self new];',
-              'object->_subtype = _FooSubtypesSomeSubtype;',
+              'object->_subtype = FooSubtypesSomeSubtype;',
               'return object;',
             ],
             comments: [],
@@ -399,7 +399,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
             belongsToProtocol: Maybe.Nothing<string>(),
             code: [
               'Test *object = [(id)self new];',
-              'object->_subtype = _TestSubtypesSomeSubtype;',
+              'object->_subtype = TestSubtypesSomeSubtype;',
               'object->_someSubtype_someString = someString;',
               'object->_someSubtype_someUnsignedInteger = someUnsignedInteger;',
               'return object;',
@@ -443,7 +443,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
             belongsToProtocol: Maybe.Nothing<string>(),
             code: [
               'Test *object = [(id)self new];',
-              'object->_subtype = _TestSubtypesSingleAttributeSubtype;',
+              'object->_subtype = TestSubtypesSingleAttributeSubtype;',
               'object->_singleAttributeSubtype = singleAttributeSubtype;',
               'return object;',
             ],
@@ -550,8 +550,8 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
             comments: [],
             name: 'subtype',
             returnType: {
-              name: '_TestSubtypes',
-              reference: '_TestSubtypes',
+              name: 'TestSubtypes',
+              reference: 'TestSubtypes',
             },
             modifiers: [],
             access: ObjC.InstanceVariableAccess.Private(),
@@ -658,12 +658,9 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
       const enumerations = AlgebraicTypePlugin.enumerations(algebraicType);
 
       const expectedEnumeration: ObjC.Enumeration = {
-        name: '_FooSubtypes',
+        name: 'FooSubtypes',
         underlyingType: 'NSUInteger',
-        values: [
-          '_FooSubtypesSomeSubtype',
-          '_FooSubtypesSingleAttributeSubtype',
-        ],
+        values: ['FooSubtypesSomeSubtype', 'FooSubtypesSingleAttributeSubtype'],
         isPublic: false,
         comments: [],
       };

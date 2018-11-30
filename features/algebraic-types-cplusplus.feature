@@ -70,15 +70,15 @@ Feature: Outputting ObjC++ Algebraic Types
 
       #import "SimpleADT.h"
 
-      typedef NS_ENUM(NSUInteger, _SimpleADTSubtypes) {
-        _SimpleADTSubtypesFirstSubtype,
-        _SimpleADTSubtypesSomeRandomSubtype,
-        _SimpleADTSubtypesSecondSubtype
+      typedef NS_ENUM(NSUInteger, SimpleADTSubtypes) {
+        SimpleADTSubtypesFirstSubtype,
+        SimpleADTSubtypesSomeRandomSubtype,
+        SimpleADTSubtypesSecondSubtype
       };
 
       @implementation SimpleADT
       {
-        _SimpleADTSubtypes _subtype;
+        SimpleADTSubtypes _subtype;
         NSString *_firstSubtype_firstValue;
         NSUInteger _firstSubtype_secondValue;
         BOOL _secondSubtype_something;
@@ -87,7 +87,7 @@ Feature: Outputting ObjC++ Algebraic Types
       + (instancetype)firstSubtypeWithFirstValue:(NSString *)firstValue secondValue:(NSUInteger)secondValue
       {
         SimpleADT *object = [(id)self new];
-        object->_subtype = _SimpleADTSubtypesFirstSubtype;
+        object->_subtype = SimpleADTSubtypesFirstSubtype;
         object->_firstSubtype_firstValue = firstValue;
         object->_firstSubtype_secondValue = secondValue;
         return object;
@@ -96,7 +96,7 @@ Feature: Outputting ObjC++ Algebraic Types
       + (instancetype)secondSubtypeWithSomething:(BOOL)something
       {
         SimpleADT *object = [(id)self new];
-        object->_subtype = _SimpleADTSubtypesSecondSubtype;
+        object->_subtype = SimpleADTSubtypesSecondSubtype;
         object->_secondSubtype_something = something;
         return object;
       }
@@ -104,7 +104,7 @@ Feature: Outputting ObjC++ Algebraic Types
       + (instancetype)someRandomSubtype
       {
         SimpleADT *object = [(id)self new];
-        object->_subtype = _SimpleADTSubtypesSomeRandomSubtype;
+        object->_subtype = SimpleADTSubtypesSomeRandomSubtype;
         return object;
       }
 
@@ -116,15 +116,15 @@ Feature: Outputting ObjC++ Algebraic Types
       - (NSString *)description
       {
         switch (_subtype) {
-          case _SimpleADTSubtypesFirstSubtype: {
+          case SimpleADTSubtypesFirstSubtype: {
             return [NSString stringWithFormat:@"%@ - FirstSubtype \n\t firstValue: %@; \n\t secondValue: %llu; \n", [super description], _firstSubtype_firstValue, (unsigned long long)_firstSubtype_secondValue];
             break;
           }
-          case _SimpleADTSubtypesSomeRandomSubtype: {
+          case SimpleADTSubtypesSomeRandomSubtype: {
             return [NSString stringWithFormat:@"%@ - SomeRandomSubtype \n", [super description]];
             break;
           }
-          case _SimpleADTSubtypesSecondSubtype: {
+          case SimpleADTSubtypesSecondSubtype: {
             return [NSString stringWithFormat:@"%@ - SecondSubtype \n\t something: %@; \n", [super description], _secondSubtype_something ? @"YES" : @"NO"];
             break;
           }
@@ -165,19 +165,19 @@ Feature: Outputting ObjC++ Algebraic Types
       - (void)matchFirstSubtype:(NS_NOESCAPE SimpleADTFirstSubtypeMatchHandler)firstSubtypeMatchHandler someRandomSubtype:(NS_NOESCAPE SimpleADTSomeRandomSubtypeMatchHandler)someRandomSubtypeMatchHandler secondSubtype:(NS_NOESCAPE SimpleADTSecondSubtypeMatchHandler)secondSubtypeMatchHandler
       {
         switch (_subtype) {
-          case _SimpleADTSubtypesFirstSubtype: {
+          case SimpleADTSubtypesFirstSubtype: {
             if (firstSubtypeMatchHandler) {
               firstSubtypeMatchHandler(_firstSubtype_firstValue, _firstSubtype_secondValue);
             }
             break;
           }
-          case _SimpleADTSubtypesSomeRandomSubtype: {
+          case SimpleADTSubtypesSomeRandomSubtype: {
             if (someRandomSubtypeMatchHandler) {
               someRandomSubtypeMatchHandler();
             }
             break;
           }
-          case _SimpleADTSubtypesSecondSubtype: {
+          case SimpleADTSubtypesSecondSubtype: {
             if (secondSubtypeMatchHandler) {
               secondSubtypeMatchHandler(_secondSubtype_something);
             }

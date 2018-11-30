@@ -432,11 +432,7 @@ function classFileCreationFunctionWithBaseClassAndPlugins<T>(
           [],
           plugins,
         ),
-        functions: List.foldl<ObjCGenerationPlugIn<T>, ObjC.Function[]>(
-          (soFar, plugin) => buildFunctions(typeInformation, soFar, plugin),
-          [],
-          plugins,
-        ),
+        functions: [],
         macros: List.foldl<ObjCGenerationPlugIn<T>, ObjC.Macro[]>(
           (soFar, plugin) => buildMacros(typeInformation, soFar, plugin),
           [],
@@ -453,6 +449,11 @@ function classFileCreationFunctionWithBaseClassAndPlugins<T>(
               [],
               plugins,
             ).sort(sortInstanceMethodComparitor),
+            functions: List.foldl<ObjCGenerationPlugIn<T>, ObjC.Function[]>(
+              (soFar, plugin) => buildFunctions(typeInformation, soFar, plugin),
+              [],
+              plugins,
+            ),
             instanceMethods: List.foldl<ObjCGenerationPlugIn<T>, ObjC.Method[]>(
               (soFar, plugin) =>
                 buildInstanceMethods(typeInformation, soFar, plugin),

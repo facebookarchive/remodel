@@ -1371,6 +1371,9 @@ describe('ObjCRenderer', function() {
         const expectedOutput: Maybe.Maybe<string> = Maybe.Just<string>(
           '#import <RMLibrary/RMSomething.h>\n' +
             '\n' +
+            '@interface RMSomeValue : NSObject\n' +
+            '\n' +
+            '@end\n\n' +
             '#ifdef __cplusplus\n' +
             'extern "C" {\n' +
             '#endif\n' +
@@ -1381,10 +1384,7 @@ describe('ObjCRenderer', function() {
             '\n' +
             '#ifdef __cplusplus\n' +
             '}\n' +
-            '#endif\n\n' +
-            '@interface RMSomeValue : NSObject\n' +
-            '\n' +
-            '@end\n' +
+            '#endif\n' +
             '\n',
         );
 
@@ -2055,7 +2055,7 @@ describe('ObjCRenderer', function() {
             '    return someBlock();\n' +
             '  }\n' +
             '}\n' +
-            '\n\n\n',
+            '\n',
         );
 
         expect(renderedOutput).toEqualJSON(expectedOutput);
@@ -3346,6 +3346,10 @@ describe('ObjCRenderer', function() {
           '#endif\n\n' +
           '#import "RMSomeValue.h"\n' +
           '\n' +
+          'static void ANonPublicFunction();\n\n' +
+          '@implementation RMSomeValue\n' +
+          '\n\n\n' +
+          '@end\n' +
           'extern NSString *APublicFunction(NSString *str, NSUInteger num) {\n' +
           '#if SOMETHING\n' +
           '  return @"foo";\n' +
@@ -3357,14 +3361,11 @@ describe('ObjCRenderer', function() {
           '// Functions are like fungus\n' +
           'static void ANonPublicFunction() {\n' +
           '  something();\n' +
-          '}\n' +
-          '\n' +
-          '@implementation RMSomeValue\n' +
-          '\n\n\n' +
-          '@end\n' +
+          '}\n\n' +
           '\n',
       );
 
+      expect(renderedOutput.value).toEqual(expectedOutput.value);
       expect(renderedOutput).toEqualJSON(expectedOutput);
     });
 
@@ -4024,9 +4025,12 @@ describe('ObjCRenderer', function() {
 
 #define RMSomeMacro(a, b) RMSomeMacroExpansion((a), (b))
 
+static int RMSomeFunction(BOOL parameter);
+
+
 static int RMSomeFunction(BOOL parameter) {
 
-}\n\n\n\n`);
+}\n\n\n`);
 
       expect(renderedOutput).toEqualJSON(expectedOutput);
     });

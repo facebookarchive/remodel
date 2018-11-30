@@ -524,6 +524,7 @@ export interface Class {
   covariantTypes: string[];
   classMethods: Method[];
   comments: Comment[];
+  functions?: Function[];
   instanceMethods: Method[];
   name: string;
   properties: Property[];

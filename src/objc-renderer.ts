@@ -799,12 +799,19 @@ export function renderHeader(file: Code.File): Maybe.Maybe<string> {
   const blocksSection: string = codeSectionForCodeString(blocksStr);
 
   const functionsSection = codeSectionForCodeString(
-    headerFunctionsSection(file.functions),
+    headerFunctionsSection(
+      file.functions.concat(
+        FunctionUtils.flatMap(
+          file.classes,
+          classInfo => classInfo.functions || [],
+        ),
+      ),
+    ),
   );
 
-  const classSection = file.classes
-    .map(cls => headerClassSection(file, cls))
-    .join('\n\n');
+  const classSection = codeSectionForCodeString(
+    file.classes.map(cls => headerClassSection(file, cls)).join('\n\n'),
+  );
 
   const structsStr = file.structs.map(toStructContents).join('\n');
   const structsSection = codeSectionForCodeString(structsStr);
@@ -820,11 +827,10 @@ export function renderHeader(file: Code.File): Maybe.Maybe<string> {
     declarationsSection +
     enumerationsSection +
     blocksSection +
-    functionsSection +
     structsSection +
     namespacesSection +
     classSection +
-    '\n\n';
+    functionsSection;
   return Maybe.Just<string>(contents);
 }
 
@@ -1052,10 +1058,16 @@ function implementationClassSection(classInfo: ObjC.Class): string {
   const postfixClassMacrosSection: string =
     postfixClassMacrosStr !== '' ? '\n\n' + postfixClassMacrosStr : '';
 
+  const functionsStr = (classInfo.functions || [])
+    .map(toFunctionImplementationString)
+    .join('\n\n');
+  const functionsSection = codeSectionForCodeString(functionsStr);
+
   return (
     prefixClassMacrosSection +
     classSection +
     instanceVariablesSection +
+    functionsSection +
     classMethodsSection +
     instanceMethodsSection +
     '\n\n@end' +
@@ -1177,6 +1189,14 @@ export function renderImplementation(file: Code.File): Maybe.Maybe<string> {
     const macrosStr = file.macros.map(toMacroImplementationString).join('\n\n');
     const macrosSection = codeSectionForCodeString(macrosStr);
 
+    const staticFunctionProtoStr = file.functions
+      .filter(func => !func.isPublic)
+      .map(func => functionDeclarationForFunction(func) + ';')
+      .join('\n');
+    const staticFunctionProtoSection = codeSectionForCodeString(
+      staticFunctionProtoStr,
+    );
+
     const functionStr = file.functions
       .map(toFunctionImplementationString)
       .join('\n\n');
@@ -1195,9 +1215,10 @@ export function renderImplementation(file: Code.File): Maybe.Maybe<string> {
       enumerationsSection +
       blocksSection +
       macrosSection +
-      functionsSection +
+      staticFunctionProtoSection +
       classesSection +
       '\n' +
+      functionsSection +
       diagnosticIgnoresEndSection +
       '\n';
 

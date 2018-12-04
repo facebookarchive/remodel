@@ -164,6 +164,22 @@ function matcherFunctionCodeForAlgebraicType(
     .concat(endFunctionDeclaration);
 }
 
+function matcherFunctionShimCodeForAlgebraicType(
+  algebraicType: AlgebraicType.Type,
+): string[] {
+  const functionDeclaration: string =
+    'static T match(' +
+    functionParameterProviderWithAlgebraicTypeLast(algebraicType).join(', ') +
+    ') {';
+  return [
+    functionDeclaration,
+    `  return match(${matcherFunctionParameterNameForAlgebraicType(
+      algebraicType,
+    )}, ${algebraicType.subtypes.map(matchBlockNameForSubtype).join(', ')});`,
+    '}',
+  ];
+}
+
 function templateForMatchingAlgebraicTypeWithCode(
   code: string[],
 ): CPlusPlus.Template {
@@ -189,10 +205,7 @@ function structForMatchingAlgebraicType(
         algebraicType,
         functionParameterProviderWithAlgebraicTypeFirst,
       ),
-      matcherFunctionCodeForAlgebraicType(
-        algebraicType,
-        functionParameterProviderWithAlgebraicTypeLast,
-      ),
+      matcherFunctionShimCodeForAlgebraicType(algebraicType),
     ],
   };
 }

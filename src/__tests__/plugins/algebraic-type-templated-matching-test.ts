@@ -154,23 +154,7 @@ describe('Plugins.AlgebraicTypeTemplatedMatching', function() {
               ],
               [
                 'static T match(T(^someSubtypeMatchHandler)(NSString *someString, NSUInteger someUnsignedInteger), T(^greatThingMatchHandler)(), T(^coolSingleAttributeSubtypeMatchHandler)(SingleAttributeType *coolSingleAttributeSubtype), RMTest *test) {',
-                '  NSCAssert(test != nil, @"The ADT object test is nil");',
-                '  __block std::unique_ptr<T> result;',
-                '',
-                '  RMTestSomeSubtypeMatchHandler matchSomeSubtype = ^(NSString *someString, NSUInteger someUnsignedInteger) {',
-                '    result = std::make_unique<T>(someSubtypeMatchHandler(someString, someUnsignedInteger));',
-                '  };',
-                '',
-                '  RMTestGreatThingMatchHandler matchGreatThing = ^(void) {',
-                '    result = std::make_unique<T>(greatThingMatchHandler());',
-                '  };',
-                '',
-                '  RMTestCoolSingleAttributeSubtypeMatchHandler matchCoolSingleAttributeSubtype = ^(SingleAttributeType *coolSingleAttributeSubtype) {',
-                '    result = std::make_unique<T>(coolSingleAttributeSubtypeMatchHandler(coolSingleAttributeSubtype));',
-                '  };',
-                '',
-                '  [test matchSomeSubtype:matchSomeSubtype greatThing:matchGreatThing coolSingleAttributeSubtype:matchCoolSingleAttributeSubtype];',
-                '  return *result;',
+                '  return match(test, someSubtypeMatchHandler, greatThingMatchHandler, coolSingleAttributeSubtypeMatchHandler);',
                 '}',
               ],
             ],
@@ -180,7 +164,7 @@ describe('Plugins.AlgebraicTypeTemplatedMatching', function() {
         macros: [],
       };
 
-      expect(additionalFiles).toContain(expectedFile);
+      expect(additionalFiles[0]).toEqual(expectedFile);
     });
   });
 });

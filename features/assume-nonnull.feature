@@ -167,7 +167,7 @@ Feature: Outputting Value Objects / Algebraic Types decorated with NS_ASSUME_NON
 
       - (instancetype)init NS_UNAVAILABLE;
 
-      - (void)matchBar:(nullable NS_NOESCAPE RMFooBarMatchHandler)barMatchHandler baz:(nullable NS_NOESCAPE RMFooBazMatchHandler)bazMatchHandler NS_SWIFT_NAME(match(bar:baz:));
+      - (void)matchBar:(nullable NS_NOESCAPE __unsafe_unretained RMFooBarMatchHandler)barMatchHandler baz:(nullable NS_NOESCAPE __unsafe_unretained RMFooBazMatchHandler)bazMatchHandler NS_SWIFT_NAME(match(bar:baz:));
 
       @end
 
@@ -270,7 +270,7 @@ Feature: Outputting Value Objects / Algebraic Types decorated with NS_ASSUME_NON
           (_baz_bString == object->_baz_bString ? YES : [_baz_bString isEqual:object->_baz_bString]);
       }
 
-      - (void)matchBar:(nullable NS_NOESCAPE RMFooBarMatchHandler)barMatchHandler baz:(nullable NS_NOESCAPE RMFooBazMatchHandler)bazMatchHandler
+      - (void)matchBar:(nullable NS_NOESCAPE __unsafe_unretained RMFooBarMatchHandler)barMatchHandler baz:(nullable NS_NOESCAPE __unsafe_unretained RMFooBazMatchHandler)bazMatchHandler
       {
         switch (_subtype) {
           case RMFooSubtypesBar: {

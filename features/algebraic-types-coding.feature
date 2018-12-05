@@ -47,7 +47,7 @@ Feature: Outputting Algebraic Types
 
       - (instancetype)init NS_UNAVAILABLE;
 
-      - (void)matchFirstSubtype:(NS_NOESCAPE SimpleADTFirstSubtypeMatchHandler)firstSubtypeMatchHandler secondSubtype:(NS_NOESCAPE SimpleADTSecondSubtypeMatchHandler)secondSubtypeMatchHandler NS_SWIFT_NAME(match(firstSubtype:secondSubtype:));
+      - (void)matchFirstSubtype:(NS_NOESCAPE __unsafe_unretained SimpleADTFirstSubtypeMatchHandler)firstSubtypeMatchHandler secondSubtype:(NS_NOESCAPE __unsafe_unretained SimpleADTSecondSubtypeMatchHandler)secondSubtypeMatchHandler NS_SWIFT_NAME(match(firstSubtype:secondSubtype:));
 
       @end
 
@@ -188,7 +188,7 @@ Feature: Outputting Algebraic Types
           (_firstSubtype_firstValue == object->_firstSubtype_firstValue ? YES : [_firstSubtype_firstValue isEqual:object->_firstSubtype_firstValue]);
       }
 
-      - (void)matchFirstSubtype:(NS_NOESCAPE SimpleADTFirstSubtypeMatchHandler)firstSubtypeMatchHandler secondSubtype:(NS_NOESCAPE SimpleADTSecondSubtypeMatchHandler)secondSubtypeMatchHandler
+      - (void)matchFirstSubtype:(NS_NOESCAPE __unsafe_unretained SimpleADTFirstSubtypeMatchHandler)firstSubtypeMatchHandler secondSubtype:(NS_NOESCAPE __unsafe_unretained SimpleADTSecondSubtypeMatchHandler)secondSubtypeMatchHandler
       {
         switch (_subtype) {
           case SimpleADTSubtypesFirstSubtype: {

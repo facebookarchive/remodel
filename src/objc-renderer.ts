@@ -216,6 +216,7 @@ function toKeywordArgumentModifierString(
     returnString('nonnull'),
     returnString('nullable'),
     returnString('NS_NOESCAPE'),
+    returnString('__unsafe_unretained'),
   );
 }
 

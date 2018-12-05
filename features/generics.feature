@@ -157,7 +157,7 @@ Feature: Outputting Objects With Generic Types
 
       - (instancetype)init NS_UNAVAILABLE;
 
-      - (void)matchFirstSubtype:(NS_NOESCAPE SimpleADTFirstSubtypeMatchHandler)firstSubtypeMatchHandler namesToAgesSingleAttribute:(NS_NOESCAPE SimpleADTNamesToAgesSingleAttributeMatchHandler)namesToAgesSingleAttributeMatchHandler namesToInventorySingleAttribute:(NS_NOESCAPE SimpleADTNamesToInventorySingleAttributeMatchHandler)namesToInventorySingleAttributeMatchHandler NS_SWIFT_NAME(match(firstSubtype:namesToAgesSingleAttribute:namesToInventorySingleAttribute:));
+      - (void)matchFirstSubtype:(NS_NOESCAPE __unsafe_unretained SimpleADTFirstSubtypeMatchHandler)firstSubtypeMatchHandler namesToAgesSingleAttribute:(NS_NOESCAPE __unsafe_unretained SimpleADTNamesToAgesSingleAttributeMatchHandler)namesToAgesSingleAttributeMatchHandler namesToInventorySingleAttribute:(NS_NOESCAPE __unsafe_unretained SimpleADTNamesToInventorySingleAttributeMatchHandler)namesToInventorySingleAttributeMatchHandler NS_SWIFT_NAME(match(firstSubtype:namesToAgesSingleAttribute:namesToInventorySingleAttribute:));
 
       @end
 
@@ -271,7 +271,7 @@ Feature: Outputting Objects With Generic Types
           (_namesToInventorySingleAttribute == object->_namesToInventorySingleAttribute ? YES : [_namesToInventorySingleAttribute isEqual:object->_namesToInventorySingleAttribute]);
       }
 
-      - (void)matchFirstSubtype:(NS_NOESCAPE SimpleADTFirstSubtypeMatchHandler)firstSubtypeMatchHandler namesToAgesSingleAttribute:(NS_NOESCAPE SimpleADTNamesToAgesSingleAttributeMatchHandler)namesToAgesSingleAttributeMatchHandler namesToInventorySingleAttribute:(NS_NOESCAPE SimpleADTNamesToInventorySingleAttributeMatchHandler)namesToInventorySingleAttributeMatchHandler
+      - (void)matchFirstSubtype:(NS_NOESCAPE __unsafe_unretained SimpleADTFirstSubtypeMatchHandler)firstSubtypeMatchHandler namesToAgesSingleAttribute:(NS_NOESCAPE __unsafe_unretained SimpleADTNamesToAgesSingleAttributeMatchHandler)namesToAgesSingleAttributeMatchHandler namesToInventorySingleAttribute:(NS_NOESCAPE __unsafe_unretained SimpleADTNamesToInventorySingleAttributeMatchHandler)namesToInventorySingleAttributeMatchHandler
       {
         switch (_subtype) {
           case SimpleADTSubtypesFirstSubtype: {

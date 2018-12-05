@@ -179,7 +179,10 @@ describe('Plugins.AlgebraicTypeVoidMatching', function() {
             name: 'matchSomeSubtype',
             argument: Maybe.Just<ObjC.KeywordArgument>({
               name: 'someSubtypeMatchHandler',
-              modifiers: [ObjC.KeywordArgumentModifier.Noescape()],
+              modifiers: [
+                ObjC.KeywordArgumentModifier.Noescape(),
+                ObjC.KeywordArgumentModifier.UnsafeUnretained(),
+              ],
               type: {
                 name: 'TestSomeSubtypeMatchHandler',
                 reference: 'TestSomeSubtypeMatchHandler',
@@ -190,7 +193,10 @@ describe('Plugins.AlgebraicTypeVoidMatching', function() {
             name: 'singleAttributeSubtype',
             argument: Maybe.Just<ObjC.KeywordArgument>({
               name: 'singleAttributeSubtypeMatchHandler',
-              modifiers: [ObjC.KeywordArgumentModifier.Noescape()],
+              modifiers: [
+                ObjC.KeywordArgumentModifier.Noescape(),
+                ObjC.KeywordArgumentModifier.UnsafeUnretained(),
+              ],
               type: {
                 name: 'TestSingleAttributeSubtypeMatchHandler',
                 reference: 'TestSingleAttributeSubtypeMatchHandler',
@@ -312,7 +318,10 @@ describe('Plugins.AlgebraicTypeBoolMatching', function() {
             name: 'matchBooleanSomeSubtype',
             argument: Maybe.Just<ObjC.KeywordArgument>({
               name: 'someSubtypeMatchHandler',
-              modifiers: [ObjC.KeywordArgumentModifier.Noescape()],
+              modifiers: [
+                ObjC.KeywordArgumentModifier.Noescape(),
+                ObjC.KeywordArgumentModifier.UnsafeUnretained(),
+              ],
               type: {
                 name: 'TestBooleanSomeSubtypeMatchHandler',
                 reference: 'TestBooleanSomeSubtypeMatchHandler',
@@ -323,7 +332,10 @@ describe('Plugins.AlgebraicTypeBoolMatching', function() {
             name: 'singleAttributeSubtype',
             argument: Maybe.Just<ObjC.KeywordArgument>({
               name: 'singleAttributeSubtypeMatchHandler',
-              modifiers: [ObjC.KeywordArgumentModifier.Noescape()],
+              modifiers: [
+                ObjC.KeywordArgumentModifier.Noescape(),
+                ObjC.KeywordArgumentModifier.UnsafeUnretained(),
+              ],
               type: {
                 name: 'TestBooleanSingleAttributeSubtypeMatchHandler',
                 reference: 'TestBooleanSingleAttributeSubtypeMatchHandler',
@@ -453,7 +465,10 @@ describe('Plugins.AlgebraicTypeIntegerMatching', function() {
             name: 'matchIntegerSomeSubtype',
             argument: Maybe.Just<ObjC.KeywordArgument>({
               name: 'someSubtypeMatchHandler',
-              modifiers: [ObjC.KeywordArgumentModifier.Noescape()],
+              modifiers: [
+                ObjC.KeywordArgumentModifier.Noescape(),
+                ObjC.KeywordArgumentModifier.UnsafeUnretained(),
+              ],
               type: {
                 name: 'TestIntegerSomeSubtypeMatchHandler',
                 reference: 'TestIntegerSomeSubtypeMatchHandler',
@@ -464,7 +479,10 @@ describe('Plugins.AlgebraicTypeIntegerMatching', function() {
             name: 'singleAttributeSubtype',
             argument: Maybe.Just<ObjC.KeywordArgument>({
               name: 'singleAttributeSubtypeMatchHandler',
-              modifiers: [ObjC.KeywordArgumentModifier.Noescape()],
+              modifiers: [
+                ObjC.KeywordArgumentModifier.Noescape(),
+                ObjC.KeywordArgumentModifier.UnsafeUnretained(),
+              ],
               type: {
                 name: 'TestIntegerSingleAttributeSubtypeMatchHandler',
                 reference: 'TestIntegerSingleAttributeSubtypeMatchHandler',
@@ -594,7 +612,10 @@ describe('Plugins.AlgebraicTypeDoubleMatching', function() {
             name: 'matchDoubleSomeSubtype',
             argument: Maybe.Just<ObjC.KeywordArgument>({
               name: 'someSubtypeMatchHandler',
-              modifiers: [ObjC.KeywordArgumentModifier.Noescape()],
+              modifiers: [
+                ObjC.KeywordArgumentModifier.Noescape(),
+                ObjC.KeywordArgumentModifier.UnsafeUnretained(),
+              ],
               type: {
                 name: 'TestDoubleSomeSubtypeMatchHandler',
                 reference: 'TestDoubleSomeSubtypeMatchHandler',
@@ -605,7 +626,10 @@ describe('Plugins.AlgebraicTypeDoubleMatching', function() {
             name: 'singleAttributeSubtype',
             argument: Maybe.Just<ObjC.KeywordArgument>({
               name: 'singleAttributeSubtypeMatchHandler',
-              modifiers: [ObjC.KeywordArgumentModifier.Noescape()],
+              modifiers: [
+                ObjC.KeywordArgumentModifier.Noescape(),
+                ObjC.KeywordArgumentModifier.UnsafeUnretained(),
+              ],
               type: {
                 name: 'TestDoubleSingleAttributeSubtypeMatchHandler',
                 reference: 'TestDoubleSingleAttributeSubtypeMatchHandler',
@@ -752,7 +776,10 @@ describe('Plugins.AlgebraicTypeGenericMatching', function() {
             name: 'someSubtype',
             argument: Maybe.Just<ObjC.KeywordArgument>({
               name: 'someSubtypeMatchHandler',
-              modifiers: [ObjC.KeywordArgumentModifier.Noescape()],
+              modifiers: [
+                ObjC.KeywordArgumentModifier.Noescape(),
+                ObjC.KeywordArgumentModifier.UnsafeUnretained(),
+              ],
               type: {
                 name: 'TestObjectTypeSomeSubtypeMatchHandler',
                 reference: 'TestObjectTypeSomeSubtypeMatchHandler',
@@ -763,7 +790,10 @@ describe('Plugins.AlgebraicTypeGenericMatching', function() {
             name: 'singleAttributeSubtype',
             argument: Maybe.Just<ObjC.KeywordArgument>({
               name: 'singleAttributeSubtypeMatchHandler',
-              modifiers: [ObjC.KeywordArgumentModifier.Noescape()],
+              modifiers: [
+                ObjC.KeywordArgumentModifier.Noescape(),
+                ObjC.KeywordArgumentModifier.UnsafeUnretained(),
+              ],
               type: {
                 name: 'TestObjectTypeSingleAttributeSubtypeMatchHandler',
                 reference: 'TestObjectTypeSingleAttributeSubtypeMatchHandler',

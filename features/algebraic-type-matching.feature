@@ -42,7 +42,7 @@ Feature: Outputting expected Algebraic Type matching methods
 
       - (instancetype)init NS_UNAVAILABLE;
 
-      - (BOOL)matchBooleanSubtypeA:(NS_NOESCAPE SimpleADTBooleanSubtypeAMatchHandler)subtypeAMatchHandler subtypeB:(NS_NOESCAPE SimpleADTBooleanSubtypeBMatchHandler)subtypeBMatchHandler NS_SWIFT_NAME(match(subtypeA:subtypeB:));
+      - (BOOL)matchBooleanSubtypeA:(NS_NOESCAPE __unsafe_unretained SimpleADTBooleanSubtypeAMatchHandler)subtypeAMatchHandler subtypeB:(NS_NOESCAPE __unsafe_unretained SimpleADTBooleanSubtypeBMatchHandler)subtypeBMatchHandler NS_SWIFT_NAME(match(subtypeA:subtypeB:));
 
       @end
 
@@ -132,7 +132,7 @@ Feature: Outputting expected Algebraic Type matching methods
           _subtype == object->_subtype;
       }
 
-      - (BOOL)matchBooleanSubtypeA:(NS_NOESCAPE SimpleADTBooleanSubtypeAMatchHandler)subtypeAMatchHandler subtypeB:(NS_NOESCAPE SimpleADTBooleanSubtypeBMatchHandler)subtypeBMatchHandler
+      - (BOOL)matchBooleanSubtypeA:(NS_NOESCAPE __unsafe_unretained SimpleADTBooleanSubtypeAMatchHandler)subtypeAMatchHandler subtypeB:(NS_NOESCAPE __unsafe_unretained SimpleADTBooleanSubtypeBMatchHandler)subtypeBMatchHandler
       {
         __block BOOL result = NO;
         switch (_subtype) {
@@ -197,7 +197,7 @@ Feature: Outputting expected Algebraic Type matching methods
 
       - (instancetype)init NS_UNAVAILABLE;
 
-      - (NSInteger)matchIntegerSubtypeA:(NS_NOESCAPE SimpleADTIntegerSubtypeAMatchHandler)subtypeAMatchHandler subtypeB:(NS_NOESCAPE SimpleADTIntegerSubtypeBMatchHandler)subtypeBMatchHandler NS_SWIFT_NAME(match(subtypeA:subtypeB:));
+      - (NSInteger)matchIntegerSubtypeA:(NS_NOESCAPE __unsafe_unretained SimpleADTIntegerSubtypeAMatchHandler)subtypeAMatchHandler subtypeB:(NS_NOESCAPE __unsafe_unretained SimpleADTIntegerSubtypeBMatchHandler)subtypeBMatchHandler NS_SWIFT_NAME(match(subtypeA:subtypeB:));
 
       @end
 
@@ -287,7 +287,7 @@ Feature: Outputting expected Algebraic Type matching methods
           _subtype == object->_subtype;
       }
 
-      - (NSInteger)matchIntegerSubtypeA:(NS_NOESCAPE SimpleADTIntegerSubtypeAMatchHandler)subtypeAMatchHandler subtypeB:(NS_NOESCAPE SimpleADTIntegerSubtypeBMatchHandler)subtypeBMatchHandler
+      - (NSInteger)matchIntegerSubtypeA:(NS_NOESCAPE __unsafe_unretained SimpleADTIntegerSubtypeAMatchHandler)subtypeAMatchHandler subtypeB:(NS_NOESCAPE __unsafe_unretained SimpleADTIntegerSubtypeBMatchHandler)subtypeBMatchHandler
       {
         __block NSInteger result = 0;
         switch (_subtype) {
@@ -352,7 +352,7 @@ Feature: Outputting expected Algebraic Type matching methods
 
       - (instancetype)init NS_UNAVAILABLE;
 
-      - (double)matchDoubleSubtypeA:(NS_NOESCAPE SimpleADTDoubleSubtypeAMatchHandler)subtypeAMatchHandler subtypeB:(NS_NOESCAPE SimpleADTDoubleSubtypeBMatchHandler)subtypeBMatchHandler NS_SWIFT_NAME(match(subtypeA:subtypeB:));
+      - (double)matchDoubleSubtypeA:(NS_NOESCAPE __unsafe_unretained SimpleADTDoubleSubtypeAMatchHandler)subtypeAMatchHandler subtypeB:(NS_NOESCAPE __unsafe_unretained SimpleADTDoubleSubtypeBMatchHandler)subtypeBMatchHandler NS_SWIFT_NAME(match(subtypeA:subtypeB:));
 
       @end
 
@@ -442,7 +442,7 @@ Feature: Outputting expected Algebraic Type matching methods
           _subtype == object->_subtype;
       }
 
-      - (double)matchDoubleSubtypeA:(NS_NOESCAPE SimpleADTDoubleSubtypeAMatchHandler)subtypeAMatchHandler subtypeB:(NS_NOESCAPE SimpleADTDoubleSubtypeBMatchHandler)subtypeBMatchHandler
+      - (double)matchDoubleSubtypeA:(NS_NOESCAPE __unsafe_unretained SimpleADTDoubleSubtypeAMatchHandler)subtypeAMatchHandler subtypeB:(NS_NOESCAPE __unsafe_unretained SimpleADTDoubleSubtypeBMatchHandler)subtypeBMatchHandler
       {
         __block double result = 0.0f;
         switch (_subtype) {
@@ -496,7 +496,7 @@ Feature: Outputting expected Algebraic Type matching methods
       typedef ObjectType (^SimpleADTObjectTypeSubtypeAMatchHandler)(void);
       typedef ObjectType (^SimpleADTObjectTypeSubtypeBMatchHandler)(void);
 
-      + (ObjectType)match:(SimpleADT *)simpleADT subtypeA:(NS_NOESCAPE SimpleADTObjectTypeSubtypeAMatchHandler)subtypeAMatchHandler subtypeB:(NS_NOESCAPE SimpleADTObjectTypeSubtypeBMatchHandler)subtypeBMatchHandler;
+      + (ObjectType)match:(SimpleADT *)simpleADT subtypeA:(NS_NOESCAPE __unsafe_unretained SimpleADTObjectTypeSubtypeAMatchHandler)subtypeAMatchHandler subtypeB:(NS_NOESCAPE __unsafe_unretained SimpleADTObjectTypeSubtypeBMatchHandler)subtypeBMatchHandler;
 
       @end
 
@@ -512,7 +512,7 @@ Feature: Outputting expected Algebraic Type matching methods
 
       @implementation SimpleADTMatcher
 
-      + (id)match:(SimpleADT *)simpleADT subtypeA:(NS_NOESCAPE SimpleADTObjectTypeSubtypeAMatchHandler)subtypeAMatchHandler subtypeB:(NS_NOESCAPE SimpleADTObjectTypeSubtypeBMatchHandler)subtypeBMatchHandler
+      + (id)match:(SimpleADT *)simpleADT subtypeA:(NS_NOESCAPE __unsafe_unretained SimpleADTObjectTypeSubtypeAMatchHandler)subtypeAMatchHandler subtypeB:(NS_NOESCAPE __unsafe_unretained SimpleADTObjectTypeSubtypeBMatchHandler)subtypeBMatchHandler
       {
         __block id result = nil;
 

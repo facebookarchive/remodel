@@ -316,7 +316,10 @@ export function keywordForMatchMethodFromSubtype(
       modifiers: (assumesNonnull
         ? [ObjC.KeywordArgumentModifier.Nullable()]
         : []
-      ).concat(ObjC.KeywordArgumentModifier.Noescape()),
+      ).concat([
+        ObjC.KeywordArgumentModifier.Noescape(),
+        ObjC.KeywordArgumentModifier.UnsafeUnretained(),
+      ]),
       type: {
         name: blockType.name,
         reference: blockType.name,

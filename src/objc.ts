@@ -57,6 +57,7 @@ enum KeywordArgumentModifierType {
   nonnull,
   nullable,
   noescape,
+  unsafe_unretained,
 }
 
 export class KeywordArgumentModifier {
@@ -77,7 +78,18 @@ export class KeywordArgumentModifier {
     return new KeywordArgumentModifier(KeywordArgumentModifierType.noescape);
   }
 
-  match<T>(nonnull: () => T, nullable: () => T, noescape: () => T) {
+  static UnsafeUnretained() {
+    return new KeywordArgumentModifier(
+      KeywordArgumentModifierType.unsafe_unretained,
+    );
+  }
+
+  match<T>(
+    nonnull: () => T,
+    nullable: () => T,
+    noescape: () => T,
+    unsafe_unretained: () => T,
+  ) {
     switch (this.modifierType) {
       case KeywordArgumentModifierType.nonnull:
         return nonnull();
@@ -85,6 +97,8 @@ export class KeywordArgumentModifier {
         return nullable();
       case KeywordArgumentModifierType.noescape:
         return noescape();
+      case KeywordArgumentModifierType.unsafe_unretained:
+        return unsafe_unretained();
     }
   }
 }

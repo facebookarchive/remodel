@@ -25,7 +25,7 @@ Here is an example of what a fully qualified config file might look like:
   "defaultExcludes": [
     "RMDescription"
   ]
-  "defaultIncludess": [
+  "defaultIncludes": [
     "RMSubclassingRrestricted",
     "RMCoding"
   ],

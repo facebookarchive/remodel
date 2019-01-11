@@ -42,7 +42,6 @@ Feature: Outputting Value Objects With Coded Values
 
       @end
 
-
       """
     And the file "project/values/RMPage.m" should contain:
       """
@@ -138,7 +137,6 @@ Feature: Outputting Value Objects With Coded Values
 
       @end
 
-
       """
     And the file "project/values/RMPage.m" should contain:
       """
@@ -233,7 +231,6 @@ Feature: Outputting Value Objects With Coded Values
       }
 
       @end
-
 
       """
 
@@ -367,7 +364,6 @@ Feature: Outputting Value Objects With Coded Values
 
       @end
 
-
       """
   
   @announce
@@ -487,7 +483,6 @@ Feature: Outputting Value Objects With Coded Values
 
       @end
 
-
       """
     And the file "project/values/RMPage.m" should contain:
       """
@@ -585,6 +580,5 @@ Feature: Outputting Value Objects With Coded Values
       }
 
       @end
-
 
       """

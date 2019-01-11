@@ -38,7 +38,6 @@ Feature: Outputting Objects With Generic Types
 
       @end
 
-
       """
    And the file "project/values/RMPage.m" should contain:
       """
@@ -106,7 +105,6 @@ Feature: Outputting Objects With Generic Types
 
       @end
 
-
       """
   @announce
   Scenario: Generating an algebraic type with generics
@@ -160,7 +158,6 @@ Feature: Outputting Objects With Generic Types
       - (void)matchFirstSubtype:(NS_NOESCAPE __unsafe_unretained SimpleADTFirstSubtypeMatchHandler)firstSubtypeMatchHandler namesToAgesSingleAttribute:(NS_NOESCAPE __unsafe_unretained SimpleADTNamesToAgesSingleAttributeMatchHandler)namesToAgesSingleAttributeMatchHandler namesToInventorySingleAttribute:(NS_NOESCAPE __unsafe_unretained SimpleADTNamesToInventorySingleAttributeMatchHandler)namesToInventorySingleAttributeMatchHandler NS_SWIFT_NAME(match(firstSubtype:namesToAgesSingleAttribute:namesToInventorySingleAttribute:));
 
       @end
-
 
       """
    And the file "project/values/SimpleADT.m" should contain:
@@ -296,6 +293,5 @@ Feature: Outputting Objects With Generic Types
       }
 
       @end
-
 
       """

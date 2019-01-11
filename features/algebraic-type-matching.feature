@@ -46,7 +46,6 @@ Feature: Outputting expected Algebraic Type matching methods
 
       @end
 
-
       """
    And the file "project/values/SimpleADT.m" should contain:
       """
@@ -154,7 +153,6 @@ Feature: Outputting expected Algebraic Type matching methods
 
       @end
 
-
       """
 
   @announce
@@ -200,7 +198,6 @@ Feature: Outputting expected Algebraic Type matching methods
       - (NSInteger)matchIntegerSubtypeA:(NS_NOESCAPE __unsafe_unretained SimpleADTIntegerSubtypeAMatchHandler)subtypeAMatchHandler subtypeB:(NS_NOESCAPE __unsafe_unretained SimpleADTIntegerSubtypeBMatchHandler)subtypeBMatchHandler NS_SWIFT_NAME(match(subtypeA:subtypeB:));
 
       @end
-
 
       """
    And the file "project/values/SimpleADT.m" should contain:
@@ -309,7 +306,6 @@ Feature: Outputting expected Algebraic Type matching methods
 
       @end
 
-
       """
 
   @announce
@@ -355,7 +351,6 @@ Feature: Outputting expected Algebraic Type matching methods
       - (double)matchDoubleSubtypeA:(NS_NOESCAPE __unsafe_unretained SimpleADTDoubleSubtypeAMatchHandler)subtypeAMatchHandler subtypeB:(NS_NOESCAPE __unsafe_unretained SimpleADTDoubleSubtypeBMatchHandler)subtypeBMatchHandler NS_SWIFT_NAME(match(subtypeA:subtypeB:));
 
       @end
-
 
       """
    And the file "project/values/SimpleADT.m" should contain:
@@ -464,7 +459,6 @@ Feature: Outputting expected Algebraic Type matching methods
 
       @end
 
-
       """
 
   @announce
@@ -500,7 +494,6 @@ Feature: Outputting expected Algebraic Type matching methods
 
       @end
 
-
       """
    And the file "project/values/SimpleADTMatcher.m" should contain:
       """
@@ -529,9 +522,6 @@ Feature: Outputting expected Algebraic Type matching methods
         return result;
       }
 
-
-
       @end
-
 
       """

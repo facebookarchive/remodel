@@ -64,7 +64,6 @@ Feature: Outputting Algebraic Types With Templated Matching
         }
       };
 
-
       """
    And the file "project/values/SimpleADTTemplatedMatchingHelpers.mm" should contain:
       """
@@ -73,8 +72,5 @@ Feature: Outputting Algebraic Types With Templated Matching
       #endif
 
       #import "SimpleADTTemplatedMatchingHelpers.h"
-
-
-
 
       """

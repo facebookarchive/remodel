@@ -55,7 +55,6 @@ Feature: Outputting ObjC++ Algebraic Types
 
       @end
 
-
       """
    And the file "project/values/SimpleADT.mm" should contain:
       """
@@ -187,6 +186,5 @@ Feature: Outputting ObjC++ Algebraic Types
       }
 
       @end
-
 
       """

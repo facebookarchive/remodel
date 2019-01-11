@@ -62,7 +62,6 @@ Feature: Outputting forward declarations in Algebraic Types
 
       @end
 
-
       """
    And the file "project/values/SimpleADT.m" should contain:
       """
@@ -200,7 +199,6 @@ Feature: Outputting forward declarations in Algebraic Types
 
       @end
 
-
       """
 
 
@@ -261,7 +259,6 @@ Feature: Outputting forward declarations in Algebraic Types
       - (void)matchFirstSubtype:(NS_NOESCAPE __unsafe_unretained SimpleADTFirstSubtypeMatchHandler)firstSubtypeMatchHandler someRandomSubtype:(NS_NOESCAPE __unsafe_unretained SimpleADTSomeRandomSubtypeMatchHandler)someRandomSubtypeMatchHandler secondSubtype:(NS_NOESCAPE __unsafe_unretained SimpleADTSecondSubtypeMatchHandler)secondSubtypeMatchHandler NS_SWIFT_NAME(match(firstSubtype:someRandomSubtype:secondSubtype:));
 
       @end
-
 
       """
    And the file "project/values/SimpleADT.m" should contain:
@@ -395,6 +392,5 @@ Feature: Outputting forward declarations in Algebraic Types
       }
 
       @end
-
 
       """

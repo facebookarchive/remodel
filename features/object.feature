@@ -64,7 +64,6 @@ Feature: Outputting Objects
 
       @end
 
-
       """
    And the file "project/objects/RMPage.m" should contain:
       """
@@ -102,7 +101,6 @@ Feature: Outputting Objects
       }
 
       @end
-
 
       """
   @announce
@@ -154,7 +152,6 @@ Feature: Outputting Objects
 
       @end
 
-
       """
    And the file "project/objects/RMPage.m" should contain:
       """
@@ -195,6 +192,5 @@ Feature: Outputting Objects
 
       @end
       #pragma clang diagnostic pop
-
 
       """

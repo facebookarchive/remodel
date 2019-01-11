@@ -51,7 +51,6 @@ Feature: Outputting Algebraic Types
 
       @end
 
-
       """
    And the file "project/values/SimpleADT.m" should contain:
       """
@@ -207,6 +206,5 @@ Feature: Outputting Algebraic Types
       }
 
       @end
-
 
       """

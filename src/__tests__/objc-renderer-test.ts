@@ -262,8 +262,7 @@ describe('ObjCRenderer', function() {
           '\n' +
           '- (instancetype)initWithValue1:(RMSomething *)value1 value2:(RMSomething *)value2;\n' +
           '\n' +
-          '@end\n' +
-          '\n',
+          '@end\n',
       );
 
       expect(renderedOutput).toEqualJSON(expectedOutput);
@@ -488,8 +487,7 @@ describe('ObjCRenderer', function() {
           '\n' +
           '- (instancetype)initWithValue1:(RMSomething *)value1 value2:(RMSomething *)value2;\n' +
           '\n' +
-          '@end\n' +
-          '\n',
+          '@end\n',
       );
 
       expect(renderedOutput).toEqualJSON(expectedOutput);
@@ -723,8 +721,7 @@ describe('ObjCRenderer', function() {
             '\n' +
             '- (instancetype)initWithValue1:(RMSomething *)value1 value2:(RMSomething *)value2;\n' +
             '\n' +
-            '@end\n' +
-            '\n',
+            '@end\n',
         );
 
         expect(renderedOutput).toEqualJSON(expectedOutput);
@@ -895,8 +892,7 @@ describe('ObjCRenderer', function() {
           '\n' +
           '- (instancetype)initWithValue:(NSString *)value value2:(BOOL)value2 value3:(id)value3;\n' +
           '\n' +
-          '@end\n' +
-          '\n',
+          '@end\n',
       );
 
       expect(renderedOutput).toEqualJSON(expectedOutput);
@@ -1022,8 +1018,7 @@ describe('ObjCRenderer', function() {
           '\n' +
           '- (instancetype)initWithValue1:(RMSomething *)value1 value2:(RMSomething *)value2;\n' +
           '\n' +
-          '@end\n' +
-          '\n',
+          '@end\n',
       );
 
       expect(renderedOutput).toEqualJSON(expectedOutput);
@@ -1156,8 +1151,7 @@ describe('ObjCRenderer', function() {
           '- (instancetype)initWithValue1:(RMSomething *)value1 value2:(RMSomething *)value2;\n' +
           '#endif\n' +
           '\n' +
-          '@end\n' +
-          '\n',
+          '@end\n',
       );
 
       expect(renderedOutput).toEqualJSON(expectedOutput);
@@ -1245,8 +1239,7 @@ describe('ObjCRenderer', function() {
           '@property (nonatomic, readwrite) RMSomething *value1;\n' +
           '@property (nonatomic, readwrite) RMSomething *value2;\n' +
           '\n' +
-          '@end\n' +
-          '\n',
+          '@end\n',
       );
 
       expect(renderedOutput).toEqualJSON(expectedOutput);
@@ -1384,8 +1377,7 @@ describe('ObjCRenderer', function() {
             '\n' +
             '#ifdef __cplusplus\n' +
             '}\n' +
-            '#endif\n' +
-            '\n',
+            '#endif\n',
         );
 
         expect(renderedOutput).toEqualJSON(expectedOutput);
@@ -1481,8 +1473,7 @@ describe('ObjCRenderer', function() {
           '\n' +
           '@interface RMSomeValue : NSObject\n' +
           '\n' +
-          '@end\n' +
-          '\n',
+          '@end\n',
       );
 
       expect(renderedOutput).toEqualJSON(expectedOutput);
@@ -1600,8 +1591,7 @@ describe('ObjCRenderer', function() {
           '\n' +
           '@interface RMSomeValue : NSObject\n' +
           '\n' +
-          '@end\n' +
-          '\n',
+          '@end\n',
       );
 
       expect(renderedOutput).toEqualJSON(expectedOutput);
@@ -1674,8 +1664,7 @@ describe('ObjCRenderer', function() {
             '\n' +
             '@interface RMSomeValue : NSObject\n' +
             '\n' +
-            '@end\n' +
-            '\n',
+            '@end\n',
         );
 
         expect(renderedOutput).toEqualJSON(expectedOutput);
@@ -1771,8 +1760,7 @@ describe('ObjCRenderer', function() {
           '@property (nonatomic, readwrite) RMSomething *value1;\n' +
           '@property (nonatomic, readwrite) RMSomething *value2;\n' +
           '\n' +
-          '@end\n' +
-          '\n',
+          '@end\n',
       );
 
       expect(renderedOutput).toEqualJSON(expectedOutput);
@@ -1872,8 +1860,7 @@ describe('ObjCRenderer', function() {
           '@property (nonatomic, readwrite) RMSomething *value1;\n' +
           '@property (nonatomic, readwrite) RMSomething *value2;\n' +
           '\n' +
-          '@end\n' +
-          '\n',
+          '@end\n',
       );
 
       expect(renderedOutput).toEqualJSON(expectedOutput);
@@ -1983,8 +1970,7 @@ describe('ObjCRenderer', function() {
             '// Check this method out!!!!\n' +
             '- (void)doSomething;\n' +
             '\n' +
-            '@end\n' +
-            '\n',
+            '@end\n',
         );
 
         expect(renderedOutput).toEqualJSON(expectedOutput);
@@ -2054,8 +2040,7 @@ describe('ObjCRenderer', function() {
             '  extern T someFunc(T(^someBlock)()) {\n' +
             '    return someBlock();\n' +
             '  }\n' +
-            '}\n' +
-            '\n',
+            '}\n',
         );
 
         expect(renderedOutput).toEqualJSON(expectedOutput);
@@ -2179,8 +2164,7 @@ describe('ObjCRenderer', function() {
           '\n' +
           '- (instancetype)initWithValue1:(RMSomething *)value1 value2:(RMSomething *)value2 NS_DESIGNATED_INITIALIZER;\n' +
           '\n' +
-          '@end\n' +
-          '\n',
+          '@end\n',
       );
 
       expect(renderedOutput).toEqualJSON(expectedOutput);
@@ -2303,8 +2287,7 @@ describe('ObjCRenderer', function() {
           '\n' +
           '- (nullable instancetype)initWithValue1:(RMSomething *)value1 value2:(RMSomething *)value2;\n' +
           '\n' +
-          '@end\n' +
-          '\n',
+          '@end\n',
       );
 
       expect(renderedOutput).toEqualJSON(expectedOutput);
@@ -2398,8 +2381,7 @@ describe('ObjCRenderer', function() {
           '\n' +
           '+ (nullable ObjectType)someClassMethodWithValue1:(RMSomething *)value1 value2:(RMSomething *)value2;\n' +
           '\n' +
-          '@end\n' +
-          '\n',
+          '@end\n',
       );
 
       expect(renderedOutput).toEqualJSON(expectedOutput);
@@ -2482,8 +2464,7 @@ describe('ObjCRenderer', function() {
           '\n' +
           '- (nullable ValueType)objectForKey:(KeyType)key;\n' +
           '\n' +
-          '@end\n' +
-          '\n',
+          '@end\n',
       );
 
       expect(renderedOutput).toEqualJSON(expectedOutput);
@@ -2551,8 +2532,7 @@ describe('ObjCRenderer', function() {
           '\n' +
           '@property (nonatomic, readonly) RMSomething *value1;\n' +
           '\n' +
-          '@end\n' +
-          '\n',
+          '@end\n',
       );
 
       expect(renderedOutput).toEqualJSON(expectedOutput);
@@ -2806,8 +2786,7 @@ describe('ObjCRenderer', function() {
           '}\n' +
           '\n' +
           '@end\n' +
-          '#pragma clang diagnostic pop\n' +
-          '\n',
+          '#pragma clang diagnostic pop\n',
       );
 
       expect(renderedOutput).toEqualJSON(expectedOutput);
@@ -2978,8 +2957,7 @@ describe('ObjCRenderer', function() {
           '  return self;\n' +
           '}\n' +
           '\n' +
-          '@end\n' +
-          '\n',
+          '@end\n',
       );
 
       expect(renderedOutput).toEqualJSON(expectedOutput);
@@ -3245,8 +3223,7 @@ describe('ObjCRenderer', function() {
           '#pragma pop\n' +
           '\n' +
           '@end\n' +
-          '#pragma clang diagnostic pop\n' +
-          '\n',
+          '#pragma clang diagnostic pop\n',
       );
 
       expect(renderedOutput).toEqualJSON(expectedOutput);
@@ -3348,7 +3325,7 @@ describe('ObjCRenderer', function() {
           '\n' +
           'static void ANonPublicFunction();\n\n' +
           '@implementation RMSomeValue\n' +
-          '\n\n\n' +
+          '\n' +
           '@end\n' +
           'extern NSString *APublicFunction(NSString *str, NSUInteger num) {\n' +
           '#if SOMETHING\n' +
@@ -3361,8 +3338,7 @@ describe('ObjCRenderer', function() {
           '// Functions are like fungus\n' +
           'static void ANonPublicFunction() {\n' +
           '  something();\n' +
-          '}\n\n' +
-          '\n',
+          '}\n',
       );
 
       expect(renderedOutput.value).toEqual(expectedOutput.value);
@@ -3462,9 +3438,8 @@ describe('ObjCRenderer', function() {
           '{\n' +
           '  return [[RMSomeValue alloc] init];\n' +
           '}\n' +
-          '\n\n\n' +
-          '@end\n' +
-          '\n',
+          '\n' +
+          '@end\n',
       );
 
       expect(renderedOutput).toEqualJSON(expectedOutput);
@@ -3553,8 +3528,7 @@ describe('ObjCRenderer', function() {
           '  return [[RMSomeValue alloc] init];\n' +
           '}\n' +
           '\n' +
-          '@end\n' +
-          '\n',
+          '@end\n',
       );
 
       expect(renderedOutput).toEqualJSON(expectedOutput);
@@ -3646,9 +3620,8 @@ describe('ObjCRenderer', function() {
           '};\n' +
           '\n' +
           '@implementation RMSomeValue\n' +
-          '\n\n\n' +
-          '@end\n' +
-          '\n',
+          '\n' +
+          '@end\n',
       );
 
       expect(renderedOutput).toEqualJSON(expectedOutput);
@@ -3779,8 +3752,7 @@ describe('ObjCRenderer', function() {
           '#endif\n\n' +
           '#import "RMSomeValue.h"\n' +
           '\n' +
-          'typedef Foo *(^AnotherBlock)(BOOL someBool);\n' +
-          '\n\n\n',
+          'typedef Foo *(^AnotherBlock)(BOOL someBool);\n',
       );
 
       expect(renderedOutput).toEqualJSON(expectedOutput);
@@ -4030,7 +4002,7 @@ static int RMSomeFunction(BOOL parameter);
 
 static int RMSomeFunction(BOOL parameter) {
 
-}\n\n\n`);
+}\n`);
 
       expect(renderedOutput).toEqualJSON(expectedOutput);
     });

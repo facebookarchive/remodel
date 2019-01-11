@@ -83,7 +83,6 @@ Feature: Outputting Algebraic Types
 
       @end
 
-
       """
    And the file "project/values/SimpleADT.m" should contain:
       """
@@ -237,7 +236,6 @@ Feature: Outputting Algebraic Types
 
       @end
 
-
       """
   @announce
   Scenario: Generating an algebraic type containing values in each subtype and a different base type
@@ -289,7 +287,6 @@ Feature: Outputting Algebraic Types
       - (void)matchFirstSubtype:(NS_NOESCAPE __unsafe_unretained SimpleADTFirstSubtypeMatchHandler)firstSubtypeMatchHandler secondSubtype:(NS_NOESCAPE __unsafe_unretained SimpleADTSecondSubtypeMatchHandler)secondSubtypeMatchHandler NS_SWIFT_NAME(match(firstSubtype:secondSubtype:));
 
       @end
-
 
       """
    And the file "project/values/SimpleADT.m" should contain:
@@ -409,7 +406,6 @@ Feature: Outputting Algebraic Types
       @end
       #pragma clang diagnostic pop
 
-
       """
   @announce
   Scenario: Generating an algebraic type with forward declarations
@@ -465,7 +461,6 @@ Feature: Outputting Algebraic Types
       - (void)matchFirstSubtype:(NS_NOESCAPE __unsafe_unretained SimpleADTFirstSubtypeMatchHandler)firstSubtypeMatchHandler someRandomSubtype:(NS_NOESCAPE __unsafe_unretained SimpleADTSomeRandomSubtypeMatchHandler)someRandomSubtypeMatchHandler secondSubtype:(NS_NOESCAPE __unsafe_unretained SimpleADTSecondSubtypeMatchHandler)secondSubtypeMatchHandler NS_SWIFT_NAME(match(firstSubtype:someRandomSubtype:secondSubtype:));
 
       @end
-
 
       """
    And the file "project/values/SimpleADT.m" should contain:
@@ -599,6 +594,5 @@ Feature: Outputting Algebraic Types
       }
 
       @end
-
 
       """

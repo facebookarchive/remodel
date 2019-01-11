@@ -47,7 +47,6 @@ Feature: Outputting Value Objects
 
       @end
 
-
       """
    And the file "project/values/RMPageFetchStatus.m" should contain:
       """
@@ -122,6 +121,5 @@ Feature: Outputting Value Objects
       }
 
       @end
-
 
       """

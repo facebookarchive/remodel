@@ -76,7 +76,6 @@ Feature: Outputting Value Objects With Forward Declarations
 
       @end
 
-
       """
    And the file "project/values/RMPage.m" should contain:
       """
@@ -163,7 +162,6 @@ Feature: Outputting Value Objects With Forward Declarations
 
       @end
 
-
       """
   @announce
   Scenario: Generating Files when defaulting to UseForwardDeclarations with canForwardDeclare
@@ -212,7 +210,6 @@ Feature: Outputting Value Objects With Forward Declarations
       - (instancetype)initWithDoesUserLike:(BOOL)doesUserLike identifier:(NSString *)identifier obj:(SomeObject *)obj obj2:(AnotherObject *)obj2 NS_DESIGNATED_INITIALIZER;
 
       @end
-
 
       """
    And the file "project/values/RMPage.m" should contain:
@@ -286,7 +283,6 @@ Feature: Outputting Value Objects With Forward Declarations
 
       @end
 
-
       """
   @announce
   Scenario: Generating Files with no equality and a custom base type
@@ -344,7 +340,6 @@ Feature: Outputting Value Objects With Forward Declarations
 
       @end
 
-
       """
    And the file "project/values/RMPage.m" should contain:
       """
@@ -392,7 +387,6 @@ Feature: Outputting Value Objects With Forward Declarations
 
       @end
       #pragma clang diagnostic pop
-
 
       """
   @announce
@@ -490,7 +484,6 @@ Feature: Outputting Value Objects With Forward Declarations
 
       @end
 
-
       """
   @announce
   Scenario: Generating Builders with SkipImportsInImplementation results in no additional imports
@@ -587,7 +580,6 @@ Feature: Outputting Value Objects With Forward Declarations
 
       @end
 
-
       """
     And the file "project/values/RMPageBuilder.m" should contain:
       """
@@ -674,6 +666,5 @@ Feature: Outputting Value Objects With Forward Declarations
       }
 
       @end
-
 
       """

@@ -123,7 +123,6 @@ Feature: Outputting Value Objects With A Custom Plugin
 
       @end
 
-
       """
    And the file "project/values/RMPage.m" should contain:
       """
@@ -163,6 +162,5 @@ Feature: Outputting Value Objects With A Custom Plugin
       }
 
       @end
-
 
       """

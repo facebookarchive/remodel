@@ -64,7 +64,6 @@ Feature: Outputting Value Objects
 
       @end
 
-
       """
    And the file "project/values/RMPageBuilder.m" should contain:
       """
@@ -149,7 +148,6 @@ Feature: Outputting Value Objects
 			}
 
       @end
-
       """
 
   @announce
@@ -196,7 +194,6 @@ Feature: Outputting Value Objects
 
       @end
 
-
       """
    And the file "project/values/RMPageBuilder.h" should contain:
       """
@@ -222,7 +219,6 @@ Feature: Outputting Value Objects
       - (instancetype)withCustomLibObject:(RMSomeObject *)customLibObject;
 
       @end
-
 
       """
    And the file "project/values/RMPageBuilder.m" should contain:
@@ -280,6 +276,5 @@ Feature: Outputting Value Objects
       }
 
       @end
-
 
       """

@@ -54,7 +54,6 @@ Feature: Outputting C++ Value Objects
 
       @end
 
-
       """
    And the file "project/values/RMPage.mm" should contain:
       """
@@ -125,6 +124,5 @@ Feature: Outputting C++ Value Objects
       }
 
       @end
-
 
       """

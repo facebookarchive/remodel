@@ -41,7 +41,6 @@ Feature: Outputting Value Objects
 
       @end
 
-
       """
 
   @announce
@@ -81,6 +80,5 @@ Feature: Outputting Value Objects
       - (instancetype)initWithX:(NSString *)x NS_DESIGNATED_INITIALIZER;
 
       @end
-
 
       """

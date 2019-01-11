@@ -42,7 +42,6 @@ Feature: Controlling includes/excludes from command line
 
       @end
 
-
       """
    And the file "project/values/RMValueType.m" should contain:
       """
@@ -110,7 +109,6 @@ Feature: Controlling includes/excludes from command line
 
       @end
 
-
       """
     And the file "project/values/RMValueTypeBuilder.h" should contain:
       """
@@ -131,7 +129,6 @@ Feature: Controlling includes/excludes from command line
       - (instancetype)withIdentifier:(NSString *)identifier;
 
       @end
-
 
       """
     And the file "project/values/RMValueTypeBuilder.m" should contain:
@@ -179,7 +176,6 @@ Feature: Controlling includes/excludes from command line
       }
 
       @end
-
 
       """
 

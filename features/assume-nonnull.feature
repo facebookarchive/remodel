@@ -43,7 +43,6 @@ Feature: Outputting Value Objects / Algebraic Types decorated with NS_ASSUME_NON
 
       NS_ASSUME_NONNULL_END
 
-
       """
     And the file "project/values/RMFoo.m" should contain:
       """
@@ -118,7 +117,6 @@ Feature: Outputting Value Objects / Algebraic Types decorated with NS_ASSUME_NON
 
       NS_ASSUME_NONNULL_END
 
-
       """
 
   @announce
@@ -172,7 +170,6 @@ Feature: Outputting Value Objects / Algebraic Types decorated with NS_ASSUME_NON
       @end
 
       NS_ASSUME_NONNULL_END
-
 
       """
     And the file "project/values/RMFoo.m" should contain:
@@ -291,6 +288,5 @@ Feature: Outputting Value Objects / Algebraic Types decorated with NS_ASSUME_NON
       @end
 
       NS_ASSUME_NONNULL_END
-
 
       """

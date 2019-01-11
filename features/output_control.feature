@@ -42,7 +42,6 @@ Feature: Specifying an output directory to put results in
 
       @end
 
-
       """
    And the file "project/values/RMValueTypeHeaderOnly.m" should not exist
 
@@ -126,7 +125,6 @@ Feature: Specifying an output directory to put results in
       }
 
       @end
-
 
       """
    And the file "project/values/RMValueTypeImplOnly.h" should not exist

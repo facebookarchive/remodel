@@ -43,7 +43,6 @@ Feature: Specifying an output directory to put results in
 
       @end
 
-
       """
    And the file "project/output/RMValueType.m" should contain:
       """
@@ -110,6 +109,5 @@ Feature: Specifying an output directory to put results in
       }
 
       @end
-
 
       """

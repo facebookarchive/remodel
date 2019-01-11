@@ -40,7 +40,6 @@ Feature: Outputting Objects With Nullability Annotations
 
       @end
 
-
       """
    And the file "project/values/RMPage.m" should contain:
       """
@@ -111,7 +110,6 @@ Feature: Outputting Objects With Nullability Annotations
 
       @end
 
-
       """
   @announce
   Scenario: Generating an algebraic type with nullability
@@ -172,7 +170,6 @@ Feature: Outputting Objects With Nullability Annotations
       - (void)matchFirstSubtype:(NS_NOESCAPE __unsafe_unretained SimpleADTFirstSubtypeMatchHandler)firstSubtypeMatchHandler someRandomSubtype:(NS_NOESCAPE __unsafe_unretained SimpleADTSomeRandomSubtypeMatchHandler)someRandomSubtypeMatchHandler someAttributeSubtype:(NS_NOESCAPE __unsafe_unretained SimpleADTSomeAttributeSubtypeMatchHandler)someAttributeSubtypeMatchHandler secondSubtype:(NS_NOESCAPE __unsafe_unretained SimpleADTSecondSubtypeMatchHandler)secondSubtypeMatchHandler NS_SWIFT_NAME(match(firstSubtype:someRandomSubtype:someAttributeSubtype:secondSubtype:));
 
       @end
-
 
       """
    And the file "project/values/SimpleADT.m" should contain:
@@ -329,6 +326,5 @@ Feature: Outputting Objects With Nullability Annotations
       }
 
       @end
-
 
       """

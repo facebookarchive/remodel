@@ -177,7 +177,7 @@ describe('ObjectSpecCreation', function() {
               ' */\n\n' +
               '@interface Foo : NSObject\n' +
               '\n' +
-              '@end\n\n',
+              '@end\n',
           ),
           FileWriter.Request(
             File.getAbsoluteFilePath('Foo.m'),
@@ -196,7 +196,7 @@ describe('ObjectSpecCreation', function() {
               '  return [NSString stringWithFormat:@"%@ - \\n\\t age: %zd; \\n", [super description], _age];\n' +
               '}\n' +
               '\n' +
-              '@end\n\n',
+              '@end\n',
           ),
         );
         const expectedRequest = Either.Right<
@@ -364,11 +364,11 @@ describe('ObjectSpecCreation', function() {
               ' */\n\n' +
               '@interface Foo : NSObject\n' +
               '\n' +
-              '@end\n\n',
+              '@end\n',
           ),
           FileWriter.Request(
             File.getAbsoluteFilePath('FooMore.h'),
-            '@interface FooMore : NSObject\n' + '\n' + '@end\n\n',
+            '@interface FooMore : NSObject\n' + '\n' + '@end\n',
           ),
         );
         const expectedRequest = Either.Right<
@@ -526,7 +526,7 @@ describe('ObjectSpecCreation', function() {
               ' */\n\n' +
               '@interface ExistingType : NSObject\n' +
               '\n' +
-              '@end\n\n',
+              '@end\n',
           ),
           FileWriter.Request(
             File.getAbsoluteFilePath('AddedType1.h'),
@@ -536,7 +536,7 @@ describe('ObjectSpecCreation', function() {
               ' */\n\n' +
               '@interface AddedType1 : NSObject\n' +
               '\n' +
-              '@end\n\n',
+              '@end\n',
           ),
           FileWriter.Request(
             File.getAbsoluteFilePath('AddedType2.h'),
@@ -546,7 +546,7 @@ describe('ObjectSpecCreation', function() {
               ' */\n\n' +
               '@interface AddedType2 : NSObject\n' +
               '\n' +
-              '@end\n\n',
+              '@end\n',
           ),
         );
 
@@ -706,7 +706,7 @@ describe('ObjectSpecCreation', function() {
               ' */\n\n' +
               '@interface Foo : NSObject\n' +
               '\n' +
-              '@end\n\n',
+              '@end\n',
           ),
         );
         const expectedRequest = Either.Right<
@@ -913,7 +913,7 @@ describe('ObjectSpecCreation', function() {
               '\n' +
               '- (NSString *)getSomeString;\n' +
               '\n' +
-              '@end\n\n',
+              '@end\n',
           ),
           FileWriter.Request(
             File.getAbsoluteFilePath('Foo.m'),
@@ -941,7 +941,7 @@ describe('ObjectSpecCreation', function() {
               '  return @"something";\n' +
               '}\n' +
               '\n' +
-              '@end\n\n',
+              '@end\n',
           ),
         );
         const expectedRequest = Either.Right<
@@ -1574,7 +1574,7 @@ describe('ObjectSpecCreation', function() {
               '\n' +
               '- (NSString *)getSomeString;\n' +
               '\n' +
-              '@end\n\n',
+              '@end\n',
           ),
           FileWriter.Request(
             File.getAbsoluteFilePath('Foo.m'),
@@ -1602,7 +1602,7 @@ describe('ObjectSpecCreation', function() {
               '  return @"something";\n' +
               '}\n' +
               '\n' +
-              '@end\n\n',
+              '@end\n',
           ),
         );
         const expectedRequest = Either.Right<
@@ -1902,7 +1902,7 @@ describe('ObjectSpecCreation', function() {
               '\n' +
               '- (NSString *)getSomeString;\n' +
               '\n' +
-              '@end\n\n',
+              '@end\n',
           ),
           FileWriter.Request(
             File.getAbsoluteFilePath('Foo.m'),
@@ -1932,7 +1932,7 @@ describe('ObjectSpecCreation', function() {
               '  return @"something";\n' +
               '}\n' +
               '\n' +
-              '@end\n\n',
+              '@end\n',
           ),
         );
         const expectedRequest = Either.Right<
@@ -2087,7 +2087,7 @@ describe('ObjectSpecCreation', function() {
             ' */\n\n' +
             '@interface Foo : NSObject\n' +
             '\n' +
-            '@end\n\n',
+            '@end\n',
         ),
         FileWriter.Request(
           File.getAbsoluteFilePath('local/path/Foo.m'),
@@ -2106,7 +2106,7 @@ describe('ObjectSpecCreation', function() {
             '  return [NSString stringWithFormat:@"%@ - \\n\\t age: %zd; \\n", [super description], _age];\n' +
             '}\n' +
             '\n' +
-            '@end\n\n',
+            '@end\n',
         ),
       );
       const expectedRequest = Either.Right<

@@ -65,7 +65,6 @@ Feature: Outputting Value Objects
 
       @end
 
-
       """
    And the file "project/values/RMPage.m" should contain:
       """
@@ -143,7 +142,6 @@ Feature: Outputting Value Objects
 
       @end
 
-
       """
   @announce
   Scenario: Generating Files with no equality and a custom base type
@@ -197,7 +195,6 @@ Feature: Outputting Value Objects
 
       @end
 
-
       """
    And the file "project/values/RMPage.m" should contain:
       """
@@ -243,6 +240,5 @@ Feature: Outputting Value Objects
 
       @end
       #pragma clang diagnostic pop
-
 
       """

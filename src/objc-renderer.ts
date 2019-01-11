@@ -832,7 +832,7 @@ export function renderHeader(file: Code.File): Maybe.Maybe<string> {
     namespacesSection +
     classSection +
     functionsSection;
-  return Maybe.Just<string>(contents);
+  return Maybe.Just<string>(contents.trim() + '\n');
 }
 
 function toMemorySemanticString(memorySemantic: ObjC.MemorySemantic): string {
@@ -1065,12 +1065,14 @@ function implementationClassSection(classInfo: ObjC.Class): string {
   const functionsSection = codeSectionForCodeString(functionsStr);
 
   return (
-    prefixClassMacrosSection +
-    classSection +
-    instanceVariablesSection +
-    functionsSection +
-    classMethodsSection +
-    instanceMethodsSection +
+    (
+      prefixClassMacrosSection +
+      classSection +
+      instanceVariablesSection +
+      functionsSection +
+      classMethodsSection +
+      instanceMethodsSection
+    ).trim() +
     '\n\n@end' +
     postfixClassMacrosSection
   );
@@ -1220,10 +1222,9 @@ export function renderImplementation(file: Code.File): Maybe.Maybe<string> {
       classesSection +
       '\n' +
       functionsSection +
-      diagnosticIgnoresEndSection +
-      '\n';
+      diagnosticIgnoresEndSection;
 
-    return Maybe.Just<string>(contents);
+    return Maybe.Just<string>(contents.trim() + '\n');
   } else {
     return Maybe.Nothing<string>();
   }

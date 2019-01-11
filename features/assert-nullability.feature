@@ -90,7 +90,6 @@ Feature: Outputting Value Objects / Algebraic Types decorated with NS_ASSUME_NON
 
       NS_ASSUME_NONNULL_END
 
-
       """
 
   @announce
@@ -177,7 +176,6 @@ Feature: Outputting Value Objects / Algebraic Types decorated with NS_ASSUME_NON
 
       @end
 
-
       """
 
   @announce
@@ -259,7 +257,6 @@ Feature: Outputting Value Objects / Algebraic Types decorated with NS_ASSUME_NON
       }
 
       @end
-
 
       """
 
@@ -348,7 +345,6 @@ Feature: Outputting Value Objects / Algebraic Types decorated with NS_ASSUME_NON
 
       NS_ASSUME_NONNULL_END
 
-
       """
 
   @announce
@@ -434,6 +430,5 @@ Feature: Outputting Value Objects / Algebraic Types decorated with NS_ASSUME_NON
       @end
 
       NS_ASSUME_NONNULL_END
-
 
       """

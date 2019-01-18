@@ -33,6 +33,7 @@ Feature: Outputting Algebraic Types With Templated Matching
       #import "SimpleADT.h"
       #import <memory>
 
+      #ifdef __cplusplus
       template <typename T>
       struct SimpleADTMatcher {
 
@@ -63,6 +64,7 @@ Feature: Outputting Algebraic Types With Templated Matching
           return match(simpleADT, firstSubtypeMatchHandler, someRandomSubtypeMatchHandler, someAttributeSubtypeMatchHandler, secondSubtypeMatchHandler);
         }
       };
+      #endif // __cplusplus
 
       """
    And the file "project/values/SimpleADTTemplatedMatchingHelpers.mm" should contain:

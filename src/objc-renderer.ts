@@ -595,17 +595,24 @@ function buildTemplateContents(
   return soFar.concat(templateContents);
 }
 
-function toStructContents(struct) {
-  var structDeclaration = 'struct ' + struct.name + ' {' + '\n';
-  var endStructDeclaration = '};';
-  return struct.templates
-    .map(toTemplateContents)
-    .reduce(buildTemplateContents, [])
+function toStructContents(struct: CPlusPlus.Struct) {
+  const cplusplusOpen = '#ifdef __cplusplus';
+  const cplusplusClose = '#endif // __cplusplus';
+  const structDeclaration = 'struct ' + struct.name + ' {' + '\n';
+  const endStructDeclaration = '};';
+
+  return [cplusplusOpen]
+    .concat(
+      struct.templates
+        .map(toTemplateContents)
+        .reduce(buildTemplateContents, []),
+    )
     .concat(structDeclaration)
     .concat(
       struct.code.reduce(buildStructContents, []).map(StringUtils.indent(2)),
     )
     .concat(endStructDeclaration)
+    .concat(cplusplusClose)
     .join('\n');
 }
 

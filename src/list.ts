@@ -14,9 +14,9 @@ enum ListType {
 
 export class List<T> {
   private listType: ListType;
-  private value: T;
-  private next: List<T>;
-  constructor(listType: ListType, value: T, next: List<T>) {
+  private value?: T;
+  private next?: List<T>;
+  constructor(listType: ListType, value?: T, next?: List<T>) {
     this.listType = listType;
     this.value = value;
     this.next = next;
@@ -27,16 +27,16 @@ export class List<T> {
       case ListType.nil:
         return nil();
       case ListType.cons:
-        return cons(this.value, this.next);
+        return cons(this.value!, this.next!);
     }
   }
 }
 
 export function of<T>(...args: T[]): List<T> {
   if (args.length === 0) {
-    return new List<T>(ListType.nil, null, null);
+    return new List<T>(ListType.nil);
   } else {
-    var list = new List<T>(ListType.nil, null, null);
+    var list = new List<T>(ListType.nil);
     for (var i: number = args.length - 1; i >= 0; i--) {
       list = cons(args[i], list);
     }

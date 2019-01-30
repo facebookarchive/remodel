@@ -10,13 +10,13 @@ export function Just<T>(val: T) {
 }
 
 export function Nothing<T>() {
-  return new Maybe<T>(null);
+  return new Maybe<T>();
 }
 
 export class Maybe<T> {
-  public value: T;
+  value?: T;
 
-  constructor(value: T) {
+  constructor(value?: T) {
     this.value = value;
   }
 }
@@ -26,10 +26,10 @@ export function match<T, U>(
   nothing: () => U,
   maybe: Maybe<T>,
 ): U {
-  if (maybe.value === null) {
+  if (maybe.value === undefined) {
     return nothing();
   } else {
-    return just(maybe.value);
+    return just(maybe.value!);
   }
 }
 
@@ -69,8 +69,8 @@ export function mbind<T, U>(f: (t: T) => Maybe<U>, maybe: Maybe<T>): Maybe<U> {
 }
 
 export function and<A, B>(a: Maybe<A>, b: Maybe<B>): Maybe<[A, B]> {
-  if (a.value !== null && b.value !== null) {
-    return Just<[A, B]>([a.value, b.value]);
+  if (a.value !== undefined && b.value !== undefined) {
+    return Just<[A, B]>([a.value!, b.value!]);
   } else {
     return Nothing<[A, B]>();
   }

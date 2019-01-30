@@ -61,7 +61,7 @@ enum KeywordArgumentModifierType {
 }
 
 export class KeywordArgumentModifier {
-  private modifierType;
+  private modifierType: KeywordArgumentModifierType;
   constructor(type: KeywordArgumentModifierType) {
     this.modifierType = type;
   }
@@ -192,7 +192,7 @@ export enum ClassNullability {
 }
 
 export class Nullability {
-  private nullabilityType;
+  private nullabilityType: NullabilityType;
 
   constructor(type: NullabilityType) {
     this.nullabilityType = type;
@@ -231,7 +231,7 @@ enum MemorySemanticType {
 }
 
 export class MemorySemantic {
-  private memoryType;
+  private memoryType: MemorySemanticType;
   constructor(type: MemorySemanticType) {
     this.memoryType = type;
   }
@@ -301,7 +301,7 @@ enum PropertyModifierType {
 }
 
 export class PropertyModifier {
-  private modifierType;
+  private modifierType: PropertyModifierType;
   constructor(type: PropertyModifierType) {
     this.modifierType = type;
   }
@@ -399,7 +399,7 @@ enum InstanceVariableModifierType {
 }
 
 export class InstanceVariableModifier {
-  private modifierType;
+  private modifierType: InstanceVariableModifierType;
   constructor(type: InstanceVariableModifierType) {
     this.modifierType = type;
   }
@@ -455,7 +455,7 @@ enum InstanceVariableAccessType {
 }
 
 export class InstanceVariableAccess {
-  private accessType;
+  private accessType: InstanceVariableAccessType;
   constructor(type: InstanceVariableAccessType) {
     this.accessType = type;
   }
@@ -494,7 +494,7 @@ enum PropertyAccessType {
 }
 
 export class PropertyAccess {
-  private accessType;
+  private accessType: PropertyAccessType;
   constructor(type: PropertyAccessType) {
     this.accessType = type;
   }

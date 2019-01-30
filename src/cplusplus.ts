@@ -11,7 +11,7 @@ enum TemplateTypeType {
 }
 
 export class TemplateType {
-  private templateType;
+  private templateType: TemplateTypeType;
   constructor(type: TemplateTypeType) {
     this.templateType = type;
   }

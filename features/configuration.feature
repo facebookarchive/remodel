@@ -48,7 +48,7 @@ Feature: Outputting Value Objects With A Custom Plugin
           },
           fileType: function (valueType) {
             return {
-              value: null
+              value: undefined
             };
           },
           forwardDeclarations: function(valueType) {
@@ -88,7 +88,7 @@ Feature: Outputting Value Objects With A Custom Plugin
           },
           nullability: function (valueType) {
             return {
-              value: null
+              value: undefined
             };
           },
           subclassingRestricted: function (valueType) {

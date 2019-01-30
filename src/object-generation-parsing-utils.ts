@@ -15,7 +15,7 @@ import ObjectSpec = require('./object-spec');
 export function possiblyUndefinedStringToMaybe(
   str: string,
 ): Maybe.Maybe<string> {
-  if (str === undefined) {
+  if (str == null) {
     return Maybe.Nothing<string>();
   } else {
     return Maybe.Just(str);

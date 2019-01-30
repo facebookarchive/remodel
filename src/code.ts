@@ -14,7 +14,7 @@ enum FileTypeValue {
 }
 
 export class FileType {
-  private fileType;
+  private fileType: FileTypeValue;
   constructor(type: FileTypeValue) {
     this.fileType = type;
   }

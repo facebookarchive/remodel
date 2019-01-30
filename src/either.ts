@@ -6,17 +6,17 @@
  */
 
 export function Left<T, U>(val: T) {
-  return new Either<T, U>(val, null);
+  return new Either<T, U>(val);
 }
 
 export function Right<T, U>(val: U) {
-  return new Either<T, U>(null, val);
+  return new Either<T, U>(undefined, val);
 }
 
 export class Either<T, U> {
-  public left: T;
-  public right: U;
-  constructor(left: T, right: U) {
+  left?: T;
+  right?: U;
+  constructor(left?: T, right?: U) {
     this.left = left;
     this.right = right;
   }
@@ -31,10 +31,10 @@ export function match<T, U, V>(
   right: (u: U) => V,
   either: Either<T, U>,
 ): V {
-  if (either.left != null) {
-    return left(either.left);
+  if (either.left != undefined) {
+    return left(either.left!);
   } else {
-    return right(either.right);
+    return right(either.right!);
   }
 }
 
@@ -43,10 +43,10 @@ export function map<T, U, V>(
   either: Either<T, U>,
 ): Either<T, V> {
   const left = function(t: T) {
-    return Left<T, V>(either.left);
+    return Left<T, V>(either.left!);
   };
   const right = function(u: U) {
-    return Right<T, V>(f(either.right));
+    return Right<T, V>(f(either.right!));
   };
   return match(left, right, either);
 }
@@ -56,10 +56,10 @@ export function mbind<T, U, V>(
   either: Either<T, U>,
 ): Either<T, V> {
   const left = function(t: T) {
-    return Left<T, V>(either.left);
+    return Left<T, V>(either.left!);
   };
   const right = function(u: U) {
-    return f(either.right);
+    return f(either.right!);
   };
   return match(left, right, either);
 }

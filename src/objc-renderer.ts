@@ -303,8 +303,10 @@ function toMethodHeaderString(
   );
 }
 
-var toClassMethodHeaderString = method => toMethodHeaderString('+', method);
-var toInstanceMethodHeaderString = method => toMethodHeaderString('-', method);
+var toClassMethodHeaderString = (method: ObjC.Method) =>
+  toMethodHeaderString('+', method);
+var toInstanceMethodHeaderString = (method: ObjC.Method) =>
+  toMethodHeaderString('-', method);
 
 function toMethodImplementationString(
   methodModifier: string,
@@ -328,11 +330,15 @@ function toMethodImplementationString(
   return methodStr;
 }
 
-var toClassMethodImplementationString = (covariantTypes, method) =>
-  toMethodImplementationString('+', covariantTypes, method);
+var toClassMethodImplementationString = (
+  covariantTypes: string[],
+  method: ObjC.Method,
+) => toMethodImplementationString('+', covariantTypes, method);
 
-var toInstanceMethodImplementationString = (covariantTypes, method) =>
-  toMethodImplementationString('-', covariantTypes, method);
+var toInstanceMethodImplementationString = (
+  covariantTypes: string[],
+  method: ObjC.Method,
+) => toMethodImplementationString('-', covariantTypes, method);
 
 function toCovariantTypeString(covariantType: string): string {
   return '__covariant ' + covariantType;
@@ -595,7 +601,7 @@ function buildTemplateContents(
   return soFar.concat(templateContents);
 }
 
-function toStructContents(struct: CPlusPlus.Struct) {
+function toStructContents(struct: CPlusPlus.Struct): string {
   const cplusplusOpen = '#ifdef __cplusplus';
   const cplusplusClose = '#endif // __cplusplus';
   const structDeclaration = 'struct ' + struct.name + ' {' + '\n';
@@ -609,14 +615,16 @@ function toStructContents(struct: CPlusPlus.Struct) {
     )
     .concat(structDeclaration)
     .concat(
-      struct.code.reduce(buildStructContents, []).map(StringUtils.indent(2)),
+      struct.code
+        .reduce<Array<string>>(buildStructContents, [])
+        .map(StringUtils.indent(2)),
     )
     .concat(endStructDeclaration)
     .concat(cplusplusClose)
     .join('\n');
 }
 
-function buildStructContents(soFar, structContents) {
+function buildStructContents(soFar: string[], structContents: string[]) {
   return soFar.concat(structContents);
 }
 

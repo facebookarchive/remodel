@@ -693,7 +693,7 @@ function buildFileWriteRequest<T>(
     ): FileWriter.FileWriteRequest {
       return {
         name: request.name,
-        requests: List.append(request.requests, current.right.requests),
+        requests: List.append(request.requests, current.right!.requests),
       };
     },
     soFar);

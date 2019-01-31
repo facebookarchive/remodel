@@ -7,13 +7,13 @@
 
 export function zip2<A, B>(a: A[], b: B[]): [A, B][] {
   const length = Math.min(a.length, b.length);
-  const result = [];
+  const result: [A, B][] = [];
   for (let i = 0; i < length; i++) {
     result.push([a[i], b[i]]);
   }
   return result;
 }
 
-export function flatMap<T, R>(array: T[], func: (T) => R[]): R[] {
-  return array.reduce((current, next) => current.concat(func(next)), []);
+export function flatMap<T, R>(array: T[], func: (val: T) => R[]): R[] {
+  return array.reduce<R[]>((current, next) => current.concat(func(next)), []);
 }

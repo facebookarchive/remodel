@@ -9,12 +9,12 @@ import FunctionUtils = require('./function-utils');
 import List = require('./list');
 
 interface SharedState<T> {
-  value: T;
+  value?: T;
   thenHandlers: {(val: T): void}[];
 }
 
 export function pending<T>(): Promise<T> {
-  return new Promise<T>({value: null, thenHandlers: []});
+  return new Promise<T>({value: undefined, thenHandlers: []});
 }
 
 export function resolved<T>(val: T): Promise<T> {
@@ -59,13 +59,13 @@ export class Future<T> {
     this._sharedState = sharedState;
   }
 
-  map<U>(f: (v: T) => U) {
+  map<U>(f: (v: T) => U): Future<U> {
     return map(f, this);
   }
 }
 
 export function then<T>(f: (v: T) => void, future: Future<T>): void {
-  if (future._sharedState.value === null) {
+  if (future._sharedState.value === undefined) {
     future._sharedState.thenHandlers.push(f);
   } else {
     f(future._sharedState.value);
@@ -111,7 +111,7 @@ export function aapply<T, U>(
 export function all<T>(futures: List.List<Future<T>>): Future<List.List<T>> {
   const partialFutures = List.map(function(future: Future<T>) {
     return map(function(val: T) {
-      return result => List.cons(val, result);
+      return (result: List.List<T>) => List.cons(val, result);
     }, future);
   }, futures);
   return List.foldr(

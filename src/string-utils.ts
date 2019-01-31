@@ -46,7 +46,7 @@ const PREFIX_REGEX = /([A-Z]+)/;
 function prefixIncludingFirstCharacterOfNameFromString(
   stringIncludingPrefix: string,
 ): string {
-  const matchIncludingFirstCharacterOfName: string[] = PREFIX_REGEX.exec(
+  const matchIncludingFirstCharacterOfName: string[] | null = PREFIX_REGEX.exec(
     stringIncludingPrefix,
   );
   if (matchIncludingFirstCharacterOfName != null) {

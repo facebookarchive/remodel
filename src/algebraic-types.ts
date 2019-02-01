@@ -15,12 +15,10 @@ import * as Error from './error';
 import * as File from './file';
 import * as FileFinder from './file-finder';
 import * as FileWriter from './file-writer';
-import * as FunctionUtils from './function-utils';
 import * as List from './list';
 import * as Logging from './logging';
 import * as LoggingSequenceUtils from './logged-sequence-utils';
 import * as Maybe from './maybe';
-import * as ObjC from './objc';
 import * as OutputControl from './output-control';
 import * as PathUtils from './path-utils';
 import * as PluginInclusionUtils from './plugin-inclusion-utils';
@@ -28,7 +26,6 @@ import * as Promise from './promise';
 import * as ReadFileUtils from './file-logged-sequence-read-utils';
 import * as RequirePlugin from './require-plugin';
 import * as WriteFileUtils from './file-logged-sequence-write-utils';
-import * as path from 'path';
 
 interface AlgebraicTypeCreationContext {
   baseClassName: string;

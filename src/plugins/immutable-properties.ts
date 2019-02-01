@@ -7,13 +7,11 @@
 
 import * as Code from '../code';
 import * as Error from '../error';
-import * as FunctionUtils from '../function-utils';
 import * as FileWriter from '../file-writer';
 import * as Maybe from '../maybe';
 import * as StringUtils from '../string-utils';
 import * as ObjC from '../objc';
 import * as ObjCCommentUtils from '../objc-comment-utils';
-import * as ObjCTypeUtils from '../objc-type-utils';
 import * as ObjCNullabilityUtils from '../objc-nullability-utils';
 import * as ObjCImportUtils from '../objc-import-utils';
 import * as ObjectGeneration from '../object-generation';

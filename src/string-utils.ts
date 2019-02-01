@@ -5,8 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import * as FunctionUtils from './function-utils';
-
 export function stringContainingSpaces(spaces: number): string {
   var str = '';
   for (var i = 0; i < spaces; i++) {

@@ -6,16 +6,12 @@
  */
 
 import * as AlgebraicType from '../algebraic-type';
-import * as AlgebraicTypeUtils from '../algebraic-type-utils';
 import * as Code from '../code';
 import * as Error from '../error';
 import * as FileWriter from '../file-writer';
-import * as FunctionUtils from '../function-utils';
 import * as Maybe from '../maybe';
 import * as ObjC from '../objc';
-import * as ObjCTypeUtils from '../objc-type-utils';
 import * as ObjectSpec from '../object-spec';
-import * as ObjectSpecCodeUtils from '../object-spec-code-utils';
 
 function initUnavailableInstanceMethod(): ObjC.Method {
   return {

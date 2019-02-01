@@ -9,7 +9,6 @@ import * as Either from './either';
 import * as Error from './error';
 import * as File from './file';
 import * as FileReader from './file-reader';
-import * as FunctionUtils from './function-utils';
 import * as List from './list';
 import * as Map from './map';
 import * as Maybe from './maybe';

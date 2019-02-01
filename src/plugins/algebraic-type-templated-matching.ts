@@ -12,7 +12,6 @@ import * as CPlusPlus from '../cplusplus';
 import * as Code from '../code';
 import * as Error from '../error';
 import * as FileWriter from '../file-writer';
-import * as FunctionUtils from '../function-utils';
 import * as Maybe from '../maybe';
 import * as ObjC from '../objc';
 import * as ObjCRenderer from '../objc-renderer';

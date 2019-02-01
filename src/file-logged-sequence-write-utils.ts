@@ -10,7 +10,6 @@ import * as CommandLine from './commandline';
 import * as Either from './either';
 import * as Error from './error';
 import * as FileWriter from './file-writer';
-import * as FunctionUtils from './function-utils';
 import * as List from './list';
 import * as Logging from './logging';
 import * as LoggingSequenceUtils from './logged-sequence-utils';

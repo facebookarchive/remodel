@@ -6,7 +6,6 @@
  */
 
 import * as AlgebraicType from './algebraic-type';
-import * as FunctionUtils from './function-utils';
 import * as Maybe from './maybe';
 import * as ObjC from './objc';
 import * as StringUtils from './string-utils';

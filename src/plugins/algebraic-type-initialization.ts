@@ -10,7 +10,6 @@ import * as AlgebraicTypeUtils from '../algebraic-type-utils';
 import * as Code from '../code';
 import * as Error from '../error';
 import * as FileWriter from '../file-writer';
-import * as FunctionUtils from '../function-utils';
 import * as List from '../list';
 import * as Map from '../map';
 import * as Maybe from '../maybe';

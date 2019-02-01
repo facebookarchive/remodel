@@ -10,7 +10,6 @@ import * as Error from './error';
 import * as Maybe from './maybe';
 import * as ObjC from './objc';
 import * as ObjectGeneration from './object-generation';
-import * as ObjectSpec from './object-spec';
 
 export function possiblyUndefinedStringToMaybe(
   str: string,

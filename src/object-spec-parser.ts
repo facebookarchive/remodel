@@ -11,7 +11,6 @@ import * as Either from './either';
 import * as Error from './error';
 import * as Maybe from './maybe';
 import * as ObjectSpec from './object-spec';
-import * as ObjC from './objc';
 import * as ObjectGeneration from './object-generation';
 import * as ObjectGenerationParsingUtils from './object-generation-parsing-utils';
 import * as ObjectMonaParser from './js/object-mona-parser/object-mona-parser';

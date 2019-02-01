@@ -8,12 +8,10 @@
 import * as Code from '../code';
 import * as Error from '../error';
 import * as FileWriter from '../file-writer';
-import * as FunctionUtils from '../function-utils';
 import * as Maybe from '../maybe';
 import * as ObjC from '../objc';
 import * as ObjCImportUtils from '../objc-import-utils';
 import * as ObjCNullabilityUtils from '../objc-nullability-utils';
-import * as ObjCTypeUtils from '../objc-type-utils';
 import * as ObjectGeneration from '../object-generation';
 import * as StringUtils from '../string-utils';
 import * as ObjectSpec from '../object-spec';

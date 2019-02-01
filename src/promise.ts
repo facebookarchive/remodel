@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import * as FunctionUtils from './function-utils';
 import * as List from './list';
 
 interface SharedState<T> {

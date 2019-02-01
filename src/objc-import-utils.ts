@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import * as FunctionUtils from './function-utils';
 import * as Maybe from './maybe';
 import * as ObjC from './objc';
 import * as ObjCTypeUtils from './objc-type-utils';

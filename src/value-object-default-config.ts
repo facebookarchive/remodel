@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import * as Configuration from './configuration';
 import * as List from './list';
 
 export const VALUE_OBJECT_DEFAULT_CONFIG = {

@@ -5,8 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-///<reference path='./type-defs/minimist.d.ts'/>
-
 import * as List from './list';
 import * as Logging from './logging';
 import * as Maybe from './maybe';

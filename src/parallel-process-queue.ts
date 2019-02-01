@@ -5,8 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-///<reference path='./type-defs/node-0.11.d.ts'/>
-
 import * as child_process from 'child_process';
 import * as File from './file';
 import * as LazySequence from './lazy-sequence';

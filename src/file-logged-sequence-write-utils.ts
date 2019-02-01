@@ -5,8 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-///<reference path='./type-defs/cli-color.d.ts'/>
-
 import * as colors from 'cli-color';
 import * as CommandLine from './commandline';
 import * as Either from './either';

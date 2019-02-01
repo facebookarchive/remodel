@@ -7,7 +7,6 @@
 
 ///<reference path='../type-defs/jasmine.d.ts'/>
 ///<reference path='../type-defs/jasmine-test-additions.d.ts'/>
-///<reference path='../type-defs/node-0.11.d.ts'/>
 
 import * as Either from '../either';
 import * as Error from '../error';

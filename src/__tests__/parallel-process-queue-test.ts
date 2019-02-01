@@ -7,8 +7,6 @@
 
 ///<reference path='../type-defs/jasmine.d.ts'/>
 ///<reference path='../type-defs/jasmine-test-additions.d.ts'/>
-///<reference path='../type-defs/node-0.11.d.ts'/>
-///<reference path='../type-defs/fs-extra.d.ts'/>
 
 import * as File from '../file';
 import * as ParallelProcessQueue from '../parallel-process-queue';

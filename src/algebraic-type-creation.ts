@@ -5,8 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-///<reference path='./type-defs/node-0.11.d.ts'/>
-
 import * as AlgebraicType from './algebraic-type';
 import * as Code from './code';
 import * as Either from './either';

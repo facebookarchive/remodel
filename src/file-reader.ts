@@ -5,8 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-///<reference path='./type-defs/node-0.11.d.ts'/>
-
 import * as Either from './either';
 import * as Error from './error';
 import * as File from './file';

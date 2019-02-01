@@ -7,13 +7,13 @@
 
 ///<reference path='js/require-plugin/require-plugin.d.ts'/>
 
-import AlgebraicType = require('./algebraic-type');
-import Either = require('./either');
-import Error = require('./error');
-import File = require('./file');
-import Maybe = require('./maybe');
-import requireJsPlugin = require('./js/require-plugin/require-plugin');
-import ObjectSpec = require('./object-spec');
+import * as AlgebraicType from './algebraic-type';
+import * as Either from './either';
+import * as Error from './error';
+import * as File from './file';
+import * as Maybe from './maybe';
+import * as requireJsPlugin from './js/require-plugin/require-plugin';
+import * as ObjectSpec from './object-spec';
 
 function requiredModuleForPath(
   absolutePath: File.AbsoluteFilePath,

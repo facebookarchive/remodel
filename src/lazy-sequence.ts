@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import Promise = require('./promise');
+import * as Promise from './promise';
 
 interface SharedState<T> {
   isFinished: boolean;

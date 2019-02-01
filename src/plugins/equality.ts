@@ -5,18 +5,18 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import AlgebraicType = require('../algebraic-type');
-import AlgebraicTypeUtils = require('../algebraic-type-utils');
-import Code = require('../code');
-import Error = require('../error');
-import FileWriter = require('../file-writer');
-import FunctionUtils = require('../function-utils');
-import Maybe = require('../maybe');
-import ObjC = require('../objc');
-import ObjCTypeUtils = require('../objc-type-utils');
-import ObjectSpec = require('../object-spec');
-import ObjectSpecUtils = require('../object-spec-utils');
-import ObjectSpecCodeUtils = require('../object-spec-code-utils');
+import * as AlgebraicType from '../algebraic-type';
+import * as AlgebraicTypeUtils from '../algebraic-type-utils';
+import * as Code from '../code';
+import * as Error from '../error';
+import * as FileWriter from '../file-writer';
+import * as FunctionUtils from '../function-utils';
+import * as Maybe from '../maybe';
+import * as ObjC from '../objc';
+import * as ObjCTypeUtils from '../objc-type-utils';
+import * as ObjectSpec from '../object-spec';
+import * as ObjectSpecUtils from '../object-spec-utils';
+import * as ObjectSpecCodeUtils from '../object-spec-code-utils';
 
 enum EqualityFunctionType {
   compareFloats,

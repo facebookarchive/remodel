@@ -8,11 +8,11 @@
 ///<reference path='../type-defs/jasmine.d.ts'/>
 ///<reference path='../type-defs/jasmine-test-additions.d.ts'/>
 
-import Error = require('../error');
-import Either = require('../either');
-import Maybe = require('../maybe');
-import ObjectGeneration = require('../object-generation');
-import ObjectGenerationParsingUtils = require('../object-generation-parsing-utils');
+import * as Error from '../error';
+import * as Either from '../either';
+import * as Maybe from '../maybe';
+import * as ObjectGeneration from '../object-generation';
+import * as ObjectGenerationParsingUtils from '../object-generation-parsing-utils';
 
 describe('ObjectGenerationParsingUtils', function() {
   describe('#typeLookupsFromRawAnnotations', function() {

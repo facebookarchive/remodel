@@ -5,8 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import FunctionUtils = require('./function-utils');
-import List = require('./list');
+import * as FunctionUtils from './function-utils';
+import * as List from './list';
 
 interface SharedState<T> {
   value?: T;

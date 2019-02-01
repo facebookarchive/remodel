@@ -8,11 +8,11 @@
 ///<reference path='../../type-defs/jasmine.d.ts'/>
 ///<reference path='../../type-defs/jasmine-test-additions.d.ts'/>
 
-import AlgebraicType = require('../../algebraic-type');
-import SubclassingRestricted = require('../../plugins/subclassing-restricted');
-import Maybe = require('../../maybe');
-import ObjC = require('../../objc');
-import ObjectSpec = require('../../object-spec');
+import * as AlgebraicType from '../../algebraic-type';
+import * as SubclassingRestricted from '../../plugins/subclassing-restricted';
+import * as Maybe from '../../maybe';
+import * as ObjC from '../../objc';
+import * as ObjectSpec from '../../object-spec';
 
 const ObjectSpecPlugin = SubclassingRestricted.createPlugin();
 const AlgebraicTypePlugin = SubclassingRestricted.createAlgebraicTypePlugin();

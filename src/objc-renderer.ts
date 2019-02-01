@@ -5,14 +5,14 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import Code = require('./code');
-import CPlusPlus = require('./cplusplus');
-import FunctionUtils = require('./function-utils');
-import List = require('./list');
-import Maybe = require('./maybe');
-import StringUtils = require('./string-utils');
-import ObjC = require('./objc');
-import Unique = require('./unique');
+import * as Code from './code';
+import * as CPlusPlus from './cplusplus';
+import * as FunctionUtils from './function-utils';
+import * as List from './list';
+import * as Maybe from './maybe';
+import * as StringUtils from './string-utils';
+import * as ObjC from './objc';
+import * as Unique from './unique';
 
 function emptyString(): string {
   return '';

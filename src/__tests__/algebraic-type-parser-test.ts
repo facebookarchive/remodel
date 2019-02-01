@@ -8,12 +8,12 @@
 ///<reference path='../type-defs/jasmine.d.ts'/>
 ///<reference path='../type-defs/jasmine-test-additions.d.ts'/>
 
-import Either = require('../either');
-import Error = require('../error');
-import Maybe = require('../maybe');
-import AlgebraicType = require('../algebraic-type');
-import AlgebraicTypeParser = require('../algebraic-type-parser');
-import ObjC = require('../objc');
+import * as Either from '../either';
+import * as Error from '../error';
+import * as Maybe from '../maybe';
+import * as AlgebraicType from '../algebraic-type';
+import * as AlgebraicTypeParser from '../algebraic-type-parser';
+import * as ObjC from '../objc';
 
 describe('AlgebraicTypeParser', function() {
   describe('#parseAlgebraicType', function() {

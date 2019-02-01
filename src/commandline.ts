@@ -7,11 +7,11 @@
 
 ///<reference path='./type-defs/minimist.d.ts'/>
 
-import List = require('./list');
-import Logging = require('./logging');
-import Maybe = require('./maybe');
-import minimist = require('minimist');
-import OutputControl = require('./output-control');
+import * as List from './list';
+import * as Logging from './logging';
+import * as Maybe from './maybe';
+import * as minimist from 'minimist';
+import * as OutputControl from './output-control';
 
 export interface Arguments {
   givenPaths: string[];

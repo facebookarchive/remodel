@@ -8,10 +8,10 @@
 ///<reference path='../type-defs/jasmine.d.ts'/>
 ///<reference path='../type-defs/jasmine-test-additions.d.ts'/>
 
-import CommandLine = require('../commandline');
-import List = require('../list');
-import Logging = require('../logging');
-import Maybe = require('../maybe');
+import * as CommandLine from '../commandline';
+import * as List from '../list';
+import * as Logging from '../logging';
+import * as Maybe from '../maybe';
 
 describe('CommandLine', function() {
   describe('#parseArgs', function() {

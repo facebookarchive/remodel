@@ -8,17 +8,17 @@
 ///<reference path='../type-defs/jasmine.d.ts'/>
 ///<reference path='../type-defs/jasmine-test-additions.d.ts'/>
 
-import Code = require('../code');
-import Either = require('../either');
-import Error = require('../error');
-import File = require('../file');
-import FileWriter = require('../file-writer');
-import List = require('../list');
-import Maybe = require('../maybe');
-import ObjC = require('../objc');
-import ObjectSpec = require('../object-spec');
-import ObjectSpecCreation = require('../object-spec-creation');
-import OutputControl = require('../output-control');
+import * as Code from '../code';
+import * as Either from '../either';
+import * as Error from '../error';
+import * as File from '../file';
+import * as FileWriter from '../file-writer';
+import * as List from '../list';
+import * as Maybe from '../maybe';
+import * as ObjC from '../objc';
+import * as ObjectSpec from '../object-spec';
+import * as ObjectSpecCreation from '../object-spec-creation';
+import * as OutputControl from '../output-control';
 
 describe('ObjectSpecCreation', function() {
   describe('#fileWriteRequests', function() {

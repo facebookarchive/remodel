@@ -5,8 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import Maybe = require('./maybe');
-import ObjectGeneration = require('./object-generation');
+import * as Maybe from './maybe';
+import * as ObjectGeneration from './object-generation';
 
 export function annotationValuesWithName(
   annotations: {[name: string]: ObjectGeneration.Annotation[]},

@@ -8,10 +8,10 @@
 ///<reference path='../type-defs/jasmine.d.ts'/>
 ///<reference path='../type-defs/jasmine-test-additions.d.ts'/>
 
-import Maybe = require('../maybe');
-import ObjectSpec = require('../object-spec');
-import ObjectSpecCodeUtils = require('../object-spec-code-utils');
-import ObjC = require('../objc');
+import * as Maybe from '../maybe';
+import * as ObjectSpec from '../object-spec';
+import * as ObjectSpecCodeUtils from '../object-spec-code-utils';
+import * as ObjC from '../objc';
 
 function valueGenerator(attribute: ObjectSpec.Attribute): string {
   return attribute.name;

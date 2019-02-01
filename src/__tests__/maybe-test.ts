@@ -8,7 +8,7 @@
 ///<reference path='../type-defs/jasmine.d.ts'/>
 ///<reference path='../type-defs/jasmine-test-additions.d.ts'/>
 
-import Maybe = require('../maybe');
+import * as Maybe from '../maybe';
 
 describe('Maybe', function() {
   describe('#match', function() {

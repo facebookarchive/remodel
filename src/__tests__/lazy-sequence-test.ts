@@ -8,9 +8,9 @@
 ///<reference path='../type-defs/jasmine.d.ts'/>
 ///<reference path='../type-defs/jasmine-test-additions.d.ts'/>
 
-import LazySequence = require('../lazy-sequence');
-import Functor = require('../functor');
-import Promise = require('../promise');
+import * as LazySequence from '../lazy-sequence';
+import * as Functor from '../functor';
+import * as Promise from '../promise';
 
 describe('LazySequence', function() {
   describe('Sequence', function() {

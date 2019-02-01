@@ -5,11 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import Maybe = require('./maybe');
-import ObjC = require('./objc');
-import ObjCTypeUtils = require('./objc-type-utils');
-import StringUtils = require('./string-utils');
-import ObjectSpec = require('./object-spec');
+import * as Maybe from './maybe';
+import * as ObjC from './objc';
+import * as ObjCTypeUtils from './objc-type-utils';
+import * as StringUtils from './string-utils';
+import * as ObjectSpec from './object-spec';
 
 function allocationAndInvocationCanBeOneForAttribute(
   typeName: string,

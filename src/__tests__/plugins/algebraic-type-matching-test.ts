@@ -8,15 +8,15 @@
 ///<reference path='../../type-defs/jasmine.d.ts'/>
 ///<reference path='../../type-defs/jasmine-test-additions.d.ts'/>
 
-import AlgebraicTypeVoidMatching = require('../../plugins/algebraic-type-matching-void');
-import AlgebraicTypeBoolMatching = require('../../plugins/algebraic-type-matching-bool');
-import AlgebraicTypeIntegerMatching = require('../../plugins/algebraic-type-matching-integer');
-import AlgebraicTypeDoubleMatching = require('../../plugins/algebraic-type-matching-double');
-import AlgebraicTypeGenericMatching = require('../../plugins/algebraic-type-matching-generic');
-import Code = require('../../code');
-import Maybe = require('../../maybe');
-import ObjC = require('../../objc');
-import AlgebraicType = require('../../algebraic-type');
+import * as AlgebraicTypeVoidMatching from '../../plugins/algebraic-type-matching-void';
+import * as AlgebraicTypeBoolMatching from '../../plugins/algebraic-type-matching-bool';
+import * as AlgebraicTypeIntegerMatching from '../../plugins/algebraic-type-matching-integer';
+import * as AlgebraicTypeDoubleMatching from '../../plugins/algebraic-type-matching-double';
+import * as AlgebraicTypeGenericMatching from '../../plugins/algebraic-type-matching-generic';
+import * as Code from '../../code';
+import * as Maybe from '../../maybe';
+import * as ObjC from '../../objc';
+import * as AlgebraicType from '../../algebraic-type';
 
 const VoidPlugin = AlgebraicTypeVoidMatching.createAlgebraicTypePlugin();
 const BoolPlugin = AlgebraicTypeBoolMatching.createAlgebraicTypePlugin();

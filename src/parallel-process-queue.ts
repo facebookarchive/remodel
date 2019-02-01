@@ -7,11 +7,11 @@
 
 ///<reference path='./type-defs/node-0.11.d.ts'/>
 
-import child_process = require('child_process');
-import File = require('./file');
-import LazySequence = require('./lazy-sequence');
-import os = require('os');
-import ParallelProcess = require('./parallel-process');
+import * as child_process from 'child_process';
+import * as File from './file';
+import * as LazySequence from './lazy-sequence';
+import * as os from 'os';
+import * as ParallelProcess from './parallel-process';
 
 const CPUS = os.cpus();
 

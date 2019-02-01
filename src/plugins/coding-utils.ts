@@ -5,9 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import ObjC = require('../objc');
-import ObjCTypeUtils = require('../objc-type-utils');
-import Maybe = require('../maybe');
+import * as ObjC from '../objc';
+import * as ObjCTypeUtils from '../objc-type-utils';
+import * as Maybe from '../maybe';
 
 const UI_GEOMETRY_IMPORT: ObjC.Import = {
   file: 'UIGeometry.h',

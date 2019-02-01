@@ -5,11 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import AlgebraicType = require('./algebraic-type');
-import FunctionUtils = require('./function-utils');
-import Maybe = require('./maybe');
-import ObjC = require('./objc');
-import StringUtils = require('./string-utils');
+import * as AlgebraicType from './algebraic-type';
+import * as FunctionUtils from './function-utils';
+import * as Maybe from './maybe';
+import * as ObjC from './objc';
+import * as StringUtils from './string-utils';
 
 export interface MatchingBlockType {
   name: string;

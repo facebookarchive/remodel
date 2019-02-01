@@ -8,10 +8,10 @@
 ///<reference path='../type-defs/jasmine.d.ts'/>
 ///<reference path='../type-defs/jasmine-test-additions.d.ts'/>
 
-import List = require('../list');
-import Maybe = require('../maybe');
-import PluginInclusionUtils = require('../plugin-inclusion-utils');
-import ObjectSpec = require('../object-spec');
+import * as List from '../list';
+import * as Maybe from '../maybe';
+import * as PluginInclusionUtils from '../plugin-inclusion-utils';
+import * as ObjectSpec from '../object-spec';
 
 describe('PluginInclusionUtils', function() {
   describe('#includesContainingDefaultIncludes', function() {

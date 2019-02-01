@@ -8,7 +8,7 @@
 ///<reference path='../../type-defs/jasmine.d.ts'/>
 ///<reference path='../../type-defs/jsondiffpatch.d.ts'/>
 
-import jsondiffpatch = require('jsondiffpatch');
+import * as jsondiffpatch from 'jsondiffpatch';
 
 beforeEach(function() {
   jasmine.addMatchers({

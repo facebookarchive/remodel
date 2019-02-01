@@ -8,8 +8,8 @@
 ///<reference path='../type-defs/jasmine.d.ts'/>
 ///<reference path='../type-defs/jasmine-test-additions.d.ts'/>
 
-import List = require('../list');
-import Logging = require('../logging');
+import * as List from '../list';
+import * as Logging from '../logging';
 
 describe('Logging', function() {
   describe('#evaluate', function() {

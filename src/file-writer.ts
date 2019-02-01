@@ -7,12 +7,12 @@
 
 ///<reference path='./type-defs/node-0.11.d.ts'/>
 
-import Error = require('./error');
-import File = require('./file');
-import fs = require('fs');
-import List = require('./list');
-import Maybe = require('./maybe');
-import Promise = require('./promise');
+import * as Error from './error';
+import * as File from './file';
+import * as fs from 'fs';
+import * as List from './list';
+import * as Maybe from './maybe';
+import * as Promise from './promise';
 
 export interface Request {
   content: string;

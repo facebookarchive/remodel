@@ -10,13 +10,13 @@
 ///<reference path='../type-defs/node-0.11.d.ts'/>
 ///<reference path='../type-defs/fs-extra.d.ts'/>
 
-import Either = require('../either');
-import Error = require('../error');
-import File = require('../file');
-import FileReader = require('../file-reader');
-import fs = require('fs');
-import fsExtra = require('fs-extra');
-import Promise = require('../promise');
+import * as Either from '../either';
+import * as Error from '../error';
+import * as File from '../file';
+import * as FileReader from '../file-reader';
+import * as fs from 'fs';
+import * as fsExtra from 'fs-extra';
+import * as Promise from '../promise';
 
 function concatenatedErrorStringFromErrors(errors: Error.Error[]): string {
   return errors.map(Error.getReason).join(',');

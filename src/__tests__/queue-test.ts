@@ -8,8 +8,8 @@
 ///<reference path='../type-defs/jasmine.d.ts'/>
 ///<reference path='../type-defs/jasmine-test-additions.d.ts'/>
 
-import Maybe = require('../maybe');
-import Queue = require('../queue');
+import * as Maybe from '../maybe';
+import * as Queue from '../queue';
 
 describe('Queue', function() {
   describe('#dequeue', function() {

@@ -5,8 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import CPlusPlus = require('./cplusplus');
-import ObjC = require('./objc');
+import * as CPlusPlus from './cplusplus';
+import * as ObjC from './objc';
 
 enum FileTypeValue {
   objectiveC,

@@ -7,14 +7,14 @@
 
 ///<reference path='./type-defs/node-0.11.d.ts'/>
 
-import Either = require('./either');
-import Error = require('./error');
-import File = require('./file');
-import fs = require('fs');
-import Maybe = require('./maybe');
-import path = require('path');
-import PathUtils = require('./path-utils');
-import Promise = require('./promise');
+import * as Either from './either';
+import * as Error from './error';
+import * as File from './file';
+import * as fs from 'fs';
+import * as Maybe from './maybe';
+import * as path from 'path';
+import * as PathUtils from './path-utils';
+import * as Promise from './promise';
 
 export interface FilesAndDirectories {
   foundPotentialDirectories: File.AbsoluteFilePath[];

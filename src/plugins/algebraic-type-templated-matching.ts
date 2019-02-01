@@ -5,18 +5,18 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import AlgebraicType = require('../algebraic-type');
-import AlgebraicTypeUtils = require('../algebraic-type-utils');
-import AlgebraicTypeUtilsForMatching = require('../algebraic-type-utils-for-matching');
-import CPlusPlus = require('../cplusplus');
-import Code = require('../code');
-import Error = require('../error');
-import FileWriter = require('../file-writer');
-import FunctionUtils = require('../function-utils');
-import Maybe = require('../maybe');
-import ObjC = require('../objc');
-import ObjCRenderer = require('../objc-renderer');
-import StringUtils = require('../string-utils');
+import * as AlgebraicType from '../algebraic-type';
+import * as AlgebraicTypeUtils from '../algebraic-type-utils';
+import * as AlgebraicTypeUtilsForMatching from '../algebraic-type-utils-for-matching';
+import * as CPlusPlus from '../cplusplus';
+import * as Code from '../code';
+import * as Error from '../error';
+import * as FileWriter from '../file-writer';
+import * as FunctionUtils from '../function-utils';
+import * as Maybe from '../maybe';
+import * as ObjC from '../objc';
+import * as ObjCRenderer from '../objc-renderer';
+import * as StringUtils from '../string-utils';
 
 function matchingFileNameForAlgebraicType(
   algebraicType: AlgebraicType.Type,

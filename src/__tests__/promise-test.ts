@@ -8,9 +8,9 @@
 ///<reference path='../type-defs/jasmine.d.ts'/>
 ///<reference path='../type-defs/jasmine-test-additions.d.ts'/>
 
-import Functor = require('../functor');
-import List = require('../list');
-import Promise = require('../promise');
+import * as Functor from '../functor';
+import * as List from '../list';
+import * as Promise from '../promise';
 
 describe('Promise', function() {
   describe('#then', function() {

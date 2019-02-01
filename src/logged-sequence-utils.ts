@@ -5,9 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import LazySequence = require('./lazy-sequence');
-import Logging = require('./logging');
-import Promise = require('./promise');
+import * as LazySequence from './lazy-sequence';
+import * as Logging from './logging';
+import * as Promise from './promise';
 
 function performanceLog<T>(
   name: string,

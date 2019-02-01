@@ -5,12 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import Either = require('./either');
-import Error = require('./error');
-import Maybe = require('./maybe');
-import ObjC = require('./objc');
-import ObjectGeneration = require('./object-generation');
-import ObjectSpec = require('./object-spec');
+import * as Either from './either';
+import * as Error from './error';
+import * as Maybe from './maybe';
+import * as ObjC from './objc';
+import * as ObjectGeneration from './object-generation';
+import * as ObjectSpec from './object-spec';
 
 export function possiblyUndefinedStringToMaybe(
   str: string,

@@ -8,8 +8,8 @@
 ///<reference path='../type-defs/jasmine.d.ts'/>
 ///<reference path='../type-defs/jasmine-test-additions.d.ts'/>
 
-import Map = require('../map');
-import Maybe = require('../maybe');
+import * as Map from '../map';
+import * as Maybe from '../maybe';
 
 describe('Map', function() {
   describe('#get', function() {

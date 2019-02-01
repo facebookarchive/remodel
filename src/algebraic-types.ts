@@ -5,30 +5,30 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import AlgebraicType = require('./algebraic-type');
-import AlgebraicTypeCreation = require('./algebraic-type-creation');
-import AlgebraicTypeParser = require('./algebraic-type-parser');
-import CommandLine = require('./commandline');
-import Configuration = require('./configuration');
-import Either = require('./either');
-import Error = require('./error');
-import File = require('./file');
-import FileFinder = require('./file-finder');
-import FileWriter = require('./file-writer');
-import FunctionUtils = require('./function-utils');
-import List = require('./list');
-import Logging = require('./logging');
-import LoggingSequenceUtils = require('./logged-sequence-utils');
-import Maybe = require('./maybe');
-import ObjC = require('./objc');
-import OutputControl = require('./output-control');
-import PathUtils = require('./path-utils');
-import PluginInclusionUtils = require('./plugin-inclusion-utils');
-import Promise = require('./promise');
-import ReadFileUtils = require('./file-logged-sequence-read-utils');
-import RequirePlugin = require('./require-plugin');
-import WriteFileUtils = require('./file-logged-sequence-write-utils');
-import path = require('path');
+import * as AlgebraicType from './algebraic-type';
+import * as AlgebraicTypeCreation from './algebraic-type-creation';
+import * as AlgebraicTypeParser from './algebraic-type-parser';
+import * as CommandLine from './commandline';
+import * as Configuration from './configuration';
+import * as Either from './either';
+import * as Error from './error';
+import * as File from './file';
+import * as FileFinder from './file-finder';
+import * as FileWriter from './file-writer';
+import * as FunctionUtils from './function-utils';
+import * as List from './list';
+import * as Logging from './logging';
+import * as LoggingSequenceUtils from './logged-sequence-utils';
+import * as Maybe from './maybe';
+import * as ObjC from './objc';
+import * as OutputControl from './output-control';
+import * as PathUtils from './path-utils';
+import * as PluginInclusionUtils from './plugin-inclusion-utils';
+import * as Promise from './promise';
+import * as ReadFileUtils from './file-logged-sequence-read-utils';
+import * as RequirePlugin from './require-plugin';
+import * as WriteFileUtils from './file-logged-sequence-write-utils';
+import * as path from 'path';
 
 interface AlgebraicTypeCreationContext {
   baseClassName: string;

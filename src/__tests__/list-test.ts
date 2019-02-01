@@ -8,8 +8,8 @@
 ///<reference path='../type-defs/jasmine.d.ts'/>
 ///<reference path='../type-defs/jasmine-test-additions.d.ts'/>
 
-import List = require('../list');
-import Maybe = require('../maybe');
+import * as List from '../list';
+import * as Maybe from '../maybe';
 
 describe('List', function() {
   describe('#isEmpty', function() {

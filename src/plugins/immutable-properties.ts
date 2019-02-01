@@ -5,21 +5,21 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import Code = require('../code');
-import Error = require('../error');
-import FunctionUtils = require('../function-utils');
-import FileWriter = require('../file-writer');
-import Maybe = require('../maybe');
-import StringUtils = require('../string-utils');
-import ObjC = require('../objc');
-import ObjCCommentUtils = require('../objc-comment-utils');
-import ObjCTypeUtils = require('../objc-type-utils');
-import ObjCNullabilityUtils = require('../objc-nullability-utils');
-import ObjCImportUtils = require('../objc-import-utils');
-import ObjectGeneration = require('../object-generation');
-import ObjectSpec = require('../object-spec');
-import ObjectSpecUtils = require('../object-spec-utils');
-import ObjectSpecCodeUtils = require('../object-spec-code-utils');
+import * as Code from '../code';
+import * as Error from '../error';
+import * as FunctionUtils from '../function-utils';
+import * as FileWriter from '../file-writer';
+import * as Maybe from '../maybe';
+import * as StringUtils from '../string-utils';
+import * as ObjC from '../objc';
+import * as ObjCCommentUtils from '../objc-comment-utils';
+import * as ObjCTypeUtils from '../objc-type-utils';
+import * as ObjCNullabilityUtils from '../objc-nullability-utils';
+import * as ObjCImportUtils from '../objc-import-utils';
+import * as ObjectGeneration from '../object-generation';
+import * as ObjectSpec from '../object-spec';
+import * as ObjectSpecUtils from '../object-spec-utils';
+import * as ObjectSpecCodeUtils from '../object-spec-code-utils';
 
 function keywordArgumentFromAttribute(
   attribute: ObjectSpec.Attribute,

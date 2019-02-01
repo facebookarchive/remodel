@@ -8,12 +8,12 @@
 ///<reference path='../../type-defs/jasmine.d.ts'/>
 ///<reference path='../../type-defs/jasmine-test-additions.d.ts'/>
 
-import AlgebraicType = require('../../algebraic-type');
-import Description = require('../../plugins/description');
-import Error = require('../../error');
-import Maybe = require('../../maybe');
-import ObjC = require('../../objc');
-import ObjectSpec = require('../../object-spec');
+import * as AlgebraicType from '../../algebraic-type';
+import * as Description from '../../plugins/description';
+import * as Error from '../../error';
+import * as Maybe from '../../maybe';
+import * as ObjC from '../../objc';
+import * as ObjectSpec from '../../object-spec';
 
 const AlgebraicTypePlugin = Description.createAlgebraicTypePlugin();
 const ObjectSpecPlugin = Description.createPlugin();

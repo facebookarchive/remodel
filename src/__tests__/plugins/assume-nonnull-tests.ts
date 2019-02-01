@@ -8,12 +8,12 @@
 ///<reference path='../../type-defs/jasmine.d.ts'/>
 ///<reference path='../../type-defs/jasmine-test-additions.d.ts'/>
 
-import AlgebraicType = require('../../algebraic-type');
-import AssumeNonnull = require('../../plugins/assume-nonnull');
-import FileWriter = require('../../file-writer');
-import Maybe = require('../../maybe');
-import ObjC = require('../../objc');
-import ObjectSpec = require('../../object-spec');
+import * as AlgebraicType from '../../algebraic-type';
+import * as AssumeNonnull from '../../plugins/assume-nonnull';
+import * as FileWriter from '../../file-writer';
+import * as Maybe from '../../maybe';
+import * as ObjC from '../../objc';
+import * as ObjectSpec from '../../object-spec';
 
 const ObjectSpecPlugin = AssumeNonnull.createPlugin();
 const AlgebraicTypePlugin = AssumeNonnull.createAlgebraicTypePlugin();

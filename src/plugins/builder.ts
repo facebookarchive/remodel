@@ -5,20 +5,20 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import Code = require('../code');
-import Error = require('../error');
-import FileWriter = require('../file-writer');
-import FunctionUtils = require('../function-utils');
-import Maybe = require('../maybe');
-import ObjC = require('../objc');
-import ObjCImportUtils = require('../objc-import-utils');
-import ObjCNullabilityUtils = require('../objc-nullability-utils');
-import ObjCTypeUtils = require('../objc-type-utils');
-import ObjectGeneration = require('../object-generation');
-import StringUtils = require('../string-utils');
-import ObjectSpec = require('../object-spec');
-import ObjectSpecUtils = require('../object-spec-utils');
-import ObjectSpecCodeUtils = require('../object-spec-code-utils');
+import * as Code from '../code';
+import * as Error from '../error';
+import * as FileWriter from '../file-writer';
+import * as FunctionUtils from '../function-utils';
+import * as Maybe from '../maybe';
+import * as ObjC from '../objc';
+import * as ObjCImportUtils from '../objc-import-utils';
+import * as ObjCNullabilityUtils from '../objc-nullability-utils';
+import * as ObjCTypeUtils from '../objc-type-utils';
+import * as ObjectGeneration from '../object-generation';
+import * as StringUtils from '../string-utils';
+import * as ObjectSpec from '../object-spec';
+import * as ObjectSpecUtils from '../object-spec-utils';
+import * as ObjectSpecCodeUtils from '../object-spec-code-utils';
 
 function nameOfBuilderForValueTypeWithName(valueTypeName: string): string {
   return valueTypeName + 'Builder';

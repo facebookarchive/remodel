@@ -9,15 +9,15 @@
 ///<reference path='../type-defs/jasmine-test-additions.d.ts'/>
 ///<reference path='../type-defs/node-0.11.d.ts'/>
 
-import Configuration = require('../configuration');
-import Either = require('../either');
-import Error = require('../error');
-import File = require('../file');
-import List = require('../list');
-import ObjC = require('../objc');
-import Maybe = require('../maybe');
-import path = require('path');
-import PathUtils = require('../path-utils');
+import * as Configuration from '../configuration';
+import * as Either from '../either';
+import * as Error from '../error';
+import * as File from '../file';
+import * as List from '../list';
+import * as ObjC from '../objc';
+import * as Maybe from '../maybe';
+import * as path from 'path';
+import * as PathUtils from '../path-utils';
 
 const ONE_LEVEL_UP = path.resolve(__dirname, '../');
 const PATH_BEFORE_FILES = File.getAbsoluteFilePath(ONE_LEVEL_UP + '/plugins/');

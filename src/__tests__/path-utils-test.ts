@@ -8,8 +8,8 @@
 ///<reference path='../type-defs/jasmine.d.ts'/>
 ///<reference path='../type-defs/jasmine-test-additions.d.ts'/>
 
-import PathUtils = require('../path-utils');
-import File = require('../file');
+import * as PathUtils from '../path-utils';
+import * as File from '../file';
 
 describe('PathUtils', function() {
   describe('#getAbsolutePathFromDirectoryAndRelativePath', function() {

@@ -5,8 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import File = require('./file');
-import List = require('./list');
+import * as File from './file';
+import * as List from './list';
 
 export enum RequestType {
   findFilesRequest,

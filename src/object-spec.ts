@@ -5,12 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import Code = require('./code');
-import Error = require('./error');
-import FileWriter = require('./file-writer');
-import Maybe = require('./maybe');
-import ObjC = require('./objc');
-import ObjectGeneration = require('./object-generation');
+import * as Code from './code';
+import * as Error from './error';
+import * as FileWriter from './file-writer';
+import * as Maybe from './maybe';
+import * as ObjC from './objc';
+import * as ObjectGeneration from './object-generation';
 
 export interface AttributeType {
   fileTypeIsDefinedIn: Maybe.Maybe<string>;

@@ -8,7 +8,7 @@
 ///<reference path='../type-defs/jasmine.d.ts'/>
 ///<reference path='../type-defs/jasmine-test-additions.d.ts'/>
 
-import StringUtils = require('../string-utils');
+import * as StringUtils from '../string-utils';
 
 describe('StringUtils', function() {
   describe('#indent', function() {

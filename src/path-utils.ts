@@ -5,8 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import File = require('./file');
-import path = require('path');
+import * as File from './file';
+import * as path from 'path';
 
 function pathWithoutLastSlash(path: string): string {
   const lastIndex = path.length - 1;

@@ -8,10 +8,10 @@
 ///<reference path='../../type-defs/jasmine.d.ts'/>
 ///<reference path='../../type-defs/jasmine-test-additions.d.ts'/>
 
-import ImmutableProperties = require('../../plugins/immutable-properties');
-import Maybe = require('../../maybe');
-import ObjC = require('../../objc');
-import ObjectSpec = require('../../object-spec');
+import * as ImmutableProperties from '../../plugins/immutable-properties';
+import * as Maybe from '../../maybe';
+import * as ObjC from '../../objc';
+import * as ObjectSpec from '../../object-spec';
 
 const Plugin = ImmutableProperties.createPlugin();
 

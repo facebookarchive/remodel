@@ -10,14 +10,14 @@
 ///<reference path='../type-defs/node-0.11.d.ts'/>
 ///<reference path='../type-defs/fs-extra.d.ts'/>
 
-import Either = require('../either');
-import Error = require('../error');
-import File = require('../file');
-import FileFinder = require('../file-finder');
-import fs = require('fs');
-import fsExtra = require('fs-extra');
-import Maybe = require('../maybe');
-import Promise = require('../promise');
+import * as Either from '../either';
+import * as Error from '../error';
+import * as File from '../file';
+import * as FileFinder from '../file-finder';
+import * as fs from 'fs';
+import * as fsExtra from 'fs-extra';
+import * as Maybe from '../maybe';
+import * as Promise from '../promise';
 
 describe('FileFinder', function() {
   describe('#findFilesAndDirectories', function() {

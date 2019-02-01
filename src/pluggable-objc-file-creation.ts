@@ -5,19 +5,19 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import Code = require('./code');
-import Either = require('./either');
-import Error = require('./error');
-import File = require('./file');
-import FileWriter = require('./file-writer');
-import FunctionUtils = require('./function-utils');
-import List = require('./list');
-import Maybe = require('./maybe');
-import ObjC = require('./objc');
-import ObjCCommentUtils = require('./objc-comment-utils');
-import ObjCFileCreation = require('./objc-file-creation');
-import OutputControl = require('./output-control');
-import path = require('path');
+import * as Code from './code';
+import * as Either from './either';
+import * as Error from './error';
+import * as File from './file';
+import * as FileWriter from './file-writer';
+import * as FunctionUtils from './function-utils';
+import * as List from './list';
+import * as Maybe from './maybe';
+import * as ObjC from './objc';
+import * as ObjCCommentUtils from './objc-comment-utils';
+import * as ObjCFileCreation from './objc-file-creation';
+import * as OutputControl from './output-control';
+import * as path from 'path';
 
 export interface ObjCGenerationPlugIn<T> {
   additionalFiles: (typeInformation: T) => Code.File[];

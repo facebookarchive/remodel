@@ -5,8 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import List = require('./list');
-import Map = require('./map');
+import * as List from './list';
+import * as Map from './map';
 
 export interface UniquesReductionTracker<T> {
   values: List.List<T>;

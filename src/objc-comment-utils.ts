@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import ObjC = require('./objc');
+import * as ObjC from './objc';
 
 function commentWithFirstSpaceIfNecessary(comment: string): string {
   return comment.charAt(0) == ' ' ? comment : ' ' + comment;

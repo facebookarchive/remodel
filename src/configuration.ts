@@ -5,17 +5,17 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import Either = require('./either');
-import Error = require('./error');
-import File = require('./file');
-import FileReader = require('./file-reader');
-import FunctionUtils = require('./function-utils');
-import List = require('./list');
-import Map = require('./map');
-import Maybe = require('./maybe');
-import PathUtils = require('./path-utils');
-import Promise = require('./promise');
-import Unique = require('./unique');
+import * as Either from './either';
+import * as Error from './error';
+import * as File from './file';
+import * as FileReader from './file-reader';
+import * as FunctionUtils from './function-utils';
+import * as List from './list';
+import * as Map from './map';
+import * as Maybe from './maybe';
+import * as PathUtils from './path-utils';
+import * as Promise from './promise';
+import * as Unique from './unique';
 
 export interface PluginConfig {
   absolutePath: File.AbsoluteFilePath;

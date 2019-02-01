@@ -5,12 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import AlgebraicType = require('./algebraic-type');
-import AlgebraicTypeUtils = require('./algebraic-type-utils');
-import Maybe = require('./maybe');
-import ObjC = require('./objc');
-import ObjCRenderer = require('./objc-renderer');
-import StringUtils = require('./string-utils');
+import * as AlgebraicType from './algebraic-type';
+import * as AlgebraicTypeUtils from './algebraic-type-utils';
+import * as Maybe from './maybe';
+import * as ObjC from './objc';
+import * as ObjCRenderer from './objc-renderer';
+import * as StringUtils from './string-utils';
 
 function localFunctionBlockDefinitionNameForSubtype(
   subtype: AlgebraicType.Subtype,

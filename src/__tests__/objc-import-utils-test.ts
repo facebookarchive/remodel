@@ -8,11 +8,11 @@
 ///<reference path='../type-defs/jasmine.d.ts'/>
 ///<reference path='../type-defs/jasmine-test-additions.d.ts'/>
 
-import Maybe = require('../maybe');
-import ObjC = require('../objc');
-import ObjCImportUtils = require('../objc-import-utils');
-import ObjectGeneration = require('../object-generation');
-import ObjectSpec = require('../object-spec');
+import * as Maybe from '../maybe';
+import * as ObjC from '../objc';
+import * as ObjCImportUtils from '../objc-import-utils';
+import * as ObjectGeneration from '../object-generation';
+import * as ObjectSpec from '../object-spec';
 
 describe('ObjCImportUtils', function() {
   describe('#importForTypeLookup', function() {

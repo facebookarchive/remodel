@@ -5,11 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import Either = require('./either');
-import Error = require('./error');
-import FileFinder = require('./file-finder');
-import ParallelProcess = require('./parallel-process');
-import Promise = require('./promise');
+import * as Either from './either';
+import * as Error from './error';
+import * as FileFinder from './file-finder';
+import * as ParallelProcess from './parallel-process';
+import * as Promise from './promise';
 
 function processFoundFileRequest(request: ParallelProcess.FindFilesRequest) {
   const foundFilesFuture: Promise.Future<

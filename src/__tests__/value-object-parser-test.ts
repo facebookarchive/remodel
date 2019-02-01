@@ -8,12 +8,12 @@
 ///<reference path='../type-defs/jasmine.d.ts'/>
 ///<reference path='../type-defs/jasmine-test-additions.d.ts'/>
 
-import Either = require('../either');
-import Error = require('../error');
-import Maybe = require('../maybe');
-import ObjC = require('../objc');
-import ObjectSpec = require('../object-spec');
-import ObjectSpecParser = require('../object-spec-parser');
+import * as Either from '../either';
+import * as Error from '../error';
+import * as Maybe from '../maybe';
+import * as ObjC from '../objc';
+import * as ObjectSpec from '../object-spec';
+import * as ObjectSpecParser from '../object-spec-parser';
 
 describe('ObjectSpecParser', function() {
   describe('#parse', function() {

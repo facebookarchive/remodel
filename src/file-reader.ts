@@ -7,11 +7,11 @@
 
 ///<reference path='./type-defs/node-0.11.d.ts'/>
 
-import Either = require('./either');
-import Error = require('./error');
-import File = require('./file');
-import fs = require('fs');
-import Promise = require('./promise');
+import * as Either from './either';
+import * as Error from './error';
+import * as File from './file';
+import * as fs from 'fs';
+import * as Promise from './promise';
 
 export function read(
   path: File.AbsoluteFilePath,

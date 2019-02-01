@@ -5,13 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import FunctionUtils = require('./function-utils');
-import Maybe = require('./maybe');
-import ObjC = require('./objc');
-import ObjCTypeUtils = require('./objc-type-utils');
-import ObjectGeneration = require('./object-generation');
-import ObjectSpec = require('./object-spec');
-import ObjectSpecCodeUtils = require('./object-spec-code-utils');
+import * as FunctionUtils from './function-utils';
+import * as Maybe from './maybe';
+import * as ObjC from './objc';
+import * as ObjCTypeUtils from './objc-type-utils';
+import * as ObjectGeneration from './object-generation';
+import * as ObjectSpec from './object-spec';
+import * as ObjectSpecCodeUtils from './object-spec-code-utils';
 
 const KNOWN_SYSTEM_TYPE_IMPORT_INFO: {
   [id: string]: Maybe.Maybe<ObjC.Import>;

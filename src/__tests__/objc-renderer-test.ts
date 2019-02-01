@@ -8,11 +8,11 @@
 ///<reference path='../type-defs/jasmine.d.ts'/>
 ///<reference path='../type-defs/jasmine-test-additions.d.ts'/>
 
-import Code = require('../code');
-import CPlusPlus = require('../cplusplus');
-import Maybe = require('../maybe');
-import ObjC = require('../objc');
-import ObjCRenderer = require('../objc-renderer');
+import * as Code from '../code';
+import * as CPlusPlus from '../cplusplus';
+import * as Maybe from '../maybe';
+import * as ObjC from '../objc';
+import * as ObjCRenderer from '../objc-renderer';
 
 describe('ObjCRenderer', function() {
   describe('#renderHeader', function() {

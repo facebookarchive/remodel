@@ -5,9 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import List = require('./list');
-import Map = require('./map');
-import Maybe = require('./maybe');
+import * as List from './list';
+import * as Map from './map';
+import * as Maybe from './maybe';
 
 export enum LoggingType {
   debug,

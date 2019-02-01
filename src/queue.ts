@@ -5,8 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import List = require('./list');
-import Maybe = require('./maybe');
+import * as List from './list';
+import * as Maybe from './maybe';
 
 export class Queue<T> {
   public forwardList: List.List<T>;

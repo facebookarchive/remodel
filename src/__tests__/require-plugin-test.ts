@@ -9,14 +9,14 @@
 ///<reference path='../type-defs/jasmine-test-additions.d.ts'/>
 ///<reference path='../type-defs/node-0.11.d.ts'/>
 
-import Either = require('../either');
-import Error = require('../error');
-import File = require('../file');
-import fs = require('fs');
-import Maybe = require('../maybe');
-import PathUtils = require('../path-utils');
-import RequirePlugin = require('../require-plugin');
-import ObjectSpec = require('../object-spec');
+import * as Either from '../either';
+import * as Error from '../error';
+import * as File from '../file';
+import * as fs from 'fs';
+import * as Maybe from '../maybe';
+import * as PathUtils from '../path-utils';
+import * as RequirePlugin from '../require-plugin';
+import * as ObjectSpec from '../object-spec';
 
 const ABSOLUTE_PATH_OF_CURRENT_DIRECTORY = File.getAbsoluteFilePath(__dirname);
 

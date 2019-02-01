@@ -7,14 +7,14 @@
 
 ///<reference path='js/object-mona-parser/object-mona-parser.d.ts'/>
 
-import Either = require('./either');
-import Error = require('./error');
-import Maybe = require('./maybe');
-import ObjectSpec = require('./object-spec');
-import ObjC = require('./objc');
-import ObjectGeneration = require('./object-generation');
-import ObjectGenerationParsingUtils = require('./object-generation-parsing-utils');
-import ObjectMonaParser = require('./js/object-mona-parser/object-mona-parser');
+import * as Either from './either';
+import * as Error from './error';
+import * as Maybe from './maybe';
+import * as ObjectSpec from './object-spec';
+import * as ObjC from './objc';
+import * as ObjectGeneration from './object-generation';
+import * as ObjectGenerationParsingUtils from './object-generation-parsing-utils';
+import * as ObjectMonaParser from './js/object-mona-parser/object-mona-parser';
 
 export function underlyingTypeForType(
   providedUnderlyingType: string,

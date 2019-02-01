@@ -7,8 +7,8 @@
 
 ///<reference path='../node_modules/immutable/dist/immutable.d.ts'/>
 
-import Immutable = require('immutable');
-import Maybe = require('./maybe');
+import * as Immutable from 'immutable';
+import * as Maybe from './maybe';
 
 export interface Map<K, V> {
   map: Immutable.Map<K, V>;

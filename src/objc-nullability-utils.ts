@@ -5,9 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import Maybe = require('./maybe');
-import ObjC = require('./objc');
-import ObjCTypeUtils = require('./objc-type-utils');
+import * as Maybe from './maybe';
+import * as ObjC from './objc';
+import * as ObjCTypeUtils from './objc-type-utils';
 
 export function keywordArgumentModifiersForNullability(
   nullability: ObjC.Nullability,

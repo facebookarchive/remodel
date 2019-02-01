@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import ObjC = require('./objc');
+import * as ObjC from './objc';
 
 export interface TypeMatchers<T> {
   id: () => T;

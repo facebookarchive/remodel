@@ -7,18 +7,18 @@
 
 ///<reference path='./type-defs/cli-color.d.ts'/>
 
-import colors = require('cli-color');
-import CommandLine = require('./commandline');
-import Either = require('./either');
-import Error = require('./error');
-import FileWriter = require('./file-writer');
-import FunctionUtils = require('./function-utils');
-import List = require('./list');
-import Logging = require('./logging');
-import LoggingSequenceUtils = require('./logged-sequence-utils');
-import LazySequence = require('./lazy-sequence');
-import Maybe = require('./maybe');
-import Promise = require('./promise');
+import * as colors from 'cli-color';
+import * as CommandLine from './commandline';
+import * as Either from './either';
+import * as Error from './error';
+import * as FileWriter from './file-writer';
+import * as FunctionUtils from './function-utils';
+import * as List from './list';
+import * as Logging from './logging';
+import * as LoggingSequenceUtils from './logged-sequence-utils';
+import * as LazySequence from './lazy-sequence';
+import * as Maybe from './maybe';
+import * as Promise from './promise';
 
 export interface ObjectGenerationSuccess {
   name: string;

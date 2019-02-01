@@ -5,31 +5,31 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import CommandLine = require('./commandline');
-import Configuration = require('./configuration');
-import Either = require('./either');
-import Error = require('./error');
-import File = require('./file');
-import FileFinder = require('./file-finder');
-import FileReader = require('./file-reader');
-import FileWriter = require('./file-writer');
-import FunctionUtils = require('./function-utils');
-import List = require('./list');
-import Logging = require('./logging');
-import LoggingSequenceUtils = require('./logged-sequence-utils');
-import Maybe = require('./maybe');
-import ObjC = require('./objc');
-import ReadFileUtils = require('./file-logged-sequence-read-utils');
-import RequirePlugin = require('./require-plugin');
-import PathUtils = require('./path-utils');
-import PluginInclusionUtils = require('./plugin-inclusion-utils');
-import Promise = require('./promise');
-import ObjectSpec = require('./object-spec');
-import ObjectSpecCreation = require('./object-spec-creation');
-import ObjectSpecParser = require('./object-spec-parser');
-import OutputControl = require('./output-control');
-import WriteFileUtils = require('./file-logged-sequence-write-utils');
-import path = require('path');
+import * as CommandLine from './commandline';
+import * as Configuration from './configuration';
+import * as Either from './either';
+import * as Error from './error';
+import * as File from './file';
+import * as FileFinder from './file-finder';
+import * as FileReader from './file-reader';
+import * as FileWriter from './file-writer';
+import * as FunctionUtils from './function-utils';
+import * as List from './list';
+import * as Logging from './logging';
+import * as LoggingSequenceUtils from './logged-sequence-utils';
+import * as Maybe from './maybe';
+import * as ObjC from './objc';
+import * as ReadFileUtils from './file-logged-sequence-read-utils';
+import * as RequirePlugin from './require-plugin';
+import * as PathUtils from './path-utils';
+import * as PluginInclusionUtils from './plugin-inclusion-utils';
+import * as Promise from './promise';
+import * as ObjectSpec from './object-spec';
+import * as ObjectSpecCreation from './object-spec-creation';
+import * as ObjectSpecParser from './object-spec-parser';
+import * as OutputControl from './output-control';
+import * as WriteFileUtils from './file-logged-sequence-write-utils';
+import * as path from 'path';
 
 interface ObjectSpecCreationContext {
   baseClassName: string;

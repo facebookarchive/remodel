@@ -5,14 +5,14 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import Code = require('../code');
-import Error = require('../error');
-import FileWriter = require('../file-writer');
-import Maybe = require('../maybe');
-import ObjC = require('../objc');
-import StringUtils = require('../string-utils');
-import ObjectSpec = require('../object-spec');
-import ObjectSpecUtils = require('../object-spec-utils');
+import * as Code from '../code';
+import * as Error from '../error';
+import * as FileWriter from '../file-writer';
+import * as Maybe from '../maybe';
+import * as ObjC from '../objc';
+import * as StringUtils from '../string-utils';
+import * as ObjectSpec from '../object-spec';
+import * as ObjectSpecUtils from '../object-spec-utils';
 
 function nameOfFetchStatusForValueTypeWithName(valueTypeName: string): string {
   return valueTypeName + 'FetchStatus';

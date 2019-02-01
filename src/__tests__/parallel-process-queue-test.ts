@@ -10,12 +10,12 @@
 ///<reference path='../type-defs/node-0.11.d.ts'/>
 ///<reference path='../type-defs/fs-extra.d.ts'/>
 
-import File = require('../file');
-import ParallelProcessQueue = require('../parallel-process-queue');
-import fs = require('fs');
-import fsExtra = require('fs-extra');
-import LazySequence = require('../lazy-sequence');
-import Promise = require('../promise');
+import * as File from '../file';
+import * as ParallelProcessQueue from '../parallel-process-queue';
+import * as fs from 'fs';
+import * as fsExtra from 'fs-extra';
+import * as LazySequence from '../lazy-sequence';
+import * as Promise from '../promise';
 
 describe('ParallelProcessQueue', function() {
   it(

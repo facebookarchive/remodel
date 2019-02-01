@@ -7,17 +7,17 @@
 
 ///<reference path='./type-defs/node-0.11.d.ts'/>
 
-import Code = require('./code');
-import Either = require('./either');
-import Error = require('./error');
-import File = require('./file');
-import FileWriter = require('./file-writer');
-import FunctionUtils = require('./function-utils');
-import List = require('./list');
-import Maybe = require('./maybe');
-import ObjC = require('./objc');
-import PluggableObjCFileCreation = require('./pluggable-objc-file-creation');
-import ObjectSpec = require('./object-spec');
+import * as Code from './code';
+import * as Either from './either';
+import * as Error from './error';
+import * as File from './file';
+import * as FileWriter from './file-writer';
+import * as FunctionUtils from './function-utils';
+import * as List from './list';
+import * as Maybe from './maybe';
+import * as ObjC from './objc';
+import * as PluggableObjCFileCreation from './pluggable-objc-file-creation';
+import * as ObjectSpec from './object-spec';
 
 export interface Request
   extends PluggableObjCFileCreation.ObjCGenerationRequest<ObjectSpec.Type> {}

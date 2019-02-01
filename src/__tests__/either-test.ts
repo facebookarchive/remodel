@@ -8,7 +8,7 @@
 ///<reference path='../type-defs/jasmine.d.ts'/>
 ///<reference path='../type-defs/jasmine-test-additions.d.ts'/>
 
-import Either = require('../either');
+import * as Either from '../either';
 
 describe('Either', function() {
   describe('#match', function() {

@@ -8,12 +8,12 @@
 ///<reference path='../../type-defs/jasmine.d.ts'/>
 ///<reference path='../../type-defs/jasmine-test-additions.d.ts'/>
 
-import Builder = require('../../plugins/builder');
-import Code = require('../../code');
-import Maybe = require('../../maybe');
-import ObjC = require('../../objc');
-import ObjectGeneration = require('../../object-generation');
-import ObjectSpec = require('../../object-spec');
+import * as Builder from '../../plugins/builder';
+import * as Code from '../../code';
+import * as Maybe from '../../maybe';
+import * as ObjC from '../../objc';
+import * as ObjectGeneration from '../../object-generation';
+import * as ObjectSpec from '../../object-spec';
 
 const Plugin = Builder.createPlugin();
 

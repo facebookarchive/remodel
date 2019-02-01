@@ -8,7 +8,7 @@
 ///<reference path='../type-defs/jasmine.d.ts'/>
 ///<reference path='../type-defs/jasmine-test-additions.d.ts'/>
 
-import Functor = require('../functor');
+import * as Functor from '../functor';
 
 describe('Functor', function() {
   describe('#map', function() {

@@ -8,11 +8,11 @@
 ///<reference path='../../type-defs/jasmine.d.ts'/>
 ///<reference path='../../type-defs/jasmine-test-additions.d.ts'/>
 
-import AlgebraicType = require('../../algebraic-type');
-import InitNewUnavailable = require('../../plugins/init-new-unavailable');
-import Maybe = require('../../maybe');
-import ObjC = require('../../objc');
-import ObjectSpec = require('../../object-spec');
+import * as AlgebraicType from '../../algebraic-type';
+import * as InitNewUnavailable from '../../plugins/init-new-unavailable';
+import * as Maybe from '../../maybe';
+import * as ObjC from '../../objc';
+import * as ObjectSpec from '../../object-spec';
 
 const ObjectSpecPlugin = InitNewUnavailable.createPlugin();
 const AlgebraicTypePlugin = InitNewUnavailable.createAlgebraicTypePlugin();

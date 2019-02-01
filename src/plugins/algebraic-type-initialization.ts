@@ -5,21 +5,21 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import AlgebraicType = require('../algebraic-type');
-import AlgebraicTypeUtils = require('../algebraic-type-utils');
-import Code = require('../code');
-import Error = require('../error');
-import FileWriter = require('../file-writer');
-import FunctionUtils = require('../function-utils');
-import List = require('../list');
-import Map = require('../map');
-import Maybe = require('../maybe');
-import ObjC = require('../objc');
-import ObjCCommentUtils = require('../objc-comment-utils');
-import ObjCImportUtils = require('../objc-import-utils');
-import ObjCNullabilityUtils = require('../objc-nullability-utils');
-import ObjectGeneration = require('../object-generation');
-import StringUtils = require('../string-utils');
+import * as AlgebraicType from '../algebraic-type';
+import * as AlgebraicTypeUtils from '../algebraic-type-utils';
+import * as Code from '../code';
+import * as Error from '../error';
+import * as FileWriter from '../file-writer';
+import * as FunctionUtils from '../function-utils';
+import * as List from '../list';
+import * as Map from '../map';
+import * as Maybe from '../maybe';
+import * as ObjC from '../objc';
+import * as ObjCCommentUtils from '../objc-comment-utils';
+import * as ObjCImportUtils from '../objc-import-utils';
+import * as ObjCNullabilityUtils from '../objc-nullability-utils';
+import * as ObjectGeneration from '../object-generation';
+import * as StringUtils from '../string-utils';
 
 const PUBLIC_FOUNDATION_IMPORT: ObjC.Import = {
   library: Maybe.Just('Foundation'),

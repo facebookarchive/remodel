@@ -5,8 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import Configuration = require('./configuration');
-import List = require('./list');
+import * as Configuration from './configuration';
+import * as List from './list';
 
 export const VALUE_OBJECT_DEFAULT_CONFIG = {
   baseIncludes: List.of(

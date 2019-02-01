@@ -5,12 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import FunctionUtils = require('../function-utils');
-import Maybe = require('../maybe');
-import ObjC = require('../objc');
-import ObjectSpec = require('../object-spec');
-import ObjectSpecUtils = require('../object-spec-utils');
-import ObjectSpecCodeUtils = require('../object-spec-code-utils');
+import * as FunctionUtils from '../function-utils';
+import * as Maybe from '../maybe';
+import * as ObjC from '../objc';
+import * as ObjectSpec from '../object-spec';
+import * as ObjectSpecUtils from '../object-spec-utils';
+import * as ObjectSpecCodeUtils from '../object-spec-code-utils';
 
 function shouldValidateNSCopyingConformanceOfAttribute(
   supportsValueSemantics: boolean,

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import ObjectSpec = require('./object-spec');
+import * as ObjectSpec from './object-spec';
 
 export function typeReferenceForValueTypeWithName(name: string): string {
   return name + ' *';

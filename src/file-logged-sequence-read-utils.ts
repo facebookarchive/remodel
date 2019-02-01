@@ -5,15 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import Either = require('./either');
-import Error = require('./error');
-import File = require('./file');
-import FileReader = require('./file-reader');
-import LazySequence = require('./lazy-sequence');
-import Logging = require('./logging');
-import LoggingSequenceUtils = require('./logged-sequence-utils');
-import ParallelProcessQueue = require('./parallel-process-queue');
-import Promise = require('./promise');
+import * as Either from './either';
+import * as Error from './error';
+import * as File from './file';
+import * as FileReader from './file-reader';
+import * as LazySequence from './lazy-sequence';
+import * as Logging from './logging';
+import * as LoggingSequenceUtils from './logged-sequence-utils';
+import * as ParallelProcessQueue from './parallel-process-queue';
+import * as Promise from './promise';
 
 export interface UnparsedObjectCreationRequest {
   path: File.AbsoluteFilePath;

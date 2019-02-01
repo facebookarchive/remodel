@@ -8,12 +8,12 @@
 ///<reference path='../../type-defs/jasmine.d.ts'/>
 ///<reference path='../../type-defs/jasmine-test-additions.d.ts'/>
 
-import AlgebraicTypeTemplatedMatching = require('../../plugins/algebraic-type-templated-matching');
-import Code = require('../../code');
-import CPlusPlus = require('../../cplusplus');
-import Maybe = require('../../maybe');
-import AlgebraicType = require('../../algebraic-type');
-import ObjC = require('../../objc');
+import * as AlgebraicTypeTemplatedMatching from '../../plugins/algebraic-type-templated-matching';
+import * as Code from '../../code';
+import * as CPlusPlus from '../../cplusplus';
+import * as Maybe from '../../maybe';
+import * as AlgebraicType from '../../algebraic-type';
+import * as ObjC from '../../objc';
 
 const Plugin = AlgebraicTypeTemplatedMatching.createAlgebraicTypePlugin();
 

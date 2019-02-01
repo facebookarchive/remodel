@@ -5,15 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import Code = require('./code');
-import Either = require('./either');
-import Error = require('./error');
-import File = require('./file');
-import FileWriter = require('./file-writer');
-import List = require('./list');
-import Maybe = require('./maybe');
-import ObjCRenderer = require('./objc-renderer');
-import path = require('path');
+import * as Code from './code';
+import * as Either from './either';
+import * as Error from './error';
+import * as File from './file';
+import * as FileWriter from './file-writer';
+import * as List from './list';
+import * as Maybe from './maybe';
+import * as ObjCRenderer from './objc-renderer';
+import * as path from 'path';
 
 function fileRequest(
   containingFolderPath: File.AbsoluteFilePath,

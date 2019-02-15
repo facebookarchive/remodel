@@ -112,7 +112,10 @@ function commentsForSubtype(subtype: AlgebraicType.Subtype): string[] {
     function(
       namedAttributeCollectionSubtype: AlgebraicType.NamedAttributeCollectionSubtype,
     ) {
-      return namedAttributeCollectionSubtype.comments;
+      return ObjCCommentUtils.prefixedParamCommentsFromAttributes(
+        namedAttributeCollectionSubtype.comments,
+        namedAttributeCollectionSubtype.attributes,
+      );
     },
     function(attribute: AlgebraicType.SubtypeAttribute) {
       return attribute.comments;

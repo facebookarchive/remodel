@@ -24,6 +24,7 @@ Feature: Outputting Algebraic Types
         %singleAttributeSubtype attributeType="NSUInteger"
         someAttributeSubtype
         SecondSubtype {
+          # Something is commented!
           BOOL something
         }
       }
@@ -68,6 +69,9 @@ Feature: Outputting Algebraic Types
 
       + (instancetype)new NS_UNAVAILABLE;
 
+      /**
+       * @param something Something is commented!
+       */
       + (instancetype)secondSubtypeWithSomething:(BOOL)something;
 
       + (instancetype)someAttributeSubtype:(NSUInteger)someAttributeSubtype;

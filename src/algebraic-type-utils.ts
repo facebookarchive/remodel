@@ -172,7 +172,7 @@ export function codeForSwitchingOnSubtypeWithSubtypeMapper(
     subtype: AlgebraicType.Subtype,
   ) => string[],
 ): string[] {
-  const caseStatements: string[] = algebraicType.subtypes.reduce(
+  const caseStatements: string[] = algebraicType.subtypes.reduce<string[]>(
     (soFar, subtype) =>
       caseStatementForSubtypeWithSubtypeMapper(
         algebraicType,
@@ -225,14 +225,6 @@ function blockTypeParameterForSubtypeAttribute(
   };
 }
 
-function voidBlockParameter(): ObjC.BlockTypeParameter {
-  return {
-    name: null,
-    type: null,
-    nullability: ObjC.Nullability.Inherited(),
-  };
-}
-
 function blockParametersForSubtype(
   subtype: AlgebraicType.Subtype,
 ): ObjC.BlockTypeParameter[] {
@@ -242,7 +234,7 @@ function blockParametersForSubtype(
   if (attributes.length > 0) {
     return attributes.map(blockTypeParameterForSubtypeAttribute);
   } else {
-    return [voidBlockParameter()];
+    return [];
   }
 }
 

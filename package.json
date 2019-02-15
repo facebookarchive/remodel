@@ -19,6 +19,8 @@
   "repository": "facebook/remodel",
   "license": "MIT",
   "dependencies": {
+    "@types/cli-color": "^0.3.29",
+    "@types/minimist": "^1.2.0",
     "@types/node": "^10.12.20",
     "cli-color": "0.3.2",
     "glob": "7.1.2",

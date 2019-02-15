@@ -233,7 +233,7 @@ export function shouldForwardProtocolDeclareAttribute(
 
 export function forwardProtocolDeclarationForAttribute(
   attribute: ObjectSpec.Attribute,
-): ObjC.ForwardDeclaration {
+): ObjC.ForwardDeclaration | undefined {
   return Maybe.match(
     function(protocol) {
       return ObjC.ForwardDeclaration.ForwardProtocolDeclaration(protocol);

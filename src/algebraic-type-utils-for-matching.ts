@@ -65,14 +65,18 @@ export function buildLocalFunctionBlockDefinitionsForSubtype(
     false,
     subtype,
   );
+  const paramList =
+    blockType.parameters.length > 0
+      ? blockType.parameters
+          .map(ObjCRenderer.toBlockTypeParameterString)
+          .join(', ')
+      : 'void';
   const start: string =
     blockType.name +
     ' ' +
     localFunctionBlockDefinitionNameForSubtype(subtype) +
     ' = ^(' +
-    blockType.parameters
-      .map(ObjCRenderer.toBlockTypeParameterString)
-      .join(', ') +
+    paramList +
     ') {';
   const blockBody: string = blockInvocationWrapper(
     matchBlockNameForSubtype(subtype) +

@@ -480,20 +480,16 @@ function toPostfixMacroString(macro: Macro): string {
 export function toBlockTypeParameterString(
   parameter: ObjC.BlockTypeParameter,
 ): string {
-  if (parameter.type != null) {
-    const nullabilityModifier: String = parameter.nullability.match(
-      returnString(''),
-      returnString('_Nonnull '),
-      returnString('_Nullable '),
-    );
-    return (
-      renderableTypeReferenceNestingSubsequentToken(parameter.type.reference) +
-      nullabilityModifier +
-      parameter.name
-    );
-  } else {
-    return 'void';
-  }
+  const nullabilityModifier: String = parameter.nullability.match(
+    returnString(''),
+    returnString('_Nonnull '),
+    returnString('_Nullable '),
+  );
+  return (
+    renderableTypeReferenceNestingSubsequentToken(parameter.type.reference) +
+    nullabilityModifier +
+    parameter.name
+  );
 }
 
 function toBlockTypeDeclaration(blockType: ObjC.BlockType): string {
@@ -502,6 +498,11 @@ function toBlockTypeDeclaration(blockType: ObjC.BlockType): string {
     blockTypeComments,
   );
 
+  const paramList =
+    blockType.parameters.length > 0
+      ? blockType.parameters.map(toBlockTypeParameterString).join(', ')
+      : 'void';
+
   return (
     blockTypeCommentsSection +
     'typedef ' +
@@ -509,7 +510,7 @@ function toBlockTypeDeclaration(blockType: ObjC.BlockType): string {
     '(^' +
     blockType.name +
     ')(' +
-    blockType.parameters.map(toBlockTypeParameterString).join(', ') +
+    paramList +
     ');'
   );
 }

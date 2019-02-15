@@ -139,7 +139,10 @@ function typeInformationWithAllAttributesFromPlugins(
   typeInformation: ObjectSpec.Type,
   plugins: List.List<ObjectSpec.Plugin>,
 ): ObjectSpec.Type {
-  const pluginAttributes: ObjectSpec.Attribute[] = List.foldl(
+  const pluginAttributes: ObjectSpec.Attribute[] = List.foldl<
+    ObjectSpec.Plugin,
+    ObjectSpec.Attribute[]
+  >(
     (soFar, plugin) => buildExtraAttributes(typeInformation, soFar, plugin),
     [],
     plugins,
@@ -161,7 +164,7 @@ function additionalTypesFromPlugins(
   typeInformation: ObjectSpec.Type,
   plugins: List.List<ObjectSpec.Plugin>,
 ): ObjectSpec.Type[] {
-  return List.foldl(
+  return List.foldl<ObjectSpec.Plugin, ObjectSpec.Type[]>(
     (soFar, plugin) => buildExtraTypes(typeInformation, soFar, plugin),
     [],
     plugins,

@@ -155,7 +155,7 @@ function propertyModifiersForCopyingFromAttribute(
     supportsValueSemantics,
     attribute,
   );
-  if (type === null) {
+  if (type == null) {
     return [];
   }
   return type.match(

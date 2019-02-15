@@ -5,17 +5,21 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const colors = require('cli-color');
-const List = require('./list');
-const Maybe = require('./maybe');
-const ObjectSpecs = require('./object-specs');
-const ParallelProcessQueue = require('./parallel-process-queue');
-const Promise = require('./promise');
-const ValueObjectDefaultConfig = require('./value-object-default-config');
-const ObjectSpecDefaultConfig = require('./object-spec-default-config');
-const AlgebraicTypes = require('./algebraic-types');
+import * as colors from 'cli-color';
+import * as commandline from './commandline';
+import * as List from './list';
+import * as Maybe from './maybe';
+import * as ObjectSpecs from './object-specs';
+import * as ParallelProcessQueue from './parallel-process-queue';
+import * as Promise from './promise';
+import * as ValueObjectDefaultConfig from './value-object-default-config';
+import * as ObjectSpecDefaultConfig from './object-spec-default-config';
+import * as AlgebraicTypes from './algebraic-types';
+import {ConsoleOutputResults} from './file-logged-sequence-write-utils';
 
-function flattenResults(results) {
+function flattenResults(
+  results: List.List<ConsoleOutputResults>,
+): ConsoleOutputResults {
   return List.foldl(
     function(currentValue, result) {
       return {
@@ -28,12 +32,17 @@ function flattenResults(results) {
   );
 }
 
-function aggregateResults(results) {
+function aggregateResults(
+  results: List.List<List.List<ConsoleOutputResults>>,
+): ConsoleOutputResults {
   const flattenedOnce = List.map(flattenResults, results);
   return flattenResults(flattenedOnce);
 }
 
-export function main(parsedArgs, testEnv) {
+export function main(
+  parsedArgs: Maybe.Maybe<commandline.Arguments>,
+  testEnv?: boolean,
+): Promise.Future<List.List<List.List<ConsoleOutputResults>>> | undefined {
   return Maybe.match(
     function(args) {
       const valueObjectsFuture = ObjectSpecs.generate(
@@ -93,6 +102,7 @@ export function main(parsedArgs, testEnv) {
       if (!testEnv) {
         ParallelProcessQueue.shutDown();
       }
+      return undefined;
     },
     parsedArgs,
   );

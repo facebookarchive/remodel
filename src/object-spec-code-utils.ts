@@ -111,7 +111,7 @@ export function computeTypeOfAttribute(
 export function propertyOwnershipModifierForAttribute(
   supportsValueSemantics: boolean,
   attribute: ObjectSpec.Attribute,
-): ObjC.PropertyModifier {
+): ObjC.PropertyModifier | undefined {
   const type = computeTypeOfAttribute(attribute);
   if (type === null) {
     return ObjC.PropertyModifier.Assign();
@@ -193,7 +193,7 @@ export function propertyOwnershipModifierForAttribute(
         return propertyModifierForCopyable(supportsValueSemantics);
       },
       unmatchedType: function() {
-        return null;
+        return undefined;
       },
     },
     type,
@@ -211,7 +211,7 @@ export function shouldCopyIncomingValueForAttribute(
     supportsValueSemantics,
     attribute,
   );
-  if (modifier === null) {
+  if (modifier == null) {
     return false;
   }
   return modifier.match(

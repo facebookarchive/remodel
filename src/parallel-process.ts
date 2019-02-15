@@ -6,7 +6,6 @@
  */
 
 import * as File from './file';
-import * as List from './list';
 
 export enum RequestType {
   findFilesRequest,

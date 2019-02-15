@@ -47,10 +47,12 @@ function fastrun(args, tmpDirectoryPath, callback) {
   // about missing output files. Need to sequence inspecting the
   // output of the tool *after* the promises finish resolving! (and
   // yes, it did take me way too long to realize I needed to do this.)
-  Promise.then(() => {
-    process.chdir(curdir);
-    callback();
-  }, promise);
+  if (promise) {
+    Promise.then(() => {
+      process.chdir(curdir);
+      callback();
+    }, promise);
+  }
 }
 
 function run(cmd, tmpDirectoryPath, callback) {

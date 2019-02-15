@@ -42,14 +42,14 @@ export interface NamedAttributeCollectionSubtype {
 }
 
 export class Subtype {
-  private attributeCollectionSubtype: NamedAttributeCollectionSubtype;
-  private singleAttribute: SubtypeAttribute;
   private definitionType: SubtypeDefinitionType;
+  private singleAttribute?: SubtypeAttribute;
+  private attributeCollectionSubtype?: NamedAttributeCollectionSubtype;
 
   constructor(
     definitionType: SubtypeDefinitionType,
-    singleAttribute: SubtypeAttribute,
-    attributeCollectionSubtype: NamedAttributeCollectionSubtype,
+    singleAttribute?: SubtypeAttribute,
+    attributeCollectionSubtype?: NamedAttributeCollectionSubtype,
   ) {
     this.definitionType = definitionType;
     this.singleAttribute = singleAttribute;
@@ -61,7 +61,7 @@ export class Subtype {
   ): Subtype {
     return new Subtype(
       SubtypeDefinitionType.namedAttributeCollection,
-      null,
+      undefined,
       namedAttributeCollectionType,
     );
   }
@@ -69,7 +69,11 @@ export class Subtype {
   static SingleAttributeSubtypeDefinition(
     attribute: SubtypeAttribute,
   ): Subtype {
-    return new Subtype(SubtypeDefinitionType.singleAttribute, attribute, null);
+    return new Subtype(
+      SubtypeDefinitionType.singleAttribute,
+      attribute,
+      undefined,
+    );
   }
 
   match<T>(
@@ -80,9 +84,9 @@ export class Subtype {
   ) {
     switch (this.definitionType) {
       case SubtypeDefinitionType.namedAttributeCollection:
-        return namedAttributeCollection(this.attributeCollectionSubtype);
+        return namedAttributeCollection(this.attributeCollectionSubtype!);
       case SubtypeDefinitionType.singleAttribute:
-        return singleAttributeSubtype(this.singleAttribute);
+        return singleAttributeSubtype(this.singleAttribute!);
     }
   }
 }

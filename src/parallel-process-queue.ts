@@ -10,12 +10,13 @@ import * as File from './file';
 import * as LazySequence from './lazy-sequence';
 import * as os from 'os';
 import * as ParallelProcess from './parallel-process';
+import { Map } from 'immutable';
 
 const CPUS = os.cpus();
 
-const pidToWorkersMap = {};
-const requestIdToSequenceSource = {};
-const requestIdToCount = {};
+var pidToWorkersMap = Map<number, child_process.ChildProcess>();
+var requestIdToSequenceSource = Map<number, LazySequence.Source<File.AbsoluteFilePath>>();
+var requestIdToCount = Map<number, number>();
 var globalRequestId = 0;
 
 class CircularArray<T> {
@@ -43,7 +44,7 @@ const allItems: number[] = [];
 for (var i = 0; i < CPUS.length; i++) {
   const loc = __dirname + '/parallel-process-worker.js';
   const process: child_process.ChildProcess = child_process.fork(loc);
-  pidToWorkersMap[process.pid] = process;
+  pidToWorkersMap = pidToWorkersMap.set(process.pid, process);
   process.on('message', processMessageFromWorker);
   allItems.push(process.pid);
 }
@@ -52,8 +53,10 @@ const circularArray = new CircularArray(allItems);
 
 function dispatchFindFilesRequest(request: ParallelProcess.Request) {
   const pid: number = circularArray.nextValue();
-  const worker = pidToWorkersMap[pid];
-  worker.send(request);
+  const worker = pidToWorkersMap.get(pid);
+  if (worker) {
+    worker.send(request);
+  }
 }
 
 export function findFiles(
@@ -72,8 +75,8 @@ export function findFiles(
   const source: LazySequence.Source<
     File.AbsoluteFilePath
   > = LazySequence.source<File.AbsoluteFilePath>();
-  requestIdToCount[localRequestId] = 1;
-  requestIdToSequenceSource[localRequestId] = source;
+  requestIdToCount = requestIdToCount.set(localRequestId, 1);
+  requestIdToSequenceSource = requestIdToSequenceSource.set(localRequestId, source);
 
   dispatchFindFilesRequest(queueRequest);
   return source.getSequence();
@@ -82,10 +85,10 @@ export function findFiles(
 export function shutDown() {
   while (1) {
     const pid = circularArray.nextValue();
-    const worker = pidToWorkersMap[pid];
-    if (worker !== undefined) {
+    const worker = pidToWorkersMap.get(pid);
+    if (worker) {
       worker.disconnect();
-      pidToWorkersMap[pid] = undefined;
+      pidToWorkersMap = pidToWorkersMap.remove(pid);
     } else {
       break;
     }
@@ -97,11 +100,20 @@ function processFindFilesResponse(
   response: ParallelProcess.FindFilesResponse,
 ) {
   const requestId = response.requestId;
-  requestIdToCount[requestId] = requestIdToCount[requestId] - 1;
-  const source = requestIdToSequenceSource[requestId];
-  for (var i = 0; i < response.foundFilePaths.length; i++) {
-    source.nextValue(response.foundFilePaths[i]);
+  const currentCount = requestIdToCount.get(requestId, 0);
+  if (currentCount == 0) {
+    return;
   }
+
+  requestIdToCount = requestIdToCount.set(requestId, currentCount - 1);
+
+  const source = requestIdToSequenceSource.get(requestId);
+  if (source) {
+    for (var i = 0; i < response.foundFilePaths.length; i++) {
+      source.nextValue(response.foundFilePaths[i]);
+    }
+  }
+
   for (var j = 0; j < response.foundDirectoriesToSearch.length; j++) {
     const directoryToScan: File.AbsoluteFilePath =
       response.foundDirectoriesToSearch[j];
@@ -115,12 +127,16 @@ function processFindFilesResponse(
     };
     dispatchFindFilesRequest(queueRequest);
   }
-  requestIdToCount[requestId] =
-    requestIdToCount[requestId] + response.foundDirectoriesToSearch.length;
-  if (requestIdToCount[requestId] === 0) {
-    source.finished();
-    requestIdToCount[requestId] = undefined;
-    requestIdToSequenceSource[requestId] = undefined;
+
+  requestIdToCount = requestIdToCount.set(requestId,
+    currentCount - 1 + response.foundDirectoriesToSearch.length);
+
+  if (requestIdToCount.get(requestId, 0) === 0) {
+    if (source) {
+      source.finished();
+    }
+    requestIdToCount = requestIdToCount.remove(requestId);
+    requestIdToSequenceSource = requestIdToSequenceSource.remove(requestId);
   }
 }
 

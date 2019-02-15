@@ -52,7 +52,9 @@ function processFoundFileRequest(request: ParallelProcess.FindFilesRequest) {
       },
       either,
     );
-    process.send(response);
+    if (process.send) {
+      process.send(response);
+    }
   },
   foundFilesFuture);
 }

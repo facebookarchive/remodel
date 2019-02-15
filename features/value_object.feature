@@ -242,3 +242,61 @@ Feature: Outputting Value Objects
       #pragma clang diagnostic pop
 
       """
+  @announce
+  Scenario: Generating comments
+    Given a file named "project/values/RMPage.value" with:
+      """
+      RMPage {
+        # Does the user like this?
+        BOOL doesUserLike
+        # Some identifier
+        # that we wrote
+        # many lines of
+        # comments about
+        NSString* identifier
+      }
+      """
+    And a file named "project/.valueObjectConfig" with:
+      """
+      { }
+      """
+    When I run `../../bin/generate project`
+    Then the file "project/values/RMPage.h" should contain:
+      """
+      /**
+       * This file is generated using the remodel generation script.
+       * The name of the input file is RMPage.value
+       */
+
+      #import <Foundation/Foundation.h>
+
+      @interface RMPage : NSObject <NSCopying>
+
+      /**
+       * Does the user like this?
+       */
+      @property (nonatomic, readonly) BOOL doesUserLike;
+      /**
+       * Some identifier
+       * that we wrote
+       * many lines of
+       * comments about
+       */
+      @property (nonatomic, readonly, copy) NSString *identifier;
+
+      + (instancetype)new NS_UNAVAILABLE;
+
+      - (instancetype)init NS_UNAVAILABLE;
+
+      /**
+       * @param doesUserLike Does the user like this?
+       * @param identifier Some identifier
+       *                   that we wrote
+       *                   many lines of
+       *                   comments about
+       */
+      - (instancetype)initWithDoesUserLike:(BOOL)doesUserLike identifier:(NSString *)identifier NS_DESIGNATED_INITIALIZER;
+
+      @end
+
+      """

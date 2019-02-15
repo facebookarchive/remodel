@@ -72,6 +72,10 @@ Feature: Outputting Value Objects With Forward Declarations
 
       - (instancetype)init NS_UNAVAILABLE;
 
+      /**
+       * @param likeCount And another important comment.
+       *                  which also takes 2 lines.
+       */
       - (instancetype)initWithDoesUserLike:(BOOL)doesUserLike identifier:(NSString *)identifier someEnum:(CustomEnum)someEnum likeCount:(NSInteger)likeCount numberOfRatings:(NSUInteger)numberOfRatings proxy:(RMProxy *)proxy followers:(NSArray<RMSomeType *> *)followers helloObj:(id<HelloProtocol>)helloObj worldVc:(UIViewController<WorldProtocol> *)worldVc NS_DESIGNATED_INITIALIZER;
 
       @end

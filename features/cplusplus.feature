@@ -50,6 +50,10 @@ Feature: Outputting C++ Value Objects
 
       - (instancetype)init NS_UNAVAILABLE;
 
+      /**
+       * @param likeCount And another important comment.
+       *                  which also takes 2 lines.
+       */
       - (instancetype)initWithDoesUserLike:(BOOL)doesUserLike identifier:(NSString *)identifier likeCount:(NSInteger)likeCount numberOfRatings:(NSUInteger)numberOfRatings NS_DESIGNATED_INITIALIZER;
 
       @end

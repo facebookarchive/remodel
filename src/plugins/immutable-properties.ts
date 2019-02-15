@@ -134,7 +134,9 @@ export function initializerFromAttributes(
       supportsValueSemantics,
       attributes,
     ),
-    comments: [],
+    comments: ObjCCommentUtils.commentsAsBlockFromStringArray(
+      ObjCCommentUtils.paramCommentsFromAttributes(attributes),
+    ),
     compilerAttributes: ['NS_DESIGNATED_INITIALIZER'],
     keywords: keywords,
     returnType: {

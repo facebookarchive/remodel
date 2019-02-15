@@ -31,7 +31,9 @@ Feature: Outputting Algebraic Types With Templated Matching
       """
       #import <Foundation/Foundation.h>
       #import "SimpleADT.h"
+      #ifdef __cplusplus
       #import <memory>
+      #endif
 
       #ifdef __cplusplus
       template <typename T>

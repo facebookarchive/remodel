@@ -51,6 +51,8 @@ export interface Import {
   file: string;
   isPublic: boolean;
   library: Maybe.Maybe<string>;
+  // guard with #ifdef __cplusplus
+  requiresCPlusPlus: boolean;
 }
 
 enum KeywordArgumentModifierType {

@@ -12,6 +12,7 @@ import * as Maybe from '../maybe';
 const UI_GEOMETRY_IMPORT: ObjC.Import = {
   file: 'UIGeometry.h',
   isPublic: false,
+  requiresCPlusPlus: false,
   library: Maybe.Just('UIKit'),
 };
 

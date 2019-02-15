@@ -359,6 +359,7 @@ function importForAttribute(
           attribute.type.name,
         ),
         isPublic: requiresPublicImport,
+        requiresCPlusPlus: false,
       };
     },
     builtInImportMaybe,
@@ -429,15 +430,22 @@ function importsForBuilder(objectType: ObjectSpec.Type): ObjC.Import[] {
         });
 
   return [
-    {file: 'Foundation.h', isPublic: true, library: Maybe.Just('Foundation')},
+    {
+      file: 'Foundation.h',
+      isPublic: true,
+      requiresCPlusPlus: false,
+      library: Maybe.Just('Foundation')
+    },
     {
       file: objectType.typeName + '.h',
       isPublic: false,
+      requiresCPlusPlus: false,
       library: objectType.libraryName,
     },
     {
       file: nameOfBuilderForValueTypeWithName(objectType.typeName) + '.h',
       isPublic: false,
+      requiresCPlusPlus: false,
       library: Maybe.Nothing<string>(),
     },
   ]

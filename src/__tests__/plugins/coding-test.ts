@@ -499,6 +499,7 @@ describe('ObjectSpecPlugins.Coding', function() {
           file: 'UIGeometry.h',
           isPublic: false,
           library: Maybe.Just('UIKit'),
+          requiresCPlusPlus: false,
         },
       ];
       expect(imports).toEqualJSON(expectedImports);

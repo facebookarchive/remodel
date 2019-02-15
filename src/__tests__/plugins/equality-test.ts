@@ -229,6 +229,7 @@ describe('ObjectSpecPlugins.Equality', function() {
           file: 'runtime.h',
           isPublic: false,
           library: Maybe.Just('objc'),
+          requiresCPlusPlus: false,
         };
         expect(imports).toContain(expectedImport);
       },

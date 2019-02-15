@@ -613,6 +613,7 @@ function generationGroupForType(type: ObjC.Type): TypeEqualityGenerationGroup {
                 library: Maybe.Just('objc'),
                 file: 'runtime.h',
                 isPublic: false,
+                requiresCPlusPlus: false,
               }),
             },
           ),

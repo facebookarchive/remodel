@@ -313,6 +313,7 @@ function importListWithBaseImportAppended(
       const importForBaseClass: ObjC.Import = {
         file: baseClassName + '.h',
         isPublic: true,
+        requiresCPlusPlus: false,
         library: baseClassLibraryName,
       };
       return [importForBaseClass].concat(pluginImports);

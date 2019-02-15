@@ -58,6 +58,7 @@ export function createPlugin(): ObjectSpec.Plugin {
         {
           file: 'Foundation.h',
           isPublic: true,
+          requiresCPlusPlus: false,
           library: Maybe.Just('Foundation'),
         },
       ];
@@ -138,6 +139,7 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
         {
           file: 'Foundation.h',
           isPublic: true,
+          requiresCPlusPlus: false,
           library: Maybe.Just('Foundation'),
         },
       ];

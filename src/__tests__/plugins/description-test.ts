@@ -214,6 +214,7 @@ describe('ObjectSpecPlugins.Description', function() {
             file: 'UIGeometry.h',
             isPublic: false,
             library: Maybe.Just('UIKit'),
+            requiresCPlusPlus: false,
           },
         ];
         expect(imports).toEqualJSON(expectedImports);
@@ -1493,6 +1494,7 @@ describe('AlgebraicTypePlugins.Description', function() {
           file: 'UIGeometry.h',
           isPublic: false,
           library: Maybe.Just('UIKit'),
+          requiresCPlusPlus: false,
         },
       ];
       expect(imports).toEqualJSON(expectedImports);

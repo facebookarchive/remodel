@@ -313,6 +313,7 @@ function importForAttribute(
           attribute.type.name,
         ),
         isPublic: requiresPublicImport,
+        requiresCPlusPlus: false,
       };
     },
     builtInImportMaybe,
@@ -449,15 +450,17 @@ export function createPlugin(): ObjectSpec.Plugin {
       return [];
     },
     imports: function(objectType: ObjectSpec.Type): ObjC.Import[] {
-      const baseImports = [
+      const baseImports : ObjC.Import[] = [
         {
           file: 'Foundation.h',
           isPublic: true,
+          requiresCPlusPlus: false,
           library: Maybe.Just('Foundation'),
         },
         {
           file: objectType.typeName + '.h',
           isPublic: false,
+          requiresCPlusPlus: false,
           library: Maybe.Nothing<string>(),
         },
       ];

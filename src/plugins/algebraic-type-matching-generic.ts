@@ -43,15 +43,22 @@ function genericMatcherImportsForAlgebraicType(
   algebraicType: AlgebraicType.Type,
 ): ObjC.Import[] {
   return [
-    {file: 'Foundation.h', isPublic: true, library: Maybe.Just('Foundation')},
+    {
+      file: 'Foundation.h',
+      isPublic: true,
+      requiresCPlusPlus: false,
+      library: Maybe.Just('Foundation')
+    },
     {
       file: algebraicType.name + '.h',
       isPublic: true,
+      requiresCPlusPlus: false,
       library: algebraicType.libraryName,
     },
     {
       file: fileNameForAlgebraicType(algebraicType) + '.h',
       isPublic: false,
+      requiresCPlusPlus: false,
       library: Maybe.Nothing<string>(),
     },
   ];

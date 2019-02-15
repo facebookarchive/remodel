@@ -219,19 +219,27 @@ function matchingFileForAlgebraicType(
       {
         file: 'Foundation.h',
         isPublic: true,
+        requiresCPlusPlus: false,
         library: Maybe.Just<string>('Foundation'),
       },
       {
         file: algebraicType.name + '.h',
         isPublic: true,
+        requiresCPlusPlus: false,
         library: algebraicType.libraryName,
       },
       {
         file: matchingFileNameForAlgebraicType(algebraicType) + '.h',
         isPublic: false,
+        requiresCPlusPlus: false,
         library: Maybe.Nothing<string>(),
       },
-      {file: 'memory', isPublic: true, library: Maybe.Nothing<string>()},
+      {
+        file: 'memory',
+        isPublic: true,
+        requiresCPlusPlus: true,
+        library: Maybe.Nothing<string>()
+      },
     ],
     enumerations: [],
     blockTypes: [],

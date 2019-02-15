@@ -496,10 +496,11 @@ describe('Plugins.ImmutableProperties', function() {
 
       const actualImports = Plugin.imports(objectType);
 
-      const expectedImport = {
+      const expectedImport: ObjC.Import = {
         file: 'Foundation.h',
         isPublic: true,
         library: Maybe.Just('Foundation'),
+        requiresCPlusPlus: false,
       };
 
       expect(actualImports).toContain(expectedImport);
@@ -522,10 +523,11 @@ describe('Plugins.ImmutableProperties', function() {
 
         const actualImports = Plugin.imports(objectType);
 
-        const expectedImport = {
+        const expectedImport: ObjC.Import = {
           file: 'RMSomething.h',
           isPublic: false,
           library: Maybe.Nothing<string>(),
+          requiresCPlusPlus: false,
         };
 
         expect(actualImports).toContain(expectedImport);
@@ -549,10 +551,11 @@ describe('Plugins.ImmutableProperties', function() {
 
         const actualImports = Plugin.imports(objectType);
 
-        const expectedImport = {
+        const expectedImport: ObjC.Import = {
           file: 'RMSomething.h',
           isPublic: false,
           library: Maybe.Nothing<string>(),
+          requiresCPlusPlus: false,
         };
 
         expect(actualImports).toContain(expectedImport);
@@ -590,12 +593,14 @@ describe('Plugins.ImmutableProperties', function() {
         file: 'Baz.h',
         isPublic: true,
         library: Maybe.Just<string>('Bar'),
+        requiresCPlusPlus: false,
       });
 
       expect(actualImports).toContain({
         file: 'Scumbag.h',
         isPublic: true,
         library: Maybe.Just<string>('Steve'),
+        requiresCPlusPlus: false,
       });
     });
 
@@ -663,10 +668,11 @@ describe('Plugins.ImmutableProperties', function() {
 
         const actualImports = Plugin.imports(objectType);
 
-        const expectedImport = {
+        const expectedImport: ObjC.Import = {
           file: 'RMSomethingElse.h',
           isPublic: true,
           library: Maybe.Just('RMSomeLibrary'),
+          requiresCPlusPlus: false,
         };
 
         expect(actualImports).toContain(expectedImport);
@@ -705,10 +711,11 @@ describe('Plugins.ImmutableProperties', function() {
 
         const actualImports = Plugin.imports(objectType);
 
-        const expectedImport = {
+        const expectedImport: ObjC.Import = {
           file: 'RMSomethingElse.h',
           isPublic: true,
           library: Maybe.Nothing<string>(),
+          requiresCPlusPlus: false,
         };
 
         expect(actualImports).toContain(expectedImport);
@@ -747,10 +754,11 @@ describe('Plugins.ImmutableProperties', function() {
 
         const actualImports = Plugin.imports(objectType);
 
-        const expectedImport = {
+        const expectedImport: ObjC.Import = {
           file: 'RMSomeOtherFile.h',
           isPublic: true,
           library: Maybe.Nothing<string>(),
+          requiresCPlusPlus: false,
         };
 
         expect(actualImports).toContain(expectedImport);
@@ -789,10 +797,11 @@ describe('Plugins.ImmutableProperties', function() {
 
         const actualImports = Plugin.imports(objectType);
 
-        const expectedImport = {
+        const expectedImport: ObjC.Import = {
           file: 'RMSomeOtherFile.h',
           isPublic: true,
           library: Maybe.Just('RMSomeOtherLibrary'),
+          requiresCPlusPlus: false,
         };
 
         expect(actualImports).toContain(expectedImport);
@@ -831,10 +840,11 @@ describe('Plugins.ImmutableProperties', function() {
 
         const actualImports = Plugin.imports(objectType);
 
-        const expectedImport = {
+        const expectedImport: ObjC.Import = {
           file: 'RMSomeOtherFile.h',
           isPublic: true,
           library: Maybe.Just('RMSomeOtherLibrary'),
+          requiresCPlusPlus: false,
         };
 
         expect(actualImports).toContain(expectedImport);
@@ -873,10 +883,11 @@ describe('Plugins.ImmutableProperties', function() {
 
         const actualImports = Plugin.imports(objectType);
 
-        const expectedImport = {
+        const expectedImport: ObjC.Import = {
           file: 'RMSomethingElse.h',
           isPublic: true,
           library: Maybe.Just('RMSomeOtherLibrary'),
+          requiresCPlusPlus: false,
         };
 
         expect(actualImports).toContain(expectedImport);
@@ -912,16 +923,18 @@ describe('Plugins.ImmutableProperties', function() {
 
       const actualImports = Plugin.imports(objectType);
 
-      const baseImports = [
+      const baseImports: ObjC.Import[] = [
         {
           file: 'Foundation.h',
           isPublic: true,
           library: Maybe.Just('Foundation'),
+          requiresCPlusPlus: false,
         },
         {
           file: objectType.typeName + '.h',
           isPublic: false,
           library: Maybe.Nothing<string>(),
+          requiresCPlusPlus: false,
         },
       ];
 
@@ -957,16 +970,18 @@ describe('Plugins.ImmutableProperties', function() {
 
       const actualImports = Plugin.imports(objectType);
 
-      const baseImports = [
+      const baseImports: ObjC.Import[] = [
         {
           file: 'Foundation.h',
           isPublic: true,
           library: Maybe.Just('Foundation'),
+          requiresCPlusPlus: false,
         },
         {
           file: objectType.typeName + '.h',
           isPublic: false,
           library: Maybe.Nothing<string>(),
+          requiresCPlusPlus: false,
         },
       ];
 
@@ -1002,16 +1017,18 @@ describe('Plugins.ImmutableProperties', function() {
 
       const actualImports = Plugin.imports(objectType);
 
-      const baseImports = [
+      const baseImports: ObjC.Import[] = [
         {
           file: 'Foundation.h',
           isPublic: true,
           library: Maybe.Just('Foundation'),
+          requiresCPlusPlus: false,
         },
         {
           file: objectType.typeName + '.h',
           isPublic: false,
           library: Maybe.Nothing<string>(),
+          requiresCPlusPlus: false,
         },
       ];
 
@@ -1047,16 +1064,18 @@ describe('Plugins.ImmutableProperties', function() {
 
       const actualImports = Plugin.imports(objectType);
 
-      const baseImports = [
+      const baseImports: ObjC.Import[] = [
         {
           file: 'Foundation.h',
           isPublic: true,
           library: Maybe.Just('Foundation'),
+          requiresCPlusPlus: false,
         },
         {
           file: objectType.typeName + '.h',
           isPublic: false,
           library: Maybe.Nothing<string>(),
+          requiresCPlusPlus: false,
         },
       ];
 
@@ -1092,18 +1111,25 @@ describe('Plugins.ImmutableProperties', function() {
 
       const actualImports = Plugin.imports(objectType);
 
-      const baseImports = [
+      const baseImports: ObjC.Import[] = [
         {
           file: 'Foundation.h',
           isPublic: true,
           library: Maybe.Just('Foundation'),
+          requiresCPlusPlus: false,
         },
         {
           file: objectType.typeName + '.h',
           isPublic: false,
           library: Maybe.Nothing<string>(),
+          requiresCPlusPlus: false,
         },
-        {file: 'CGBase.h', isPublic: true, library: Maybe.Just('CoreGraphics')},
+        {
+          file: 'CGBase.h',
+          isPublic: true, 
+          library: Maybe.Just('CoreGraphics'),
+          requiresCPlusPlus: false,
+        },
       ];
 
       expect(actualImports).toEqualJSON(baseImports);
@@ -1138,21 +1164,24 @@ describe('Plugins.ImmutableProperties', function() {
 
       const actualImports = Plugin.imports(objectType);
 
-      const baseImports = [
+      const baseImports: ObjC.Import[] = [
         {
           file: 'Foundation.h',
           isPublic: true,
           library: Maybe.Just('Foundation'),
+          requiresCPlusPlus: false,
         },
         {
           file: objectType.typeName + '.h',
           isPublic: false,
           library: Maybe.Nothing<string>(),
+          requiresCPlusPlus: false,
         },
         {
           file: 'CGGeometry.h',
           isPublic: true,
           library: Maybe.Just('CoreGraphics'),
+          requiresCPlusPlus: false,
         },
       ];
 
@@ -1188,21 +1217,24 @@ describe('Plugins.ImmutableProperties', function() {
 
       const actualImports = Plugin.imports(objectType);
 
-      const baseImports = [
+      const baseImports: ObjC.Import[] = [
         {
           file: 'Foundation.h',
           isPublic: true,
           library: Maybe.Just('Foundation'),
+          requiresCPlusPlus: false,
         },
         {
           file: objectType.typeName + '.h',
           isPublic: false,
           library: Maybe.Nothing<string>(),
+          requiresCPlusPlus: false,
         },
         {
           file: 'CGGeometry.h',
           isPublic: true,
           library: Maybe.Just('CoreGraphics'),
+          requiresCPlusPlus: false,
         },
       ];
 
@@ -1238,16 +1270,18 @@ describe('Plugins.ImmutableProperties', function() {
 
       const actualImports = Plugin.imports(objectType);
 
-      const baseImports = [
+      const baseImports: ObjC.Import[] = [
         {
           file: 'Foundation.h',
           isPublic: true,
           library: Maybe.Just('Foundation'),
+          requiresCPlusPlus: false,
         },
         {
           file: objectType.typeName + '.h',
           isPublic: false,
           library: Maybe.Nothing<string>(),
+          requiresCPlusPlus: false,
         },
       ];
 
@@ -1283,21 +1317,24 @@ describe('Plugins.ImmutableProperties', function() {
 
       const actualImports = Plugin.imports(objectType);
 
-      const baseImports = [
+      const baseImports: ObjC.Import[] = [
         {
           file: 'Foundation.h',
           isPublic: true,
           library: Maybe.Just('Foundation'),
+          requiresCPlusPlus: false,
         },
         {
           file: objectType.typeName + '.h',
           isPublic: false,
           library: Maybe.Nothing<string>(),
+          requiresCPlusPlus: false,
         },
         {
           file: 'CGGeometry.h',
           isPublic: true,
           library: Maybe.Just('CoreGraphics'),
+          requiresCPlusPlus: false,
         },
       ];
 
@@ -1333,18 +1370,25 @@ describe('Plugins.ImmutableProperties', function() {
 
       const actualImports = Plugin.imports(objectType);
 
-      const baseImports = [
+      const baseImports: ObjC.Import[] = [
         {
           file: 'Foundation.h',
           isPublic: true,
           library: Maybe.Just('Foundation'),
+          requiresCPlusPlus: false,
         },
         {
           file: objectType.typeName + '.h',
           isPublic: false,
           library: Maybe.Nothing<string>(),
+          requiresCPlusPlus: false,
         },
-        {file: 'UIGeometry.h', isPublic: true, library: Maybe.Just('UIKit')},
+        {
+          file: 'UIGeometry.h',
+          isPublic: true,
+          library: Maybe.Just('UIKit'),
+          requiresCPlusPlus: false,
+        },
       ];
 
       expect(actualImports).toEqualJSON(baseImports);
@@ -1379,16 +1423,18 @@ describe('Plugins.ImmutableProperties', function() {
 
       const actualImports = Plugin.imports(objectType);
 
-      const baseImports = [
+      const baseImports: ObjC.Import[] = [
         {
           file: 'Foundation.h',
           isPublic: true,
           library: Maybe.Just('Foundation'),
+          requiresCPlusPlus: false,
         },
         {
           file: objectType.typeName + '.h',
           isPublic: false,
           library: Maybe.Nothing<string>(),
+          requiresCPlusPlus: false,
         },
       ];
 
@@ -1424,16 +1470,18 @@ describe('Plugins.ImmutableProperties', function() {
 
       const actualImports = Plugin.imports(objectType);
 
-      const baseImports = [
+      const baseImports: ObjC.Import[] = [
         {
           file: 'Foundation.h',
           isPublic: true,
           library: Maybe.Just('Foundation'),
+          requiresCPlusPlus: false,
         },
         {
           file: objectType.typeName + '.h',
           isPublic: false,
           library: Maybe.Nothing<string>(),
+          requiresCPlusPlus: false,
         },
       ];
 
@@ -1469,16 +1517,18 @@ describe('Plugins.ImmutableProperties', function() {
 
       const actualImports = Plugin.imports(objectType);
 
-      const baseImports = [
+      const baseImports: ObjC.Import[] = [
         {
           file: 'Foundation.h',
           isPublic: true,
           library: Maybe.Just('Foundation'),
+          requiresCPlusPlus: false,
         },
         {
           file: objectType.typeName + '.h',
           isPublic: false,
           library: Maybe.Nothing<string>(),
+          requiresCPlusPlus: false,
         },
       ];
 
@@ -1514,16 +1564,18 @@ describe('Plugins.ImmutableProperties', function() {
 
       const actualImports = Plugin.imports(objectType);
 
-      const baseImports = [
+      const baseImports: ObjC.Import[] = [
         {
           file: 'Foundation.h',
           isPublic: true,
           library: Maybe.Just('Foundation'),
+          requiresCPlusPlus: false,
         },
         {
           file: objectType.typeName + '.h',
           isPublic: false,
           library: Maybe.Nothing<string>(),
+          requiresCPlusPlus: false,
         },
       ];
 
@@ -1559,16 +1611,18 @@ describe('Plugins.ImmutableProperties', function() {
 
       const actualImports = Plugin.imports(objectType);
 
-      const baseImports = [
+      const baseImports: ObjC.Import[] = [
         {
           file: 'Foundation.h',
           isPublic: true,
           library: Maybe.Just('Foundation'),
+          requiresCPlusPlus: false,
         },
         {
           file: objectType.typeName + '.h',
           isPublic: false,
           library: Maybe.Nothing<string>(),
+          requiresCPlusPlus: false,
         },
       ];
 
@@ -1604,16 +1658,18 @@ describe('Plugins.ImmutableProperties', function() {
 
       const actualImports = Plugin.imports(objectType);
 
-      const baseImports = [
+      const baseImports: ObjC.Import[] = [
         {
           file: 'Foundation.h',
           isPublic: true,
           library: Maybe.Just('Foundation'),
+          requiresCPlusPlus: false,
         },
         {
           file: objectType.typeName + '.h',
           isPublic: false,
           library: Maybe.Nothing<string>(),
+          requiresCPlusPlus: false,
         },
       ];
 
@@ -1649,16 +1705,18 @@ describe('Plugins.ImmutableProperties', function() {
 
       const actualImports = Plugin.imports(objectType);
 
-      const baseImports = [
+      const baseImports: ObjC.Import[] = [
         {
           file: 'Foundation.h',
           isPublic: true,
           library: Maybe.Just('Foundation'),
+          requiresCPlusPlus: false,
         },
         {
           file: objectType.typeName + '.h',
           isPublic: false,
           library: Maybe.Nothing<string>(),
+          requiresCPlusPlus: false,
         },
       ];
 

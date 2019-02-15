@@ -43,6 +43,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
         library: Maybe.Just<string>('Foundation'),
         file: 'Foundation.h',
         isPublic: true,
+        requiresCPlusPlus: false,
       };
       expect(imports).toContain(expectedImport);
     });
@@ -71,6 +72,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
         library: Maybe.Nothing<string>(),
         file: 'Foo.h',
         isPublic: false,
+        requiresCPlusPlus: false,
       };
       expect(imports).toContain(expectedImport);
     });
@@ -111,6 +113,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
           library: Maybe.Nothing<string>(),
           file: 'Foo.h',
           isPublic: true,
+          requiresCPlusPlus: false,
         };
         expect(imports).not.toContain(expectedImport);
       },
@@ -184,21 +187,25 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
           library: Maybe.Just<string>('Foundation'),
           file: 'Foundation.h',
           isPublic: true,
+          requiresCPlusPlus: false,
         },
         {
           library: Maybe.Nothing<string>(),
           file: 'Test.h',
           isPublic: false,
+          requiresCPlusPlus: false,
         },
         {
           library: Maybe.Nothing<string>(),
           file: 'Foo.h',
           isPublic: true,
+          requiresCPlusPlus: false,
         },
         {
           library: Maybe.Just<string>('SomeLib'),
           file: 'SingleAttributeType.h',
           isPublic: true,
+          requiresCPlusPlus: false,
         },
       ];
       expect(imports).toEqualJSON(expectedImports);
@@ -241,6 +248,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
           library: Maybe.Just<string>('RMSomeLibrary'),
           file: 'Foo.h',
           isPublic: true,
+          requiresCPlusPlus: false,
         };
         expect(imports).toContain(expectedImport);
       },

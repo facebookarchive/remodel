@@ -51,16 +51,20 @@ function includeMethodInHeader(
   }
 }
 
-function localImport(file: string): string {
-  if (file.indexOf('.h') === -1) {
-    return '#import <' + file + '>';
-  } else {
-    return '#import "' + file + '"';
-  }
+function localImport(file: string, cplusplus: boolean): string {
+  const importLine = (file.indexOf('.h') === -1)
+    ? '#import <' + file + '>'
+    : '#import "' + file + '"';
+  return cplusplus
+    ? "#ifdef __cplusplus\n" + importLine + "\n#endif"
+    : importLine;
 }
 
-function libraryImport(file: string, library: string): string {
-  return '#import <' + library + '/' + file + '>';
+function libraryImport(file: string, library: string, cplusplus: boolean): string {
+  const importLine = '#import <' + library + '/' + file + '>';
+  return cplusplus
+    ? "#ifdef __cplusplus\n" + importLine + "\n#endif"
+    : importLine;
 }
 
 function genericizedType(
@@ -94,8 +98,8 @@ function toTypeString(returnType: ObjC.ReturnType): string {
 
 function toImportString(givenImport: ObjC.Import): string {
   return Maybe.match<string, string>(
-    lib => libraryImport(givenImport.file, lib),
-    () => localImport(givenImport.file),
+    lib => libraryImport(givenImport.file, lib, givenImport.requiresCPlusPlus),
+    () => localImport(givenImport.file, givenImport.requiresCPlusPlus),
     givenImport.library,
   );
 }

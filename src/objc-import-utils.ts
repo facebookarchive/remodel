@@ -22,21 +22,25 @@ const KNOWN_SYSTEM_TYPE_IMPORT_INFO: {
   CGFloat: Maybe.Just({
     file: 'CGBase.h',
     isPublic: true,
+    requiresCPlusPlus: false,
     library: Maybe.Just('CoreGraphics'),
   }),
   CGPoint: Maybe.Just({
     file: 'CGGeometry.h',
     isPublic: true,
+    requiresCPlusPlus: false,
     library: Maybe.Just('CoreGraphics'),
   }),
   CGRect: Maybe.Just({
     file: 'CGGeometry.h',
     isPublic: true,
+    requiresCPlusPlus: false,
     library: Maybe.Just('CoreGraphics'),
   }),
   CGSize: Maybe.Just({
     file: 'CGGeometry.h',
     isPublic: true,
+    requiresCPlusPlus: false,
     library: Maybe.Just('CoreGraphics'),
   }),
   int32_t: Maybe.Nothing<ObjC.Import>(),
@@ -45,6 +49,7 @@ const KNOWN_SYSTEM_TYPE_IMPORT_INFO: {
   UIEdgeInsets: Maybe.Just({
     file: 'UIGeometry.h',
     isPublic: true,
+    requiresCPlusPlus: false,
     library: Maybe.Just('UIKit'),
   }),
   uint64_t: Maybe.Nothing<ObjC.Import>(),
@@ -300,6 +305,7 @@ export function importForTypeLookup(
       typeLookup.file,
     ),
     isPublic: isPublic,
+    requiresCPlusPlus: false,
     library: Maybe.match(
       function Just(library: string): Maybe.Maybe<string> {
         return typeLookup.library;

@@ -99,14 +99,26 @@ describe('Plugins.AlgebraicTypeTemplatedMatching', function() {
             file: 'Foundation.h',
             isPublic: true,
             library: Maybe.Just<string>('Foundation'),
+            requiresCPlusPlus: false,
           },
-          {file: 'RMTest.h', isPublic: true, library: Maybe.Nothing<string>()},
+          {
+            file: 'RMTest.h',
+            isPublic: true,
+            library: Maybe.Nothing<string>(),
+            requiresCPlusPlus: false
+          },
           {
             file: 'RMTestTemplatedMatchingHelpers.h',
             isPublic: false,
             library: Maybe.Nothing<string>(),
+            requiresCPlusPlus: false,
           },
-          {file: 'memory', isPublic: true, library: Maybe.Nothing<string>()},
+          {
+            file: 'memory',
+            isPublic: true,
+            library: Maybe.Nothing<string>(),
+            requiresCPlusPlus: true,
+          },
         ],
         enumerations: [],
         blockTypes: [],

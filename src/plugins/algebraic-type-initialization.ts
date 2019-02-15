@@ -24,6 +24,7 @@ const PUBLIC_FOUNDATION_IMPORT: ObjC.Import = {
   library: Maybe.Just('Foundation'),
   file: 'Foundation.h',
   isPublic: true,
+  requiresCPlusPlus: false,
 };
 
 function nameOfObjectWithinInitializer(): string {
@@ -226,6 +227,7 @@ function internalImportForFileWithName(name: string): ObjC.Import {
     library: Maybe.Nothing<string>(),
     file: name + '.h',
     isPublic: false,
+    requiresCPlusPlus: false,
   };
 }
 
@@ -321,6 +323,7 @@ function importForAttribute(
           attribute.type.name,
         ),
         isPublic: requiresPublicImport,
+        requiresCPlusPlus: false,
       };
     },
     builtInImportMaybe,

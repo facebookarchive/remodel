@@ -38,6 +38,7 @@ describe('ObjectSpecPlugins.AssumeNonnull', function() {
           file: 'Foundation.h',
           isPublic: true,
           library: Maybe.Just('Foundation'),
+          requiresCPlusPlus: false,
         },
       ];
       expect(imports).toEqualJSON(expectedImports);
@@ -88,6 +89,7 @@ describe('AlgebraicTypePlugins.AssumeNonnull', function() {
           file: 'Foundation.h',
           isPublic: true,
           library: Maybe.Just('Foundation'),
+          requiresCPlusPlus: false,
         },
       ];
       expect(imports).toEqualJSON(expectedImports);

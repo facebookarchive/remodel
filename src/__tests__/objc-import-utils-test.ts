@@ -34,6 +34,7 @@ describe('ObjCImportUtils', function() {
         file: 'RMSomeFile.h',
         isPublic: true,
         library: Maybe.Nothing<string>(),
+        requiresCPlusPlus: false,
       };
 
       expect(importValue).toEqualJSON(expectedImport);
@@ -57,6 +58,7 @@ describe('ObjCImportUtils', function() {
         file: 'RMSomeType.h',
         isPublic: false,
         library: Maybe.Nothing<string>(),
+        requiresCPlusPlus: false,
       };
 
       expect(importValue).toEqualJSON(expectedImport);
@@ -80,6 +82,7 @@ describe('ObjCImportUtils', function() {
         file: 'RMSomeOtherType.h',
         isPublic: true,
         library: Maybe.Just<string>('RMSomeLibrary'),
+        requiresCPlusPlus: false,
       };
 
       expect(importValue).toEqualJSON(expectedImport);
@@ -106,6 +109,7 @@ describe('ObjCImportUtils', function() {
           file: 'RMSomeOtherType.h',
           isPublic: true,
           library: Maybe.Just<string>('DefaultLibrary'),
+          requiresCPlusPlus: false,
         };
 
         expect(importValue).toEqualJSON(expectedImport);

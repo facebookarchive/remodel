@@ -46,16 +46,19 @@ describe('Plugins.Builder', function() {
                 file: 'Foundation.h',
                 isPublic: true,
                 library: Maybe.Just('Foundation'),
+                requiresCPlusPlus: false,
               },
               {
                 file: 'FooBarBaz.h',
                 isPublic: false,
                 library: Maybe.Nothing<string>(),
+                requiresCPlusPlus: false,
               },
               {
                 file: 'FooBarBazBuilder.h',
                 isPublic: false,
                 library: Maybe.Nothing<string>(),
+                requiresCPlusPlus: false,
               },
             ],
             enumerations: [],
@@ -187,16 +190,19 @@ describe('Plugins.Builder', function() {
                 file: 'Foundation.h',
                 isPublic: true,
                 library: Maybe.Just('Foundation'),
+                requiresCPlusPlus: false,
               },
               {
                 file: 'RMFerr.h',
                 isPublic: false,
                 library: Maybe.Just('RMSomeLibrary'),
+                requiresCPlusPlus: false,
               },
               {
                 file: 'RMFerrBuilder.h',
                 isPublic: false,
                 library: Maybe.Nothing<string>(),
+                requiresCPlusPlus: false,
               },
             ],
             enumerations: [],
@@ -371,21 +377,25 @@ describe('Plugins.Builder', function() {
                 file: 'Foundation.h',
                 isPublic: true,
                 library: Maybe.Just('Foundation'),
+                requiresCPlusPlus: false,
               },
               {
                 file: 'RMFerr.h',
                 isPublic: false,
                 library: Maybe.Nothing<string>(),
+                requiresCPlusPlus: false,
               },
               {
                 file: 'RMFerrBuilder.h',
                 isPublic: false,
                 library: Maybe.Nothing<string>(),
+                requiresCPlusPlus: false,
               },
               {
                 file: 'RMCustomObject.h',
                 isPublic: false,
                 library: Maybe.Nothing<string>(),
+                requiresCPlusPlus: false,
               },
             ],
             enumerations: [],
@@ -686,21 +696,25 @@ describe('Plugins.Builder', function() {
                 file: 'Foundation.h',
                 isPublic: true,
                 library: Maybe.Just('Foundation'),
+                requiresCPlusPlus: false,
               },
               {
                 file: 'RMFerr.h',
                 isPublic: false,
                 library: Maybe.Nothing<string>(),
+                requiresCPlusPlus: false,
               },
               {
                 file: 'RMFerrBuilder.h',
                 isPublic: false,
                 library: Maybe.Nothing<string>(),
+                requiresCPlusPlus: false,
               },
               {
                 file: 'RMCustomObject.h',
                 isPublic: false,
                 library: Maybe.Nothing<string>(),
+                requiresCPlusPlus: false,
               },
             ],
             enumerations: [],
@@ -961,6 +975,7 @@ describe('Plugins.Builder', function() {
           file: 'RMSomeFile.h',
           isPublic: true,
           library: Maybe.Nothing<string>(),
+          requiresCPlusPlus: false,
         },
       ];
 
@@ -998,6 +1013,7 @@ describe('Plugins.Builder', function() {
             file: 'RMSomeFile.h',
             isPublic: true,
             library: Maybe.Just<string>('SomeLib'),
+            requiresCPlusPlus: false,
           },
         ];
 
@@ -1060,6 +1076,7 @@ describe('Plugins.Builder', function() {
           file: 'RMSomeFile.h',
           isPublic: false,
           library: Maybe.Nothing<string>(),
+          requiresCPlusPlus: false,
         },
       ];
 

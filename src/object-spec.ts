@@ -53,6 +53,7 @@ export interface Plugin {
   imports: (objectType: Type) => ObjC.Import[];
   implementedProtocols: (objectType: Type) => ObjC.Protocol[];
   instanceMethods: (objectType: Type) => ObjC.Method[];
+  instanceVariables?: (objectType: Type) => ObjC.InstanceVariable[];
   macros: (objectType: Type) => ObjC.Macro[];
   properties: (objectType: Type) => ObjC.Property[];
   requiredIncludesToRun: string[];

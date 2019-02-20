@@ -76,7 +76,9 @@ function createObjectSpecObjCPlugIn(
     instanceVariables: function(
       typeInformation: ObjectSpec.Type,
     ): ObjC.InstanceVariable[] {
-      return [];
+      return plugin.instanceVariables != null
+        ? plugin.instanceVariables(typeInformation)
+        : [];
     },
 
     instanceMethods: function(typeInformation: ObjectSpec.Type): ObjC.Method[] {

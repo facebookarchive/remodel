@@ -64,6 +64,7 @@ function copyingValidatorFunction(
           })nil;`,
       ),
     isPublic: false,
+    isInline: false,
     compilerAttributes: ['__attribute__((unused))'],
   };
 }

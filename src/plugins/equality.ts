@@ -1004,6 +1004,7 @@ const COMPARE_FLOATS_FN: ObjC.Function = {
     'return fabsf(givenFloat - floatToCompare) < FLT_EPSILON * fabsf(givenFloat + floatToCompare) || fabsf(givenFloat - floatToCompare) < FLT_MIN;',
   ],
   isPublic: false,
+  isInline: false,
   compilerAttributes: [],
 };
 
@@ -1052,6 +1053,7 @@ const HASH_FLOAT_FN: ObjC.Function = {
     'return h;',
   ],
   isPublic: false,
+  isInline: false,
   compilerAttributes: [],
 };
 
@@ -1085,6 +1087,7 @@ const COMPARE_DOUBLES_FN: ObjC.Function = {
     'return fabs(givenDouble - doubleToCompare) < DBL_EPSILON * fabs(givenDouble + doubleToCompare) || fabs(givenDouble - doubleToCompare) < DBL_MIN;',
   ],
   isPublic: false,
+  isInline: false,
   compilerAttributes: [],
 };
 
@@ -1123,6 +1126,7 @@ const HASH_DOUBLE_FN: ObjC.Function = {
     'return (NSUInteger) p;',
   ],
   isPublic: false,
+  isInline: false,
   compilerAttributes: [],
 };
 
@@ -1175,6 +1179,7 @@ const COMPARE_CGFLOATS_FN: ObjC.Function = {
     'return CompareFloats(givenCGFloat, cgFloatToCompare);',
   ),
   isPublic: false,
+  isInline: false,
   compilerAttributes: [],
 };
 
@@ -1202,6 +1207,7 @@ const HASH_CGFLOATS_FN: ObjC.Function = {
     'return HashFloat(givenCGFloat);',
   ),
   isPublic: false,
+  isInline: false,
   compilerAttributes: [],
 };
 

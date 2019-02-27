@@ -148,6 +148,7 @@ export interface Function {
   returnType: ReturnType;
   code: string[];
   isPublic: boolean;
+  isInline: boolean;
   compilerAttributes: string[];
 }
 

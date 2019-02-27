@@ -1324,6 +1324,7 @@ describe('ObjCRenderer', function() {
                 '#endif',
               ],
               isPublic: true,
+              isInline: false,
               compilerAttributes: [],
             },
             {
@@ -1339,6 +1340,7 @@ describe('ObjCRenderer', function() {
               },
               code: ['return 17;'],
               isPublic: true,
+              isInline: false,
               compilerAttributes: [],
             },
             {
@@ -1348,6 +1350,7 @@ describe('ObjCRenderer', function() {
               returnType: {type: Maybe.Nothing<ObjC.Type>(), modifiers: []},
               code: ['something();'],
               isPublic: false,
+              isInline: false,
               compilerAttributes: [],
             },
           ],
@@ -1653,6 +1656,7 @@ describe('ObjCRenderer', function() {
               returnType: {type: Maybe.Nothing<ObjC.Type>(), modifiers: []},
               code: ['something();'],
               isPublic: false,
+              isInline: false,
               compilerAttributes: [],
             },
           ],
@@ -3319,6 +3323,7 @@ describe('ObjCRenderer', function() {
               '#endif',
             ],
             isPublic: true,
+            isInline: false,
             compilerAttributes: [],
           },
           {
@@ -3328,6 +3333,7 @@ describe('ObjCRenderer', function() {
             returnType: {type: Maybe.Nothing<ObjC.Type>(), modifiers: []},
             code: ['something();'],
             isPublic: false,
+            isInline: false,
             compilerAttributes: [],
           },
         ],
@@ -4010,6 +4016,7 @@ describe('ObjCRenderer', function() {
             },
             code: [],
             isPublic: false,
+            isInline: false,
             compilerAttributes: [],
           },
         ],
@@ -4047,6 +4054,133 @@ static int RMSomeFunction(BOOL parameter) {
 }\n`);
 
       expect(renderedOutput).toEqualJSON(expectedOutput);
+    });
+
+    it('renders an inline public function ', () => {
+      const fileToRender: Code.File = {
+        name: 'RMSomeValue',
+        type: Code.FileType.ObjectiveC(),
+        imports: [],
+        comments: [],
+        enumerations: [],
+        blockTypes: [],
+        staticConstants: [],
+        forwardDeclarations: [],
+        functions: [
+          {
+            comments: [],
+            name: 'RMSomeFunction',
+            parameters: [
+              {name: 'parameter', type: {name: 'BOOL', reference: 'BOOL'}},
+            ],
+            returnType: {
+              type: Maybe.Just({
+                name: 'int',
+                reference: 'int',
+              }),
+              modifiers: [],
+            },
+            code: ['// Test'],
+            isPublic: true,
+            isInline: true,
+            compilerAttributes: [],
+          },
+        ],
+        diagnosticIgnores: [],
+        classes: [],
+        structs: [],
+        namespaces: [],
+        macros: [],
+      };
+
+      const renderedOutput: Maybe.Maybe<string> = ObjCRenderer.renderHeader(
+        fileToRender,
+      );
+
+      const expectedOutput: Maybe.Maybe<string> = Maybe.Just<
+        string
+      >(`static inline int RMSomeFunction(BOOL parameter) {
+  // Test
+}\n`);
+      expect(renderedOutput).toEqualJSON(expectedOutput);
+
+      const renderedImpl: Maybe.Maybe<
+        string
+      > = ObjCRenderer.renderImplementation(fileToRender);
+
+      expect(renderedImpl).toEqual(Maybe.Nothing<string>());
+    });
+
+    it('renders an inline public function within a class', () => {
+      const fileToRender: Code.File = {
+        name: 'RMSomeValue',
+        type: Code.FileType.ObjectiveC(),
+        imports: [],
+        comments: [],
+        enumerations: [],
+        blockTypes: [],
+        staticConstants: [],
+        forwardDeclarations: [],
+        functions: [],
+        diagnosticIgnores: [],
+        classes: [
+          {
+            baseClassName: 'NSObject',
+            covariantTypes: [],
+            classMethods: [],
+            comments: [],
+            instanceMethods: [],
+            name: 'RMSomeValue',
+            properties: [],
+            instanceVariables: [],
+            implementedProtocols: [{name: 'RMTestProtocol'}],
+            nullability: ObjC.ClassNullability.default,
+            subclassingRestricted: true,
+            functions: [
+              {
+                comments: [],
+                name: 'RMSomeFunction',
+                parameters: [
+                  {name: 'parameter', type: {name: 'BOOL', reference: 'BOOL'}},
+                ],
+                returnType: {
+                  type: Maybe.Just({
+                    name: 'int',
+                    reference: 'int',
+                  }),
+                  modifiers: [],
+                },
+                code: ['// Test'],
+                isPublic: true,
+                isInline: true,
+                compilerAttributes: [],
+              },
+            ],
+          },
+        ],
+        structs: [],
+        namespaces: [],
+        macros: [],
+      };
+
+      const renderedOutput: Maybe.Maybe<string> = ObjCRenderer.renderHeader(
+        fileToRender,
+      );
+      const expectedOutput: Maybe.Maybe<string> = Maybe.Just<string>(
+        '__attribute__((objc_subclassing_restricted)) \n' +
+          '@interface RMSomeValue : NSObject <RMTestProtocol>\n\n' +
+          '@end\n\n' +
+          'static inline int RMSomeFunction(BOOL parameter) {\n' +
+          '  // Test\n' +
+          '}\n',
+      );
+      expect(renderedOutput).toEqualJSON(expectedOutput);
+
+      const renderedImpl: Maybe.Maybe<
+        string
+      > = ObjCRenderer.renderImplementation(fileToRender);
+
+      expect(renderedImpl).not.toContain('RMSomeFunction');
     });
 
     it('filters class methods implemented in protocols', () => {
@@ -4287,6 +4421,7 @@ static int RMSomeFunction(BOOL parameter) {
         comments: [],
         code: [],
         isPublic: false,
+        isInline: false,
         compilerAttributes: ['__attribute__((some_attribute))'],
       };
 

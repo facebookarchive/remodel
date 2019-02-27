@@ -749,6 +749,7 @@ describe('ObjectSpecPlugins.Equality', function() {
               'return fabsf(givenFloat - floatToCompare) < FLT_EPSILON * fabsf(givenFloat + floatToCompare) || fabsf(givenFloat - floatToCompare) < FLT_MIN;',
             ],
             isPublic: false,
+            isInline: false,
             compilerAttributes: [],
           },
           {
@@ -796,6 +797,7 @@ describe('ObjectSpecPlugins.Equality', function() {
               'return h;',
             ],
             isPublic: false,
+            isInline: false,
             compilerAttributes: [],
           },
         ];
@@ -881,6 +883,7 @@ describe('ObjectSpecPlugins.Equality', function() {
               'return fabsf(givenFloat - floatToCompare) < FLT_EPSILON * fabsf(givenFloat + floatToCompare) || fabsf(givenFloat - floatToCompare) < FLT_MIN;',
             ],
             isPublic: false,
+            isInline: false,
             compilerAttributes: [],
           },
           {
@@ -928,6 +931,7 @@ describe('ObjectSpecPlugins.Equality', function() {
               'return h;',
             ],
             isPublic: false,
+            isInline: false,
             compilerAttributes: [],
           },
         ];
@@ -999,6 +1003,7 @@ describe('ObjectSpecPlugins.Equality', function() {
               'return fabs(givenDouble - doubleToCompare) < DBL_EPSILON * fabs(givenDouble + doubleToCompare) || fabs(givenDouble - doubleToCompare) < DBL_MIN;',
             ],
             isPublic: false,
+            isInline: false,
             compilerAttributes: [],
           },
           {
@@ -1036,6 +1041,7 @@ describe('ObjectSpecPlugins.Equality', function() {
               'return (NSUInteger) p;',
             ],
             isPublic: false,
+            isInline: false,
             compilerAttributes: [],
           },
         ];
@@ -1108,6 +1114,7 @@ describe('ObjectSpecPlugins.Equality', function() {
               'return fabsf(givenFloat - floatToCompare) < FLT_EPSILON * fabsf(givenFloat + floatToCompare) || fabsf(givenFloat - floatToCompare) < FLT_MIN;',
             ],
             isPublic: false,
+            isInline: false,
             compilerAttributes: [],
           },
           {
@@ -1140,6 +1147,7 @@ describe('ObjectSpecPlugins.Equality', function() {
               'return fabs(givenDouble - doubleToCompare) < DBL_EPSILON * fabs(givenDouble + doubleToCompare) || fabs(givenDouble - doubleToCompare) < DBL_MIN;',
             ],
             isPublic: false,
+            isInline: false,
             compilerAttributes: [],
           },
           {
@@ -1181,6 +1189,7 @@ describe('ObjectSpecPlugins.Equality', function() {
               '  }',
             ],
             isPublic: false,
+            isInline: false,
             compilerAttributes: [],
           },
           {
@@ -1228,6 +1237,7 @@ describe('ObjectSpecPlugins.Equality', function() {
               'return h;',
             ],
             isPublic: false,
+            isInline: false,
             compilerAttributes: [],
           },
           {
@@ -1265,6 +1275,7 @@ describe('ObjectSpecPlugins.Equality', function() {
               'return (NSUInteger) p;',
             ],
             isPublic: false,
+            isInline: false,
             compilerAttributes: [],
           },
           {
@@ -1299,6 +1310,7 @@ describe('ObjectSpecPlugins.Equality', function() {
               '  }',
             ],
             isPublic: false,
+            isInline: false,
             compilerAttributes: [],
           },
         ];

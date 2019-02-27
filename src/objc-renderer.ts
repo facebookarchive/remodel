@@ -52,18 +52,23 @@ function includeMethodInHeader(
 }
 
 function localImport(file: string, cplusplus: boolean): string {
-  const importLine = (file.indexOf('.h') === -1)
-    ? '#import <' + file + '>'
-    : '#import "' + file + '"';
+  const importLine =
+    file.indexOf('.h') === -1
+      ? '#import <' + file + '>'
+      : '#import "' + file + '"';
   return cplusplus
-    ? "#ifdef __cplusplus\n" + importLine + "\n#endif"
+    ? '#ifdef __cplusplus\n' + importLine + '\n#endif'
     : importLine;
 }
 
-function libraryImport(file: string, library: string, cplusplus: boolean): string {
+function libraryImport(
+  file: string,
+  library: string,
+  cplusplus: boolean,
+): string {
   const importLine = '#import <' + library + '/' + file + '>';
   return cplusplus
-    ? "#ifdef __cplusplus\n" + importLine + "\n#endif"
+    ? '#ifdef __cplusplus\n' + importLine + '\n#endif'
     : importLine;
 }
 
@@ -384,10 +389,6 @@ const HEADER_FUNCTIONS_SECTION_BEGIN: string =
 const HEADER_FUNCTIONS_SECTION_END: string =
   '\n\n#ifdef __cplusplus\n}\n#endif';
 
-function isPublicFunction(functionDefinition: ObjC.Function): boolean {
-  return functionDefinition.isPublic;
-}
-
 function toFunctionHeaderString(functionDefinition: ObjC.Function): string {
   const functionHeaderComments = functionDefinition.comments
     .map(toCommentString)
@@ -559,8 +560,12 @@ function blockTypeIsInlined(
   };
 }
 
-function headerFunctionsSection(functions: ObjC.Function[]): string {
-  const functionsToIncludeInHeader = functions.filter(isPublicFunction);
+function headerPublicNonInlineFunctionsSection(
+  functions: ObjC.Function[],
+): string {
+  const functionsToIncludeInHeader = functions.filter(
+    func => func.isPublic && !func.isInline,
+  );
   if (functionsToIncludeInHeader.length > 0) {
     return (
       HEADER_FUNCTIONS_SECTION_BEGIN +
@@ -570,6 +575,25 @@ function headerFunctionsSection(functions: ObjC.Function[]): string {
   } else {
     return '';
   }
+}
+
+function headerPublicInlineFunctionsSection(
+  functions: ObjC.Function[],
+): string {
+  const functionsToIncludeInHeader = functions.filter(
+    func => func.isPublic && func.isInline,
+  );
+  return functionsToIncludeInHeader
+    .map(toFunctionImplementationString)
+    .join('\n');
+}
+
+function headerFunctionsSection(functions: ObjC.Function[]): string {
+  return (
+    codeSectionForCodeStringWithoutExtraSpace(
+      headerPublicInlineFunctionsSection(functions),
+    ) + headerPublicNonInlineFunctionsSection(functions)
+  );
 }
 
 function templateTypeDeclaration(templateType: CPlusPlus.TemplateType): string {
@@ -886,8 +910,10 @@ function toStaticConstantString(constant: ObjC.Constant): string {
 }
 
 function qualifierForFunction(functionDefinition: ObjC.Function): string {
-  if (functionDefinition.isPublic) {
+  if (functionDefinition.isPublic && !functionDefinition.isInline) {
     return 'extern';
+  } else if (functionDefinition.isPublic && functionDefinition.isInline) {
+    return 'static inline';
   } else {
     return 'static';
   }
@@ -1080,6 +1106,7 @@ function implementationClassSection(classInfo: ObjC.Class): string {
     postfixClassMacrosStr !== '' ? '\n\n' + postfixClassMacrosStr : '';
 
   const functionsStr = (classInfo.functions || [])
+    .filter(func => !(func.isInline && func.isPublic))
     .map(toFunctionImplementationString)
     .join('\n\n');
   const functionsSection = codeSectionForCodeString(functionsStr);
@@ -1125,7 +1152,7 @@ function willHaveImplementationForClass(classInfo: ObjC.Class): boolean {
 }
 
 function willHaveImplementationForFunction(func: ObjC.Function): boolean {
-  return func.code.length > 0 || !func.isPublic;
+  return !func.isPublic || (func.code.length > 0 && !func.isInline);
 }
 
 function fileHasImplementationCodeToRender(file: Code.File): boolean {
@@ -1221,10 +1248,10 @@ export function renderImplementation(file: Code.File): Maybe.Maybe<string> {
     );
 
     const functionStr = file.functions
+      .filter(func => !(func.isInline && func.isPublic))
       .map(toFunctionImplementationString)
       .join('\n\n');
     const functionsSection = codeSectionForCodeString(functionStr);
-
     const classesSection = file.classes
       .map(implementationClassSection)
       .join('\n\n');

@@ -17,6 +17,7 @@ import * as ObjCCommentUtils from './objc-comment-utils';
 import * as ObjCFileCreation from './objc-file-creation';
 import * as OutputControl from './output-control';
 import * as path from 'path';
+import {attributesFromSubtype} from './algebraic-type-utils';
 
 export interface ObjCGenerationPlugIn<T> {
   additionalFiles: (typeInformation: T) => Code.File[];
@@ -386,6 +387,23 @@ function classFileCreationFunctionWithBaseClassAndPlugins<T>(
         },
         maybeFileType,
       );
+
+      const functions = List.foldl<ObjCGenerationPlugIn<T>, ObjC.Function[]>(
+        (soFar, plugin) => buildFunctions(typeInformation, soFar, plugin),
+        [],
+        plugins,
+      );
+
+      const classes = createClassesForObjectSpecType<T>(
+        typeInformation,
+        typeName,
+        comments,
+        baseClassName,
+        functions,
+        nullability,
+        plugins,
+      );
+
       return {
         name: typeName,
         type: fileType,
@@ -432,89 +450,149 @@ function classFileCreationFunctionWithBaseClassAndPlugins<T>(
           [],
           plugins,
         ),
-        functions: [],
+        functions: classes.length > 0 ? [] : functions,
         macros: List.foldl<ObjCGenerationPlugIn<T>, ObjC.Macro[]>(
           (soFar, plugin) => buildMacros(typeInformation, soFar, plugin),
           [],
           plugins,
         ),
-        classes: [
-          {
-            baseClassName: baseClassName,
-            covariantTypes: [],
-            comments: ObjCCommentUtils.commentsAsBlockFromStringArray(comments),
-            classMethods: List.foldl<ObjCGenerationPlugIn<T>, ObjC.Method[]>(
-              (soFar, plugin) =>
-                buildClassMethods(typeInformation, soFar, plugin),
-              [],
-              plugins,
-            ).sort(sortInstanceMethodComparitor),
-            functions: List.foldl<ObjCGenerationPlugIn<T>, ObjC.Function[]>(
-              (soFar, plugin) => buildFunctions(typeInformation, soFar, plugin),
-              [],
-              plugins,
-            ),
-            instanceMethods: List.foldl<ObjCGenerationPlugIn<T>, ObjC.Method[]>(
-              (soFar, plugin) =>
-                buildInstanceMethods(typeInformation, soFar, plugin),
-              [],
-              plugins,
-            ).sort(sortInstanceMethodComparitor),
-            name: typeName,
-            properties: List.foldl<ObjCGenerationPlugIn<T>, ObjC.Property[]>(
-              (soFar, plugin) =>
-                buildProperties(typeInformation, soFar, plugin),
-              [],
-              plugins,
-            ),
-            instanceVariables: List.foldl<
-              ObjCGenerationPlugIn<T>,
-              ObjC.InstanceVariable[]
-            >(
-              (soFar, plugin) =>
-                buildInstanceVariables(typeInformation, soFar, plugin),
-              [],
-              plugins,
-            ),
-            implementedProtocols: List.foldr<
-              ObjCGenerationPlugIn<T>,
-              ObjC.Protocol[]
-            >(
-              (soFar, plugin) => buildProtocols(typeInformation, soFar, plugin),
-              [],
-              plugins,
-            ),
-            extensionName: Maybe.Nothing<string>(),
-            nullability: Either.match(
-              function() {
-                return ObjC.ClassNullability.default;
-              },
-              function(maybeNullability: Maybe.Maybe<ObjC.ClassNullability>) {
-                return Maybe.match(
-                  function(nullability: ObjC.ClassNullability) {
-                    return nullability;
-                  },
-                  function() {
-                    return ObjC.ClassNullability.default;
-                  },
-                  maybeNullability,
-                );
-              },
-              nullability,
-            ),
-            subclassingRestricted: List.foldr<ObjCGenerationPlugIn<T>, boolean>(
-              (soFar, plugin) =>
-                checkSubclassingRestricted(typeInformation, soFar, plugin),
-              false,
-              plugins,
-            ),
-          },
-        ],
+        classes: classes,
         structs: [],
         namespaces: [],
       };
     }, fileType);
   };
+}
+
+function createClassesForObjectSpecType<T>(
+  typeInformation: T,
+  typeName: string,
+  comments: string[],
+  baseClassName: string,
+  functions: ObjC.Function[],
+  nullability: Either.Either<Error.Error, Maybe.Maybe<ObjC.ClassNullability>>,
+  plugins: List.List<ObjCGenerationPlugIn<T>>,
+): ObjC.Class[] {
+  const classMethods = List.foldl<ObjCGenerationPlugIn<T>, ObjC.Method[]>(
+    (soFar, plugin) => buildClassMethods(typeInformation, soFar, plugin),
+    [],
+    plugins,
+  ).sort(sortInstanceMethodComparitor);
+
+  const instanceMethods = List.foldl<ObjCGenerationPlugIn<T>, ObjC.Method[]>(
+    (soFar, plugin) => buildInstanceMethods(typeInformation, soFar, plugin),
+    [],
+    plugins,
+  ).sort(sortInstanceMethodComparitor);
+
+  const properties = List.foldl<ObjCGenerationPlugIn<T>, ObjC.Property[]>(
+    (soFar, plugin) => buildProperties(typeInformation, soFar, plugin),
+    [],
+    plugins,
+  );
+
+  const instanceVariables = List.foldl<
+    ObjCGenerationPlugIn<T>,
+    ObjC.InstanceVariable[]
+  >(
+    (soFar, plugin) => buildInstanceVariables(typeInformation, soFar, plugin),
+    [],
+    plugins,
+  );
+
+  const implementedProtocols = List.foldr<
+    ObjCGenerationPlugIn<T>,
+    ObjC.Protocol[]
+  >(
+    (soFar, plugin) => buildProtocols(typeInformation, soFar, plugin),
+    [],
+    plugins,
+  );
+
+  const classDefintionMaybe = createClassIfNecessary(
+    classMethods,
+    instanceMethods,
+    properties,
+    instanceVariables,
+    functions,
+    implementedProtocols,
+    comments,
+    typeName,
+    baseClassName,
+    nullability,
+    List.foldr<ObjCGenerationPlugIn<T>, boolean>(
+      (soFar, plugin) =>
+        checkSubclassingRestricted(typeInformation, soFar, plugin),
+      false,
+      plugins,
+    ),
+  );
+
+  return Maybe.match(
+    function(classInfo) {
+      return [classInfo];
+    },
+    function() {
+      return [];
+    },
+    classDefintionMaybe,
+  );
+}
+
+function createClassIfNecessary(
+  classMethods: ObjC.Method[],
+  instanceMethods: ObjC.Method[],
+  properties: ObjC.Property[],
+  instanceVariables: ObjC.InstanceVariable[],
+  functions: ObjC.Function[],
+  implementedProtocols: ObjC.Protocol[],
+  comments: string[],
+  typeName: string,
+  baseClassName: string,
+  nullability: Either.Either<Error.Error, Maybe.Maybe<ObjC.ClassNullability>>,
+  subclassingRestricted: boolean,
+): Maybe.Maybe<ObjC.Class> {
+  if (
+    classMethods.length > 0 ||
+    instanceMethods.length > 0 ||
+    properties.length > 0 ||
+    instanceVariables.length > 0 ||
+    implementedProtocols.length > 0 ||
+    subclassingRestricted
+  ) {
+    return Maybe.Just({
+      baseClassName: baseClassName,
+      covariantTypes: [],
+      comments: ObjCCommentUtils.commentsAsBlockFromStringArray(comments),
+      classMethods: classMethods,
+      functions: functions,
+      instanceMethods: instanceMethods,
+      name: typeName,
+      properties: properties,
+      instanceVariables: instanceVariables,
+      implementedProtocols: implementedProtocols,
+      nullability: Either.match(
+        function() {
+          return ObjC.ClassNullability.default;
+        },
+        function(maybeNullability: Maybe.Maybe<ObjC.ClassNullability>) {
+          return Maybe.match(
+            function(nullability: ObjC.ClassNullability) {
+              return nullability;
+            },
+            function() {
+              return ObjC.ClassNullability.default;
+            },
+            maybeNullability,
+          );
+        },
+        nullability,
+      ),
+      subclassingRestricted: subclassingRestricted,
+    });
+  }
+
+  return Maybe.Nothing<ObjC.Class>();
 }
 
 function fileCreationRequestContainingArrayOfPossibleError(

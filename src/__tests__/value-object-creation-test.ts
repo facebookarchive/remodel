@@ -300,7 +300,7 @@ describe('ObjectSpecCreation', function() {
           implementedProtocols: function(
             objectType: ObjectSpec.Type,
           ): ObjC.Protocol[] {
-            return [];
+            return [{name: 'NSCopying'}];
           },
           functions: function(objectType: ObjectSpec.Type): ObjC.Function[] {
             return [];
@@ -362,7 +362,7 @@ describe('ObjectSpecCreation', function() {
               ' * This file is generated using the remodel generation script.\n' +
               ' * The name of the input file is something.value\n' +
               ' */\n\n' +
-              '@interface Foo : NSObject\n' +
+              '@interface Foo : NSObject <NSCopying>\n' +
               '\n' +
               '@end\n',
           ),
@@ -462,7 +462,7 @@ describe('ObjectSpecCreation', function() {
           implementedProtocols: function(
             objectType: ObjectSpec.Type,
           ): ObjC.Protocol[] {
-            return [];
+            return [{name: 'NSCopying'}];
           },
           functions: function(objectType: ObjectSpec.Type): ObjC.Function[] {
             return [];
@@ -524,7 +524,7 @@ describe('ObjectSpecCreation', function() {
               ' * This file is generated using the remodel generation script.\n' +
               ' * The name of the input file is something.value\n' +
               ' */\n\n' +
-              '@interface ExistingType : NSObject\n' +
+              '@interface ExistingType : NSObject <NSCopying>\n' +
               '\n' +
               '@end\n',
           ),
@@ -534,7 +534,7 @@ describe('ObjectSpecCreation', function() {
               ' * This file is generated using the remodel generation script.\n' +
               ' * The name of the input file is something.value\n' +
               ' */\n\n' +
-              '@interface AddedType1 : NSObject\n' +
+              '@interface AddedType1 : NSObject <NSCopying>\n' +
               '\n' +
               '@end\n',
           ),
@@ -544,7 +544,7 @@ describe('ObjectSpecCreation', function() {
               ' * This file is generated using the remodel generation script.\n' +
               ' * The name of the input file is something.value\n' +
               ' */\n\n' +
-              '@interface AddedType2 : NSObject\n' +
+              '@interface AddedType2 : NSObject <NSCopying>\n' +
               '\n' +
               '@end\n',
           ),
@@ -561,7 +561,8 @@ describe('ObjectSpecCreation', function() {
 
     it(
       'returns a header not including the instance methods ' +
-        'from a plugin does not have its required includes fulfilled',
+        'from a plugin does not have its required includes fulfilled' +
+        'and that having a empty ObjectSpec does not produce an @interface declaration',
       function() {
         const Plugin: ObjectSpec.Plugin = {
           requiredIncludesToRun: ['Test'],
@@ -703,10 +704,7 @@ describe('ObjectSpecCreation', function() {
             '/**\n' +
               ' * This file is generated using the remodel generation script.\n' +
               ' * The name of the input file is something.value\n' +
-              ' */\n\n' +
-              '@interface Foo : NSObject\n' +
-              '\n' +
-              '@end\n',
+              ' */\n',
           ),
         );
         const expectedRequest = Either.Right<

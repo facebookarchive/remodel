@@ -54,6 +54,15 @@ function prefixIncludingFirstCharacterOfNameFromString(
   }
 }
 
+export function prefixForString(stringIncludingPrefix: string): string {
+  const prefixIncludingFirstCharacter: string = prefixIncludingFirstCharacterOfNameFromString(
+    stringIncludingPrefix,
+  );
+  return prefixIncludingFirstCharacter == ''
+    ? stringIncludingPrefix
+    : stringIncludingPrefix.substr(0, prefixIncludingFirstCharacter.length - 1);
+}
+
 export function stringRemovingCapitalizedPrefix(
   stringIncludingPrefix: string,
 ): string {

@@ -51,5 +51,6 @@ export interface File {
   classes: ObjC.Class[];
   diagnosticIgnores: string[];
   structs: CPlusPlus.Struct[];
+  nullability?: ObjC.ClassNullability;
   namespaces: CPlusPlus.Namespace[];
 }

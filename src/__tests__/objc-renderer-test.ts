@@ -3990,6 +3990,88 @@ describe('ObjCRenderer', function() {
       expect(renderedOutput).toEqualJSON(expectedOutput);
     });
 
+    it('renders file level nullability annotations', function() {
+      const fileToRender: Code.File = {
+        name: 'RMSomeValue',
+        type: Code.FileType.ObjectiveC(),
+        imports: [],
+        comments: [],
+        blockTypes: [],
+        enumerations: [],
+        staticConstants: [],
+        forwardDeclarations: [],
+        functions: [
+          {
+            comments: [],
+            name: 'RMSomeFunction',
+            parameters: [
+              {name: 'parameter', type: {name: 'BOOL', reference: 'BOOL'}},
+            ],
+            returnType: {
+              type: Maybe.Just({
+                name: 'int',
+                reference: 'int',
+              }),
+              modifiers: [],
+            },
+            code: ['// Test'],
+            isPublic: true,
+            isInline: false,
+            compilerAttributes: [],
+          },
+        ],
+        diagnosticIgnores: [],
+        classes: [],
+        structs: [],
+        namespaces: [],
+        macros: [],
+        nullability: ObjC.ClassNullability.assumeNonnull,
+      };
+
+      const renderedOutput: Maybe.Maybe<
+        string
+      > = ObjCRenderer.renderImplementation(fileToRender);
+
+      const expectedOutput: Maybe.Maybe<string> = Maybe.Just<
+        string
+      >(`#if  ! __has_feature(objc_arc)
+#error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).
+#endif
+
+NS_ASSUME_NONNULL_BEGIN
+
+
+extern int RMSomeFunction(BOOL parameter) {
+  // Test
+}
+
+NS_ASSUME_NONNULL_END\n`);
+
+      expect(renderedOutput).toEqualJSON(expectedOutput);
+
+      const renderedHeader: Maybe.Maybe<string> = ObjCRenderer.renderHeader(
+        fileToRender,
+      );
+
+      const expectedHeader: Maybe.Maybe<string> = Maybe.Just<
+        string
+      >(`NS_ASSUME_NONNULL_BEGIN
+
+#ifdef __cplusplus
+extern \"C\" {
+#endif
+
+extern int RMSomeFunction(BOOL parameter);
+
+#ifdef __cplusplus
+}
+#endif
+
+NS_ASSUME_NONNULL_END\n`);
+
+      expect(renderedHeader).toEqualJSON(expectedHeader);
+    });
+
     it('renders a macro', () => {
       const fileToRender: Code.File = {
         name: 'RMSomeValue',

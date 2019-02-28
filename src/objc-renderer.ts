@@ -453,7 +453,7 @@ class Macro {
   }
 }
 
-function classNullabilityMacro(
+function nullabilityMacro(
   nullability: ObjC.ClassNullability,
 ): Maybe.Maybe<Macro> {
   switch (nullability) {
@@ -467,11 +467,17 @@ function classNullabilityMacro(
 }
 
 function classMacros(classInfo: ObjC.Class): Macro[] {
-  return Maybe.catMaybes([classNullabilityMacro(classInfo.nullability)]);
+  return Maybe.catMaybes([nullabilityMacro(classInfo.nullability)]);
+}
+
+function fileMacros(file: Code.File): Macro[] {
+  return Maybe.catMaybes([
+    nullabilityMacro(file.nullability || ObjC.ClassNullability.default),
+  ]);
 }
 
 function blockMacros(blockType: ObjC.BlockType): Macro[] {
-  return Maybe.catMaybes([classNullabilityMacro(blockType.nullability)]);
+  return Maybe.catMaybes([nullabilityMacro(blockType.nullability)]);
 }
 
 function toPrefixMacroString(macro: Macro): string {
@@ -589,11 +595,19 @@ function headerPublicInlineFunctionsSection(
 }
 
 function headerFunctionsSection(functions: ObjC.Function[]): string {
-  return (
-    codeSectionForCodeStringWithoutExtraSpace(
-      headerPublicInlineFunctionsSection(functions),
-    ) + headerPublicNonInlineFunctionsSection(functions)
-  );
+  const items = [];
+
+  const publicDeclarations = headerPublicNonInlineFunctionsSection(functions);
+  if (publicDeclarations.length > 0) {
+    items.push(publicDeclarations);
+  }
+
+  const inlineFunctions = headerPublicInlineFunctionsSection(functions);
+  if (inlineFunctions.length > 0) {
+    items.push(inlineFunctions);
+  }
+
+  return items.join('\n\n');
 }
 
 function templateTypeDeclaration(templateType: CPlusPlus.TemplateType): string {
@@ -723,11 +737,9 @@ function buildInstanceVariablesContainingAccessIdentifiers(
 function headerClassSection(file: Code.File, classInfo: ObjC.Class): string {
   const macros = classMacros(classInfo);
 
-  const prefixClassMacrosStr: string = macros
-    .map(toPrefixMacroString)
-    .join('\n');
-  const prefixClassMacrosSection: string =
-    prefixClassMacrosStr !== '' ? prefixClassMacrosStr + '\n\n' : '';
+  const prefixClassMacrosSection: string = codeSectionForCodeString(
+    macros.map(toPrefixMacroString).join('\n'),
+  );
 
   const classComments = classInfo.comments.map(toCommentString).join('\n');
   const classCommentsSection = codeSectionForCodeStringWithoutExtraSpace(
@@ -785,11 +797,9 @@ function headerClassSection(file: Code.File, classInfo: ObjC.Class): string {
     .join('\n\n');
   const instanceMethodsSection = codeSectionForCodeString(instanceMethodsStr);
 
-  const postfixClassMacrosStr: string = macros
-    .map(toPostfixMacroString)
-    .join('\n');
-  const postfixClassMacrosSection: string =
-    postfixClassMacrosStr !== '' ? '\n\n' + postfixClassMacrosStr : '';
+  const postfixClassMacrosSection: string = precedingTwoSpacePaddingForCodeString(
+    macros.map(toPostfixMacroString).join('\n'),
+  );
 
   return (
     prefixClassMacrosSection +
@@ -830,6 +840,11 @@ export function renderHeader(file: Code.File): Maybe.Maybe<string> {
   const declarationsStr = arrayWithDuplicatesRemoved(declarations).join('\n');
   const declarationsSection = codeSectionForCodeString(declarationsStr);
 
+  const macros = fileMacros(file);
+  const prefixMacrosSection: string = codeSectionForCodeString(
+    macros.map(toPrefixMacroString).join('\n'),
+  );
+
   const enumerationsStr: string = file.enumerations
     .filter(enumerationIsPublic(true))
     .map(toNSEnumDeclaration)
@@ -866,16 +881,22 @@ export function renderHeader(file: Code.File): Maybe.Maybe<string> {
     .join('\n');
   const namespacesSection: string = codeSectionForCodeString(namespacesStr);
 
+  const postfixMacrosSection: string = codeSectionForCodeString(
+    macros.map(toPostfixMacroString).join('\n'),
+  );
+
   const contents: string =
     commentsSection +
     importsSection +
     declarationsSection +
+    prefixMacrosSection +
     enumerationsSection +
     blocksSection +
     structsSection +
     namespacesSection +
     classSection +
-    functionsSection;
+    functionsSection +
+    postfixMacrosSection;
   return Maybe.Just<string>(contents.trim() + '\n');
 }
 
@@ -1069,11 +1090,9 @@ function methodIsNotUnavailableNSObjectMethod(method: ObjC.Method): boolean {
 function implementationClassSection(classInfo: ObjC.Class): string {
   const macros = classMacros(classInfo);
 
-  const prefixClassMacrosStr: string = macros
-    .map(toPrefixMacroString)
-    .join('\n');
-  const prefixClassMacrosSection: string =
-    prefixClassMacrosStr !== '' ? prefixClassMacrosStr + '\n\n' : '';
+  const prefixClassMacrosSection: string = codeSectionForCodeString(
+    macros.map(toPrefixMacroString).join('\n'),
+  );
 
   const classSection: string = '@implementation ' + classInfo.name + '\n';
   const instanceVariablesStr: string = classInfo.instanceVariables
@@ -1099,17 +1118,15 @@ function implementationClassSection(classInfo: ObjC.Class): string {
     )
     .join('\n\n');
 
-  const postfixClassMacrosStr: string = macros
-    .map(toPostfixMacroString)
-    .join('\n');
-  const postfixClassMacrosSection: string =
-    postfixClassMacrosStr !== '' ? '\n\n' + postfixClassMacrosStr : '';
-
   const functionsStr = (classInfo.functions || [])
     .filter(func => !(func.isInline && func.isPublic))
     .map(toFunctionImplementationString)
     .join('\n\n');
   const functionsSection = codeSectionForCodeString(functionsStr);
+
+  const postfixClassMacrosSection: string = precedingTwoSpacePaddingForCodeString(
+    macros.map(toPostfixMacroString).join('\n'),
+  );
 
   return (
     (
@@ -1123,6 +1140,10 @@ function implementationClassSection(classInfo: ObjC.Class): string {
     '\n\n@end' +
     postfixClassMacrosSection
   );
+}
+
+function precedingTwoSpacePaddingForCodeString(codeStr: string): string {
+  return codeStr.length > 0 ? '\n\n' + codeStr : '';
 }
 
 function codeSectionForCodeString(codeStr: string): string {
@@ -1219,6 +1240,12 @@ export function renderImplementation(file: Code.File): Maybe.Maybe<string> {
       diagnosticIgnoresStr,
     );
 
+    const macros = fileMacros(file);
+
+    const prefixMacrosSection: string = codeSectionForCodeString(
+      macros.map(toPrefixMacroString).join('\n'),
+    );
+
     const staticConstantsStr = file.staticConstants
       .map(toStaticConstantString)
       .join('\n');
@@ -1256,11 +1283,16 @@ export function renderImplementation(file: Code.File): Maybe.Maybe<string> {
       .map(implementationClassSection)
       .join('\n\n');
 
+    const postfixMacrosSection: string = codeSectionForCodeString(
+      macros.map(toPostfixMacroString).join('\n'),
+    );
+
     const contents: string =
       commentsSection +
       arcCompileFlagCheckSection() +
       importsSection +
       diagnosticIgnoresSection +
+      prefixMacrosSection +
       staticConstantsSection +
       enumerationsSection +
       blocksSection +
@@ -1269,6 +1301,7 @@ export function renderImplementation(file: Code.File): Maybe.Maybe<string> {
       classesSection +
       '\n' +
       functionsSection +
+      postfixMacrosSection +
       diagnosticIgnoresEndSection;
 
     return Maybe.Just<string>(contents.trim() + '\n');

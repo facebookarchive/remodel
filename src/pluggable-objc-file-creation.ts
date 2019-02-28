@@ -367,7 +367,7 @@ function classFileCreationFunctionWithBaseClassAndPlugins<T>(
       ),
       plugins,
     );
-    const nullability = List.foldl<
+    const nullabilityEither = List.foldl<
       ObjCGenerationPlugIn<T>,
       Either.Either<Error.Error, Maybe.Maybe<ObjC.ClassNullability>>
     >(
@@ -377,6 +377,25 @@ function classFileCreationFunctionWithBaseClassAndPlugins<T>(
       ),
       plugins,
     );
+
+    const nullability = Either.match(
+      function() {
+        return ObjC.ClassNullability.default;
+      },
+      function(maybeNullability: Maybe.Maybe<ObjC.ClassNullability>) {
+        return Maybe.match(
+          function(nullability: ObjC.ClassNullability) {
+            return nullability;
+          },
+          function() {
+            return ObjC.ClassNullability.default;
+          },
+          maybeNullability,
+        );
+      },
+      nullabilityEither,
+    );
+
     return Either.map(function(maybeFileType) {
       const fileType = Maybe.match(
         function(fileType: Code.FileType) {
@@ -400,8 +419,8 @@ function classFileCreationFunctionWithBaseClassAndPlugins<T>(
         comments,
         baseClassName,
         functions,
-        nullability,
         plugins,
+        nullability,
       );
 
       return {
@@ -451,6 +470,7 @@ function classFileCreationFunctionWithBaseClassAndPlugins<T>(
           plugins,
         ),
         functions: classes.length > 0 ? [] : functions,
+        nullability: classes.length > 0 ? undefined : nullability,
         macros: List.foldl<ObjCGenerationPlugIn<T>, ObjC.Macro[]>(
           (soFar, plugin) => buildMacros(typeInformation, soFar, plugin),
           [],
@@ -470,8 +490,8 @@ function createClassesForObjectSpecType<T>(
   comments: string[],
   baseClassName: string,
   functions: ObjC.Function[],
-  nullability: Either.Either<Error.Error, Maybe.Maybe<ObjC.ClassNullability>>,
   plugins: List.List<ObjCGenerationPlugIn<T>>,
+  nullability: ObjC.ClassNullability,
 ): ObjC.Class[] {
   const classMethods = List.foldl<ObjCGenerationPlugIn<T>, ObjC.Method[]>(
     (soFar, plugin) => buildClassMethods(typeInformation, soFar, plugin),
@@ -549,7 +569,7 @@ function createClassIfNecessary(
   comments: string[],
   typeName: string,
   baseClassName: string,
-  nullability: Either.Either<Error.Error, Maybe.Maybe<ObjC.ClassNullability>>,
+  nullability: ObjC.ClassNullability,
   subclassingRestricted: boolean,
 ): Maybe.Maybe<ObjC.Class> {
   if (
@@ -571,23 +591,7 @@ function createClassIfNecessary(
       properties: properties,
       instanceVariables: instanceVariables,
       implementedProtocols: implementedProtocols,
-      nullability: Either.match(
-        function() {
-          return ObjC.ClassNullability.default;
-        },
-        function(maybeNullability: Maybe.Maybe<ObjC.ClassNullability>) {
-          return Maybe.match(
-            function(nullability: ObjC.ClassNullability) {
-              return nullability;
-            },
-            function() {
-              return ObjC.ClassNullability.default;
-            },
-            maybeNullability,
-          );
-        },
-        nullability,
-      ),
+      nullability: nullability,
       subclassingRestricted: subclassingRestricted,
     });
   }

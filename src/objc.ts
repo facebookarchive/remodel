@@ -139,6 +139,7 @@ export interface Method {
 export interface FunctionParameter {
   name: string;
   type: Type;
+  modifiers?: KeywordArgumentModifier[];
 }
 
 export interface Function {

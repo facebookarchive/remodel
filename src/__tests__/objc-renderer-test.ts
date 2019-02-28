@@ -4511,5 +4511,64 @@ static int RMSomeFunction(BOOL parameter) {
         '__attribute__((some_attribute))',
       );
     });
+    it('renders nullablity for return type', () => {
+      const definition: ObjC.Function = {
+        name: 'TestFunction',
+        parameters: [],
+        returnType: {
+          type: Maybe.Just({
+            name: 'RMSomething',
+            reference: 'RMSomething *',
+          }),
+          modifiers: [
+            ObjC.KeywordArgumentModifier.Nullable(),
+            ObjC.KeywordArgumentModifier.UnsafeUnretained(),
+          ],
+        },
+        comments: [],
+        code: [],
+        isPublic: false,
+        isInline: false,
+        compilerAttributes: [],
+      };
+
+      expect(ObjCRenderer.toFunctionImplementationString(definition)).toContain(
+        'static RMSomething *__nullable __unsafe_unretained TestFunction()',
+      );
+    });
+    it('renders nullablity for parameter type', () => {
+      const definition: ObjC.Function = {
+        name: 'TestFunction',
+        parameters: [
+          {
+            type: {
+              name: 'NSString',
+              reference: 'NSString *',
+            },
+            name: 'str',
+            modifiers: [
+              ObjC.KeywordArgumentModifier.Nullable(),
+              ObjC.KeywordArgumentModifier.UnsafeUnretained(),
+            ],
+          },
+        ],
+        returnType: {
+          type: Maybe.Just({
+            name: 'RMSomething',
+            reference: 'RMSomething *',
+          }),
+          modifiers: [],
+        },
+        comments: [],
+        code: [],
+        isPublic: false,
+        isInline: false,
+        compilerAttributes: [],
+      };
+
+      expect(ObjCRenderer.toFunctionImplementationString(definition)).toContain(
+        'static RMSomething *TestFunction(NSString *__nullable __unsafe_unretained str)',
+      );
+    });
   });
 });

@@ -591,7 +591,7 @@ function headerPublicInlineFunctionsSection(
   );
   return functionsToIncludeInHeader
     .map(toFunctionImplementationString)
-    .join('\n');
+    .join('\n\n');
 }
 
 function headerFunctionsSection(functions: ObjC.Function[]): string {
@@ -940,9 +940,29 @@ function qualifierForFunction(functionDefinition: ObjC.Function): string {
   }
 }
 
+function toInlinableFuncModifierString(
+  modifiers: ObjC.KeywordArgumentModifier[],
+): string {
+  const modifierStrings = (modifiers || []).map(function(modifier) {
+    const modifierString = toKeywordArgumentModifierString(modifier);
+    return modifierString.indexOf('__') == 0
+      ? modifierString
+      : '__' + modifierString;
+  });
+
+  return modifierStrings.length > 0 ? modifierStrings.join(' ') + ' ' : '';
+}
+
 function toFunctionReturnTypeString(returnType: ObjC.ReturnType): string {
-  return renderableTypeReferenceNestingSubsequentToken(
-    toTypeString(returnType),
+  const typeString = Maybe.match(
+    type => genericizedType([], [], type),
+    () => 'void',
+    returnType.type,
+  );
+
+  return (
+    renderableTypeReferenceNestingSubsequentToken(typeString) +
+    toInlinableFuncModifierString(returnType.modifiers)
   );
 }
 
@@ -952,7 +972,9 @@ function toFunctionParameterString(
   return (
     renderableTypeReferenceNestingSubsequentToken(
       functionParameter.type.reference,
-    ) + functionParameter.name
+    ) +
+    toInlinableFuncModifierString(functionParameter.modifiers) +
+    functionParameter.name
   );
 }
 

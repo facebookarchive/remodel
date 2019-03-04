@@ -116,7 +116,7 @@ function annotation() {
   return mona.sequence(function(s) {
     s(mona.maybe(mona.spaces()));
     s(mona.string('%'));
-    const annotationName = s(mona.maybe(mona.text(mona.alphanum())));
+    const annotationName = s(mona.maybe(mona.text(mona.or(mona.alphanum(), mona.string('-'), mona.string('_')))));
     s(mona.maybe(mona.string(' ')));
 
     const values = s(mona.collect(annotationKeyValue()));

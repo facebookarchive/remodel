@@ -533,6 +533,41 @@ describe('ObjectSpecMonaParser', function() {
       expect(actualObjectSpec).toEqualJSON(expectedObjectSpec);
     });
 
+    it('parses a value object with an annotation that has a hypen in the name ' +
+       'importing from a different library', function() {
+      const valueFileContents = 'RMSomething {\n' +
+                              '  %custom-annotation\n' +
+                              '  RMLibType *customLibObject\n' +
+                              '}';
+      const actualObjectSpec = parser.parseObjectSpec(valueFileContents);
+      const expectedObjectSpec = {
+        errorReason: null,
+        isValid: true,
+        foundType: {
+          typeName: 'RMSomething',
+          comments: [],
+          includes: [],
+          excludes: [],
+          annotations: {},
+          attributes: [
+            {
+              name: 'customLibObject',
+              type: {
+                reference: 'RMLibType*',
+                underlyingType: undefined,
+              },
+              comments: [],
+              annotations: {
+                'custom-annotation': []
+              }
+            }
+          ]
+        }
+      };
+      expect(actualObjectSpec).toEqualJSON(expectedObjectSpec);
+    });
+
+
     it('parses a value object with an attribute with an annotation for ' +
        'importing from a different library and file location', function() {
       const valueFileContents = 'RMSomething {\n' +

@@ -114,6 +114,9 @@ export function createPlugin(): ObjectSpec.Plugin {
     additionalFiles: function(objectType: ObjectSpec.Type): Code.File[] {
       return [];
     },
+    transformBaseFile: function(objectType: ObjectSpec.Type, baseFile: Code.File): Code.File {
+      return baseFile;
+    },
     additionalTypes: function(objectType: ObjectSpec.Type): ObjectSpec.Type[] {
       return [];
     },
@@ -123,7 +126,7 @@ export function createPlugin(): ObjectSpec.Plugin {
     classMethods: function(objectType: ObjectSpec.Type): ObjC.Method[] {
       return [];
     },
-    fileTransformation: function(
+    transformFileRequest: function(
       request: FileWriter.Request,
     ): FileWriter.Request {
       return request;

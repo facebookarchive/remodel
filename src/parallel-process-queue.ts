@@ -10,12 +10,15 @@ import * as File from './file';
 import * as LazySequence from './lazy-sequence';
 import * as os from 'os';
 import * as ParallelProcess from './parallel-process';
-import { Map } from 'immutable';
+import {Map} from 'immutable';
 
 const CPUS = os.cpus();
 
 var pidToWorkersMap = Map<number, child_process.ChildProcess>();
-var requestIdToSequenceSource = Map<number, LazySequence.Source<File.AbsoluteFilePath>>();
+var requestIdToSequenceSource = Map<
+  number,
+  LazySequence.Source<File.AbsoluteFilePath>
+>();
 var requestIdToCount = Map<number, number>();
 var globalRequestId = 0;
 
@@ -76,7 +79,10 @@ export function findFiles(
     File.AbsoluteFilePath
   > = LazySequence.source<File.AbsoluteFilePath>();
   requestIdToCount = requestIdToCount.set(localRequestId, 1);
-  requestIdToSequenceSource = requestIdToSequenceSource.set(localRequestId, source);
+  requestIdToSequenceSource = requestIdToSequenceSource.set(
+    localRequestId,
+    source,
+  );
 
   dispatchFindFilesRequest(queueRequest);
   return source.getSequence();
@@ -128,8 +134,10 @@ function processFindFilesResponse(
     dispatchFindFilesRequest(queueRequest);
   }
 
-  requestIdToCount = requestIdToCount.set(requestId,
-    currentCount - 1 + response.foundDirectoriesToSearch.length);
+  requestIdToCount = requestIdToCount.set(
+    requestId,
+    currentCount - 1 + response.foundDirectoriesToSearch.length,
+  );
 
   if (requestIdToCount.get(requestId, 0) === 0) {
     if (source) {

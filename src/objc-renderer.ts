@@ -892,9 +892,9 @@ export function renderHeader(file: Code.File): Maybe.Maybe<string> {
     prefixMacrosSection +
     enumerationsSection +
     blocksSection +
-    structsSection +
     namespacesSection +
     classSection +
+    structsSection +
     functionsSection +
     postfixMacrosSection;
   return Maybe.Just<string>(contents.trim() + '\n');

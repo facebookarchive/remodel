@@ -21,11 +21,14 @@ import {attributesFromSubtype} from './algebraic-type-utils';
 
 export interface ObjCGenerationPlugIn<T> {
   additionalFiles: (typeInformation: T) => Code.File[];
+  transformBaseFile: (typeInformation: T, baseFile: Code.File) => Code.File;
   blockTypes: (typeInformation: T) => ObjC.BlockType[];
   classMethods: (typeInformation: T) => ObjC.Method[];
   comments: (typeInformation: T) => ObjC.Comment[];
   enumerations: (typeInformation: T) => ObjC.Enumeration[];
-  fileTransformation: (writeRequest: FileWriter.Request) => FileWriter.Request;
+  transformFileRequest: (
+    writeRequest: FileWriter.Request,
+  ) => FileWriter.Request;
   fileType: (typeInformation: T) => Maybe.Maybe<Code.FileType>;
   forwardDeclarations: (typeInformation: T) => ObjC.ForwardDeclaration[];
   functions: (typeInformation: T) => ObjC.Function[];
@@ -707,6 +710,8 @@ function buildFileWriteRequest<T>(
     );
   }, plugins);
 
+  // each type info will manifest as its own file, regardless of whether
+  // the single-file output flag is set.
   const allFileRequests = typeInfos.map(function(type: T) {
     // build base file if we are allowed to
     const classFile: Either.Either<
@@ -722,18 +727,32 @@ function buildFileWriteRequest<T>(
         })
       : Either.Right<Error.Error, Code.File[]>([]);
 
-    // add files from plugins
-    const allFiles: Either.Either<Error.Error, Code.File[]> = classFile.map(
+    // add files from plugins, or merge them into our base file
+    // We'll end up with an array of files. If single file is set,
+    // we will only have one entry in the array.
+    const filesToWrite: Either.Either<Error.Error, Code.File[]> = classFile.map(
       function(files: Code.File[]) {
-        const additionalFiles: Code.File[] = List.foldl<
-          ObjCGenerationPlugIn<T>,
-          Code.File[]
-        >(
-          (soFar, plugin) => buildAdditionalFiles(type, soFar, plugin),
-          [],
-          filteredPlugins,
-        );
-        return files.concat(additionalFiles);
+        if (request.outputFlags.singleFile) {
+          const baseFile: Code.File = List.foldl<
+            ObjCGenerationPlugIn<T>,
+            Code.File
+          >(
+            (soFar, plugin) => plugin.transformBaseFile(type, soFar),
+            files[0],
+            filteredPlugins,
+          );
+          return [baseFile];
+        } else {
+          const additionalFiles: Code.File[] = List.foldl<
+            ObjCGenerationPlugIn<T>,
+            Code.File[]
+          >(
+            (soFar, plugin) => buildAdditionalFiles(type, soFar, plugin),
+            [],
+            filteredPlugins,
+          );
+          return files.concat(additionalFiles);
+        }
       },
     );
 
@@ -759,13 +778,14 @@ function buildFileWriteRequest<T>(
           requests: List.of<FileWriter.Request>(),
         }),
       );
-    }, allFiles);
+    }, filesToWrite);
 
     return fileCreationRequestContainingArrayOfPossibleError(
       completeFileCreationRequest,
     );
   });
 
+  // Unify all write requests
   return allFileRequests.reduce(function(
     soFar: Either.Either<Error.Error[], FileWriter.FileWriteRequest>,
     current: Either.Either<Error.Error[], FileWriter.FileWriteRequest>,
@@ -836,7 +856,7 @@ export function fileWriteRequest<T>(
           ): FileWriter.FileWriteRequest {
             const writeRequest: FileWriter.FileWriteRequest = {
               name: request.name,
-              requests: List.map(plugin.fileTransformation, request.requests),
+              requests: List.map(plugin.transformFileRequest, request.requests),
             };
             return writeRequest;
           },

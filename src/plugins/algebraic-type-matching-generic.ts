@@ -39,8 +39,16 @@ function parameterNameForAlgebraicType(
 
 //////// Imports
 
+function conditionallyAddToSpread<T>(
+  addIt: boolean,
+  value: T,
+) : T[] {
+  return addIt ? [value] : [];
+}
+
 function genericMatcherImportsForAlgebraicType(
   algebraicType: AlgebraicType.Type,
+  forBaseFile: boolean,
 ): ObjC.Import[] {
   return [
     {
@@ -55,12 +63,12 @@ function genericMatcherImportsForAlgebraicType(
       requiresCPlusPlus: false,
       library: algebraicType.libraryName,
     },
-    {
+    ...conditionallyAddToSpread(!forBaseFile, {
       file: fileNameForAlgebraicType(algebraicType) + '.h',
       isPublic: false,
       requiresCPlusPlus: false,
       library: Maybe.Nothing<string>(),
-    },
+    }),
   ];
 }
 
@@ -183,6 +191,20 @@ function classMethodForGenericMatchingOfAlgebraicType(
   };
 }
 
+function blockTypesForAlgebraicType(
+  algebraicType: AlgebraicType.Type,
+): ObjC.BlockType[] {
+  const matchingBlockType = matchingBlockTypeForPlugin();
+  return algebraicType.subtypes.map(subtype =>
+    AlgebraicTypeUtils.blockTypeForSubtype(
+      algebraicType,
+      matchingBlockType,
+      true,
+      subtype,
+    ),
+  );
+}
+
 //////// Matcher File / Class
 
 function genericMatchingClassForAlgebraicType(
@@ -205,23 +227,16 @@ function genericMatchingClassForAlgebraicType(
 
 function genericMatchingFileForAlgebraicType(
   algebraicType: AlgebraicType.Type,
+  forBaseFile: boolean,
 ): Code.File {
-  const matchingBlockType = matchingBlockTypeForPlugin();
   return {
     name: fileNameForAlgebraicType(algebraicType),
     type: Code.FileType.ObjectiveC(),
-    imports: genericMatcherImportsForAlgebraicType(algebraicType),
+    imports: genericMatcherImportsForAlgebraicType(algebraicType, forBaseFile),
     forwardDeclarations: [],
     comments: [],
     enumerations: [],
-    blockTypes: algebraicType.subtypes.map(subtype =>
-      AlgebraicTypeUtils.blockTypeForSubtype(
-        algebraicType,
-        matchingBlockType,
-        true,
-        subtype,
-      ),
-    ),
+    blockTypes: blockTypesForAlgebraicType(algebraicType),
     staticConstants: [],
     functions: [],
     classes: [genericMatchingClassForAlgebraicType(algebraicType)],
@@ -235,7 +250,13 @@ function genericMatchingFileForAlgebraicType(
 export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
   return {
     additionalFiles: function(algebraicType: AlgebraicType.Type): Code.File[] {
-      return [genericMatchingFileForAlgebraicType(algebraicType)];
+      return [genericMatchingFileForAlgebraicType(algebraicType, false)];
+    }, 
+    transformBaseFile: function(algebraicType: AlgebraicType.Type, baseFile: Code.File): Code.File {
+      baseFile.imports = baseFile.imports.concat(genericMatcherImportsForAlgebraicType(algebraicType, true));
+      baseFile.blockTypes = baseFile.blockTypes.concat(blockTypesForAlgebraicType(algebraicType));
+      baseFile.classes.push(genericMatchingClassForAlgebraicType(algebraicType));
+      return baseFile;
     },
     blockTypes: function(algebraicType: AlgebraicType.Type): ObjC.BlockType[] {
       return [];
@@ -248,7 +269,7 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
     ): ObjC.Enumeration[] {
       return [];
     },
-    fileTransformation: function(
+    transformFileRequest: function(
       request: FileWriter.Request,
     ): FileWriter.Request {
       return request;

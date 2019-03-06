@@ -35,10 +35,10 @@ const OUTPUT_PATH: string = 'output-path';
 const INCLUDE: string = 'include';
 const EXCLUDE: string = 'exclude';
 const PROHIBIT_PLUGIN_DIRECTIVES_FLAG: string = 'prohibit-plugin-directives';
-const EMIT_HEADER: string = 'emit-header';
 const HEADERS_ONLY: string = 'headers-only';
 const IMPL_ONLY: string = 'implementations-only';
 const EMIT: string = 'emit';
+const SINGLE_FILE: string = 'output-single-file';
 
 const ADT_CONFIG_PATH: string = 'adt-config-path';
 const VALUE_OBJECT_CONFIG_PATH: string = 'value-object-config-path';
@@ -132,6 +132,7 @@ export function parseArgs(args: string[]): Maybe.Maybe<Arguments> {
       PROHIBIT_PLUGIN_DIRECTIVES_FLAG,
       HEADERS_ONLY,
       IMPL_ONLY,
+      SINGLE_FILE,
     ],
     string: [
       ADT_CONFIG_PATH,
@@ -178,6 +179,7 @@ export function parseArgs(args: string[]): Maybe.Maybe<Arguments> {
         emitHeaders: !sanitizedImplsOnly,
         emitImplementations: !sanitizedHeadersOnly,
         outputList: sanitizeEmitOption(parsedArgs[EMIT]),
+        singleFile: sanitizeBooleanArg(parsedArgs[SINGLE_FILE], false),
       },
     });
   }

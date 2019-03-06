@@ -72,10 +72,11 @@ function copyingValidatorFunction(
 export function createPlugin(): ObjectSpec.Plugin {
   return {
     additionalFiles: empty(),
+    transformBaseFile: (a, b) => b,
     additionalTypes: empty(),
     attributes: empty(),
     classMethods: empty(),
-    fileTransformation: request => request,
+    transformFileRequest: request => request,
     fileType: nothing(),
     forwardDeclarations: empty(),
     functions: objectType => [

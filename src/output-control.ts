@@ -10,11 +10,14 @@ export interface OutputFlags {
   emitImplementations: boolean;
   // empty implies emit object and all additional files
   outputList: string[];
+  singleFile: boolean;
 }
 
 export function ShouldEmitObject(flags: OutputFlags) {
   return (
-    flags.outputList.length == 0 || flags.outputList.indexOf('object') !== -1
+    flags.outputList.length == 0 ||
+    flags.outputList.indexOf('object') !== -1 ||
+    flags.singleFile
   );
 }
 

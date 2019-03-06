@@ -31,6 +31,13 @@ function createAlgebraicTypeObjCPlugIn(
       return plugin.additionalFiles(typeInformation);
     },
 
+    transformBaseFile: function(
+      typeInformation: AlgebraicType.Type,
+      baseFile: Code.File,
+    ): Code.File {
+      return plugin.transformBaseFile(typeInformation, baseFile);
+    },
+
     blockTypes: function(
       typeInformation: AlgebraicType.Type,
     ): ObjC.BlockType[] {
@@ -51,10 +58,10 @@ function createAlgebraicTypeObjCPlugIn(
       return plugin.enumerations(typeInformation);
     },
 
-    fileTransformation: function(
+    transformFileRequest: function(
       writeRequest: FileWriter.Request,
     ): FileWriter.Request {
-      return plugin.fileTransformation(writeRequest);
+      return plugin.transformFileRequest(writeRequest);
     },
 
     fileType: function(

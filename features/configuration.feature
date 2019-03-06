@@ -34,6 +34,9 @@ Feature: Outputting Value Objects With A Custom Plugin
           additionalFiles: function (valueType) {
             return [];
           },
+          transformBaseFile: function (valueType, baseFile) {
+            return baseFile;
+          },
           additionalTypes: function (valueType) {
             return [];
           },
@@ -43,7 +46,7 @@ Feature: Outputting Value Objects With A Custom Plugin
           classMethods: function (valueType) {
             return [];
           },
-          fileTransformation: function (request) {
+          transformFileRequest: function (request) {
             return request;
           },
           fileType: function (valueType) {

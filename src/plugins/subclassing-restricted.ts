@@ -18,6 +18,9 @@ export function createPlugin(): ObjectSpec.Plugin {
     additionalFiles: function(objectType: ObjectSpec.Type): Code.File[] {
       return [];
     },
+    transformBaseFile: function(objectType: ObjectSpec.Type, baseFile: Code.File): Code.File {
+      return baseFile;
+    },
     additionalTypes: function(objectType: ObjectSpec.Type): ObjectSpec.Type[] {
       return [];
     },
@@ -27,7 +30,7 @@ export function createPlugin(): ObjectSpec.Plugin {
     classMethods: function(objectType: ObjectSpec.Type): ObjC.Method[] {
       return [];
     },
-    fileTransformation: function(
+    transformFileRequest: function(
       request: FileWriter.Request,
     ): FileWriter.Request {
       return request;
@@ -88,6 +91,9 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
     additionalFiles: function(algebraicType: AlgebraicType.Type): Code.File[] {
       return [];
     },
+    transformBaseFile: function(algebraicType: AlgebraicType.Type, baseFile: Code.File): Code.File {
+      return baseFile;
+    },
     blockTypes: function(algebraicType: AlgebraicType.Type): ObjC.BlockType[] {
       return [];
     },
@@ -99,7 +105,7 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
     ): ObjC.Enumeration[] {
       return [];
     },
-    fileTransformation: function(
+    transformFileRequest: function(
       request: FileWriter.Request,
     ): FileWriter.Request {
       return request;

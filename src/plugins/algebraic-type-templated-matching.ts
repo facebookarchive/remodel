@@ -209,38 +209,53 @@ function structForMatchingAlgebraicType(
   };
 }
 
+function conditionallyAddToSpread<T>(
+  addIt: boolean,
+  value: T,
+) : T[] {
+  return addIt ? [value] : [];
+}
+
+function generateImports(
+  algebraicType: AlgebraicType.Type,
+  forBaseFile: boolean,
+): ObjC.Import[] {
+  return [
+    {
+      file: 'Foundation.h',
+      isPublic: true,
+      requiresCPlusPlus: false,
+      library: Maybe.Just<string>('Foundation'),
+    },
+    {
+      file: algebraicType.name + '.h',
+      isPublic: true,
+      requiresCPlusPlus: false,
+      library: algebraicType.libraryName,
+    },
+    ...conditionallyAddToSpread(!forBaseFile, {
+      file: matchingFileNameForAlgebraicType(algebraicType) + '.h',
+      isPublic: false,
+      requiresCPlusPlus: false,
+      library: Maybe.Nothing<string>(),
+    }),
+    {
+      file: 'memory',
+      isPublic: true,
+      requiresCPlusPlus: true,
+      library: Maybe.Nothing<string>()
+    },
+  ]
+}
+
 function matchingFileForAlgebraicType(
   algebraicType: AlgebraicType.Type,
+  forBaseFile: boolean,
 ): Code.File {
   return {
     name: matchingFileNameForAlgebraicType(algebraicType),
     type: Code.FileType.ObjectiveCPlusPlus(),
-    imports: [
-      {
-        file: 'Foundation.h',
-        isPublic: true,
-        requiresCPlusPlus: false,
-        library: Maybe.Just<string>('Foundation'),
-      },
-      {
-        file: algebraicType.name + '.h',
-        isPublic: true,
-        requiresCPlusPlus: false,
-        library: algebraicType.libraryName,
-      },
-      {
-        file: matchingFileNameForAlgebraicType(algebraicType) + '.h',
-        isPublic: false,
-        requiresCPlusPlus: false,
-        library: Maybe.Nothing<string>(),
-      },
-      {
-        file: 'memory',
-        isPublic: true,
-        requiresCPlusPlus: true,
-        library: Maybe.Nothing<string>()
-      },
-    ],
+    imports: generateImports(algebraicType, forBaseFile),
     enumerations: [],
     blockTypes: [],
     comments: [],
@@ -258,7 +273,12 @@ function matchingFileForAlgebraicType(
 export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
   return {
     additionalFiles: function(algebraicType: AlgebraicType.Type): Code.File[] {
-      return [matchingFileForAlgebraicType(algebraicType)];
+      return [matchingFileForAlgebraicType(algebraicType, false)];
+    },
+    transformBaseFile: function(algebraicType: AlgebraicType.Type, baseFile: Code.File): Code.File {
+      baseFile.imports = baseFile.imports.concat(generateImports(algebraicType, true));
+      baseFile.structs.push(structForMatchingAlgebraicType(algebraicType));
+      return baseFile;
     },
     blockTypes: function(algebraicType: AlgebraicType.Type): ObjC.BlockType[] {
       return [];
@@ -271,7 +291,7 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
     ): ObjC.Enumeration[] {
       return [];
     },
-    fileTransformation: function(
+    transformFileRequest: function(
       request: FileWriter.Request,
     ): FileWriter.Request {
       return request;

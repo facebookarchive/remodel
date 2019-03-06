@@ -410,7 +410,7 @@ function SkipImportsInImplementationForValueType(
   return objectType.includes.indexOf('SkipImportsInImplementation') !== -1;
 }
 
-function importsForBuilder(objectType: ObjectSpec.Type): ObjC.Import[] {
+function importsForBuilder(objectType: ObjectSpec.Type, forBaseFile: boolean): ObjC.Import[] {
   const typeLookupImports: ObjC.Import[] = importsForTypeLookupsOfObjectType(
     objectType,
   );
@@ -442,13 +442,13 @@ function importsForBuilder(objectType: ObjectSpec.Type): ObjC.Import[] {
       requiresCPlusPlus: false,
       library: objectType.libraryName,
     },
-    {
+    ...conditionallyAddToSpread(!forBaseFile, {
       file: nameOfBuilderForValueTypeWithName(objectType.typeName) + '.h',
       isPublic: false,
       requiresCPlusPlus: false,
       library: Maybe.Nothing<string>(),
-    },
-  ]
+    }),
+    ]
     .concat(typeLookupImports)
     .concat(attributeImports);
 }
@@ -492,46 +492,59 @@ function forwardDeclarationsForBuilder(
     .concat(attributeForwardProtocolDeclarations);
 }
 
-function builderFileForValueType(objectType: ObjectSpec.Type): Code.File {
+function classesForBuilder(
+  objectType: ObjectSpec.Type
+): ObjC.Class[] {
+  return [
+    {
+      baseClassName: 'NSObject',
+      covariantTypes: [],
+      classMethods: [
+        builderClassMethodForValueType(objectType),
+        builderFromExistingObjectClassMethodForValueType(objectType),
+      ],
+      comments: [],
+      instanceMethods: [
+        buildObjectInstanceMethodForValueType(objectType),
+      ].concat(
+        objectType.attributes.map(attribute =>
+          withInstanceMethodForAttribute(
+            ObjectSpecUtils.typeSupportsValueObjectSemantics(objectType),
+            attribute,
+          ),
+        ),
+      ),
+      name: nameOfBuilderForValueTypeWithName(objectType.typeName),
+      properties: [],
+      instanceVariables: objectType.attributes.map(
+        instanceVariableForAttribute,
+      ),
+      implementedProtocols: [],
+      nullability: ObjC.ClassNullability.default,
+      subclassingRestricted: false,
+    },
+  ];
+}
+
+function conditionallyAddToSpread<T>(
+  addIt: boolean,
+  value: T,
+) : T[] {
+  return addIt ? [value] : [];
+}
+
+function builderFileForValueType(objectType: ObjectSpec.Type, forBaseFile: boolean): Code.File {
   return {
     name: nameOfBuilderForValueTypeWithName(objectType.typeName),
     type: Code.FileType.ObjectiveC(),
-    imports: importsForBuilder(objectType),
+    imports: importsForBuilder(objectType, forBaseFile),
     forwardDeclarations: forwardDeclarationsForBuilder(objectType),
     comments: [],
     enumerations: [],
     blockTypes: [],
     staticConstants: [],
     functions: [],
-    classes: [
-      {
-        baseClassName: 'NSObject',
-        covariantTypes: [],
-        classMethods: [
-          builderClassMethodForValueType(objectType),
-          builderFromExistingObjectClassMethodForValueType(objectType),
-        ],
-        comments: [],
-        instanceMethods: [
-          buildObjectInstanceMethodForValueType(objectType),
-        ].concat(
-          objectType.attributes.map(attribute =>
-            withInstanceMethodForAttribute(
-              ObjectSpecUtils.typeSupportsValueObjectSemantics(objectType),
-              attribute,
-            ),
-          ),
-        ),
-        name: nameOfBuilderForValueTypeWithName(objectType.typeName),
-        properties: [],
-        instanceVariables: objectType.attributes.map(
-          instanceVariableForAttribute,
-        ),
-        implementedProtocols: [],
-        nullability: ObjC.ClassNullability.default,
-        subclassingRestricted: false,
-      },
-    ],
+    classes: classesForBuilder(objectType),
     diagnosticIgnores: [],
     structs: [],
     namespaces: [],
@@ -542,7 +555,13 @@ function builderFileForValueType(objectType: ObjectSpec.Type): Code.File {
 export function createPlugin(): ObjectSpec.Plugin {
   return {
     additionalFiles: function(objectType: ObjectSpec.Type): Code.File[] {
-      return [builderFileForValueType(objectType)];
+      return [builderFileForValueType(objectType, false)];
+    },
+    transformBaseFile: function(objectType: ObjectSpec.Type, baseFile: Code.File): Code.File {
+      baseFile.imports = baseFile.imports.concat(importsForBuilder(objectType, true));
+      baseFile.forwardDeclarations = baseFile.forwardDeclarations.concat(forwardDeclarationsForBuilder(objectType));
+      baseFile.classes = baseFile.classes.concat(classesForBuilder(objectType));
+      return baseFile;
     },
     additionalTypes: function(objectType: ObjectSpec.Type): ObjectSpec.Type[] {
       return [];
@@ -553,7 +572,7 @@ export function createPlugin(): ObjectSpec.Plugin {
     classMethods: function(objectType: ObjectSpec.Type): ObjC.Method[] {
       return [];
     },
-    fileTransformation: function(
+    transformFileRequest: function(
       request: FileWriter.Request,
     ): FileWriter.Request {
       return request;

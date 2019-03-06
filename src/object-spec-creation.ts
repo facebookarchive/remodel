@@ -29,6 +29,13 @@ function createObjectSpecObjCPlugIn(
       return plugin.additionalFiles(typeInformation);
     },
 
+    transformBaseFile: function(
+      typeInformation: ObjectSpec.Type,
+      baseFile: Code.File,
+    ): Code.File {
+      return plugin.transformBaseFile(typeInformation, baseFile);
+    },
+
     blockTypes: function(typeInformation: ObjectSpec.Type): ObjC.BlockType[] {
       return [];
     },
@@ -47,10 +54,10 @@ function createObjectSpecObjCPlugIn(
       return [];
     },
 
-    fileTransformation: function(
+    transformFileRequest: function(
       writeRequest: FileWriter.Request,
     ): FileWriter.Request {
-      return plugin.fileTransformation(writeRequest);
+      return plugin.transformFileRequest(writeRequest);
     },
 
     fileType: function(

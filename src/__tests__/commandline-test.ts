@@ -51,6 +51,7 @@ describe('CommandLine', function() {
           emitHeaders: true,
           emitImplementations: true,
           outputList: [],
+          singleFile: false,
         },
       });
 
@@ -82,6 +83,7 @@ describe('CommandLine', function() {
           emitHeaders: true,
           emitImplementations: true,
           outputList: [],
+          singleFile: false,
         },
       });
 
@@ -114,6 +116,7 @@ describe('CommandLine', function() {
           emitHeaders: true,
           emitImplementations: true,
           outputList: [],
+          singleFile: false,
         },
       });
 
@@ -146,6 +149,7 @@ describe('CommandLine', function() {
           emitHeaders: true,
           emitImplementations: true,
           outputList: [],
+          singleFile: false,
         },
       });
 
@@ -177,6 +181,7 @@ describe('CommandLine', function() {
           emitHeaders: true,
           emitImplementations: true,
           outputList: [],
+          singleFile: false,
         },
       });
 
@@ -210,6 +215,7 @@ describe('CommandLine', function() {
           emitHeaders: true,
           emitImplementations: true,
           outputList: [],
+          singleFile: false,
         },
       });
 
@@ -245,6 +251,7 @@ describe('CommandLine', function() {
           emitHeaders: true,
           emitImplementations: true,
           outputList: [],
+          singleFile: false,
         },
       });
 
@@ -280,6 +287,7 @@ describe('CommandLine', function() {
           emitHeaders: true,
           emitImplementations: true,
           outputList: [],
+          singleFile: false,
         },
       });
 
@@ -314,6 +322,7 @@ describe('CommandLine', function() {
           emitHeaders: true,
           emitImplementations: true,
           outputList: [],
+          singleFile: false,
         },
       });
 
@@ -350,6 +359,7 @@ describe('CommandLine', function() {
           emitHeaders: true,
           emitImplementations: true,
           outputList: [],
+          singleFile: false,
         },
       });
 
@@ -384,6 +394,7 @@ describe('CommandLine', function() {
           emitHeaders: true,
           emitImplementations: true,
           outputList: [],
+          singleFile: false,
         },
       });
 
@@ -432,6 +443,7 @@ describe('CommandLine', function() {
           emitHeaders: true,
           emitImplementations: true,
           outputList: ['PluginOne', 'object'],
+          singleFile: false,
         },
       });
 
@@ -469,6 +481,7 @@ describe('CommandLine', function() {
           emitHeaders: true,
           emitImplementations: true,
           outputList: [],
+          singleFile: false,
         },
       });
 

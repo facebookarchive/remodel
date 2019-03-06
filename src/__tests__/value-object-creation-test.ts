@@ -31,7 +31,7 @@ describe('ObjectSpecCreation', function() {
           imports: function(objectType: ObjectSpec.Type): ObjC.Import[] {
             return [];
           },
-          fileTransformation: function(
+          transformFileRequest: function(
             request: FileWriter.Request,
           ): FileWriter.Request {
             return request;
@@ -87,6 +87,12 @@ describe('ObjectSpecCreation', function() {
           },
           additionalFiles: function(objectType: ObjectSpec.Type): Code.File[] {
             return [];
+          },
+          transformBaseFile: function(
+            objectType: ObjectSpec.Type,
+            baseFile: Code.File,
+          ): Code.File {
+            return baseFile;
           },
           additionalTypes: function(
             objectType: ObjectSpec.Type,
@@ -159,6 +165,7 @@ describe('ObjectSpecCreation', function() {
             emitHeaders: true,
             emitImplementations: true,
             outputList: [],
+            singleFile: false,
           },
         };
 
@@ -217,7 +224,7 @@ describe('ObjectSpecCreation', function() {
           imports: function(objectType: ObjectSpec.Type): ObjC.Import[] {
             return [];
           },
-          fileTransformation: function(
+          transformFileRequest: function(
             request: FileWriter.Request,
           ): FileWriter.Request {
             return request;
@@ -275,6 +282,12 @@ describe('ObjectSpecCreation', function() {
                 macros: [],
               },
             ];
+          },
+          transformBaseFile: function(
+            objectType: ObjectSpec.Type,
+            baseFile: Code.File,
+          ): Code.File {
+            return baseFile;
           },
           additionalTypes: function(
             objectType: ObjectSpec.Type,
@@ -347,6 +360,7 @@ describe('ObjectSpecCreation', function() {
             emitHeaders: true,
             emitImplementations: true,
             outputList: [],
+            singleFile: false,
           },
         };
 
@@ -389,7 +403,7 @@ describe('ObjectSpecCreation', function() {
           imports: function(objectType: ObjectSpec.Type): ObjC.Import[] {
             return [];
           },
-          fileTransformation: function(
+          transformFileRequest: function(
             request: FileWriter.Request,
           ): FileWriter.Request {
             return request;
@@ -416,6 +430,12 @@ describe('ObjectSpecCreation', function() {
           },
           additionalFiles: function(objectType: ObjectSpec.Type): Code.File[] {
             return [];
+          },
+          transformBaseFile: function(
+            objectType: ObjectSpec.Type,
+            baseFile: Code.File,
+          ): Code.File {
+            return baseFile;
           },
           additionalTypes: function(
             objectType: ObjectSpec.Type,
@@ -509,6 +529,7 @@ describe('ObjectSpecCreation', function() {
             emitHeaders: true,
             emitImplementations: true,
             outputList: [],
+            singleFile: false,
           },
         };
 
@@ -569,7 +590,7 @@ describe('ObjectSpecCreation', function() {
           imports: function(objectType: ObjectSpec.Type): ObjC.Import[] {
             return [];
           },
-          fileTransformation: function(
+          transformFileRequest: function(
             request: FileWriter.Request,
           ): FileWriter.Request {
             return request;
@@ -618,6 +639,12 @@ describe('ObjectSpecCreation', function() {
           },
           additionalFiles: function(objectType: ObjectSpec.Type): Code.File[] {
             return [];
+          },
+          transformBaseFile: function(
+            objectType: ObjectSpec.Type,
+            baseFile: Code.File,
+          ): Code.File {
+            return baseFile;
           },
           additionalTypes: function(
             objectType: ObjectSpec.Type,
@@ -690,6 +717,7 @@ describe('ObjectSpecCreation', function() {
             emitHeaders: true,
             emitImplementations: true,
             outputList: [],
+            singleFile: false,
           },
         };
 
@@ -725,7 +753,7 @@ describe('ObjectSpecCreation', function() {
           imports: function(objectType: ObjectSpec.Type): ObjC.Import[] {
             return [];
           },
-          fileTransformation: function(
+          transformFileRequest: function(
             request: FileWriter.Request,
           ): FileWriter.Request {
             return request;
@@ -817,6 +845,12 @@ describe('ObjectSpecCreation', function() {
           additionalFiles: function(objectType: ObjectSpec.Type): Code.File[] {
             return [];
           },
+          transformBaseFile: function(
+            objectType: ObjectSpec.Type,
+            baseFile: Code.File,
+          ): Code.File {
+            return baseFile;
+          },
           additionalTypes: function(
             objectType: ObjectSpec.Type,
           ): ObjectSpec.Type[] {
@@ -888,6 +922,7 @@ describe('ObjectSpecCreation', function() {
             emitHeaders: true,
             emitImplementations: true,
             outputList: [],
+            singleFile: false,
           },
         };
 
@@ -970,7 +1005,7 @@ describe('ObjectSpecCreation', function() {
           imports: function(objectType: ObjectSpec.Type): ObjC.Import[] {
             return [];
           },
-          fileTransformation: function(
+          transformFileRequest: function(
             request: FileWriter.Request,
           ): FileWriter.Request {
             return request;
@@ -997,6 +1032,12 @@ describe('ObjectSpecCreation', function() {
           },
           additionalFiles: function(objectType: ObjectSpec.Type): Code.File[] {
             return [];
+          },
+          transformBaseFile: function(
+            objectType: ObjectSpec.Type,
+            baseFile: Code.File,
+          ): Code.File {
+            return baseFile;
           },
           properties: function(objectType: ObjectSpec.Type): ObjC.Property[] {
             return [];
@@ -1059,6 +1100,7 @@ describe('ObjectSpecCreation', function() {
             emitHeaders: true,
             emitImplementations: true,
             outputList: [],
+            singleFile: false,
           },
         };
 
@@ -1100,7 +1142,7 @@ describe('ObjectSpecCreation', function() {
           imports: function(objectType: ObjectSpec.Type): ObjC.Import[] {
             return [];
           },
-          fileTransformation: function(
+          transformFileRequest: function(
             request: FileWriter.Request,
           ): FileWriter.Request {
             return request;
@@ -1127,6 +1169,12 @@ describe('ObjectSpecCreation', function() {
           },
           additionalFiles: function(objectType: ObjectSpec.Type): Code.File[] {
             return [];
+          },
+          transformBaseFile: function(
+            objectType: ObjectSpec.Type,
+            baseFile: Code.File,
+          ): Code.File {
+            return baseFile;
           },
           properties: function(objectType: ObjectSpec.Type): ObjC.Property[] {
             return [];
@@ -1181,7 +1229,7 @@ describe('ObjectSpecCreation', function() {
           imports: function(objectType: ObjectSpec.Type): ObjC.Import[] {
             return [];
           },
-          fileTransformation: function(
+          transformFileRequest: function(
             request: FileWriter.Request,
           ): FileWriter.Request {
             return request;
@@ -1208,6 +1256,12 @@ describe('ObjectSpecCreation', function() {
           },
           additionalFiles: function(objectType: ObjectSpec.Type): Code.File[] {
             return [];
+          },
+          transformBaseFile: function(
+            objectType: ObjectSpec.Type,
+            baseFile: Code.File,
+          ): Code.File {
+            return baseFile;
           },
           properties: function(objectType: ObjectSpec.Type): ObjC.Property[] {
             return [];
@@ -1270,6 +1324,7 @@ describe('ObjectSpecCreation', function() {
             emitHeaders: true,
             emitImplementations: true,
             outputList: [],
+            singleFile: false,
           },
         };
 
@@ -1303,7 +1358,7 @@ describe('ObjectSpecCreation', function() {
           imports: function(objectType: ObjectSpec.Type): ObjC.Import[] {
             return [];
           },
-          fileTransformation: function(
+          transformFileRequest: function(
             request: FileWriter.Request,
           ): FileWriter.Request {
             return request;
@@ -1375,6 +1430,12 @@ describe('ObjectSpecCreation', function() {
           additionalFiles: function(objectType: ObjectSpec.Type): Code.File[] {
             return [];
           },
+          transformBaseFile: function(
+            objectType: ObjectSpec.Type,
+            baseFile: Code.File,
+          ): Code.File {
+            return baseFile;
+          },
           additionalTypes: function(
             objectType: ObjectSpec.Type,
           ): ObjectSpec.Type[] {
@@ -1428,7 +1489,7 @@ describe('ObjectSpecCreation', function() {
           imports: function(objectType: ObjectSpec.Type): ObjC.Import[] {
             return [];
           },
-          fileTransformation: function(
+          transformFileRequest: function(
             request: FileWriter.Request,
           ): FileWriter.Request {
             return request;
@@ -1477,6 +1538,12 @@ describe('ObjectSpecCreation', function() {
           },
           additionalFiles: function(objectType: ObjectSpec.Type): Code.File[] {
             return [];
+          },
+          transformBaseFile: function(
+            objectType: ObjectSpec.Type,
+            baseFile: Code.File,
+          ): Code.File {
+            return baseFile;
           },
           additionalTypes: function(
             objectType: ObjectSpec.Type,
@@ -1549,6 +1616,7 @@ describe('ObjectSpecCreation', function() {
             emitHeaders: true,
             emitImplementations: true,
             outputList: [],
+            singleFile: false,
           },
         };
 
@@ -1621,7 +1689,7 @@ describe('ObjectSpecCreation', function() {
           imports: function(objectType: ObjectSpec.Type): ObjC.Import[] {
             return [];
           },
-          fileTransformation: function(
+          transformFileRequest: function(
             request: FileWriter.Request,
           ): FileWriter.Request {
             const newRequest: FileWriter.Request = {
@@ -1697,6 +1765,12 @@ describe('ObjectSpecCreation', function() {
           additionalFiles: function(objectType: ObjectSpec.Type): Code.File[] {
             return [];
           },
+          transformBaseFile: function(
+            objectType: ObjectSpec.Type,
+            baseFile: Code.File,
+          ): Code.File {
+            return baseFile;
+          },
           additionalTypes: function(
             objectType: ObjectSpec.Type,
           ): ObjectSpec.Type[] {
@@ -1750,7 +1824,7 @@ describe('ObjectSpecCreation', function() {
           imports: function(objectType: ObjectSpec.Type): ObjC.Import[] {
             return [];
           },
-          fileTransformation: function(
+          transformFileRequest: function(
             request: FileWriter.Request,
           ): FileWriter.Request {
             const newRequest: FileWriter.Request = {
@@ -1803,6 +1877,12 @@ describe('ObjectSpecCreation', function() {
           },
           additionalFiles: function(objectType: ObjectSpec.Type): Code.File[] {
             return [];
+          },
+          transformBaseFile: function(
+            objectType: ObjectSpec.Type,
+            baseFile: Code.File,
+          ): Code.File {
+            return baseFile;
           },
           additionalTypes: function(
             objectType: ObjectSpec.Type,
@@ -1875,6 +1955,7 @@ describe('ObjectSpecCreation', function() {
             emitHeaders: true,
             emitImplementations: true,
             outputList: [],
+            singleFile: false,
           },
         };
 
@@ -1948,7 +2029,7 @@ describe('ObjectSpecCreation', function() {
         imports: function(objectType: ObjectSpec.Type): ObjC.Import[] {
           return [];
         },
-        fileTransformation: function(
+        transformFileRequest: function(
           request: FileWriter.Request,
         ): FileWriter.Request {
           return request;
@@ -1997,6 +2078,12 @@ describe('ObjectSpecCreation', function() {
         },
         additionalFiles: function(objectType: ObjectSpec.Type): Code.File[] {
           return [];
+        },
+        transformBaseFile: function(
+          objectType: ObjectSpec.Type,
+          baseFile: Code.File,
+        ): Code.File {
+          return baseFile;
         },
         additionalTypes: function(
           objectType: ObjectSpec.Type,
@@ -2067,6 +2154,7 @@ describe('ObjectSpecCreation', function() {
           emitHeaders: true,
           emitImplementations: true,
           outputList: [],
+          singleFile: false,
         },
       };
 

@@ -104,10 +104,13 @@ export interface Type {
 
 export interface Plugin {
   additionalFiles: (algebraicType: Type) => Code.File[];
+  transformBaseFile: (algebraicType: Type, baseFile: Code.File) => Code.File;
   blockTypes: (algebraicType: Type) => ObjC.BlockType[];
   classMethods: (algebraicType: Type) => ObjC.Method[];
   enumerations: (algebraicType: Type) => ObjC.Enumeration[];
-  fileTransformation: (writeRequest: FileWriter.Request) => FileWriter.Request;
+  transformFileRequest: (
+    writeRequest: FileWriter.Request,
+  ) => FileWriter.Request;
   fileType: (algebraicType: Type) => Maybe.Maybe<Code.FileType>;
   forwardDeclarations: (algebraicType: Type) => ObjC.ForwardDeclaration[];
   functions: (algebraicType: Type) => ObjC.Function[];

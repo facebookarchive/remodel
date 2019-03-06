@@ -27,7 +27,7 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
   return {
     additionalFiles: function(algebraicType: AlgebraicType.Type): Code.File[] {
       return [];
-    },
+    }, transformBaseFile: function(algebraicType: AlgebraicType.Type, baseFile: Code.File): Code.File {  return baseFile; },
     blockTypes: function(algebraicType: AlgebraicType.Type): ObjC.BlockType[] {
       const matchingBlockType = matchingBlockTypeForPlugin();
       return algebraicType.subtypes.map(subtype =>
@@ -47,7 +47,7 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
     ): ObjC.Enumeration[] {
       return [];
     },
-    fileTransformation: function(
+    transformFileRequest: function(
       request: FileWriter.Request,
     ): FileWriter.Request {
       return request;

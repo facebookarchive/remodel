@@ -114,7 +114,7 @@ Feature: Outputting Algebraic Types
             _subtype = SimpleADTSubtypesSecondSubtype;
           }
           else {
-            @throw([NSException exceptionWithName:@"InvalidSubtypeException" reason:@"nil or unknown subtype provided" userInfo:@{@"subtype": codedSubtype}]);
+            [[NSException exceptionWithName:@"InvalidSubtypeException" reason:@"nil or unknown subtype provided" userInfo:@{@"subtype": codedSubtype}] raise];
           }
         }
         return self;

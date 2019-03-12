@@ -1094,9 +1094,9 @@ function codeForBranchingOnSubtypeWithSubtypeMapper(
   const failureCase: string[] = [
     'else {',
     StringUtils.indent(2)(
-      '@throw([NSException exceptionWithName:@"InvalidSubtypeException" reason:@"nil or unknown subtype provided" userInfo:@{@"subtype": ' +
+      '[[NSException exceptionWithName:@"InvalidSubtypeException" reason:@"nil or unknown subtype provided" userInfo:@{@"subtype": ' +
         codeableAttributeForSubtypePropertyOfAlgebraicType().valueAccessor +
-        '}]);',
+        '}] raise];',
     ),
     '}',
   ];

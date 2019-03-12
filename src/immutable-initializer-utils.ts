@@ -147,17 +147,19 @@ export function initializerFromAttributes(
 export function initializerMethodsForObjectType(
   objectType: ObjectSpec.Type,
 ): ObjC.Method[] {
-  if (objectType.attributes.length > 0) {
-    const assumeNonnull: boolean =
-      objectType.includes.indexOf('RMAssumeNonnull') >= 0;
-    return [
-      initializerFromAttributes(
-        assumeNonnull,
-        ObjectSpecUtils.typeSupportsValueObjectSemantics(objectType),
-        objectType.attributes,
-      ),
-    ];
-  } else {
+  if (objectType.attributes.length == 0) {
     return [];
   }
+  if (objectType.includes.indexOf('FBDynamicProperties') >= 0) {
+    return [];
+  }
+  const assumeNonnull: boolean =
+    objectType.includes.indexOf('RMAssumeNonnull') >= 0;
+  return [
+    initializerFromAttributes(
+      assumeNonnull,
+      ObjectSpecUtils.typeSupportsValueObjectSemantics(objectType),
+      objectType.attributes,
+    ),
+  ];
 }

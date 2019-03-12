@@ -763,6 +763,10 @@ describe('ObjectSpecPlugins.Coding', function() {
           name: 'BOOL',
           reference: 'BOOL',
         },
+        originalType: {
+          name: 'BOOL',
+          reference: 'BOOL',
+        },
       };
 
       const code: string = Coding.decodeStatementForAttribute(attribute, false);
@@ -779,6 +783,10 @@ describe('ObjectSpecPlugins.Coding', function() {
         constantValue: 'FOO',
         legacyKeyNames: [],
         type: {
+          name: 'id',
+          reference: 'id',
+        },
+        originalType: {
           name: 'id',
           reference: 'id',
         },
@@ -801,6 +809,10 @@ describe('ObjectSpecPlugins.Coding', function() {
           name: 'NSObject',
           reference: 'NSObject *',
         },
+        originalType: {
+          name: 'NSObject',
+          reference: 'NSObject *',
+        },
       };
 
       const code: string = Coding.decodeStatementForAttribute(attribute, false);
@@ -817,6 +829,10 @@ describe('ObjectSpecPlugins.Coding', function() {
         constantValue: 'AGE',
         legacyKeyNames: [],
         type: {
+          name: 'NSInteger',
+          reference: 'NSInteger',
+        },
+        originalType: {
           name: 'NSInteger',
           reference: 'NSInteger',
         },
@@ -839,6 +855,10 @@ describe('ObjectSpecPlugins.Coding', function() {
           name: 'NSUInteger',
           reference: 'NSUInteger',
         },
+        originalType: {
+          name: 'NSUInteger',
+          reference: 'NSUInteger',
+        },
       };
 
       const code: string = Coding.decodeStatementForAttribute(attribute, false);
@@ -855,6 +875,10 @@ describe('ObjectSpecPlugins.Coding', function() {
         constantValue: 'CALLBACK_METHOD',
         legacyKeyNames: [],
         type: {
+          name: 'SEL',
+          reference: 'SEL',
+        },
+        originalType: {
           name: 'SEL',
           reference: 'SEL',
         },
@@ -879,6 +903,10 @@ describe('ObjectSpecPlugins.Coding', function() {
           name: 'BOOL',
           reference: 'BOOL',
         },
+        originalType: {
+          name: 'BOOL',
+          reference: 'BOOL',
+        },
       };
 
       const code: string = Coding.encodeStatementForAttribute(attribute);
@@ -895,6 +923,10 @@ describe('ObjectSpecPlugins.Coding', function() {
         constantValue: 'NAME',
         legacyKeyNames: [],
         type: {
+          name: 'NSObject',
+          reference: 'NSObject *',
+        },
+        originalType: {
           name: 'NSObject',
           reference: 'NSObject *',
         },
@@ -917,6 +949,10 @@ describe('ObjectSpecPlugins.Coding', function() {
           name: 'NSInteger',
           reference: 'NSInteger',
         },
+        originalType: {
+          name: 'NSInteger',
+          reference: 'NSInteger',
+        },
       };
 
       const code: string = Coding.encodeStatementForAttribute(attribute);
@@ -936,6 +972,10 @@ describe('ObjectSpecPlugins.Coding', function() {
           name: 'NSUInteger',
           reference: 'NSUInteger',
         },
+        originalType: {
+          name: 'NSUInteger',
+          reference: 'NSUInteger',
+        },
       };
 
       const code: string = Coding.encodeStatementForAttribute(attribute);
@@ -952,6 +992,10 @@ describe('ObjectSpecPlugins.Coding', function() {
         constantValue: 'CALLBACK_METHOD',
         legacyKeyNames: [],
         type: {
+          name: 'SEL',
+          reference: 'SEL',
+        },
+        originalType: {
           name: 'SEL',
           reference: 'SEL',
         },

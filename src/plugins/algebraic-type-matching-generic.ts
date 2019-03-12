@@ -39,10 +39,7 @@ function parameterNameForAlgebraicType(
 
 //////// Imports
 
-function conditionallyAddToSpread<T>(
-  addIt: boolean,
-  value: T,
-) : T[] {
+function conditionallyAddToSpread<T>(addIt: boolean, value: T): T[] {
   return addIt ? [value] : [];
 }
 
@@ -55,7 +52,7 @@ function genericMatcherImportsForAlgebraicType(
       file: 'Foundation.h',
       isPublic: true,
       requiresCPlusPlus: false,
-      library: Maybe.Just('Foundation')
+      library: Maybe.Just('Foundation'),
     },
     {
       file: algebraicType.name + '.h',
@@ -251,11 +248,20 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
   return {
     additionalFiles: function(algebraicType: AlgebraicType.Type): Code.File[] {
       return [genericMatchingFileForAlgebraicType(algebraicType, false)];
-    }, 
-    transformBaseFile: function(algebraicType: AlgebraicType.Type, baseFile: Code.File): Code.File {
-      baseFile.imports = baseFile.imports.concat(genericMatcherImportsForAlgebraicType(algebraicType, true));
-      baseFile.blockTypes = baseFile.blockTypes.concat(blockTypesForAlgebraicType(algebraicType));
-      baseFile.classes.push(genericMatchingClassForAlgebraicType(algebraicType));
+    },
+    transformBaseFile: function(
+      algebraicType: AlgebraicType.Type,
+      baseFile: Code.File,
+    ): Code.File {
+      baseFile.imports = baseFile.imports.concat(
+        genericMatcherImportsForAlgebraicType(algebraicType, true),
+      );
+      baseFile.blockTypes = baseFile.blockTypes.concat(
+        blockTypesForAlgebraicType(algebraicType),
+      );
+      baseFile.classes.push(
+        genericMatchingClassForAlgebraicType(algebraicType),
+      );
       return baseFile;
     },
     blockTypes: function(algebraicType: AlgebraicType.Type): ObjC.BlockType[] {

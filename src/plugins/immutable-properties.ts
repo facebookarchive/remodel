@@ -114,7 +114,10 @@ export function createPlugin(): ObjectSpec.Plugin {
     additionalFiles: function(objectType: ObjectSpec.Type): Code.File[] {
       return [];
     },
-    transformBaseFile: function(objectType: ObjectSpec.Type, baseFile: Code.File): Code.File {
+    transformBaseFile: function(
+      objectType: ObjectSpec.Type,
+      baseFile: Code.File,
+    ): Code.File {
       return baseFile;
     },
     additionalTypes: function(objectType: ObjectSpec.Type): ObjectSpec.Type[] {

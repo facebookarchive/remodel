@@ -11,6 +11,7 @@ Feature: Outputting Value Objects With Coded Values
         NSString* identifier
         NSInteger likeCount
         NSUInteger numberOfRatings
+        MyCustomType(NSUInteger) customType
       }
       """
     And a file named "project/.valueObjectConfig" with:
@@ -26,6 +27,7 @@ Feature: Outputting Value Objects With Coded Values
        */
 
       #import <Foundation/Foundation.h>
+      #import "MyCustomType.h"
 
       @interface RMPage : NSObject <NSCopying, NSCoding>
 
@@ -33,12 +35,13 @@ Feature: Outputting Value Objects With Coded Values
       @property (nonatomic, readonly, copy) NSString *identifier;
       @property (nonatomic, readonly) NSInteger likeCount;
       @property (nonatomic, readonly) NSUInteger numberOfRatings;
+      @property (nonatomic, readonly) MyCustomType customType;
 
       + (instancetype)new NS_UNAVAILABLE;
 
       - (instancetype)init NS_UNAVAILABLE;
 
-      - (instancetype)initWithDoesUserLike:(BOOL)doesUserLike identifier:(NSString *)identifier likeCount:(NSInteger)likeCount numberOfRatings:(NSUInteger)numberOfRatings NS_DESIGNATED_INITIALIZER;
+      - (instancetype)initWithDoesUserLike:(BOOL)doesUserLike identifier:(NSString *)identifier likeCount:(NSInteger)likeCount numberOfRatings:(NSUInteger)numberOfRatings customType:(MyCustomType)customType NS_DESIGNATED_INITIALIZER;
 
       @end
 
@@ -60,6 +63,7 @@ Feature: Outputting Value Objects With Coded Values
       static __unsafe_unretained NSString * const kIdentifierKey = @"IDENTIFIER";
       static __unsafe_unretained NSString * const kLikeCountKey = @"LIKE_COUNT";
       static __unsafe_unretained NSString * const kNumberOfRatingsKey = @"NUMBER_OF_RATINGS";
+      static __unsafe_unretained NSString * const kCustomTypeKey = @"CUSTOM_TYPE";
 
       @implementation RMPage
 
@@ -70,17 +74,19 @@ Feature: Outputting Value Objects With Coded Values
           _identifier = (id)[aDecoder decodeObjectForKey:kIdentifierKey];
           _likeCount = [aDecoder decodeIntegerForKey:kLikeCountKey];
           _numberOfRatings = [aDecoder decodeIntegerForKey:kNumberOfRatingsKey];
+          _customType = (MyCustomType)[aDecoder decodeIntegerForKey:kCustomTypeKey];
         }
         return self;
       }
 
-      - (instancetype)initWithDoesUserLike:(BOOL)doesUserLike identifier:(NSString *)identifier likeCount:(NSInteger)likeCount numberOfRatings:(NSUInteger)numberOfRatings
+      - (instancetype)initWithDoesUserLike:(BOOL)doesUserLike identifier:(NSString *)identifier likeCount:(NSInteger)likeCount numberOfRatings:(NSUInteger)numberOfRatings customType:(MyCustomType)customType
       {
         if ((self = [super init])) {
           _doesUserLike = doesUserLike;
           _identifier = [identifier copy];
           _likeCount = likeCount;
           _numberOfRatings = numberOfRatings;
+          _customType = customType;
         }
 
         return self;
@@ -93,7 +99,7 @@ Feature: Outputting Value Objects With Coded Values
 
       - (NSString *)description
       {
-        return [NSString stringWithFormat:@"%@ - \n\t doesUserLike: %@; \n\t identifier: %@; \n\t likeCount: %lld; \n\t numberOfRatings: %llu; \n", [super description], _doesUserLike ? @"YES" : @"NO", _identifier, (long long)_likeCount, (unsigned long long)_numberOfRatings];
+        return [NSString stringWithFormat:@"%@ - \n\t doesUserLike: %@; \n\t identifier: %@; \n\t likeCount: %lld; \n\t numberOfRatings: %llu; \n\t customType: %llu; \n", [super description], _doesUserLike ? @"YES" : @"NO", _identifier, (long long)_likeCount, (unsigned long long)_numberOfRatings, (unsigned long long)_customType];
       }
 
       - (void)encodeWithCoder:(NSCoder *)aCoder
@@ -102,13 +108,14 @@ Feature: Outputting Value Objects With Coded Values
         [aCoder encodeObject:_identifier forKey:kIdentifierKey];
         [aCoder encodeInteger:_likeCount forKey:kLikeCountKey];
         [aCoder encodeInteger:_numberOfRatings forKey:kNumberOfRatingsKey];
+        [aCoder encodeInteger:_customType forKey:kCustomTypeKey];
       }
 
       - (NSUInteger)hash
       {
-        NSUInteger subhashes[] = {(NSUInteger)_doesUserLike, [_identifier hash], ABS(_likeCount), _numberOfRatings};
+        NSUInteger subhashes[] = {(NSUInteger)_doesUserLike, [_identifier hash], ABS(_likeCount), _numberOfRatings, _customType};
         NSUInteger result = subhashes[0];
-        for (int ii = 1; ii < 4; ++ii) {
+        for (int ii = 1; ii < 5; ++ii) {
           unsigned long long base = (((unsigned long long)result) << 32 | subhashes[ii]);
           base = (~base) + (base << 18);
           base ^= (base >> 31);
@@ -132,101 +139,7 @@ Feature: Outputting Value Objects With Coded Values
           _doesUserLike == object->_doesUserLike &&
           _likeCount == object->_likeCount &&
           _numberOfRatings == object->_numberOfRatings &&
-          (_identifier == object->_identifier ? YES : [_identifier isEqual:object->_identifier]);
-      }
-
-      @end
-
-      """
-    And the file "project/values/RMPage.m" should contain:
-      """
-      /**
-       * This file is generated using the remodel generation script.
-       * The name of the input file is RMPage.value
-       */
-
-      #if  ! __has_feature(objc_arc)
-      #error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).
-      #endif
-
-      #import "RMPage.h"
-
-      static __unsafe_unretained NSString * const kDoesUserLikeKey = @"DOES_USER_LIKE";
-      static __unsafe_unretained NSString * const kIdentifierKey = @"IDENTIFIER";
-      static __unsafe_unretained NSString * const kLikeCountKey = @"LIKE_COUNT";
-      static __unsafe_unretained NSString * const kNumberOfRatingsKey = @"NUMBER_OF_RATINGS";
-
-      @implementation RMPage
-
-      - (nullable instancetype)initWithCoder:(NSCoder *)aDecoder
-      {
-        if ((self = [super init])) {
-          _doesUserLike = [aDecoder decodeBoolForKey:kDoesUserLikeKey];
-          _identifier = (id)[aDecoder decodeObjectForKey:kIdentifierKey];
-          _likeCount = [aDecoder decodeIntegerForKey:kLikeCountKey];
-          _numberOfRatings = [aDecoder decodeIntegerForKey:kNumberOfRatingsKey];
-        }
-        return self;
-      }
-
-      - (instancetype)initWithDoesUserLike:(BOOL)doesUserLike identifier:(NSString *)identifier likeCount:(NSInteger)likeCount numberOfRatings:(NSUInteger)numberOfRatings
-      {
-        if ((self = [super init])) {
-          _doesUserLike = doesUserLike;
-          _identifier = [identifier copy];
-          _likeCount = likeCount;
-          _numberOfRatings = numberOfRatings;
-        }
-
-        return self;
-      }
-
-      - (id)copyWithZone:(nullable NSZone *)zone
-      {
-        return self;
-      }
-
-      - (NSString *)description
-      {
-        return [NSString stringWithFormat:@"%@ - \n\t doesUserLike: %@; \n\t identifier: %@; \n\t likeCount: %lld; \n\t numberOfRatings: %llu; \n", [super description], _doesUserLike ? @"YES" : @"NO", _identifier, (long long)_likeCount, (unsigned long long)_numberOfRatings];
-      }
-
-      - (void)encodeWithCoder:(NSCoder *)aCoder
-      {
-        [aCoder encodeBool:_doesUserLike forKey:kDoesUserLikeKey];
-        [aCoder encodeObject:_identifier forKey:kIdentifierKey];
-        [aCoder encodeInteger:_likeCount forKey:kLikeCountKey];
-        [aCoder encodeInteger:_numberOfRatings forKey:kNumberOfRatingsKey];
-      }
-
-      - (NSUInteger)hash
-      {
-        NSUInteger subhashes[] = {(NSUInteger)_doesUserLike, [_identifier hash], ABS(_likeCount), _numberOfRatings};
-        NSUInteger result = subhashes[0];
-        for (int ii = 1; ii < 4; ++ii) {
-          unsigned long long base = (((unsigned long long)result) << 32 | subhashes[ii]);
-          base = (~base) + (base << 18);
-          base ^= (base >> 31);
-          base *=  21;
-          base ^= (base >> 11);
-          base += (base << 6);
-          base ^= (base >> 22);
-          result = base;
-        }
-        return result;
-      }
-
-      - (BOOL)isEqual:(RMPage *)object
-      {
-        if (self == object) {
-          return YES;
-        } else if (object == nil || ![object isKindOfClass:[self class]]) {
-          return NO;
-        }
-        return
-          _doesUserLike == object->_doesUserLike &&
-          _likeCount == object->_likeCount &&
-          _numberOfRatings == object->_numberOfRatings &&
+          _customType == object->_customType &&
           (_identifier == object->_identifier ? YES : [_identifier isEqual:object->_identifier]);
       }
 

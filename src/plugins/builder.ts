@@ -410,7 +410,10 @@ function SkipImportsInImplementationForValueType(
   return objectType.includes.indexOf('SkipImportsInImplementation') !== -1;
 }
 
-function importsForBuilder(objectType: ObjectSpec.Type, forBaseFile: boolean): ObjC.Import[] {
+function importsForBuilder(
+  objectType: ObjectSpec.Type,
+  forBaseFile: boolean,
+): ObjC.Import[] {
   const typeLookupImports: ObjC.Import[] = importsForTypeLookupsOfObjectType(
     objectType,
   );
@@ -434,7 +437,7 @@ function importsForBuilder(objectType: ObjectSpec.Type, forBaseFile: boolean): O
       file: 'Foundation.h',
       isPublic: true,
       requiresCPlusPlus: false,
-      library: Maybe.Just('Foundation')
+      library: Maybe.Just('Foundation'),
     },
     {
       file: objectType.typeName + '.h',
@@ -448,7 +451,7 @@ function importsForBuilder(objectType: ObjectSpec.Type, forBaseFile: boolean): O
       requiresCPlusPlus: false,
       library: Maybe.Nothing<string>(),
     }),
-    ]
+  ]
     .concat(typeLookupImports)
     .concat(attributeImports);
 }
@@ -492,9 +495,7 @@ function forwardDeclarationsForBuilder(
     .concat(attributeForwardProtocolDeclarations);
 }
 
-function classesForBuilder(
-  objectType: ObjectSpec.Type
-): ObjC.Class[] {
+function classesForBuilder(objectType: ObjectSpec.Type): ObjC.Class[] {
   return [
     {
       baseClassName: 'NSObject',
@@ -526,14 +527,14 @@ function classesForBuilder(
   ];
 }
 
-function conditionallyAddToSpread<T>(
-  addIt: boolean,
-  value: T,
-) : T[] {
+function conditionallyAddToSpread<T>(addIt: boolean, value: T): T[] {
   return addIt ? [value] : [];
 }
 
-function builderFileForValueType(objectType: ObjectSpec.Type, forBaseFile: boolean): Code.File {
+function builderFileForValueType(
+  objectType: ObjectSpec.Type,
+  forBaseFile: boolean,
+): Code.File {
   return {
     name: nameOfBuilderForValueTypeWithName(objectType.typeName),
     type: Code.FileType.ObjectiveC(),
@@ -557,9 +558,16 @@ export function createPlugin(): ObjectSpec.Plugin {
     additionalFiles: function(objectType: ObjectSpec.Type): Code.File[] {
       return [builderFileForValueType(objectType, false)];
     },
-    transformBaseFile: function(objectType: ObjectSpec.Type, baseFile: Code.File): Code.File {
-      baseFile.imports = baseFile.imports.concat(importsForBuilder(objectType, true));
-      baseFile.forwardDeclarations = baseFile.forwardDeclarations.concat(forwardDeclarationsForBuilder(objectType));
+    transformBaseFile: function(
+      objectType: ObjectSpec.Type,
+      baseFile: Code.File,
+    ): Code.File {
+      baseFile.imports = baseFile.imports.concat(
+        importsForBuilder(objectType, true),
+      );
+      baseFile.forwardDeclarations = baseFile.forwardDeclarations.concat(
+        forwardDeclarationsForBuilder(objectType),
+      );
       baseFile.classes = baseFile.classes.concat(classesForBuilder(objectType));
       return baseFile;
     },

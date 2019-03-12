@@ -18,7 +18,10 @@ export function createPlugin(): ObjectSpec.Plugin {
     additionalFiles: function(objectType: ObjectSpec.Type): Code.File[] {
       return [];
     },
-    transformBaseFile: function(objectType: ObjectSpec.Type, baseFile: Code.File): Code.File {
+    transformBaseFile: function(
+      objectType: ObjectSpec.Type,
+      baseFile: Code.File,
+    ): Code.File {
       return baseFile;
     },
     additionalTypes: function(objectType: ObjectSpec.Type): ObjectSpec.Type[] {
@@ -91,7 +94,10 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
     additionalFiles: function(algebraicType: AlgebraicType.Type): Code.File[] {
       return [];
     },
-    transformBaseFile: function(algebraicType: AlgebraicType.Type, baseFile: Code.File): Code.File {
+    transformBaseFile: function(
+      algebraicType: AlgebraicType.Type,
+      baseFile: Code.File,
+    ): Code.File {
       return baseFile;
     },
     blockTypes: function(algebraicType: AlgebraicType.Type): ObjC.BlockType[] {

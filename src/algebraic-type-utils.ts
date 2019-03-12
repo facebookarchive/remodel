@@ -103,6 +103,15 @@ export function computeTypeOfAttribute(
   );
 }
 
+export function computeOriginalTypeOfAttribute(
+  attribute: AlgebraicType.SubtypeAttribute,
+): ObjC.Type {
+  return {
+    name: attribute.type.name,
+    reference: attribute.type.reference,
+  };
+}
+
 export function nameOfInstanceVariableForAttribute(
   subtype: AlgebraicType.Subtype,
   attribute: AlgebraicType.SubtypeAttribute,

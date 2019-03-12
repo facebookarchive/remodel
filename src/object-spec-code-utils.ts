@@ -108,6 +108,15 @@ export function computeTypeOfAttribute(
   );
 }
 
+export function computeOriginalTypeOfAttribute(
+  attribute: ObjectSpec.Attribute,
+): ObjC.Type {
+  return {
+    name: attribute.type.name,
+    reference: attribute.type.reference,
+  };
+}
+
 export function propertyOwnershipModifierForAttribute(
   supportsValueSemantics: boolean,
   attribute: ObjectSpec.Attribute,

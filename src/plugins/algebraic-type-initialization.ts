@@ -440,7 +440,10 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
     additionalFiles: function(algebraicType: AlgebraicType.Type): Code.File[] {
       return [];
     },
-    transformBaseFile: function(algebraicType: AlgebraicType.Type, baseFile: Code.File): Code.File {
+    transformBaseFile: function(
+      algebraicType: AlgebraicType.Type,
+      baseFile: Code.File,
+    ): Code.File {
       return baseFile;
     },
     blockTypes: function(algebraicType: AlgebraicType.Type): ObjC.BlockType[] {

@@ -209,10 +209,7 @@ function structForMatchingAlgebraicType(
   };
 }
 
-function conditionallyAddToSpread<T>(
-  addIt: boolean,
-  value: T,
-) : T[] {
+function conditionallyAddToSpread<T>(addIt: boolean, value: T): T[] {
   return addIt ? [value] : [];
 }
 
@@ -243,9 +240,9 @@ function generateImports(
       file: 'memory',
       isPublic: true,
       requiresCPlusPlus: true,
-      library: Maybe.Nothing<string>()
+      library: Maybe.Nothing<string>(),
     },
-  ]
+  ];
 }
 
 function matchingFileForAlgebraicType(
@@ -275,8 +272,13 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
     additionalFiles: function(algebraicType: AlgebraicType.Type): Code.File[] {
       return [matchingFileForAlgebraicType(algebraicType, false)];
     },
-    transformBaseFile: function(algebraicType: AlgebraicType.Type, baseFile: Code.File): Code.File {
-      baseFile.imports = baseFile.imports.concat(generateImports(algebraicType, true));
+    transformBaseFile: function(
+      algebraicType: AlgebraicType.Type,
+      baseFile: Code.File,
+    ): Code.File {
+      baseFile.imports = baseFile.imports.concat(
+        generateImports(algebraicType, true),
+      );
       baseFile.structs.push(structForMatchingAlgebraicType(algebraicType));
       return baseFile;
     },

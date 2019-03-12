@@ -34,6 +34,7 @@ export interface CodeableAttribute {
   constantValue: string;
   legacyKeyNames: string[];
   type: ObjC.Type;
+  originalType: ObjC.Type;
 }
 
 // We only support a single non-legacy coding key, but it's possible to write the annotation
@@ -88,6 +89,7 @@ export function codingAttributeForValueAttribute(
     constantValue: constantValue,
     legacyKeyNames: legacyCodingKeyNamesForAttribute(attribute),
     type: ObjectSpecCodeUtils.computeTypeOfAttribute(attribute),
+    originalType: ObjectSpecCodeUtils.computeOriginalTypeOfAttribute(attribute),
   };
 }
 
@@ -133,6 +135,7 @@ function decodeStatementForAttributeAndLegacyKey(
   if (legacyKeyName.length > 0) {
     const legacyDecodeStatement: string = decodeStatementForTypeValueAccessorAndCodingKey(
       attribute.type,
+      attribute.originalType,
       attribute.valueAccessor,
       '@"' + legacyKeyName + '"',
       secureCoding,
@@ -154,6 +157,7 @@ export function decodeStatementForAttribute(
 ): string {
   return decodeStatementForTypeValueAccessorAndCodingKey(
     attribute.type,
+    attribute.originalType,
     attribute.valueAccessor,
     attribute.constantName,
     secureCoding,
@@ -162,6 +166,7 @@ export function decodeStatementForAttribute(
 
 function decodeStatementForTypeValueAccessorAndCodingKey(
   type: ObjC.Type,
+  originalType: ObjC.Type,
   valueAccessor: string,
   codingKey: string,
   secureCoding: boolean,
@@ -173,7 +178,11 @@ function decodeStatementForTypeValueAccessorAndCodingKey(
   // needs to be disabled for the entire target. This is better than using the valueObjectConfig, as it
   // allows the flag to remain on for the rest of the generated code, in case there are bugs in any other
   // plugins that lead to unsafe nullability issues.
-  const cast = ObjCTypeUtils.isNSObject(type) ? `(id)` : '';
+  const cast = ObjCTypeUtils.isNSObject(type)
+    ? `(id)`
+    : type.name != originalType.name
+      ? '(' + originalType.name + ')'
+      : '';
   const decodedRawValuePart: string = `${cast}${codingStatements.decodeStatementGenerator(
     type,
     codingKey,
@@ -628,7 +637,13 @@ export function createPlugin(): ObjectSpec.Plugin {
   return {
     additionalFiles: function(objectType: ObjectSpec.Type): Code.File[] {
       return [];
-    }, transformBaseFile: function(objectType: ObjectSpec.Type, baseFile: Code.File): Code.File {  return baseFile; },
+    },
+    transformBaseFile: function(
+      objectType: ObjectSpec.Type,
+      baseFile: Code.File,
+    ): Code.File {
+      return baseFile;
+    },
     additionalTypes: function(objectType: ObjectSpec.Type): ObjectSpec.Type[] {
       return [];
     },
@@ -775,6 +790,10 @@ function codeableAttributeForSubtypePropertyOfAlgebraicType(): CodeableAttribute
       name: 'NSObject',
       reference: 'NSObject',
     },
+    originalType: {
+      name: 'NSObject',
+      reference: 'NSObject',
+    },
   };
 }
 
@@ -810,6 +829,7 @@ function codeableAttributeForAlgebraicSubtypeAttribute(
     constantValue: constantValueForAttributeName(name),
     legacyKeyNames: legacyCodingKeyNamesForAttribute(attribute),
     type: AlgebraicTypeUtils.computeTypeOfAttribute(attribute),
+    originalType: AlgebraicTypeUtils.computeOriginalTypeOfAttribute(attribute),
   };
 }
 
@@ -1087,7 +1107,13 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
   return {
     additionalFiles: function(algebraicType: AlgebraicType.Type): Code.File[] {
       return [];
-    }, transformBaseFile: function(algebraicType: AlgebraicType.Type, baseFile: Code.File): Code.File {  return baseFile; },
+    },
+    transformBaseFile: function(
+      algebraicType: AlgebraicType.Type,
+      baseFile: Code.File,
+    ): Code.File {
+      return baseFile;
+    },
     blockTypes: function(algebraicType: AlgebraicType.Type): ObjC.BlockType[] {
       return [];
     },

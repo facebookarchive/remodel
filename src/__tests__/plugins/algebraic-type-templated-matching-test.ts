@@ -105,7 +105,7 @@ describe('Plugins.AlgebraicTypeTemplatedMatching', function() {
             file: 'RMTest.h',
             isPublic: true,
             library: Maybe.Nothing<string>(),
-            requiresCPlusPlus: false
+            requiresCPlusPlus: false,
           },
           {
             file: 'RMTestTemplatedMatchingHelpers.h',

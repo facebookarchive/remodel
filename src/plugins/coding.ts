@@ -181,8 +181,8 @@ function decodeStatementForTypeValueAccessorAndCodingKey(
   const cast = ObjCTypeUtils.isNSObject(type)
     ? `(id)`
     : type.name != originalType.name
-      ? '(' + originalType.name + ')'
-      : '';
+    ? '(' + originalType.name + ')'
+    : '';
   const decodedRawValuePart: string = `${cast}${codingStatements.decodeStatementGenerator(
     type,
     codingKey,

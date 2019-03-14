@@ -1126,7 +1126,7 @@ describe('Plugins.ImmutableProperties', function() {
         },
         {
           file: 'CGBase.h',
-          isPublic: true, 
+          isPublic: true,
           library: Maybe.Just('CoreGraphics'),
           requiresCPlusPlus: false,
         },

@@ -7,11 +7,13 @@
 
 const exec = require('child_process').exec;
 const fs = require('fs');
+const os = require('os');
+const path = require('path');
 const Promise = require('promise');
 const ncp = require('ncp');
 const fsExtra = require('fs-extra');
 
-const OUTPUT_DIR_COMMAND = '--outDir ' + __dirname + '/dist ';
+const OUTPUT_DIR = __dirname + '/dist';
 const TSC_PROJECT_LOCATION_TAG = '-p ' + __dirname + '/../src ';
 const TSC = __dirname + '/../node_modules/typescript/bin/tsc --pretty -t es2015 ';
 
@@ -116,7 +118,10 @@ function hasRevisionChanged(callback) {
 }
 
 function buildPromise() {
-  const command = TSC + TSC_PROJECT_LOCATION_TAG + OUTPUT_DIR_COMMAND;
+  const tempOutputDir = fs.mkdtempSync(os.tmpdir() + path.sep);
+  const tempOutputDirCommand = '--outDir ' + tempOutputDir;
+  const command = TSC + TSC_PROJECT_LOCATION_TAG + tempOutputDirCommand;
+
   return new Promise(function(resolve, reject) {
     exec(command, function(error, stdout, stderr) {
       if (error == null) {
@@ -135,22 +140,26 @@ function buildPromise() {
         });
       }
     });
+  }).then(function() {
+    return copyJSPromise(tempOutputDir, OUTPUT_DIR);
   });
 }
 
-function copyJSPromise() {
+function copyJSPromise(sourceJSDir, targetJSDir) {
   return new Promise(function(resolve, reject) {
     ncp.limit = 16;
 
-    fsExtra.removeSync(TARGET_JS_DIR);
-
-    ncp(SOURCE_JS_DIR,
-        TARGET_JS_DIR,
+    ncp(sourceJSDir,
+        targetJSDir,
         {
           filter: function(name) {
             // only copy over .js files
             const regEx = /\/((\w|-)+)(\.js)?$/;
             return regEx.test(name);
+          },
+          transform: function(read, write) {
+            write.write('// @' + 'generated\n');
+            read.pipe(write);
           }
         },
         function (error) {
@@ -229,8 +238,10 @@ function writeBuiltOnRevisionIfNeededPromise(revision) {
 }
 
 function runBuild(revision, callback) {
+  fsExtra.removeSync(TARGET_JS_DIR);
+
   Promise.all(
-    [buildPromise(), copyJSPromise(), writeBuiltOnRevisionIfNeededPromise(revision)]
+    [buildPromise(), copyJSPromise(SOURCE_JS_DIR, TARGET_JS_DIR), writeBuiltOnRevisionIfNeededPromise(revision)]
   ).then(
     function onFulfilled(res) {
       callback(null, combineOutputValues('stdout', res), combineOutputValues('stderr', res));
@@ -255,5 +266,6 @@ function build(alwaysBuild, callback) {
 }
 
 module.exports = {
-  build: build
+  build: build,
+  copyJSPromise: copyJSPromise
 };

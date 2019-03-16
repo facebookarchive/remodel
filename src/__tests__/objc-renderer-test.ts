@@ -88,6 +88,7 @@ describe('ObjCRenderer', function() {
               },
             ],
             comments: [{content: '// Man, what a great class.'}],
+            inlineBlockTypedefs: [],
             instanceMethods: [
               {
                 preprocessors: [],
@@ -342,6 +343,7 @@ describe('ObjCRenderer', function() {
               },
             ],
             comments: [],
+            inlineBlockTypedefs: [],
             instanceMethods: [
               {
                 preprocessors: [],
@@ -578,6 +580,7 @@ describe('ObjCRenderer', function() {
                 },
               ],
               comments: [],
+              inlineBlockTypedefs: [],
               instanceMethods: [
                 {
                   preprocessors: [],
@@ -753,6 +756,7 @@ describe('ObjCRenderer', function() {
             covariantTypes: [],
             classMethods: [],
             comments: [],
+            inlineBlockTypedefs: [],
             instanceMethods: [
               {
                 preprocessors: [],
@@ -936,6 +940,7 @@ describe('ObjCRenderer', function() {
             covariantTypes: [],
             classMethods: [],
             comments: [],
+            inlineBlockTypedefs: [],
             instanceMethods: [
               {
                 preprocessors: [],
@@ -1064,6 +1069,7 @@ describe('ObjCRenderer', function() {
             covariantTypes: [],
             classMethods: [],
             comments: [],
+            inlineBlockTypedefs: [],
             instanceMethods: [
               {
                 preprocessors: [
@@ -1200,6 +1206,7 @@ describe('ObjCRenderer', function() {
             classMethods: [],
             comments: [],
             instanceMethods: [],
+            inlineBlockTypedefs: [],
             name: 'RMSomeValue',
             properties: [
               {
@@ -1362,6 +1369,7 @@ describe('ObjCRenderer', function() {
               classMethods: [],
               comments: [],
               instanceMethods: [],
+              inlineBlockTypedefs: [],
               name: 'RMSomeValue',
               properties: [],
               instanceVariables: [],
@@ -1464,6 +1472,7 @@ describe('ObjCRenderer', function() {
             covariantTypes: [],
             classMethods: [],
             comments: [],
+            inlineBlockTypedefs: [],
             instanceMethods: [],
             name: 'RMSomeValue',
             properties: [],
@@ -1547,7 +1556,6 @@ describe('ObjCRenderer', function() {
             ],
             returnType: {type: Maybe.Nothing<ObjC.Type>(), modifiers: []},
             isPublic: true,
-            isInlined: false,
             nullability: ObjC.ClassNullability.default,
           },
           {
@@ -1571,7 +1579,6 @@ describe('ObjCRenderer', function() {
               modifiers: [],
             },
             isPublic: true,
-            isInlined: false,
             nullability: ObjC.ClassNullability.default,
           },
         ],
@@ -1586,6 +1593,7 @@ describe('ObjCRenderer', function() {
             covariantTypes: [],
             classMethods: [],
             comments: [],
+            inlineBlockTypedefs: [],
             instanceMethods: [],
             name: 'RMSomeValue',
             properties: [],
@@ -1666,6 +1674,7 @@ describe('ObjCRenderer', function() {
               covariantTypes: [],
               classMethods: [],
               comments: [],
+              inlineBlockTypedefs: [],
               instanceMethods: [],
               name: 'RMSomeValue',
               properties: [],
@@ -1728,6 +1737,7 @@ describe('ObjCRenderer', function() {
             classMethods: [],
             comments: [],
             instanceMethods: [],
+            inlineBlockTypedefs: [],
             name: 'RMSomeValue',
             properties: [
               {
@@ -1827,6 +1837,7 @@ describe('ObjCRenderer', function() {
             covariantTypes: [],
             classMethods: [],
             comments: [],
+            inlineBlockTypedefs: [],
             instanceMethods: [],
             name: 'RMSomeValue',
             properties: [
@@ -1929,6 +1940,7 @@ describe('ObjCRenderer', function() {
               covariantTypes: [],
               classMethods: [],
               comments: [],
+              inlineBlockTypedefs: [],
               instanceMethods: [
                 {
                   preprocessors: [],
@@ -2098,6 +2110,7 @@ describe('ObjCRenderer', function() {
             covariantTypes: [],
             classMethods: [],
             comments: [],
+            inlineBlockTypedefs: [],
             instanceMethods: [
               {
                 preprocessors: [],
@@ -2221,6 +2234,7 @@ describe('ObjCRenderer', function() {
             covariantTypes: [],
             classMethods: [],
             comments: [],
+            inlineBlockTypedefs: [],
             instanceMethods: [
               {
                 preprocessors: [],
@@ -2390,6 +2404,7 @@ describe('ObjCRenderer', function() {
               },
             ],
             comments: [],
+            inlineBlockTypedefs: [],
             instanceMethods: [],
             name: 'RMSomeValue',
             properties: [],
@@ -2445,6 +2460,7 @@ describe('ObjCRenderer', function() {
             baseClassName: 'NSObject',
             classMethods: [],
             comments: [],
+            inlineBlockTypedefs: [],
             covariantTypes: ['KeyType', 'ValueType'],
             instanceMethods: [
               {
@@ -2523,6 +2539,7 @@ describe('ObjCRenderer', function() {
             covariantTypes: [],
             classMethods: [],
             comments: [],
+            inlineBlockTypedefs: [],
             instanceMethods: [],
             name: 'RMSomeValue',
             properties: [
@@ -2647,6 +2664,7 @@ describe('ObjCRenderer', function() {
               },
             ],
             comments: [],
+            inlineBlockTypedefs: [],
             instanceMethods: [
               {
                 preprocessors: [],
@@ -2883,6 +2901,7 @@ describe('ObjCRenderer', function() {
             covariantTypes: [],
             classMethods: [],
             comments: [],
+            inlineBlockTypedefs: [],
             instanceMethods: [
               {
                 preprocessors: [],
@@ -3079,6 +3098,7 @@ describe('ObjCRenderer', function() {
               },
             ],
             comments: [],
+            inlineBlockTypedefs: [],
             instanceMethods: [
               {
                 preprocessors: [
@@ -3345,6 +3365,7 @@ describe('ObjCRenderer', function() {
             comments: [],
             instanceMethods: [],
             name: 'RMSomeValue',
+            inlineBlockTypedefs: [],
             properties: [],
             instanceVariables: [],
             implementedProtocols: [],
@@ -3453,6 +3474,7 @@ describe('ObjCRenderer', function() {
               },
             ],
             comments: [],
+            inlineBlockTypedefs: [],
             instanceMethods: [],
             name: 'RMSomeValue',
             properties: [],
@@ -3546,6 +3568,7 @@ describe('ObjCRenderer', function() {
             ],
             name: 'RMSomeValue',
             properties: [],
+            inlineBlockTypedefs: [],
             instanceVariables: [],
             implementedProtocols: [],
             nullability: ObjC.ClassNullability.default,
@@ -3636,6 +3659,7 @@ describe('ObjCRenderer', function() {
             covariantTypes: [],
             classMethods: [],
             comments: [],
+            inlineBlockTypedefs: [],
             instanceMethods: [],
             name: 'RMSomeValue',
             properties: [],
@@ -3751,7 +3775,6 @@ describe('ObjCRenderer', function() {
             ],
             returnType: {type: Maybe.Nothing<ObjC.Type>(), modifiers: []},
             isPublic: true,
-            isInlined: false,
             nullability: ObjC.ClassNullability.default,
           },
           {
@@ -3775,7 +3798,6 @@ describe('ObjCRenderer', function() {
               modifiers: [],
             },
             isPublic: false,
-            isInlined: false,
             nullability: ObjC.ClassNullability.default,
           },
         ],
@@ -3839,7 +3861,6 @@ describe('ObjCRenderer', function() {
               ],
               returnType: {type: Maybe.Nothing<ObjC.Type>(), modifiers: []},
               isPublic: true,
-              isInlined: false,
               nullability: ObjC.ClassNullability.default,
             },
           ],
@@ -3880,6 +3901,7 @@ describe('ObjCRenderer', function() {
             covariantTypes: [],
             classMethods: [],
             comments: [],
+            inlineBlockTypedefs: [],
             instanceMethods: [],
             name: 'RMSomeValue',
             properties: [],
@@ -3922,6 +3944,7 @@ describe('ObjCRenderer', function() {
               covariantTypes: [],
               classMethods: [],
               comments: [],
+              inlineBlockTypedefs: [],
               instanceMethods: [],
               name: 'RMSomeValue',
               properties: [],
@@ -4211,6 +4234,7 @@ static int RMSomeFunction(BOOL parameter) {
             covariantTypes: [],
             classMethods: [],
             comments: [],
+            inlineBlockTypedefs: [],
             instanceMethods: [],
             name: 'RMSomeValue',
             properties: [],
@@ -4316,6 +4340,7 @@ static int RMSomeFunction(BOOL parameter) {
               },
             ],
             comments: [],
+            inlineBlockTypedefs: [],
             instanceMethods: [],
             name: 'RMSomeValue',
             properties: [],

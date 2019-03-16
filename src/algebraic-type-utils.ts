@@ -272,7 +272,6 @@ export function returnTypeForMatchingBlockType(
 export function blockTypeForSubtype(
   algebraicType: AlgebraicType.Type,
   matchingBlockType: Maybe.Maybe<MatchingBlockType>,
-  isInlined: boolean,
   subtype: AlgebraicType.Subtype,
 ): ObjC.BlockType {
   return {
@@ -281,7 +280,6 @@ export function blockTypeForSubtype(
     parameters: blockParametersForSubtype(subtype),
     returnType: returnTypeForMatchingBlockType(matchingBlockType),
     isPublic: true,
-    isInlined: isInlined,
     nullability:
       algebraicType.includes.indexOf('RMAssumeNonnull') >= 0
         ? ObjC.ClassNullability.assumeNonnull
@@ -306,7 +304,6 @@ export function keywordForMatchMethodFromSubtype(
   const blockType: ObjC.BlockType = blockTypeForSubtype(
     algebraicType,
     matchingBlockType,
-    false,
     subtype,
   );
   return {

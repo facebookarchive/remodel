@@ -558,14 +558,6 @@ function blockTypeIsPublic(
   };
 }
 
-function blockTypeIsInlined(
-  isInlined: boolean,
-): (blockType: ObjC.BlockType) => boolean {
-  return function(blockType: ObjC.BlockType): boolean {
-    return blockType.isInlined === isInlined;
-  };
-}
-
 function headerPublicNonInlineFunctionsSection(
   functions: ObjC.Function[],
 ): string {
@@ -760,6 +752,14 @@ function headerClassSection(file: Code.File, classInfo: ObjC.Class): string {
     classInfo.baseClassName +
     protocolsStr;
 
+  const inlinedBlocksStr: string = classInfo.inlineBlockTypedefs
+    .filter(blockTypeIsPublic(true))
+    .map(toBlockTypeDeclaration)
+    .join('\n');
+  const inlinedBlocksSection: string = codeSectionForCodeString(
+    inlinedBlocksStr,
+  );
+
   const instanceVariablesStr: string = classInfo.instanceVariables
     .filter(headerNeedsToIncludeInstanceVariable)
     .reduce(buildInstanceVariablesContainingAccessIdentifiers, [])
@@ -772,15 +772,6 @@ function headerClassSection(file: Code.File, classInfo: ObjC.Class): string {
 
   const propertiesStr = classInfo.properties.map(toPropertyString).join('\n');
   const propertiesSection = codeSectionForCodeString(propertiesStr);
-
-  const inlinedBlocksStr: string = file.blockTypes
-    .filter(blockTypeIsInlined(true))
-    .filter(blockTypeIsPublic(true))
-    .map(toBlockTypeDeclaration)
-    .join('\n');
-  const inlinedBlocksSection: string = codeSectionForCodeString(
-    inlinedBlocksStr,
-  );
 
   const implementedProtocols = implementedProtocolsIncludingNSObjectAndADTInit(
     classInfo.implementedProtocols,
@@ -852,7 +843,6 @@ export function renderHeader(file: Code.File): Maybe.Maybe<string> {
   const enumerationsSection: string = codeSectionForCodeString(enumerationsStr);
 
   const blocksStr: string = file.blockTypes
-    .filter(blockTypeIsInlined(false))
     .filter(blockTypeIsPublic(true))
     .map(toBlockTypeDeclarationWithMacros)
     .join('\n');

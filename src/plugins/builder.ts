@@ -505,6 +505,7 @@ function classesForBuilder(objectType: ObjectSpec.Type): ObjC.Class[] {
         builderFromExistingObjectClassMethodForValueType(objectType),
       ],
       comments: [],
+      inlineBlockTypedefs: [],
       instanceMethods: [
         buildObjectInstanceMethodForValueType(objectType),
       ].concat(

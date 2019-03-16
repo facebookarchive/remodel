@@ -172,7 +172,6 @@ export interface BlockType {
   parameters: BlockTypeParameter[];
   returnType: ReturnType;
   isPublic: boolean;
-  isInlined: boolean;
   nullability: ClassNullability;
 }
 
@@ -543,6 +542,7 @@ export interface Class {
   classMethods: Method[];
   comments: Comment[];
   functions?: Function[];
+  inlineBlockTypedefs: BlockType[];
   instanceMethods: Method[];
   name: string;
   properties: Property[];

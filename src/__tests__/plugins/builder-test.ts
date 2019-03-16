@@ -123,6 +123,7 @@ describe('Plugins.Builder', function() {
                   },
                 ],
                 comments: [],
+                inlineBlockTypedefs: [],
                 instanceMethods: [
                   {
                     preprocessors: [],
@@ -267,6 +268,7 @@ describe('Plugins.Builder', function() {
                   },
                 ],
                 comments: [],
+                inlineBlockTypedefs: [],
                 instanceMethods: [
                   {
                     preprocessors: [],
@@ -466,6 +468,7 @@ describe('Plugins.Builder', function() {
                   },
                 ],
                 comments: [],
+                inlineBlockTypedefs: [],
                 instanceMethods: [
                   {
                     preprocessors: [],
@@ -785,6 +788,7 @@ describe('Plugins.Builder', function() {
                   },
                 ],
                 comments: [],
+                inlineBlockTypedefs: [],
                 instanceMethods: [
                   {
                     preprocessors: [],

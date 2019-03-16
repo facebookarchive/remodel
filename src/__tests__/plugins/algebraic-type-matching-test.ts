@@ -117,7 +117,6 @@ describe('Plugins.AlgebraicTypeVoidMatching', function() {
           ],
           returnType: {type: Maybe.Nothing<ObjC.Type>(), modifiers: []},
           isPublic: true,
-          isInlined: false,
           nullability: ObjC.ClassNullability.default,
         },
         {
@@ -135,7 +134,6 @@ describe('Plugins.AlgebraicTypeVoidMatching', function() {
           ],
           returnType: {type: Maybe.Nothing<ObjC.Type>(), modifiers: []},
           isPublic: true,
-          isInlined: false,
           nullability: ObjC.ClassNullability.default,
         },
       ];
@@ -248,7 +246,6 @@ describe('Plugins.AlgebraicTypeBoolMatching', function() {
             modifiers: [],
           },
           isPublic: true,
-          isInlined: false,
           nullability: ObjC.ClassNullability.default,
         },
         {
@@ -272,7 +269,6 @@ describe('Plugins.AlgebraicTypeBoolMatching', function() {
             modifiers: [],
           },
           isPublic: true,
-          isInlined: false,
           nullability: ObjC.ClassNullability.default,
         },
       ];
@@ -395,7 +391,6 @@ describe('Plugins.AlgebraicTypeIntegerMatching', function() {
             modifiers: [],
           },
           isPublic: true,
-          isInlined: false,
           nullability: ObjC.ClassNullability.default,
         },
         {
@@ -419,7 +414,6 @@ describe('Plugins.AlgebraicTypeIntegerMatching', function() {
             modifiers: [],
           },
           isPublic: true,
-          isInlined: false,
           nullability: ObjC.ClassNullability.default,
         },
       ];
@@ -542,7 +536,6 @@ describe('Plugins.AlgebraicTypeDoubleMatching', function() {
             modifiers: [],
           },
           isPublic: true,
-          isInlined: false,
           nullability: ObjC.ClassNullability.default,
         },
         {
@@ -566,7 +559,6 @@ describe('Plugins.AlgebraicTypeDoubleMatching', function() {
             modifiers: [],
           },
           isPublic: true,
-          isInlined: false,
           nullability: ObjC.ClassNullability.default,
         },
       ];
@@ -666,7 +658,7 @@ describe('Plugins.AlgebraicTypeGenericMatching', function() {
       const algebraicType: AlgebraicType.Type = algebraicTestTypeWithTwoSubtypes();
       const blockTypes: ObjC.BlockType[] = GenericPlugin.additionalFiles(
         algebraicType,
-      )[0].blockTypes;
+      )[0].classes[0].inlineBlockTypedefs;
 
       const expectedBlockTypes: ObjC.BlockType[] = [
         {
@@ -698,7 +690,6 @@ describe('Plugins.AlgebraicTypeGenericMatching', function() {
             modifiers: [],
           },
           isPublic: true,
-          isInlined: true,
           nullability: ObjC.ClassNullability.default,
         },
         {
@@ -722,7 +713,6 @@ describe('Plugins.AlgebraicTypeGenericMatching', function() {
             modifiers: [],
           },
           isPublic: true,
-          isInlined: true,
           nullability: ObjC.ClassNullability.default,
         },
       ];

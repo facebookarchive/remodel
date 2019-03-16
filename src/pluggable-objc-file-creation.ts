@@ -589,6 +589,7 @@ function createClassIfNecessary(
       comments: ObjCCommentUtils.commentsAsBlockFromStringArray(comments),
       classMethods: classMethods,
       functions: functions,
+      inlineBlockTypedefs: [],
       instanceMethods: instanceMethods,
       name: typeName,
       properties: properties,

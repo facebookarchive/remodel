@@ -433,3 +433,131 @@ Feature: Controlling exactly what is output when generating files.
       @end
 
       """
+
+  @announce
+  Scenario: Generating GenericMatching as single file
+    Given a file named "project/values/RMValueTypeSingleFile.adtValue" with:
+      """
+      RMValueTypeSingleFile includes(GenericMatching) {
+        optionOne
+        %singleAttributeType attributeType="NSString *"
+        optionTwo
+      }
+      """
+    And a file named "project/.valueObjectConfig" with:
+      """
+      { }
+      """
+    When I run `../../bin/generate project --output-single-file`
+    Then the file "project/values/RMValueTypeSingleFile.h" should contain:
+      """
+      /**
+       * This file is generated using the remodel generation script.
+       * The name of the input file is RMValueTypeSingleFile.adtValue
+       */
+
+      #import <FBValueObject/FBIvarBasedEqualityObject.h>
+      #import <Foundation/Foundation.h>
+      #import "RMValueTypeSingleFile.h"
+
+      typedef void (^RMValueTypeSingleFileOptionOneMatchHandler)(void);
+      typedef void (^RMValueTypeSingleFileOptionTwoMatchHandler)(void);
+      typedef ObjectType (^RMValueTypeSingleFileObjectTypeOptionOneMatchHandler)(void);
+      typedef ObjectType (^RMValueTypeSingleFileObjectTypeOptionTwoMatchHandler)(void);
+      
+      __attribute__((objc_subclassing_restricted)) 
+      @interface RMValueTypeSingleFile : FBIvarBasedEqualityObject
+      
+      + (instancetype)new NS_UNAVAILABLE;
+
+      + (instancetype)optionOne;
+
+      + (instancetype)optionTwo;
+
+      - (instancetype)init NS_UNAVAILABLE;
+
+      - (void)matchOptionOne:(NS_NOESCAPE __unsafe_unretained RMValueTypeSingleFileOptionOneMatchHandler)optionOneMatchHandler optionTwo:(NS_NOESCAPE __unsafe_unretained RMValueTypeSingleFileOptionTwoMatchHandler)optionTwoMatchHandler NS_SWIFT_NAME(match(optionOne:optionTwo:));
+
+      @end
+
+      __attribute__((objc_subclassing_restricted)) 
+      @interface RMValueTypeSingleFileMatcher<__covariant ObjectType> : NSObject
+
+      typedef ObjectType (^RMValueTypeSingleFileObjectTypeOptionOneMatchHandler)(void);
+      typedef ObjectType (^RMValueTypeSingleFileObjectTypeOptionTwoMatchHandler)(void);
+
+      + (ObjectType)match:(RMValueTypeSingleFile *)valueTypeSingleFile optionOne:(NS_NOESCAPE __unsafe_unretained RMValueTypeSingleFileObjectTypeOptionOneMatchHandler)optionOneMatchHandler optionTwo:(NS_NOESCAPE __unsafe_unretained RMValueTypeSingleFileObjectTypeOptionTwoMatchHandler)optionTwoMatchHandler;
+
+      @end
+      """
+   And the file "project/values/RMValueTypeSingleFile.m" should contain:
+      """
+      /**
+       * This file is generated using the remodel generation script.
+       * The name of the input file is RMValueTypeSingleFile.adtValue
+       */
+
+      #if  ! __has_feature(objc_arc)
+      #error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).
+      #endif
+
+      #import "RMValueTypeSingleFile.h"
+
+      typedef NS_ENUM(NSUInteger, RMValueTypeSingleFileSubtypes) {
+        RMValueTypeSingleFileSubtypesOptionOne,
+        RMValueTypeSingleFileSubtypesOptionTwo
+      };
+
+      @implementation RMValueTypeSingleFile
+      {
+        RMValueTypeSingleFileSubtypes _subtype;
+      }
+
+      + (instancetype)optionOne
+      {
+        RMValueTypeSingleFile *object = [(id)self new];
+        object->_subtype = RMValueTypeSingleFileSubtypesOptionOne;
+        return object;
+      }
+
+      + (instancetype)optionTwo
+      {
+        RMValueTypeSingleFile *object = [(id)self new];
+        object->_subtype = RMValueTypeSingleFileSubtypesOptionTwo;
+        return object;
+      }
+
+      #if ENABLE_LOGGING
+      - (NSString *)description
+      {
+        switch (_subtype) {
+          case RMValueTypeSingleFileSubtypesOptionOne: {
+            return [NSString stringWithFormat:@"%@ - optionOne \n", [super description]];
+            break;
+          }
+          case RMValueTypeSingleFileSubtypesOptionTwo: {
+            return [NSString stringWithFormat:@"%@ - optionTwo \n", [super description]];
+            break;
+          }
+        }
+      }
+      #endif
+
+      - (void)matchOptionOne:(NS_NOESCAPE __unsafe_unretained RMValueTypeSingleFileOptionOneMatchHandler)optionOneMatchHandler optionTwo:(NS_NOESCAPE __unsafe_unretained RMValueTypeSingleFileOptionTwoMatchHandler)optionTwoMatchHandler
+      {
+        switch (_subtype) {
+          case RMValueTypeSingleFileSubtypesOptionOne: {
+            if (optionOneMatchHandler) {
+              optionOneMatchHandler();
+            }
+            break;
+          }
+          case RMValueTypeSingleFileSubtypesOptionTwo: {
+            if (optionTwoMatchHandler) {
+              optionTwoMatchHandler();
+            }
+            break;
+          }
+        }
+      }
+      """

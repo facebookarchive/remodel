@@ -62,7 +62,6 @@ export function buildLocalFunctionBlockDefinitionsForSubtype(
   const blockType: ObjC.BlockType = AlgebraicTypeUtils.blockTypeForSubtype(
     algebraicType,
     Maybe.Nothing<AlgebraicTypeUtils.MatchingBlockType>(),
-    false,
     subtype,
   );
   const paramList =

@@ -196,7 +196,6 @@ function blockTypesForAlgebraicType(
     AlgebraicTypeUtils.blockTypeForSubtype(
       algebraicType,
       matchingBlockType,
-      true,
       subtype,
     ),
   );
@@ -212,6 +211,7 @@ function genericMatchingClassForAlgebraicType(
     covariantTypes: ['ObjectType'],
     classMethods: [classMethodForGenericMatchingOfAlgebraicType(algebraicType)],
     comments: [],
+    inlineBlockTypedefs: blockTypesForAlgebraicType(algebraicType),
     instanceMethods: [],
     name: fileNameForAlgebraicType(algebraicType),
     properties: [],
@@ -233,7 +233,7 @@ function genericMatchingFileForAlgebraicType(
     forwardDeclarations: [],
     comments: [],
     enumerations: [],
-    blockTypes: blockTypesForAlgebraicType(algebraicType),
+    blockTypes: [],
     staticConstants: [],
     functions: [],
     classes: [genericMatchingClassForAlgebraicType(algebraicType)],

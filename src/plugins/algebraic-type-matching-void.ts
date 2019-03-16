@@ -36,7 +36,6 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
         AlgebraicTypeUtils.blockTypeForSubtype(
           algebraicType,
           matchingBlockType,
-          false,
           subtype,
         ),
       );

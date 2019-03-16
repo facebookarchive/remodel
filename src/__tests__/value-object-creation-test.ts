@@ -267,6 +267,7 @@ describe('ObjectSpecCreation', function() {
                     baseClassName: 'NSObject',
                     covariantTypes: [],
                     classMethods: [],
+                    inlineBlockTypedefs: [],
                     instanceMethods: [],
                     name: 'FooMore',
                     comments: [],

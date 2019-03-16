@@ -462,8 +462,6 @@ Feature: Controlling exactly what is output when generating files.
 
       typedef void (^RMValueTypeSingleFileOptionOneMatchHandler)(void);
       typedef void (^RMValueTypeSingleFileOptionTwoMatchHandler)(void);
-      typedef ObjectType (^RMValueTypeSingleFileObjectTypeOptionOneMatchHandler)(void);
-      typedef ObjectType (^RMValueTypeSingleFileObjectTypeOptionTwoMatchHandler)(void);
       
       __attribute__((objc_subclassing_restricted)) 
       @interface RMValueTypeSingleFile : FBIvarBasedEqualityObject

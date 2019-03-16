@@ -256,9 +256,6 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
       baseFile.imports = baseFile.imports.concat(
         genericMatcherImportsForAlgebraicType(algebraicType, true),
       );
-      baseFile.blockTypes = baseFile.blockTypes.concat(
-        blockTypesForAlgebraicType(algebraicType),
-      );
       baseFile.classes.push(
         genericMatchingClassForAlgebraicType(algebraicType),
       );

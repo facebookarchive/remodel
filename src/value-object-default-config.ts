@@ -22,6 +22,7 @@ export const VALUE_OBJECT_DEFAULT_CONFIG = {
     'assume-nonnull',
     'builder',
     'coding',
+    'coding-type-safety',
     'copying',
     'copying-type-safety',
     'description',

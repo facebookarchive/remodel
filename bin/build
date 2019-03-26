@@ -18,3 +18,8 @@ rm -rf bin/dist
   --outDir bin/dist
 
 cp -r src/js bin/dist/js
+
+find bin/dist -type f -name "*.js" | while read -r generated; do
+  # adding "" prevents this file from being detected as generated
+  echo "// @""generated" >> "$generated"
+done

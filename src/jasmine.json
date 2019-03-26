@@ -1,0 +1,5 @@
+{
+    "spec_dir": "bin/dist/__tests__",
+    "spec_files": ["**/*-test.js"],
+    "helpers": ["test_support/jasmine-matchers.js"]
+}

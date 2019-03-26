@@ -3,8 +3,5 @@
     "module": "commonjs",
     "preserveConstEnums": true,
     "strict": false
-  },
-  "exclude": [
-    "__tests__"
-  ]
+  }
 }

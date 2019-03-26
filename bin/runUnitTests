@@ -1,84 +1,12 @@
-#!/usr/bin/env node
+#!/bin/sh
 
-/**
- * Copyright (c) 2016-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
+# Copyright (c) 2016-present, Facebook, Inc.
+#
+# This source code is licensed under the MIT license found in the
+# LICENSE file in the root directory of this source tree.
 
-const exec = require('child_process').exec;
-const Jasmine = require('jasmine');
-const Promise = require('promise');
-const path = require('path');
+set -e
 
-process.chdir(path.dirname(__dirname));
-
-const buildStep = function(script, resolve, reject) {
-  require('./' + script + '.js').build(true, function(error, stdout, stderr) {
-    resolve({
-      error: error,
-      stdout: stdout,
-      stderr: stderr
-    });
-  });
-}
-
-const buildPromise = new Promise(function(resolve, reject) {
-  console.log('Building...');
-  buildStep('build', function(result) {
-    console.log('Done Building');
-    resolve(result);
-  }, reject);
-});
-
-const buildTestsPromise = new Promise(function(resolve, reject) {
-  console.log('Building Tests...');
-  buildStep('buildTests', function(result) {
-    console.log('Done Building Tests');
-    resolve(result);
-  }, reject);
-});
-
-Promise.all([buildPromise, buildTestsPromise]).then(function(results) {
-  if (results[0].error == null && results[1].error == null) {
-    console.log('Running Unit Tests...');
-
-    return new Promise(function(resolved, rejected) {
-      const jasmine = new Jasmine();
-      const config = {
-        spec_dir: 'bin/dist/__tests__',
-        spec_files: ['**/*-test.js'],
-        helpers:['test_support/jasmine-matchers.js']
-      };
-      jasmine.loadConfig(config);
-
-      function onComplete(passed) {
-        resolved(passed ? 0 : 1);
-      }
-
-      jasmine.configureDefaultReporter({
-        onComplete: onComplete
-      });
-
-      jasmine.execute();
-    });
-  }
-  if (results[0].error != null) {
-    console.log('Build Failed: ');
-    console.log(results[0].stdout);
-    console.log(results[0].stderr);
-  }
-  if (results[1].error != null) {
-    console.log('Build Tests Failed: ');
-    console.log(results[1].stdout);
-    console.log(results[1].stderr);
-  }
-}).then(function(exitCode) {
-  exec('rm ' + __dirname + '\/..\/__tests__\/*.js ' + __dirname + '\/..\/__tests__\/plugins\/*.js ' + __dirname + '\/..\/__tests__\/test_support\/*.js', function() {
-    exec('rm ' + __dirname + '\/..\/lib\/*.js ' + __dirname + '\/..\/lib\/plugins\/*.js', function() {
-      console.log("Complete");
-      process.exit(exitCode);
-    });
-  });
-});
+cd "$(dirname "$(dirname "$0")")" || exit
+./bin/build
+exec "./node_modules/jasmine/bin/jasmine.js" --config=src/jasmine.json "$@"

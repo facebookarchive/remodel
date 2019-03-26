@@ -1,23 +1,12 @@
-#!/usr/bin/env node
+#!/bin/sh
 
-/**
- * Copyright (c) 2016-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
+# Copyright (c) 2016-present, Facebook, Inc.
+#
+# This source code is licensed under the MIT license found in the
+# LICENSE file in the root directory of this source tree.
 
-const build = require('./build.js').build;
-const colors = require('cli-color');
-const path = require('path');
+set -e
 
-process.chdir(path.dirname(__dirname));
-
-build(true, function(error, stdout, stderr) {
-    if (stdout === '') {
-        process.argv.push('--exit');
-        require('cucumber/lib/cli/run.js').default();
-    } else {
-        console.log(colors.red('The build is currently failing, please fix that before running the acceptance tests'));
-    }
-});
+cd "$(dirname "$(dirname "$0")")" || exit
+./bin/build
+exec ./node_modules/cucumber/bin/cucumber-js --exit "$@"

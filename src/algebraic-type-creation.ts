@@ -96,6 +96,10 @@ function createAlgebraicTypeObjCPlugIn(
       return plugin.instanceMethods(typeInformation);
     },
 
+    structs: function(typeInformation: AlgebraicType.Type): Code.Struct[] {
+      return plugin.structs != null ? plugin.structs(typeInformation) : [];
+    },
+
     macros: plugin.macros,
 
     properties: function(typeInformation: AlgebraicType.Type): ObjC.Property[] {

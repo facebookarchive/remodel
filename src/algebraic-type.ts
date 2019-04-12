@@ -125,4 +125,5 @@ export interface Plugin {
   validationErrors: (algebraicType: Type) => Error.Error[];
   nullability: (algebraicType: Type) => Maybe.Maybe<ObjC.ClassNullability>;
   subclassingRestricted: (algebraicType: Type) => boolean;
+  structs?: (algebraicType: Type) => Code.Struct[];
 }

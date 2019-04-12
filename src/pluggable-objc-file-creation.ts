@@ -17,7 +17,6 @@ import * as ObjCCommentUtils from './objc-comment-utils';
 import * as ObjCFileCreation from './objc-file-creation';
 import * as OutputControl from './output-control';
 import * as path from 'path';
-import {attributesFromSubtype} from './algebraic-type-utils';
 
 export interface ObjCGenerationPlugIn<T> {
   additionalFiles: (typeInformation: T) => Code.File[];
@@ -42,6 +41,7 @@ export interface ObjCGenerationPlugIn<T> {
   validationErrors: (typeInformation: T) => Error.Error[];
   nullability: (typeInformation: T) => Maybe.Maybe<ObjC.ClassNullability>;
   subclassingRestricted: (typeInformation: T) => boolean;
+  structs: (typeInformation: T) => Code.Struct[];
   requiredIncludesToRun: string[];
 }
 
@@ -80,6 +80,14 @@ function buildStaticConstants<T>(
   plugin: ObjCGenerationPlugIn<T>,
 ): ObjC.Constant[] {
   return soFar.concat(plugin.staticConstants(typeInformation));
+}
+
+function buildStructs<T>(
+  typeInformation: T,
+  soFar: Code.Struct[],
+  plugin: ObjCGenerationPlugIn<T>,
+): Code.Struct[] {
+  return soFar.concat(plugin.structs(typeInformation));
 }
 
 function buildBlockTypes<T>(
@@ -480,7 +488,11 @@ function classFileCreationFunctionWithBaseClassAndPlugins<T>(
           plugins,
         ),
         classes: classes,
-        structs: [],
+        structs: List.foldl<ObjCGenerationPlugIn<T>, Code.Struct[]>(
+          (soFar, plugin) => buildStructs(typeInformation, soFar, plugin),
+          [],
+          plugins,
+        ),
         namespaces: [],
       };
     }, fileType);

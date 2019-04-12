@@ -124,6 +124,10 @@ function createObjectSpecObjCPlugIn(
       return plugin.subclassingRestricted(typeInformation);
     },
 
+    structs: function(typeInformation: ObjectSpec.Type): Code.Struct[] {
+      return plugin.structs != null ? plugin.structs(typeInformation) : [];
+    },
+
     requiredIncludesToRun: plugin.requiredIncludesToRun,
   };
 }

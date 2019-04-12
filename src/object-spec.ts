@@ -64,4 +64,5 @@ export interface Plugin {
   validationErrors: (objectType: Type) => Error.Error[];
   nullability: (objectType: Type) => Maybe.Maybe<ObjC.ClassNullability>;
   subclassingRestricted: (objectType: Type) => boolean;
+  structs?: (objectType: Type) => Code.Struct[];
 }

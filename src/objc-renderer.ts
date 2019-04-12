@@ -491,10 +491,8 @@ function toPostfixMacroString(macro: Macro): string {
 export function toBlockTypeParameterString(
   parameter: ObjC.BlockTypeParameter,
 ): string {
-  const nullabilityModifier: String = parameter.nullability.match(
-    returnString(''),
-    returnString('_Nonnull '),
-    returnString('_Nullable '),
+  const nullabilityModifier: String = toNullabilityModifierStringNestingSubsequentToken(
+    parameter.nullability,
   );
   return (
     renderableTypeReferenceNestingSubsequentToken(parameter.type.reference) +
@@ -636,8 +634,49 @@ function buildTemplateContents(
   return soFar.concat(templateContents);
 }
 
-function toStructContents(struct: Code.Struct): string {
-  return struct.match(() => '', toCppStructContents);
+export function toStructContents(struct: Code.Struct): string {
+  return struct.match(toObjcStructContents, toCppStructContents);
+}
+
+function toNullabilityModifierStringNestingSubsequentToken(
+  nullability: ObjC.Nullability,
+): string {
+  return nullability.match(
+    returnString(''),
+    returnString('_Nonnull '),
+    returnString('_Nullable '),
+  );
+}
+
+function toStructMemberContent(structMember: ObjC.StructMember): string[] {
+  const comments = structMember.comments.map(toCommentString);
+  const nullabilityModifier = toNullabilityModifierStringNestingSubsequentToken(
+    structMember.nullability,
+  );
+
+  return comments.concat([
+    renderableTypeReferenceNestingSubsequentToken(structMember.type.reference) +
+      nullabilityModifier +
+      structMember.name +
+      ';',
+  ]);
+}
+
+function toObjcStructContents(struct: ObjC.Struct): string {
+  const comments = struct.comments.map(toCommentString).join('\n');
+  const structDeclaration = 'typedef struct ' + struct.name + ' {' + '\n';
+  const endStructDeclaration = '} ' + struct.name + ';';
+
+  return (
+    codeSectionForCodeStringWithoutExtraSpace(comments) +
+    structDeclaration +
+    codeSectionForCodeStringWithoutExtraSpace(
+      FunctionUtils.flatMap(struct.members, toStructMemberContent)
+        .map(StringUtils.indent(2))
+        .join('\n'),
+    ) +
+    endStructDeclaration
+  );
 }
 
 function toCppStructContents(struct: CPlusPlus.Struct): string {

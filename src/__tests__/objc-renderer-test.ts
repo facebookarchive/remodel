@@ -4596,4 +4596,54 @@ static int RMSomeFunction(BOOL parameter) {
       );
     });
   });
+
+  describe('#toStructImplementationString', () => {
+    it('renders objective-c struct', () => {
+      const struct: ObjC.Struct = {
+        name: 'MyCoolStruct',
+        comments: [
+          {content: '// Copyright something something.'},
+          {content: '// All Rights Reserved.'},
+        ],
+        members: [
+          {
+            comments: [],
+            name: 'Member1',
+            type: {
+              name: 'NSInteger',
+              reference: 'NSInteger',
+            },
+            nullability: ObjC.Nullability.Inherited(),
+          },
+          {
+            comments: [
+              {content: '// Interesting content'},
+              {content: '// With one other line'},
+            ],
+            name: 'Member2',
+            type: {
+              name: 'RMSomething',
+              reference: 'RMSomething *',
+            },
+            nullability: ObjC.Nullability.Nonnull(),
+          },
+        ],
+      };
+
+      expect(
+        ObjCRenderer.toStructContents(Code.Struct.ObjectiveCStruct(struct)),
+      ).toEqual(
+        [
+          '// Copyright something something.',
+          '// All Rights Reserved.',
+          'typedef struct MyCoolStruct {',
+          '  NSInteger Member1;',
+          '  // Interesting content',
+          '  // With one other line',
+          '  RMSomething *_Nonnull Member2;',
+          '} MyCoolStruct;',
+        ].join('\n'),
+      );
+    });
+  });
 });

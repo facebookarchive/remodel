@@ -195,8 +195,8 @@ function templateForMatchingAlgebraicTypeWithCode(
 
 function structForMatchingAlgebraicType(
   algebraicType: AlgebraicType.Type,
-): CPlusPlus.Struct {
-  return {
+): Code.Struct {
+  return Code.Struct.ObjectiveCPlusPlusStruct({
     name: algebraicType.name + 'Matcher',
     templates: [templateForMatchingAlgebraicTypeWithCode([])],
     code: [
@@ -206,7 +206,7 @@ function structForMatchingAlgebraicType(
       ),
       matcherFunctionShimCodeForAlgebraicType(algebraicType),
     ],
-  };
+  });
 }
 
 function conditionallyAddToSpread<T>(addIt: boolean, value: T): T[] {

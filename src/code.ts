@@ -8,31 +8,67 @@
 import * as CPlusPlus from './cplusplus';
 import * as ObjC from './objc';
 
-enum FileTypeValue {
+enum LanguageType {
   objectiveC,
   objectiveCPlusPlus,
 }
 
 export class FileType {
-  private fileType: FileTypeValue;
-  constructor(type: FileTypeValue) {
+  private fileType: LanguageType;
+  constructor(type: LanguageType) {
     this.fileType = type;
   }
 
   static ObjectiveC() {
-    return new FileType(FileTypeValue.objectiveC);
+    return new FileType(LanguageType.objectiveC);
   }
 
   static ObjectiveCPlusPlus() {
-    return new FileType(FileTypeValue.objectiveCPlusPlus);
+    return new FileType(LanguageType.objectiveCPlusPlus);
   }
 
   match<T>(objectiveC: () => T, objectiveCPlusPlus: () => T): T {
     switch (this.fileType) {
-      case FileTypeValue.objectiveC:
+      case LanguageType.objectiveC:
         return objectiveC();
-      case FileTypeValue.objectiveCPlusPlus:
+      case LanguageType.objectiveCPlusPlus:
         return objectiveCPlusPlus();
+    }
+  }
+}
+
+export class Struct {
+  private cppStruct: CPlusPlus.Struct;
+  private objCStruct: ObjC.Struct;
+  private langType: LanguageType;
+
+  constructor(
+    langType: LanguageType,
+    cppStruct: CPlusPlus.Struct,
+    objCStruct: ObjC.Struct,
+  ) {
+    this.langType = langType;
+    this.cppStruct = cppStruct;
+    this.objCStruct = objCStruct;
+  }
+
+  static ObjectiveCStruct(objCStruct: ObjC.Struct) {
+    return new Struct(LanguageType.objectiveC, null, objCStruct);
+  }
+
+  static ObjectiveCPlusPlusStruct(cppStruct: CPlusPlus.Struct) {
+    return new Struct(LanguageType.objectiveCPlusPlus, cppStruct, null);
+  }
+
+  match<T>(
+    objectiveC: (objCStruct: ObjC.Struct) => T,
+    objectiveCPlusPlus: (cppStruct: CPlusPlus.Struct) => T,
+  ): T {
+    switch (this.langType) {
+      case LanguageType.objectiveC:
+        return objectiveC(this.objCStruct);
+      case LanguageType.objectiveCPlusPlus:
+        return objectiveCPlusPlus(this.cppStruct);
     }
   }
 }
@@ -50,7 +86,7 @@ export interface File {
   functions: ObjC.Function[];
   classes: ObjC.Class[];
   diagnosticIgnores: string[];
-  structs: CPlusPlus.Struct[];
+  structs: Struct[];
   nullability?: ObjC.ClassNullability;
   namespaces: CPlusPlus.Namespace[];
 }

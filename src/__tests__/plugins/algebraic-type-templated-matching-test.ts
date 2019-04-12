@@ -129,7 +129,7 @@ describe('Plugins.AlgebraicTypeTemplatedMatching', function() {
         diagnosticIgnores: [],
         classes: [],
         structs: [
-          {
+          Code.Struct.ObjectiveCPlusPlusStruct({
             name: 'RMTestMatcher',
             templates: [
               {
@@ -170,7 +170,7 @@ describe('Plugins.AlgebraicTypeTemplatedMatching', function() {
                 '}',
               ],
             ],
-          },
+          }),
         ],
         namespaces: [],
         macros: [],

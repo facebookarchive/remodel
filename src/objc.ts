@@ -559,3 +559,16 @@ export interface Protocol {
 export interface Comment {
   content: string;
 }
+
+export interface StructMember {
+  comments: Comment[];
+  name: string;
+  type: Type;
+  nullability: Nullability;
+}
+
+export interface Struct {
+  name: string;
+  comments: Comment[];
+  members: StructMember[];
+}

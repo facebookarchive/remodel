@@ -636,7 +636,11 @@ function buildTemplateContents(
   return soFar.concat(templateContents);
 }
 
-function toStructContents(struct: CPlusPlus.Struct): string {
+function toStructContents(struct: Code.Struct): string {
+  return struct.match(() => '', toCppStructContents);
+}
+
+function toCppStructContents(struct: CPlusPlus.Struct): string {
   const cplusplusOpen = '#ifdef __cplusplus';
   const cplusplusClose = '#endif // __cplusplus';
   const structDeclaration = 'struct ' + struct.name + ' {' + '\n';

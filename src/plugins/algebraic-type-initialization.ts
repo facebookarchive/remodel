@@ -486,6 +486,11 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
           ),
         )
         .map(forwardDeclarationForAttribute);
+      const attributeForwardProtocolDeclarations = makePublicImports
+        ? []
+        : AlgebraicTypeUtils.allAttributesFromSubtypes(algebraicType.subtypes)
+            .filter(ObjCImportUtils.shouldForwardProtocolDeclareAttribute)
+            .map(ObjCImportUtils.forwardProtocolDeclarationForAttribute);
       const typeLookupForwardDeclarations = algebraicType.typeLookups
         .filter(typeLookup =>
           isForwardDeclarationRequiredForTypeLookup(algebraicType, typeLookup),
@@ -493,7 +498,8 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
         .map(forwardDeclarationForTypeLookup);
       return []
         .concat(attributeForwardDeclarations)
-        .concat(typeLookupForwardDeclarations);
+        .concat(typeLookupForwardDeclarations)
+        .concat(attributeForwardProtocolDeclarations);
     },
     functions: function(algebraicType: AlgebraicType.Type): ObjC.Function[] {
       return [];

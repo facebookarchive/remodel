@@ -14,6 +14,7 @@ Feature: Outputting forward declarations in Algebraic Types
           RMProxy *firstValue
           NSUInteger secondValue
           NSArray<SomeType *> *thirdValue
+          id<HelloProtocol> helloObj
         }
         SomeRandomSubtype
         SecondSubtype {
@@ -41,14 +42,15 @@ Feature: Outputting forward declarations in Algebraic Types
 
       @class RMProxy;
       @class SomeType;
+      @protocol HelloProtocol;
 
-      typedef void (^SimpleADTFirstSubtypeMatchHandler)(RMProxy *firstValue, NSUInteger secondValue, NSArray<SomeType *> *thirdValue);
+      typedef void (^SimpleADTFirstSubtypeMatchHandler)(RMProxy *firstValue, NSUInteger secondValue, NSArray<SomeType *> *thirdValue, id<HelloProtocol> helloObj);
       typedef void (^SimpleADTSomeRandomSubtypeMatchHandler)(void);
       typedef void (^SimpleADTSecondSubtypeMatchHandler)(BOOL something);
 
       @interface SimpleADT : NSObject <NSCopying>
 
-      + (instancetype)firstSubtypeWithFirstValue:(RMProxy *)firstValue secondValue:(NSUInteger)secondValue thirdValue:(NSArray<SomeType *> *)thirdValue;
+      + (instancetype)firstSubtypeWithFirstValue:(RMProxy *)firstValue secondValue:(NSUInteger)secondValue thirdValue:(NSArray<SomeType *> *)thirdValue helloObj:(id<HelloProtocol>)helloObj;
 
       + (instancetype)new NS_UNAVAILABLE;
 
@@ -90,16 +92,18 @@ Feature: Outputting forward declarations in Algebraic Types
         RMProxy *_firstSubtype_firstValue;
         NSUInteger _firstSubtype_secondValue;
         NSArray<SomeType *> *_firstSubtype_thirdValue;
+        id<HelloProtocol> _firstSubtype_helloObj;
         BOOL _secondSubtype_something;
       }
 
-      + (instancetype)firstSubtypeWithFirstValue:(RMProxy *)firstValue secondValue:(NSUInteger)secondValue thirdValue:(NSArray<SomeType *> *)thirdValue
+      + (instancetype)firstSubtypeWithFirstValue:(RMProxy *)firstValue secondValue:(NSUInteger)secondValue thirdValue:(NSArray<SomeType *> *)thirdValue helloObj:(id<HelloProtocol>)helloObj
       {
         SimpleADT *object = [(id)self new];
         object->_subtype = SimpleADTSubtypesFirstSubtype;
         object->_firstSubtype_firstValue = firstValue;
         object->_firstSubtype_secondValue = secondValue;
         object->_firstSubtype_thirdValue = thirdValue;
+        object->_firstSubtype_helloObj = helloObj;
         return object;
       }
 
@@ -127,7 +131,7 @@ Feature: Outputting forward declarations in Algebraic Types
       {
         switch (_subtype) {
           case SimpleADTSubtypesFirstSubtype: {
-            return [NSString stringWithFormat:@"%@ - FirstSubtype \n\t firstValue: %@; \n\t secondValue: %llu; \n\t thirdValue: %@; \n", [super description], _firstSubtype_firstValue, (unsigned long long)_firstSubtype_secondValue, _firstSubtype_thirdValue];
+            return [NSString stringWithFormat:@"%@ - FirstSubtype \n\t firstValue: %@; \n\t secondValue: %llu; \n\t thirdValue: %@; \n\t helloObj: %@; \n", [super description], _firstSubtype_firstValue, (unsigned long long)_firstSubtype_secondValue, _firstSubtype_thirdValue, _firstSubtype_helloObj];
             break;
           }
           case SimpleADTSubtypesSomeRandomSubtype: {
@@ -143,9 +147,9 @@ Feature: Outputting forward declarations in Algebraic Types
 
       - (NSUInteger)hash
       {
-        NSUInteger subhashes[] = {_subtype, [_firstSubtype_firstValue hash], _firstSubtype_secondValue, [_firstSubtype_thirdValue hash], (NSUInteger)_secondSubtype_something};
+        NSUInteger subhashes[] = {_subtype, [_firstSubtype_firstValue hash], _firstSubtype_secondValue, [_firstSubtype_thirdValue hash], [_firstSubtype_helloObj hash], (NSUInteger)_secondSubtype_something};
         NSUInteger result = subhashes[0];
-        for (int ii = 1; ii < 5; ++ii) {
+        for (int ii = 1; ii < 6; ++ii) {
           unsigned long long base = (((unsigned long long)result) << 32 | subhashes[ii]);
           base = (~base) + (base << 18);
           base ^= (base >> 31);
@@ -170,7 +174,8 @@ Feature: Outputting forward declarations in Algebraic Types
           _firstSubtype_secondValue == object->_firstSubtype_secondValue &&
           _secondSubtype_something == object->_secondSubtype_something &&
           (_firstSubtype_firstValue == object->_firstSubtype_firstValue ? YES : [_firstSubtype_firstValue isEqual:object->_firstSubtype_firstValue]) &&
-          (_firstSubtype_thirdValue == object->_firstSubtype_thirdValue ? YES : [_firstSubtype_thirdValue isEqual:object->_firstSubtype_thirdValue]);
+          (_firstSubtype_thirdValue == object->_firstSubtype_thirdValue ? YES : [_firstSubtype_thirdValue isEqual:object->_firstSubtype_thirdValue]) &&
+          (_firstSubtype_helloObj == object->_firstSubtype_helloObj ? YES : [_firstSubtype_helloObj isEqual:object->_firstSubtype_helloObj]);
       }
 
       - (void)matchFirstSubtype:(NS_NOESCAPE __unsafe_unretained SimpleADTFirstSubtypeMatchHandler)firstSubtypeMatchHandler someRandomSubtype:(NS_NOESCAPE __unsafe_unretained SimpleADTSomeRandomSubtypeMatchHandler)someRandomSubtypeMatchHandler secondSubtype:(NS_NOESCAPE __unsafe_unretained SimpleADTSecondSubtypeMatchHandler)secondSubtypeMatchHandler
@@ -178,7 +183,7 @@ Feature: Outputting forward declarations in Algebraic Types
         switch (_subtype) {
           case SimpleADTSubtypesFirstSubtype: {
             if (firstSubtypeMatchHandler) {
-              firstSubtypeMatchHandler(_firstSubtype_firstValue, _firstSubtype_secondValue, _firstSubtype_thirdValue);
+              firstSubtypeMatchHandler(_firstSubtype_firstValue, _firstSubtype_secondValue, _firstSubtype_thirdValue, _firstSubtype_helloObj);
             }
             break;
           }

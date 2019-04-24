@@ -123,8 +123,8 @@ function attributeDescriptionForType(type: ObjC.Type): AttributeDescription {
       uintptr_t: function() {
         return {
           descriptionFunctionImport: Maybe.Nothing<ObjC.Import>(),
-          token: '%ld',
-          valueGenerator: useValueAccessor,
+          token: '%p',
+          valueGenerator: castValueAccessorValue('void *'),
         };
       },
       uint32_t: function() {

@@ -806,7 +806,7 @@ describe('ObjectSpecPlugins.Description', function() {
             preprocessors: [],
             belongsToProtocol: Maybe.Just('NSObject'),
             code: [
-              'return [NSString stringWithFormat:@"%@ - \\n\\t age: %ld; \\n", [super description], _age];',
+              'return [NSString stringWithFormat:@"%@ - \\n\\t age: %p; \\n", [super description], (void *)_age];',
             ],
             comments: [],
             compilerAttributes: [],

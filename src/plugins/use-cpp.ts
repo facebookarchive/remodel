@@ -41,7 +41,7 @@ export function createPlugin(): ObjectSpec.Plugin {
     fileType: function(
       objectType: ObjectSpec.Type,
     ): Maybe.Maybe<Code.FileType> {
-      return Maybe.Just(Code.FileType.ObjectiveCPlusPlus());
+      return Maybe.Just(Code.FileType.ObjectiveCPlusPlus);
     },
     forwardDeclarations: function(
       objectType: ObjectSpec.Type,
@@ -119,7 +119,7 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
     fileType: function(
       algebraicType: AlgebraicType.Type,
     ): Maybe.Maybe<Code.FileType> {
-      return Maybe.Just(Code.FileType.ObjectiveCPlusPlus());
+      return Maybe.Just(Code.FileType.ObjectiveCPlusPlus);
     },
     forwardDeclarations: function(
       algebraicType: AlgebraicType.Type,

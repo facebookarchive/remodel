@@ -228,7 +228,7 @@ function genericMatchingFileForAlgebraicType(
 ): Code.File {
   return {
     name: fileNameForAlgebraicType(algebraicType),
-    type: Code.FileType.ObjectiveC(),
+    type: Code.FileType.ObjectiveC,
     imports: genericMatcherImportsForAlgebraicType(algebraicType, forBaseFile),
     forwardDeclarations: [],
     comments: [],

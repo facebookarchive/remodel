@@ -19,7 +19,7 @@ describe('ObjCRenderer', function() {
     it('renders the class comments of a class header', function() {
       const fileToRender: Code.File = {
         name: 'RMSomeValue',
-        type: Code.FileType.ObjectiveC(),
+        type: Code.FileType.ObjectiveC,
         imports: [
           {
             file: 'RMSomething.h',
@@ -274,7 +274,7 @@ describe('ObjCRenderer', function() {
     it('renders the base case of a class header', function() {
       const fileToRender: Code.File = {
         name: 'RMSomeValue',
-        type: Code.FileType.ObjectiveC(),
+        type: Code.FileType.ObjectiveC,
         imports: [
           {
             file: 'RMSomething.h',
@@ -505,7 +505,7 @@ describe('ObjCRenderer', function() {
       function() {
         const fileToRender: Code.File = {
           name: 'RMSomeValue',
-          type: Code.FileType.ObjectiveC(),
+          type: Code.FileType.ObjectiveC,
           imports: [
             {
               file: 'RMSomething.h',
@@ -741,7 +741,7 @@ describe('ObjCRenderer', function() {
     it('renders a class without any imports', function() {
       const fileToRender: Code.File = {
         name: 'RMSomeValue',
-        type: Code.FileType.ObjectiveC(),
+        type: Code.FileType.ObjectiveC,
         imports: [],
         comments: [],
         enumerations: [],
@@ -912,7 +912,7 @@ describe('ObjCRenderer', function() {
     it('renders a class with no properties', function() {
       const fileToRender: Code.File = {
         name: 'RMSomeValue',
-        type: Code.FileType.ObjectiveC(),
+        type: Code.FileType.ObjectiveC,
         imports: [
           {
             file: 'RMSomething.h',
@@ -1041,7 +1041,7 @@ describe('ObjCRenderer', function() {
     it('renders a class with a preprocessor wrapped method', function() {
       const fileToRender: Code.File = {
         name: 'RMSomeValue',
-        type: Code.FileType.ObjectiveC(),
+        type: Code.FileType.ObjectiveC,
         imports: [
           {
             file: 'RMSomething.h',
@@ -1177,7 +1177,7 @@ describe('ObjCRenderer', function() {
     it('renders a class header with no instance methods', function() {
       const fileToRender: Code.File = {
         name: 'RMSomeValue',
-        type: Code.FileType.ObjectiveC(),
+        type: Code.FileType.ObjectiveC,
         imports: [
           {
             file: 'RMSomething.h',
@@ -1271,7 +1271,7 @@ describe('ObjCRenderer', function() {
       function() {
         const fileToRender: Code.File = {
           name: 'RMSomeValue',
-          type: Code.FileType.ObjectiveC(),
+          type: Code.FileType.ObjectiveC,
           imports: [
             {
               file: 'RMSomething.h',
@@ -1413,7 +1413,7 @@ describe('ObjCRenderer', function() {
     it('renders a class header with a public enum when the file contains an public enumeration', function() {
       const fileToRender: Code.File = {
         name: 'RMSomeValue',
-        type: Code.FileType.ObjectiveC(),
+        type: Code.FileType.ObjectiveC,
         imports: [
           {
             file: 'RMSomething.h',
@@ -1511,7 +1511,7 @@ describe('ObjCRenderer', function() {
     it('renders a class header with public block definitions when the file contains two block types', function() {
       const fileToRender: Code.File = {
         name: 'RMSomeValue',
-        type: Code.FileType.ObjectiveC(),
+        type: Code.FileType.ObjectiveC,
         imports: [
           {
             file: 'RMSomething.h',
@@ -1633,7 +1633,7 @@ describe('ObjCRenderer', function() {
       function() {
         const fileToRender: Code.File = {
           name: 'RMSomeValue',
-          type: Code.FileType.ObjectiveC(),
+          type: Code.FileType.ObjectiveC,
           imports: [
             {
               file: 'RMSomething.h',
@@ -1708,7 +1708,7 @@ describe('ObjCRenderer', function() {
     it('renders a class header with two implemented protocols', function() {
       const fileToRender: Code.File = {
         name: 'RMSomeValue',
-        type: Code.FileType.ObjectiveC(),
+        type: Code.FileType.ObjectiveC,
         imports: [
           {
             file: 'RMSomething.h',
@@ -1806,7 +1806,7 @@ describe('ObjCRenderer', function() {
     it('renders a class header with an import and forward declaration', function() {
       const fileToRender: Code.File = {
         name: 'RMSomeValue',
-        type: Code.FileType.ObjectiveC(),
+        type: Code.FileType.ObjectiveC,
         imports: [
           {
             file: 'RMSomething.h',
@@ -1912,7 +1912,7 @@ describe('ObjCRenderer', function() {
       function() {
         const fileToRender: Code.File = {
           name: 'RMSomeValue',
-          type: Code.FileType.ObjectiveC(),
+          type: Code.FileType.ObjectiveC,
           imports: [
             {
               file: 'RMSomething.h',
@@ -2026,7 +2026,7 @@ describe('ObjCRenderer', function() {
       function() {
         const fileToRender: Code.File = {
           name: 'RMSomeValue',
-          type: Code.FileType.ObjectiveC(),
+          type: Code.FileType.ObjectiveC,
           imports: [
             {
               file: 'RMSomething.h',
@@ -2095,7 +2095,7 @@ describe('ObjCRenderer', function() {
     it('renders a header containing the given method compiler attributes', function() {
       const fileToRender: Code.File = {
         name: 'RMSomeValue',
-        type: Code.FileType.ObjectiveC(),
+        type: Code.FileType.ObjectiveC,
         imports: [],
         comments: [],
         enumerations: [],
@@ -2219,7 +2219,7 @@ describe('ObjCRenderer', function() {
     it('renders a header containing method return type modifiers', function() {
       const fileToRender: Code.File = {
         name: 'RMSomeValue',
-        type: Code.FileType.ObjectiveC(),
+        type: Code.FileType.ObjectiveC,
         imports: [],
         comments: [],
         enumerations: [],
@@ -2343,7 +2343,7 @@ describe('ObjCRenderer', function() {
     it('includes covariantTypes in the header file', function() {
       const fileToRender: Code.File = {
         name: 'RMSomeValue',
-        type: Code.FileType.ObjectiveC(),
+        type: Code.FileType.ObjectiveC,
         comments: [],
         imports: [
           {
@@ -2439,7 +2439,7 @@ describe('ObjCRenderer', function() {
     it('supports multiple covariantTypes in the header file', function() {
       const fileToRender: Code.File = {
         name: 'RMSomeValue',
-        type: Code.FileType.ObjectiveC(),
+        type: Code.FileType.ObjectiveC,
         comments: [],
         imports: [
           {
@@ -2524,7 +2524,7 @@ describe('ObjCRenderer', function() {
     it('dedupes protocols in the class header', function() {
       const fileToRender: Code.File = {
         name: 'RMSomeValue',
-        type: Code.FileType.ObjectiveC(),
+        type: Code.FileType.ObjectiveC,
         imports: [],
         comments: [],
         enumerations: [],
@@ -2595,7 +2595,7 @@ describe('ObjCRenderer', function() {
     it('renders the base case of a class header', function() {
       const fileToRender: Code.File = {
         name: 'RMSomeValue',
-        type: Code.FileType.ObjectiveC(),
+        type: Code.FileType.ObjectiveC,
         imports: [
           {
             file: 'RMSomething.h',
@@ -2850,7 +2850,7 @@ describe('ObjCRenderer', function() {
     it('renders a class file which contains static constants', function() {
       const fileToRender: Code.File = {
         name: 'RMSomeValue',
-        type: Code.FileType.ObjectiveC(),
+        type: Code.FileType.ObjectiveC,
         imports: [
           {
             file: 'RMSomething.h',
@@ -3024,7 +3024,7 @@ describe('ObjCRenderer', function() {
     it('renders the base case of a class header where methods are wrapped by preprocessor macros', function() {
       const fileToRender: Code.File = {
         name: 'RMSomeValue',
-        type: Code.FileType.ObjectiveC(),
+        type: Code.FileType.ObjectiveC,
         imports: [
           {
             file: 'RMSomething.h',
@@ -3293,7 +3293,7 @@ describe('ObjCRenderer', function() {
     it('renders a class file which contains functions', function() {
       const fileToRender: Code.File = {
         name: 'RMSomeValue',
-        type: Code.FileType.ObjectiveC(),
+        type: Code.FileType.ObjectiveC,
         imports: [
           {
             file: 'RMSomeValue.h',
@@ -3413,7 +3413,7 @@ describe('ObjCRenderer', function() {
     it('replaces return type with id for covariantTypes in implementation file', function() {
       const fileToRender: Code.File = {
         name: 'RMSomeValue',
-        type: Code.FileType.ObjectiveC(),
+        type: Code.FileType.ObjectiveC,
         imports: [
           {
             file: 'RMSomeValue.h',
@@ -3515,7 +3515,7 @@ describe('ObjCRenderer', function() {
     it('replaces parameter type with id for covariantTypes in implementation file', function() {
       const fileToRender: Code.File = {
         name: 'RMSomeValue',
-        type: Code.FileType.ObjectiveC(),
+        type: Code.FileType.ObjectiveC,
         imports: [
           {
             file: 'RMSomeValue.h',
@@ -3606,7 +3606,7 @@ describe('ObjCRenderer', function() {
     it('renders a class file which contains enumerations', function() {
       const fileToRender: Code.File = {
         name: 'RMSomeValue',
-        type: Code.FileType.ObjectiveC(),
+        type: Code.FileType.ObjectiveC,
         imports: [
           {
             file: 'RMSomeValue.h',
@@ -3704,7 +3704,7 @@ describe('ObjCRenderer', function() {
       function() {
         const fileToRender: Code.File = {
           name: 'RMSomeValue',
-          type: Code.FileType.ObjectiveC(),
+          type: Code.FileType.ObjectiveC,
           imports: [],
           enumerations: [
             {
@@ -3741,7 +3741,7 @@ describe('ObjCRenderer', function() {
     it('renders an implementation file with private block definitions when the file contains one private block type', function() {
       const fileToRender: Code.File = {
         name: 'RMSomeValue',
-        type: Code.FileType.ObjectiveC(),
+        type: Code.FileType.ObjectiveC,
         imports: [
           {
             file: 'RMSomeValue.h',
@@ -3834,7 +3834,7 @@ describe('ObjCRenderer', function() {
       function() {
         const fileToRender: Code.File = {
           name: 'RMSomeValue',
-          type: Code.FileType.ObjectiveC(),
+          type: Code.FileType.ObjectiveC,
           imports: [],
           enumerations: [],
           blockTypes: [
@@ -3886,7 +3886,7 @@ describe('ObjCRenderer', function() {
     it('does not render an implementation file which only contains an empty class', function() {
       const fileToRender: Code.File = {
         name: 'RMSomeValue',
-        type: Code.FileType.ObjectiveC(),
+        type: Code.FileType.ObjectiveC,
         imports: [],
         comments: [],
         enumerations: [],
@@ -3929,7 +3929,7 @@ describe('ObjCRenderer', function() {
       function() {
         const fileToRender: Code.File = {
           name: 'RMSomeValue',
-          type: Code.FileType.ObjectiveC(),
+          type: Code.FileType.ObjectiveC,
           imports: [],
           comments: [],
           enumerations: [],
@@ -3991,7 +3991,7 @@ describe('ObjCRenderer', function() {
     it('does not render an implementation file which is empty', function() {
       const fileToRender: Code.File = {
         name: 'RMSomeValue',
-        type: Code.FileType.ObjectiveC(),
+        type: Code.FileType.ObjectiveC,
         imports: [],
         comments: [],
         blockTypes: [],
@@ -4016,7 +4016,7 @@ describe('ObjCRenderer', function() {
     it('renders file level nullability annotations', function() {
       const fileToRender: Code.File = {
         name: 'RMSomeValue',
-        type: Code.FileType.ObjectiveC(),
+        type: Code.FileType.ObjectiveC,
         imports: [],
         comments: [],
         blockTypes: [],
@@ -4098,7 +4098,7 @@ NS_ASSUME_NONNULL_END\n`);
     it('renders a macro', () => {
       const fileToRender: Code.File = {
         name: 'RMSomeValue',
-        type: Code.FileType.ObjectiveC(),
+        type: Code.FileType.ObjectiveC,
         imports: [],
         comments: [],
         enumerations: [],
@@ -4164,7 +4164,7 @@ static int RMSomeFunction(BOOL parameter) {
     it('renders an inline public function ', () => {
       const fileToRender: Code.File = {
         name: 'RMSomeValue',
-        type: Code.FileType.ObjectiveC(),
+        type: Code.FileType.ObjectiveC,
         imports: [],
         comments: [],
         enumerations: [],
@@ -4219,7 +4219,7 @@ static int RMSomeFunction(BOOL parameter) {
     it('renders an inline public function within a class', () => {
       const fileToRender: Code.File = {
         name: 'RMSomeValue',
-        type: Code.FileType.ObjectiveC(),
+        type: Code.FileType.ObjectiveC,
         imports: [],
         comments: [],
         enumerations: [],
@@ -4292,7 +4292,7 @@ static int RMSomeFunction(BOOL parameter) {
     it('filters class methods implemented in protocols', () => {
       const fileToRender: Code.File = {
         name: 'RMSomeValue',
-        type: Code.FileType.ObjectiveC(),
+        type: Code.FileType.ObjectiveC,
         imports: [
           {
             file: 'RMSomething.h',

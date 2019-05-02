@@ -39,7 +39,7 @@ describe('Plugins.Builder', function() {
         const expectedAdditionalFiles: Code.File[] = [
           {
             name: 'FooBarBazBuilder',
-            type: Code.FileType.ObjectiveC(),
+            type: Code.FileType.ObjectiveC,
             comments: [],
             imports: [
               {
@@ -184,7 +184,7 @@ describe('Plugins.Builder', function() {
         const expectedAdditionalFiles: Code.File[] = [
           {
             name: 'RMFerrBuilder',
-            type: Code.FileType.ObjectiveC(),
+            type: Code.FileType.ObjectiveC,
             comments: [],
             imports: [
               {
@@ -372,7 +372,7 @@ describe('Plugins.Builder', function() {
         const expectedAdditionalFiles: Code.File[] = [
           {
             name: 'RMFerrBuilder',
-            type: Code.FileType.ObjectiveC(),
+            type: Code.FileType.ObjectiveC,
             comments: [],
             imports: [
               {
@@ -692,7 +692,7 @@ describe('Plugins.Builder', function() {
         const expectedAdditionalFiles: Code.File[] = [
           {
             name: 'RMFerrBuilder',
-            type: Code.FileType.ObjectiveC(),
+            type: Code.FileType.ObjectiveC,
             comments: [],
             imports: [
               {

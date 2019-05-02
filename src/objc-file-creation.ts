@@ -60,14 +60,12 @@ function requestsMaybeContainingRequest(
 function implementationFileExtensionForFileType(
   fileType: Code.FileType,
 ): string {
-  return fileType.match(
-    function objectiveC(): string {
+  switch (fileType) {
+    case Code.FileType.ObjectiveC:
       return 'm';
-    },
-    function objectiveCPlusPlus(): string {
+    case Code.FileType.ObjectiveCPlusPlus:
       return 'mm';
-    },
-  );
+  }
 }
 
 export function fileCreationRequest(

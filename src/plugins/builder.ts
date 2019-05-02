@@ -538,7 +538,7 @@ function builderFileForValueType(
 ): Code.File {
   return {
     name: nameOfBuilderForValueTypeWithName(objectType.typeName),
-    type: Code.FileType.ObjectiveC(),
+    type: Code.FileType.ObjectiveC,
     imports: importsForBuilder(objectType, forBaseFile),
     forwardDeclarations: forwardDeclarationsForBuilder(objectType),
     comments: [],

@@ -13,28 +13,9 @@ enum LanguageType {
   objectiveCPlusPlus,
 }
 
-export class FileType {
-  private fileType: LanguageType;
-  constructor(type: LanguageType) {
-    this.fileType = type;
-  }
-
-  static ObjectiveC() {
-    return new FileType(LanguageType.objectiveC);
-  }
-
-  static ObjectiveCPlusPlus() {
-    return new FileType(LanguageType.objectiveCPlusPlus);
-  }
-
-  match<T>(objectiveC: () => T, objectiveCPlusPlus: () => T): T {
-    switch (this.fileType) {
-      case LanguageType.objectiveC:
-        return objectiveC();
-      case LanguageType.objectiveCPlusPlus:
-        return objectiveCPlusPlus();
-    }
-  }
+export enum FileType {
+  ObjectiveC,
+  ObjectiveCPlusPlus,
 }
 
 export class Struct {

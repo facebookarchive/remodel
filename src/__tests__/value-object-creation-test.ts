@@ -253,7 +253,7 @@ describe('ObjectSpecCreation', function() {
             return [
               {
                 name: 'FooMore',
-                type: Code.FileType.ObjectiveC(),
+                type: Code.FileType.ObjectiveC,
                 imports: [],
                 comments: [],
                 enumerations: [],

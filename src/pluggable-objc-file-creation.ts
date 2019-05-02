@@ -169,7 +169,7 @@ function buildFileType<T>(
                 Maybe.Just(newType),
               );
             }
-            throw Either.Left<Error.Error, Maybe.Maybe<Code.FileType>>(
+            return Either.Left<Error.Error, Maybe.Maybe<Code.FileType>>(
               Error.Error('conflicting file type requirements'),
             );
           },
@@ -413,7 +413,7 @@ function classFileCreationFunctionWithBaseClassAndPlugins<T>(
           return fileType;
         },
         function() {
-          return Code.FileType.ObjectiveC();
+          return Code.FileType.ObjectiveC;
         },
         maybeFileType,
       );

@@ -93,7 +93,7 @@ describe('Plugins.AlgebraicTypeTemplatedMatching', function() {
 
       const expectedFile: Code.File = {
         name: 'RMTestTemplatedMatchingHelpers',
-        type: Code.FileType.ObjectiveCPlusPlus(),
+        type: Code.FileType.ObjectiveCPlusPlus,
         imports: [
           {
             file: 'Foundation.h',

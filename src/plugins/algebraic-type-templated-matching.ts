@@ -251,7 +251,7 @@ function matchingFileForAlgebraicType(
 ): Code.File {
   return {
     name: matchingFileNameForAlgebraicType(algebraicType),
-    type: Code.FileType.ObjectiveCPlusPlus(),
+    type: Code.FileType.ObjectiveCPlusPlus,
     imports: generateImports(algebraicType, forBaseFile),
     enumerations: [],
     blockTypes: [],

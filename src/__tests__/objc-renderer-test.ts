@@ -4273,7 +4273,7 @@ static int RMSomeFunction(BOOL parameter) {
         fileToRender,
       );
       const expectedOutput: Maybe.Maybe<string> = Maybe.Just<string>(
-        '__attribute__((objc_subclassing_restricted)) \n' +
+        '__attribute__((objc_subclassing_restricted))\n' +
           '@interface RMSomeValue : NSObject <RMTestProtocol>\n\n' +
           '@end\n\n' +
           'static inline int RMSomeFunction(BOOL parameter) {\n' +

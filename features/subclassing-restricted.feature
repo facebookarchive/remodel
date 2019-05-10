@@ -28,7 +28,7 @@ Feature: Outputting Value Objects
       /**
        * some class comment
        */
-      __attribute__((objc_subclassing_restricted)) 
+      __attribute__((objc_subclassing_restricted))
       @interface RMFoo : NSObject <NSCopying>
 
       @property (nonatomic, readonly, copy) NSString *x;

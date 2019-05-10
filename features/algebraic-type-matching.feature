@@ -484,7 +484,7 @@ Feature: Outputting expected Algebraic Type matching methods
       #import <Foundation/Foundation.h>
       #import "SimpleADT.h"
 
-      __attribute__((objc_subclassing_restricted)) 
+      __attribute__((objc_subclassing_restricted))
       @interface SimpleADTMatcher<__covariant ObjectType> : NSObject
 
       typedef ObjectType (^SimpleADTObjectTypeSubtypeAMatchHandler)(void);

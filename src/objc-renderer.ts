@@ -785,7 +785,7 @@ function headerClassSection(file: Code.File, classInfo: ObjC.Class): string {
   const protocolsStr = protocolsString(classInfo.implementedProtocols);
 
   const subclassingRestrictedStr = classInfo.subclassingRestricted
-    ? '__attribute__((objc_subclassing_restricted)) \n'
+    ? '__attribute__((objc_subclassing_restricted))\n'
     : '';
   const classSection =
     '@interface ' +

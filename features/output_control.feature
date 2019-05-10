@@ -161,7 +161,7 @@ Feature: Controlling exactly what is output when generating files.
       typedef void (^RMValueTypeSingleFileOptionOneMatchHandler)(void);
       typedef void (^RMValueTypeSingleFileOptionTwoMatchHandler)(void);
 
-      __attribute__((objc_subclassing_restricted)) 
+      __attribute__((objc_subclassing_restricted))
       @interface RMValueTypeSingleFile : FBIvarBasedEqualityObject
 
       + (instancetype)new NS_UNAVAILABLE;
@@ -462,10 +462,10 @@ Feature: Controlling exactly what is output when generating files.
 
       typedef void (^RMValueTypeSingleFileOptionOneMatchHandler)(void);
       typedef void (^RMValueTypeSingleFileOptionTwoMatchHandler)(void);
-      
-      __attribute__((objc_subclassing_restricted)) 
+
+      __attribute__((objc_subclassing_restricted))
       @interface RMValueTypeSingleFile : FBIvarBasedEqualityObject
-      
+
       + (instancetype)new NS_UNAVAILABLE;
 
       + (instancetype)optionOne;
@@ -478,7 +478,7 @@ Feature: Controlling exactly what is output when generating files.
 
       @end
 
-      __attribute__((objc_subclassing_restricted)) 
+      __attribute__((objc_subclassing_restricted))
       @interface RMValueTypeSingleFileMatcher<__covariant ObjectType> : NSObject
 
       typedef ObjectType (^RMValueTypeSingleFileObjectTypeOptionOneMatchHandler)(void);
@@ -558,6 +558,8 @@ Feature: Controlling exactly what is output when generating files.
           }
         }
       }
+
+      @end
       """
   @announce
   Scenario: Generating FetchStatus with Builder as single file

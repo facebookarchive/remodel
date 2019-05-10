@@ -362,11 +362,13 @@ function classFileCreationFunctionWithBaseClassAndPlugins<T>(
   typeInformation: T,
   typeName: string,
   comments: string[],
+  file?: Code.File,
 ) => Either.Either<Error.Error, Code.File> {
   return function(
     typeInformation: T,
     typeName: string,
     comments: string[],
+    file?: Code.File,
   ): Either.Either<Error.Error, Code.File> {
     const fileType = List.foldl<
       ObjCGenerationPlugIn<T>,
@@ -434,67 +436,102 @@ function classFileCreationFunctionWithBaseClassAndPlugins<T>(
         nullability,
       );
 
-      return {
-        name: typeName,
-        type: fileType,
-        imports: importListWithBaseImportAppended(
-          baseClassName,
-          baseClassLibraryName,
-          List.foldl<ObjCGenerationPlugIn<T>, ObjC.Import[]>(
-            (soFar, plugin) => buildImports(typeInformation, soFar, plugin),
-            [],
-            plugins,
+      const imports = importListWithBaseImportAppended(
+        baseClassName,
+        baseClassLibraryName,
+        List.foldl<ObjCGenerationPlugIn<T>, ObjC.Import[]>(
+          (soFar, plugin) => buildImports(typeInformation, soFar, plugin),
+          [],
+          plugins,
+        ),
+      );
+
+      const enumerations = List.foldl<ObjCGenerationPlugIn<T>, ObjC.Enumeration[]>(
+        (soFar, plugin) => buildEnumerations(typeInformation, soFar, plugin),
+        [],
+        plugins,
+      );
+
+      const forwardDeclarations = List.foldl<
+        ObjCGenerationPlugIn<T>,
+        ObjC.ForwardDeclaration[]
+      >(
+        (soFar, plugin) =>
+          buildForwardDeclarations(typeInformation, soFar, plugin),
+        [],
+        plugins,
+      );
+
+      const blockTypes = List.foldl<ObjCGenerationPlugIn<T>, ObjC.BlockType[]>(
+        (soFar, plugin) => buildBlockTypes(typeInformation, soFar, plugin),
+        [],
+        plugins,
+      );
+
+      const staticConstants = List.foldl<ObjCGenerationPlugIn<T>, ObjC.Constant[]>(
+        (soFar, plugin) =>
+          buildStaticConstants(typeInformation, soFar, plugin),
+        [],
+        plugins,
+      );
+
+      const macros = List.foldl<ObjCGenerationPlugIn<T>, ObjC.Macro[]>(
+        (soFar, plugin) => buildMacros(typeInformation, soFar, plugin),
+        [],
+        plugins,
+      );
+
+      const structs = List.foldl<ObjCGenerationPlugIn<T>, Code.Struct[]>(
+        (soFar, plugin) => buildStructs(typeInformation, soFar, plugin),
+        [],
+        plugins,
+      );
+
+      const finalFunctions = classes.length > 0 ? [] : functions;
+
+      if (file != null) {
+        var newFile = file;
+        newFile.imports = file.imports.concat(List.foldl<ObjCGenerationPlugIn<T>, ObjC.Import[]>(
+          (soFar, plugin) => buildImports(typeInformation, soFar, plugin),
+          [],
+          plugins,
+        ));
+        newFile.enumerations = file.enumerations.concat(enumerations);
+        newFile.forwardDeclarations = file.forwardDeclarations.concat(forwardDeclarations);
+        newFile.blockTypes = file.blockTypes.concat(blockTypes);
+        newFile.diagnosticIgnores = file.diagnosticIgnores.concat(List.toArray(diagnosticIgnores));
+        newFile.staticConstants = file.staticConstants.concat(staticConstants);
+        newFile.functions = file.functions.concat(finalFunctions);
+        newFile.macros = file.macros.concat(macros);
+        newFile.classes = file.classes.concat(classes);
+        newFile.structs = file.structs.concat(structs);
+        return newFile;
+      } else {
+        return {
+          name: typeName,
+          type: fileType,
+          imports: imports,
+          comments: commentListWithPathToValueFile(
+            pathToValueFile,
+            List.foldl<ObjCGenerationPlugIn<T>, ObjC.Comment[]>(
+              (soFar, plugin) => buildComments(typeInformation, soFar, plugin),
+              [],
+              plugins,
+            ),
           ),
-        ),
-        comments: commentListWithPathToValueFile(
-          pathToValueFile,
-          List.foldl<ObjCGenerationPlugIn<T>, ObjC.Comment[]>(
-            (soFar, plugin) => buildComments(typeInformation, soFar, plugin),
-            [],
-            plugins,
-          ),
-        ),
-        enumerations: List.foldl<ObjCGenerationPlugIn<T>, ObjC.Enumeration[]>(
-          (soFar, plugin) => buildEnumerations(typeInformation, soFar, plugin),
-          [],
-          plugins,
-        ),
-        forwardDeclarations: List.foldl<
-          ObjCGenerationPlugIn<T>,
-          ObjC.ForwardDeclaration[]
-        >(
-          (soFar, plugin) =>
-            buildForwardDeclarations(typeInformation, soFar, plugin),
-          [],
-          plugins,
-        ),
-        blockTypes: List.foldl<ObjCGenerationPlugIn<T>, ObjC.BlockType[]>(
-          (soFar, plugin) => buildBlockTypes(typeInformation, soFar, plugin),
-          [],
-          plugins,
-        ),
-        diagnosticIgnores: List.toArray(diagnosticIgnores),
-        staticConstants: List.foldl<ObjCGenerationPlugIn<T>, ObjC.Constant[]>(
-          (soFar, plugin) =>
-            buildStaticConstants(typeInformation, soFar, plugin),
-          [],
-          plugins,
-        ),
-        functions: classes.length > 0 ? [] : functions,
-        nullability: classes.length > 0 ? undefined : nullability,
-        macros: List.foldl<ObjCGenerationPlugIn<T>, ObjC.Macro[]>(
-          (soFar, plugin) => buildMacros(typeInformation, soFar, plugin),
-          [],
-          plugins,
-        ),
-        classes: classes,
-        structs: List.foldl<ObjCGenerationPlugIn<T>, Code.Struct[]>(
-          (soFar, plugin) => buildStructs(typeInformation, soFar, plugin),
-          [],
-          plugins,
-        ),
-        namespaces: [],
-      };
+          enumerations: enumerations,
+          forwardDeclarations: forwardDeclarations,
+          blockTypes: blockTypes,
+          diagnosticIgnores: List.toArray(diagnosticIgnores),
+          staticConstants: staticConstants,
+          functions: finalFunctions,
+          nullability: classes.length > 0 ? undefined : nullability,
+          macros: macros,
+          classes: classes,
+          structs: structs,
+          namespaces: [],
+        };
+      }
     }, fileType);
   };
 }
@@ -680,19 +717,31 @@ function fileCreationRequestContainingAdditionalFile(
   }, fileCreationRequest);
 }
 
+function transformFileWithPlugins<T>(
+  baseFile: Code.File,
+  typeInformation: T,
+  plugins: List.List<ObjCGenerationPlugIn<T>>,
+) : Code.File {
+  return List.foldl<
+    ObjCGenerationPlugIn<T>,
+    Code.File
+  >(
+    (soFar, plugin) => plugin.transformBaseFile(typeInformation, soFar),
+    baseFile,
+    plugins,
+  );
+}
+
 function buildFileWriteRequest<T>(
   request: ObjCGenerationRequest<T>,
   typeInfoProvider: ObjCGenerationTypeInfoProvider<T>,
   plugins: List.List<ObjCGenerationPlugIn<T>>,
 ): Either.Either<Error.Error[], FileWriter.FileWriteRequest> {
-  const typeInfos = [request.typeInformation].concat(
-    typeInfoProvider.additionalTypesForType(request.typeInformation),
-  );
-
   const classFileFromTypeInfo: (
     typeInformation: T,
     typeName: string,
     comments: string[],
+    file?: Code.File
   ) => Either.Either<
     Error.Error,
     Code.File
@@ -723,39 +772,90 @@ function buildFileWriteRequest<T>(
     );
   }, plugins);
 
-  // each type info will manifest as its own file, regardless of whether
-  // the single-file output flag is set.
-  const allFileRequests = typeInfos.map(function(type: T) {
-    // build base file if we are allowed to
-    const classFile: Either.Either<
-      Error.Error,
-      Code.File[]
-    > = OutputControl.ShouldEmitObject(request.outputFlags)
-      ? classFileFromTypeInfo(
-          type,
-          typeInfoProvider.typeNameForType(type),
-          typeInfoProvider.commentsForType(type),
-        ).map(function(file: Code.File) {
-          return [file];
-        })
-      : Either.Right<Error.Error, Code.File[]>([]);
+  // In single-file output mode, everything goes into the same file, and 
+  // we don't listen to any of the output control flags for not outputting
+  // the base file.
+  if (request.outputFlags.singleFile) {
+    const baseFileOrError = classFileFromTypeInfo(
+      request.typeInformation,
+      typeInfoProvider.typeNameForType(request.typeInformation),
+      typeInfoProvider.commentsForType(request.typeInformation),
+    ).map(function(file: Code.File) {
+      return transformFileWithPlugins(file, request.typeInformation, filteredPlugins);
+    }).mbind(function(file: Code.File) {
+      // gather additional type files, then merge them into our base file
+      const extraTypes = typeInfoProvider.additionalTypesForType(request.typeInformation);
+      return extraTypes.reduce(function (prev: Either.Either<Error.Error, Code.File>, type: T) {
+        return prev.mbind(function(prevFile: Code.File) {
+          return classFileFromTypeInfo(
+            type,
+            typeInfoProvider.typeNameForType(type),
+            typeInfoProvider.commentsForType(type),
+            prevFile,
+          ).map(function(file: Code.File) {
+            return transformFileWithPlugins(file, type, filteredPlugins);
+          }).map(function(file: Code.File) {    
+            // plugins can add headers we don't want, as it's tough to know whether you
+            // are the main type, or an additional type when generating the file, so for
+            // now I am just going to filter the headers out.
+            var newFile = file;
+            newFile.imports = file.imports.filter(function(value: ObjC.Import) {
+              return (value.file != (typeInfoProvider.typeNameForType(type) + '.h'));
+            });
+            newFile.forwardDeclarations = file.forwardDeclarations.concat([
+              ObjC.ForwardDeclaration.ForwardClassDeclaration(
+                typeInfoProvider.typeNameForType(type))
+            ]);
+            return newFile;
+          });
+        });
+      }, Either.Right<Error.Error, Code.File>(file));
+    });
 
-    // add files from plugins, or merge them into our base file
-    // We'll end up with an array of files. If single file is set,
-    // we will only have one entry in the array.
-    const filesToWrite: Either.Either<Error.Error, Code.File[]> = classFile.map(
-      function(files: Code.File[]) {
-        if (request.outputFlags.singleFile) {
-          const baseFile: Code.File = List.foldl<
-            ObjCGenerationPlugIn<T>,
-            Code.File
-          >(
-            (soFar, plugin) => plugin.transformBaseFile(type, soFar),
-            files[0],
-            filteredPlugins,
-          );
-          return [baseFile];
-        } else {
+    const fileWriteRequestOrError: Either.Either<Error.Error, FileWriter.FileWriteRequest> = 
+    Either.mbind(function(file: Code.File) {
+      const emptyRequest = Either.Right<Error.Error, FileWriter.FileWriteRequest>({
+        name: typeInfoProvider.typeNameForType(request.typeInformation),
+        requests: List.of<FileWriter.Request>(),
+      });
+
+      const result = fileCreationRequestContainingAdditionalFile(
+        request.outputFlags,
+        outputPath,
+        emptyRequest,
+        file,
+      );
+      return result;
+    }, baseFileOrError);
+
+    return fileCreationRequestContainingArrayOfPossibleError(fileWriteRequestOrError);
+  } else {
+    const typeInfos = [request.typeInformation].concat(
+      typeInfoProvider.additionalTypesForType(request.typeInformation),
+    );
+  
+      // each type info will manifest as its own file, regardless of whether
+    // the single-file output flag is set.
+    const allFileRequests = typeInfos.map(function(type: T) {
+      // build base file if we are allowed to
+      const classFile: Either.Either<
+        Error.Error,
+        Code.File[]
+      > = OutputControl.ShouldEmitObject(request.outputFlags)
+        ? classFileFromTypeInfo(
+            type,
+            typeInfoProvider.typeNameForType(type),
+            typeInfoProvider.commentsForType(type),
+          ).map(function(file: Code.File) {
+            return [file];
+          })
+        : Either.Right<Error.Error, Code.File[]>([]);
+
+      // add files from plugins, or merge them into our base file
+      // We'll end up with an array of files. If single file is set,
+      // we will only have one entry in the array.
+      const filesToWrite: Either.Either<Error.Error, Code.File[]> = classFile.map(
+        function(files: Code.File[]) {
           const additionalFiles: Code.File[] = List.foldl<
             ObjCGenerationPlugIn<T>,
             Code.File[]
@@ -765,54 +865,54 @@ function buildFileWriteRequest<T>(
             filteredPlugins,
           );
           return files.concat(additionalFiles);
-        }
-      },
-    );
-
-    // create file write requests for each file
-    const completeFileCreationRequest: Either.Either<
-      Error.Error,
-      FileWriter.FileWriteRequest
-    > = Either.mbind(function(files: Code.File[]) {
-      return files.reduce(
-        function(
-          soFar: Either.Either<Error.Error, FileWriter.FileWriteRequest>,
-          currentFile: Code.File,
-        ) {
-          return fileCreationRequestContainingAdditionalFile(
-            request.outputFlags,
-            outputPath,
-            soFar,
-            currentFile,
-          );
         },
-        Either.Right<Error.Error, FileWriter.FileWriteRequest>({
-          name: typeInfoProvider.typeNameForType(type),
-          requests: List.of<FileWriter.Request>(),
-        }),
       );
-    }, filesToWrite);
 
-    return fileCreationRequestContainingArrayOfPossibleError(
-      completeFileCreationRequest,
-    );
-  });
+      // create file write requests for each file
+      const completeFileCreationRequest: Either.Either<
+        Error.Error,
+        FileWriter.FileWriteRequest
+      > = Either.mbind(function(files: Code.File[]) {
+        return files.reduce(
+          function(
+            soFar: Either.Either<Error.Error, FileWriter.FileWriteRequest>,
+            currentFile: Code.File,
+          ) {
+            return fileCreationRequestContainingAdditionalFile(
+              request.outputFlags,
+              outputPath,
+              soFar,
+              currentFile,
+            );
+          },
+          Either.Right<Error.Error, FileWriter.FileWriteRequest>({
+            name: typeInfoProvider.typeNameForType(type),
+            requests: List.of<FileWriter.Request>(),
+          }),
+        );
+      }, filesToWrite);
 
-  // Unify all write requests
-  return allFileRequests.reduce(function(
-    soFar: Either.Either<Error.Error[], FileWriter.FileWriteRequest>,
-    current: Either.Either<Error.Error[], FileWriter.FileWriteRequest>,
-  ) {
-    return Either.map(function(
-      request: FileWriter.FileWriteRequest,
-    ): FileWriter.FileWriteRequest {
-      return {
-        name: request.name,
-        requests: List.append(request.requests, current.right!.requests),
-      };
-    },
-    soFar);
-  });
+      return fileCreationRequestContainingArrayOfPossibleError(
+        completeFileCreationRequest,
+      );
+    });
+
+    // Unify all write requests
+    return allFileRequests.reduce(function(
+      soFar: Either.Either<Error.Error[], FileWriter.FileWriteRequest>,
+      current: Either.Either<Error.Error[], FileWriter.FileWriteRequest>,
+    ) {
+      return Either.map(function(
+        request: FileWriter.FileWriteRequest,
+      ): FileWriter.FileWriteRequest {
+        return {
+          name: request.name,
+          requests: List.append(request.requests, current.right!.requests),
+        };
+      },
+      soFar);
+    });
+  }
 }
 
 function valueObjectsToCreateWithPlugins<T>(

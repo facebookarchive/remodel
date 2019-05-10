@@ -559,3 +559,201 @@ Feature: Controlling exactly what is output when generating files.
         }
       }
       """
+  @announce
+  Scenario: Generating FetchStatus with Builder as single file
+    Given a file named "project/values/RMValueTypeSingleFile.value" with:
+      """
+      RMValueTypeSingleFile includes(RMBuilder, RMFetchStatus) {
+        NSString *itemOne
+        NSNumber *itemTwo
+      }
+      """
+    And a file named "project/.valueObjectConfig" with:
+      """
+      { }
+      """
+    When I run `../../bin/generate project --output-single-file`
+    Then the file "project/values/RMValueTypeSingleFile.h" should contain:
+      """
+      /**
+       * This file is generated using the remodel generation script.
+       * The name of the input file is RMValueTypeSingleFile.value
+       */
+
+      #import <Foundation/Foundation.h>
+
+      @class RMValueTypeSingleFile;
+      @class RMValueTypeSingleFileFetchStatus;
+
+      @interface RMValueTypeSingleFile : NSObject <NSCopying>
+
+      @property (nonatomic, readonly, copy) NSString *itemOne;
+      @property (nonatomic, readonly, copy) NSNumber *itemTwo;
+      @property (nonatomic, readonly, copy) RMValueTypeSingleFileFetchStatus *fetchStatus;
+
+      + (instancetype)new NS_UNAVAILABLE;
+
+      - (instancetype)init NS_UNAVAILABLE;
+
+      - (instancetype)initWithItemOne:(NSString *)itemOne itemTwo:(NSNumber *)itemTwo fetchStatus:(RMValueTypeSingleFileFetchStatus *)fetchStatus NS_DESIGNATED_INITIALIZER;
+
+      @end
+
+      @interface RMValueTypeSingleFileBuilder : NSObject
+
+      + (instancetype)valueTypeSingleFile;
+
+      + (instancetype)valueTypeSingleFileFromExistingValueTypeSingleFile:(RMValueTypeSingleFile *)existingValueTypeSingleFile;
+
+      - (RMValueTypeSingleFile *)build;
+
+      - (instancetype)withItemOne:(NSString *)itemOne;
+
+      - (instancetype)withItemTwo:(NSNumber *)itemTwo;
+
+      - (instancetype)withFetchStatus:(RMValueTypeSingleFileFetchStatus *)fetchStatus;
+
+      @end
+
+      @interface RMValueTypeSingleFileFetchStatus : NSObject <NSCopying>
+
+      @property (nonatomic, readonly) BOOL hasFetchedItemOne;
+      @property (nonatomic, readonly) BOOL hasFetchedItemTwo;
+
+      + (instancetype)new NS_UNAVAILABLE;
+
+      - (instancetype)init NS_UNAVAILABLE;
+
+      - (instancetype)initWithHasFetchedItemOne:(BOOL)hasFetchedItemOne hasFetchedItemTwo:(BOOL)hasFetchedItemTwo NS_DESIGNATED_INITIALIZER;
+
+      @end
+
+      @interface RMValueTypeSingleFileFetchStatusBuilder : NSObject
+
+      + (instancetype)valueTypeSingleFileFetchStatus;
+
+      + (instancetype)valueTypeSingleFileFetchStatusFromExistingValueTypeSingleFileFetchStatus:(RMValueTypeSingleFileFetchStatus *)existingValueTypeSingleFileFetchStatus;
+
+      - (RMValueTypeSingleFileFetchStatus *)build;
+
+      - (instancetype)withHasFetchedItemOne:(BOOL)hasFetchedItemOne;
+
+      - (instancetype)withHasFetchedItemTwo:(BOOL)hasFetchedItemTwo;
+
+      @end
+
+      """
+   And the file "project/values/RMValueTypeSingleFile.m" should contain:
+      """
+      /**
+       * This file is generated using the remodel generation script.
+       * The name of the input file is RMValueTypeSingleFile.value
+       */
+
+      #if  ! __has_feature(objc_arc)
+      #error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).
+      #endif
+
+      #import "RMValueTypeSingleFile.h"
+
+      @implementation RMValueTypeSingleFile
+
+      - (instancetype)initWithItemOne:(NSString *)itemOne itemTwo:(NSNumber *)itemTwo fetchStatus:(RMValueTypeSingleFileFetchStatus *)fetchStatus
+      {
+        if ((self = [super init])) {
+          _itemOne = [itemOne copy];
+          _itemTwo = [itemTwo copy];
+          _fetchStatus = [fetchStatus copy];
+        }
+
+        return self;
+      }
+
+      - (id)copyWithZone:(nullable NSZone *)zone
+      {
+        return self;
+      }
+
+      - (NSString *)description
+      {
+        return [NSString stringWithFormat:@"%@ - \n\t itemOne: %@; \n\t itemTwo: %@; \n\t fetchStatus: %@; \n", [super description], _itemOne, _itemTwo, _fetchStatus];
+      }
+
+      - (NSUInteger)hash
+      {
+        NSUInteger subhashes[] = {[_itemOne hash], [_itemTwo hash], [_fetchStatus hash]};
+        NSUInteger result = subhashes[0];
+        for (int ii = 1; ii < 3; ++ii) {
+          unsigned long long base = (((unsigned long long)result) << 32 | subhashes[ii]);
+          base = (~base) + (base << 18);
+          base ^= (base >> 31);
+          base *=  21;
+          base ^= (base >> 11);
+          base += (base << 6);
+          base ^= (base >> 22);
+          result = base;
+        }
+        return result;
+      }
+
+      - (BOOL)isEqual:(RMValueTypeSingleFile *)object
+      {
+        if (self == object) {
+          return YES;
+        } else if (object == nil || ![object isKindOfClass:[self class]]) {
+          return NO;
+        }
+        return
+          (_itemOne == object->_itemOne ? YES : [_itemOne isEqual:object->_itemOne]) &&
+          (_itemTwo == object->_itemTwo ? YES : [_itemTwo isEqual:object->_itemTwo]) &&
+          (_fetchStatus == object->_fetchStatus ? YES : [_fetchStatus isEqual:object->_fetchStatus]);
+      }
+
+      @end
+
+      @implementation RMValueTypeSingleFileBuilder
+      {
+        NSString *_itemOne;
+        NSNumber *_itemTwo;
+        RMValueTypeSingleFileFetchStatus *_fetchStatus;
+      }
+
+      + (instancetype)valueTypeSingleFile
+      {
+        return [RMValueTypeSingleFileBuilder new];
+      }
+
+      + (instancetype)valueTypeSingleFileFromExistingValueTypeSingleFile:(RMValueTypeSingleFile *)existingValueTypeSingleFile
+      {
+        return [[[[RMValueTypeSingleFileBuilder valueTypeSingleFile]
+                  withItemOne:existingValueTypeSingleFile.itemOne]
+                 withItemTwo:existingValueTypeSingleFile.itemTwo]
+                withFetchStatus:existingValueTypeSingleFile.fetchStatus];
+      }
+
+      - (RMValueTypeSingleFile *)build
+      {
+        return [[RMValueTypeSingleFile alloc] initWithItemOne:_itemOne itemTwo:_itemTwo fetchStatus:_fetchStatus];
+      }
+
+      - (instancetype)withItemOne:(NSString *)itemOne
+      {
+        _itemOne = [itemOne copy];
+        return self;
+      }
+
+      - (instancetype)withItemTwo:(NSNumber *)itemTwo
+      {
+        _itemTwo = [itemTwo copy];
+        return self;
+      }
+
+      - (instancetype)withFetchStatus:(RMValueTypeSingleFileFetchStatus *)fetchStatus
+      {
+        _fetchStatus = [fetchStatus copy];
+        return self;
+      }
+
+      @end
+
+      """

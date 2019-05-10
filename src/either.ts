@@ -24,6 +24,10 @@ export class Either<T, U> {
   map<V>(f: (u: U) => V): Either<T, V> {
     return map(f, this);
   }
+
+  mbind<V>(f: (u: U) => Either<T, V>): Either<T, V> {
+    return mbind(f, this);
+  }
 }
 
 export function match<T, U, V>(

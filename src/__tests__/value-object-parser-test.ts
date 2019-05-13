@@ -375,5 +375,28 @@ describe('ObjectSpecParser', function() {
       ]);
       expect(actualResult).toEqualJSON(expectedResult);
     });
+
+    it('parses an empty and valid value object', function() {
+      const valueFileContents = 'RMSomething {}';
+      const actualResult: Either.Either<
+        Error.Error[],
+        ObjectSpec.Type
+      > = ObjectSpecParser.parse(valueFileContents);
+      const expectedResult: Either.Either<
+        Error.Error[],
+        ObjectSpec.Type
+      > = Either.Right<Error.Error[], ObjectSpec.Type>({
+        annotations: {},
+        attributes: [],
+        comments: [],
+        typeLookups: [],
+        excludes: [],
+        includes: [],
+        typeName: 'RMSomething',
+        libraryName: Maybe.Nothing<string>(),
+      });
+
+      expect(actualResult).toEqualJSON(expectedResult);
+    });
   });
 });

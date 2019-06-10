@@ -1044,7 +1044,9 @@ function functionDeclarationForFunction(
     toFunctionReturnTypeString(functionDefinition.returnType) +
     functionDefinition.name +
     '(' +
-    functionDefinition.parameters.map(toFunctionParameterString).join(', ') +
+    (functionDefinition.parameters.length > 0
+      ? functionDefinition.parameters.map(toFunctionParameterString).join(', ')
+      : 'void') +
     ')'
   );
 }

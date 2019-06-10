@@ -1399,7 +1399,7 @@ describe('ObjCRenderer', function() {
             '\n' +
             '// There is just nothing in the world like a good function.\n' +
             'extern NSString *APublicFunction(NSString *str, NSUInteger num);\n' +
-            'extern NSUInteger AnotherPublicFunction();\n' +
+            'extern NSUInteger AnotherPublicFunction(void);\n' +
             '\n' +
             '#ifdef __cplusplus\n' +
             '}\n' +
@@ -3388,7 +3388,7 @@ describe('ObjCRenderer', function() {
           '#endif\n\n' +
           '#import "RMSomeValue.h"\n' +
           '\n' +
-          'static void ANonPublicFunction();\n\n' +
+          'static void ANonPublicFunction(void);\n\n' +
           '@implementation RMSomeValue\n' +
           '\n' +
           '@end\n' +
@@ -3401,7 +3401,7 @@ describe('ObjCRenderer', function() {
           '}\n' +
           '\n' +
           '// Functions are like fungus\n' +
-          'static void ANonPublicFunction() {\n' +
+          'static void ANonPublicFunction(void) {\n' +
           '  something();\n' +
           '}\n',
       );
@@ -4558,7 +4558,7 @@ static int RMSomeFunction(BOOL parameter) {
       };
 
       expect(ObjCRenderer.toFunctionImplementationString(definition)).toContain(
-        'static RMSomething *__nullable __unsafe_unretained TestFunction()',
+        'static RMSomething *__nullable __unsafe_unretained TestFunction(void)',
       );
     });
     it('renders nullablity for parameter type', () => {

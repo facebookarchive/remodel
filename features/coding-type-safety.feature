@@ -70,7 +70,7 @@ Feature: Coding Type Safety
        * The encoding methods do not check for protocol conformance.
        */
       __attribute__((unused))
-      static void RMCodingValidatorFunction() {
+      static void RMCodingValidatorFunction(void) {
         id<NSCoding> identifier_must_conform_to_NSCoding __unused = (NSString*)nil;
         id<NSCoding> object_must_conform_to_NSCoding __unused = (id)nil;
         id<NSCoding> thisWouldntCompile_must_conform_to_NSCoding __unused = (dispatch_block_t)nil;

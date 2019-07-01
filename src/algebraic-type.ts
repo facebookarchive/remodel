@@ -126,4 +126,5 @@ export interface Plugin {
   nullability: (algebraicType: Type) => Maybe.Maybe<ObjC.ClassNullability>;
   subclassingRestricted: (algebraicType: Type) => boolean;
   structs?: (algebraicType: Type) => Code.Struct[];
+  baseClass?: (algebraicType: Type) => Maybe.Maybe<ObjC.BaseClass>;
 }

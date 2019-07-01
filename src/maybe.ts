@@ -75,3 +75,7 @@ export function and<A, B>(a: Maybe<A>, b: Maybe<B>): Maybe<[A, B]> {
     return Nothing<[A, B]>();
   }
 }
+
+export function or<T>(a: Maybe<T>, b: Maybe<T>): Maybe<T> {
+  return match(aValue => Just(aValue), () => b, a);
+}

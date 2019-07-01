@@ -71,3 +71,13 @@ export function mbind<T, U, V>(
 export function munit<T, U>(u: U): Either<T, U> {
   return Right<T, U>(u);
 }
+
+export function and<T, A, B>(
+  a: Either<T, A>,
+  b: Either<T, B>,
+): Either<T, [A, B]> {
+  return mbind(
+    rightA => mbind(rightB => Right<T, [A, B]>([rightA, rightB]), b),
+    a,
+  );
+}

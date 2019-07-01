@@ -65,4 +65,5 @@ export interface Plugin {
   nullability: (objectType: Type) => Maybe.Maybe<ObjC.ClassNullability>;
   subclassingRestricted: (objectType: Type) => boolean;
   structs?: (objectType: Type) => Code.Struct[];
+  baseClass?: (objectType: Type) => Maybe.Maybe<ObjC.BaseClass>;
 }

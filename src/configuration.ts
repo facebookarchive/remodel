@@ -12,6 +12,7 @@ import * as FileReader from './file-reader';
 import * as List from './list';
 import * as Map from './map';
 import * as Maybe from './maybe';
+import * as ObjC from './objc';
 import * as PathUtils from './path-utils';
 import * as Promise from './promise';
 import * as Unique from './unique';
@@ -23,11 +24,6 @@ export interface PluginConfig {
 export interface ConfigurationContext {
   basePlugins: List.List<string>;
   baseIncludes: List.List<string>;
-}
-
-interface ParsedBaseClassInformation {
-  className: string;
-  libraryName: Maybe.Maybe<string>;
 }
 
 interface PluginCollectionInfo {
@@ -142,7 +138,7 @@ function parsedJsonToDiagnosticIgnores(parsed: any): List.List<string> {
   return List.fromArray(diagnosticIgnores);
 }
 
-function parsedJsonToBaseClass(parsed: any): ParsedBaseClassInformation {
+function parsedJsonToBaseClass(parsed: any): ObjC.BaseClass {
   const paredBaseClassInfo: any = parsed[BASE_CLASS_KEY];
   if (paredBaseClassInfo && paredBaseClassInfo[BASE_CLASS_NAME_KEY]) {
     return {
@@ -208,7 +204,7 @@ function parse(
       scriptConfigFromPluginCollectionInfo(configFilePath, pluginCollection),
     pluginCollectionEither,
   );
-  return Either.mbind(function(baseClass: ParsedBaseClassInformation) {
+  return Either.mbind(function(baseClass: ObjC.BaseClass) {
     return Either.mbind(function(pluginConfigs: List.List<PluginConfig>) {
       return Either.mbind(function(diagnosticIgnores: List.List<string>) {
         return Either.mbind(function(defaultIncludes: List.List<string>) {

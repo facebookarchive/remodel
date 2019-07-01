@@ -21,6 +21,7 @@ import * as path from 'path';
 export interface ObjCGenerationPlugIn<T> {
   additionalFiles: (typeInformation: T) => Code.File[];
   transformBaseFile: (typeInformation: T, baseFile: Code.File) => Code.File;
+  baseClass: (typeInformation: T) => Maybe.Maybe<ObjC.BaseClass>;
   blockTypes: (typeInformation: T) => ObjC.BlockType[];
   classMethods: (typeInformation: T) => ObjC.Method[];
   comments: (typeInformation: T) => ObjC.Comment[];
@@ -409,7 +410,52 @@ function classFileCreationFunctionWithBaseClassAndPlugins<T>(
       nullabilityEither,
     );
 
-    return Either.map(function(maybeFileType) {
+    const customPluginBaseClass: Either.Either<
+      Error.Error,
+      Maybe.Maybe<ObjC.BaseClass>
+    > = List.foldl(
+      (currentEither, nextPlugin) => {
+        return Either.mbind(maybeCurrentBaseClass => {
+          const maybeNextBaseClass = nextPlugin.baseClass(typeInformation);
+
+          return Maybe.match(
+            // If we have two conflicting base classes from different plugins,
+            // we need to fail as there's no way to choose a class to generate.
+            ([currentBaseClass, nextBaseClass]) =>
+              Either.Left(
+                Error.Error(
+                  `Conflicting base classes ${currentBaseClass.className} and ${
+                    nextBaseClass.className
+                  }`,
+                ),
+              ),
+            // If we only have one of the two, then we can continue with
+            // whichever one happens to be present.
+            () =>
+              Either.Right(Maybe.or(maybeNextBaseClass, maybeCurrentBaseClass)),
+            Maybe.and(maybeCurrentBaseClass, maybeNextBaseClass),
+          );
+        }, currentEither);
+      },
+      // We start with Nothing rather than with the configuration-specified base
+      // class so that we don't always produce an error.
+      Either.Right(Maybe.Nothing<ObjC.BaseClass>()),
+      plugins,
+    );
+
+    // Allow the plugin-specified base class to override the one that was
+    // specified in the configuration file.
+    const baseClass: Either.Either<Error.Error, ObjC.BaseClass> = Either.map(
+      maybeCustom =>
+        Maybe.match(
+          custom => custom,
+          () => ({className: baseClassName, libraryName: baseClassLibraryName}),
+          maybeCustom,
+        ),
+      customPluginBaseClass,
+    );
+
+    return Either.map(([maybeFileType, baseClass]) => {
       const fileType = Maybe.match(
         function(fileType: Code.FileType) {
           return fileType;
@@ -430,15 +476,15 @@ function classFileCreationFunctionWithBaseClassAndPlugins<T>(
         typeInformation,
         typeName,
         comments,
-        baseClassName,
+        baseClass.className,
         functions,
         plugins,
         nullability,
       );
 
       const imports = importListWithBaseImportAppended(
-        baseClassName,
-        baseClassLibraryName,
+        baseClass.className,
+        baseClass.libraryName,
         List.foldl<ObjCGenerationPlugIn<T>, ObjC.Import[]>(
           (soFar, plugin) => buildImports(typeInformation, soFar, plugin),
           [],
@@ -446,7 +492,10 @@ function classFileCreationFunctionWithBaseClassAndPlugins<T>(
         ),
       );
 
-      const enumerations = List.foldl<ObjCGenerationPlugIn<T>, ObjC.Enumeration[]>(
+      const enumerations = List.foldl<
+        ObjCGenerationPlugIn<T>,
+        ObjC.Enumeration[]
+      >(
         (soFar, plugin) => buildEnumerations(typeInformation, soFar, plugin),
         [],
         plugins,
@@ -468,9 +517,11 @@ function classFileCreationFunctionWithBaseClassAndPlugins<T>(
         plugins,
       );
 
-      const staticConstants = List.foldl<ObjCGenerationPlugIn<T>, ObjC.Constant[]>(
-        (soFar, plugin) =>
-          buildStaticConstants(typeInformation, soFar, plugin),
+      const staticConstants = List.foldl<
+        ObjCGenerationPlugIn<T>,
+        ObjC.Constant[]
+      >(
+        (soFar, plugin) => buildStaticConstants(typeInformation, soFar, plugin),
         [],
         plugins,
       );
@@ -491,15 +542,21 @@ function classFileCreationFunctionWithBaseClassAndPlugins<T>(
 
       if (file != null) {
         var newFile = file;
-        newFile.imports = file.imports.concat(List.foldl<ObjCGenerationPlugIn<T>, ObjC.Import[]>(
-          (soFar, plugin) => buildImports(typeInformation, soFar, plugin),
-          [],
-          plugins,
-        ));
+        newFile.imports = file.imports.concat(
+          List.foldl<ObjCGenerationPlugIn<T>, ObjC.Import[]>(
+            (soFar, plugin) => buildImports(typeInformation, soFar, plugin),
+            [],
+            plugins,
+          ),
+        );
         newFile.enumerations = file.enumerations.concat(enumerations);
-        newFile.forwardDeclarations = file.forwardDeclarations.concat(forwardDeclarations);
+        newFile.forwardDeclarations = file.forwardDeclarations.concat(
+          forwardDeclarations,
+        );
         newFile.blockTypes = file.blockTypes.concat(blockTypes);
-        newFile.diagnosticIgnores = file.diagnosticIgnores.concat(List.toArray(diagnosticIgnores));
+        newFile.diagnosticIgnores = file.diagnosticIgnores.concat(
+          List.toArray(diagnosticIgnores),
+        );
         newFile.staticConstants = file.staticConstants.concat(staticConstants);
         newFile.functions = file.functions.concat(finalFunctions);
         newFile.macros = file.macros.concat(macros);
@@ -532,7 +589,7 @@ function classFileCreationFunctionWithBaseClassAndPlugins<T>(
           namespaces: [],
         };
       }
-    }, fileType);
+    }, Either.and(fileType, baseClass));
   };
 }
 
@@ -721,11 +778,8 @@ function transformFileWithPlugins<T>(
   baseFile: Code.File,
   typeInformation: T,
   plugins: List.List<ObjCGenerationPlugIn<T>>,
-) : Code.File {
-  return List.foldl<
-    ObjCGenerationPlugIn<T>,
-    Code.File
-  >(
+): Code.File {
+  return List.foldl<ObjCGenerationPlugIn<T>, Code.File>(
     (soFar, plugin) => plugin.transformBaseFile(typeInformation, soFar),
     baseFile,
     plugins,
@@ -741,7 +795,7 @@ function buildFileWriteRequest<T>(
     typeInformation: T,
     typeName: string,
     comments: string[],
-    file?: Code.File
+    file?: Code.File,
   ) => Either.Either<
     Error.Error,
     Code.File
@@ -772,7 +826,7 @@ function buildFileWriteRequest<T>(
     );
   }, plugins);
 
-  // In single-file output mode, everything goes into the same file, and 
+  // In single-file output mode, everything goes into the same file, and
   // we don't listen to any of the output control flags for not outputting
   // the base file.
   if (request.outputFlags.singleFile) {
@@ -780,41 +834,65 @@ function buildFileWriteRequest<T>(
       request.typeInformation,
       typeInfoProvider.typeNameForType(request.typeInformation),
       typeInfoProvider.commentsForType(request.typeInformation),
-    ).map(function(file: Code.File) {
-      return transformFileWithPlugins(file, request.typeInformation, filteredPlugins);
-    }).mbind(function(file: Code.File) {
-      // gather additional type files, then merge them into our base file
-      const extraTypes = typeInfoProvider.additionalTypesForType(request.typeInformation);
-      return extraTypes.reduce(function (prev: Either.Either<Error.Error, Code.File>, type: T) {
-        return prev.mbind(function(prevFile: Code.File) {
-          return classFileFromTypeInfo(
-            type,
-            typeInfoProvider.typeNameForType(type),
-            typeInfoProvider.commentsForType(type),
-            prevFile,
-          ).map(function(file: Code.File) {
-            return transformFileWithPlugins(file, type, filteredPlugins);
-          }).map(function(file: Code.File) {    
-            // plugins can add headers we don't want, as it's tough to know whether you
-            // are the main type, or an additional type when generating the file, so for
-            // now I am just going to filter the headers out.
-            var newFile = file;
-            newFile.imports = file.imports.filter(function(value: ObjC.Import) {
-              return (value.file != (typeInfoProvider.typeNameForType(type) + '.h'));
-            });
-            newFile.forwardDeclarations = file.forwardDeclarations.concat([
-              ObjC.ForwardDeclaration.ForwardClassDeclaration(
-                typeInfoProvider.typeNameForType(type))
-            ]);
-            return newFile;
+    )
+      .map(function(file: Code.File) {
+        return transformFileWithPlugins(
+          file,
+          request.typeInformation,
+          filteredPlugins,
+        );
+      })
+      .mbind(function(file: Code.File) {
+        // gather additional type files, then merge them into our base file
+        const extraTypes = typeInfoProvider.additionalTypesForType(
+          request.typeInformation,
+        );
+        return extraTypes.reduce(function(
+          prev: Either.Either<Error.Error, Code.File>,
+          type: T,
+        ) {
+          return prev.mbind(function(prevFile: Code.File) {
+            return classFileFromTypeInfo(
+              type,
+              typeInfoProvider.typeNameForType(type),
+              typeInfoProvider.commentsForType(type),
+              prevFile,
+            )
+              .map(function(file: Code.File) {
+                return transformFileWithPlugins(file, type, filteredPlugins);
+              })
+              .map(function(file: Code.File) {
+                // plugins can add headers we don't want, as it's tough to know whether you
+                // are the main type, or an additional type when generating the file, so for
+                // now I am just going to filter the headers out.
+                var newFile = file;
+                newFile.imports = file.imports.filter(function(
+                  value: ObjC.Import,
+                ) {
+                  return (
+                    value.file != typeInfoProvider.typeNameForType(type) + '.h'
+                  );
+                });
+                newFile.forwardDeclarations = file.forwardDeclarations.concat([
+                  ObjC.ForwardDeclaration.ForwardClassDeclaration(
+                    typeInfoProvider.typeNameForType(type),
+                  ),
+                ]);
+                return newFile;
+              });
           });
-        });
-      }, Either.Right<Error.Error, Code.File>(file));
-    });
+        },
+        Either.Right<Error.Error, Code.File>(file));
+      });
 
-    const fileWriteRequestOrError: Either.Either<Error.Error, FileWriter.FileWriteRequest> = 
-    Either.mbind(function(file: Code.File) {
-      const emptyRequest = Either.Right<Error.Error, FileWriter.FileWriteRequest>({
+    const fileWriteRequestOrError: Either.Either<
+      Error.Error,
+      FileWriter.FileWriteRequest
+    > = Either.mbind(function(file: Code.File) {
+      const emptyRequest = Either.Right<
+        Error.Error,
+        FileWriter.FileWriteRequest
+      >({
         name: typeInfoProvider.typeNameForType(request.typeInformation),
         requests: List.of<FileWriter.Request>(),
       });
@@ -828,13 +906,15 @@ function buildFileWriteRequest<T>(
       return result;
     }, baseFileOrError);
 
-    return fileCreationRequestContainingArrayOfPossibleError(fileWriteRequestOrError);
+    return fileCreationRequestContainingArrayOfPossibleError(
+      fileWriteRequestOrError,
+    );
   } else {
     const typeInfos = [request.typeInformation].concat(
       typeInfoProvider.additionalTypesForType(request.typeInformation),
     );
-  
-      // each type info will manifest as its own file, regardless of whether
+
+    // each type info will manifest as its own file, regardless of whether
     // the single-file output flag is set.
     const allFileRequests = typeInfos.map(function(type: T) {
       // build base file if we are allowed to
@@ -854,19 +934,20 @@ function buildFileWriteRequest<T>(
       // add files from plugins, or merge them into our base file
       // We'll end up with an array of files. If single file is set,
       // we will only have one entry in the array.
-      const filesToWrite: Either.Either<Error.Error, Code.File[]> = classFile.map(
-        function(files: Code.File[]) {
-          const additionalFiles: Code.File[] = List.foldl<
-            ObjCGenerationPlugIn<T>,
-            Code.File[]
-          >(
-            (soFar, plugin) => buildAdditionalFiles(type, soFar, plugin),
-            [],
-            filteredPlugins,
-          );
-          return files.concat(additionalFiles);
-        },
-      );
+      const filesToWrite: Either.Either<
+        Error.Error,
+        Code.File[]
+      > = classFile.map(function(files: Code.File[]) {
+        const additionalFiles: Code.File[] = List.foldl<
+          ObjCGenerationPlugIn<T>,
+          Code.File[]
+        >(
+          (soFar, plugin) => buildAdditionalFiles(type, soFar, plugin),
+          [],
+          filteredPlugins,
+        );
+        return files.concat(additionalFiles);
+      });
 
       // create file write requests for each file
       const completeFileCreationRequest: Either.Either<

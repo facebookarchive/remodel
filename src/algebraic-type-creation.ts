@@ -38,6 +38,9 @@ function createAlgebraicTypeObjCPlugIn(
       return plugin.transformBaseFile(typeInformation, baseFile);
     },
 
+    baseClass:
+      plugin.baseClass != null ? plugin.baseClass : _ => Maybe.Nothing(),
+
     blockTypes: function(
       typeInformation: AlgebraicType.Type,
     ): ObjC.BlockType[] {

@@ -36,6 +36,9 @@ function createObjectSpecObjCPlugIn(
       return plugin.transformBaseFile(typeInformation, baseFile);
     },
 
+    baseClass:
+      plugin.baseClass != null ? plugin.baseClass : _ => Maybe.Nothing(),
+
     blockTypes: function(typeInformation: ObjectSpec.Type): ObjC.BlockType[] {
       return [];
     },

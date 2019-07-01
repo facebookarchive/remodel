@@ -572,3 +572,8 @@ export interface Struct {
   comments: Comment[];
   members: StructMember[];
 }
+
+export interface BaseClass {
+  className: string;
+  libraryName: Maybe.Maybe<string>;
+}

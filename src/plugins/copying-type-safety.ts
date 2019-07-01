@@ -20,6 +20,11 @@ function shouldValidateNSCopyingConformanceOfAttribute(
     // NSCopying. Whitelist it manually to avoid breaking the build on any value
     // object with a UIImage attribute.
     attribute.type.name !== 'UIImage' &&
+    // Blocks are copyable, but they aren't type-compatible with id<NSCoding>.
+    // We need to compute the actual type, because blocks can be declared with an
+    // underlying type, i.e. RMBlock(dispatch_block_t)
+    ObjectSpecCodeUtils.computeTypeOfAttribute(attribute).name !==
+      'dispatch_block_t' &&
     ObjectSpecCodeUtils.shouldCopyIncomingValueForAttribute(
       supportsValueSemantics,
       attribute,

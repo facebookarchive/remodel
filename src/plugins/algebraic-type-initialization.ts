@@ -281,6 +281,12 @@ function instanceVariablesForImplementationOfAlgebraicType(
   return [enumerationInstanceVariable].concat(attributeInstanceVariables);
 }
 
+function SkipImportsInImplementationForAlgebraicType(
+  algebraicType: AlgebraicType.Type,
+): boolean {
+  return algebraicType.includes.indexOf('SkipImportsInImplementation') !== -1;
+}
+
 function isImportRequiredForAttribute(
   typeLookups: ObjectGeneration.TypeLookup[],
   attribute: AlgebraicType.SubtypeAttribute,
@@ -535,19 +541,25 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
             typeLookup,
           ),
         );
-      const attributeImports: ObjC.Import[] = AlgebraicTypeUtils.allAttributesFromSubtypes(
-        algebraicType.subtypes,
-      )
-        .filter(attribute =>
-          isImportRequiredForAttribute(algebraicType.typeLookups, attribute),
-        )
-        .map(attribute =>
-          importForAttribute(
-            algebraicType.libraryName,
-            makePublicImports,
-            attribute,
-          ),
-        );
+      const skipAttributeImports =
+        !makePublicImports &&
+        SkipImportsInImplementationForAlgebraicType(algebraicType);
+      const attributeImports: ObjC.Import[] = skipAttributeImports
+        ? []
+        : AlgebraicTypeUtils.allAttributesFromSubtypes(algebraicType.subtypes)
+            .filter(attribute =>
+              isImportRequiredForAttribute(
+                algebraicType.typeLookups,
+                attribute,
+              ),
+            )
+            .map(attribute =>
+              importForAttribute(
+                algebraicType.libraryName,
+                makePublicImports,
+                attribute,
+              ),
+            );
       return baseImports.concat(typeLookupImports).concat(attributeImports);
     },
     instanceMethods: function(

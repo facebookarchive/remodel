@@ -46,5 +46,8 @@
     "trailingComma": "all",
     "bracketSpacing": false,
     "parser": "typescript"
+  },
+  "resolutions": {
+    "lodash": ">=4.4"
   }
 }

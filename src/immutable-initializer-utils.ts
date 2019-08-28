@@ -45,9 +45,16 @@ function attributeToKeyword(attribute: ObjectSpec.Attribute): ObjC.Keyword {
   };
 }
 
+function defaultCopy(name: string): string {
+  return `[${name} copy]`;
+}
+
+type AssignmentCopier = (_: string) => string;
+
 function valueOrCopy(
   supportsValueSemantics: boolean,
   attribute: ObjectSpec.Attribute,
+  copy: AssignmentCopier,
 ): string {
   if (
     ObjectSpecCodeUtils.shouldCopyIncomingValueForAttribute(
@@ -55,7 +62,7 @@ function valueOrCopy(
       attribute,
     )
   ) {
-    return '[' + attribute.name + ' copy];';
+    return `${copy(attribute.name)};`;
   } else {
     return attribute.name + ';';
   }
@@ -64,12 +71,13 @@ function valueOrCopy(
 function toIvarAssignment(
   supportsValueSemantics: boolean,
   attribute: ObjectSpec.Attribute,
+  copy: AssignmentCopier,
 ): string {
   return (
     '_' +
     attribute.name +
     ' = ' +
-    valueOrCopy(supportsValueSemantics, attribute)
+    valueOrCopy(supportsValueSemantics, attribute, copy)
   );
 }
 
@@ -97,6 +105,7 @@ function initializerCodeFromAttributes(
   assumeNonnull: boolean,
   supportsValueSemantics: boolean,
   attributes: ObjectSpec.Attribute[],
+  copy: AssignmentCopier,
 ): string[] {
   const requiredParameterAssertions = attributes
     .filter(canAssertExistenceForTypeOfAttribute)
@@ -104,7 +113,7 @@ function initializerCodeFromAttributes(
     .map(toRequiredAssertion);
   const opening = ['if ((self = [super init])) {'];
   const iVarAssignments = attributes
-    .map(attribute => toIvarAssignment(supportsValueSemantics, attribute))
+    .map(attribute => toIvarAssignment(supportsValueSemantics, attribute, copy))
     .map(StringUtils.indent(2));
   const closing = ['}', '', 'return self;'];
   return requiredParameterAssertions
@@ -117,6 +126,7 @@ export function initializerFromAttributes(
   assumeNonnull: boolean,
   supportsValueSemantics: boolean,
   attributes: ObjectSpec.Attribute[],
+  copy: AssignmentCopier = defaultCopy,
 ): ObjC.Method {
   const keywords = [firstInitializerKeyword(attributes[0])].concat(
     attributes.slice(1).map(attributeToKeyword),
@@ -128,6 +138,7 @@ export function initializerFromAttributes(
       assumeNonnull,
       supportsValueSemantics,
       attributes,
+      copy,
     ),
     comments: ObjCCommentUtils.commentsAsBlockFromStringArray(
       ObjCCommentUtils.paramCommentsFromAttributes(attributes),
@@ -146,6 +157,7 @@ export function initializerFromAttributes(
 
 export function initializerMethodsForObjectType(
   objectType: ObjectSpec.Type,
+  copy: AssignmentCopier = defaultCopy,
 ): ObjC.Method[] {
   if (objectType.attributes.length == 0) {
     return [];
@@ -160,6 +172,7 @@ export function initializerMethodsForObjectType(
       assumeNonnull,
       ObjectSpecUtils.typeSupportsValueObjectSemantics(objectType),
       objectType.attributes,
+      copy,
     ),
   ];
 }

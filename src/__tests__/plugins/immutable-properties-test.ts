@@ -9,6 +9,7 @@
 ///<reference path='../../type-defs/jasmine-test-additions.d.ts'/>
 
 import * as ImmutableProperties from '../../plugins/immutable-properties';
+import * as ImmutablePropertyUtils from '../../immutable-property-utils';
 import * as Maybe from '../../maybe';
 import * as ObjC from '../../objc';
 import * as ObjectSpec from '../../object-spec';
@@ -1909,7 +1910,7 @@ describe('Plugins.ImmutableProperties', function() {
         },
       };
 
-      const modifiers: ObjC.PropertyModifier[] = ImmutableProperties.propertyModifiersFromAttribute(
+      const modifiers: ObjC.PropertyModifier[] = ImmutablePropertyUtils.propertyModifiersFromAttribute(
         true,
         attribute,
       );
@@ -1932,7 +1933,7 @@ describe('Plugins.ImmutableProperties', function() {
         },
       };
 
-      const modifiers: ObjC.PropertyModifier[] = ImmutableProperties.propertyModifiersFromAttribute(
+      const modifiers: ObjC.PropertyModifier[] = ImmutablePropertyUtils.propertyModifiersFromAttribute(
         false,
         attribute,
       );
@@ -1955,7 +1956,7 @@ describe('Plugins.ImmutableProperties', function() {
         },
       };
 
-      const modifiers: ObjC.PropertyModifier[] = ImmutableProperties.propertyModifiersFromAttribute(
+      const modifiers: ObjC.PropertyModifier[] = ImmutablePropertyUtils.propertyModifiersFromAttribute(
         true,
         attribute,
       );
@@ -1978,7 +1979,7 @@ describe('Plugins.ImmutableProperties', function() {
         },
       };
 
-      const modifiers: ObjC.PropertyModifier[] = ImmutableProperties.propertyModifiersFromAttribute(
+      const modifiers: ObjC.PropertyModifier[] = ImmutablePropertyUtils.propertyModifiersFromAttribute(
         true,
         attribute,
       );
@@ -2001,7 +2002,7 @@ describe('Plugins.ImmutableProperties', function() {
         },
       };
 
-      const modifiers: ObjC.PropertyModifier[] = ImmutableProperties.propertyModifiersFromAttribute(
+      const modifiers: ObjC.PropertyModifier[] = ImmutablePropertyUtils.propertyModifiersFromAttribute(
         true,
         attribute,
       );

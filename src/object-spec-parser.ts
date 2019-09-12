@@ -16,7 +16,7 @@ import * as ObjectGenerationParsingUtils from './object-generation-parsing-utils
 import * as ObjectMonaParser from './js/object-mona-parser/object-mona-parser';
 
 export function underlyingTypeForType(
-  providedUnderlyingType: string,
+  providedUnderlyingType: string | null,
   typeReference: string,
 ): Maybe.Maybe<string> {
   const underlyingType: Maybe.Maybe<

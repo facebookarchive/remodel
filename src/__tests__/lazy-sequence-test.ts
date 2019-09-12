@@ -53,7 +53,7 @@ describe('LazySequence', function() {
           sequence,
         );
         var wasRun: boolean = false;
-        const soFar = [];
+        const soFar: number[] = [];
 
         LazySequence.forEach(function(num: number) {
           soFar.push(num);
@@ -91,7 +91,7 @@ describe('LazySequence', function() {
           sequence,
         );
         var wasRun: boolean = false;
-        const soFar = [];
+        const soFar: number[] = [];
 
         Promise.then(function(numbers: number[]) {
           wasRun = true;
@@ -203,7 +203,7 @@ describe('LazySequence', function() {
           sequence,
         );
         var wasRun: boolean = false;
-        const soFar = [];
+        const soFar: string[] = [];
 
         LazySequence.forEach(function(str: string) {
           soFar.push(str);
@@ -243,7 +243,7 @@ describe('LazySequence', function() {
           return num.toString();
         }, sequence);
         var wasRun: boolean = false;
-        const soFar = [];
+        const soFar: string[] = [];
 
         LazySequence.forEach(
           function(str: string) {

@@ -13,13 +13,13 @@ import * as OutputControl from './output-control';
 
 export interface Arguments {
   givenPaths: string[];
-  adtConfigPath: string;
-  valueObjectConfigPath: string;
-  objectConfigPath: string;
+  adtConfigPath: string | undefined;
+  valueObjectConfigPath: string | undefined;
+  objectConfigPath: string | undefined;
   interestedLoggingTypes: List.List<Logging.LoggingType>;
   minimalLevel: number;
   dryRun: boolean;
-  outputPath: string;
+  outputPath: string | undefined;
   includes: string[];
   excludes: string[];
   prohibitPluginDirectives: boolean;

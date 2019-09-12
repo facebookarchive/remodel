@@ -49,7 +49,7 @@ function paramCommentsFromAttribute(attribute: ObjectSpec.Attribute): string[] {
 export function paramCommentsFromAttributes(
   attributes: ObjectSpec.Attribute[],
 ): string[] {
-  return [].concat(...attributes.map(paramCommentsFromAttribute));
+  return ([] as string[]).concat(...attributes.map(paramCommentsFromAttribute));
 }
 
 export function prefixedParamCommentsFromAttributes(

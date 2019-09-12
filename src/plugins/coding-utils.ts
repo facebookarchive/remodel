@@ -27,9 +27,9 @@ const NSOBJECT_CODING_STATEMENTS: CodingStatements = {
 const UNSUPPORTED_TYPE_CODING_STATEMENTS: CodingStatements = {
   codingFunctionImport: Maybe.Nothing<ObjC.Import>(),
   encodeStatement: '',
-  encodeValueStatementGenerator: null,
-  decodeStatementGenerator: null,
-  decodeValueStatementGenerator: null,
+  encodeValueStatementGenerator: () => null!,
+  decodeStatementGenerator: () => null!,
+  decodeValueStatementGenerator: () => null!,
 };
 
 export interface CodingStatements {
@@ -330,7 +330,7 @@ export function codingStatementsForType(type: ObjC.Type): CodingStatements {
         return UNSUPPORTED_TYPE_CODING_STATEMENTS;
       },
       unmatchedType: function() {
-        return null;
+        return null!;
       },
     },
     type,

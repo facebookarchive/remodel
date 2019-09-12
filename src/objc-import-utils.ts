@@ -239,13 +239,13 @@ export function shouldForwardProtocolDeclareAttribute(
 
 export function forwardProtocolDeclarationForAttribute(
   attribute: ObjectSpec.Attribute,
-): ObjC.ForwardDeclaration | undefined {
+): ObjC.ForwardDeclaration | null {
   return Maybe.match(
     function(protocol) {
       return ObjC.ForwardDeclaration.ForwardProtocolDeclaration(protocol);
     },
     function() {
-      return undefined;
+      return null;
     },
     attribute.type.conformingProtocol,
   );

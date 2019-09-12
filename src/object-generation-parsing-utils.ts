@@ -12,7 +12,7 @@ import * as ObjC from './objc';
 import * as ObjectGeneration from './object-generation';
 
 export function possiblyUndefinedStringToMaybe(
-  str: string,
+  str: string | null,
 ): Maybe.Maybe<string> {
   if (str == null) {
     return Maybe.Nothing<string>();

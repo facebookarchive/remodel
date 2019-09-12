@@ -224,7 +224,7 @@ function attributeDescriptionForType(type: ObjC.Type): AttributeDescription {
         };
       },
       unmatchedType: function() {
-        return null;
+        return null!;
       },
     },
     type,

@@ -256,7 +256,7 @@ function getObjectSpecCreationContext(
 function valueObjectConfigPathFuture(
   configFileName: string,
   requestedPath: File.AbsoluteFilePath,
-  configPathFromArguments: string,
+  configPathFromArguments: string | undefined,
 ): Promise.Future<Maybe.Maybe<File.AbsoluteFilePath>> {
   var absoluteValueObjectConfigPath: Promise.Future<
     Maybe.Maybe<File.AbsoluteFilePath>
@@ -276,7 +276,7 @@ function valueObjectConfigPathFuture(
 
 function outputDirectory(
   directoryRunFrom: string,
-  outputPath: string,
+  outputPath: string | undefined,
 ): Maybe.Maybe<File.AbsoluteFilePath> {
   if (outputPath === undefined || outputPath === '') {
     return Maybe.Nothing<File.AbsoluteFilePath>();
@@ -294,7 +294,7 @@ export function generate(
   directoryRunFrom: string,
   extension: string,
   configFileName: string,
-  optionalConfigPath: string,
+  optionalConfigPath: string | undefined,
   configurationContext: Configuration.ConfigurationContext,
   parsedArgs: CommandLine.Arguments,
 ): Promise.Future<List.List<WriteFileUtils.ConsoleOutputResults>> {

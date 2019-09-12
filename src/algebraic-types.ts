@@ -284,7 +284,7 @@ function getAlgebraicTypeCreationContext(
 
 function outputDirectory(
   directoryRunFrom: string,
-  outputPath: string,
+  outputPath: string | undefined,
 ): Maybe.Maybe<File.AbsoluteFilePath> {
   if (outputPath === undefined || outputPath === '') {
     return Maybe.Nothing<File.AbsoluteFilePath>();

@@ -13,6 +13,7 @@ rm -rf bin/dist
 
 ./node_modules/typescript/bin/tsc \
   --pretty \
+  --strictNullChecks \
   -t es2015 \
   -p src \
   --outDir bin/dist

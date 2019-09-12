@@ -92,23 +92,6 @@ describe('PathUtils', function() {
         expect(requestedPath).toEqualJSON(expectedPath);
       },
     );
-
-    it(
-      'is strictly the current directory when the passed in location is ' +
-        'undefined',
-      function() {
-        const currentDirectoryAbsolutePath = File.getAbsoluteFilePath(
-          '/Something/Else',
-        );
-
-        const expectedPath = File.getAbsoluteFilePath('/Something/Else');
-        const requestedPath = PathUtils.getAbsolutePathFromDirectoryAndRelativePath(
-          currentDirectoryAbsolutePath,
-          undefined,
-        );
-        expect(requestedPath).toEqualJSON(expectedPath);
-      },
-    );
   });
 
   describe('#getAbsolutePathFromDirectoryAndAbsoluteOrRelativePath', function() {
@@ -161,23 +144,6 @@ describe('PathUtils', function() {
         const requestedPath = PathUtils.getAbsolutePathFromDirectoryAndAbsoluteOrRelativePath(
           currentDirectoryAbsolutePath,
           passedInRelativePath,
-        );
-        expect(requestedPath).toEqualJSON(expectedPath);
-      },
-    );
-
-    it(
-      'is strictly the current directory when the passed in location is ' +
-        'undefined',
-      function() {
-        const currentDirectoryAbsolutePath = File.getAbsoluteFilePath(
-          '/Something/Else',
-        );
-
-        const expectedPath = File.getAbsoluteFilePath('/Something/Else');
-        const requestedPath = PathUtils.getAbsolutePathFromDirectoryAndAbsoluteOrRelativePath(
-          currentDirectoryAbsolutePath,
-          undefined,
         );
         expect(requestedPath).toEqualJSON(expectedPath);
       },

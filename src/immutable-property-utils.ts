@@ -63,7 +63,7 @@ export function propertyModifiersFromAttribute(
   supportsValueSemantics: boolean,
   attribute: ObjectSpec.Attribute,
 ): ObjC.PropertyModifier[] {
-  return []
+  return ([] as ObjC.PropertyModifier[])
     .concat([
       ObjC.PropertyModifier.Nonatomic(),
       ObjC.PropertyModifier.Readonly(),

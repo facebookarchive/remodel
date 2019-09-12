@@ -194,8 +194,8 @@ describe('Plugins.ImmutableProperties', function() {
               name: 'value',
               nullability: ObjC.Nullability.Inherited(),
               type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
+                fileTypeIsDefinedIn: Maybe.Nothing(),
+                libraryTypeIsDefinedIn: Maybe.Nothing(),
                 name: 'NSString',
                 reference: 'NSString *',
                 underlyingType: Maybe.Just<string>('NSObject'),
@@ -208,8 +208,8 @@ describe('Plugins.ImmutableProperties', function() {
               name: 'value2',
               nullability: ObjC.Nullability.Inherited(),
               type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
+                fileTypeIsDefinedIn: Maybe.Nothing(),
+                libraryTypeIsDefinedIn: Maybe.Nothing(),
                 name: 'BOOL',
                 reference: 'BOOL',
                 underlyingType: Maybe.Nothing<string>(),
@@ -222,8 +222,8 @@ describe('Plugins.ImmutableProperties', function() {
               name: 'value3',
               nullability: ObjC.Nullability.Inherited(),
               type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
+                fileTypeIsDefinedIn: Maybe.Nothing(),
+                libraryTypeIsDefinedIn: Maybe.Nothing(),
                 name: 'RMAnotherSomething',
                 reference: 'RMAnotherSomething *',
                 underlyingType: Maybe.Just<string>('NSObject'),
@@ -236,8 +236,8 @@ describe('Plugins.ImmutableProperties', function() {
               name: 'value4',
               nullability: ObjC.Nullability.Inherited(),
               type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
+                fileTypeIsDefinedIn: Maybe.Nothing(),
+                libraryTypeIsDefinedIn: Maybe.Nothing(),
                 name: 'id',
                 reference: 'id',
                 underlyingType: Maybe.Nothing<string>(),
@@ -250,7 +250,7 @@ describe('Plugins.ImmutableProperties', function() {
           excludes: [],
           includes: ['RMValueObjectSemantics'],
           typeName: 'RMSomething',
-          libraryName: null,
+          libraryName: Maybe.Nothing(),
         };
 
         const actualMethods = Plugin.instanceMethods(objectType);
@@ -344,8 +344,8 @@ describe('Plugins.ImmutableProperties', function() {
               name: 'value',
               nullability: ObjC.Nullability.Inherited(),
               type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
+                fileTypeIsDefinedIn: Maybe.Nothing(),
+                libraryTypeIsDefinedIn: Maybe.Nothing(),
                 name: 'NSString',
                 reference: 'NSString *',
                 underlyingType: Maybe.Just<string>('NSObject'),
@@ -358,8 +358,8 @@ describe('Plugins.ImmutableProperties', function() {
               name: 'value2',
               nullability: ObjC.Nullability.Inherited(),
               type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
+                fileTypeIsDefinedIn: Maybe.Nothing(),
+                libraryTypeIsDefinedIn: Maybe.Nothing(),
                 name: 'BOOL',
                 reference: 'BOOL',
                 underlyingType: Maybe.Nothing<string>(),
@@ -372,8 +372,8 @@ describe('Plugins.ImmutableProperties', function() {
               name: 'value3',
               nullability: ObjC.Nullability.Inherited(),
               type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
+                fileTypeIsDefinedIn: Maybe.Nothing(),
+                libraryTypeIsDefinedIn: Maybe.Nothing(),
                 name: 'RMAnotherSomething',
                 reference: 'RMAnotherSomething *',
                 underlyingType: Maybe.Just<string>('NSObject'),
@@ -386,8 +386,8 @@ describe('Plugins.ImmutableProperties', function() {
               name: 'value4',
               nullability: ObjC.Nullability.Inherited(),
               type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
+                fileTypeIsDefinedIn: Maybe.Nothing(),
+                libraryTypeIsDefinedIn: Maybe.Nothing(),
                 name: 'id',
                 reference: 'id',
                 underlyingType: Maybe.Nothing<string>(),
@@ -400,7 +400,7 @@ describe('Plugins.ImmutableProperties', function() {
           excludes: [],
           includes: [],
           typeName: 'RMSomething',
-          libraryName: null,
+          libraryName: Maybe.Nothing(),
         };
 
         const actualMethods = Plugin.instanceMethods(objectType);

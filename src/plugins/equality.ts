@@ -64,7 +64,7 @@ class EqualityFunction {
     hashFloat: () => T,
     hashDouble: () => T,
     hashCGFloat: () => T,
-  ) {
+  ): T {
     switch (this.equalityFunctionType) {
       case EqualityFunctionType.compareFloats:
         return compareFloats();
@@ -79,6 +79,8 @@ class EqualityFunction {
       case EqualityFunctionType.hashCGFloat:
         return hashCGFloat();
     }
+
+    return null!;
   }
 }
 
@@ -173,7 +175,7 @@ class ComputationCost {
     pointerComparison: () => T,
     functionInvocation: () => T,
     objectMessageSend: () => T,
-  ) {
+  ): T {
     switch (this.computationCostType) {
       case ComputationCostType.ivarAccess:
         return ivarAccess();
@@ -184,6 +186,8 @@ class ComputationCost {
       case ComputationCostType.objectMessageSend:
         return objectMessageSend();
     }
+
+    return null!;
   }
 }
 
@@ -742,7 +746,7 @@ function generationGroupForType(type: ObjC.Type): TypeEqualityGenerationGroup {
         return NSOBJECT_GENERATION_GROUP;
       },
       unmatchedType: function() {
-        return null;
+        return null!;
       },
     },
     type,

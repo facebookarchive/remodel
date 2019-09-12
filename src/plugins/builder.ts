@@ -392,7 +392,7 @@ export function importsForTypeLookupsOfObjectType(
           typeLookup,
         );
       } else {
-        return null;
+        return null!;
       }
     })
     .filter(function(maybeImport: ObjC.Import): boolean {
@@ -487,7 +487,10 @@ function forwardDeclarationsForBuilder(
 
   const attributeForwardProtocolDeclarations: ObjC.ForwardDeclaration[] = objectType.attributes
     .filter(ObjCImportUtils.shouldForwardProtocolDeclareAttribute)
-    .map(ObjCImportUtils.forwardProtocolDeclarationForAttribute);
+    .map(
+      attribute =>
+        ObjCImportUtils.forwardProtocolDeclarationForAttribute(attribute)!,
+    );
 
   return [ObjC.ForwardDeclaration.ForwardClassDeclaration(objectType.typeName)]
     .concat(typeLookupForwardDeclarations)

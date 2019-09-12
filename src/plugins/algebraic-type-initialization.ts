@@ -502,10 +502,14 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
           isForwardDeclarationRequiredForTypeLookup(algebraicType, typeLookup),
         )
         .map(forwardDeclarationForTypeLookup);
-      return []
+      return ([] as ObjC.ForwardDeclaration[])
         .concat(attributeForwardDeclarations)
         .concat(typeLookupForwardDeclarations)
-        .concat(attributeForwardProtocolDeclarations);
+        .concat(
+          attributeForwardProtocolDeclarations
+            .filter(declaration => declaration != null)
+            .map(declaration => declaration!),
+        );
     },
     functions: function(algebraicType: AlgebraicType.Type): ObjC.Function[] {
       return [];

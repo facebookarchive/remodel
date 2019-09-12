@@ -2,6 +2,7 @@
   "compilerOptions": {
     "module": "commonjs",
     "preserveConstEnums": true,
-    "strict": false
+    "strict": false,
+    "strictNullChecks": true
   }
 }

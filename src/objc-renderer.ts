@@ -585,7 +585,7 @@ function headerPublicInlineFunctionsSection(
 }
 
 function headerFunctionsSection(functions: ObjC.Function[]): string {
-  const items = [];
+  const items: string[] = [];
 
   const publicDeclarations = headerPublicNonInlineFunctionsSection(functions);
   if (publicDeclarations.length > 0) {
@@ -974,7 +974,7 @@ function qualifierForFunction(functionDefinition: ObjC.Function): string {
 }
 
 function toInlinableFuncModifierString(
-  modifiers: ObjC.KeywordArgumentModifier[],
+  modifiers: ObjC.KeywordArgumentModifier[] | undefined,
 ): string {
   const modifierStrings = (modifiers || []).map(function(modifier) {
     const modifierString = toKeywordArgumentModifierString(modifier);

@@ -180,8 +180,11 @@ export function forwardClassDeclarationsForObjectType(
     ? []
     : objectType.attributes
         .filter(ObjCImportUtils.shouldForwardProtocolDeclareAttribute)
-        .map(ObjCImportUtils.forwardProtocolDeclarationForAttribute);
-  return []
+        .map(
+          attribute =>
+            ObjCImportUtils.forwardProtocolDeclarationForAttribute(attribute)!,
+        );
+  return ([] as ObjC.ForwardDeclaration[])
     .concat(typeLookupForwardDeclarations)
     .concat(attributeForwardClassDeclarations)
     .concat(attributeForwardProtocolDeclarations);

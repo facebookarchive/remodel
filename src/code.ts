@@ -19,14 +19,14 @@ export enum FileType {
 }
 
 export class Struct {
-  private cppStruct: CPlusPlus.Struct;
-  private objCStruct: ObjC.Struct;
+  private cppStruct: CPlusPlus.Struct | null;
+  private objCStruct: ObjC.Struct | null;
   private langType: LanguageType;
 
   constructor(
     langType: LanguageType,
-    cppStruct: CPlusPlus.Struct,
-    objCStruct: ObjC.Struct,
+    cppStruct: CPlusPlus.Struct | null,
+    objCStruct: ObjC.Struct | null,
   ) {
     this.langType = langType;
     this.cppStruct = cppStruct;
@@ -47,9 +47,9 @@ export class Struct {
   ): T {
     switch (this.langType) {
       case LanguageType.objectiveC:
-        return objectiveC(this.objCStruct);
+        return objectiveC(this.objCStruct!);
       case LanguageType.objectiveCPlusPlus:
-        return objectiveCPlusPlus(this.cppStruct);
+        return objectiveCPlusPlus(this.cppStruct!);
     }
   }
 }

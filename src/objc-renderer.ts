@@ -321,22 +321,22 @@ function toMethodImplementationString(
   methodModifier: string,
   covariantTypes: string[],
   method: ObjC.Method,
-): string {
-  const methodStr =
-    toOptionalPreprocessorOpeningCodeString(method) +
-    methodModifier +
-    ' (' +
-    toGenericizedTypeString(covariantTypes, method.returnType) +
-    ')' +
-    method.keywords
-      .map(keyword => toKeywordString(covariantTypes, keyword))
-      .join(' ') +
-    '\n' +
-    '{\n' +
-    method.code.map(StringUtils.indent(2)).join('\n') +
-    '\n}' +
-    toOptionalPreprocessorClosingCodeString(method);
-  return methodStr;
+): string | null {
+  return method.code != null
+    ? toOptionalPreprocessorOpeningCodeString(method) +
+        methodModifier +
+        ' (' +
+        toGenericizedTypeString(covariantTypes, method.returnType) +
+        ')' +
+        method.keywords
+          .map(keyword => toKeywordString(covariantTypes, keyword))
+          .join(' ') +
+        '\n' +
+        '{\n' +
+        method.code.map(StringUtils.indent(2)).join('\n') +
+        '\n}' +
+        toOptionalPreprocessorClosingCodeString(method)
+    : null;
 }
 
 var toClassMethodImplementationString = (
@@ -1166,12 +1166,13 @@ function implementationClassSection(classInfo: ObjC.Class): string {
     )
     .join('\n\n');
   const classMethodsSection = codeSectionForCodeString(classMethodsStr);
-  const instanceMethodsSection = classInfo.instanceMethods
-    .filter(methodIsNotUnavailableNSObjectMethod)
-    .map(method =>
-      toInstanceMethodImplementationString(classInfo.covariantTypes, method),
-    )
-    .join('\n\n');
+  const instanceMethodsSection = Maybe.catMaybes(
+    classInfo.instanceMethods
+      .filter(methodIsNotUnavailableNSObjectMethod)
+      .map(method =>
+        toInstanceMethodImplementationString(classInfo.covariantTypes, method),
+      ),
+  ).join('\n\n');
 
   const functionsStr = (classInfo.functions || [])
     .filter(func => !(func.isInline && func.isPublic))

@@ -129,7 +129,7 @@ export interface Preprocessor {
 export interface Method {
   preprocessors: Preprocessor[];
   belongsToProtocol: string | null;
-  code: string[];
+  code: string[] | null;
   comments: Comment[];
   compilerAttributes: string[];
   keywords: Keyword[];

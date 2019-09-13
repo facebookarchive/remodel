@@ -13,7 +13,7 @@ import * as ObjectSpec from './object-spec';
 import * as ObjectSpecCodeUtils from './object-spec-code-utils';
 
 const KNOWN_SYSTEM_TYPE_IMPORT_INFO: {
-  [id: string]: Maybe.Maybe<ObjC.Import>;
+  [id: string]: ObjC.Import | null;
 } = {
   BOOL: Maybe.Nothing<ObjC.Import>(),
   double: Maybe.Nothing<ObjC.Import>(),
@@ -23,25 +23,25 @@ const KNOWN_SYSTEM_TYPE_IMPORT_INFO: {
     file: 'CGBase.h',
     isPublic: true,
     requiresCPlusPlus: false,
-    library: Maybe.Just('CoreGraphics'),
+    library: 'CoreGraphics',
   }),
   CGPoint: Maybe.Just({
     file: 'CGGeometry.h',
     isPublic: true,
     requiresCPlusPlus: false,
-    library: Maybe.Just('CoreGraphics'),
+    library: 'CoreGraphics',
   }),
   CGRect: Maybe.Just({
     file: 'CGGeometry.h',
     isPublic: true,
     requiresCPlusPlus: false,
-    library: Maybe.Just('CoreGraphics'),
+    library: 'CoreGraphics',
   }),
   CGSize: Maybe.Just({
     file: 'CGGeometry.h',
     isPublic: true,
     requiresCPlusPlus: false,
-    library: Maybe.Just('CoreGraphics'),
+    library: 'CoreGraphics',
   }),
   int32_t: Maybe.Nothing<ObjC.Import>(),
   int64_t: Maybe.Nothing<ObjC.Import>(),
@@ -50,7 +50,7 @@ const KNOWN_SYSTEM_TYPE_IMPORT_INFO: {
     file: 'UIGeometry.h',
     isPublic: true,
     requiresCPlusPlus: false,
-    library: Maybe.Just('UIKit'),
+    library: 'UIKit',
   }),
   uint64_t: Maybe.Nothing<ObjC.Import>(),
   uint32_t: Maybe.Nothing<ObjC.Import>(),
@@ -63,7 +63,7 @@ function isFoundationType(typeName: string): boolean {
   return typeName.indexOf('NS') === 0;
 }
 
-function isImportPresent(knownTypeImport: Maybe.Maybe<ObjC.Import>): boolean {
+function isImportPresent(knownTypeImport: ObjC.Import | null): boolean {
   return Maybe.match(
     function(impt: ObjC.Import) {
       return true;
@@ -102,12 +102,12 @@ export function shouldIncludeImportForType(
 }
 
 export function libraryForImport(
-  libraryTypeIsDefinedIn: Maybe.Maybe<string>,
-  objectLibrary: Maybe.Maybe<string>,
-): Maybe.Maybe<string> {
+  libraryTypeIsDefinedIn: string | null,
+  objectLibrary: string | null,
+): string | null {
   return Maybe.match(
     function(libraryName: string) {
-      return Maybe.Just(libraryName);
+      return libraryName;
     },
     function() {
       return objectLibrary;
@@ -117,7 +117,7 @@ export function libraryForImport(
 }
 
 export function fileForImport(
-  fileTypeIsDefinedIn: Maybe.Maybe<string>,
+  fileTypeIsDefinedIn: string | null,
   typeName: string,
 ): string {
   return Maybe.match(
@@ -133,7 +133,7 @@ export function fileForImport(
 
 export function typeDefinitionImportForKnownSystemType(
   typeName: string,
-): Maybe.Maybe<ObjC.Import> {
+): ObjC.Import | null {
   return typeName in KNOWN_SYSTEM_TYPE_IMPORT_INFO
     ? KNOWN_SYSTEM_TYPE_IMPORT_INFO[typeName]
     : Maybe.Nothing<ObjC.Import>();
@@ -291,7 +291,7 @@ export function canForwardDeclareTypeForAttribute(
 }
 
 export function importForTypeLookup(
-  defaultLibrary: Maybe.Maybe<string>,
+  defaultLibrary: string | null,
   isPublic: boolean,
   typeLookup: ObjectGeneration.TypeLookup,
 ): ObjC.Import {
@@ -308,10 +308,10 @@ export function importForTypeLookup(
     isPublic: isPublic,
     requiresCPlusPlus: false,
     library: Maybe.match(
-      function Just(library: string): Maybe.Maybe<string> {
+      function Just(library: string): string | null {
         return typeLookup.library;
       },
-      function Nothing(): Maybe.Maybe<string> {
+      function Nothing(): string | null {
         return defaultLibrary;
       },
       typeLookup.library,

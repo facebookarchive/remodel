@@ -35,10 +35,10 @@ describe('FileWriter', function() {
           path,
           'some contents',
         );
-        const future: Promise.Future<
-          Maybe.Maybe<Error.Error>
-        > = FileWriter.write(request);
-        Promise.then(function(result: Maybe.Maybe<Error.Error>) {
+        const future: Promise.Future<Error.Error | null> = FileWriter.write(
+          request,
+        );
+        Promise.then(function(result: Error.Error | null) {
           const val = Maybe.match(Error.getReason, nullFunc, result);
 
           expect(val).toBe(null);
@@ -66,10 +66,10 @@ describe('FileWriter', function() {
           path,
           'some contents',
         );
-        const future: Promise.Future<
-          Maybe.Maybe<Error.Error>
-        > = FileWriter.write(request);
-        Promise.then(function(result: Maybe.Maybe<Error.Error>) {
+        const future: Promise.Future<Error.Error | null> = FileWriter.write(
+          request,
+        );
+        Promise.then(function(result: Error.Error | null) {
           const val: string = Maybe.match(Error.getReason, nullFunc, result)!;
 
           expect(

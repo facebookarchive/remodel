@@ -49,9 +49,7 @@ function codingKeysFromAnnotations(
   }
 
   return Maybe.catMaybes(
-    codingKeyAnnotations.map(
-      annotation => new Maybe.Maybe(annotation.properties['name']),
-    ),
+    codingKeyAnnotations.map(annotation => annotation.properties['name']),
   );
 }
 
@@ -268,7 +266,7 @@ function initBlockWithInternalCode(internalCode: string[]): string[] {
 function decodeMethodWithCode(code: string[]): ObjC.Method {
   return {
     preprocessors: [],
-    belongsToProtocol: Maybe.Just<string>('NSCoding'),
+    belongsToProtocol: 'NSCoding',
     code: initBlockWithInternalCode(code),
     comments: [],
     compilerAttributes: [],
@@ -298,7 +296,7 @@ function decodeMethodWithCode(code: string[]): ObjC.Method {
 function encodeMethodWithCode(code: string[]): ObjC.Method {
   return {
     preprocessors: [],
-    belongsToProtocol: Maybe.Just('NSCoding'),
+    belongsToProtocol: 'NSCoding',
     code: code,
     comments: [],
     compilerAttributes: [],
@@ -608,7 +606,7 @@ function valueAttributeToUnsupportedLegacyKeyTypeError(
 function multipleCodingKeyAnnotationErrorForValueAttribute(
   objectType: ObjectSpec.Type,
   attribute: ObjectSpec.Attribute,
-): Maybe.Maybe<Error.Error> {
+): Error.Error | null {
   const length = codingKeysFromAnnotations(attribute.annotations).length;
   return length > 1
     ? Maybe.Just(
@@ -618,12 +616,12 @@ function multipleCodingKeyAnnotationErrorForValueAttribute(
           } has ${length}.`,
         ),
       )
-    : Maybe.Nothing();
+    : null;
 }
 
 function importForAttributeCodingMethod(
   attribute: ObjectSpec.Attribute,
-): Maybe.Maybe<ObjC.Import> {
+): ObjC.Import | null {
   const codeableAttribute: CodeableAttribute = codingAttributeForValueAttribute(
     attribute,
   );
@@ -659,9 +657,7 @@ export function createPlugin(): ObjectSpec.Plugin {
     ): FileWriter.Request {
       return request;
     },
-    fileType: function(
-      objectType: ObjectSpec.Type,
-    ): Maybe.Maybe<Code.FileType> {
+    fileType: function(objectType: ObjectSpec.Type): Code.FileType | null {
       return Maybe.Nothing<Code.FileType>();
     },
     forwardDeclarations: function(
@@ -770,7 +766,7 @@ export function createPlugin(): ObjectSpec.Plugin {
     },
     nullability: function(
       objectType: ObjectSpec.Type,
-    ): Maybe.Maybe<ObjC.ClassNullability> {
+    ): ObjC.ClassNullability | null {
       return Maybe.Nothing<ObjC.ClassNullability>();
     },
     subclassingRestricted: function(objectType: ObjectSpec.Type): boolean {
@@ -1033,14 +1029,14 @@ function algebraicAttributeToUnsupportedTypeError(
 
 function unsupportedAnnotationErrorForAlgebraicAttribute(
   attribute: AlgebraicType.SubtypeAttribute,
-): Maybe.Maybe<Error.Error> {
+): Error.Error | null {
   return codingKeysFromAnnotations(attribute.annotations).length != 0
     ? Maybe.Just(
         Error.Error(
           'Custom coding keys are not supported for algebraic type attributes',
         ),
       )
-    : Maybe.Nothing();
+    : null;
 }
 
 export function CodingNameForSubtype(subtype: AlgebraicType.Subtype): string {
@@ -1134,7 +1130,7 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
     },
     fileType: function(
       algebraicType: AlgebraicType.Type,
-    ): Maybe.Maybe<Code.FileType> {
+    ): Code.FileType | null {
       return Maybe.Nothing<Code.FileType>();
     },
     forwardDeclarations: function(
@@ -1234,7 +1230,7 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
     },
     nullability: function(
       algebraicType: AlgebraicType.Type,
-    ): Maybe.Maybe<ObjC.ClassNullability> {
+    ): ObjC.ClassNullability | null {
       return Maybe.Nothing<ObjC.ClassNullability>();
     },
     subclassingRestricted: function(

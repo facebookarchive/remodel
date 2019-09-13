@@ -40,7 +40,7 @@ function aggregateResults(
 }
 
 export function main(
-  parsedArgs: Maybe.Maybe<commandline.Arguments>,
+  parsedArgs: commandline.Arguments | null,
   testEnv?: boolean,
 ): Promise.Future<List.List<List.List<ConsoleOutputResults>>> | undefined {
   return Maybe.match(

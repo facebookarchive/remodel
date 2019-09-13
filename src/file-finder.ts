@@ -105,8 +105,8 @@ export function findFilesAndDirectories(
 function findFile(
   fileName: string,
   directory: string,
-): Promise.Future<Maybe.Maybe<File.AbsoluteFilePath>> {
-  const promise = Promise.pending<Maybe.Maybe<File.AbsoluteFilePath>>();
+): Promise.Future<File.AbsoluteFilePath | null> {
+  const promise = Promise.pending<File.AbsoluteFilePath | null>();
   fs.readdir(directory, function(err, files) {
     if (files != null && files.indexOf(fileName) !== -1) {
       promise.setValue(
@@ -122,13 +122,13 @@ function findFile(
 function findConfigForStringPath(
   fileName: string,
   currentWorkingDirectoryPathString: string,
-): Promise.Future<Maybe.Maybe<File.AbsoluteFilePath>> {
+): Promise.Future<File.AbsoluteFilePath | null> {
   return Promise.mbind(function(
-    maybe: Maybe.Maybe<File.AbsoluteFilePath>,
-  ): Promise.Future<Maybe.Maybe<File.AbsoluteFilePath>> {
+    maybe: File.AbsoluteFilePath | null,
+  ): Promise.Future<File.AbsoluteFilePath | null> {
     return Maybe.match(
       function(foundPath: File.AbsoluteFilePath) {
-        return Promise.munit(Maybe.Just(foundPath));
+        return Promise.munit(foundPath);
       },
       function() {
         const nextPath = path.resolve(currentWorkingDirectoryPathString, '../');
@@ -147,7 +147,7 @@ function findConfigForStringPath(
 export function findConfig(
   fileName: string,
   currentWorkingDirectory: File.AbsoluteFilePath,
-): Promise.Future<Maybe.Maybe<File.AbsoluteFilePath>> {
+): Promise.Future<File.AbsoluteFilePath | null> {
   return findConfigForStringPath(
     fileName,
     File.getAbsolutePathString(currentWorkingDirectory),

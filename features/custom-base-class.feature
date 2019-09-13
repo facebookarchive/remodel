@@ -32,10 +32,10 @@ Feature: Outputting Value Objects with a Plugin-Defined Custom Base Class
             function createPlugin() {
                 return {
                     baseClass: function(valueType) {
-                        return { value: {
+                        return {
                             className: "TestBaseClass",
-                            libraryName: {value: "TestBaseClassLibrary"},
-                        }};
+                            libraryName: "TestBaseClassLibrary",
+                        };
                     },
                     additionalFiles: function (valueType) {
                         return [];
@@ -56,9 +56,7 @@ Feature: Outputting Value Objects with a Plugin-Defined Custom Base Class
                         return request;
                     },
                     fileType: function (valueType) {
-                        return {
-                            value: undefined
-                        };
+                        return null;
                     },
                     forwardDeclarations: function(valueType) {
                         return [];
@@ -92,9 +90,7 @@ Feature: Outputting Value Objects with a Plugin-Defined Custom Base Class
                         return [];
                     },
                     nullability: function (valueType) {
-                        return {
-                            value: undefined
-                        };
+                        return null;
                     },
                     subclassingRestricted: function (valueType) {
                         return false;

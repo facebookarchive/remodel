@@ -41,12 +41,12 @@ function fetchStatusAttributeForAttribute(
     name: nameOfFetchStatusAttributeForAttribute(attribute.name),
     nullability: ObjC.Nullability.Inherited(),
     type: {
-      fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-      libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+      fileTypeIsDefinedIn: null,
+      libraryTypeIsDefinedIn: null,
       name: 'BOOL',
       reference: 'BOOL',
-      underlyingType: Maybe.Nothing<string>(),
-      conformingProtocol: Maybe.Nothing<string>(),
+      underlyingType: null,
+      conformingProtocol: null,
     },
   };
 }
@@ -87,14 +87,14 @@ function fetchStatusAttributeForValueType(
     name: 'fetchStatus',
     nullability: ObjC.Nullability.Inherited(),
     type: {
-      fileTypeIsDefinedIn: Maybe.Nothing<string>(),
+      fileTypeIsDefinedIn: null,
       libraryTypeIsDefinedIn: objectType.libraryName,
       name: fetchStatusTypeName,
       reference: ObjectSpecUtils.typeReferenceForValueTypeWithName(
         fetchStatusTypeName,
       ),
-      underlyingType: Maybe.Just<string>('NSObject'),
-      conformingProtocol: Maybe.Nothing<string>(),
+      underlyingType: 'NSObject',
+      conformingProtocol: null,
     },
   };
 }
@@ -124,9 +124,7 @@ export function createPlugin(): ObjectSpec.Plugin {
     ): FileWriter.Request {
       return request;
     },
-    fileType: function(
-      objectType: ObjectSpec.Type,
-    ): Maybe.Maybe<Code.FileType> {
+    fileType: function(objectType: ObjectSpec.Type): Code.FileType | null {
       return Maybe.Nothing<Code.FileType>();
     },
     forwardDeclarations: function(
@@ -166,7 +164,7 @@ export function createPlugin(): ObjectSpec.Plugin {
     },
     nullability: function(
       objectType: ObjectSpec.Type,
-    ): Maybe.Maybe<ObjC.ClassNullability> {
+    ): ObjC.ClassNullability | null {
       return Maybe.Nothing<ObjC.ClassNullability>();
     },
     subclassingRestricted: function(objectType: ObjectSpec.Type): boolean {

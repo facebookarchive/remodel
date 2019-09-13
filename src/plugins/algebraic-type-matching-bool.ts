@@ -59,7 +59,7 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
     },
     fileType: function(
       algebraicType: AlgebraicType.Type,
-    ): Maybe.Maybe<Code.FileType> {
+    ): Code.FileType | null {
       return Maybe.Nothing<Code.FileType>();
     },
     forwardDeclarations: function(
@@ -115,7 +115,7 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
     },
     nullability: function(
       algebraicType: AlgebraicType.Type,
-    ): Maybe.Maybe<ObjC.ClassNullability> {
+    ): ObjC.ClassNullability | null {
       return Maybe.Nothing<ObjC.ClassNullability>();
     },
     subclassingRestricted: function(

@@ -222,7 +222,7 @@ function generateImports(
       file: 'Foundation.h',
       isPublic: true,
       requiresCPlusPlus: false,
-      library: Maybe.Just<string>('Foundation'),
+      library: 'Foundation',
     },
     {
       file: algebraicType.name + '.h',
@@ -234,13 +234,13 @@ function generateImports(
       file: matchingFileNameForAlgebraicType(algebraicType) + '.h',
       isPublic: false,
       requiresCPlusPlus: false,
-      library: Maybe.Nothing<string>(),
+      library: null,
     }),
     {
       file: 'memory',
       isPublic: true,
       requiresCPlusPlus: true,
-      library: Maybe.Nothing<string>(),
+      library: null,
     },
   ];
 }
@@ -300,7 +300,7 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
     },
     fileType: function(
       algebraicType: AlgebraicType.Type,
-    ): Maybe.Maybe<Code.FileType> {
+    ): Code.FileType | null {
       return Maybe.Nothing<Code.FileType>();
     },
     forwardDeclarations: function(
@@ -350,7 +350,7 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
     },
     nullability: function(
       algebraicType: AlgebraicType.Type,
-    ): Maybe.Maybe<ObjC.ClassNullability> {
+    ): ObjC.ClassNullability | null {
       return Maybe.Nothing<ObjC.ClassNullability>();
     },
     subclassingRestricted: function(

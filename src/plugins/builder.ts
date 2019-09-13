@@ -35,7 +35,7 @@ function builderClassMethodForValueType(
 ): ObjC.Method {
   return {
     preprocessors: [],
-    belongsToProtocol: Maybe.Nothing<string>(),
+    belongsToProtocol: null,
     code: [
       'return [' +
         nameOfBuilderForValueTypeWithName(objectType.typeName) +
@@ -161,7 +161,7 @@ function builderFromExistingObjectClassMethodForValueType(
 ): ObjC.Method {
   return {
     preprocessors: [],
-    belongsToProtocol: Maybe.Nothing<string>(),
+    belongsToProtocol: null,
     code: codeForBuilderFromExistingObjectClassMethodForValueType(objectType),
     comments: [],
     compilerAttributes: [],
@@ -208,7 +208,7 @@ function buildObjectInstanceMethodForValueType(
 ): ObjC.Method {
   return {
     preprocessors: [],
-    belongsToProtocol: Maybe.Nothing<string>(),
+    belongsToProtocol: null,
     code: [
       'return ' +
         ObjectSpecCodeUtils.methodInvocationForConstructor(
@@ -274,7 +274,7 @@ function withInstanceMethodForAttribute(
 ): ObjC.Method {
   return {
     preprocessors: [],
-    belongsToProtocol: Maybe.Nothing<string>(),
+    belongsToProtocol: null,
     code: [
       ObjectSpecCodeUtils.ivarForAttribute(attribute) +
         ' = ' +
@@ -328,7 +328,7 @@ function instanceVariableForAttribute(
 }
 
 function importForAttribute(
-  objectLibrary: Maybe.Maybe<string>,
+  objectLibrary: string | null,
   isPublic: boolean,
   attribute: ObjectSpec.Attribute,
 ): ObjC.Import {
@@ -437,7 +437,7 @@ function importsForBuilder(
       file: 'Foundation.h',
       isPublic: true,
       requiresCPlusPlus: false,
-      library: Maybe.Just('Foundation'),
+      library: 'Foundation',
     },
     {
       file: objectType.typeName + '.h',
@@ -449,7 +449,7 @@ function importsForBuilder(
       file: nameOfBuilderForValueTypeWithName(objectType.typeName) + '.h',
       isPublic: false,
       requiresCPlusPlus: false,
-      library: Maybe.Nothing<string>(),
+      library: null,
     }),
   ]
     .concat(typeLookupImports)
@@ -589,9 +589,7 @@ export function createPlugin(): ObjectSpec.Plugin {
     ): FileWriter.Request {
       return request;
     },
-    fileType: function(
-      objectType: ObjectSpec.Type,
-    ): Maybe.Maybe<Code.FileType> {
+    fileType: function(objectType: ObjectSpec.Type): Code.FileType | null {
       return Maybe.Nothing<Code.FileType>();
     },
     forwardDeclarations: function(
@@ -631,7 +629,7 @@ export function createPlugin(): ObjectSpec.Plugin {
     },
     nullability: function(
       objectType: ObjectSpec.Type,
-    ): Maybe.Maybe<ObjC.ClassNullability> {
+    ): ObjC.ClassNullability | null {
       return Maybe.Nothing<ObjC.ClassNullability>();
     },
     subclassingRestricted: function(objectType: ObjectSpec.Type): boolean {

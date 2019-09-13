@@ -52,7 +52,7 @@ function genericMatcherImportsForAlgebraicType(
       file: 'Foundation.h',
       isPublic: true,
       requiresCPlusPlus: false,
-      library: Maybe.Just('Foundation'),
+      library: 'Foundation',
     },
     {
       file: algebraicType.name + '.h',
@@ -64,7 +64,7 @@ function genericMatcherImportsForAlgebraicType(
       file: fileNameForAlgebraicType(algebraicType) + '.h',
       isPublic: false,
       requiresCPlusPlus: false,
-      library: Maybe.Nothing<string>(),
+      library: null,
     }),
   ];
 }
@@ -150,7 +150,7 @@ function firstKeywordForGenericMatchMethod(
 
 function keywordsForGenericAlgebraicTypeMatcher(
   algebraicType: AlgebraicType.Type,
-  matchingBlockType: Maybe.Maybe<AlgebraicTypeUtils.MatchingBlockType>,
+  matchingBlockType: AlgebraicTypeUtils.MatchingBlockType | null,
 ): ObjC.Keyword[] {
   const firstKeyword: ObjC.Keyword = firstKeywordForGenericMatchMethod(
     algebraicType,
@@ -174,7 +174,7 @@ function classMethodForGenericMatchingOfAlgebraicType(
   > = matchingBlockTypeForPlugin();
   return {
     preprocessors: [],
-    belongsToProtocol: Maybe.Nothing<string>(),
+    belongsToProtocol: null,
     code: genericMatchingCodeForAlgebraicType(algebraicType),
     comments: [],
     compilerAttributes: [],
@@ -279,7 +279,7 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
     },
     fileType: function(
       algebraicType: AlgebraicType.Type,
-    ): Maybe.Maybe<Code.FileType> {
+    ): Code.FileType | null {
       return Maybe.Nothing<Code.FileType>();
     },
     forwardDeclarations: function(
@@ -329,7 +329,7 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
     },
     nullability: function(
       algebraicType: AlgebraicType.Type,
-    ): Maybe.Maybe<ObjC.ClassNullability> {
+    ): ObjC.ClassNullability | null {
       return Maybe.Nothing<ObjC.ClassNullability>();
     },
     subclassingRestricted: function(

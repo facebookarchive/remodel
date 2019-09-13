@@ -17,7 +17,7 @@ import * as ObjectSpec from '../object-spec';
 import * as ObjectSpecCodeUtils from '../object-spec-code-utils';
 
 interface AttributeDescription {
-  descriptionFunctionImport: Maybe.Maybe<ObjC.Import>;
+  descriptionFunctionImport: ObjC.Import | null;
   token: string;
   valueGenerator: (valueAccessor: string) => string;
 }
@@ -51,7 +51,7 @@ const UI_GEOMETRY_IMPORT: ObjC.Import = {
   file: 'UIGeometry.h',
   isPublic: false,
   requiresCPlusPlus: false,
-  library: Maybe.Just('UIKit'),
+  library: 'UIKit',
 };
 
 const NSOBJECT_ATTRIBUTE_DESCRIPTION: AttributeDescription = {
@@ -175,7 +175,7 @@ function attributeDescriptionForType(type: ObjC.Type): AttributeDescription {
       },
       CGRect: function() {
         return {
-          descriptionFunctionImport: Maybe.Just(UI_GEOMETRY_IMPORT),
+          descriptionFunctionImport: UI_GEOMETRY_IMPORT,
           token: '%@',
           valueGenerator: useFunctionReturnValueAsDescriptionValue(
             'NSStringFromCGRect',
@@ -184,7 +184,7 @@ function attributeDescriptionForType(type: ObjC.Type): AttributeDescription {
       },
       CGPoint: function() {
         return {
-          descriptionFunctionImport: Maybe.Just(UI_GEOMETRY_IMPORT),
+          descriptionFunctionImport: UI_GEOMETRY_IMPORT,
           token: '%@',
           valueGenerator: useFunctionReturnValueAsDescriptionValue(
             'NSStringFromCGPoint',
@@ -193,7 +193,7 @@ function attributeDescriptionForType(type: ObjC.Type): AttributeDescription {
       },
       CGSize: function() {
         return {
-          descriptionFunctionImport: Maybe.Just(UI_GEOMETRY_IMPORT),
+          descriptionFunctionImport: UI_GEOMETRY_IMPORT,
           token: '%@',
           valueGenerator: useFunctionReturnValueAsDescriptionValue(
             'NSStringFromCGSize',
@@ -202,7 +202,7 @@ function attributeDescriptionForType(type: ObjC.Type): AttributeDescription {
       },
       UIEdgeInsets: function() {
         return {
-          descriptionFunctionImport: Maybe.Just(UI_GEOMETRY_IMPORT),
+          descriptionFunctionImport: UI_GEOMETRY_IMPORT,
           token: '%@',
           valueGenerator: useFunctionReturnValueAsDescriptionValue(
             'NSStringFromUIEdgeInsets',
@@ -252,7 +252,7 @@ function attributeDescriptionForObjectSpecAttribute(
 
 function attributeDescriptionImportMaybeForObjectSpecAttribute(
   attribute: ObjectSpec.Attribute,
-): Maybe.Maybe<ObjC.Import> {
+): ObjC.Import | null {
   return attributeDescriptionForType(
     ObjectSpecCodeUtils.computeTypeOfAttribute(attribute),
   ).descriptionFunctionImport;
@@ -260,7 +260,7 @@ function attributeDescriptionImportMaybeForObjectSpecAttribute(
 
 function attributeDescriptionImportMaybeForAlgebraicAttribute(
   attribute: AlgebraicType.SubtypeAttribute,
-): Maybe.Maybe<ObjC.Import> {
+): ObjC.Import | null {
   return attributeDescriptionForType(
     AlgebraicTypeUtils.computeTypeOfAttribute(attribute),
   ).descriptionFunctionImport;
@@ -319,7 +319,7 @@ function returnStatementForAttributeDescriptions(
 function descriptionInstanceMethodWithCode(code: string[]): ObjC.Method {
   return {
     preprocessors: [],
-    belongsToProtocol: Maybe.Just('NSObject'),
+    belongsToProtocol: 'NSObject',
     code: code,
     comments: [],
     compilerAttributes: [],
@@ -404,9 +404,7 @@ export function createPlugin(): ObjectSpec.Plugin {
     ): FileWriter.Request {
       return request;
     },
-    fileType: function(
-      objectType: ObjectSpec.Type,
-    ): Maybe.Maybe<Code.FileType> {
+    fileType: function(objectType: ObjectSpec.Type): Code.FileType | null {
       return Maybe.Nothing<Code.FileType>();
     },
     forwardDeclarations: function(
@@ -466,7 +464,7 @@ export function createPlugin(): ObjectSpec.Plugin {
     },
     nullability: function(
       objectType: ObjectSpec.Type,
-    ): Maybe.Maybe<ObjC.ClassNullability> {
+    ): ObjC.ClassNullability | null {
       return Maybe.Nothing<ObjC.ClassNullability>();
     },
     subclassingRestricted: function(objectType: ObjectSpec.Type): boolean {
@@ -605,7 +603,7 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
     },
     fileType: function(
       algebraicType: AlgebraicType.Type,
-    ): Maybe.Maybe<Code.FileType> {
+    ): Code.FileType | null {
       return Maybe.Nothing<Code.FileType>();
     },
     forwardDeclarations: function(
@@ -670,7 +668,7 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
     },
     nullability: function(
       algebraicType: AlgebraicType.Type,
-    ): Maybe.Maybe<ObjC.ClassNullability> {
+    ): ObjC.ClassNullability | null {
       return Maybe.Nothing<ObjC.ClassNullability>();
     },
     subclassingRestricted: function(

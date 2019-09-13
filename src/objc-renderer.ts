@@ -453,16 +453,14 @@ class Macro {
   }
 }
 
-function nullabilityMacro(
-  nullability: ObjC.ClassNullability,
-): Maybe.Maybe<Macro> {
+function nullabilityMacro(nullability: ObjC.ClassNullability): Macro | null {
   switch (nullability) {
     case ObjC.ClassNullability.assumeNonnull:
       return Maybe.Just(
         new Macro('NS_ASSUME_NONNULL_BEGIN', 'NS_ASSUME_NONNULL_END'),
       );
     case ObjC.ClassNullability.default:
-      return Maybe.Nothing<Macro>();
+      return null;
   }
 }
 
@@ -862,7 +860,7 @@ function toDeclarationString(forwardDeclaration: ObjC.ForwardDeclaration) {
   );
 }
 
-export function renderHeader(file: Code.File): Maybe.Maybe<string> {
+export function renderHeader(file: Code.File): string | null {
   const commentsStr = file.comments.map(toCommentString).join('\n');
   const commentsSection = codeSectionForCodeString(commentsStr);
 
@@ -1278,7 +1276,7 @@ function arcCompileFlagCheckSection(): string {
   );
 }
 
-export function renderImplementation(file: Code.File): Maybe.Maybe<string> {
+export function renderImplementation(file: Code.File): string | null {
   if (fileHasImplementationCodeToRender(file)) {
     const commentsStr = file.comments.map(toCommentString).join('\n');
     const commentsSection = codeSectionForCodeString(commentsStr);
@@ -1363,6 +1361,6 @@ export function renderImplementation(file: Code.File): Maybe.Maybe<string> {
 
     return Maybe.Just<string>(contents.trim() + '\n');
   } else {
-    return Maybe.Nothing<string>();
+    return null;
   }
 }

@@ -28,7 +28,7 @@ describe('ObjectSpecPlugins.AssumeNonnull', function() {
         typeLookups: [],
         excludes: [],
         includes: ['AssumeNonnull'],
-        libraryName: Maybe.Nothing<string>(),
+        libraryName: null,
         typeName: 'Foo',
       };
 
@@ -37,7 +37,7 @@ describe('ObjectSpecPlugins.AssumeNonnull', function() {
         {
           file: 'Foundation.h',
           isPublic: true,
-          library: Maybe.Just('Foundation'),
+          library: 'Foundation',
           requiresCPlusPlus: false,
         },
       ];
@@ -54,7 +54,7 @@ describe('ObjectSpecPlugins.AssumeNonnull', function() {
         typeLookups: [],
         excludes: [],
         includes: ['AssumeNonnull'],
-        libraryName: Maybe.Nothing<string>(),
+        libraryName: null,
         typeName: 'Foo',
       };
 
@@ -78,7 +78,7 @@ describe('AlgebraicTypePlugins.AssumeNonnull', function() {
         includes: ['AssumeNonnull'],
         typeLookups: [],
         excludes: [],
-        libraryName: Maybe.Nothing<string>(),
+        libraryName: null,
         comments: [],
         subtypes: [],
       };
@@ -88,7 +88,7 @@ describe('AlgebraicTypePlugins.AssumeNonnull', function() {
         {
           file: 'Foundation.h',
           isPublic: true,
-          library: Maybe.Just('Foundation'),
+          library: 'Foundation',
           requiresCPlusPlus: false,
         },
       ];
@@ -104,7 +104,7 @@ describe('AlgebraicTypePlugins.AssumeNonnull', function() {
         includes: ['AssumeNonnull'],
         typeLookups: [],
         excludes: [],
-        libraryName: Maybe.Nothing<string>(),
+        libraryName: null,
         comments: [],
         subtypes: [],
       };

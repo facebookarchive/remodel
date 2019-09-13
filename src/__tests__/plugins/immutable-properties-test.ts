@@ -27,7 +27,7 @@ describe('Plugins.ImmutableProperties', function() {
         excludes: [],
         includes: [],
         typeName: 'RMSomething',
-        libraryName: Maybe.Nothing<string>(),
+        libraryName: null,
       };
 
       const actualMethods = Plugin.instanceMethods(objectType);
@@ -50,12 +50,12 @@ describe('Plugins.ImmutableProperties', function() {
               name: 'value',
               nullability: ObjC.Nullability.Inherited(),
               type: {
-                fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-                libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+                fileTypeIsDefinedIn: null,
+                libraryTypeIsDefinedIn: null,
                 name: 'NSString',
                 reference: 'NSString *',
-                underlyingType: Maybe.Just<string>('NSObject'),
-                conformingProtocol: Maybe.Nothing<string>(),
+                underlyingType: 'NSObject',
+                conformingProtocol: null,
               },
             },
           ],
@@ -64,7 +64,7 @@ describe('Plugins.ImmutableProperties', function() {
           excludes: [],
           includes: ['RMValueObjectSemantics'],
           typeName: 'RMSomething',
-          libraryName: Maybe.Nothing<string>(),
+          libraryName: null,
         };
 
         const actualMethods = Plugin.instanceMethods(objectType);
@@ -72,7 +72,7 @@ describe('Plugins.ImmutableProperties', function() {
         const expectedMethods: ObjC.Method[] = [
           {
             preprocessors: [],
-            belongsToProtocol: Maybe.Nothing<string>(),
+            belongsToProtocol: null,
             code: [
               'if ((self = [super init])) {',
               '  _value = [value copy];',
@@ -122,12 +122,12 @@ describe('Plugins.ImmutableProperties', function() {
               name: 'value',
               nullability: ObjC.Nullability.Inherited(),
               type: {
-                fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-                libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+                fileTypeIsDefinedIn: null,
+                libraryTypeIsDefinedIn: null,
                 name: 'NSString',
                 reference: 'NSString *',
-                underlyingType: Maybe.Just<string>('NSObject'),
-                conformingProtocol: Maybe.Nothing<string>(),
+                underlyingType: 'NSObject',
+                conformingProtocol: null,
               },
             },
           ],
@@ -136,7 +136,7 @@ describe('Plugins.ImmutableProperties', function() {
           excludes: [],
           includes: [],
           typeName: 'RMSomething',
-          libraryName: Maybe.Nothing<string>(),
+          libraryName: null,
         };
 
         const actualMethods = Plugin.instanceMethods(objectType);
@@ -144,7 +144,7 @@ describe('Plugins.ImmutableProperties', function() {
         const expectedMethods: ObjC.Method[] = [
           {
             preprocessors: [],
-            belongsToProtocol: Maybe.Nothing<string>(),
+            belongsToProtocol: null,
             code: [
               'if ((self = [super init])) {',
               '  _value = value;',
@@ -194,12 +194,12 @@ describe('Plugins.ImmutableProperties', function() {
               name: 'value',
               nullability: ObjC.Nullability.Inherited(),
               type: {
-                fileTypeIsDefinedIn: Maybe.Nothing(),
-                libraryTypeIsDefinedIn: Maybe.Nothing(),
+                fileTypeIsDefinedIn: null,
+                libraryTypeIsDefinedIn: null,
                 name: 'NSString',
                 reference: 'NSString *',
-                underlyingType: Maybe.Just<string>('NSObject'),
-                conformingProtocol: Maybe.Nothing<string>(),
+                underlyingType: 'NSObject',
+                conformingProtocol: null,
               },
             },
             {
@@ -208,12 +208,12 @@ describe('Plugins.ImmutableProperties', function() {
               name: 'value2',
               nullability: ObjC.Nullability.Inherited(),
               type: {
-                fileTypeIsDefinedIn: Maybe.Nothing(),
-                libraryTypeIsDefinedIn: Maybe.Nothing(),
+                fileTypeIsDefinedIn: null,
+                libraryTypeIsDefinedIn: null,
                 name: 'BOOL',
                 reference: 'BOOL',
-                underlyingType: Maybe.Nothing<string>(),
-                conformingProtocol: Maybe.Nothing<string>(),
+                underlyingType: null,
+                conformingProtocol: null,
               },
             },
             {
@@ -222,12 +222,12 @@ describe('Plugins.ImmutableProperties', function() {
               name: 'value3',
               nullability: ObjC.Nullability.Inherited(),
               type: {
-                fileTypeIsDefinedIn: Maybe.Nothing(),
-                libraryTypeIsDefinedIn: Maybe.Nothing(),
+                fileTypeIsDefinedIn: null,
+                libraryTypeIsDefinedIn: null,
                 name: 'RMAnotherSomething',
                 reference: 'RMAnotherSomething *',
-                underlyingType: Maybe.Just<string>('NSObject'),
-                conformingProtocol: Maybe.Nothing<string>(),
+                underlyingType: 'NSObject',
+                conformingProtocol: null,
               },
             },
             {
@@ -236,12 +236,12 @@ describe('Plugins.ImmutableProperties', function() {
               name: 'value4',
               nullability: ObjC.Nullability.Inherited(),
               type: {
-                fileTypeIsDefinedIn: Maybe.Nothing(),
-                libraryTypeIsDefinedIn: Maybe.Nothing(),
+                fileTypeIsDefinedIn: null,
+                libraryTypeIsDefinedIn: null,
                 name: 'id',
                 reference: 'id',
-                underlyingType: Maybe.Nothing<string>(),
-                conformingProtocol: Maybe.Nothing<string>(),
+                underlyingType: null,
+                conformingProtocol: null,
               },
             },
           ],
@@ -250,7 +250,7 @@ describe('Plugins.ImmutableProperties', function() {
           excludes: [],
           includes: ['RMValueObjectSemantics'],
           typeName: 'RMSomething',
-          libraryName: Maybe.Nothing(),
+          libraryName: null,
         };
 
         const actualMethods = Plugin.instanceMethods(objectType);
@@ -258,7 +258,7 @@ describe('Plugins.ImmutableProperties', function() {
         const expectedMethods: ObjC.Method[] = [
           {
             preprocessors: [],
-            belongsToProtocol: Maybe.Nothing<string>(),
+            belongsToProtocol: null,
             code: [
               'if ((self = [super init])) {',
               '  _value = [value copy];',
@@ -344,12 +344,12 @@ describe('Plugins.ImmutableProperties', function() {
               name: 'value',
               nullability: ObjC.Nullability.Inherited(),
               type: {
-                fileTypeIsDefinedIn: Maybe.Nothing(),
-                libraryTypeIsDefinedIn: Maybe.Nothing(),
+                fileTypeIsDefinedIn: null,
+                libraryTypeIsDefinedIn: null,
                 name: 'NSString',
                 reference: 'NSString *',
-                underlyingType: Maybe.Just<string>('NSObject'),
-                conformingProtocol: Maybe.Nothing<string>(),
+                underlyingType: 'NSObject',
+                conformingProtocol: null,
               },
             },
             {
@@ -358,12 +358,12 @@ describe('Plugins.ImmutableProperties', function() {
               name: 'value2',
               nullability: ObjC.Nullability.Inherited(),
               type: {
-                fileTypeIsDefinedIn: Maybe.Nothing(),
-                libraryTypeIsDefinedIn: Maybe.Nothing(),
+                fileTypeIsDefinedIn: null,
+                libraryTypeIsDefinedIn: null,
                 name: 'BOOL',
                 reference: 'BOOL',
-                underlyingType: Maybe.Nothing<string>(),
-                conformingProtocol: Maybe.Nothing<string>(),
+                underlyingType: null,
+                conformingProtocol: null,
               },
             },
             {
@@ -372,12 +372,12 @@ describe('Plugins.ImmutableProperties', function() {
               name: 'value3',
               nullability: ObjC.Nullability.Inherited(),
               type: {
-                fileTypeIsDefinedIn: Maybe.Nothing(),
-                libraryTypeIsDefinedIn: Maybe.Nothing(),
+                fileTypeIsDefinedIn: null,
+                libraryTypeIsDefinedIn: null,
                 name: 'RMAnotherSomething',
                 reference: 'RMAnotherSomething *',
-                underlyingType: Maybe.Just<string>('NSObject'),
-                conformingProtocol: Maybe.Nothing<string>(),
+                underlyingType: 'NSObject',
+                conformingProtocol: null,
               },
             },
             {
@@ -386,12 +386,12 @@ describe('Plugins.ImmutableProperties', function() {
               name: 'value4',
               nullability: ObjC.Nullability.Inherited(),
               type: {
-                fileTypeIsDefinedIn: Maybe.Nothing(),
-                libraryTypeIsDefinedIn: Maybe.Nothing(),
+                fileTypeIsDefinedIn: null,
+                libraryTypeIsDefinedIn: null,
                 name: 'id',
                 reference: 'id',
-                underlyingType: Maybe.Nothing<string>(),
-                conformingProtocol: Maybe.Nothing<string>(),
+                underlyingType: null,
+                conformingProtocol: null,
               },
             },
           ],
@@ -400,7 +400,7 @@ describe('Plugins.ImmutableProperties', function() {
           excludes: [],
           includes: [],
           typeName: 'RMSomething',
-          libraryName: Maybe.Nothing(),
+          libraryName: null,
         };
 
         const actualMethods = Plugin.instanceMethods(objectType);
@@ -408,7 +408,7 @@ describe('Plugins.ImmutableProperties', function() {
         const expectedMethods: ObjC.Method[] = [
           {
             preprocessors: [],
-            belongsToProtocol: Maybe.Nothing<string>(),
+            belongsToProtocol: null,
             code: [
               'if ((self = [super init])) {',
               '  _value = value;',
@@ -492,7 +492,7 @@ describe('Plugins.ImmutableProperties', function() {
         excludes: [],
         includes: [],
         typeName: 'RMSomething',
-        libraryName: Maybe.Nothing<string>(),
+        libraryName: null,
       };
 
       const actualImports = Plugin.imports(objectType);
@@ -500,7 +500,7 @@ describe('Plugins.ImmutableProperties', function() {
       const expectedImport: ObjC.Import = {
         file: 'Foundation.h',
         isPublic: true,
-        library: Maybe.Just('Foundation'),
+        library: 'Foundation',
         requiresCPlusPlus: false,
       };
 
@@ -519,7 +519,7 @@ describe('Plugins.ImmutableProperties', function() {
           excludes: [],
           includes: [],
           typeName: 'RMSomething',
-          libraryName: Maybe.Nothing<string>(),
+          libraryName: null,
         };
 
         const actualImports = Plugin.imports(objectType);
@@ -527,7 +527,7 @@ describe('Plugins.ImmutableProperties', function() {
         const expectedImport: ObjC.Import = {
           file: 'RMSomething.h',
           isPublic: false,
-          library: Maybe.Nothing<string>(),
+          library: null,
           requiresCPlusPlus: false,
         };
 
@@ -547,7 +547,7 @@ describe('Plugins.ImmutableProperties', function() {
           excludes: [],
           includes: [],
           typeName: 'RMSomething',
-          libraryName: Maybe.Just('RMSomeLibrary'),
+          libraryName: 'RMSomeLibrary',
         };
 
         const actualImports = Plugin.imports(objectType);
@@ -555,7 +555,7 @@ describe('Plugins.ImmutableProperties', function() {
         const expectedImport: ObjC.Import = {
           file: 'RMSomething.h',
           isPublic: false,
-          library: Maybe.Nothing<string>(),
+          library: null,
           requiresCPlusPlus: false,
         };
 
@@ -571,21 +571,21 @@ describe('Plugins.ImmutableProperties', function() {
         typeLookups: [
           {
             name: 'Foo',
-            library: Maybe.Just<string>('Bar'),
-            file: Maybe.Just<string>('Baz'),
+            library: 'Bar',
+            file: 'Baz',
             canForwardDeclare: false,
           },
           {
             name: 'Scumbag',
-            library: Maybe.Just<string>('Steve'),
-            file: Maybe.Nothing<string>(),
+            library: 'Steve',
+            file: null,
             canForwardDeclare: true,
           },
         ],
         excludes: [],
         includes: [],
         typeName: 'RMSomething',
-        libraryName: Maybe.Just('RMSomeLibrary'),
+        libraryName: 'RMSomeLibrary',
       };
 
       const actualImports = Plugin.imports(objectType);
@@ -593,14 +593,14 @@ describe('Plugins.ImmutableProperties', function() {
       expect(actualImports).toContain({
         file: 'Baz.h',
         isPublic: true,
-        library: Maybe.Just<string>('Bar'),
+        library: 'Bar',
         requiresCPlusPlus: false,
       });
 
       expect(actualImports).toContain({
         file: 'Scumbag.h',
         isPublic: true,
-        library: Maybe.Just<string>('Steve'),
+        library: 'Steve',
         requiresCPlusPlus: false,
       });
     });
@@ -616,15 +616,15 @@ describe('Plugins.ImmutableProperties', function() {
           typeLookups: [
             {
               name: 'RMSomething',
-              library: Maybe.Nothing<string>(),
-              file: Maybe.Nothing<string>(),
+              library: null,
+              file: null,
               canForwardDeclare: true,
             },
           ],
           excludes: [],
           includes: [],
           typeName: 'RMSomething',
-          libraryName: Maybe.Just('RMSomeLibrary'),
+          libraryName: 'RMSomeLibrary',
         };
 
         const actualImports = Plugin.imports(objectType);
@@ -632,7 +632,7 @@ describe('Plugins.ImmutableProperties', function() {
         expect(actualImports).not.toContain({
           file: 'RMSomething.h',
           isPublic: true,
-          library: Maybe.Just<string>('RMSomeLibrary'),
+          library: 'RMSomeLibrary',
         });
       },
     );
@@ -650,12 +650,12 @@ describe('Plugins.ImmutableProperties', function() {
               name: 'something',
               nullability: ObjC.Nullability.Inherited(),
               type: {
-                fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-                libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+                fileTypeIsDefinedIn: null,
+                libraryTypeIsDefinedIn: null,
                 name: 'RMSomethingElse',
                 reference: 'RMSomethingElse *',
-                underlyingType: Maybe.Just<string>('NSObject'),
-                conformingProtocol: Maybe.Nothing<string>(),
+                underlyingType: 'NSObject',
+                conformingProtocol: null,
               },
             },
           ],
@@ -664,7 +664,7 @@ describe('Plugins.ImmutableProperties', function() {
           excludes: [],
           includes: [],
           typeName: 'RMSomething',
-          libraryName: Maybe.Just('RMSomeLibrary'),
+          libraryName: 'RMSomeLibrary',
         };
 
         const actualImports = Plugin.imports(objectType);
@@ -672,7 +672,7 @@ describe('Plugins.ImmutableProperties', function() {
         const expectedImport: ObjC.Import = {
           file: 'RMSomethingElse.h',
           isPublic: true,
-          library: Maybe.Just('RMSomeLibrary'),
+          library: 'RMSomeLibrary',
           requiresCPlusPlus: false,
         };
 
@@ -693,12 +693,12 @@ describe('Plugins.ImmutableProperties', function() {
               name: 'something',
               nullability: ObjC.Nullability.Inherited(),
               type: {
-                fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-                libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+                fileTypeIsDefinedIn: null,
+                libraryTypeIsDefinedIn: null,
                 name: 'RMSomethingElse',
                 reference: 'RMSomethingElse *',
-                underlyingType: Maybe.Just<string>('NSObject'),
-                conformingProtocol: Maybe.Nothing<string>(),
+                underlyingType: 'NSObject',
+                conformingProtocol: null,
               },
             },
           ],
@@ -707,7 +707,7 @@ describe('Plugins.ImmutableProperties', function() {
           excludes: [],
           includes: [],
           typeName: 'RMSomething',
-          libraryName: Maybe.Nothing<string>(),
+          libraryName: null,
         };
 
         const actualImports = Plugin.imports(objectType);
@@ -715,7 +715,7 @@ describe('Plugins.ImmutableProperties', function() {
         const expectedImport: ObjC.Import = {
           file: 'RMSomethingElse.h',
           isPublic: true,
-          library: Maybe.Nothing<string>(),
+          library: null,
           requiresCPlusPlus: false,
         };
 
@@ -736,12 +736,12 @@ describe('Plugins.ImmutableProperties', function() {
               name: 'something',
               nullability: ObjC.Nullability.Inherited(),
               type: {
-                fileTypeIsDefinedIn: Maybe.Just('RMSomeOtherFile'),
-                libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+                fileTypeIsDefinedIn: 'RMSomeOtherFile',
+                libraryTypeIsDefinedIn: null,
                 name: 'RMSomethingElse',
                 reference: 'RMSomethingElse *',
-                underlyingType: Maybe.Just<string>('NSObject'),
-                conformingProtocol: Maybe.Nothing<string>(),
+                underlyingType: 'NSObject',
+                conformingProtocol: null,
               },
             },
           ],
@@ -750,7 +750,7 @@ describe('Plugins.ImmutableProperties', function() {
           excludes: [],
           includes: [],
           typeName: 'RMSomething',
-          libraryName: Maybe.Nothing<string>(),
+          libraryName: null,
         };
 
         const actualImports = Plugin.imports(objectType);
@@ -758,7 +758,7 @@ describe('Plugins.ImmutableProperties', function() {
         const expectedImport: ObjC.Import = {
           file: 'RMSomeOtherFile.h',
           isPublic: true,
-          library: Maybe.Nothing<string>(),
+          library: null,
           requiresCPlusPlus: false,
         };
 
@@ -779,12 +779,12 @@ describe('Plugins.ImmutableProperties', function() {
               name: 'something',
               nullability: ObjC.Nullability.Inherited(),
               type: {
-                fileTypeIsDefinedIn: Maybe.Just('RMSomeOtherFile'),
-                libraryTypeIsDefinedIn: Maybe.Just('RMSomeOtherLibrary'),
+                fileTypeIsDefinedIn: 'RMSomeOtherFile',
+                libraryTypeIsDefinedIn: 'RMSomeOtherLibrary',
                 name: 'RMSomethingElse',
                 reference: 'RMSomethingElse *',
-                underlyingType: Maybe.Just<string>('NSObject'),
-                conformingProtocol: Maybe.Nothing<string>(),
+                underlyingType: 'NSObject',
+                conformingProtocol: null,
               },
             },
           ],
@@ -793,7 +793,7 @@ describe('Plugins.ImmutableProperties', function() {
           excludes: [],
           includes: [],
           typeName: 'RMSomething',
-          libraryName: Maybe.Nothing<string>(),
+          libraryName: null,
         };
 
         const actualImports = Plugin.imports(objectType);
@@ -801,7 +801,7 @@ describe('Plugins.ImmutableProperties', function() {
         const expectedImport: ObjC.Import = {
           file: 'RMSomeOtherFile.h',
           isPublic: true,
-          library: Maybe.Just('RMSomeOtherLibrary'),
+          library: 'RMSomeOtherLibrary',
           requiresCPlusPlus: false,
         };
 
@@ -822,12 +822,12 @@ describe('Plugins.ImmutableProperties', function() {
               name: 'something',
               nullability: ObjC.Nullability.Inherited(),
               type: {
-                fileTypeIsDefinedIn: Maybe.Just('RMSomeOtherFile'),
-                libraryTypeIsDefinedIn: Maybe.Just('RMSomeOtherLibrary'),
+                fileTypeIsDefinedIn: 'RMSomeOtherFile',
+                libraryTypeIsDefinedIn: 'RMSomeOtherLibrary',
                 name: 'RMSomethingElse',
                 reference: 'RMSomethingElse *',
-                underlyingType: Maybe.Just<string>('NSObject'),
-                conformingProtocol: Maybe.Nothing<string>(),
+                underlyingType: 'NSObject',
+                conformingProtocol: null,
               },
             },
           ],
@@ -836,7 +836,7 @@ describe('Plugins.ImmutableProperties', function() {
           excludes: [],
           includes: [],
           typeName: 'RMSomething',
-          libraryName: Maybe.Just('RMSomeLibrary'),
+          libraryName: 'RMSomeLibrary',
         };
 
         const actualImports = Plugin.imports(objectType);
@@ -844,7 +844,7 @@ describe('Plugins.ImmutableProperties', function() {
         const expectedImport: ObjC.Import = {
           file: 'RMSomeOtherFile.h',
           isPublic: true,
-          library: Maybe.Just('RMSomeOtherLibrary'),
+          library: 'RMSomeOtherLibrary',
           requiresCPlusPlus: false,
         };
 
@@ -865,12 +865,12 @@ describe('Plugins.ImmutableProperties', function() {
               name: 'something',
               nullability: ObjC.Nullability.Inherited(),
               type: {
-                fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-                libraryTypeIsDefinedIn: Maybe.Just('RMSomeOtherLibrary'),
+                fileTypeIsDefinedIn: null,
+                libraryTypeIsDefinedIn: 'RMSomeOtherLibrary',
                 name: 'RMSomethingElse',
                 reference: 'RMSomethingElse *',
-                underlyingType: Maybe.Just<string>('NSObject'),
-                conformingProtocol: Maybe.Nothing<string>(),
+                underlyingType: 'NSObject',
+                conformingProtocol: null,
               },
             },
           ],
@@ -879,7 +879,7 @@ describe('Plugins.ImmutableProperties', function() {
           excludes: [],
           includes: [],
           typeName: 'RMSomething',
-          libraryName: Maybe.Just('RMSomeLibrary'),
+          libraryName: 'RMSomeLibrary',
         };
 
         const actualImports = Plugin.imports(objectType);
@@ -887,7 +887,7 @@ describe('Plugins.ImmutableProperties', function() {
         const expectedImport: ObjC.Import = {
           file: 'RMSomethingElse.h',
           isPublic: true,
-          library: Maybe.Just('RMSomeOtherLibrary'),
+          library: 'RMSomeOtherLibrary',
           requiresCPlusPlus: false,
         };
 
@@ -905,12 +905,12 @@ describe('Plugins.ImmutableProperties', function() {
             name: 'something',
             nullability: ObjC.Nullability.Inherited(),
             type: {
-              fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-              libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+              fileTypeIsDefinedIn: null,
+              libraryTypeIsDefinedIn: null,
               name: 'BOOL',
               reference: 'BOOL',
-              underlyingType: Maybe.Nothing<string>(),
-              conformingProtocol: Maybe.Nothing<string>(),
+              underlyingType: null,
+              conformingProtocol: null,
             },
           },
         ],
@@ -919,7 +919,7 @@ describe('Plugins.ImmutableProperties', function() {
         excludes: [],
         includes: [],
         typeName: 'RMSomething',
-        libraryName: Maybe.Just('RMSomeLibrary'),
+        libraryName: 'RMSomeLibrary',
       };
 
       const actualImports = Plugin.imports(objectType);
@@ -928,13 +928,13 @@ describe('Plugins.ImmutableProperties', function() {
         {
           file: 'Foundation.h',
           isPublic: true,
-          library: Maybe.Just('Foundation'),
+          library: 'Foundation',
           requiresCPlusPlus: false,
         },
         {
           file: objectType.typeName + '.h',
           isPublic: false,
-          library: Maybe.Nothing<string>(),
+          library: null,
           requiresCPlusPlus: false,
         },
       ];
@@ -952,12 +952,12 @@ describe('Plugins.ImmutableProperties', function() {
             name: 'something',
             nullability: ObjC.Nullability.Inherited(),
             type: {
-              fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-              libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+              fileTypeIsDefinedIn: null,
+              libraryTypeIsDefinedIn: null,
               name: 'double',
               reference: 'double',
-              underlyingType: Maybe.Nothing<string>(),
-              conformingProtocol: Maybe.Nothing<string>(),
+              underlyingType: null,
+              conformingProtocol: null,
             },
           },
         ],
@@ -966,7 +966,7 @@ describe('Plugins.ImmutableProperties', function() {
         excludes: [],
         includes: [],
         typeName: 'RMSomething',
-        libraryName: Maybe.Just('RMSomeLibrary'),
+        libraryName: 'RMSomeLibrary',
       };
 
       const actualImports = Plugin.imports(objectType);
@@ -975,13 +975,13 @@ describe('Plugins.ImmutableProperties', function() {
         {
           file: 'Foundation.h',
           isPublic: true,
-          library: Maybe.Just('Foundation'),
+          library: 'Foundation',
           requiresCPlusPlus: false,
         },
         {
           file: objectType.typeName + '.h',
           isPublic: false,
-          library: Maybe.Nothing<string>(),
+          library: null,
           requiresCPlusPlus: false,
         },
       ];
@@ -999,12 +999,12 @@ describe('Plugins.ImmutableProperties', function() {
             name: 'something',
             nullability: ObjC.Nullability.Inherited(),
             type: {
-              fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-              libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+              fileTypeIsDefinedIn: null,
+              libraryTypeIsDefinedIn: null,
               name: 'float',
               reference: 'float',
-              underlyingType: Maybe.Nothing<string>(),
-              conformingProtocol: Maybe.Nothing<string>(),
+              underlyingType: null,
+              conformingProtocol: null,
             },
           },
         ],
@@ -1013,7 +1013,7 @@ describe('Plugins.ImmutableProperties', function() {
         excludes: [],
         includes: [],
         typeName: 'RMSomething',
-        libraryName: Maybe.Just('RMSomeLibrary'),
+        libraryName: 'RMSomeLibrary',
       };
 
       const actualImports = Plugin.imports(objectType);
@@ -1022,13 +1022,13 @@ describe('Plugins.ImmutableProperties', function() {
         {
           file: 'Foundation.h',
           isPublic: true,
-          library: Maybe.Just('Foundation'),
+          library: 'Foundation',
           requiresCPlusPlus: false,
         },
         {
           file: objectType.typeName + '.h',
           isPublic: false,
-          library: Maybe.Nothing<string>(),
+          library: null,
           requiresCPlusPlus: false,
         },
       ];
@@ -1046,12 +1046,12 @@ describe('Plugins.ImmutableProperties', function() {
             name: 'something',
             nullability: ObjC.Nullability.Inherited(),
             type: {
-              fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-              libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+              fileTypeIsDefinedIn: null,
+              libraryTypeIsDefinedIn: null,
               name: 'NSTimeInterval',
               reference: 'NSTimeInterval',
-              underlyingType: Maybe.Nothing<string>(),
-              conformingProtocol: Maybe.Nothing<string>(),
+              underlyingType: null,
+              conformingProtocol: null,
             },
           },
         ],
@@ -1060,7 +1060,7 @@ describe('Plugins.ImmutableProperties', function() {
         excludes: [],
         includes: [],
         typeName: 'RMSomething',
-        libraryName: Maybe.Just('RMSomeLibrary'),
+        libraryName: 'RMSomeLibrary',
       };
 
       const actualImports = Plugin.imports(objectType);
@@ -1069,13 +1069,13 @@ describe('Plugins.ImmutableProperties', function() {
         {
           file: 'Foundation.h',
           isPublic: true,
-          library: Maybe.Just('Foundation'),
+          library: 'Foundation',
           requiresCPlusPlus: false,
         },
         {
           file: objectType.typeName + '.h',
           isPublic: false,
-          library: Maybe.Nothing<string>(),
+          library: null,
           requiresCPlusPlus: false,
         },
       ];
@@ -1093,12 +1093,12 @@ describe('Plugins.ImmutableProperties', function() {
             name: 'something',
             nullability: ObjC.Nullability.Inherited(),
             type: {
-              fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-              libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+              fileTypeIsDefinedIn: null,
+              libraryTypeIsDefinedIn: null,
               name: 'CGFloat',
               reference: 'CGFloat',
-              underlyingType: Maybe.Nothing<string>(),
-              conformingProtocol: Maybe.Nothing<string>(),
+              underlyingType: null,
+              conformingProtocol: null,
             },
           },
         ],
@@ -1107,7 +1107,7 @@ describe('Plugins.ImmutableProperties', function() {
         excludes: [],
         includes: [],
         typeName: 'RMSomething',
-        libraryName: Maybe.Just('RMSomeLibrary'),
+        libraryName: 'RMSomeLibrary',
       };
 
       const actualImports = Plugin.imports(objectType);
@@ -1116,19 +1116,19 @@ describe('Plugins.ImmutableProperties', function() {
         {
           file: 'Foundation.h',
           isPublic: true,
-          library: Maybe.Just('Foundation'),
+          library: 'Foundation',
           requiresCPlusPlus: false,
         },
         {
           file: objectType.typeName + '.h',
           isPublic: false,
-          library: Maybe.Nothing<string>(),
+          library: null,
           requiresCPlusPlus: false,
         },
         {
           file: 'CGBase.h',
           isPublic: true,
-          library: Maybe.Just('CoreGraphics'),
+          library: 'CoreGraphics',
           requiresCPlusPlus: false,
         },
       ];
@@ -1146,12 +1146,12 @@ describe('Plugins.ImmutableProperties', function() {
             name: 'something',
             nullability: ObjC.Nullability.Inherited(),
             type: {
-              fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-              libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+              fileTypeIsDefinedIn: null,
+              libraryTypeIsDefinedIn: null,
               name: 'CGRect',
               reference: 'CGRect',
-              underlyingType: Maybe.Nothing<string>(),
-              conformingProtocol: Maybe.Nothing<string>(),
+              underlyingType: null,
+              conformingProtocol: null,
             },
           },
         ],
@@ -1160,7 +1160,7 @@ describe('Plugins.ImmutableProperties', function() {
         excludes: [],
         includes: [],
         typeName: 'RMSomething',
-        libraryName: Maybe.Just('RMSomeLibrary'),
+        libraryName: 'RMSomeLibrary',
       };
 
       const actualImports = Plugin.imports(objectType);
@@ -1169,19 +1169,19 @@ describe('Plugins.ImmutableProperties', function() {
         {
           file: 'Foundation.h',
           isPublic: true,
-          library: Maybe.Just('Foundation'),
+          library: 'Foundation',
           requiresCPlusPlus: false,
         },
         {
           file: objectType.typeName + '.h',
           isPublic: false,
-          library: Maybe.Nothing<string>(),
+          library: null,
           requiresCPlusPlus: false,
         },
         {
           file: 'CGGeometry.h',
           isPublic: true,
-          library: Maybe.Just('CoreGraphics'),
+          library: 'CoreGraphics',
           requiresCPlusPlus: false,
         },
       ];
@@ -1199,12 +1199,12 @@ describe('Plugins.ImmutableProperties', function() {
             name: 'something',
             nullability: ObjC.Nullability.Inherited(),
             type: {
-              fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-              libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+              fileTypeIsDefinedIn: null,
+              libraryTypeIsDefinedIn: null,
               name: 'CGPoint',
               reference: 'CGPoint',
-              underlyingType: Maybe.Nothing<string>(),
-              conformingProtocol: Maybe.Nothing<string>(),
+              underlyingType: null,
+              conformingProtocol: null,
             },
           },
         ],
@@ -1213,7 +1213,7 @@ describe('Plugins.ImmutableProperties', function() {
         excludes: [],
         includes: [],
         typeName: 'RMSomething',
-        libraryName: Maybe.Just('RMSomeLibrary'),
+        libraryName: 'RMSomeLibrary',
       };
 
       const actualImports = Plugin.imports(objectType);
@@ -1222,19 +1222,19 @@ describe('Plugins.ImmutableProperties', function() {
         {
           file: 'Foundation.h',
           isPublic: true,
-          library: Maybe.Just('Foundation'),
+          library: 'Foundation',
           requiresCPlusPlus: false,
         },
         {
           file: objectType.typeName + '.h',
           isPublic: false,
-          library: Maybe.Nothing<string>(),
+          library: null,
           requiresCPlusPlus: false,
         },
         {
           file: 'CGGeometry.h',
           isPublic: true,
-          library: Maybe.Just('CoreGraphics'),
+          library: 'CoreGraphics',
           requiresCPlusPlus: false,
         },
       ];
@@ -1252,12 +1252,12 @@ describe('Plugins.ImmutableProperties', function() {
             name: 'something',
             nullability: ObjC.Nullability.Inherited(),
             type: {
-              fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-              libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+              fileTypeIsDefinedIn: null,
+              libraryTypeIsDefinedIn: null,
               name: 'SEL',
               reference: 'SEL',
-              underlyingType: Maybe.Nothing<string>(),
-              conformingProtocol: Maybe.Nothing<string>(),
+              underlyingType: null,
+              conformingProtocol: null,
             },
           },
         ],
@@ -1266,7 +1266,7 @@ describe('Plugins.ImmutableProperties', function() {
         excludes: [],
         includes: [],
         typeName: 'RMSomething',
-        libraryName: Maybe.Just('RMSomeLibrary'),
+        libraryName: 'RMSomeLibrary',
       };
 
       const actualImports = Plugin.imports(objectType);
@@ -1275,13 +1275,13 @@ describe('Plugins.ImmutableProperties', function() {
         {
           file: 'Foundation.h',
           isPublic: true,
-          library: Maybe.Just('Foundation'),
+          library: 'Foundation',
           requiresCPlusPlus: false,
         },
         {
           file: objectType.typeName + '.h',
           isPublic: false,
-          library: Maybe.Nothing<string>(),
+          library: null,
           requiresCPlusPlus: false,
         },
       ];
@@ -1299,12 +1299,12 @@ describe('Plugins.ImmutableProperties', function() {
             name: 'something',
             nullability: ObjC.Nullability.Inherited(),
             type: {
-              fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-              libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+              fileTypeIsDefinedIn: null,
+              libraryTypeIsDefinedIn: null,
               name: 'CGSize',
               reference: 'CGSize',
-              underlyingType: Maybe.Nothing<string>(),
-              conformingProtocol: Maybe.Nothing<string>(),
+              underlyingType: null,
+              conformingProtocol: null,
             },
           },
         ],
@@ -1313,7 +1313,7 @@ describe('Plugins.ImmutableProperties', function() {
         excludes: [],
         includes: [],
         typeName: 'RMSomething',
-        libraryName: Maybe.Just('RMSomeLibrary'),
+        libraryName: 'RMSomeLibrary',
       };
 
       const actualImports = Plugin.imports(objectType);
@@ -1322,19 +1322,19 @@ describe('Plugins.ImmutableProperties', function() {
         {
           file: 'Foundation.h',
           isPublic: true,
-          library: Maybe.Just('Foundation'),
+          library: 'Foundation',
           requiresCPlusPlus: false,
         },
         {
           file: objectType.typeName + '.h',
           isPublic: false,
-          library: Maybe.Nothing<string>(),
+          library: null,
           requiresCPlusPlus: false,
         },
         {
           file: 'CGGeometry.h',
           isPublic: true,
-          library: Maybe.Just('CoreGraphics'),
+          library: 'CoreGraphics',
           requiresCPlusPlus: false,
         },
       ];
@@ -1352,12 +1352,12 @@ describe('Plugins.ImmutableProperties', function() {
             name: 'something',
             nullability: ObjC.Nullability.Inherited(),
             type: {
-              fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-              libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+              fileTypeIsDefinedIn: null,
+              libraryTypeIsDefinedIn: null,
               name: 'UIEdgeInsets',
               reference: 'UIEdgeInsets',
-              underlyingType: Maybe.Nothing<string>(),
-              conformingProtocol: Maybe.Nothing<string>(),
+              underlyingType: null,
+              conformingProtocol: null,
             },
           },
         ],
@@ -1366,7 +1366,7 @@ describe('Plugins.ImmutableProperties', function() {
         excludes: [],
         includes: [],
         typeName: 'RMSomething',
-        libraryName: Maybe.Just('RMSomeLibrary'),
+        libraryName: 'RMSomeLibrary',
       };
 
       const actualImports = Plugin.imports(objectType);
@@ -1375,19 +1375,19 @@ describe('Plugins.ImmutableProperties', function() {
         {
           file: 'Foundation.h',
           isPublic: true,
-          library: Maybe.Just('Foundation'),
+          library: 'Foundation',
           requiresCPlusPlus: false,
         },
         {
           file: objectType.typeName + '.h',
           isPublic: false,
-          library: Maybe.Nothing<string>(),
+          library: null,
           requiresCPlusPlus: false,
         },
         {
           file: 'UIGeometry.h',
           isPublic: true,
-          library: Maybe.Just('UIKit'),
+          library: 'UIKit',
           requiresCPlusPlus: false,
         },
       ];
@@ -1405,12 +1405,12 @@ describe('Plugins.ImmutableProperties', function() {
             name: 'something',
             nullability: ObjC.Nullability.Inherited(),
             type: {
-              fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-              libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+              fileTypeIsDefinedIn: null,
+              libraryTypeIsDefinedIn: null,
               name: 'int32_t',
               reference: 'int32_t',
-              underlyingType: Maybe.Nothing<string>(),
-              conformingProtocol: Maybe.Nothing<string>(),
+              underlyingType: null,
+              conformingProtocol: null,
             },
           },
         ],
@@ -1419,7 +1419,7 @@ describe('Plugins.ImmutableProperties', function() {
         excludes: [],
         includes: [],
         typeName: 'RMSomething',
-        libraryName: Maybe.Just('RMSomeLibrary'),
+        libraryName: 'RMSomeLibrary',
       };
 
       const actualImports = Plugin.imports(objectType);
@@ -1428,13 +1428,13 @@ describe('Plugins.ImmutableProperties', function() {
         {
           file: 'Foundation.h',
           isPublic: true,
-          library: Maybe.Just('Foundation'),
+          library: 'Foundation',
           requiresCPlusPlus: false,
         },
         {
           file: objectType.typeName + '.h',
           isPublic: false,
-          library: Maybe.Nothing<string>(),
+          library: null,
           requiresCPlusPlus: false,
         },
       ];
@@ -1452,12 +1452,12 @@ describe('Plugins.ImmutableProperties', function() {
             name: 'something',
             nullability: ObjC.Nullability.Inherited(),
             type: {
-              fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-              libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+              fileTypeIsDefinedIn: null,
+              libraryTypeIsDefinedIn: null,
               name: 'int64_t',
               reference: 'int64_t',
-              underlyingType: Maybe.Nothing<string>(),
-              conformingProtocol: Maybe.Nothing<string>(),
+              underlyingType: null,
+              conformingProtocol: null,
             },
           },
         ],
@@ -1466,7 +1466,7 @@ describe('Plugins.ImmutableProperties', function() {
         excludes: [],
         includes: [],
         typeName: 'RMSomething',
-        libraryName: Maybe.Just('RMSomeLibrary'),
+        libraryName: 'RMSomeLibrary',
       };
 
       const actualImports = Plugin.imports(objectType);
@@ -1475,13 +1475,13 @@ describe('Plugins.ImmutableProperties', function() {
         {
           file: 'Foundation.h',
           isPublic: true,
-          library: Maybe.Just('Foundation'),
+          library: 'Foundation',
           requiresCPlusPlus: false,
         },
         {
           file: objectType.typeName + '.h',
           isPublic: false,
-          library: Maybe.Nothing<string>(),
+          library: null,
           requiresCPlusPlus: false,
         },
       ];
@@ -1499,12 +1499,12 @@ describe('Plugins.ImmutableProperties', function() {
             name: 'something',
             nullability: ObjC.Nullability.Inherited(),
             type: {
-              fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-              libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+              fileTypeIsDefinedIn: null,
+              libraryTypeIsDefinedIn: null,
               name: 'uint32_t',
               reference: 'uint32_t',
-              underlyingType: Maybe.Nothing<string>(),
-              conformingProtocol: Maybe.Nothing<string>(),
+              underlyingType: null,
+              conformingProtocol: null,
             },
           },
         ],
@@ -1513,7 +1513,7 @@ describe('Plugins.ImmutableProperties', function() {
         excludes: [],
         includes: [],
         typeName: 'RMSomething',
-        libraryName: Maybe.Just('RMSomeLibrary'),
+        libraryName: 'RMSomeLibrary',
       };
 
       const actualImports = Plugin.imports(objectType);
@@ -1522,13 +1522,13 @@ describe('Plugins.ImmutableProperties', function() {
         {
           file: 'Foundation.h',
           isPublic: true,
-          library: Maybe.Just('Foundation'),
+          library: 'Foundation',
           requiresCPlusPlus: false,
         },
         {
           file: objectType.typeName + '.h',
           isPublic: false,
-          library: Maybe.Nothing<string>(),
+          library: null,
           requiresCPlusPlus: false,
         },
       ];
@@ -1546,12 +1546,12 @@ describe('Plugins.ImmutableProperties', function() {
             name: 'something',
             nullability: ObjC.Nullability.Inherited(),
             type: {
-              fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-              libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+              fileTypeIsDefinedIn: null,
+              libraryTypeIsDefinedIn: null,
               name: 'uint64_t',
               reference: 'uint64_t',
-              underlyingType: Maybe.Nothing<string>(),
-              conformingProtocol: Maybe.Nothing<string>(),
+              underlyingType: null,
+              conformingProtocol: null,
             },
           },
         ],
@@ -1560,7 +1560,7 @@ describe('Plugins.ImmutableProperties', function() {
         excludes: [],
         includes: [],
         typeName: 'RMSomething',
-        libraryName: Maybe.Just('RMSomeLibrary'),
+        libraryName: 'RMSomeLibrary',
       };
 
       const actualImports = Plugin.imports(objectType);
@@ -1569,13 +1569,13 @@ describe('Plugins.ImmutableProperties', function() {
         {
           file: 'Foundation.h',
           isPublic: true,
-          library: Maybe.Just('Foundation'),
+          library: 'Foundation',
           requiresCPlusPlus: false,
         },
         {
           file: objectType.typeName + '.h',
           isPublic: false,
-          library: Maybe.Nothing<string>(),
+          library: null,
           requiresCPlusPlus: false,
         },
       ];
@@ -1593,12 +1593,12 @@ describe('Plugins.ImmutableProperties', function() {
             name: 'something',
             nullability: ObjC.Nullability.Inherited(),
             type: {
-              fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-              libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+              fileTypeIsDefinedIn: null,
+              libraryTypeIsDefinedIn: null,
               name: 'NSUInteger',
               reference: 'NSUInteger',
-              underlyingType: Maybe.Nothing<string>(),
-              conformingProtocol: Maybe.Nothing<string>(),
+              underlyingType: null,
+              conformingProtocol: null,
             },
           },
         ],
@@ -1607,7 +1607,7 @@ describe('Plugins.ImmutableProperties', function() {
         excludes: [],
         includes: [],
         typeName: 'RMSomething',
-        libraryName: Maybe.Just('RMSomeLibrary'),
+        libraryName: 'RMSomeLibrary',
       };
 
       const actualImports = Plugin.imports(objectType);
@@ -1616,13 +1616,13 @@ describe('Plugins.ImmutableProperties', function() {
         {
           file: 'Foundation.h',
           isPublic: true,
-          library: Maybe.Just('Foundation'),
+          library: 'Foundation',
           requiresCPlusPlus: false,
         },
         {
           file: objectType.typeName + '.h',
           isPublic: false,
-          library: Maybe.Nothing<string>(),
+          library: null,
           requiresCPlusPlus: false,
         },
       ];
@@ -1640,12 +1640,12 @@ describe('Plugins.ImmutableProperties', function() {
             name: 'something',
             nullability: ObjC.Nullability.Inherited(),
             type: {
-              fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-              libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+              fileTypeIsDefinedIn: null,
+              libraryTypeIsDefinedIn: null,
               name: 'NSInteger',
               reference: 'NSInteger',
-              underlyingType: Maybe.Nothing<string>(),
-              conformingProtocol: Maybe.Nothing<string>(),
+              underlyingType: null,
+              conformingProtocol: null,
             },
           },
         ],
@@ -1654,7 +1654,7 @@ describe('Plugins.ImmutableProperties', function() {
         excludes: [],
         includes: [],
         typeName: 'RMSomething',
-        libraryName: Maybe.Just('RMSomeLibrary'),
+        libraryName: 'RMSomeLibrary',
       };
 
       const actualImports = Plugin.imports(objectType);
@@ -1663,13 +1663,13 @@ describe('Plugins.ImmutableProperties', function() {
         {
           file: 'Foundation.h',
           isPublic: true,
-          library: Maybe.Just('Foundation'),
+          library: 'Foundation',
           requiresCPlusPlus: false,
         },
         {
           file: objectType.typeName + '.h',
           isPublic: false,
-          library: Maybe.Nothing<string>(),
+          library: null,
           requiresCPlusPlus: false,
         },
       ];
@@ -1687,12 +1687,12 @@ describe('Plugins.ImmutableProperties', function() {
             name: 'something',
             nullability: ObjC.Nullability.Inherited(),
             type: {
-              fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-              libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+              fileTypeIsDefinedIn: null,
+              libraryTypeIsDefinedIn: null,
               name: 'NSString',
               reference: 'NSString *',
-              underlyingType: Maybe.Just<string>('NSObject'),
-              conformingProtocol: Maybe.Nothing<string>(),
+              underlyingType: 'NSObject',
+              conformingProtocol: null,
             },
           },
         ],
@@ -1701,7 +1701,7 @@ describe('Plugins.ImmutableProperties', function() {
         excludes: [],
         includes: [],
         typeName: 'RMSomething',
-        libraryName: Maybe.Just('RMSomeLibrary'),
+        libraryName: 'RMSomeLibrary',
       };
 
       const actualImports = Plugin.imports(objectType);
@@ -1710,13 +1710,13 @@ describe('Plugins.ImmutableProperties', function() {
         {
           file: 'Foundation.h',
           isPublic: true,
-          library: Maybe.Just('Foundation'),
+          library: 'Foundation',
           requiresCPlusPlus: false,
         },
         {
           file: objectType.typeName + '.h',
           isPublic: false,
-          library: Maybe.Nothing<string>(),
+          library: null,
           requiresCPlusPlus: false,
         },
       ];
@@ -1735,7 +1735,7 @@ describe('Plugins.ImmutableProperties', function() {
         excludes: [],
         includes: [],
         typeName: 'RMSomething',
-        libraryName: Maybe.Nothing<string>(),
+        libraryName: null,
       };
 
       const actualImports = Plugin.properties(objectType);
@@ -1753,12 +1753,12 @@ describe('Plugins.ImmutableProperties', function() {
             name: 'value',
             nullability: ObjC.Nullability.Inherited(),
             type: {
-              fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-              libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+              fileTypeIsDefinedIn: null,
+              libraryTypeIsDefinedIn: null,
               name: 'BOOL',
               reference: 'BOOL',
-              underlyingType: Maybe.Nothing<string>(),
-              conformingProtocol: Maybe.Nothing<string>(),
+              underlyingType: null,
+              conformingProtocol: null,
             },
           },
         ],
@@ -1767,7 +1767,7 @@ describe('Plugins.ImmutableProperties', function() {
         excludes: [],
         includes: [],
         typeName: 'RMSomething',
-        libraryName: Maybe.Nothing<string>(),
+        libraryName: null,
       };
 
       const actualProperties = Plugin.properties(objectType);
@@ -1801,12 +1801,12 @@ describe('Plugins.ImmutableProperties', function() {
             name: 'value',
             nullability: ObjC.Nullability.Inherited(),
             type: {
-              fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-              libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+              fileTypeIsDefinedIn: null,
+              libraryTypeIsDefinedIn: null,
               name: 'RMSomething',
               reference: 'RMSomething *',
-              underlyingType: Maybe.Just<string>('NSObject'),
-              conformingProtocol: Maybe.Nothing<string>(),
+              underlyingType: 'NSObject',
+              conformingProtocol: null,
             },
           },
         ],
@@ -1815,7 +1815,7 @@ describe('Plugins.ImmutableProperties', function() {
         excludes: [],
         includes: ['RMValueObjectSemantics'],
         typeName: 'RMSomething',
-        libraryName: Maybe.Nothing<string>(),
+        libraryName: null,
       };
 
       const actualProperties = Plugin.properties(objectType);
@@ -1853,12 +1853,12 @@ describe('Plugins.ImmutableProperties', function() {
               name: 'value',
               nullability: ObjC.Nullability.Inherited(),
               type: {
-                fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-                libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+                fileTypeIsDefinedIn: null,
+                libraryTypeIsDefinedIn: null,
                 name: 'RMSomething',
                 reference: 'RMSomething *',
-                underlyingType: Maybe.Just<string>('NSObject'),
-                conformingProtocol: Maybe.Nothing<string>(),
+                underlyingType: 'NSObject',
+                conformingProtocol: null,
               },
             },
           ],
@@ -1867,7 +1867,7 @@ describe('Plugins.ImmutableProperties', function() {
           excludes: [],
           includes: [],
           typeName: 'RMSomething',
-          libraryName: Maybe.Nothing<string>(),
+          libraryName: null,
         };
 
         const actualProperties = Plugin.properties(objectType);
@@ -1901,12 +1901,12 @@ describe('Plugins.ImmutableProperties', function() {
         name: 'value',
         nullability: ObjC.Nullability.Inherited(),
         type: {
-          fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-          libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+          fileTypeIsDefinedIn: null,
+          libraryTypeIsDefinedIn: null,
           name: 'RMSomething',
           reference: 'RMSomething *',
-          underlyingType: Maybe.Just<string>('NSObject'),
-          conformingProtocol: Maybe.Nothing<string>(),
+          underlyingType: 'NSObject',
+          conformingProtocol: null,
         },
       };
 
@@ -1924,12 +1924,12 @@ describe('Plugins.ImmutableProperties', function() {
         name: 'value',
         nullability: ObjC.Nullability.Inherited(),
         type: {
-          fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-          libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+          fileTypeIsDefinedIn: null,
+          libraryTypeIsDefinedIn: null,
           name: 'RMSomething',
           reference: 'RMSomething *',
-          underlyingType: Maybe.Just<string>('NSObject'),
-          conformingProtocol: Maybe.Nothing<string>(),
+          underlyingType: 'NSObject',
+          conformingProtocol: null,
         },
       };
 
@@ -1947,12 +1947,12 @@ describe('Plugins.ImmutableProperties', function() {
         name: 'value',
         nullability: ObjC.Nullability.Inherited(),
         type: {
-          fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-          libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+          fileTypeIsDefinedIn: null,
+          libraryTypeIsDefinedIn: null,
           name: 'Foo',
           reference: 'Foo',
-          underlyingType: Maybe.Just<string>('NSUInteger'),
-          conformingProtocol: Maybe.Nothing<string>(),
+          underlyingType: 'NSUInteger',
+          conformingProtocol: null,
         },
       };
 
@@ -1970,12 +1970,12 @@ describe('Plugins.ImmutableProperties', function() {
         name: 'value',
         nullability: ObjC.Nullability.Nonnull(),
         type: {
-          fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-          libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+          fileTypeIsDefinedIn: null,
+          libraryTypeIsDefinedIn: null,
           name: 'RMSomething',
           reference: 'RMSomething *',
-          underlyingType: Maybe.Just<string>('NSObject'),
-          conformingProtocol: Maybe.Nothing<string>(),
+          underlyingType: 'NSObject',
+          conformingProtocol: null,
         },
       };
 
@@ -1993,12 +1993,12 @@ describe('Plugins.ImmutableProperties', function() {
         name: 'value',
         nullability: ObjC.Nullability.Nullable(),
         type: {
-          fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-          libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+          fileTypeIsDefinedIn: null,
+          libraryTypeIsDefinedIn: null,
           name: 'RMSomething',
           reference: 'RMSomething *',
-          underlyingType: Maybe.Just<string>('NSObject'),
-          conformingProtocol: Maybe.Nothing<string>(),
+          underlyingType: 'NSObject',
+          conformingProtocol: null,
         },
       };
 
@@ -2024,12 +2024,12 @@ describe('Plugins.ImmutableProperties', function() {
               name: 'value',
               nullability: ObjC.Nullability.Inherited(),
               type: {
-                fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-                libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+                fileTypeIsDefinedIn: null,
+                libraryTypeIsDefinedIn: null,
                 name: 'RMSomething',
                 reference: 'RMSomething *',
-                underlyingType: Maybe.Nothing<string>(),
-                conformingProtocol: Maybe.Nothing<string>(),
+                underlyingType: null,
+                conformingProtocol: null,
               },
             },
           ],
@@ -2038,7 +2038,7 @@ describe('Plugins.ImmutableProperties', function() {
           excludes: [],
           includes: [],
           typeName: 'RMSomething',
-          libraryName: Maybe.Nothing<string>(),
+          libraryName: null,
         };
         const forwardDeclarations: ObjC.ForwardDeclaration[] = Plugin.forwardDeclarations(
           objectType,
@@ -2063,12 +2063,12 @@ describe('Plugins.ImmutableProperties', function() {
               name: 'value',
               nullability: ObjC.Nullability.Inherited(),
               type: {
-                fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-                libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+                fileTypeIsDefinedIn: null,
+                libraryTypeIsDefinedIn: null,
                 name: 'Foo',
                 reference: 'Foo *',
-                underlyingType: Maybe.Nothing<string>(),
-                conformingProtocol: Maybe.Nothing<string>(),
+                underlyingType: null,
+                conformingProtocol: null,
               },
             },
           ],
@@ -2076,15 +2076,15 @@ describe('Plugins.ImmutableProperties', function() {
           typeLookups: [
             {
               name: 'RMSomething',
-              library: Maybe.Nothing<string>(),
-              file: Maybe.Nothing<string>(),
+              library: null,
+              file: null,
               canForwardDeclare: true,
             },
           ],
           excludes: [],
           includes: [],
           typeName: 'RMSomething',
-          libraryName: Maybe.Nothing<string>(),
+          libraryName: null,
         };
         const forwardDeclarations: ObjC.ForwardDeclaration[] = Plugin.forwardDeclarations(
           objectType,
@@ -2109,12 +2109,12 @@ describe('Plugins.ImmutableProperties', function() {
               name: 'value',
               nullability: ObjC.Nullability.Inherited(),
               type: {
-                fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-                libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+                fileTypeIsDefinedIn: null,
+                libraryTypeIsDefinedIn: null,
                 name: 'Foo',
                 reference: 'Foo *',
-                underlyingType: Maybe.Nothing<string>(),
-                conformingProtocol: Maybe.Nothing<string>(),
+                underlyingType: null,
+                conformingProtocol: null,
               },
             },
           ],
@@ -2123,7 +2123,7 @@ describe('Plugins.ImmutableProperties', function() {
           excludes: [],
           includes: [],
           typeName: 'RMSomething',
-          libraryName: Maybe.Nothing<string>(),
+          libraryName: null,
         };
         const forwardDeclarations: ObjC.ForwardDeclaration[] = Plugin.forwardDeclarations(
           objectType,

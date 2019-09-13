@@ -19,7 +19,7 @@ export class Queue<T> {
 }
 
 export interface DequeueResult<T> {
-  value: Maybe.Maybe<T>;
+  value: T | null;
   queue: Queue<T>;
 }
 
@@ -34,7 +34,7 @@ export function dequeue<T>(queue: Queue<T>): DequeueResult<T> {
       return newForwardList.match(
         function() {
           const result: DequeueResult<T> = {
-            value: Maybe.Nothing<T>(),
+            value: null,
             queue: Empty<T>(),
           };
           return result;
@@ -42,7 +42,7 @@ export function dequeue<T>(queue: Queue<T>): DequeueResult<T> {
         function(head: T, tail: List.List<T>) {
           const newQueue = new Queue<T>(tail, List.of<T>());
           const result: DequeueResult<T> = {
-            value: Maybe.Just(head),
+            value: head,
             queue: newQueue,
           };
           return result;
@@ -52,7 +52,7 @@ export function dequeue<T>(queue: Queue<T>): DequeueResult<T> {
     function(head: T, tail: List.List<T>) {
       const newQueue = new Queue<T>(tail, queue.backwardList);
       const result: DequeueResult<T> = {
-        value: Maybe.Just(head),
+        value: head,
         queue: newQueue,
       };
       return result;

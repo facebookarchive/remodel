@@ -50,7 +50,7 @@ export class ForwardDeclaration {
 export interface Import {
   file: string;
   isPublic: boolean;
-  library: Maybe.Maybe<string>;
+  library: string | null;
   // guard with #ifdef __cplusplus
   requiresCPlusPlus: boolean;
 }
@@ -112,12 +112,12 @@ export interface KeywordArgument {
 }
 
 export interface Keyword {
-  argument: Maybe.Maybe<KeywordArgument>;
+  argument: KeywordArgument | null;
   name: string;
 }
 
 export interface ReturnType {
-  type: Maybe.Maybe<Type>;
+  type: Type | null;
   modifiers: KeywordArgumentModifier[];
 }
 
@@ -128,7 +128,7 @@ export interface Preprocessor {
 
 export interface Method {
   preprocessors: Preprocessor[];
-  belongsToProtocol: Maybe.Maybe<string>;
+  belongsToProtocol: string | null;
   code: string[];
   comments: Comment[];
   compilerAttributes: string[];
@@ -575,5 +575,5 @@ export interface Struct {
 
 export interface BaseClass {
   className: string;
-  libraryName: Maybe.Maybe<string>;
+  libraryName: string | null;
 }

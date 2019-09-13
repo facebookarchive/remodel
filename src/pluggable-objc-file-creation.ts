@@ -21,7 +21,7 @@ import * as path from 'path';
 export interface ObjCGenerationPlugIn<T> {
   additionalFiles: (typeInformation: T) => Code.File[];
   transformBaseFile: (typeInformation: T, baseFile: Code.File) => Code.File;
-  baseClass: (typeInformation: T) => Maybe.Maybe<ObjC.BaseClass>;
+  baseClass: (typeInformation: T) => ObjC.BaseClass | null;
   blockTypes: (typeInformation: T) => ObjC.BlockType[];
   classMethods: (typeInformation: T) => ObjC.Method[];
   comments: (typeInformation: T) => ObjC.Comment[];
@@ -29,7 +29,7 @@ export interface ObjCGenerationPlugIn<T> {
   transformFileRequest: (
     writeRequest: FileWriter.Request,
   ) => FileWriter.Request;
-  fileType: (typeInformation: T) => Maybe.Maybe<Code.FileType>;
+  fileType: (typeInformation: T) => Code.FileType | null;
   forwardDeclarations: (typeInformation: T) => ObjC.ForwardDeclaration[];
   functions: (typeInformation: T) => ObjC.Function[];
   imports: (typeInformation: T) => ObjC.Import[];
@@ -40,7 +40,7 @@ export interface ObjCGenerationPlugIn<T> {
   protocols: (typeInformation: T) => ObjC.Protocol[];
   staticConstants: (typeInformation: T) => ObjC.Constant[];
   validationErrors: (typeInformation: T) => Error.Error[];
-  nullability: (typeInformation: T) => Maybe.Maybe<ObjC.ClassNullability>;
+  nullability: (typeInformation: T) => ObjC.ClassNullability | null;
   subclassingRestricted: (typeInformation: T) => boolean;
   structs: (typeInformation: T) => Code.Struct[];
   requiredIncludesToRun: string[];
@@ -48,10 +48,10 @@ export interface ObjCGenerationPlugIn<T> {
 
 export interface ObjCGenerationRequest<T> {
   diagnosticIgnores: List.List<string>;
-  baseClassLibraryName: Maybe.Maybe<string>;
+  baseClassLibraryName: string | null;
   baseClassName: string;
   path: File.AbsoluteFilePath;
-  outputPath: Maybe.Maybe<File.AbsoluteFilePath>;
+  outputPath: File.AbsoluteFilePath | null;
   outputFlags: OutputControl.OutputFlags;
   typeInformation: T;
 }
@@ -157,33 +157,31 @@ function checkSubclassingRestricted<T>(
 
 function buildFileType<T>(
   typeInformation: T,
-  soFar: Either.Either<Error.Error, Maybe.Maybe<Code.FileType>>,
+  soFar: Either.Either<Error.Error, Code.FileType | null>,
   plugin: ObjCGenerationPlugIn<T>,
-): Either.Either<Error.Error, Maybe.Maybe<Code.FileType>> {
-  return Either.mbind(function(maybeExistingType: Maybe.Maybe<Code.FileType>) {
+): Either.Either<Error.Error, Code.FileType | null> {
+  return Either.mbind(function(maybeExistingType: Code.FileType | null) {
     return Maybe.match(
       function(existingType: Code.FileType) {
         return Maybe.match(
           function(newType: Code.FileType) {
             if (newType === existingType) {
-              return Either.Right<Error.Error, Maybe.Maybe<Code.FileType>>(
-                Maybe.Just(newType),
-              );
+              return Either.Right<Error.Error, Code.FileType | null>(newType);
             }
-            return Either.Left<Error.Error, Maybe.Maybe<Code.FileType>>(
+            return Either.Left<Error.Error, Code.FileType | null>(
               Error.Error('conflicting file type requirements'),
             );
           },
           function() {
-            return Either.Right<Error.Error, Maybe.Maybe<Code.FileType>>(
-              Maybe.Just(existingType),
+            return Either.Right<Error.Error, Code.FileType | null>(
+              existingType,
             );
           },
           plugin.fileType(typeInformation),
         );
       },
       function() {
-        return Either.Right<Error.Error, Maybe.Maybe<Code.FileType>>(
+        return Either.Right<Error.Error, Code.FileType | null>(
           plugin.fileType(typeInformation),
         );
       },
@@ -194,37 +192,35 @@ function buildFileType<T>(
 
 function buildNullability<T>(
   typeInformation: T,
-  soFar: Either.Either<Error.Error, Maybe.Maybe<ObjC.ClassNullability>>,
+  soFar: Either.Either<Error.Error, ObjC.ClassNullability | null>,
   plugin: ObjCGenerationPlugIn<T>,
-): Either.Either<Error.Error, Maybe.Maybe<ObjC.ClassNullability>> {
+): Either.Either<Error.Error, ObjC.ClassNullability | null> {
   return Either.mbind(function(
-    maybeExistingType: Maybe.Maybe<ObjC.ClassNullability>,
+    maybeExistingType: ObjC.ClassNullability | null,
   ) {
     return Maybe.match(
       function(existingType: ObjC.ClassNullability) {
         return Maybe.match(
           function(newType: ObjC.ClassNullability) {
             if (newType === existingType) {
-              return Either.Right<
-                Error.Error,
-                Maybe.Maybe<ObjC.ClassNullability>
-              >(Maybe.Just(newType));
+              return Either.Right<Error.Error, ObjC.ClassNullability | null>(
+                newType,
+              );
             }
-            throw Either.Left<Error.Error, Maybe.Maybe<ObjC.ClassNullability>>(
+            throw Either.Left<Error.Error, ObjC.ClassNullability | null>(
               Error.Error('conflicting file type requirements'),
             );
           },
           function() {
-            return Either.Right<
-              Error.Error,
-              Maybe.Maybe<ObjC.ClassNullability>
-            >(Maybe.Just(existingType));
+            return Either.Right<Error.Error, ObjC.ClassNullability | null>(
+              existingType,
+            );
           },
           plugin.nullability(typeInformation),
         );
       },
       function() {
-        return Either.Right<Error.Error, Maybe.Maybe<ObjC.ClassNullability>>(
+        return Either.Right<Error.Error, ObjC.ClassNullability | null>(
           plugin.nullability(typeInformation),
         );
       },
@@ -318,7 +314,7 @@ function sortInstanceMethodComparitor(
 
 function importListWithBaseImportAppended(
   baseClassName: string,
-  baseClassLibraryName: Maybe.Maybe<string>,
+  baseClassLibraryName: string | null,
   pluginImports: ObjC.Import[],
 ): ObjC.Import[] {
   return Maybe.match(
@@ -355,7 +351,7 @@ function commentListWithPathToValueFile(
 
 function classFileCreationFunctionWithBaseClassAndPlugins<T>(
   baseClassName: string,
-  baseClassLibraryName: Maybe.Maybe<string>,
+  baseClassLibraryName: string | null,
   diagnosticIgnores: List.List<string>,
   pathToValueFile: File.AbsoluteFilePath,
   plugins: List.List<ObjCGenerationPlugIn<T>>,
@@ -373,20 +369,20 @@ function classFileCreationFunctionWithBaseClassAndPlugins<T>(
   ): Either.Either<Error.Error, Code.File> {
     const fileType = List.foldl<
       ObjCGenerationPlugIn<T>,
-      Either.Either<Error.Error, Maybe.Maybe<Code.FileType>>
+      Either.Either<Error.Error, Code.FileType | null>
     >(
       (soFar, plugin) => buildFileType(typeInformation, soFar, plugin),
-      Either.Right<Error.Error, Maybe.Maybe<Code.FileType>>(
+      Either.Right<Error.Error, Code.FileType | null>(
         Maybe.Nothing<Code.FileType>(),
       ),
       plugins,
     );
     const nullabilityEither = List.foldl<
       ObjCGenerationPlugIn<T>,
-      Either.Either<Error.Error, Maybe.Maybe<ObjC.ClassNullability>>
+      Either.Either<Error.Error, ObjC.ClassNullability | null>
     >(
       (soFar, plugin) => buildNullability(typeInformation, soFar, plugin),
-      Either.Right<Error.Error, Maybe.Maybe<ObjC.ClassNullability>>(
+      Either.Right<Error.Error, ObjC.ClassNullability | null>(
         Maybe.Nothing<ObjC.ClassNullability>(),
       ),
       plugins,
@@ -396,7 +392,7 @@ function classFileCreationFunctionWithBaseClassAndPlugins<T>(
       function() {
         return ObjC.ClassNullability.default;
       },
-      function(maybeNullability: Maybe.Maybe<ObjC.ClassNullability>) {
+      function(maybeNullability: ObjC.ClassNullability | null) {
         return Maybe.match(
           function(nullability: ObjC.ClassNullability) {
             return nullability;
@@ -412,7 +408,7 @@ function classFileCreationFunctionWithBaseClassAndPlugins<T>(
 
     const customPluginBaseClass: Either.Either<
       Error.Error,
-      Maybe.Maybe<ObjC.BaseClass>
+      ObjC.BaseClass | null
     > = List.foldl(
       (currentEither, nextPlugin) => {
         return Either.mbind(maybeCurrentBaseClass => {
@@ -680,7 +676,7 @@ function createClassIfNecessary(
   baseClassName: string,
   nullability: ObjC.ClassNullability,
   subclassingRestricted: boolean,
-): Maybe.Maybe<ObjC.Class> {
+): ObjC.Class | null {
   if (
     classMethods.length > 0 ||
     instanceMethods.length > 0 ||

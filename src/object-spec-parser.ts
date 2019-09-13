@@ -18,7 +18,7 @@ import * as ObjectMonaParser from './js/object-mona-parser/object-mona-parser';
 export function underlyingTypeForType(
   providedUnderlyingType: string | null,
   typeReference: string,
-): Maybe.Maybe<string> {
+): string | null {
   const underlyingType: Maybe.Maybe<
     string
   > = ObjectGenerationParsingUtils.possiblyUndefinedStringToMaybe(
@@ -29,9 +29,7 @@ export function underlyingTypeForType(
       return underlyingType;
     },
     function Nothing() {
-      return typeReference.indexOf('*') !== -1
-        ? Maybe.Just<string>('NSObject')
-        : Maybe.Nothing<string>();
+      return typeReference.indexOf('*') !== -1 ? 'NSObject' : null;
     },
     underlyingType,
   );

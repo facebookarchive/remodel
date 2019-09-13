@@ -53,7 +53,7 @@ describe('Configuration', function() {
         );
         const expectedConfig: Configuration.GenerationConfig = {
           baseClassName: 'NSObject',
-          baseClassLibraryName: Maybe.Nothing<string>(),
+          baseClassLibraryName: null,
           diagnosticIgnores: List.of<string>(),
           pluginConfigs: expectedConfigs,
           defaultIncludes: List.of<string>('SomePlugin', 'AnotherPlugin'),
@@ -98,7 +98,7 @@ describe('Configuration', function() {
         );
         const expectedConfig: Configuration.GenerationConfig = {
           baseClassName: 'RMSomeObject',
-          baseClassLibraryName: Maybe.Nothing<string>(),
+          baseClassLibraryName: null,
           diagnosticIgnores: List.of<string>(),
           pluginConfigs: expectedConfigs,
           defaultIncludes: List.of<string>('SomePlugin', 'AnotherPlugin'),
@@ -143,7 +143,7 @@ describe('Configuration', function() {
         );
         const expectedConfig: Configuration.GenerationConfig = {
           baseClassName: 'NSObject',
-          baseClassLibraryName: Maybe.Nothing<string>(),
+          baseClassLibraryName: null,
           diagnosticIgnores: List.of<string>(
             '-Wprotocol',
             '-Wincomplete-implementation',
@@ -193,7 +193,7 @@ describe('Configuration', function() {
         );
         const expectedConfig: Configuration.GenerationConfig = {
           baseClassName: 'NSObject',
-          baseClassLibraryName: Maybe.Nothing<string>(),
+          baseClassLibraryName: null,
           diagnosticIgnores: List.of<string>(),
           pluginConfigs: expectedConfigs,
           defaultIncludes: List.of<string>('AnotherPlugin'),
@@ -240,7 +240,7 @@ describe('Configuration', function() {
         );
         const expectedConfig: Configuration.GenerationConfig = {
           baseClassName: 'NSObject',
-          baseClassLibraryName: Maybe.Nothing<string>(),
+          baseClassLibraryName: null,
           diagnosticIgnores: List.of<string>(),
           pluginConfigs: expectedConfigs,
           defaultIncludes: List.of<string>('SomePlugin', 'AnotherPlugin'),
@@ -292,7 +292,7 @@ describe('Configuration', function() {
       );
       const expectedConfig: Configuration.GenerationConfig = {
         baseClassName: 'NSObject',
-        baseClassLibraryName: Maybe.Nothing<string>(),
+        baseClassLibraryName: null,
         diagnosticIgnores: List.of<string>(),
         pluginConfigs: expectedConfigs,
         defaultIncludes: List.of<string>(

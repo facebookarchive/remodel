@@ -22,10 +22,10 @@ export function Map<K, V>(array: Array</*[K,V]*/ Array<any>>): Map<K, V> {
   return {map: Immutable.Map<K, V>(array)};
 }
 
-export function get<K, V>(key: K, map: Map<K, V>): Maybe.Maybe<V> {
+export function get<K, V>(key: K, map: Map<K, V>): V | null {
   const immutableMap: Immutable.Map<K, V> = map.map;
   const value = immutableMap.get(key);
-  return value ? Maybe.Just(value) : Maybe.Nothing<V>();
+  return value ? value : null;
 }
 
 function returnTrue() {

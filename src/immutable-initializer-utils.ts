@@ -16,7 +16,7 @@ import * as ObjectSpecCodeUtils from './object-spec-code-utils';
 
 function keywordArgumentFromAttribute(
   attribute: ObjectSpec.Attribute,
-): Maybe.Maybe<ObjC.KeywordArgument> {
+): ObjC.KeywordArgument | null {
   return Maybe.Just({
     name: attribute.name,
     modifiers: ObjCNullabilityUtils.keywordArgumentModifiersForNullability(
@@ -133,7 +133,7 @@ export function initializerFromAttributes(
   );
   return {
     preprocessors: [],
-    belongsToProtocol: Maybe.Nothing<string>(),
+    belongsToProtocol: null,
     code: initializerCodeFromAttributes(
       assumeNonnull,
       supportsValueSemantics,

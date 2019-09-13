@@ -71,13 +71,13 @@ export function cons<T>(elem: T, list: List<T>): List<T> {
   return new List<T>(ListType.cons, elem, list);
 }
 
-function returnJustHead<T>(val: T, tail: List<T>): Maybe.Maybe<T> {
-  return Maybe.Just(val);
+function returnJustHead<T>(val: T, tail: List<T>): T | null {
+  return val;
 }
 
-export function head<T>(list: List<T>): Maybe.Maybe<T> {
+export function head<T>(list: List<T>): T | null {
   return list.match(function() {
-    return Maybe.Nothing<T>();
+    return null;
   }, returnJustHead);
 }
 

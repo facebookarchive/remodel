@@ -31,7 +31,7 @@ function algebraicTestTypeWithTwoSubtypes(): AlgebraicType.Type {
     includes: [],
     excludes: [],
     typeLookups: [],
-    libraryName: Maybe.Nothing<string>(),
+    libraryName: null,
     comments: [],
     subtypes: [
       AlgebraicType.Subtype.NamedAttributeCollectionDefinition({
@@ -46,10 +46,10 @@ function algebraicTestTypeWithTwoSubtypes(): AlgebraicType.Type {
             type: {
               name: 'NSString',
               reference: 'NSString *',
-              libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
-              fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-              underlyingType: Maybe.Just<string>('NSObject'),
-              conformingProtocol: Maybe.Nothing<string>(),
+              libraryTypeIsDefinedIn: null,
+              fileTypeIsDefinedIn: null,
+              underlyingType: 'NSObject',
+              conformingProtocol: null,
             },
           },
           {
@@ -60,10 +60,10 @@ function algebraicTestTypeWithTwoSubtypes(): AlgebraicType.Type {
             type: {
               name: 'NSUInteger',
               reference: 'NSUInteger',
-              libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
-              fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-              underlyingType: Maybe.Nothing<string>(),
-              conformingProtocol: Maybe.Nothing<string>(),
+              libraryTypeIsDefinedIn: null,
+              fileTypeIsDefinedIn: null,
+              underlyingType: null,
+              conformingProtocol: null,
             },
           },
         ],
@@ -77,10 +77,10 @@ function algebraicTestTypeWithTwoSubtypes(): AlgebraicType.Type {
         type: {
           name: 'SingleAttributeType',
           reference: 'SingleAttributeType *',
-          libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
-          fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-          underlyingType: Maybe.Just<string>('NSObject'),
-          conformingProtocol: Maybe.Nothing<string>(),
+          libraryTypeIsDefinedIn: null,
+          fileTypeIsDefinedIn: null,
+          underlyingType: 'NSObject',
+          conformingProtocol: null,
         },
       }),
     ],
@@ -151,7 +151,7 @@ describe('Plugins.AlgebraicTypeVoidMatching', function() {
 
       const expectedInstanceMethod: ObjC.Method = {
         preprocessors: [],
-        belongsToProtocol: Maybe.Nothing<string>(),
+        belongsToProtocol: null,
         code: [
           'switch (_subtype) {',
           '  case TestSubtypesSomeSubtype: {',
@@ -286,7 +286,7 @@ describe('Plugins.AlgebraicTypeBoolMatching', function() {
 
       const expectedInstanceMethod: ObjC.Method = {
         preprocessors: [],
-        belongsToProtocol: Maybe.Nothing<string>(),
+        belongsToProtocol: null,
         code: [
           '__block BOOL result = NO;',
           'switch (_subtype) {',
@@ -431,7 +431,7 @@ describe('Plugins.AlgebraicTypeIntegerMatching', function() {
 
       const expectedInstanceMethod: ObjC.Method = {
         preprocessors: [],
-        belongsToProtocol: Maybe.Nothing<string>(),
+        belongsToProtocol: null,
         code: [
           '__block NSInteger result = 0;',
           'switch (_subtype) {',
@@ -576,7 +576,7 @@ describe('Plugins.AlgebraicTypeDoubleMatching', function() {
 
       const expectedInstanceMethod: ObjC.Method = {
         preprocessors: [],
-        belongsToProtocol: Maybe.Nothing<string>(),
+        belongsToProtocol: null,
         code: [
           '__block double result = 0.0f;',
           'switch (_subtype) {',
@@ -732,7 +732,7 @@ describe('Plugins.AlgebraicTypeGenericMatching', function() {
 
       const expectedClassMethod: ObjC.Method = {
         preprocessors: [],
-        belongsToProtocol: Maybe.Nothing<string>(),
+        belongsToProtocol: null,
         code: [
           '__block id result = nil;',
           '',

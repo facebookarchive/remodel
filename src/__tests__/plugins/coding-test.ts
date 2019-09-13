@@ -28,7 +28,7 @@ describe('ObjectSpecPlugins.Coding', function() {
         typeLookups: [],
         excludes: [],
         includes: [],
-        libraryName: Maybe.Nothing<string>(),
+        libraryName: null,
         typeName: 'Foo',
       };
       const errors: Error.Error[] = ObjectSpecPlugin.validationErrors(
@@ -47,12 +47,12 @@ describe('ObjectSpecPlugins.Coding', function() {
             name: 'name',
             nullability: ObjC.Nullability.Inherited(),
             type: {
-              fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-              libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+              fileTypeIsDefinedIn: null,
+              libraryTypeIsDefinedIn: null,
               name: 'NSString',
               reference: 'NSString *',
-              underlyingType: Maybe.Just<string>('NSObject'),
-              conformingProtocol: Maybe.Nothing<string>(),
+              underlyingType: 'NSObject',
+              conformingProtocol: null,
             },
           },
           {
@@ -61,12 +61,12 @@ describe('ObjectSpecPlugins.Coding', function() {
             name: 'likeStatus',
             nullability: ObjC.Nullability.Inherited(),
             type: {
-              fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-              libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+              fileTypeIsDefinedIn: null,
+              libraryTypeIsDefinedIn: null,
               name: 'LikeStatus',
               reference: 'LikeStatus',
-              underlyingType: Maybe.Nothing<string>(),
-              conformingProtocol: Maybe.Nothing<string>(),
+              underlyingType: null,
+              conformingProtocol: null,
             },
           },
         ],
@@ -74,7 +74,7 @@ describe('ObjectSpecPlugins.Coding', function() {
         typeLookups: [],
         excludes: [],
         includes: [],
-        libraryName: Maybe.Nothing<string>(),
+        libraryName: null,
         typeName: 'Foo',
       };
       const errors: Error.Error[] = ObjectSpecPlugin.validationErrors(
@@ -98,12 +98,12 @@ describe('ObjectSpecPlugins.Coding', function() {
             name: 'name',
             nullability: ObjC.Nullability.Inherited(),
             type: {
-              fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-              libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+              fileTypeIsDefinedIn: null,
+              libraryTypeIsDefinedIn: null,
               name: 'Name',
               reference: 'Name',
-              underlyingType: Maybe.Nothing<string>(),
-              conformingProtocol: Maybe.Nothing<string>(),
+              underlyingType: null,
+              conformingProtocol: null,
             },
           },
           {
@@ -112,12 +112,12 @@ describe('ObjectSpecPlugins.Coding', function() {
             name: 'likeStatus',
             nullability: ObjC.Nullability.Inherited(),
             type: {
-              fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-              libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+              fileTypeIsDefinedIn: null,
+              libraryTypeIsDefinedIn: null,
               name: 'LikeStatus',
               reference: 'LikeStatus',
-              underlyingType: Maybe.Nothing<string>(),
-              conformingProtocol: Maybe.Nothing<string>(),
+              underlyingType: null,
+              conformingProtocol: null,
             },
           },
         ],
@@ -125,7 +125,7 @@ describe('ObjectSpecPlugins.Coding', function() {
         typeLookups: [],
         excludes: [],
         includes: [],
-        libraryName: Maybe.Nothing<string>(),
+        libraryName: null,
         typeName: 'Foo',
       };
       const errors: Error.Error[] = ObjectSpecPlugin.validationErrors(
@@ -152,12 +152,12 @@ describe('ObjectSpecPlugins.Coding', function() {
             name: 'name',
             nullability: ObjC.Nullability.Inherited(),
             type: {
-              fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-              libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+              fileTypeIsDefinedIn: null,
+              libraryTypeIsDefinedIn: null,
               name: 'FooBar',
               reference: 'FooBar',
-              underlyingType: Maybe.Just<string>('Baz'),
-              conformingProtocol: Maybe.Nothing<string>(),
+              underlyingType: 'Baz',
+              conformingProtocol: null,
             },
           },
         ],
@@ -165,7 +165,7 @@ describe('ObjectSpecPlugins.Coding', function() {
         typeLookups: [],
         excludes: [],
         includes: [],
-        libraryName: Maybe.Nothing<string>(),
+        libraryName: null,
         typeName: 'Foo',
       };
       const errors: Error.Error[] = ObjectSpecPlugin.validationErrors(
@@ -195,12 +195,12 @@ describe('ObjectSpecPlugins.Coding', function() {
             name: 'size',
             nullability: ObjC.Nullability.Inherited(),
             type: {
-              fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-              libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+              fileTypeIsDefinedIn: null,
+              libraryTypeIsDefinedIn: null,
               name: 'CGSize',
               reference: 'CGSize',
-              underlyingType: Maybe.Nothing<string>(),
-              conformingProtocol: Maybe.Nothing<string>(),
+              underlyingType: null,
+              conformingProtocol: null,
             },
           },
         ],
@@ -208,7 +208,7 @@ describe('ObjectSpecPlugins.Coding', function() {
         typeLookups: [],
         excludes: [],
         includes: [],
-        libraryName: Maybe.Nothing<string>(),
+        libraryName: null,
         typeName: 'Foo',
       };
       const errors: Error.Error[] = ObjectSpecPlugin.validationErrors(
@@ -232,7 +232,7 @@ describe('ObjectSpecPlugins.Coding', function() {
         typeLookups: [],
         excludes: [],
         includes: [],
-        libraryName: Maybe.Nothing<string>(),
+        libraryName: null,
         typeName: 'Foo',
       };
       const instanceMethods: ObjC.Method[] = ObjectSpecPlugin.instanceMethods(
@@ -257,12 +257,12 @@ describe('ObjectSpecPlugins.Coding', function() {
             name: 'name',
             nullability: ObjC.Nullability.Inherited(),
             type: {
-              fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-              libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+              fileTypeIsDefinedIn: null,
+              libraryTypeIsDefinedIn: null,
               name: 'NSString',
               reference: 'NSString *',
-              underlyingType: Maybe.Just<string>('NSObject'),
-              conformingProtocol: Maybe.Nothing<string>(),
+              underlyingType: 'NSObject',
+              conformingProtocol: null,
             },
           },
         ],
@@ -270,7 +270,7 @@ describe('ObjectSpecPlugins.Coding', function() {
         typeLookups: [],
         excludes: [],
         includes: [],
-        libraryName: Maybe.Nothing<string>(),
+        libraryName: null,
         typeName: 'Foo',
       };
 
@@ -281,7 +281,7 @@ describe('ObjectSpecPlugins.Coding', function() {
       const expectedInstanceMethods: ObjC.Method[] = [
         {
           preprocessors: [],
-          belongsToProtocol: Maybe.Just<string>('NSCoding'),
+          belongsToProtocol: 'NSCoding',
           code: [
             'if ((self = [super init])) {',
             '  _name = (id)[aDecoder decodeObjectForKey:kNameKey];',
@@ -316,7 +316,7 @@ describe('ObjectSpecPlugins.Coding', function() {
         },
         {
           preprocessors: [],
-          belongsToProtocol: Maybe.Just<string>('NSCoding'),
+          belongsToProtocol: 'NSCoding',
           code: ['[aCoder encodeObject:_name forKey:kNameKey];'],
           comments: [],
           compilerAttributes: [],
@@ -350,12 +350,12 @@ describe('ObjectSpecPlugins.Coding', function() {
             name: 'name',
             nullability: ObjC.Nullability.Inherited(),
             type: {
-              fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-              libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+              fileTypeIsDefinedIn: null,
+              libraryTypeIsDefinedIn: null,
               name: 'NSString',
               reference: 'NSString *',
-              underlyingType: Maybe.Just<string>('NSObject'),
-              conformingProtocol: Maybe.Nothing<string>(),
+              underlyingType: 'NSObject',
+              conformingProtocol: null,
             },
           },
           {
@@ -364,12 +364,12 @@ describe('ObjectSpecPlugins.Coding', function() {
             name: 'doesUserLike',
             nullability: ObjC.Nullability.Inherited(),
             type: {
-              fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-              libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+              fileTypeIsDefinedIn: null,
+              libraryTypeIsDefinedIn: null,
               name: 'BOOL',
               reference: 'BOOL',
-              underlyingType: Maybe.Nothing<string>(),
-              conformingProtocol: Maybe.Nothing<string>(),
+              underlyingType: null,
+              conformingProtocol: null,
             },
           },
           {
@@ -378,12 +378,12 @@ describe('ObjectSpecPlugins.Coding', function() {
             name: 'someObject',
             nullability: ObjC.Nullability.Inherited(),
             type: {
-              fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-              libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+              fileTypeIsDefinedIn: null,
+              libraryTypeIsDefinedIn: null,
               name: 'id',
               reference: 'id',
-              underlyingType: Maybe.Nothing<string>(),
-              conformingProtocol: Maybe.Nothing<string>(),
+              underlyingType: null,
+              conformingProtocol: null,
             },
           },
         ],
@@ -391,7 +391,7 @@ describe('ObjectSpecPlugins.Coding', function() {
         typeLookups: [],
         excludes: [],
         includes: [],
-        libraryName: Maybe.Nothing<string>(),
+        libraryName: null,
         typeName: 'Foo',
       };
 
@@ -402,7 +402,7 @@ describe('ObjectSpecPlugins.Coding', function() {
       const expectedInstanceMethods: ObjC.Method[] = [
         {
           preprocessors: [],
-          belongsToProtocol: Maybe.Just<string>('NSCoding'),
+          belongsToProtocol: 'NSCoding',
           code: [
             'if ((self = [super init])) {',
             '  _name = (id)[aDecoder decodeObjectForKey:kNameKey];',
@@ -436,7 +436,7 @@ describe('ObjectSpecPlugins.Coding', function() {
         },
         {
           preprocessors: [],
-          belongsToProtocol: Maybe.Just<string>('NSCoding'),
+          belongsToProtocol: 'NSCoding',
           code: [
             '[aCoder encodeObject:_name forKey:kNameKey];',
             '[aCoder encodeBool:_doesUserLike forKey:kDoesUserLikeKey];',
@@ -476,12 +476,12 @@ describe('ObjectSpecPlugins.Coding', function() {
             name: 'size',
             nullability: ObjC.Nullability.Inherited(),
             type: {
-              fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-              libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+              fileTypeIsDefinedIn: null,
+              libraryTypeIsDefinedIn: null,
               name: 'CGSize',
               reference: 'CGSize',
-              underlyingType: Maybe.Nothing<string>(),
-              conformingProtocol: Maybe.Nothing<string>(),
+              underlyingType: null,
+              conformingProtocol: null,
             },
           },
         ],
@@ -489,7 +489,7 @@ describe('ObjectSpecPlugins.Coding', function() {
         typeLookups: [],
         excludes: [],
         includes: [],
-        libraryName: Maybe.Nothing<string>(),
+        libraryName: null,
         typeName: 'Foo',
       };
 
@@ -498,7 +498,7 @@ describe('ObjectSpecPlugins.Coding', function() {
         {
           file: 'UIGeometry.h',
           isPublic: false,
-          library: Maybe.Just('UIKit'),
+          library: 'UIKit',
           requiresCPlusPlus: false,
         },
       ];
@@ -515,7 +515,7 @@ describe('ObjectSpecPlugins.Coding', function() {
         typeLookups: [],
         excludes: [],
         includes: [],
-        libraryName: Maybe.Nothing<string>(),
+        libraryName: null,
         typeName: 'Foo',
       };
       const staticConstants: ObjC.Constant[] = ObjectSpecPlugin.staticConstants(
@@ -537,12 +537,12 @@ describe('ObjectSpecPlugins.Coding', function() {
               name: 'name',
               nullability: ObjC.Nullability.Inherited(),
               type: {
-                fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-                libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+                fileTypeIsDefinedIn: null,
+                libraryTypeIsDefinedIn: null,
                 name: 'NSString',
                 reference: 'NSString *',
-                underlyingType: Maybe.Just<string>('NSObject'),
-                conformingProtocol: Maybe.Nothing<string>(),
+                underlyingType: 'NSObject',
+                conformingProtocol: null,
               },
             },
           ],
@@ -550,7 +550,7 @@ describe('ObjectSpecPlugins.Coding', function() {
           typeLookups: [],
           excludes: [],
           includes: [],
-          libraryName: Maybe.Nothing<string>(),
+          libraryName: null,
           typeName: 'Foo',
         };
 
@@ -587,12 +587,12 @@ describe('ObjectSpecPlugins.Coding', function() {
               name: 'givenName',
               nullability: ObjC.Nullability.Inherited(),
               type: {
-                fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-                libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+                fileTypeIsDefinedIn: null,
+                libraryTypeIsDefinedIn: null,
                 name: 'NSString',
                 reference: 'NSString *',
-                underlyingType: Maybe.Just<string>('NSObject'),
-                conformingProtocol: Maybe.Nothing<string>(),
+                underlyingType: 'NSObject',
+                conformingProtocol: null,
               },
             },
           ],
@@ -600,7 +600,7 @@ describe('ObjectSpecPlugins.Coding', function() {
           typeLookups: [],
           excludes: [],
           includes: [],
-          libraryName: Maybe.Nothing<string>(),
+          libraryName: null,
           typeName: 'Foo',
         };
 
@@ -637,12 +637,12 @@ describe('ObjectSpecPlugins.Coding', function() {
               name: 'givenName',
               nullability: ObjC.Nullability.Inherited(),
               type: {
-                fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-                libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+                fileTypeIsDefinedIn: null,
+                libraryTypeIsDefinedIn: null,
                 name: 'NSString',
                 reference: 'NSString *',
-                underlyingType: Maybe.Just<string>('NSObject'),
-                conformingProtocol: Maybe.Nothing<string>(),
+                underlyingType: 'NSObject',
+                conformingProtocol: null,
               },
             },
             {
@@ -651,12 +651,12 @@ describe('ObjectSpecPlugins.Coding', function() {
               name: 'age',
               nullability: ObjC.Nullability.Inherited(),
               type: {
-                fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-                libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+                fileTypeIsDefinedIn: null,
+                libraryTypeIsDefinedIn: null,
                 name: 'NSUInteger',
                 reference: 'NSUInteger',
-                underlyingType: Maybe.Nothing<string>(),
-                conformingProtocol: Maybe.Nothing<string>(),
+                underlyingType: null,
+                conformingProtocol: null,
               },
             },
           ],
@@ -664,7 +664,7 @@ describe('ObjectSpecPlugins.Coding', function() {
           typeLookups: [],
           excludes: [],
           includes: [],
-          libraryName: Maybe.Nothing<string>(),
+          libraryName: null,
           typeName: 'Foo',
         };
 
@@ -714,12 +714,12 @@ describe('ObjectSpecPlugins.Coding', function() {
             name: 'test',
             nullability: ObjC.Nullability.Inherited(),
             type: {
-              fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-              libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+              fileTypeIsDefinedIn: null,
+              libraryTypeIsDefinedIn: null,
               name: 'NSString',
               reference: 'NSString *',
-              underlyingType: Maybe.Just<string>('NSObject'),
-              conformingProtocol: Maybe.Nothing<string>(),
+              underlyingType: 'NSObject',
+              conformingProtocol: null,
             },
           },
         ],
@@ -727,7 +727,7 @@ describe('ObjectSpecPlugins.Coding', function() {
         typeLookups: [],
         excludes: [],
         includes: [],
-        libraryName: Maybe.Nothing<string>(),
+        libraryName: null,
         typeName: 'Foo',
       };
 
@@ -1018,7 +1018,7 @@ describe('AlgebraicTypePlugins.Coding', function() {
         includes: [],
         typeLookups: [],
         excludes: [],
-        libraryName: Maybe.Nothing<string>(),
+        libraryName: null,
         comments: [],
         subtypes: [
           AlgebraicType.Subtype.NamedAttributeCollectionDefinition({
@@ -1033,10 +1033,10 @@ describe('AlgebraicTypePlugins.Coding', function() {
                 type: {
                   name: 'NSString',
                   reference: 'NSString *',
-                  libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
-                  fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-                  underlyingType: Maybe.Just<string>('NSObject'),
-                  conformingProtocol: Maybe.Nothing<string>(),
+                  libraryTypeIsDefinedIn: null,
+                  fileTypeIsDefinedIn: null,
+                  underlyingType: 'NSObject',
+                  conformingProtocol: null,
                 },
               },
               {
@@ -1047,10 +1047,10 @@ describe('AlgebraicTypePlugins.Coding', function() {
                 type: {
                   name: 'NSUInteger',
                   reference: 'NSUInteger',
-                  libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
-                  fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-                  underlyingType: Maybe.Nothing<string>(),
-                  conformingProtocol: Maybe.Nothing<string>(),
+                  libraryTypeIsDefinedIn: null,
+                  fileTypeIsDefinedIn: null,
+                  underlyingType: null,
+                  conformingProtocol: null,
                 },
               },
             ],
@@ -1064,10 +1064,10 @@ describe('AlgebraicTypePlugins.Coding', function() {
             type: {
               name: 'SingleAttributeType',
               reference: 'SingleAttributeType *',
-              libraryTypeIsDefinedIn: Maybe.Just('SomeLib'),
-              fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-              underlyingType: Maybe.Just<string>('NSObject'),
-              conformingProtocol: Maybe.Nothing<string>(),
+              libraryTypeIsDefinedIn: 'SomeLib',
+              fileTypeIsDefinedIn: null,
+              underlyingType: 'NSObject',
+              conformingProtocol: null,
             },
           }),
         ],
@@ -1080,7 +1080,7 @@ describe('AlgebraicTypePlugins.Coding', function() {
       const expectedInstanceMethods: ObjC.Method[] = [
         {
           preprocessors: [],
-          belongsToProtocol: Maybe.Just<string>('NSCoding'),
+          belongsToProtocol: 'NSCoding',
           code: [
             'if ((self = [super init])) {',
             '  NSString *codedSubtype = [aDecoder decodeObjectForKey:kCodedSubtypeKey];',
@@ -1124,7 +1124,7 @@ describe('AlgebraicTypePlugins.Coding', function() {
         },
         {
           preprocessors: [],
-          belongsToProtocol: Maybe.Just<string>('NSCoding'),
+          belongsToProtocol: 'NSCoding',
           code: [
             'switch (_subtype) {',
             '  case TestSubtypesSomeSubtype: {',
@@ -1174,7 +1174,7 @@ describe('AlgebraicTypePlugins.Coding', function() {
           includes: [],
           typeLookups: [],
           excludes: [],
-          libraryName: Maybe.Nothing<string>(),
+          libraryName: null,
           comments: [],
           subtypes: [
             AlgebraicType.Subtype.NamedAttributeCollectionDefinition({
@@ -1189,10 +1189,10 @@ describe('AlgebraicTypePlugins.Coding', function() {
                   type: {
                     name: 'NSString',
                     reference: 'NSString *',
-                    libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
-                    fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-                    underlyingType: Maybe.Just<string>('NSObject'),
-                    conformingProtocol: Maybe.Nothing<string>(),
+                    libraryTypeIsDefinedIn: null,
+                    fileTypeIsDefinedIn: null,
+                    underlyingType: 'NSObject',
+                    conformingProtocol: null,
                   },
                 },
                 {
@@ -1203,10 +1203,10 @@ describe('AlgebraicTypePlugins.Coding', function() {
                   type: {
                     name: 'NSUInteger',
                     reference: 'NSUInteger',
-                    libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
-                    fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-                    underlyingType: Maybe.Nothing<string>(),
-                    conformingProtocol: Maybe.Nothing<string>(),
+                    libraryTypeIsDefinedIn: null,
+                    fileTypeIsDefinedIn: null,
+                    underlyingType: null,
+                    conformingProtocol: null,
                   },
                 },
               ],
@@ -1220,10 +1220,10 @@ describe('AlgebraicTypePlugins.Coding', function() {
               type: {
                 name: 'SingleAttributeType',
                 reference: 'SingleAttributeType *',
-                libraryTypeIsDefinedIn: Maybe.Just('SomeLib'),
-                fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-                underlyingType: Maybe.Just<string>('NSObject'),
-                conformingProtocol: Maybe.Nothing<string>(),
+                libraryTypeIsDefinedIn: 'SomeLib',
+                fileTypeIsDefinedIn: null,
+                underlyingType: 'NSObject',
+                conformingProtocol: null,
               },
             }),
           ],
@@ -1288,7 +1288,7 @@ describe('AlgebraicTypePlugins.Coding', function() {
         includes: [],
         typeLookups: [],
         excludes: [],
-        libraryName: Maybe.Nothing<string>(),
+        libraryName: null,
         comments: [],
         subtypes: [
           AlgebraicType.Subtype.NamedAttributeCollectionDefinition({
@@ -1319,7 +1319,7 @@ describe('AlgebraicTypePlugins.Coding', function() {
         includes: [],
         typeLookups: [],
         excludes: [],
-        libraryName: Maybe.Nothing<string>(),
+        libraryName: null,
         comments: [],
         subtypes: [
           AlgebraicType.Subtype.NamedAttributeCollectionDefinition({
@@ -1334,10 +1334,10 @@ describe('AlgebraicTypePlugins.Coding', function() {
                 type: {
                   name: 'Foo',
                   reference: 'Foo *',
-                  libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
-                  fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-                  underlyingType: Maybe.Nothing<string>(),
-                  conformingProtocol: Maybe.Nothing<string>(),
+                  libraryTypeIsDefinedIn: null,
+                  fileTypeIsDefinedIn: null,
+                  underlyingType: null,
+                  conformingProtocol: null,
                 },
               },
             ],
@@ -1363,7 +1363,7 @@ describe('AlgebraicTypePlugins.Coding', function() {
         includes: [],
         typeLookups: [],
         excludes: [],
-        libraryName: Maybe.Nothing<string>(),
+        libraryName: null,
         comments: [],
         subtypes: [
           AlgebraicType.Subtype.NamedAttributeCollectionDefinition({
@@ -1378,10 +1378,10 @@ describe('AlgebraicTypePlugins.Coding', function() {
                 type: {
                   name: 'Foo',
                   reference: 'Foo *',
-                  libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
-                  fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-                  underlyingType: Maybe.Nothing<string>(),
-                  conformingProtocol: Maybe.Nothing<string>(),
+                  libraryTypeIsDefinedIn: null,
+                  fileTypeIsDefinedIn: null,
+                  underlyingType: null,
+                  conformingProtocol: null,
                 },
               },
             ],
@@ -1399,10 +1399,10 @@ describe('AlgebraicTypePlugins.Coding', function() {
                 type: {
                   name: 'Ferr',
                   reference: 'Ferr',
-                  libraryTypeIsDefinedIn: Maybe.Just<string>('SomeLib'),
-                  fileTypeIsDefinedIn: Maybe.Just<string>('SomethingElse'),
-                  underlyingType: Maybe.Nothing<string>(),
-                  conformingProtocol: Maybe.Nothing<string>(),
+                  libraryTypeIsDefinedIn: 'SomeLib',
+                  fileTypeIsDefinedIn: 'SomethingElse',
+                  underlyingType: null,
+                  conformingProtocol: null,
                 },
               },
             ],
@@ -1431,7 +1431,7 @@ describe('AlgebraicTypePlugins.Coding', function() {
         includes: [],
         typeLookups: [],
         excludes: [],
-        libraryName: Maybe.Nothing<string>(),
+        libraryName: null,
         comments: [],
         subtypes: [
           AlgebraicType.Subtype.NamedAttributeCollectionDefinition({
@@ -1446,10 +1446,10 @@ describe('AlgebraicTypePlugins.Coding', function() {
                 type: {
                   name: 'Ferr',
                   reference: 'Ferr',
-                  libraryTypeIsDefinedIn: Maybe.Just<string>('SomeLib'),
-                  fileTypeIsDefinedIn: Maybe.Just<string>('SomethingElse'),
-                  underlyingType: Maybe.Just<string>('SomethingRandom'),
-                  conformingProtocol: Maybe.Nothing<string>(),
+                  libraryTypeIsDefinedIn: 'SomeLib',
+                  fileTypeIsDefinedIn: 'SomethingElse',
+                  underlyingType: 'SomethingRandom',
+                  conformingProtocol: null,
                 },
               },
             ],

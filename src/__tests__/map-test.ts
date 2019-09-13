@@ -17,7 +17,7 @@ describe('Map', function() {
       const map: Map.Map<string, string> = Map.Empty<string, string>();
       const actualValue = Map.get('key', map);
 
-      const expectedValue = Maybe.Nothing<string>();
+      const expectedValue = null;
 
       expect(actualValue).toEqualJSON(expectedValue);
     });
@@ -31,7 +31,7 @@ describe('Map', function() {
         ]);
         const actualValue = Map.get('key', map);
 
-        const expectedValue = Maybe.Just('value');
+        const expectedValue = 'value';
 
         expect(actualValue).toEqualJSON(expectedValue);
       },
@@ -46,7 +46,7 @@ describe('Map', function() {
         ]);
         const actualValue = Map.get('anotherKey', map);
 
-        const expectedValue = Maybe.Nothing<string>();
+        const expectedValue = null;
 
         expect(actualValue).toEqualJSON(expectedValue);
       },
@@ -59,7 +59,7 @@ describe('Map', function() {
       const insertedMap = Map.insert('anotherKey', 'value', map);
       const actualValue = Map.get('anotherKey', insertedMap);
 
-      const expectedValue = Maybe.Just('value');
+      const expectedValue = 'value';
 
       expect(actualValue).toEqualJSON(expectedValue);
     });
@@ -74,7 +74,7 @@ describe('Map', function() {
         const insertedMap = Map.insert('anotherKey', 'anotherValue', map);
         const actualValue = Map.get('anotherKey', insertedMap);
 
-        const expectedValue = Maybe.Just('anotherValue');
+        const expectedValue = 'anotherValue';
 
         expect(actualValue).toEqualJSON(expectedValue);
       },
@@ -90,7 +90,7 @@ describe('Map', function() {
         const insertedMap = Map.insert('key', 'anotherValue', map);
         const actualValue = Map.get('key', insertedMap);
 
-        const expectedValue = Maybe.Just('anotherValue');
+        const expectedValue = 'anotherValue';
 
         expect(actualValue).toEqualJSON(expectedValue);
       },
@@ -103,7 +103,7 @@ describe('Map', function() {
       const clearedMap = Map.remove('key', map);
       const actualValue = Map.get('key', clearedMap);
 
-      const expectedValue = Maybe.Nothing<string>();
+      const expectedValue = null;
 
       expect(actualValue).toEqualJSON(expectedValue);
     });
@@ -118,7 +118,7 @@ describe('Map', function() {
         const clearedMap = Map.remove('anotherKey', map);
         const actualValue = Map.get('anotherKey', clearedMap);
 
-        const expectedValue = Maybe.Nothing<string>();
+        const expectedValue = null;
 
         expect(actualValue).toEqualJSON(expectedValue);
       },
@@ -134,7 +134,7 @@ describe('Map', function() {
         const clearedMap = Map.remove('anotherKey', map);
         const actualValue = Map.get('key', clearedMap);
 
-        const expectedValue = Maybe.Just('value');
+        const expectedValue = 'value';
 
         expect(actualValue).toEqualJSON(expectedValue);
       },
@@ -150,7 +150,7 @@ describe('Map', function() {
         const clearedMap = Map.remove('key', map);
         const actualValue = Map.get('key', clearedMap);
 
-        const expectedValue = Maybe.Nothing<string>();
+        const expectedValue = null;
 
         expect(actualValue).toEqualJSON(expectedValue);
       },

@@ -120,7 +120,7 @@ function propagateGenerationSuccessError(
 
 function failOnError(
   soFar: Either.Either<Error.Error[], ObjectGenerationSuccess>,
-  thisOne: Maybe.Maybe<Error.Error>,
+  thisOne: Error.Error | null,
 ): Either.Either<Error.Error[], ObjectGenerationSuccess> {
   return Either.mbind(function(success: ObjectGenerationSuccess) {
     return Maybe.match(
@@ -157,7 +157,7 @@ function generateOutput(
 function writeRequestToEitherErrorOrGenerationSuccess(
   fileWriter: (
     request: FileWriter.Request,
-  ) => Promise.Future<Maybe.Maybe<Error.Error>>,
+  ) => Promise.Future<Error.Error | null>,
   request: FileWriter.FileWriteRequest,
 ): Promise.Future<
   Logging.Context<Either.Either<Error.Error[], ObjectGenerationSuccess>>
@@ -165,7 +165,7 @@ function writeRequestToEitherErrorOrGenerationSuccess(
   const promiseForAllWriteRequestsFinished = Promise.all(
     List.map(fileWriter, request.requests),
   );
-  return Promise.map(function(results: List.List<Maybe.Maybe<Error.Error>>) {
+  return Promise.map(function(results: List.List<Error.Error | null>) {
     const success = Either.Right<Error.Error[], ObjectGenerationSuccess>({
       name: request.name,
     });
@@ -176,7 +176,7 @@ function writeRequestToEitherErrorOrGenerationSuccess(
 function writeFiles(
   fileWriter: (
     request: FileWriter.Request,
-  ) => Promise.Future<Maybe.Maybe<Error.Error>>,
+  ) => Promise.Future<Error.Error | null>,
   either: Either.Either<Error.Error[], FileWriter.FileWriteRequest>,
 ): Promise.Future<
   Logging.Context<Either.Either<Error.Error[], ObjectGenerationSuccess>>
@@ -191,8 +191,8 @@ function writeFiles(
 
 function writeFileForDryRun(
   request: FileWriter.Request,
-): Promise.Future<Maybe.Maybe<Error.Error>> {
-  const promise = Promise.pending<Maybe.Maybe<Error.Error>>();
+): Promise.Future<Error.Error | null> {
+  const promise = Promise.pending<Error.Error | null>();
   promise.setValue(Maybe.Nothing<Error.Error>());
   return promise.getFuture();
 }

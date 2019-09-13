@@ -38,7 +38,7 @@ describe('ObjectSpecCreation', function() {
           },
           fileType: function(
             objectType: ObjectSpec.Type,
-          ): Maybe.Maybe<Code.FileType> {
+          ): Code.FileType | null {
             return Maybe.Nothing<Code.FileType>();
           },
           forwardDeclarations: function(
@@ -62,7 +62,7 @@ describe('ObjectSpecCreation', function() {
             const instanceMethods: ObjC.Method[] = [
               {
                 preprocessors: [],
-                belongsToProtocol: Maybe.Just('NSObject'),
+                belongsToProtocol: 'NSObject',
                 comments: [],
                 code: [
                   'return [NSString stringWithFormat:@"%@ - \\n\\t age: %zd; \\n", [super description], _age];',
@@ -133,7 +133,7 @@ describe('ObjectSpecCreation', function() {
           },
           nullability: function(
             objectType: ObjectSpec.Type,
-          ): Maybe.Maybe<ObjC.ClassNullability> {
+          ): ObjC.ClassNullability | null {
             return Maybe.Nothing<ObjC.ClassNullability>();
           },
           subclassingRestricted: function(
@@ -150,13 +150,13 @@ describe('ObjectSpecCreation', function() {
           typeLookups: [],
           excludes: [],
           includes: [],
-          libraryName: Maybe.Nothing<string>(),
+          libraryName: null,
           typeName: 'Foo',
         };
 
         const generationRequest = {
           baseClassName: 'NSObject',
-          baseClassLibraryName: Maybe.Nothing<string>(),
+          baseClassLibraryName: null,
           diagnosticIgnores: List.of<string>(),
           path: File.getAbsoluteFilePath('something.value'),
           typeInformation: objectType,
@@ -231,7 +231,7 @@ describe('ObjectSpecCreation', function() {
           },
           fileType: function(
             objectType: ObjectSpec.Type,
-          ): Maybe.Maybe<Code.FileType> {
+          ): Code.FileType | null {
             return Maybe.Nothing<Code.FileType>();
           },
           forwardDeclarations: function(
@@ -329,7 +329,7 @@ describe('ObjectSpecCreation', function() {
           },
           nullability: function(
             objectType: ObjectSpec.Type,
-          ): Maybe.Maybe<ObjC.ClassNullability> {
+          ): ObjC.ClassNullability | null {
             return Maybe.Nothing<ObjC.ClassNullability>();
           },
           subclassingRestricted: function(
@@ -346,13 +346,13 @@ describe('ObjectSpecCreation', function() {
           typeLookups: [],
           excludes: [],
           includes: [],
-          libraryName: Maybe.Nothing<string>(),
+          libraryName: null,
           typeName: 'Foo',
         };
 
         const generationRequest = {
           baseClassName: 'NSObject',
-          baseClassLibraryName: Maybe.Nothing<string>(),
+          baseClassLibraryName: null,
           diagnosticIgnores: List.of<string>(),
           path: File.getAbsoluteFilePath('something.value'),
           typeInformation: objectType,
@@ -411,7 +411,7 @@ describe('ObjectSpecCreation', function() {
           },
           fileType: function(
             objectType: ObjectSpec.Type,
-          ): Maybe.Maybe<Code.FileType> {
+          ): Code.FileType | null {
             return Maybe.Nothing<Code.FileType>();
           },
           forwardDeclarations: function(
@@ -449,7 +449,7 @@ describe('ObjectSpecCreation', function() {
                 typeLookups: [],
                 excludes: [],
                 includes: [],
-                libraryName: Maybe.Nothing<string>(),
+                libraryName: null,
                 typeName: 'AddedType1',
               },
               {
@@ -459,7 +459,7 @@ describe('ObjectSpecCreation', function() {
                 typeLookups: [],
                 excludes: [],
                 includes: [],
-                libraryName: Maybe.Nothing<string>(),
+                libraryName: null,
                 typeName: 'AddedType2',
               },
             ];
@@ -498,7 +498,7 @@ describe('ObjectSpecCreation', function() {
           },
           nullability: function(
             objectType: ObjectSpec.Type,
-          ): Maybe.Maybe<ObjC.ClassNullability> {
+          ): ObjC.ClassNullability | null {
             return Maybe.Nothing<ObjC.ClassNullability>();
           },
           subclassingRestricted: function(
@@ -515,13 +515,13 @@ describe('ObjectSpecCreation', function() {
           typeLookups: [],
           excludes: [],
           includes: [],
-          libraryName: Maybe.Nothing<string>(),
+          libraryName: null,
           typeName: 'ExistingType',
         };
 
         const generationRequest = {
           baseClassName: 'NSObject',
-          baseClassLibraryName: Maybe.Nothing<string>(),
+          baseClassLibraryName: null,
           diagnosticIgnores: List.of<string>(),
           path: File.getAbsoluteFilePath('something.value'),
           typeInformation: objectType,
@@ -598,7 +598,7 @@ describe('ObjectSpecCreation', function() {
           },
           fileType: function(
             objectType: ObjectSpec.Type,
-          ): Maybe.Maybe<Code.FileType> {
+          ): Code.FileType | null {
             return Maybe.Nothing<Code.FileType>();
           },
           forwardDeclarations: function(
@@ -617,7 +617,7 @@ describe('ObjectSpecCreation', function() {
             const instanceMethods: ObjC.Method[] = [
               {
                 preprocessors: [],
-                belongsToProtocol: Maybe.Nothing<string>(),
+                belongsToProtocol: null,
                 comments: [],
                 code: ['return @"foo";'],
                 compilerAttributes: [],
@@ -686,7 +686,7 @@ describe('ObjectSpecCreation', function() {
           },
           nullability: function(
             objectType: ObjectSpec.Type,
-          ): Maybe.Maybe<ObjC.ClassNullability> {
+          ): ObjC.ClassNullability | null {
             return Maybe.Nothing<ObjC.ClassNullability>();
           },
           subclassingRestricted: function(
@@ -703,13 +703,13 @@ describe('ObjectSpecCreation', function() {
           typeLookups: [],
           excludes: [],
           includes: [],
-          libraryName: Maybe.Nothing<string>(),
+          libraryName: null,
           typeName: 'Foo',
         };
 
         const generationRequest = {
           baseClassName: 'NSObject',
-          baseClassLibraryName: Maybe.Nothing<string>(),
+          baseClassLibraryName: null,
           diagnosticIgnores: List.of<string>(),
           path: File.getAbsoluteFilePath('something.value'),
           typeInformation: objectType,
@@ -761,7 +761,7 @@ describe('ObjectSpecCreation', function() {
           },
           fileType: function(
             objectType: ObjectSpec.Type,
-          ): Maybe.Maybe<Code.FileType> {
+          ): Code.FileType | null {
             return Maybe.Nothing<Code.FileType>();
           },
           forwardDeclarations: function(
@@ -780,7 +780,7 @@ describe('ObjectSpecCreation', function() {
             const instanceMethods: ObjC.Method[] = [
               {
                 preprocessors: [],
-                belongsToProtocol: Maybe.Nothing<string>(),
+                belongsToProtocol: null,
                 comments: [],
                 code: ['return @"something";'],
                 compilerAttributes: [],
@@ -800,7 +800,7 @@ describe('ObjectSpecCreation', function() {
               },
               {
                 preprocessors: [],
-                belongsToProtocol: Maybe.Nothing<string>(),
+                belongsToProtocol: null,
                 comments: [],
                 code: [
                   'return [NSString stringWithFormat:@"%@ - \\n\\t age: %zd; \\n", [super description], _age];',
@@ -822,7 +822,7 @@ describe('ObjectSpecCreation', function() {
               },
               {
                 preprocessors: [],
-                belongsToProtocol: Maybe.Nothing<string>(),
+                belongsToProtocol: null,
                 comments: [],
                 code: ['return [self init];'],
                 compilerAttributes: [],
@@ -891,7 +891,7 @@ describe('ObjectSpecCreation', function() {
           },
           nullability: function(
             objectType: ObjectSpec.Type,
-          ): Maybe.Maybe<ObjC.ClassNullability> {
+          ): ObjC.ClassNullability | null {
             return Maybe.Nothing<ObjC.ClassNullability>();
           },
           subclassingRestricted: function(
@@ -908,13 +908,13 @@ describe('ObjectSpecCreation', function() {
           typeLookups: [],
           excludes: [],
           includes: [],
-          libraryName: Maybe.Nothing<string>(),
+          libraryName: null,
           typeName: 'Foo',
         };
 
         const generationRequest = {
           baseClassName: 'NSObject',
-          baseClassLibraryName: Maybe.Nothing<string>(),
+          baseClassLibraryName: null,
           diagnosticIgnores: List.of<string>(),
           path: File.getAbsoluteFilePath('something.value'),
           typeInformation: objectType,
@@ -1013,7 +1013,7 @@ describe('ObjectSpecCreation', function() {
           },
           fileType: function(
             objectType: ObjectSpec.Type,
-          ): Maybe.Maybe<Code.FileType> {
+          ): Code.FileType | null {
             return Maybe.Nothing<Code.FileType>();
           },
           forwardDeclarations: function(
@@ -1069,7 +1069,7 @@ describe('ObjectSpecCreation', function() {
           },
           nullability: function(
             objectType: ObjectSpec.Type,
-          ): Maybe.Maybe<ObjC.ClassNullability> {
+          ): ObjC.ClassNullability | null {
             return Maybe.Nothing<ObjC.ClassNullability>();
           },
           subclassingRestricted: function(
@@ -1086,13 +1086,13 @@ describe('ObjectSpecCreation', function() {
           typeLookups: [],
           excludes: [],
           includes: [],
-          libraryName: Maybe.Nothing<string>(),
+          libraryName: null,
           typeName: 'Foo',
         };
 
         const generationRequest = {
           baseClassName: 'NSObject',
-          baseClassLibraryName: Maybe.Nothing<string>(),
+          baseClassLibraryName: null,
           diagnosticIgnores: List.of<string>(),
           path: File.getAbsoluteFilePath('something.value'),
           typeInformation: objectType,
@@ -1150,7 +1150,7 @@ describe('ObjectSpecCreation', function() {
           },
           fileType: function(
             objectType: ObjectSpec.Type,
-          ): Maybe.Maybe<Code.FileType> {
+          ): Code.FileType | null {
             return Maybe.Nothing<Code.FileType>();
           },
           forwardDeclarations: function(
@@ -1206,7 +1206,7 @@ describe('ObjectSpecCreation', function() {
           },
           nullability: function(
             objectType: ObjectSpec.Type,
-          ): Maybe.Maybe<ObjC.ClassNullability> {
+          ): ObjC.ClassNullability | null {
             return Maybe.Nothing<ObjC.ClassNullability>();
           },
           subclassingRestricted: function(
@@ -1237,7 +1237,7 @@ describe('ObjectSpecCreation', function() {
           },
           fileType: function(
             objectType: ObjectSpec.Type,
-          ): Maybe.Maybe<Code.FileType> {
+          ): Code.FileType | null {
             return Maybe.Nothing<Code.FileType>();
           },
           forwardDeclarations: function(
@@ -1293,7 +1293,7 @@ describe('ObjectSpecCreation', function() {
           },
           nullability: function(
             objectType: ObjectSpec.Type,
-          ): Maybe.Maybe<ObjC.ClassNullability> {
+          ): ObjC.ClassNullability | null {
             return Maybe.Nothing<ObjC.ClassNullability>();
           },
           subclassingRestricted: function(
@@ -1310,13 +1310,13 @@ describe('ObjectSpecCreation', function() {
           typeLookups: [],
           excludes: [],
           includes: [],
-          libraryName: Maybe.Nothing<string>(),
+          libraryName: null,
           typeName: 'Foo',
         };
 
         const generationRequest = {
           baseClassName: 'NSObject',
-          baseClassLibraryName: Maybe.Nothing<string>(),
+          baseClassLibraryName: null,
           diagnosticIgnores: List.of<string>(),
           path: File.getAbsoluteFilePath('something.value'),
           typeInformation: objectType,
@@ -1366,7 +1366,7 @@ describe('ObjectSpecCreation', function() {
           },
           fileType: function(
             objectType: ObjectSpec.Type,
-          ): Maybe.Maybe<Code.FileType> {
+          ): Code.FileType | null {
             return Maybe.Nothing<Code.FileType>();
           },
           forwardDeclarations: function(
@@ -1385,7 +1385,7 @@ describe('ObjectSpecCreation', function() {
             const instanceMethods: ObjC.Method[] = [
               {
                 preprocessors: [],
-                belongsToProtocol: Maybe.Nothing<string>(),
+                belongsToProtocol: null,
                 comments: [],
                 code: ['return @"something";'],
                 compilerAttributes: [],
@@ -1405,7 +1405,7 @@ describe('ObjectSpecCreation', function() {
               },
               {
                 preprocessors: [],
-                belongsToProtocol: Maybe.Nothing<string>(),
+                belongsToProtocol: null,
                 comments: [],
                 code: [
                   'return [NSString stringWithFormat:@"%@ - \\n\\t age: %zd; \\n", [super description], _age];',
@@ -1476,7 +1476,7 @@ describe('ObjectSpecCreation', function() {
           },
           nullability: function(
             objectType: ObjectSpec.Type,
-          ): Maybe.Maybe<ObjC.ClassNullability> {
+          ): ObjC.ClassNullability | null {
             return Maybe.Nothing<ObjC.ClassNullability>();
           },
           subclassingRestricted: function(
@@ -1497,7 +1497,7 @@ describe('ObjectSpecCreation', function() {
           },
           fileType: function(
             objectType: ObjectSpec.Type,
-          ): Maybe.Maybe<Code.FileType> {
+          ): Code.FileType | null {
             return Maybe.Nothing<Code.FileType>();
           },
           forwardDeclarations: function(
@@ -1516,7 +1516,7 @@ describe('ObjectSpecCreation', function() {
             const instanceMethods: ObjC.Method[] = [
               {
                 preprocessors: [],
-                belongsToProtocol: Maybe.Nothing<string>(),
+                belongsToProtocol: null,
                 comments: [],
                 code: ['return [self init];'],
                 compilerAttributes: [],
@@ -1585,7 +1585,7 @@ describe('ObjectSpecCreation', function() {
           },
           nullability: function(
             objectType: ObjectSpec.Type,
-          ): Maybe.Maybe<ObjC.ClassNullability> {
+          ): ObjC.ClassNullability | null {
             return Maybe.Nothing<ObjC.ClassNullability>();
           },
           subclassingRestricted: function(
@@ -1602,13 +1602,13 @@ describe('ObjectSpecCreation', function() {
           typeLookups: [],
           excludes: [],
           includes: [],
-          libraryName: Maybe.Nothing<string>(),
+          libraryName: null,
           typeName: 'Foo',
         };
 
         const generationRequest = {
           baseClassName: 'NSObject',
-          baseClassLibraryName: Maybe.Nothing<string>(),
+          baseClassLibraryName: null,
           diagnosticIgnores: List.of<string>(),
           path: File.getAbsoluteFilePath('something.value'),
           typeInformation: objectType,
@@ -1701,7 +1701,7 @@ describe('ObjectSpecCreation', function() {
           },
           fileType: function(
             objectType: ObjectSpec.Type,
-          ): Maybe.Maybe<Code.FileType> {
+          ): Code.FileType | null {
             return Maybe.Nothing<Code.FileType>();
           },
           forwardDeclarations: function(
@@ -1720,7 +1720,7 @@ describe('ObjectSpecCreation', function() {
             const instanceMethods: ObjC.Method[] = [
               {
                 preprocessors: [],
-                belongsToProtocol: Maybe.Nothing<string>(),
+                belongsToProtocol: null,
                 comments: [],
                 code: ['return @"something";'],
                 compilerAttributes: [],
@@ -1740,7 +1740,7 @@ describe('ObjectSpecCreation', function() {
               },
               {
                 preprocessors: [],
-                belongsToProtocol: Maybe.Nothing<string>(),
+                belongsToProtocol: null,
                 comments: [],
                 code: [
                   'return [NSString stringWithFormat:@"%@ - \\n\\t age: %zd; \\n", [super description], _age];',
@@ -1811,7 +1811,7 @@ describe('ObjectSpecCreation', function() {
           },
           nullability: function(
             objectType: ObjectSpec.Type,
-          ): Maybe.Maybe<ObjC.ClassNullability> {
+          ): ObjC.ClassNullability | null {
             return Maybe.Nothing<ObjC.ClassNullability>();
           },
           subclassingRestricted: function(
@@ -1836,7 +1836,7 @@ describe('ObjectSpecCreation', function() {
           },
           fileType: function(
             objectType: ObjectSpec.Type,
-          ): Maybe.Maybe<Code.FileType> {
+          ): Code.FileType | null {
             return Maybe.Nothing<Code.FileType>();
           },
           forwardDeclarations: function(
@@ -1855,7 +1855,7 @@ describe('ObjectSpecCreation', function() {
             const instanceMethods: ObjC.Method[] = [
               {
                 preprocessors: [],
-                belongsToProtocol: Maybe.Nothing<string>(),
+                belongsToProtocol: null,
                 comments: [],
                 code: ['return [self init];'],
                 compilerAttributes: [],
@@ -1924,7 +1924,7 @@ describe('ObjectSpecCreation', function() {
           },
           nullability: function(
             objectType: ObjectSpec.Type,
-          ): Maybe.Maybe<ObjC.ClassNullability> {
+          ): ObjC.ClassNullability | null {
             return Maybe.Nothing<ObjC.ClassNullability>();
           },
           subclassingRestricted: function(
@@ -1941,13 +1941,13 @@ describe('ObjectSpecCreation', function() {
           typeLookups: [],
           excludes: [],
           includes: [],
-          libraryName: Maybe.Nothing<string>(),
+          libraryName: null,
           typeName: 'Foo',
         };
 
         const generationRequest = {
           baseClassName: 'NSObject',
-          baseClassLibraryName: Maybe.Nothing<string>(),
+          baseClassLibraryName: null,
           diagnosticIgnores: List.of<string>(),
           path: File.getAbsoluteFilePath('something.value'),
           typeInformation: objectType,
@@ -2035,9 +2035,7 @@ describe('ObjectSpecCreation', function() {
         ): FileWriter.Request {
           return request;
         },
-        fileType: function(
-          objectType: ObjectSpec.Type,
-        ): Maybe.Maybe<Code.FileType> {
+        fileType: function(objectType: ObjectSpec.Type): Code.FileType | null {
           return Maybe.Nothing<Code.FileType>();
         },
         forwardDeclarations: function(
@@ -2054,7 +2052,7 @@ describe('ObjectSpecCreation', function() {
           const instanceMethods: ObjC.Method[] = [
             {
               preprocessors: [],
-              belongsToProtocol: Maybe.Just('NSObject'),
+              belongsToProtocol: 'NSObject',
               comments: [],
               code: [
                 'return [NSString stringWithFormat:@"%@ - \\n\\t age: %zd; \\n", [super description], _age];',
@@ -2123,7 +2121,7 @@ describe('ObjectSpecCreation', function() {
         },
         nullability: function(
           objectType: ObjectSpec.Type,
-        ): Maybe.Maybe<ObjC.ClassNullability> {
+        ): ObjC.ClassNullability | null {
           return Maybe.Nothing<ObjC.ClassNullability>();
         },
         subclassingRestricted: function(objectType: ObjectSpec.Type): boolean {
@@ -2138,13 +2136,13 @@ describe('ObjectSpecCreation', function() {
         typeLookups: [],
         excludes: [],
         includes: [],
-        libraryName: Maybe.Nothing<string>(),
+        libraryName: null,
         typeName: 'Foo',
       };
 
       const generationRequest = {
         baseClassName: 'NSObject',
-        baseClassLibraryName: Maybe.Nothing<string>(),
+        baseClassLibraryName: null,
         diagnosticIgnores: List.of<string>(),
         path: File.getAbsoluteFilePath('something.value'),
         typeInformation: objectType,

@@ -42,7 +42,7 @@ function isImportRequiredForTypeLookup(
 }
 
 function importForTypeLookup(
-  objectLibrary: Maybe.Maybe<string>,
+  objectLibrary: string | null,
   isPublic: boolean,
   typeLookup: ObjectGeneration.TypeLookup,
 ): ObjC.Import {
@@ -54,7 +54,7 @@ function importForTypeLookup(
 }
 
 function importForAttribute(
-  objectLibrary: Maybe.Maybe<string>,
+  objectLibrary: string | null,
   isPublic: boolean,
   attribute: ObjectSpec.Attribute,
 ): ObjC.Import {
@@ -198,13 +198,13 @@ export function importsForObjectType(
       file: 'Foundation.h',
       isPublic: true,
       requiresCPlusPlus: false,
-      library: Maybe.Just('Foundation'),
+      library: 'Foundation',
     },
     {
       file: objectType.typeName + '.h',
       isPublic: false,
       requiresCPlusPlus: false,
-      library: Maybe.Nothing<string>(),
+      library: null,
     },
   ];
   const makePublicImports = makePublicImportsForValueType(objectType);

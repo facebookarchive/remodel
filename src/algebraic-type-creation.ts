@@ -38,8 +38,7 @@ function createAlgebraicTypeObjCPlugIn(
       return plugin.transformBaseFile(typeInformation, baseFile);
     },
 
-    baseClass:
-      plugin.baseClass != null ? plugin.baseClass : _ => Maybe.Nothing(),
+    baseClass: plugin.baseClass != null ? plugin.baseClass : _ => null,
 
     blockTypes: function(
       typeInformation: AlgebraicType.Type,
@@ -69,7 +68,7 @@ function createAlgebraicTypeObjCPlugIn(
 
     fileType: function(
       typeInformation: AlgebraicType.Type,
-    ): Maybe.Maybe<Code.FileType> {
+    ): Code.FileType | null {
       return plugin.fileType(typeInformation);
     },
 
@@ -127,7 +126,7 @@ function createAlgebraicTypeObjCPlugIn(
 
     nullability: function(
       typeInformation: AlgebraicType.Type,
-    ): Maybe.Maybe<ObjC.ClassNullability> {
+    ): ObjC.ClassNullability | null {
       return plugin.nullability(typeInformation);
     },
 

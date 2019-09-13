@@ -43,7 +43,7 @@ describe('requireObjectSpecPlugin', function() {
 
       const either: Either.Either<
         Error.Error[],
-        Maybe.Maybe<ObjectSpec.Plugin>
+        ObjectSpec.Plugin | null
       > = RequirePlugin.requireObjectSpecPlugin(
         PathUtils.getAbsolutePathFromDirectoryAndRelativePath(
           ABSOLUTE_PATH_OF_CURRENT_DIRECTORY,
@@ -55,7 +55,7 @@ describe('requireObjectSpecPlugin', function() {
         function(errors: Error.Error[]) {
           expect(true).toBe(false); // should not be an error
         },
-        function(maybePlugin: Maybe.Maybe<ObjectSpec.Plugin>) {
+        function(maybePlugin: ObjectSpec.Plugin | null) {
           Maybe.match(
             function(plugin: ObjectSpec.Plugin) {
               const typeInformation: ObjectSpec.Type = {
@@ -65,7 +65,7 @@ describe('requireObjectSpecPlugin', function() {
                 typeLookups: [],
                 excludes: [],
                 includes: [],
-                libraryName: Maybe.Nothing<string>(),
+                libraryName: null,
                 typeName: 'Something',
               };
 
@@ -108,7 +108,7 @@ describe('requireObjectSpecPlugin', function() {
 
         const either: Either.Either<
           Error.Error[],
-          Maybe.Maybe<ObjectSpec.Plugin>
+          ObjectSpec.Plugin | null
         > = RequirePlugin.requireObjectSpecPlugin(
           PathUtils.getAbsolutePathFromDirectoryAndRelativePath(
             ABSOLUTE_PATH_OF_CURRENT_DIRECTORY,
@@ -120,7 +120,7 @@ describe('requireObjectSpecPlugin', function() {
           function(errors: Error.Error[]) {
             expect(errors).toBe(false);
           },
-          function(maybePlugin: Maybe.Maybe<ObjectSpec.Plugin>) {
+          function(maybePlugin: ObjectSpec.Plugin | null) {
             Maybe.match(
               function(plugin: ObjectSpec.Plugin) {
                 expect('should not be an real value').toBe(false);
@@ -139,7 +139,7 @@ describe('requireObjectSpecPlugin', function() {
     it('returns an error when the module does not actually exist', function() {
       const plugin: Either.Either<
         Error.Error[],
-        Maybe.Maybe<ObjectSpec.Plugin>
+        ObjectSpec.Plugin | null
       > = RequirePlugin.requireObjectSpecPlugin(
         PathUtils.getAbsolutePathFromDirectoryAndRelativePath(
           ABSOLUTE_PATH_OF_CURRENT_DIRECTORY,
@@ -149,7 +149,7 @@ describe('requireObjectSpecPlugin', function() {
 
       const expectedPlugin = Either.Left<
         Error.Error[],
-        Maybe.Maybe<ObjectSpec.Plugin>
+        ObjectSpec.Plugin | null
       >([
         Error.Error(
           'Plugin registered at ' +

@@ -19,13 +19,13 @@ describe('ObjCImportUtils', function() {
     it('creates an import', function() {
       const typeLookup: ObjectGeneration.TypeLookup = {
         name: 'RMSomeType',
-        library: Maybe.Nothing<string>(),
-        file: Maybe.Just<string>('RMSomeFile'),
+        library: null,
+        file: 'RMSomeFile',
         canForwardDeclare: true,
       };
 
       const importValue: ObjC.Import = ObjCImportUtils.importForTypeLookup(
-        Maybe.Nothing<string>(),
+        null,
         true,
         typeLookup,
       );
@@ -33,7 +33,7 @@ describe('ObjCImportUtils', function() {
       const expectedImport: ObjC.Import = {
         file: 'RMSomeFile.h',
         isPublic: true,
-        library: Maybe.Nothing<string>(),
+        library: null,
         requiresCPlusPlus: false,
       };
 
@@ -43,13 +43,13 @@ describe('ObjCImportUtils', function() {
     it('creates a different import', function() {
       const typeLookup: ObjectGeneration.TypeLookup = {
         name: 'RMSomeType',
-        library: Maybe.Nothing<string>(),
-        file: Maybe.Nothing<string>(),
+        library: null,
+        file: null,
         canForwardDeclare: true,
       };
 
       const importValue: ObjC.Import = ObjCImportUtils.importForTypeLookup(
-        Maybe.Nothing<string>(),
+        null,
         false,
         typeLookup,
       );
@@ -57,7 +57,7 @@ describe('ObjCImportUtils', function() {
       const expectedImport: ObjC.Import = {
         file: 'RMSomeType.h',
         isPublic: false,
-        library: Maybe.Nothing<string>(),
+        library: null,
         requiresCPlusPlus: false,
       };
 
@@ -67,13 +67,13 @@ describe('ObjCImportUtils', function() {
     it('creates an import containing a library', function() {
       const typeLookup: ObjectGeneration.TypeLookup = {
         name: 'RMSomeOtherType',
-        library: Maybe.Just<string>('RMSomeLibrary'),
-        file: Maybe.Nothing<string>(),
+        library: 'RMSomeLibrary',
+        file: null,
         canForwardDeclare: true,
       };
 
       const importValue: ObjC.Import = ObjCImportUtils.importForTypeLookup(
-        Maybe.Nothing<string>(),
+        null,
         true,
         typeLookup,
       );
@@ -81,7 +81,7 @@ describe('ObjCImportUtils', function() {
       const expectedImport: ObjC.Import = {
         file: 'RMSomeOtherType.h',
         isPublic: true,
-        library: Maybe.Just<string>('RMSomeLibrary'),
+        library: 'RMSomeLibrary',
         requiresCPlusPlus: false,
       };
 
@@ -94,13 +94,13 @@ describe('ObjCImportUtils', function() {
       function() {
         const typeLookup: ObjectGeneration.TypeLookup = {
           name: 'RMSomeOtherType',
-          library: Maybe.Nothing<string>(),
-          file: Maybe.Nothing<string>(),
+          library: null,
+          file: null,
           canForwardDeclare: true,
         };
 
         const importValue: ObjC.Import = ObjCImportUtils.importForTypeLookup(
-          Maybe.Just<string>('DefaultLibrary'),
+          'DefaultLibrary',
           true,
           typeLookup,
         );
@@ -108,7 +108,7 @@ describe('ObjCImportUtils', function() {
         const expectedImport: ObjC.Import = {
           file: 'RMSomeOtherType.h',
           isPublic: true,
-          library: Maybe.Just<string>('DefaultLibrary'),
+          library: 'DefaultLibrary',
           requiresCPlusPlus: false,
         };
 
@@ -120,12 +120,12 @@ describe('ObjCImportUtils', function() {
   describe('#shouldForwardProtocolDeclareAttribute', function() {
     it('should return false for the empty protocol', function() {
       const attributeType: ObjectSpec.AttributeType = {
-        fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-        libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+        fileTypeIsDefinedIn: null,
+        libraryTypeIsDefinedIn: null,
         name: 'NSArray',
         reference: 'NSArray*',
-        underlyingType: Maybe.Just<string>('NSObject'),
-        conformingProtocol: Maybe.Just<string>(''),
+        underlyingType: 'NSObject',
+        conformingProtocol: '',
       };
       const attribute: ObjectSpec.Attribute = {
         annotations: {},

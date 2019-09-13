@@ -13,7 +13,7 @@ const UI_GEOMETRY_IMPORT: ObjC.Import = {
   file: 'UIGeometry.h',
   isPublic: false,
   requiresCPlusPlus: false,
-  library: Maybe.Just('UIKit'),
+  library: 'UIKit',
 };
 
 const NSOBJECT_CODING_STATEMENTS: CodingStatements = {
@@ -33,7 +33,7 @@ const UNSUPPORTED_TYPE_CODING_STATEMENTS: CodingStatements = {
 };
 
 export interface CodingStatements {
-  codingFunctionImport: Maybe.Maybe<ObjC.Import>;
+  codingFunctionImport: ObjC.Import | null;
   decodeStatementGenerator: (
     valueClass: ObjC.Type,
     key: string,
@@ -273,7 +273,7 @@ export function codingStatementsForType(type: ObjC.Type): CodingStatements {
       },
       CGRect: function() {
         return {
-          codingFunctionImport: Maybe.Just(UI_GEOMETRY_IMPORT),
+          codingFunctionImport: UI_GEOMETRY_IMPORT,
           encodeStatement: 'encodeObject',
           encodeValueStatementGenerator: encodeValueStatementGeneratorForEncodingValueAsString(
             'NSStringFromCGRect',
@@ -286,7 +286,7 @@ export function codingStatementsForType(type: ObjC.Type): CodingStatements {
       },
       CGPoint: function() {
         return {
-          codingFunctionImport: Maybe.Just(UI_GEOMETRY_IMPORT),
+          codingFunctionImport: UI_GEOMETRY_IMPORT,
           encodeStatement: 'encodeObject',
           encodeValueStatementGenerator: encodeValueStatementGeneratorForEncodingValueAsString(
             'NSStringFromCGPoint',
@@ -299,7 +299,7 @@ export function codingStatementsForType(type: ObjC.Type): CodingStatements {
       },
       CGSize: function() {
         return {
-          codingFunctionImport: Maybe.Just(UI_GEOMETRY_IMPORT),
+          codingFunctionImport: UI_GEOMETRY_IMPORT,
           encodeStatement: 'encodeObject',
           encodeValueStatementGenerator: encodeValueStatementGeneratorForEncodingValueAsString(
             'NSStringFromCGSize',
@@ -312,7 +312,7 @@ export function codingStatementsForType(type: ObjC.Type): CodingStatements {
       },
       UIEdgeInsets: function() {
         return {
-          codingFunctionImport: Maybe.Just(UI_GEOMETRY_IMPORT),
+          codingFunctionImport: UI_GEOMETRY_IMPORT,
           encodeStatement: 'encodeObject',
           encodeValueStatementGenerator: encodeValueStatementGeneratorForEncodingValueAsString(
             'NSStringFromUIEdgeInsets',
@@ -339,14 +339,14 @@ export function codingStatementsForType(type: ObjC.Type): CodingStatements {
 
 export const supportsSecureCodingMethod: ObjC.Method = {
   preprocessors: [],
-  belongsToProtocol: Maybe.Just<string>('NSSecureCoding'),
+  belongsToProtocol: 'NSSecureCoding',
   code: ['return YES;'],
   comments: [],
   compilerAttributes: [],
   keywords: [
     {
       name: 'supportsSecureCoding',
-      argument: Maybe.Nothing(),
+      argument: null,
     },
   ],
   returnType: {

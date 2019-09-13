@@ -29,7 +29,7 @@ describe('Plugins.Builder', function() {
           comments: [],
           excludes: [],
           includes: ['RMValueObjectSemantics'],
-          libraryName: Maybe.Nothing<string>(),
+          libraryName: null,
           typeLookups: [],
           typeName: 'FooBarBaz',
         };
@@ -45,19 +45,19 @@ describe('Plugins.Builder', function() {
               {
                 file: 'Foundation.h',
                 isPublic: true,
-                library: Maybe.Just('Foundation'),
+                library: 'Foundation',
                 requiresCPlusPlus: false,
               },
               {
                 file: 'FooBarBaz.h',
                 isPublic: false,
-                library: Maybe.Nothing<string>(),
+                library: null,
                 requiresCPlusPlus: false,
               },
               {
                 file: 'FooBarBazBuilder.h',
                 isPublic: false,
-                library: Maybe.Nothing<string>(),
+                library: null,
                 requiresCPlusPlus: false,
               },
             ],
@@ -76,7 +76,7 @@ describe('Plugins.Builder', function() {
                 classMethods: [
                   {
                     preprocessors: [],
-                    belongsToProtocol: Maybe.Nothing<string>(),
+                    belongsToProtocol: null,
                     code: ['return [FooBarBazBuilder new];'],
                     comments: [],
                     compilerAttributes: [],
@@ -96,7 +96,7 @@ describe('Plugins.Builder', function() {
                   },
                   {
                     preprocessors: [],
-                    belongsToProtocol: Maybe.Nothing<string>(),
+                    belongsToProtocol: null,
                     code: ['return [FooBarBazBuilder fooBarBaz];'],
                     comments: [],
                     compilerAttributes: [],
@@ -127,7 +127,7 @@ describe('Plugins.Builder', function() {
                 instanceMethods: [
                   {
                     preprocessors: [],
-                    belongsToProtocol: Maybe.Nothing<string>(),
+                    belongsToProtocol: null,
                     code: ['return [FooBarBaz new];'],
                     comments: [],
                     compilerAttributes: [],
@@ -174,7 +174,7 @@ describe('Plugins.Builder', function() {
           comments: [],
           excludes: [],
           includes: ['RMValueObjectSemantics'],
-          libraryName: Maybe.Just<string>('RMSomeLibrary'),
+          libraryName: 'RMSomeLibrary',
           typeLookups: [],
           typeName: 'RMFerr',
         };
@@ -190,19 +190,19 @@ describe('Plugins.Builder', function() {
               {
                 file: 'Foundation.h',
                 isPublic: true,
-                library: Maybe.Just('Foundation'),
+                library: 'Foundation',
                 requiresCPlusPlus: false,
               },
               {
                 file: 'RMFerr.h',
                 isPublic: false,
-                library: Maybe.Just('RMSomeLibrary'),
+                library: 'RMSomeLibrary',
                 requiresCPlusPlus: false,
               },
               {
                 file: 'RMFerrBuilder.h',
                 isPublic: false,
-                library: Maybe.Nothing<string>(),
+                library: null,
                 requiresCPlusPlus: false,
               },
             ],
@@ -221,7 +221,7 @@ describe('Plugins.Builder', function() {
                 classMethods: [
                   {
                     preprocessors: [],
-                    belongsToProtocol: Maybe.Nothing<string>(),
+                    belongsToProtocol: null,
                     code: ['return [RMFerrBuilder new];'],
                     comments: [],
                     compilerAttributes: [],
@@ -241,7 +241,7 @@ describe('Plugins.Builder', function() {
                   },
                   {
                     preprocessors: [],
-                    belongsToProtocol: Maybe.Nothing<string>(),
+                    belongsToProtocol: null,
                     code: ['return [RMFerrBuilder ferr];'],
                     comments: [],
                     compilerAttributes: [],
@@ -272,7 +272,7 @@ describe('Plugins.Builder', function() {
                 instanceMethods: [
                   {
                     preprocessors: [],
-                    belongsToProtocol: Maybe.Nothing<string>(),
+                    belongsToProtocol: null,
                     code: ['return [RMFerr new];'],
                     comments: [],
                     compilerAttributes: [],
@@ -322,12 +322,12 @@ describe('Plugins.Builder', function() {
               name: 'someUnsignedInteger',
               nullability: ObjC.Nullability.Inherited(),
               type: {
-                fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-                libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+                fileTypeIsDefinedIn: null,
+                libraryTypeIsDefinedIn: null,
                 name: 'NSUInteger',
                 reference: 'NSUInteger',
-                underlyingType: Maybe.Nothing<string>(),
-                conformingProtocol: Maybe.Nothing<string>(),
+                underlyingType: null,
+                conformingProtocol: null,
               },
             },
             {
@@ -336,12 +336,12 @@ describe('Plugins.Builder', function() {
               name: 'someCustomObject',
               nullability: ObjC.Nullability.Inherited(),
               type: {
-                fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-                libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+                fileTypeIsDefinedIn: null,
+                libraryTypeIsDefinedIn: null,
                 name: 'RMCustomObject',
                 reference: 'RMCustomObject *',
-                underlyingType: Maybe.Just<string>('NSObject'),
-                conformingProtocol: Maybe.Nothing<string>(),
+                underlyingType: 'NSObject',
+                conformingProtocol: null,
               },
             },
             {
@@ -350,19 +350,19 @@ describe('Plugins.Builder', function() {
               name: 'someBool',
               nullability: ObjC.Nullability.Inherited(),
               type: {
-                fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-                libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+                fileTypeIsDefinedIn: null,
+                libraryTypeIsDefinedIn: null,
                 name: 'BOOL',
                 reference: 'BOOL',
-                underlyingType: Maybe.Nothing<string>(),
-                conformingProtocol: Maybe.Nothing<string>(),
+                underlyingType: null,
+                conformingProtocol: null,
               },
             },
           ],
           comments: [],
           excludes: [],
           includes: ['RMValueObjectSemantics'],
-          libraryName: Maybe.Nothing<string>(),
+          libraryName: null,
           typeLookups: [],
           typeName: 'RMFerr',
         };
@@ -378,25 +378,25 @@ describe('Plugins.Builder', function() {
               {
                 file: 'Foundation.h',
                 isPublic: true,
-                library: Maybe.Just('Foundation'),
+                library: 'Foundation',
                 requiresCPlusPlus: false,
               },
               {
                 file: 'RMFerr.h',
                 isPublic: false,
-                library: Maybe.Nothing<string>(),
+                library: null,
                 requiresCPlusPlus: false,
               },
               {
                 file: 'RMFerrBuilder.h',
                 isPublic: false,
-                library: Maybe.Nothing<string>(),
+                library: null,
                 requiresCPlusPlus: false,
               },
               {
                 file: 'RMCustomObject.h',
                 isPublic: false,
-                library: Maybe.Nothing<string>(),
+                library: null,
                 requiresCPlusPlus: false,
               },
             ],
@@ -416,7 +416,7 @@ describe('Plugins.Builder', function() {
                 classMethods: [
                   {
                     preprocessors: [],
-                    belongsToProtocol: Maybe.Nothing<string>(),
+                    belongsToProtocol: null,
                     code: ['return [RMFerrBuilder new];'],
                     comments: [],
                     compilerAttributes: [],
@@ -436,7 +436,7 @@ describe('Plugins.Builder', function() {
                   },
                   {
                     preprocessors: [],
-                    belongsToProtocol: Maybe.Nothing<string>(),
+                    belongsToProtocol: null,
                     code: [
                       'return [[[[RMFerrBuilder ferr]',
                       '          withSomeUnsignedInteger:existingFerr.someUnsignedInteger]',
@@ -472,7 +472,7 @@ describe('Plugins.Builder', function() {
                 instanceMethods: [
                   {
                     preprocessors: [],
-                    belongsToProtocol: Maybe.Nothing<string>(),
+                    belongsToProtocol: null,
                     code: [
                       'return [[RMFerr alloc] initWithSomeUnsignedInteger:_someUnsignedInteger someCustomObject:_someCustomObject someBool:_someBool];',
                     ],
@@ -494,7 +494,7 @@ describe('Plugins.Builder', function() {
                   },
                   {
                     preprocessors: [],
-                    belongsToProtocol: Maybe.Nothing<string>(),
+                    belongsToProtocol: null,
                     code: [
                       '_someUnsignedInteger = someUnsignedInteger;',
                       'return self;',
@@ -524,7 +524,7 @@ describe('Plugins.Builder', function() {
                   },
                   {
                     preprocessors: [],
-                    belongsToProtocol: Maybe.Nothing<string>(),
+                    belongsToProtocol: null,
                     code: [
                       '_someCustomObject = [someCustomObject copy];',
                       'return self;',
@@ -554,7 +554,7 @@ describe('Plugins.Builder', function() {
                   },
                   {
                     preprocessors: [],
-                    belongsToProtocol: Maybe.Nothing<string>(),
+                    belongsToProtocol: null,
                     code: ['_someBool = someBool;', 'return self;'],
                     comments: [],
                     compilerAttributes: [],
@@ -642,12 +642,12 @@ describe('Plugins.Builder', function() {
               name: 'someUnsignedInteger',
               nullability: ObjC.Nullability.Inherited(),
               type: {
-                fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-                libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+                fileTypeIsDefinedIn: null,
+                libraryTypeIsDefinedIn: null,
                 name: 'NSUInteger',
                 reference: 'NSUInteger',
-                underlyingType: Maybe.Nothing<string>(),
-                conformingProtocol: Maybe.Nothing<string>(),
+                underlyingType: null,
+                conformingProtocol: null,
               },
             },
             {
@@ -656,12 +656,12 @@ describe('Plugins.Builder', function() {
               name: 'someCustomObject',
               nullability: ObjC.Nullability.Inherited(),
               type: {
-                fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-                libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+                fileTypeIsDefinedIn: null,
+                libraryTypeIsDefinedIn: null,
                 name: 'RMCustomObject',
                 reference: 'RMCustomObject *',
-                underlyingType: Maybe.Just<string>('NSObject'),
-                conformingProtocol: Maybe.Nothing<string>(),
+                underlyingType: 'NSObject',
+                conformingProtocol: null,
               },
             },
             {
@@ -670,19 +670,19 @@ describe('Plugins.Builder', function() {
               name: 'someBool',
               nullability: ObjC.Nullability.Inherited(),
               type: {
-                fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-                libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+                fileTypeIsDefinedIn: null,
+                libraryTypeIsDefinedIn: null,
                 name: 'BOOL',
                 reference: 'BOOL',
-                underlyingType: Maybe.Nothing<string>(),
-                conformingProtocol: Maybe.Nothing<string>(),
+                underlyingType: null,
+                conformingProtocol: null,
               },
             },
           ],
           comments: [],
           excludes: [],
           includes: [],
-          libraryName: Maybe.Nothing<string>(),
+          libraryName: null,
           typeLookups: [],
           typeName: 'RMFerr',
         };
@@ -698,25 +698,25 @@ describe('Plugins.Builder', function() {
               {
                 file: 'Foundation.h',
                 isPublic: true,
-                library: Maybe.Just('Foundation'),
+                library: 'Foundation',
                 requiresCPlusPlus: false,
               },
               {
                 file: 'RMFerr.h',
                 isPublic: false,
-                library: Maybe.Nothing<string>(),
+                library: null,
                 requiresCPlusPlus: false,
               },
               {
                 file: 'RMFerrBuilder.h',
                 isPublic: false,
-                library: Maybe.Nothing<string>(),
+                library: null,
                 requiresCPlusPlus: false,
               },
               {
                 file: 'RMCustomObject.h',
                 isPublic: false,
-                library: Maybe.Nothing<string>(),
+                library: null,
                 requiresCPlusPlus: false,
               },
             ],
@@ -736,7 +736,7 @@ describe('Plugins.Builder', function() {
                 classMethods: [
                   {
                     preprocessors: [],
-                    belongsToProtocol: Maybe.Nothing<string>(),
+                    belongsToProtocol: null,
                     code: ['return [RMFerrBuilder new];'],
                     comments: [],
                     compilerAttributes: [],
@@ -756,7 +756,7 @@ describe('Plugins.Builder', function() {
                   },
                   {
                     preprocessors: [],
-                    belongsToProtocol: Maybe.Nothing<string>(),
+                    belongsToProtocol: null,
                     code: [
                       'return [[[[RMFerrBuilder ferr]',
                       '          withSomeUnsignedInteger:existingFerr.someUnsignedInteger]',
@@ -792,7 +792,7 @@ describe('Plugins.Builder', function() {
                 instanceMethods: [
                   {
                     preprocessors: [],
-                    belongsToProtocol: Maybe.Nothing<string>(),
+                    belongsToProtocol: null,
                     code: [
                       'return [[RMFerr alloc] initWithSomeUnsignedInteger:_someUnsignedInteger someCustomObject:_someCustomObject someBool:_someBool];',
                     ],
@@ -814,7 +814,7 @@ describe('Plugins.Builder', function() {
                   },
                   {
                     preprocessors: [],
-                    belongsToProtocol: Maybe.Nothing<string>(),
+                    belongsToProtocol: null,
                     code: [
                       '_someUnsignedInteger = someUnsignedInteger;',
                       'return self;',
@@ -844,7 +844,7 @@ describe('Plugins.Builder', function() {
                   },
                   {
                     preprocessors: [],
-                    belongsToProtocol: Maybe.Nothing<string>(),
+                    belongsToProtocol: null,
                     code: [
                       '_someCustomObject = someCustomObject;',
                       'return self;',
@@ -874,7 +874,7 @@ describe('Plugins.Builder', function() {
                   },
                   {
                     preprocessors: [],
-                    belongsToProtocol: Maybe.Nothing<string>(),
+                    belongsToProtocol: null,
                     code: ['_someBool = someBool;', 'return self;'],
                     comments: [],
                     compilerAttributes: [],
@@ -958,12 +958,12 @@ describe('Plugins.Builder', function() {
         comments: [],
         excludes: [],
         includes: [],
-        libraryName: Maybe.Nothing<string>(),
+        libraryName: null,
         typeLookups: [
           {
             name: 'RMSomeType',
-            library: Maybe.Nothing<string>(),
-            file: Maybe.Just<string>('RMSomeFile'),
+            library: null,
+            file: 'RMSomeFile',
             canForwardDeclare: false,
           },
         ],
@@ -978,7 +978,7 @@ describe('Plugins.Builder', function() {
         {
           file: 'RMSomeFile.h',
           isPublic: true,
-          library: Maybe.Nothing<string>(),
+          library: null,
           requiresCPlusPlus: false,
         },
       ];
@@ -996,12 +996,12 @@ describe('Plugins.Builder', function() {
           comments: [],
           excludes: [],
           includes: [],
-          libraryName: Maybe.Just<string>('SomeLib'),
+          libraryName: 'SomeLib',
           typeLookups: [
             {
               name: 'RMSomeType',
-              library: Maybe.Nothing<string>(),
-              file: Maybe.Just<string>('RMSomeFile'),
+              library: null,
+              file: 'RMSomeFile',
               canForwardDeclare: false,
             },
           ],
@@ -1016,7 +1016,7 @@ describe('Plugins.Builder', function() {
           {
             file: 'RMSomeFile.h',
             isPublic: true,
-            library: Maybe.Just<string>('SomeLib'),
+            library: 'SomeLib',
             requiresCPlusPlus: false,
           },
         ];
@@ -1032,12 +1032,12 @@ describe('Plugins.Builder', function() {
         comments: [],
         excludes: [],
         includes: [],
-        libraryName: Maybe.Nothing<string>(),
+        libraryName: null,
         typeLookups: [
           {
             name: 'RMSomeType',
-            library: Maybe.Nothing<string>(),
-            file: Maybe.Just<string>('RMSomeFile'),
+            library: null,
+            file: 'RMSomeFile',
             canForwardDeclare: true,
           },
         ],
@@ -1059,12 +1059,12 @@ describe('Plugins.Builder', function() {
         comments: [],
         excludes: [],
         includes: ['UseForwardDeclarations'],
-        libraryName: Maybe.Nothing<string>(),
+        libraryName: null,
         typeLookups: [
           {
             name: 'RMSomeType',
-            library: Maybe.Nothing<string>(),
-            file: Maybe.Just<string>('RMSomeFile'),
+            library: null,
+            file: 'RMSomeFile',
             canForwardDeclare: true,
           },
         ],
@@ -1079,7 +1079,7 @@ describe('Plugins.Builder', function() {
         {
           file: 'RMSomeFile.h',
           isPublic: false,
-          library: Maybe.Nothing<string>(),
+          library: null,
           requiresCPlusPlus: false,
         },
       ];

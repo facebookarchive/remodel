@@ -50,7 +50,7 @@ function copyingValidatorFunction(
     name: 'RMCopyingValidatorFunction',
     parameters: [],
     returnType: {
-      type: Maybe.Nothing(),
+      type: null,
       modifiers: [],
     },
     code: attributes
@@ -105,8 +105,8 @@ export function createPlugin(): ObjectSpec.Plugin {
 }
 
 // Utilities to make definitions shorter.
-function nothing<T, R>(): (T) => Maybe.Maybe<R> {
-  return _ => Maybe.Nothing();
+function nothing<T, R>(): (T) => R | null {
+  return _ => null;
 }
 
 function empty<T, R>(): (T) => R[] {

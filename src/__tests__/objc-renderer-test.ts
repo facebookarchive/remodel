@@ -24,13 +24,13 @@ describe('ObjCRenderer', function() {
           {
             file: 'RMSomething.h',
             isPublic: true,
-            library: Maybe.Just('RMLibrary'),
+            library: 'RMLibrary',
             requiresCPlusPlus: false,
           },
           {
             file: 'RMSomethingElse.h',
             isPublic: false,
-            library: Maybe.Just('RMLibrary'),
+            library: 'RMLibrary',
             requiresCPlusPlus: false,
           },
         ],
@@ -50,7 +50,7 @@ describe('ObjCRenderer', function() {
             classMethods: [
               {
                 preprocessors: [],
-                belongsToProtocol: Maybe.Nothing<string>(),
+                belongsToProtocol: null,
                 code: ['return [(id)self new];'],
                 comments: [],
                 compilerAttributes: [],
@@ -92,7 +92,7 @@ describe('ObjCRenderer', function() {
             instanceMethods: [
               {
                 preprocessors: [],
-                belongsToProtocol: Maybe.Nothing<string>(),
+                belongsToProtocol: null,
                 code: [
                   'if (self = [super init]) {',
                   '  _value1 = value1;',
@@ -137,7 +137,7 @@ describe('ObjCRenderer', function() {
               },
               {
                 preprocessors: [],
-                belongsToProtocol: Maybe.Just('NSObject'),
+                belongsToProtocol: 'NSObject',
                 code: ['return 0;'],
                 comments: [],
                 compilerAttributes: [],
@@ -241,11 +241,11 @@ describe('ObjCRenderer', function() {
         macros: [],
       };
 
-      const renderedOutput: Maybe.Maybe<string> = ObjCRenderer.renderHeader(
+      const renderedOutput: string | null = ObjCRenderer.renderHeader(
         fileToRender,
       );
 
-      const expectedOutput: Maybe.Maybe<string> = Maybe.Just<string>(
+      const expectedOutput: string | null = Maybe.Just<string>(
         '// Copyright something something. All Rights Reserved.\n\n' +
           '#import <RMLibrary/RMSomething.h>\n' +
           '\n' +
@@ -279,13 +279,13 @@ describe('ObjCRenderer', function() {
           {
             file: 'RMSomething.h',
             isPublic: true,
-            library: Maybe.Just('RMLibrary'),
+            library: 'RMLibrary',
             requiresCPlusPlus: false,
           },
           {
             file: 'RMSomethingElse.h',
             isPublic: false,
-            library: Maybe.Just('RMLibrary'),
+            library: 'RMLibrary',
             requiresCPlusPlus: false,
           },
         ],
@@ -305,7 +305,7 @@ describe('ObjCRenderer', function() {
             classMethods: [
               {
                 preprocessors: [],
-                belongsToProtocol: Maybe.Nothing<string>(),
+                belongsToProtocol: null,
                 code: ['return [(id)self new];'],
                 comments: [],
                 compilerAttributes: [],
@@ -347,7 +347,7 @@ describe('ObjCRenderer', function() {
             instanceMethods: [
               {
                 preprocessors: [],
-                belongsToProtocol: Maybe.Nothing<string>(),
+                belongsToProtocol: null,
                 code: [
                   'if (self = [super init]) {',
                   '  _value1 = value1;',
@@ -392,7 +392,7 @@ describe('ObjCRenderer', function() {
               },
               {
                 preprocessors: [],
-                belongsToProtocol: Maybe.Just('NSObject'),
+                belongsToProtocol: 'NSObject',
                 code: ['return 0;'],
                 comments: [],
                 compilerAttributes: [],
@@ -476,11 +476,11 @@ describe('ObjCRenderer', function() {
         macros: [],
       };
 
-      const renderedOutput: Maybe.Maybe<string> = ObjCRenderer.renderHeader(
+      const renderedOutput: string | null = ObjCRenderer.renderHeader(
         fileToRender,
       );
 
-      const expectedOutput: Maybe.Maybe<string> = Maybe.Just<string>(
+      const expectedOutput: string | null = Maybe.Just<string>(
         '// Copyright something something. All Rights Reserved.\n\n' +
           '#import <RMLibrary/RMSomething.h>\n' +
           '\n' +
@@ -510,19 +510,19 @@ describe('ObjCRenderer', function() {
             {
               file: 'RMSomething.h',
               isPublic: true,
-              library: Maybe.Just('RMLibrary'),
+              library: 'RMLibrary',
               requiresCPlusPlus: false,
             },
             {
               file: 'RMSomethingElse.h',
               isPublic: false,
-              library: Maybe.Just('RMLibrary'),
+              library: 'RMLibrary',
               requiresCPlusPlus: false,
             },
             {
               file: 'RMObjectSpecBase.h',
               isPublic: true,
-              library: Maybe.Just('RMObjectSpec'),
+              library: 'RMObjectSpec',
               requiresCPlusPlus: false,
             },
           ],
@@ -542,7 +542,7 @@ describe('ObjCRenderer', function() {
               classMethods: [
                 {
                   preprocessors: [],
-                  belongsToProtocol: Maybe.Nothing<string>(),
+                  belongsToProtocol: null,
                   code: ['return [(id)self new];'],
                   comments: [],
                   compilerAttributes: [],
@@ -584,7 +584,7 @@ describe('ObjCRenderer', function() {
               instanceMethods: [
                 {
                   preprocessors: [],
-                  belongsToProtocol: Maybe.Nothing<string>(),
+                  belongsToProtocol: null,
                   code: [
                     'if (self = [super init]) {',
                     '  _value1 = value1;',
@@ -629,7 +629,7 @@ describe('ObjCRenderer', function() {
                 },
                 {
                   preprocessors: [],
-                  belongsToProtocol: Maybe.Just('NSObject'),
+                  belongsToProtocol: 'NSObject',
                   code: ['return 0;'],
                   comments: [],
                   compilerAttributes: [],
@@ -713,11 +713,11 @@ describe('ObjCRenderer', function() {
           macros: [],
         };
 
-        const renderedOutput: Maybe.Maybe<string> = ObjCRenderer.renderHeader(
+        const renderedOutput: string | null = ObjCRenderer.renderHeader(
           fileToRender,
         );
 
-        const expectedOutput: Maybe.Maybe<string> = Maybe.Just<string>(
+        const expectedOutput: string | null = Maybe.Just<string>(
           '// Copyright something something. All Rights Reserved.\n\n' +
             '#import <RMLibrary/RMSomething.h>\n' +
             '#import <RMObjectSpec/RMObjectSpecBase.h>\n' +
@@ -760,7 +760,7 @@ describe('ObjCRenderer', function() {
             instanceMethods: [
               {
                 preprocessors: [],
-                belongsToProtocol: Maybe.Nothing<string>(),
+                belongsToProtocol: null,
                 code: [
                   'if (self = [super init]) {',
                   '  _value1 = value1;',
@@ -816,7 +816,7 @@ describe('ObjCRenderer', function() {
               },
               {
                 preprocessors: [],
-                belongsToProtocol: Maybe.Just('NSObject'),
+                belongsToProtocol: 'NSObject',
                 code: ['return 0;'],
                 comments: [],
                 compilerAttributes: [],
@@ -890,11 +890,11 @@ describe('ObjCRenderer', function() {
         macros: [],
       };
 
-      const renderedOutput: Maybe.Maybe<string> = ObjCRenderer.renderHeader(
+      const renderedOutput: string | null = ObjCRenderer.renderHeader(
         fileToRender,
       );
 
-      const expectedOutput: Maybe.Maybe<string> = Maybe.Just<string>(
+      const expectedOutput: string | null = Maybe.Just<string>(
         '@interface RMSomeValue : NSObject\n' +
           '\n' +
           '@property (nonatomic, readonly, copy) NSString *value;\n' +
@@ -917,13 +917,13 @@ describe('ObjCRenderer', function() {
           {
             file: 'RMSomething.h',
             isPublic: true,
-            library: Maybe.Just('RMLibrary'),
+            library: 'RMLibrary',
             requiresCPlusPlus: false,
           },
           {
             file: 'RMSomethingElse.h',
             isPublic: false,
-            library: Maybe.Just('RMLibrary'),
+            library: 'RMLibrary',
             requiresCPlusPlus: false,
           },
         ],
@@ -944,7 +944,7 @@ describe('ObjCRenderer', function() {
             instanceMethods: [
               {
                 preprocessors: [],
-                belongsToProtocol: Maybe.Nothing<string>(),
+                belongsToProtocol: null,
                 code: [
                   'if (self = [super init]) {',
                   '  _value1 = value1;',
@@ -989,7 +989,7 @@ describe('ObjCRenderer', function() {
               },
               {
                 preprocessors: [],
-                belongsToProtocol: Maybe.Just('NSObject'),
+                belongsToProtocol: 'NSObject',
                 code: ['return 0;'],
                 comments: [],
                 compilerAttributes: [],
@@ -1021,11 +1021,11 @@ describe('ObjCRenderer', function() {
         macros: [],
       };
 
-      const renderedOutput: Maybe.Maybe<string> = ObjCRenderer.renderHeader(
+      const renderedOutput: string | null = ObjCRenderer.renderHeader(
         fileToRender,
       );
 
-      const expectedOutput: Maybe.Maybe<string> = Maybe.Just<string>(
+      const expectedOutput: string | null = Maybe.Just<string>(
         '#import <RMLibrary/RMSomething.h>\n' +
           '\n' +
           '@interface RMSomeValue : NSObject\n' +
@@ -1046,13 +1046,13 @@ describe('ObjCRenderer', function() {
           {
             file: 'RMSomething.h',
             isPublic: true,
-            library: Maybe.Just('RMLibrary'),
+            library: 'RMLibrary',
             requiresCPlusPlus: false,
           },
           {
             file: 'RMSomethingElse.h',
             isPublic: false,
-            library: Maybe.Just('RMLibrary'),
+            library: 'RMLibrary',
             requiresCPlusPlus: false,
           },
         ],
@@ -1078,7 +1078,7 @@ describe('ObjCRenderer', function() {
                     closingCode: '#endif',
                   },
                 ],
-                belongsToProtocol: Maybe.Nothing<string>(),
+                belongsToProtocol: null,
                 code: [
                   'if (self = [super init]) {',
                   '  _value1 = value1;',
@@ -1123,7 +1123,7 @@ describe('ObjCRenderer', function() {
               },
               {
                 preprocessors: [],
-                belongsToProtocol: Maybe.Just('NSObject'),
+                belongsToProtocol: 'NSObject',
                 code: ['return 0;'],
                 comments: [],
                 compilerAttributes: [],
@@ -1155,11 +1155,11 @@ describe('ObjCRenderer', function() {
         macros: [],
       };
 
-      const renderedOutput: Maybe.Maybe<string> = ObjCRenderer.renderHeader(
+      const renderedOutput: string | null = ObjCRenderer.renderHeader(
         fileToRender,
       );
 
-      const expectedOutput: Maybe.Maybe<string> = Maybe.Just<string>(
+      const expectedOutput: string | null = Maybe.Just<string>(
         '#import <RMLibrary/RMSomething.h>\n' +
           '\n' +
           '@interface RMSomeValue : NSObject\n' +
@@ -1182,13 +1182,13 @@ describe('ObjCRenderer', function() {
           {
             file: 'RMSomething.h',
             isPublic: true,
-            library: Maybe.Just('RMLibrary'),
+            library: 'RMLibrary',
             requiresCPlusPlus: false,
           },
           {
             file: 'RMSomethingElse.h',
             isPublic: false,
-            library: Maybe.Just('RMLibrary'),
+            library: 'RMLibrary',
             requiresCPlusPlus: false,
           },
         ],
@@ -1247,11 +1247,11 @@ describe('ObjCRenderer', function() {
         macros: [],
       };
 
-      const renderedOutput: Maybe.Maybe<string> = ObjCRenderer.renderHeader(
+      const renderedOutput: string | null = ObjCRenderer.renderHeader(
         fileToRender,
       );
 
-      const expectedOutput: Maybe.Maybe<string> = Maybe.Just<string>(
+      const expectedOutput: string | null = Maybe.Just<string>(
         '#import <RMLibrary/RMSomething.h>\n' +
           '\n' +
           '@interface RMSomeValue : NSObject\n' +
@@ -1276,13 +1276,13 @@ describe('ObjCRenderer', function() {
             {
               file: 'RMSomething.h',
               isPublic: true,
-              library: Maybe.Just('RMLibrary'),
+              library: 'RMLibrary',
               requiresCPlusPlus: false,
             },
             {
               file: 'RMSomethingElse.h',
               isPublic: false,
-              library: Maybe.Just('RMLibrary'),
+              library: 'RMLibrary',
               requiresCPlusPlus: false,
             },
           ],
@@ -1383,11 +1383,11 @@ describe('ObjCRenderer', function() {
           macros: [],
         };
 
-        const renderedOutput: Maybe.Maybe<string> = ObjCRenderer.renderHeader(
+        const renderedOutput: string | null = ObjCRenderer.renderHeader(
           fileToRender,
         );
 
-        const expectedOutput: Maybe.Maybe<string> = Maybe.Just<string>(
+        const expectedOutput: string | null = Maybe.Just<string>(
           '#import <RMLibrary/RMSomething.h>\n' +
             '\n' +
             '@interface RMSomeValue : NSObject\n' +
@@ -1418,13 +1418,13 @@ describe('ObjCRenderer', function() {
           {
             file: 'RMSomething.h',
             isPublic: true,
-            library: Maybe.Just('RMLibrary'),
+            library: 'RMLibrary',
             requiresCPlusPlus: false,
           },
           {
             file: 'RMSomethingElse.h',
             isPublic: false,
-            library: Maybe.Just('RMLibrary'),
+            library: 'RMLibrary',
             requiresCPlusPlus: false,
           },
         ],
@@ -1487,11 +1487,11 @@ describe('ObjCRenderer', function() {
         macros: [],
       };
 
-      const renderedOutput: Maybe.Maybe<string> = ObjCRenderer.renderHeader(
+      const renderedOutput: string | null = ObjCRenderer.renderHeader(
         fileToRender,
       );
 
-      const expectedOutput: Maybe.Maybe<string> = Maybe.Just<string>(
+      const expectedOutput: string | null = Maybe.Just<string>(
         '#import <RMLibrary/RMSomething.h>\n' +
           '\n' +
           '// This is a note about this very outgoing enumeration.\n' +
@@ -1516,13 +1516,13 @@ describe('ObjCRenderer', function() {
           {
             file: 'RMSomething.h',
             isPublic: true,
-            library: Maybe.Just('RMLibrary'),
+            library: 'RMLibrary',
             requiresCPlusPlus: false,
           },
           {
             file: 'RMSomethingElse.h',
             isPublic: false,
-            library: Maybe.Just('RMLibrary'),
+            library: 'RMLibrary',
             requiresCPlusPlus: false,
           },
         ],
@@ -1608,11 +1608,11 @@ describe('ObjCRenderer', function() {
         macros: [],
       };
 
-      const renderedOutput: Maybe.Maybe<string> = ObjCRenderer.renderHeader(
+      const renderedOutput: string | null = ObjCRenderer.renderHeader(
         fileToRender,
       );
 
-      const expectedOutput: Maybe.Maybe<string> = Maybe.Just<string>(
+      const expectedOutput: string | null = Maybe.Just<string>(
         '#import <RMLibrary/RMSomething.h>\n' +
           '\n' +
           '// It is hard to articulate all the things I love about this block.\n' +
@@ -1638,13 +1638,13 @@ describe('ObjCRenderer', function() {
             {
               file: 'RMSomething.h',
               isPublic: true,
-              library: Maybe.Just('RMLibrary'),
+              library: 'RMLibrary',
               requiresCPlusPlus: false,
             },
             {
               file: 'RMSomethingElse.h',
               isPublic: false,
-              library: Maybe.Just('RMLibrary'),
+              library: 'RMLibrary',
               requiresCPlusPlus: false,
             },
           ],
@@ -1689,11 +1689,11 @@ describe('ObjCRenderer', function() {
           macros: [],
         };
 
-        const renderedOutput: Maybe.Maybe<string> = ObjCRenderer.renderHeader(
+        const renderedOutput: string | null = ObjCRenderer.renderHeader(
           fileToRender,
         );
 
-        const expectedOutput: Maybe.Maybe<string> = Maybe.Just<string>(
+        const expectedOutput: string | null = Maybe.Just<string>(
           '#import <RMLibrary/RMSomething.h>\n' +
             '\n' +
             '@interface RMSomeValue : NSObject\n' +
@@ -1713,13 +1713,13 @@ describe('ObjCRenderer', function() {
           {
             file: 'RMSomething.h',
             isPublic: true,
-            library: Maybe.Just('RMLibrary'),
+            library: 'RMLibrary',
             requiresCPlusPlus: false,
           },
           {
             file: 'RMSomethingElse.h',
             isPublic: false,
-            library: Maybe.Just('RMLibrary'),
+            library: 'RMLibrary',
             requiresCPlusPlus: false,
           },
         ],
@@ -1785,11 +1785,11 @@ describe('ObjCRenderer', function() {
         macros: [],
       };
 
-      const renderedOutput: Maybe.Maybe<string> = ObjCRenderer.renderHeader(
+      const renderedOutput: string | null = ObjCRenderer.renderHeader(
         fileToRender,
       );
 
-      const expectedOutput: Maybe.Maybe<string> = Maybe.Just<string>(
+      const expectedOutput: string | null = Maybe.Just<string>(
         '#import <RMLibrary/RMSomething.h>\n' +
           '\n' +
           '@interface RMSomeValue : NSObject <NSCoding, NSCopying>\n' +
@@ -1811,13 +1811,13 @@ describe('ObjCRenderer', function() {
           {
             file: 'RMSomething.h',
             isPublic: true,
-            library: Maybe.Just('RMLibrary'),
+            library: 'RMLibrary',
             requiresCPlusPlus: false,
           },
           {
             file: 'RMSomethingElse.h',
             isPublic: false,
-            library: Maybe.Just('RMLibrary'),
+            library: 'RMLibrary',
             requiresCPlusPlus: false,
           },
         ],
@@ -1886,11 +1886,11 @@ describe('ObjCRenderer', function() {
         macros: [],
       };
 
-      const renderedOutput: Maybe.Maybe<string> = ObjCRenderer.renderHeader(
+      const renderedOutput: string | null = ObjCRenderer.renderHeader(
         fileToRender,
       );
 
-      const expectedOutput: Maybe.Maybe<string> = Maybe.Just<string>(
+      const expectedOutput: string | null = Maybe.Just<string>(
         '#import <RMLibrary/RMSomething.h>\n\n' +
           '@class RMCDeclaration;\n' +
           '@protocol RMPDeclaration;\n' +
@@ -1917,13 +1917,13 @@ describe('ObjCRenderer', function() {
             {
               file: 'RMSomething.h',
               isPublic: true,
-              library: Maybe.Just('RMLibrary'),
+              library: 'RMLibrary',
               requiresCPlusPlus: false,
             },
             {
               file: 'RMSomethingElse.h',
               isPublic: false,
-              library: Maybe.Just('RMLibrary'),
+              library: 'RMLibrary',
               requiresCPlusPlus: false,
             },
           ],
@@ -1944,7 +1944,7 @@ describe('ObjCRenderer', function() {
               instanceMethods: [
                 {
                   preprocessors: [],
-                  belongsToProtocol: Maybe.Nothing<string>(),
+                  belongsToProtocol: null,
                   code: [],
                   comments: [{content: '// Check this method out!!!!'}],
                   compilerAttributes: [],
@@ -1997,11 +1997,11 @@ describe('ObjCRenderer', function() {
           macros: [],
         };
 
-        const renderedOutput: Maybe.Maybe<string> = ObjCRenderer.renderHeader(
+        const renderedOutput: string | null = ObjCRenderer.renderHeader(
           fileToRender,
         );
 
-        const expectedOutput: Maybe.Maybe<string> = Maybe.Just<string>(
+        const expectedOutput: string | null = Maybe.Just<string>(
           '#import <RMLibrary/RMSomething.h>\n' +
             '\n' +
             '@interface RMSomeValue : NSObject\n' +
@@ -2031,13 +2031,13 @@ describe('ObjCRenderer', function() {
             {
               file: 'RMSomething.h',
               isPublic: true,
-              library: Maybe.Just('RMLibrary'),
+              library: 'RMLibrary',
               requiresCPlusPlus: false,
             },
             {
               file: 'RMSomethingElse.h',
               isPublic: false,
-              library: Maybe.Just('RMLibrary'),
+              library: 'RMLibrary',
               requiresCPlusPlus: false,
             },
           ],
@@ -2073,11 +2073,11 @@ describe('ObjCRenderer', function() {
           macros: [],
         };
 
-        const renderedOutput: Maybe.Maybe<string> = ObjCRenderer.renderHeader(
+        const renderedOutput: string | null = ObjCRenderer.renderHeader(
           fileToRender,
         );
 
-        const expectedOutput: Maybe.Maybe<string> = Maybe.Just<string>(
+        const expectedOutput: string | null = Maybe.Just<string>(
           '#import <RMLibrary/RMSomething.h>\n' +
             '\n' +
             'namespace Something {\n' +
@@ -2114,7 +2114,7 @@ describe('ObjCRenderer', function() {
             instanceMethods: [
               {
                 preprocessors: [],
-                belongsToProtocol: Maybe.Nothing<string>(),
+                belongsToProtocol: null,
                 code: [
                   'if (self = [super init]) {',
                   '  _value1 = value1;',
@@ -2198,11 +2198,11 @@ describe('ObjCRenderer', function() {
         macros: [],
       };
 
-      const renderedOutput: Maybe.Maybe<string> = ObjCRenderer.renderHeader(
+      const renderedOutput: string | null = ObjCRenderer.renderHeader(
         fileToRender,
       );
 
-      const expectedOutput: Maybe.Maybe<string> = Maybe.Just<string>(
+      const expectedOutput: string | null = Maybe.Just<string>(
         '@interface RMSomeValue : NSObject\n' +
           '\n' +
           '@property (nonatomic, readonly) RMSomething *value1;\n' +
@@ -2238,7 +2238,7 @@ describe('ObjCRenderer', function() {
             instanceMethods: [
               {
                 preprocessors: [],
-                belongsToProtocol: Maybe.Nothing<string>(),
+                belongsToProtocol: null,
                 code: [
                   'if (self = [super init]) {',
                   '  _value1 = value1;',
@@ -2322,11 +2322,11 @@ describe('ObjCRenderer', function() {
         macros: [],
       };
 
-      const renderedOutput: Maybe.Maybe<string> = ObjCRenderer.renderHeader(
+      const renderedOutput: string | null = ObjCRenderer.renderHeader(
         fileToRender,
       );
 
-      const expectedOutput: Maybe.Maybe<string> = Maybe.Just<string>(
+      const expectedOutput: string | null = Maybe.Just<string>(
         '@interface RMSomeValue : NSObject\n' +
           '\n' +
           '@property (nonatomic, readonly) RMSomething *value1;\n' +
@@ -2349,7 +2349,7 @@ describe('ObjCRenderer', function() {
           {
             file: 'RMSomething.h',
             isPublic: true,
-            library: Maybe.Just('RMLibrary'),
+            library: 'RMLibrary',
             requiresCPlusPlus: false,
           },
         ],
@@ -2366,7 +2366,7 @@ describe('ObjCRenderer', function() {
             classMethods: [
               {
                 preprocessors: [],
-                belongsToProtocol: Maybe.Nothing<string>(),
+                belongsToProtocol: null,
                 code: ['return [[RMSomeValue alloc] init];'],
                 comments: [],
                 compilerAttributes: [],
@@ -2419,11 +2419,11 @@ describe('ObjCRenderer', function() {
         macros: [],
       };
 
-      const renderedOutput: Maybe.Maybe<string> = ObjCRenderer.renderHeader(
+      const renderedOutput: string | null = ObjCRenderer.renderHeader(
         fileToRender,
       );
 
-      const expectedOutput: Maybe.Maybe<string> = Maybe.Just<string>(
+      const expectedOutput: string | null = Maybe.Just<string>(
         '#import <RMLibrary/RMSomething.h>\n' +
           '\n' +
           '@interface RMSomeValue<__covariant ObjectType> : NSObject\n' +
@@ -2445,7 +2445,7 @@ describe('ObjCRenderer', function() {
           {
             file: 'RMSomething.h',
             isPublic: true,
-            library: Maybe.Just('RMLibrary'),
+            library: 'RMLibrary',
             requiresCPlusPlus: false,
           },
         ],
@@ -2465,7 +2465,7 @@ describe('ObjCRenderer', function() {
             instanceMethods: [
               {
                 preprocessors: [],
-                belongsToProtocol: Maybe.Nothing<string>(),
+                belongsToProtocol: null,
                 code: ['return [[RMSomeValue alloc] init];'],
                 comments: [],
                 compilerAttributes: [],
@@ -2504,11 +2504,11 @@ describe('ObjCRenderer', function() {
         macros: [],
       };
 
-      const renderedOutput: Maybe.Maybe<string> = ObjCRenderer.renderHeader(
+      const renderedOutput: string | null = ObjCRenderer.renderHeader(
         fileToRender,
       );
 
-      const expectedOutput: Maybe.Maybe<string> = Maybe.Just<string>(
+      const expectedOutput: string | null = Maybe.Just<string>(
         '#import <RMLibrary/RMSomething.h>\n' +
           '\n' +
           '@interface RMSomeValue<__covariant KeyType, __covariant ValueType> : NSObject\n' +
@@ -2575,11 +2575,11 @@ describe('ObjCRenderer', function() {
         macros: [],
       };
 
-      const renderedOutput: Maybe.Maybe<string> = ObjCRenderer.renderHeader(
+      const renderedOutput: string | null = ObjCRenderer.renderHeader(
         fileToRender,
       );
 
-      const expectedOutput: Maybe.Maybe<string> = Maybe.Just<string>(
+      const expectedOutput: string | null = Maybe.Just<string>(
         '@interface RMSomeValue : NSObject <NSCoding>\n' +
           '\n' +
           '@property (nonatomic, readonly) RMSomething *value1;\n' +
@@ -2600,13 +2600,13 @@ describe('ObjCRenderer', function() {
           {
             file: 'RMSomething.h',
             isPublic: true,
-            library: Maybe.Just('RMLibrary'),
+            library: 'RMLibrary',
             requiresCPlusPlus: false,
           },
           {
             file: 'RMSomeValue.h',
             isPublic: false,
-            library: Maybe.Nothing<string>(),
+            library: null,
             requiresCPlusPlus: false,
           },
         ],
@@ -2626,7 +2626,7 @@ describe('ObjCRenderer', function() {
             classMethods: [
               {
                 preprocessors: [],
-                belongsToProtocol: Maybe.Nothing<string>(),
+                belongsToProtocol: null,
                 code: ['return [(id)self new];'],
                 comments: [],
                 compilerAttributes: [],
@@ -2668,7 +2668,7 @@ describe('ObjCRenderer', function() {
             instanceMethods: [
               {
                 preprocessors: [],
-                belongsToProtocol: Maybe.Nothing<string>(),
+                belongsToProtocol: null,
                 code: [
                   'if ((self = [super init])) {',
                   '  _value1 = [value1 copy];',
@@ -2807,7 +2807,7 @@ describe('ObjCRenderer', function() {
         string
       > = ObjCRenderer.renderImplementation(fileToRender);
 
-      const expectedOutput: Maybe.Maybe<string> = Maybe.Just<string>(
+      const expectedOutput: string | null = Maybe.Just<string>(
         '// Copyright something something. All Rights Reserved.\n\n' +
           '#if  ! __has_feature(objc_arc)\n' +
           '#error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).\n' +
@@ -2855,13 +2855,13 @@ describe('ObjCRenderer', function() {
           {
             file: 'RMSomething.h',
             isPublic: true,
-            library: Maybe.Just('RMLibrary'),
+            library: 'RMLibrary',
             requiresCPlusPlus: false,
           },
           {
             file: 'RMSomeValue.h',
             isPublic: false,
-            library: Maybe.Nothing<string>(),
+            library: null,
             requiresCPlusPlus: false,
           },
         ],
@@ -2905,7 +2905,7 @@ describe('ObjCRenderer', function() {
             instanceMethods: [
               {
                 preprocessors: [],
-                belongsToProtocol: Maybe.Nothing<string>(),
+                belongsToProtocol: null,
                 code: [
                   'if ((self = [super init])) {',
                   '  _value1 = [value1 copy];',
@@ -2993,7 +2993,7 @@ describe('ObjCRenderer', function() {
         string
       > = ObjCRenderer.renderImplementation(fileToRender);
 
-      const expectedOutput: Maybe.Maybe<string> = Maybe.Just<string>(
+      const expectedOutput: string | null = Maybe.Just<string>(
         '#if  ! __has_feature(objc_arc)\n' +
           '#error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).\n' +
           '#endif\n\n' +
@@ -3029,13 +3029,13 @@ describe('ObjCRenderer', function() {
           {
             file: 'RMSomething.h',
             isPublic: true,
-            library: Maybe.Just('RMLibrary'),
+            library: 'RMLibrary',
             requiresCPlusPlus: false,
           },
           {
             file: 'RMSomeValue.h',
             isPublic: false,
-            library: Maybe.Nothing<string>(),
+            library: null,
             requiresCPlusPlus: false,
           },
         ],
@@ -3060,7 +3060,7 @@ describe('ObjCRenderer', function() {
                     closingCode: '#endif',
                   },
                 ],
-                belongsToProtocol: Maybe.Nothing<string>(),
+                belongsToProtocol: null,
                 code: ['return [(id)self new];'],
                 comments: [],
                 compilerAttributes: [],
@@ -3107,7 +3107,7 @@ describe('ObjCRenderer', function() {
                     closingCode: '#pragma pop',
                   },
                 ],
-                belongsToProtocol: Maybe.Nothing<string>(),
+                belongsToProtocol: null,
                 code: [
                   'if ((self = [super init])) {',
                   '  _value1 = [value1 copy];',
@@ -3246,7 +3246,7 @@ describe('ObjCRenderer', function() {
         string
       > = ObjCRenderer.renderImplementation(fileToRender);
 
-      const expectedOutput: Maybe.Maybe<string> = Maybe.Just<string>(
+      const expectedOutput: string | null = Maybe.Just<string>(
         '// Copyright something something. All Rights Reserved.\n\n' +
           '#if  ! __has_feature(objc_arc)\n' +
           '#error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).\n' +
@@ -3298,7 +3298,7 @@ describe('ObjCRenderer', function() {
           {
             file: 'RMSomeValue.h',
             isPublic: false,
-            library: Maybe.Nothing<string>(),
+            library: null,
             requiresCPlusPlus: false,
           },
         ],
@@ -3382,7 +3382,7 @@ describe('ObjCRenderer', function() {
         string
       > = ObjCRenderer.renderImplementation(fileToRender);
 
-      const expectedOutput: Maybe.Maybe<string> = Maybe.Just<string>(
+      const expectedOutput: string | null = Maybe.Just<string>(
         '#if  ! __has_feature(objc_arc)\n' +
           '#error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).\n' +
           '#endif\n\n' +
@@ -3406,8 +3406,7 @@ describe('ObjCRenderer', function() {
           '}\n',
       );
 
-      expect(renderedOutput.value).toEqual(expectedOutput.value);
-      expect(renderedOutput).toEqualJSON(expectedOutput);
+      expect(renderedOutput).toEqual(expectedOutput);
     });
 
     it('replaces return type with id for covariantTypes in implementation file', function() {
@@ -3418,7 +3417,7 @@ describe('ObjCRenderer', function() {
           {
             file: 'RMSomeValue.h',
             isPublic: false,
-            library: Maybe.Nothing<string>(),
+            library: null,
             requiresCPlusPlus: false,
           },
         ],
@@ -3436,7 +3435,7 @@ describe('ObjCRenderer', function() {
             classMethods: [
               {
                 preprocessors: [],
-                belongsToProtocol: Maybe.Nothing<string>(),
+                belongsToProtocol: null,
                 code: ['return [[RMSomeValue alloc] init];'],
                 comments: [],
                 compilerAttributes: [],
@@ -3493,7 +3492,7 @@ describe('ObjCRenderer', function() {
         string
       > = ObjCRenderer.renderImplementation(fileToRender);
 
-      const expectedOutput: Maybe.Maybe<string> = Maybe.Just<string>(
+      const expectedOutput: string | null = Maybe.Just<string>(
         '#if  ! __has_feature(objc_arc)\n' +
           '#error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).\n' +
           '#endif\n\n' +
@@ -3520,7 +3519,7 @@ describe('ObjCRenderer', function() {
           {
             file: 'RMSomeValue.h',
             isPublic: false,
-            library: Maybe.Nothing<string>(),
+            library: null,
             requiresCPlusPlus: false,
           },
         ],
@@ -3540,7 +3539,7 @@ describe('ObjCRenderer', function() {
             instanceMethods: [
               {
                 preprocessors: [],
-                belongsToProtocol: Maybe.Nothing<string>(),
+                belongsToProtocol: null,
                 code: ['return [[RMSomeValue alloc] init];'],
                 comments: [],
                 compilerAttributes: [],
@@ -3584,7 +3583,7 @@ describe('ObjCRenderer', function() {
         string
       > = ObjCRenderer.renderImplementation(fileToRender);
 
-      const expectedOutput: Maybe.Maybe<string> = Maybe.Just<string>(
+      const expectedOutput: string | null = Maybe.Just<string>(
         '#if  ! __has_feature(objc_arc)\n' +
           '#error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).\n' +
           '#endif\n\n' +
@@ -3611,7 +3610,7 @@ describe('ObjCRenderer', function() {
           {
             file: 'RMSomeValue.h',
             isPublic: false,
-            library: Maybe.Nothing<string>(),
+            library: null,
             requiresCPlusPlus: false,
           },
         ],
@@ -3678,7 +3677,7 @@ describe('ObjCRenderer', function() {
         string
       > = ObjCRenderer.renderImplementation(fileToRender);
 
-      const expectedOutput: Maybe.Maybe<string> = Maybe.Just<string>(
+      const expectedOutput: string | null = Maybe.Just<string>(
         '#if  ! __has_feature(objc_arc)\n' +
           '#error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).\n' +
           '#endif\n\n' +
@@ -3733,7 +3732,7 @@ describe('ObjCRenderer', function() {
         const renderedOutput: Maybe.Maybe<
           string
         > = ObjCRenderer.renderImplementation(fileToRender);
-        const expectedOutput: Maybe.Maybe<string> = Maybe.Nothing<string>();
+        const expectedOutput: string | null = null;
         expect(renderedOutput).toEqualJSON(expectedOutput);
       },
     );
@@ -3746,7 +3745,7 @@ describe('ObjCRenderer', function() {
           {
             file: 'RMSomeValue.h',
             isPublic: false,
-            library: Maybe.Nothing<string>(),
+            library: null,
             requiresCPlusPlus: false,
           },
         ],
@@ -3816,7 +3815,7 @@ describe('ObjCRenderer', function() {
         string
       > = ObjCRenderer.renderImplementation(fileToRender);
 
-      const expectedOutput: Maybe.Maybe<string> = Maybe.Just<string>(
+      const expectedOutput: string | null = Maybe.Just<string>(
         '#if  ! __has_feature(objc_arc)\n' +
           '#error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).\n' +
           '#endif\n\n' +
@@ -3878,7 +3877,7 @@ describe('ObjCRenderer', function() {
         const renderedOutput: Maybe.Maybe<
           string
         > = ObjCRenderer.renderImplementation(fileToRender);
-        const expectedOutput: Maybe.Maybe<string> = Maybe.Nothing<string>();
+        const expectedOutput: string | null = null;
         expect(renderedOutput).toEqualJSON(expectedOutput);
       },
     );
@@ -3919,7 +3918,7 @@ describe('ObjCRenderer', function() {
       const renderedOutput: Maybe.Maybe<
         string
       > = ObjCRenderer.renderImplementation(fileToRender);
-      const expectedOutput: Maybe.Maybe<string> = Maybe.Nothing<string>();
+      const expectedOutput: string | null = null;
       expect(renderedOutput).toEqualJSON(expectedOutput);
     });
 
@@ -3983,7 +3982,7 @@ describe('ObjCRenderer', function() {
         const renderedOutput: Maybe.Maybe<
           string
         > = ObjCRenderer.renderImplementation(fileToRender);
-        const expectedOutput: Maybe.Maybe<string> = Maybe.Nothing<string>();
+        const expectedOutput: string | null = null;
         expect(renderedOutput).toEqualJSON(expectedOutput);
       },
     );
@@ -4009,7 +4008,7 @@ describe('ObjCRenderer', function() {
       const renderedOutput: Maybe.Maybe<
         string
       > = ObjCRenderer.renderImplementation(fileToRender);
-      const expectedOutput: Maybe.Maybe<string> = Maybe.Nothing<string>();
+      const expectedOutput: string | null = null;
       expect(renderedOutput).toEqualJSON(expectedOutput);
     });
 
@@ -4055,7 +4054,7 @@ describe('ObjCRenderer', function() {
         string
       > = ObjCRenderer.renderImplementation(fileToRender);
 
-      const expectedOutput: Maybe.Maybe<string> = Maybe.Just<
+      const expectedOutput: string | null = Maybe.Just<
         string
       >(`#if  ! __has_feature(objc_arc)
 #error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).
@@ -4072,11 +4071,11 @@ NS_ASSUME_NONNULL_END\n`);
 
       expect(renderedOutput).toEqualJSON(expectedOutput);
 
-      const renderedHeader: Maybe.Maybe<string> = ObjCRenderer.renderHeader(
+      const renderedHeader: string | null = ObjCRenderer.renderHeader(
         fileToRender,
       );
 
-      const expectedHeader: Maybe.Maybe<string> = Maybe.Just<
+      const expectedHeader: string | null = Maybe.Just<
         string
       >(`NS_ASSUME_NONNULL_BEGIN
 
@@ -4143,7 +4142,7 @@ NS_ASSUME_NONNULL_END\n`);
         string
       > = ObjCRenderer.renderImplementation(fileToRender);
 
-      const expectedOutput: Maybe.Maybe<string> = Maybe.Just<
+      const expectedOutput: string | null = Maybe.Just<
         string
       >(`#if  ! __has_feature(objc_arc)
 #error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).
@@ -4198,11 +4197,11 @@ static int RMSomeFunction(BOOL parameter) {
         macros: [],
       };
 
-      const renderedOutput: Maybe.Maybe<string> = ObjCRenderer.renderHeader(
+      const renderedOutput: string | null = ObjCRenderer.renderHeader(
         fileToRender,
       );
 
-      const expectedOutput: Maybe.Maybe<string> = Maybe.Just<
+      const expectedOutput: string | null = Maybe.Just<
         string
       >(`static inline int RMSomeFunction(BOOL parameter) {
   // Test
@@ -4213,7 +4212,7 @@ static int RMSomeFunction(BOOL parameter) {
         string
       > = ObjCRenderer.renderImplementation(fileToRender);
 
-      expect(renderedImpl).toEqual(Maybe.Nothing<string>());
+      expect(renderedImpl).toEqual(null);
     });
 
     it('renders an inline public function within a class', () => {
@@ -4269,10 +4268,10 @@ static int RMSomeFunction(BOOL parameter) {
         macros: [],
       };
 
-      const renderedOutput: Maybe.Maybe<string> = ObjCRenderer.renderHeader(
+      const renderedOutput: string | null = ObjCRenderer.renderHeader(
         fileToRender,
       );
-      const expectedOutput: Maybe.Maybe<string> = Maybe.Just<string>(
+      const expectedOutput: string | null = Maybe.Just<string>(
         '__attribute__((objc_subclassing_restricted))\n' +
           '@interface RMSomeValue : NSObject <RMTestProtocol>\n\n' +
           '@end\n\n' +
@@ -4297,13 +4296,13 @@ static int RMSomeFunction(BOOL parameter) {
           {
             file: 'RMSomething.h',
             isPublic: true,
-            library: Maybe.Just('RMLibrary'),
+            library: 'RMLibrary',
             requiresCPlusPlus: false,
           },
           {
             file: 'RMSomethingElse.h',
             isPublic: false,
-            library: Maybe.Just('RMLibrary'),
+            library: 'RMLibrary',
             requiresCPlusPlus: false,
           },
         ],
@@ -4323,7 +4322,7 @@ static int RMSomeFunction(BOOL parameter) {
             classMethods: [
               {
                 preprocessors: [],
-                belongsToProtocol: Maybe.Just<string>('RMTestProtocol'),
+                belongsToProtocol: 'RMTestProtocol',
                 code: [],
                 comments: [],
                 compilerAttributes: [],
@@ -4356,7 +4355,7 @@ static int RMSomeFunction(BOOL parameter) {
       };
 
       const renderedOutput = ObjCRenderer.renderHeader(fileToRender);
-      expect(renderedOutput.value).not.toContain('testClassMethod');
+      expect(renderedOutput).not.toContain('testClassMethod');
     });
   });
 
@@ -4522,7 +4521,7 @@ static int RMSomeFunction(BOOL parameter) {
         name: 'TestFunction',
         parameters: [],
         returnType: {
-          type: Maybe.Nothing(),
+          type: null,
           modifiers: [],
         },
         comments: [],

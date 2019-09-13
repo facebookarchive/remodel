@@ -21,7 +21,7 @@ import * as ObjectGeneration from '../object-generation';
 import * as StringUtils from '../string-utils';
 
 const PUBLIC_FOUNDATION_IMPORT: ObjC.Import = {
-  library: Maybe.Just('Foundation'),
+  library: 'Foundation',
   file: 'Foundation.h',
   isPublic: true,
   requiresCPlusPlus: false,
@@ -56,7 +56,7 @@ function internalValueSettingCodeForAttribute(
 
 function keywordArgumentFromAttribute(
   attribute: AlgebraicType.SubtypeAttribute,
-): Maybe.Maybe<ObjC.KeywordArgument> {
+): ObjC.KeywordArgument | null {
   return Maybe.Just({
     name: nameOfKeywordParameterForAttribute(attribute),
     modifiers: ObjCNullabilityUtils.keywordArgumentModifiersForNullability(
@@ -202,7 +202,7 @@ function initializationClassMethodForSubtype(
 
   return {
     preprocessors: [],
-    belongsToProtocol: Maybe.Nothing<string>(),
+    belongsToProtocol: null,
     code: requiredParameterAssertions
       .concat(openingCode)
       .concat(setterStatements)
@@ -224,7 +224,7 @@ function initializationClassMethodForSubtype(
 
 function internalImportForFileWithName(name: string): ObjC.Import {
   return {
-    library: Maybe.Nothing<string>(),
+    library: null,
     file: name + '.h',
     isPublic: false,
     requiresCPlusPlus: false,
@@ -298,7 +298,7 @@ function isImportRequiredForAttribute(
 }
 
 function importForAttribute(
-  objectLibrary: Maybe.Maybe<string>,
+  objectLibrary: string | null,
   isPublic: boolean,
   attribute: AlgebraicType.SubtypeAttribute,
 ): ObjC.Import {
@@ -433,7 +433,7 @@ function buildAlgebraicTypeValidationErrors(
 }
 
 function importForTypeLookup(
-  libraryName: Maybe.Maybe<string>,
+  libraryName: string | null,
   makePublicImports: boolean,
   typeLookup: ObjectGeneration.TypeLookup,
 ): ObjC.Import {
@@ -472,7 +472,7 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
     },
     fileType: function(
       algebraicType: AlgebraicType.Type,
-    ): Maybe.Maybe<Code.FileType> {
+    ): Code.FileType | null {
       return Maybe.Nothing<Code.FileType>();
     },
     forwardDeclarations: function(
@@ -601,7 +601,7 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
     },
     nullability: function(
       algebraicType: AlgebraicType.Type,
-    ): Maybe.Maybe<ObjC.ClassNullability> {
+    ): ObjC.ClassNullability | null {
       return Maybe.Nothing<ObjC.ClassNullability>();
     },
     subclassingRestricted: function(

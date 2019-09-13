@@ -36,8 +36,7 @@ function createObjectSpecObjCPlugIn(
       return plugin.transformBaseFile(typeInformation, baseFile);
     },
 
-    baseClass:
-      plugin.baseClass != null ? plugin.baseClass : _ => Maybe.Nothing(),
+    baseClass: plugin.baseClass != null ? plugin.baseClass : _ => null,
 
     blockTypes: function(typeInformation: ObjectSpec.Type): ObjC.BlockType[] {
       return [];
@@ -63,9 +62,7 @@ function createObjectSpecObjCPlugIn(
       return plugin.transformFileRequest(writeRequest);
     },
 
-    fileType: function(
-      typeInformation: ObjectSpec.Type,
-    ): Maybe.Maybe<Code.FileType> {
+    fileType: function(typeInformation: ObjectSpec.Type): Code.FileType | null {
       return plugin.fileType(typeInformation);
     },
 
@@ -119,7 +116,7 @@ function createObjectSpecObjCPlugIn(
 
     nullability: function(
       typeInformation: ObjectSpec.Type,
-    ): Maybe.Maybe<ObjC.ClassNullability> {
+    ): ObjC.ClassNullability | null {
       return plugin.nullability(typeInformation);
     },
 

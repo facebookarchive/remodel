@@ -29,7 +29,7 @@ import * as WriteFileUtils from './file-logged-sequence-write-utils';
 
 interface AlgebraicTypeCreationContext {
   baseClassName: string;
-  baseClassLibraryName: Maybe.Maybe<string>;
+  baseClassLibraryName: string | null;
   diagnosticIgnores: List.List<string>;
   plugins: List.List<AlgebraicType.Plugin>;
   defaultIncludes: List.List<string>;
@@ -42,7 +42,7 @@ interface PathAndTypeInfo {
 }
 
 interface GenerationOptions {
-  outputPath: Maybe.Maybe<File.AbsoluteFilePath>;
+  outputPath: File.AbsoluteFilePath | null;
   outputFlags: OutputControl.OutputFlags;
 }
 
@@ -192,7 +192,7 @@ function pluginsFromPluginConfigs(
         list: List.List<AlgebraicType.Plugin>,
       ): Either.Either<Error.Error[], List.List<AlgebraicType.Plugin>> {
         return Either.map(function(
-          maybePlugin: Maybe.Maybe<AlgebraicType.Plugin>,
+          maybePlugin: AlgebraicType.Plugin | null,
         ): List.List<AlgebraicType.Plugin> {
           return Maybe.match(
             function(plugin: AlgebraicType.Plugin) {
@@ -224,7 +224,7 @@ function getAlgebraicTypeCreationContext(
     currentWorkingDirectory,
   );
   return Promise.mbind(function(
-    maybePath: Maybe.Maybe<File.AbsoluteFilePath>,
+    maybePath: File.AbsoluteFilePath | null,
   ): Promise.Future<
     Either.Either<Error.Error[], AlgebraicTypeCreationContext>
   > {
@@ -285,7 +285,7 @@ function getAlgebraicTypeCreationContext(
 function outputDirectory(
   directoryRunFrom: string,
   outputPath: string | undefined,
-): Maybe.Maybe<File.AbsoluteFilePath> {
+): File.AbsoluteFilePath | null {
   if (outputPath === undefined || outputPath === '') {
     return Maybe.Nothing<File.AbsoluteFilePath>();
   } else {
@@ -307,7 +307,7 @@ export function generate(
       File.getAbsoluteFilePath(directoryRunFrom),
       givenPath,
     );
-    const outputPath: Maybe.Maybe<File.AbsoluteFilePath> = outputDirectory(
+    const outputPath: File.AbsoluteFilePath | null = outputDirectory(
       directoryRunFrom,
       parsedArgs.outputPath,
     );

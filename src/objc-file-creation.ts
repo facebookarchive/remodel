@@ -18,11 +18,9 @@ import * as path from 'path';
 function fileRequest(
   containingFolderPath: File.AbsoluteFilePath,
   fileName: string,
-  contents: Maybe.Maybe<string>,
-): Maybe.Maybe<FileWriter.Request> {
-  return Maybe.mbind(function(
-    fileContents: string,
-  ): Maybe.Maybe<FileWriter.Request> {
+  contents: string | null,
+): FileWriter.Request | null {
+  return Maybe.mbind(function(fileContents: string): FileWriter.Request | null {
     return Maybe.Just<FileWriter.Request>(
       FileWriter.Request(
         File.getAbsoluteFilePath(
@@ -31,8 +29,7 @@ function fileRequest(
         fileContents,
       ),
     );
-  },
-  contents);
+  }, contents);
 }
 
 function fileNameIncludingExtension(
@@ -44,7 +41,7 @@ function fileNameIncludingExtension(
 
 function requestsMaybeContainingRequest(
   existingRequests: List.List<FileWriter.Request>,
-  request: Maybe.Maybe<FileWriter.Request>,
+  request: FileWriter.Request | null,
 ): List.List<FileWriter.Request> {
   return Maybe.match(
     function(fileRequest: FileWriter.Request): List.List<FileWriter.Request> {
@@ -74,19 +71,19 @@ export function fileCreationRequest(
   renderHeader: boolean,
   renderImpl: boolean,
 ): Either.Either<Error.Error, FileWriter.FileWriteRequest> {
-  const headerContents: Maybe.Maybe<string> = renderHeader
+  const headerContents: string | null = renderHeader
     ? ObjCRenderer.renderHeader(file)
-    : Maybe.Nothing<string>();
-  const headerRequest: Maybe.Maybe<FileWriter.Request> = fileRequest(
+    : null;
+  const headerRequest: FileWriter.Request | null = fileRequest(
     containingFolderPath,
     fileNameIncludingExtension(file, 'h'),
     headerContents,
   );
 
-  const implementationContents: Maybe.Maybe<string> = renderImpl
+  const implementationContents: string | null = renderImpl
     ? ObjCRenderer.renderImplementation(file)
-    : Maybe.Nothing<string>();
-  const implementationRequest: Maybe.Maybe<FileWriter.Request> = fileRequest(
+    : null;
+  const implementationRequest: FileWriter.Request | null = fileRequest(
     containingFolderPath,
     fileNameIncludingExtension(
       file,

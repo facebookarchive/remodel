@@ -25,7 +25,7 @@ describe('Plugins.FetchStatus', function() {
         typeLookups: [],
         excludes: [],
         includes: [],
-        libraryName: Maybe.Just<string>('FooLib'),
+        libraryName: 'FooLib',
         typeName: 'Foo',
       };
 
@@ -38,12 +38,12 @@ describe('Plugins.FetchStatus', function() {
           name: 'fetchStatus',
           nullability: ObjC.Nullability.Inherited(),
           type: {
-            fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-            libraryTypeIsDefinedIn: Maybe.Just<string>('FooLib'),
+            fileTypeIsDefinedIn: null,
+            libraryTypeIsDefinedIn: 'FooLib',
             name: 'FooFetchStatus',
             reference: 'FooFetchStatus *',
-            underlyingType: Maybe.Just<string>('NSObject'),
-            conformingProtocol: Maybe.Nothing<string>(),
+            underlyingType: 'NSObject',
+            conformingProtocol: null,
           },
         },
       ];
@@ -62,12 +62,12 @@ describe('Plugins.FetchStatus', function() {
             name: 'someUnsignedInteger',
             nullability: ObjC.Nullability.Inherited(),
             type: {
-              fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-              libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+              fileTypeIsDefinedIn: null,
+              libraryTypeIsDefinedIn: null,
               name: 'NSUInteger',
               reference: 'NSUInteger',
-              underlyingType: Maybe.Nothing<string>(),
-              conformingProtocol: Maybe.Nothing<string>(),
+              underlyingType: null,
+              conformingProtocol: null,
             },
           },
         ],
@@ -75,7 +75,7 @@ describe('Plugins.FetchStatus', function() {
         typeLookups: [],
         excludes: [],
         includes: [],
-        libraryName: Maybe.Just<string>('FooLib'),
+        libraryName: 'FooLib',
         typeName: 'Foo',
       };
 
@@ -92,12 +92,12 @@ describe('Plugins.FetchStatus', function() {
             name: 'hasFetchedSomeUnsignedInteger',
             nullability: ObjC.Nullability.Inherited(),
             type: {
-              fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-              libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+              fileTypeIsDefinedIn: null,
+              libraryTypeIsDefinedIn: null,
               name: 'BOOL',
               reference: 'BOOL',
-              underlyingType: Maybe.Nothing<string>(),
-              conformingProtocol: Maybe.Nothing<string>(),
+              underlyingType: null,
+              conformingProtocol: null,
             },
           },
         ],
@@ -105,7 +105,7 @@ describe('Plugins.FetchStatus', function() {
         typeLookups: [],
         excludes: [],
         includes: [],
-        libraryName: Maybe.Just<string>('FooLib'),
+        libraryName: 'FooLib',
         typeName: 'FooFetchStatus',
       };
 

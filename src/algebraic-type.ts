@@ -13,12 +13,12 @@ import * as ObjC from './objc';
 import * as ObjectGeneration from './object-generation';
 
 export interface SubtypeAttributeType {
-  fileTypeIsDefinedIn: Maybe.Maybe<string>;
-  libraryTypeIsDefinedIn: Maybe.Maybe<string>;
+  fileTypeIsDefinedIn: string | null;
+  libraryTypeIsDefinedIn: string | null;
   name: string;
   reference: string;
-  underlyingType: Maybe.Maybe<string>;
-  conformingProtocol: Maybe.Maybe<string>;
+  underlyingType: string | null;
+  conformingProtocol: string | null;
 }
 
 export interface SubtypeAttribute {
@@ -96,7 +96,7 @@ export interface Type {
   comments: string[];
   includes: string[];
   excludes: string[];
-  libraryName: Maybe.Maybe<string>;
+  libraryName: string | null;
   name: string;
   typeLookups: ObjectGeneration.TypeLookup[];
   subtypes: Subtype[];
@@ -111,7 +111,7 @@ export interface Plugin {
   transformFileRequest: (
     writeRequest: FileWriter.Request,
   ) => FileWriter.Request;
-  fileType: (algebraicType: Type) => Maybe.Maybe<Code.FileType>;
+  fileType: (algebraicType: Type) => Code.FileType | null;
   forwardDeclarations: (algebraicType: Type) => ObjC.ForwardDeclaration[];
   functions: (algebraicType: Type) => ObjC.Function[];
   headerComments: (algebraicType: Type) => ObjC.Comment[];
@@ -123,8 +123,8 @@ export interface Plugin {
   requiredIncludesToRun: string[];
   staticConstants: (algebraicType: Type) => ObjC.Constant[];
   validationErrors: (algebraicType: Type) => Error.Error[];
-  nullability: (algebraicType: Type) => Maybe.Maybe<ObjC.ClassNullability>;
+  nullability: (algebraicType: Type) => ObjC.ClassNullability | null;
   subclassingRestricted: (algebraicType: Type) => boolean;
   structs?: (algebraicType: Type) => Code.Struct[];
-  baseClass?: (algebraicType: Type) => Maybe.Maybe<ObjC.BaseClass>;
+  baseClass?: (algebraicType: Type) => ObjC.BaseClass | null;
 }

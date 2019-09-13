@@ -27,7 +27,7 @@ describe('ObjectSpecPlugins.InitNewUnavailable', function() {
         typeLookups: [],
         excludes: [],
         includes: ['RMInitNewUnavailable'],
-        libraryName: Maybe.Nothing<string>(),
+        libraryName: null,
         typeName: 'Foo',
       };
 
@@ -54,12 +54,12 @@ describe('ObjectSpecPlugins.InitNewUnavailable', function() {
             name: 'value',
             nullability: ObjC.Nullability.Inherited(),
             type: {
-              fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-              libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+              fileTypeIsDefinedIn: null,
+              libraryTypeIsDefinedIn: null,
               name: 'NSString',
               reference: 'NSString *',
-              underlyingType: Maybe.Just<string>('NSObject'),
-              conformingProtocol: Maybe.Nothing<string>(),
+              underlyingType: 'NSObject',
+              conformingProtocol: null,
             },
           },
         ],
@@ -67,7 +67,7 @@ describe('ObjectSpecPlugins.InitNewUnavailable', function() {
         typeLookups: [],
         excludes: [],
         includes: ['RMInitNewUnavailable'],
-        libraryName: Maybe.Nothing<string>(),
+        libraryName: null,
         typeName: 'Foo',
       };
 
@@ -77,7 +77,7 @@ describe('ObjectSpecPlugins.InitNewUnavailable', function() {
       const expectedInstanceMethods: ObjC.Method[] = [
         {
           preprocessors: [],
-          belongsToProtocol: Maybe.Just<string>('NSObject'),
+          belongsToProtocol: 'NSObject',
           code: [],
           comments: [],
           compilerAttributes: ['NS_UNAVAILABLE'],
@@ -104,7 +104,7 @@ describe('ObjectSpecPlugins.InitNewUnavailable', function() {
       const expectedClassMethods: ObjC.Method[] = [
         {
           preprocessors: [],
-          belongsToProtocol: Maybe.Just<string>('NSObject'),
+          belongsToProtocol: 'NSObject',
           code: [],
           comments: [],
           compilerAttributes: ['NS_UNAVAILABLE'],
@@ -137,7 +137,7 @@ describe('AlgebraicTypePlugins.InitNewUnavailable', function() {
         includes: ['RMInitNewUnavailable'],
         typeLookups: [],
         excludes: [],
-        libraryName: Maybe.Nothing<string>(),
+        libraryName: null,
         comments: [],
         subtypes: [
           AlgebraicType.Subtype.NamedAttributeCollectionDefinition({
@@ -155,7 +155,7 @@ describe('AlgebraicTypePlugins.InitNewUnavailable', function() {
       const expectedInstanceMethods: ObjC.Method[] = [
         {
           preprocessors: [],
-          belongsToProtocol: Maybe.Just<string>('NSObject'),
+          belongsToProtocol: 'NSObject',
           code: [],
           comments: [],
           compilerAttributes: ['NS_UNAVAILABLE'],
@@ -182,7 +182,7 @@ describe('AlgebraicTypePlugins.InitNewUnavailable', function() {
       const expectedClassMethods: ObjC.Method[] = [
         {
           preprocessors: [],
-          belongsToProtocol: Maybe.Just<string>('NSObject'),
+          belongsToProtocol: 'NSObject',
           code: [],
           comments: [],
           compilerAttributes: ['NS_UNAVAILABLE'],

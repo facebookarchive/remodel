@@ -33,8 +33,8 @@ describe('ObjectGenerationParsingUtils', function() {
       >([
         {
           name: 'RMSomeType',
-          library: Maybe.Nothing<string>(),
-          file: Maybe.Nothing<string>(),
+          library: null,
+          file: null,
           canForwardDeclare: true,
         },
       ]);
@@ -61,8 +61,8 @@ describe('ObjectGenerationParsingUtils', function() {
         >([
           {
             name: 'RMSomeOtherType',
-            library: Maybe.Nothing<string>(),
-            file: Maybe.Nothing<string>(),
+            library: null,
+            file: null,
             canForwardDeclare: true,
           },
         ]);
@@ -93,14 +93,14 @@ describe('ObjectGenerationParsingUtils', function() {
         >([
           {
             name: 'RMSomeType',
-            library: Maybe.Nothing<string>(),
-            file: Maybe.Nothing<string>(),
+            library: null,
+            file: null,
             canForwardDeclare: true,
           },
           {
             name: 'RMSomeOtherType',
-            library: Maybe.Nothing<string>(),
-            file: Maybe.Nothing<string>(),
+            library: null,
+            file: null,
             canForwardDeclare: true,
           },
         ]);
@@ -131,8 +131,8 @@ describe('ObjectGenerationParsingUtils', function() {
         >([
           {
             name: 'RMSomeType',
-            library: Maybe.Just<string>('RMSomeLibrary'),
-            file: Maybe.Just<string>('RMSomeFile'),
+            library: 'RMSomeLibrary',
+            file: 'RMSomeFile',
             canForwardDeclare: false,
           },
         ]);

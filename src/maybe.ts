@@ -5,77 +5,72 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-export function Just<T>(val: T) {
-  return new Maybe<T>(val);
+export type Maybe<T> = T | null;
+
+export function Just<T>(t: T): T | null {
+  return t;
 }
 
-export function Nothing<T>() {
-  return new Maybe<T>();
-}
-
-export class Maybe<T> {
-  value?: T;
-
-  constructor(value?: T) {
-    this.value = value;
-  }
+export function Nothing<T>(): T | null {
+  return null;
 }
 
 export function match<T, U>(
   just: (t: T) => U,
   nothing: () => U,
-  maybe: Maybe<T>,
+  maybe: T | null | undefined,
 ): U {
-  if (maybe.value === undefined) {
+  if (maybe == null) {
     return nothing();
   } else {
-    return just(maybe.value!);
+    return just(maybe);
   }
 }
 
-export function catMaybes<T>(maybes: Maybe<T>[]): T[] {
-  return maybes.reduce(function(soFar: T[], thisVal: Maybe<T>) {
-    return match(
-      function(val: T) {
-        return soFar.concat(val);
-      },
-      function() {
-        return soFar;
-      },
-      thisVal,
-    );
-  }, []);
+export function catMaybes<T>(maybes: (T | null | undefined)[]): T[] {
+  return maybes.reduce(
+    (soFar, thisVal) => {
+      return match(
+        function(val: T) {
+          return soFar.concat(val);
+        },
+        function() {
+          return soFar;
+        },
+        thisVal,
+      );
+    },
+    [] as T[],
+  );
 }
 
-export function map<T, U>(f: (t: T) => U, maybe: Maybe<T>): Maybe<U> {
-  const just = function(t: T) {
-    return Just(f(t));
-  };
-  const nothing = function() {
-    return Nothing<U>();
-  };
-  return match(just, nothing, maybe);
+export function map<T, U>(
+  f: (t: T) => U,
+  maybe: T | null | undefined,
+): U | null {
+  return match(f, () => null, maybe);
 }
 
-export function munit<T>(t: T) {
-  return Just(t);
+export function mbind<T, U>(
+  f: (t: T) => U | null,
+  maybe: T | null | undefined,
+): U | null {
+  return match(f, () => null, maybe);
 }
 
-export function mbind<T, U>(f: (t: T) => Maybe<U>, maybe: Maybe<T>): Maybe<U> {
-  const nothing = function() {
-    return Nothing<U>();
-  };
-  return match(f, nothing, maybe);
-}
-
-export function and<A, B>(a: Maybe<A>, b: Maybe<B>): Maybe<[A, B]> {
-  if (a.value !== undefined && b.value !== undefined) {
-    return Just<[A, B]>([a.value!, b.value!]);
+export function and<A, B>(
+  a: A | null | undefined,
+  b: B | null | undefined,
+): [A, B] | null {
+  if (a == null) {
+    return null;
+  } else if (b == null) {
+    return null;
   } else {
-    return Nothing<[A, B]>();
+    return [a, b];
   }
 }
 
-export function or<T>(a: Maybe<T>, b: Maybe<T>): Maybe<T> {
-  return match(aValue => Just(aValue), () => b, a);
+export function or<T>(a: T | null, b: T | null): T | null {
+  return match(aValue => aValue, () => b, a);
 }

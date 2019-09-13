@@ -18,7 +18,7 @@ describe('Queue', function() {
       const result: Queue.DequeueResult<number> = Queue.dequeue(queue);
 
       const expectedResult: Queue.DequeueResult<number> = {
-        value: Maybe.Nothing<number>(),
+        value: null,
         queue: Queue.Empty<number>(),
       };
 
@@ -31,7 +31,7 @@ describe('Queue', function() {
       const result: Queue.DequeueResult<number> = Queue.dequeue(updatedQueue);
 
       const expectedResult: Queue.DequeueResult<number> = {
-        value: Maybe.Just<number>(1),
+        value: 1,
         queue: Queue.Empty<number>(),
       };
 
@@ -45,7 +45,7 @@ describe('Queue', function() {
       const result: Queue.DequeueResult<number> = Queue.dequeue(updatedQueue2);
 
       const expectedResult: Queue.DequeueResult<number> = {
-        value: Maybe.Just<number>(1),
+        value: 1,
         queue: Queue.of<number>(2),
       };
 
@@ -67,7 +67,7 @@ describe('Queue', function() {
         );
 
         const expectedResult: Queue.DequeueResult<number> = {
-          value: Maybe.Just<number>(2),
+          value: 2,
           queue: Queue.Empty<number>(),
         };
 

@@ -13,18 +13,18 @@ import * as ObjectGeneration from './object-generation';
 
 export function possiblyUndefinedStringToMaybe(
   str: string | null,
-): Maybe.Maybe<string> {
+): string | null {
   if (str == null) {
-    return Maybe.Nothing<string>();
+    return null;
   } else {
-    return Maybe.Just(str);
+    return str;
   }
 }
 
 function annotationValuesFromAnnotations(
   annotations: {[name: string]: {[key: string]: string}[]},
   annotationName: string,
-): Maybe.Maybe<{[key: string]: string}[]> {
+): {[key: string]: string}[] | null {
   if (annotations !== undefined && annotations[annotationName] != null) {
     return Maybe.Just<{[key: string]: string}[]>(annotations[annotationName]);
   } else {
@@ -34,17 +34,17 @@ function annotationValuesFromAnnotations(
 
 function libraryNameFromAnnotation(annotation: {
   [key: string]: string;
-}): Maybe.Maybe<string> {
+}): string | null {
   if (annotation != null && annotation['name'] != null) {
     return Maybe.Just<string>(annotation['name']);
   } else {
-    return Maybe.Nothing<string>();
+    return null;
   }
 }
 
 export function libraryNameFromAnnotations(annotations: {
   [name: string]: {[key: string]: string}[];
-}): Maybe.Maybe<string> {
+}): string | null {
   const libraryDefinitions = annotationValuesFromAnnotations(
     annotations,
     'library',
@@ -56,7 +56,7 @@ export function libraryNameFromAnnotations(annotations: {
       );
     },
     function() {
-      return Maybe.Nothing<string>();
+      return null;
     },
     libraryDefinitions,
   );
@@ -76,7 +76,7 @@ export function nullabilityFromParseResultAnnotations(annotations: {
 
 function importAnnotationFromAnnotations(annotations: {
   [name: string]: {[key: string]: string}[];
-}): Maybe.Maybe<{[key: string]: string}> {
+}): {[key: string]: string} | null {
   const importDefinitions = annotationValuesFromAnnotations(
     annotations,
     'import',
@@ -89,16 +89,16 @@ function importAnnotationFromAnnotations(annotations: {
 export function valueFromImportAnnotationFromAnnotations(
   annotations: {[name: string]: {[key: string]: string}[]},
   key: string,
-): Maybe.Maybe<string> {
+): string | null {
   const importAnnotation = importAnnotationFromAnnotations(annotations);
   return Maybe.match(
     function(annotation: {[key: string]: string}) {
       return annotation[key] != null
         ? Maybe.Just<string>(annotation[key])
-        : Maybe.Nothing<string>();
+        : null;
     },
     function() {
-      return Maybe.Nothing<string>();
+      return null;
     },
     importAnnotation,
   );
@@ -166,7 +166,7 @@ export function typeLookupsFromRawAnnotations(annotations: {
 }
 
 export function typeLookupsFromAnnotations(
-  annotations: Maybe.Maybe<ObjectGeneration.Annotation[]>,
+  annotations: ObjectGeneration.Annotation[] | null,
 ): Either.Either<Error.Error[], ObjectGeneration.TypeLookup[]> {
   return Maybe.match(
     function(annotations: ObjectGeneration.Annotation[]) {

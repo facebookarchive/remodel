@@ -348,15 +348,13 @@ describe('FileFinder', function() {
         fsExtra.removeSync(__dirname + '/tmp');
         fs.mkdirSync(__dirname + '/tmp');
         fs.writeFileSync(__dirname + '/tmp/.valueObjectConfig', '');
-        const future: Promise.Future<
-          Maybe.Maybe<File.AbsoluteFilePath>
-        > = FileFinder.findConfig(
+        const future: Promise.Future<File.AbsoluteFilePath | null> = FileFinder.findConfig(
           '.valueObjectConfig',
           File.getAbsoluteFilePath(__dirname + '/tmp'),
         );
-        Promise.then(function(result: Maybe.Maybe<File.AbsoluteFilePath>) {
-          const expectedResult = Maybe.Just(
-            File.getAbsoluteFilePath(__dirname + '/tmp/.valueObjectConfig'),
+        Promise.then(function(result: File.AbsoluteFilePath | null) {
+          const expectedResult = File.getAbsoluteFilePath(
+            __dirname + '/tmp/.valueObjectConfig',
           );
           expect(result).toEqualJSON(expectedResult);
           fsExtra.removeSync(__dirname + '/tmp');
@@ -372,15 +370,13 @@ describe('FileFinder', function() {
         fsExtra.removeSync(__dirname + '/tmp');
         fs.mkdirSync(__dirname + '/tmp');
         fs.writeFileSync(__dirname + '/.valueObjectConfig', '');
-        const future: Promise.Future<
-          Maybe.Maybe<File.AbsoluteFilePath>
-        > = FileFinder.findConfig(
+        const future: Promise.Future<File.AbsoluteFilePath | null> = FileFinder.findConfig(
           '.valueObjectConfig',
           File.getAbsoluteFilePath(__dirname + '/tmp'),
         );
-        Promise.then(function(result: Maybe.Maybe<File.AbsoluteFilePath>) {
-          const expectedResult = Maybe.Just(
-            File.getAbsoluteFilePath(__dirname + '/.valueObjectConfig'),
+        Promise.then(function(result: File.AbsoluteFilePath | null) {
+          const expectedResult = File.getAbsoluteFilePath(
+            __dirname + '/.valueObjectConfig',
           );
           expect(result).toEqualJSON(expectedResult);
           fsExtra.removeSync(__dirname + '/tmp');
@@ -397,13 +393,11 @@ describe('FileFinder', function() {
         fs.mkdirSync(__dirname + '/tmp');
         fs.mkdirSync(__dirname + '/tmp/tmp2');
         fs.writeFileSync(__dirname + '/.valueObjectConfig', '');
-        const future: Promise.Future<
-          Maybe.Maybe<File.AbsoluteFilePath>
-        > = FileFinder.findConfig(
+        const future: Promise.Future<File.AbsoluteFilePath | null> = FileFinder.findConfig(
           '.valueObjectConfig',
           File.getAbsoluteFilePath(__dirname + '/tmp/tmp2'),
         );
-        Promise.then(function(result: Maybe.Maybe<File.AbsoluteFilePath>) {
+        Promise.then(function(result: File.AbsoluteFilePath | null) {
           const expectedResult = Maybe.Just(
             File.getAbsoluteFilePath(__dirname + '/.valueObjectConfig'),
           );
@@ -420,13 +414,11 @@ describe('FileFinder', function() {
       function(finished) {
         fsExtra.removeSync(__dirname + '/tmp');
         fs.mkdirSync(__dirname + '/tmp');
-        const future: Promise.Future<
-          Maybe.Maybe<File.AbsoluteFilePath>
-        > = FileFinder.findConfig(
+        const future: Promise.Future<File.AbsoluteFilePath | null> = FileFinder.findConfig(
           '.someCrazyFileThatDoesntExist',
           File.getAbsoluteFilePath(__dirname + '/tmp'),
         );
-        Promise.then(function(result: Maybe.Maybe<File.AbsoluteFilePath>) {
+        Promise.then(function(result: File.AbsoluteFilePath | null) {
           const expectedResult = Maybe.Nothing<File.AbsoluteFilePath>();
           expect(result).toEqualJSON(expectedResult);
           fsExtra.removeSync(__dirname + '/tmp');

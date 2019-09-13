@@ -29,7 +29,7 @@ import * as WriteFileUtils from './file-logged-sequence-write-utils';
 
 interface ObjectSpecCreationContext {
   baseClassName: string;
-  baseClassLibraryName: Maybe.Maybe<string>;
+  baseClassLibraryName: string | null;
   diagnosticIgnores: List.List<string>;
   plugins: List.List<ObjectSpec.Plugin>;
   defaultIncludes: List.List<string>;
@@ -42,7 +42,7 @@ interface PathAndTypeInfo {
 }
 
 interface GenerationOptions {
-  outputPath: Maybe.Maybe<File.AbsoluteFilePath>;
+  outputPath: File.AbsoluteFilePath | null;
   outputFlags: OutputControl.OutputFlags;
 }
 
@@ -181,7 +181,7 @@ function pluginsFromPluginConfigs(
         list: List.List<ObjectSpec.Plugin>,
       ): Either.Either<Error.Error[], List.List<ObjectSpec.Plugin>> {
         return Either.map(function(
-          maybePlugin: Maybe.Maybe<ObjectSpec.Plugin>,
+          maybePlugin: ObjectSpec.Plugin | null,
         ): List.List<ObjectSpec.Plugin> {
           return Maybe.match(
             function(plugin: ObjectSpec.Plugin) {
@@ -205,14 +205,12 @@ function pluginsFromPluginConfigs(
 }
 
 function getObjectSpecCreationContext(
-  valueObjectConfigPathFuture: Promise.Future<
-    Maybe.Maybe<File.AbsoluteFilePath>
-  >,
+  valueObjectConfigPathFuture: Promise.Future<File.AbsoluteFilePath | null>,
   configurationContext: Configuration.ConfigurationContext,
   parsedArgs: CommandLine.Arguments,
 ): Promise.Future<Either.Either<Error.Error[], ObjectSpecCreationContext>> {
   return Promise.mbind(function(
-    maybePath: Maybe.Maybe<File.AbsoluteFilePath>,
+    maybePath: File.AbsoluteFilePath | null,
   ): Promise.Future<Either.Either<Error.Error[], ObjectSpecCreationContext>> {
     const configFuture: Promise.Future<
       Either.Either<Error.Error[], Configuration.GenerationConfig>
@@ -257,10 +255,8 @@ function valueObjectConfigPathFuture(
   configFileName: string,
   requestedPath: File.AbsoluteFilePath,
   configPathFromArguments: string | undefined,
-): Promise.Future<Maybe.Maybe<File.AbsoluteFilePath>> {
-  var absoluteValueObjectConfigPath: Promise.Future<
-    Maybe.Maybe<File.AbsoluteFilePath>
-  >;
+): Promise.Future<File.AbsoluteFilePath | null> {
+  var absoluteValueObjectConfigPath: Promise.Future<File.AbsoluteFilePath | null>;
   if (configPathFromArguments === undefined) {
     absoluteValueObjectConfigPath = FileFinder.findConfig(
       configFileName,
@@ -277,7 +273,7 @@ function valueObjectConfigPathFuture(
 function outputDirectory(
   directoryRunFrom: string,
   outputPath: string | undefined,
-): Maybe.Maybe<File.AbsoluteFilePath> {
+): File.AbsoluteFilePath | null {
   if (outputPath === undefined || outputPath === '') {
     return Maybe.Nothing<File.AbsoluteFilePath>();
   } else {
@@ -303,7 +299,7 @@ export function generate(
       File.getAbsoluteFilePath(directoryRunFrom),
       givenPath,
     );
-    const outputPath: Maybe.Maybe<File.AbsoluteFilePath> = outputDirectory(
+    const outputPath: File.AbsoluteFilePath | null = outputDirectory(
       directoryRunFrom,
       parsedArgs.outputPath,
     );

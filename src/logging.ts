@@ -126,10 +126,7 @@ export function evaluate<T>(logger: Logger, context: Context<T>): Context<T> {
   );
   return List.foldr(
     function(context: Context<T>, logInfo: LogInfo) {
-      const maybeValue: Maybe.Maybe<boolean> = Map.get(
-        logInfo.loggingType,
-        map,
-      );
+      const maybeValue: boolean | null = Map.get(logInfo.loggingType, map);
       return Maybe.match(
         function(bool: boolean) {
           if (logger.minimalLevel <= logInfo.level) {

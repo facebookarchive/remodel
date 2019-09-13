@@ -27,7 +27,7 @@ describe('ObjectSpecPlugins.SubclassingRestricted', function() {
         typeLookups: [],
         excludes: [],
         includes: ['RMSubclassingRestricted'],
-        libraryName: Maybe.Nothing<string>(),
+        libraryName: null,
         typeName: 'Foo',
       };
 
@@ -48,7 +48,7 @@ describe('AlgebraicTypePlugins.SubclassingRestricted', function() {
         includes: ['RMSubclassingRestricted'],
         typeLookups: [],
         excludes: [],
-        libraryName: Maybe.Nothing<string>(),
+        libraryName: null,
         comments: [],
         subtypes: [
           AlgebraicType.Subtype.NamedAttributeCollectionDefinition({

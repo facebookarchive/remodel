@@ -210,7 +210,7 @@ function computationCostAsNumber(computationCost: ComputationCost): number {
 
 interface SystemFunction {
   name: string;
-  import: Maybe.Maybe<ObjC.Import>;
+  import: ObjC.Import | null;
 }
 
 interface TypeEqualityValue {
@@ -614,7 +614,7 @@ function generationGroupForType(type: ObjC.Type): TypeEqualityGenerationGroup {
             {
               name: 'sel_isEqual',
               import: Maybe.Just<ObjC.Import>({
-                library: Maybe.Just('objc'),
+                library: 'objc',
                 file: 'runtime.h',
                 isPublic: false,
                 requiresCPlusPlus: false,
@@ -896,7 +896,7 @@ function isEqualInstanceMethod(
     .concat('  ' + lastEqualityCheck + ';');
   return {
     preprocessors: [],
-    belongsToProtocol: Maybe.Just('NSObject'),
+    belongsToProtocol: 'NSObject',
     keywords: [
       {
         name: 'isEqual',
@@ -944,7 +944,7 @@ function hashInstanceMethod(
 
   return {
     preprocessors: [],
-    belongsToProtocol: Maybe.Just('NSObject'),
+    belongsToProtocol: 'NSObject',
     keywords: [
       {
         name: 'hash',
@@ -1388,9 +1388,7 @@ export function createPlugin(): ObjectSpec.Plugin {
     ): FileWriter.Request {
       return request;
     },
-    fileType: function(
-      objectType: ObjectSpec.Type,
-    ): Maybe.Maybe<Code.FileType> {
+    fileType: function(objectType: ObjectSpec.Type): Code.FileType | null {
       return Maybe.Nothing<Code.FileType>();
     },
     forwardDeclarations: function(
@@ -1464,7 +1462,7 @@ export function createPlugin(): ObjectSpec.Plugin {
     },
     nullability: function(
       objectType: ObjectSpec.Type,
-    ): Maybe.Maybe<ObjC.ClassNullability> {
+    ): ObjC.ClassNullability | null {
       return Maybe.Nothing<ObjC.ClassNullability>();
     },
     subclassingRestricted: function(objectType: ObjectSpec.Type): boolean {
@@ -1600,7 +1598,7 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
     },
     fileType: function(
       algebraicType: AlgebraicType.Type,
-    ): Maybe.Maybe<Code.FileType> {
+    ): Code.FileType | null {
       return Maybe.Nothing<Code.FileType>();
     },
     forwardDeclarations: function(
@@ -1673,7 +1671,7 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
     },
     nullability: function(
       algebraicType: AlgebraicType.Type,
-    ): Maybe.Maybe<ObjC.ClassNullability> {
+    ): ObjC.ClassNullability | null {
       return Maybe.Nothing<ObjC.ClassNullability>();
     },
     subclassingRestricted: function(

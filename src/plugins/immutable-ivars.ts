@@ -41,9 +41,7 @@ export function createPlugin(): ObjectSpec.Plugin {
     ): FileWriter.Request {
       return request;
     },
-    fileType: function(
-      objectType: ObjectSpec.Type,
-    ): Maybe.Maybe<Code.FileType> {
+    fileType: function(objectType: ObjectSpec.Type): Code.FileType | null {
       return Maybe.Nothing<Code.FileType>();
     },
     forwardDeclarations:
@@ -67,7 +65,7 @@ export function createPlugin(): ObjectSpec.Plugin {
 
       const getters = objectType.attributes.map(attribute => ({
         preprocessors: [],
-        belongsToProtocol: Maybe.Nothing<string>(),
+        belongsToProtocol: null,
         code: [`return _${attribute.name};`],
         comments: ObjCCommentUtils.commentsAsBlockFromStringArray(
           attribute.comments,
@@ -112,7 +110,7 @@ export function createPlugin(): ObjectSpec.Plugin {
     },
     nullability: function(
       objectType: ObjectSpec.Type,
-    ): Maybe.Maybe<ObjC.ClassNullability> {
+    ): ObjC.ClassNullability | null {
       return Maybe.Nothing<ObjC.ClassNullability>();
     },
     subclassingRestricted: function(objectType: ObjectSpec.Type): boolean {

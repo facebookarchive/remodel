@@ -43,10 +43,10 @@ describe('AlgebraicTypeParser', function() {
                 name: 'someUnsignedInt',
                 nullability: ObjC.Nullability.Inherited(),
                 type: {
-                  fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-                  libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
-                  underlyingType: Maybe.Nothing<string>(),
-                  conformingProtocol: Maybe.Nothing<string>(),
+                  fileTypeIsDefinedIn: null,
+                  libraryTypeIsDefinedIn: null,
+                  underlyingType: null,
+                  conformingProtocol: null,
                   reference: 'uint64_t',
                   name: 'uint64_t',
                 },
@@ -55,7 +55,7 @@ describe('AlgebraicTypeParser', function() {
             ],
           }),
         ],
-        libraryName: Maybe.Nothing<string>(),
+        libraryName: null,
       };
 
       const expectedResult: Either.Either<
@@ -86,17 +86,17 @@ describe('AlgebraicTypeParser', function() {
             name: 'rmObjectProperty',
             nullability: ObjC.Nullability.Inherited(),
             type: {
-              fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-              libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
-              underlyingType: Maybe.Just('NSObject'),
-              conformingProtocol: Maybe.Nothing<string>(),
+              fileTypeIsDefinedIn: null,
+              libraryTypeIsDefinedIn: null,
+              underlyingType: 'NSObject',
+              conformingProtocol: null,
               reference: 'RMObject*',
               name: 'RMObject',
             },
             comments: [],
           }),
         ],
-        libraryName: Maybe.Nothing<string>(),
+        libraryName: null,
       };
 
       const expectedResult: Either.Either<
@@ -136,8 +136,8 @@ describe('AlgebraicTypeParser', function() {
         typeLookups: [
           {
             name: 'Scumbag',
-            library: Maybe.Just<string>('Steve'),
-            file: Maybe.Nothing<string>(),
+            library: 'Steve',
+            file: null,
             canForwardDeclare: true,
           },
         ],
@@ -156,17 +156,17 @@ describe('AlgebraicTypeParser', function() {
             name: 'rmObjectProperty',
             nullability: ObjC.Nullability.Inherited(),
             type: {
-              fileTypeIsDefinedIn: Maybe.Just('RMSomeOtherFile'),
-              libraryTypeIsDefinedIn: Maybe.Just('RMCustomLibrary'),
-              underlyingType: Maybe.Just('NSObject'),
-              conformingProtocol: Maybe.Nothing<string>(),
+              fileTypeIsDefinedIn: 'RMSomeOtherFile',
+              libraryTypeIsDefinedIn: 'RMCustomLibrary',
+              underlyingType: 'NSObject',
+              conformingProtocol: null,
               reference: 'RMObject*',
               name: 'RMObject',
             },
             comments: ['comment'],
           }),
         ],
-        libraryName: Maybe.Nothing<string>(),
+        libraryName: null,
       };
 
       const expectedResult: Either.Either<
@@ -229,12 +229,12 @@ describe('AlgebraicTypeParser', function() {
                   name: 'someBlah',
                   nullability: ObjC.Nullability.Inherited(),
                   type: {
-                    fileTypeIsDefinedIn: Maybe.Just('RMSomeOtherFile'),
-                    libraryTypeIsDefinedIn: Maybe.Just('RMCustomLibrary'),
+                    fileTypeIsDefinedIn: 'RMSomeOtherFile',
+                    libraryTypeIsDefinedIn: 'RMCustomLibrary',
                     name: 'RMBlah',
                     reference: 'RMBlah*',
-                    underlyingType: Maybe.Just<string>('NSObject'),
-                    conformingProtocol: Maybe.Nothing<string>(),
+                    underlyingType: 'NSObject',
+                    conformingProtocol: null,
                   },
                 },
                 {
@@ -243,18 +243,18 @@ describe('AlgebraicTypeParser', function() {
                   name: 'someValue',
                   nullability: ObjC.Nullability.Inherited(),
                   type: {
-                    fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-                    libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+                    fileTypeIsDefinedIn: null,
+                    libraryTypeIsDefinedIn: null,
                     name: 'RMSomeValue',
                     reference: 'RMSomeValue',
-                    underlyingType: Maybe.Just('BOOL'),
-                    conformingProtocol: Maybe.Nothing<string>(),
+                    underlyingType: 'BOOL',
+                    conformingProtocol: null,
                   },
                 },
               ],
             }),
           ],
-          libraryName: Maybe.Just('RMSomethingLibrary'),
+          libraryName: 'RMSomethingLibrary',
         };
         const expectedResult: Either.Either<
           Error.Error[],
@@ -301,12 +301,12 @@ describe('AlgebraicTypeParser', function() {
                 name: 'someBlah',
                 nullability: ObjC.Nullability.Nullable(),
                 type: {
-                  fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-                  libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+                  fileTypeIsDefinedIn: null,
+                  libraryTypeIsDefinedIn: null,
                   name: 'RMBlah',
                   reference: 'RMBlah*',
-                  underlyingType: Maybe.Just<string>('NSObject'),
-                  conformingProtocol: Maybe.Nothing<string>(),
+                  underlyingType: 'NSObject',
+                  conformingProtocol: null,
                 },
               },
               {
@@ -321,18 +321,18 @@ describe('AlgebraicTypeParser', function() {
                 name: 'someValue',
                 nullability: ObjC.Nullability.Nonnull(),
                 type: {
-                  fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-                  libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+                  fileTypeIsDefinedIn: null,
+                  libraryTypeIsDefinedIn: null,
                   name: 'RMBlah',
                   reference: 'RMBlah*',
-                  underlyingType: Maybe.Just<string>('NSObject'),
-                  conformingProtocol: Maybe.Nothing<string>(),
+                  underlyingType: 'NSObject',
+                  conformingProtocol: null,
                 },
               },
             ],
           }),
         ],
-        libraryName: Maybe.Nothing<string>(),
+        libraryName: null,
       };
       const expectedResult: Either.Either<
         Error.Error[],
@@ -374,13 +374,13 @@ describe('AlgebraicTypeParser', function() {
                 name: 'multiple',
                 nullability: ObjC.Nullability.Inherited(),
                 type: {
-                  fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-                  libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+                  fileTypeIsDefinedIn: null,
+                  libraryTypeIsDefinedIn: null,
                   name: 'NSEvolvedDictionary',
                   reference:
                     'NSEvolvedDictionary<BOOL, NSFoo *, NSBar *, NSInteger>*',
-                  underlyingType: Maybe.Just<string>('NSObject'),
-                  conformingProtocol: Maybe.Nothing<string>(),
+                  underlyingType: 'NSObject',
+                  conformingProtocol: null,
                 },
               },
               {
@@ -389,13 +389,13 @@ describe('AlgebraicTypeParser', function() {
                 name: 'nested',
                 nullability: ObjC.Nullability.Inherited(),
                 type: {
-                  fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-                  libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+                  fileTypeIsDefinedIn: null,
+                  libraryTypeIsDefinedIn: null,
                   name: 'NSArray',
                   reference:
                     'NSArray<NSDictionary<NSArray<NSString *>, NSString *> *>*',
-                  underlyingType: Maybe.Just<string>('NSObject'),
-                  conformingProtocol: Maybe.Nothing<string>(),
+                  underlyingType: 'NSObject',
+                  conformingProtocol: null,
                 },
               },
               {
@@ -404,13 +404,13 @@ describe('AlgebraicTypeParser', function() {
                 name: 'protocols',
                 nullability: ObjC.Nullability.Inherited(),
                 type: {
-                  fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-                  libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+                  fileTypeIsDefinedIn: null,
+                  libraryTypeIsDefinedIn: null,
                   name: 'NSDictionary',
                   reference:
                     'NSDictionary<id<FooProtocol>, NSArray<id<BarProtocol>> *>*',
-                  underlyingType: Maybe.Just<string>('NSObject'),
-                  conformingProtocol: Maybe.Nothing<string>(),
+                  underlyingType: 'NSObject',
+                  conformingProtocol: null,
                 },
               },
               {
@@ -419,19 +419,19 @@ describe('AlgebraicTypeParser', function() {
                 name: 'ckAction',
                 nullability: ObjC.Nullability.Inherited(),
                 type: {
-                  fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-                  libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+                  fileTypeIsDefinedIn: null,
+                  libraryTypeIsDefinedIn: null,
                   name: 'CKAction',
                   reference:
                     'CKAction<NSDictionary<NSArray<NSString *> *, id<FooProtocol>> *>',
-                  underlyingType: Maybe.Just<string>('NSObject'),
-                  conformingProtocol: Maybe.Nothing<string>(),
+                  underlyingType: 'NSObject',
+                  conformingProtocol: null,
                 },
               },
             ],
           }),
         ],
-        libraryName: Maybe.Nothing<string>(),
+        libraryName: null,
       };
       const expectedResult: Either.Either<
         Error.Error[],
@@ -473,7 +473,7 @@ describe('AlgebraicTypeParser', function() {
         name: 'RMADT',
         includes: [],
         excludes: [],
-        libraryName: Maybe.Nothing(),
+        libraryName: null,
         typeLookups: [],
         subtypes: [
           AlgebraicType.Subtype.NamedAttributeCollectionDefinition({
@@ -494,12 +494,12 @@ describe('AlgebraicTypeParser', function() {
                 name: 'string',
                 comments: [],
                 type: {
-                  fileTypeIsDefinedIn: Maybe.Nothing(),
-                  libraryTypeIsDefinedIn: Maybe.Nothing(),
+                  fileTypeIsDefinedIn: null,
+                  libraryTypeIsDefinedIn: null,
                   name: 'NSString',
                   reference: 'NSString*',
-                  underlyingType: Maybe.Just('NSObject'),
-                  conformingProtocol: Maybe.Nothing(),
+                  underlyingType: 'NSObject',
+                  conformingProtocol: null,
                 },
                 nullability: ObjC.Nullability.Inherited(),
               },

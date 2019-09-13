@@ -17,27 +17,27 @@ import * as ObjectSpec from './object-spec';
 
 function requiredModuleForPath(
   absolutePath: File.AbsoluteFilePath,
-): Maybe.Maybe<any> {
+): any | null {
   try {
     return Maybe.Just(
       requireJsPlugin.requirePlugin(File.getAbsolutePathString(absolutePath)),
     );
   } catch (e) {
-    return Maybe.Nothing();
+    return null;
   }
 }
 
 function requirePlugin<T>(
   absolutePath: File.AbsoluteFilePath,
-  loadPlugin: (requiredModule: any) => Maybe.Maybe<T>,
-): Either.Either<Error.Error[], Maybe.Maybe<T>> {
-  const requiredModule: Maybe.Maybe<any> = requiredModuleForPath(absolutePath);
+  loadPlugin: (requiredModule: any) => T | null,
+): Either.Either<Error.Error[], T | null> {
+  const requiredModule: any | null = requiredModuleForPath(absolutePath);
   return Maybe.match(
-    function just(value: any): Either.Either<Error.Error[], Maybe.Maybe<T>> {
-      return Either.Right<Error.Error[], Maybe.Maybe<T>>(loadPlugin(value));
+    function just(value: any): Either.Either<Error.Error[], T | null> {
+      return Either.Right<Error.Error[], T | null>(loadPlugin(value));
     },
-    function nothing(): Either.Either<Error.Error[], Maybe.Maybe<T>> {
-      return Either.Left<Error.Error[], Maybe.Maybe<T>>([
+    function nothing(): Either.Either<Error.Error[], T | null> {
+      return Either.Left<Error.Error[], T | null>([
         Error.Error(
           'Plugin registered at ' +
             File.getAbsolutePathString(absolutePath) +
@@ -49,9 +49,7 @@ function requirePlugin<T>(
   );
 }
 
-function valueObjectPluginFromModule(
-  module: any,
-): Maybe.Maybe<ObjectSpec.Plugin> {
+function valueObjectPluginFromModule(module: any): ObjectSpec.Plugin | null {
   return module.createPlugin !== undefined
     ? Maybe.Just<ObjectSpec.Plugin>(module.createPlugin())
     : Maybe.Nothing<ObjectSpec.Plugin>();
@@ -59,7 +57,7 @@ function valueObjectPluginFromModule(
 
 function algebraicTypePluginFromModule(
   module: any,
-): Maybe.Maybe<AlgebraicType.Plugin> {
+): AlgebraicType.Plugin | null {
   return module.createAlgebraicTypePlugin !== undefined
     ? Maybe.Just<AlgebraicType.Plugin>(module.createAlgebraicTypePlugin())
     : Maybe.Nothing<AlgebraicType.Plugin>();
@@ -67,7 +65,7 @@ function algebraicTypePluginFromModule(
 
 export function requireObjectSpecPlugin(
   absolutePath: File.AbsoluteFilePath,
-): Either.Either<Error.Error[], Maybe.Maybe<ObjectSpec.Plugin>> {
+): Either.Either<Error.Error[], ObjectSpec.Plugin | null> {
   return requirePlugin<ObjectSpec.Plugin>(
     absolutePath,
     valueObjectPluginFromModule,
@@ -76,7 +74,7 @@ export function requireObjectSpecPlugin(
 
 export function requireAlgebraicTypePlugin(
   absolutePath: File.AbsoluteFilePath,
-): Either.Either<Error.Error[], Maybe.Maybe<AlgebraicType.Plugin>> {
+): Either.Either<Error.Error[], AlgebraicType.Plugin | null> {
   return requirePlugin<AlgebraicType.Plugin>(
     absolutePath,
     algebraicTypePluginFromModule,

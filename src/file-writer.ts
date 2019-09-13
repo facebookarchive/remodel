@@ -26,10 +26,8 @@ export function Request(path: File.AbsoluteFilePath, content: string) {
   return {path: path, content: content};
 }
 
-export function write(
-  request: Request,
-): Promise.Future<Maybe.Maybe<Error.Error>> {
-  const promise = Promise.pending<Maybe.Maybe<Error.Error>>();
+export function write(request: Request): Promise.Future<Error.Error | null> {
+  const promise = Promise.pending<Error.Error | null>();
   fs.writeFile(
     File.getAbsolutePathString(request.path),
     request.content,

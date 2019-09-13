@@ -33,7 +33,7 @@ interface PluginCollectionInfo {
 
 export interface GenerationConfig {
   baseClassName: string;
-  baseClassLibraryName: Maybe.Maybe<string>;
+  baseClassLibraryName: string | null;
   diagnosticIgnores: List.List<string>;
   pluginConfigs: List.List<PluginConfig>;
   defaultIncludes: List.List<string>;
@@ -52,7 +52,7 @@ const PATH_TO_PLUGINS_DIR = PathUtils.getAbsolutePathFromDirectoryAndRelativePat
 );
 const NSOBJECT_BASE_CLASS = {
   className: 'NSObject',
-  libraryName: Maybe.Nothing<string>(),
+  libraryName: null,
 };
 
 function concatString(soFar: string, thisOne: string): string {
@@ -145,7 +145,7 @@ function parsedJsonToBaseClass(parsed: any): ObjC.BaseClass {
       className: paredBaseClassInfo[BASE_CLASS_NAME_KEY],
       libraryName: paredBaseClassInfo[BASE_CLASS_LIBRARY_NAME_KEY]
         ? Maybe.Just(paredBaseClassInfo[BASE_CLASS_LIBRARY_NAME_KEY])
-        : Maybe.Nothing<string>(),
+        : null,
     };
   } else {
     return NSOBJECT_BASE_CLASS;
@@ -266,7 +266,7 @@ function pluginConfigForAdditionalPlugin(
 }
 
 export function generateConfig(
-  maybePath: Maybe.Maybe<File.AbsoluteFilePath>,
+  maybePath: File.AbsoluteFilePath | null,
   configurationContext: ConfigurationContext,
 ): Promise.Future<Either.Either<Error.Error[], GenerationConfig>> {
   return Maybe.match(
@@ -291,7 +291,7 @@ export function generateConfig(
       return Promise.munit(
         Either.Right<Error.Error[], GenerationConfig>({
           baseClassName: 'NSObject',
-          baseClassLibraryName: Maybe.Nothing<string>(),
+          baseClassLibraryName: null,
           diagnosticIgnores: List.of<string>(),
           pluginConfigs: pluginConfigs,
           defaultIncludes: configurationContext.baseIncludes,

@@ -327,18 +327,18 @@ describe('List', function() {
   describe('#head', function() {
     it('returns nothing when called on an empty list', function() {
       const list: List.List<number> = List.of<number>();
-      const result: Maybe.Maybe<number> = List.head(list);
+      const result: number | null = List.head(list);
 
-      const expectedResult = Maybe.Nothing<number>();
+      const expectedResult = null;
 
       expect(result).toEqualJSON(expectedResult);
     });
 
     it('the head value when it is not an empty list', function() {
       const list: List.List<number> = List.of<number>(1, 5, 10, 15, 20, 3);
-      const result: Maybe.Maybe<number> = List.head(list);
+      const result: number | null = List.head(list);
 
-      const expectedResult = Maybe.Just<number>(1);
+      const expectedResult = 1;
 
       expect(result).toEqualJSON(expectedResult);
     });

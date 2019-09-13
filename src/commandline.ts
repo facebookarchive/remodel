@@ -121,7 +121,7 @@ function sanitizeBooleanArg(arg: any, defaultValue: boolean): boolean {
   }
 }
 
-export function parseArgs(args: string[]): Maybe.Maybe<Arguments> {
+export function parseArgs(args: string[]): Arguments | null {
   const opts = {
     boolean: [
       VERBOSE_FLAG,
@@ -154,14 +154,14 @@ export function parseArgs(args: string[]): Maybe.Maybe<Arguments> {
   const sanitizedImplsOnly = sanitizeBooleanArg(parsedArgs[IMPL_ONLY], false);
 
   if (parsedArgs._.length === 0) {
-    return Maybe.Nothing<Arguments>();
+    return null;
   } else if (sanitizedHeadersOnly && sanitizedImplsOnly) {
     console.log(
       'Error: %s and %s cannot both be set simultaneously',
       HEADERS_ONLY,
       IMPL_ONLY,
     );
-    return Maybe.Nothing<Arguments>();
+    return null;
   } else {
     return Maybe.Just({
       givenPaths: parsedArgs._,

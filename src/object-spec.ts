@@ -13,12 +13,12 @@ import * as ObjC from './objc';
 import * as ObjectGeneration from './object-generation';
 
 export interface AttributeType {
-  fileTypeIsDefinedIn: Maybe.Maybe<string>;
-  libraryTypeIsDefinedIn: Maybe.Maybe<string>;
+  fileTypeIsDefinedIn: string | null;
+  libraryTypeIsDefinedIn: string | null;
   name: string;
   reference: string;
-  underlyingType: Maybe.Maybe<string>;
-  conformingProtocol: Maybe.Maybe<string>;
+  underlyingType: string | null;
+  conformingProtocol: string | null;
 }
 
 export interface Attribute {
@@ -35,7 +35,7 @@ export interface Type {
   comments: string[];
   excludes: string[];
   includes: string[];
-  libraryName: Maybe.Maybe<string>;
+  libraryName: string | null;
   typeLookups: ObjectGeneration.TypeLookup[];
   typeName: string;
 }
@@ -49,7 +49,7 @@ export interface Plugin {
   transformFileRequest: (
     writeRequest: FileWriter.Request,
   ) => FileWriter.Request;
-  fileType: (objectType: Type) => Maybe.Maybe<Code.FileType>;
+  fileType: (objectType: Type) => Code.FileType | null;
   forwardDeclarations: (objectType: Type) => ObjC.ForwardDeclaration[];
   functions: (objectType: Type) => ObjC.Function[];
   headerComments: (objectType: Type) => ObjC.Comment[];
@@ -62,8 +62,8 @@ export interface Plugin {
   requiredIncludesToRun: string[];
   staticConstants: (objectType: Type) => ObjC.Constant[];
   validationErrors: (objectType: Type) => Error.Error[];
-  nullability: (objectType: Type) => Maybe.Maybe<ObjC.ClassNullability>;
+  nullability: (objectType: Type) => ObjC.ClassNullability | null;
   subclassingRestricted: (objectType: Type) => boolean;
   structs?: (objectType: Type) => Code.Struct[];
-  baseClass?: (objectType: Type) => Maybe.Maybe<ObjC.BaseClass>;
+  baseClass?: (objectType: Type) => ObjC.BaseClass | null;
 }

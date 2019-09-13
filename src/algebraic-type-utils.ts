@@ -199,7 +199,7 @@ export function codeForSwitchingOnSubtypeWithSubtypeMapper(
 function blockTypeNameForSubtype(
   algebraicType: AlgebraicType.Type,
   subtype: AlgebraicType.Subtype,
-  matchingBlockType: Maybe.Maybe<MatchingBlockType>,
+  matchingBlockType: MatchingBlockType | null,
 ): string {
   return Maybe.match(
     function Just(matchingBlockType: MatchingBlockType) {
@@ -248,7 +248,7 @@ function blockParametersForSubtype(
 }
 
 export function returnTypeForMatchingBlockType(
-  matchingBlockType: Maybe.Maybe<MatchingBlockType>,
+  matchingBlockType: MatchingBlockType | null,
 ): ObjC.ReturnType {
   return Maybe.match(
     function Just(matchingBlockType: MatchingBlockType) {
@@ -271,7 +271,7 @@ export function returnTypeForMatchingBlockType(
 
 export function blockTypeForSubtype(
   algebraicType: AlgebraicType.Type,
-  matchingBlockType: Maybe.Maybe<MatchingBlockType>,
+  matchingBlockType: MatchingBlockType | null,
   subtype: AlgebraicType.Subtype,
 ): ObjC.BlockType {
   return {
@@ -297,7 +297,7 @@ export function blockParameterNameForMatchMethodFromSubtype(
 
 export function keywordForMatchMethodFromSubtype(
   algebraicType: AlgebraicType.Type,
-  matchingBlockType: Maybe.Maybe<MatchingBlockType>,
+  matchingBlockType: MatchingBlockType | null,
   assumesNonnull: boolean,
   subtype: AlgebraicType.Subtype,
 ): ObjC.Keyword {
@@ -327,7 +327,7 @@ export function keywordForMatchMethodFromSubtype(
 
 export function firstKeywordForMatchMethodFromSubtype(
   algebraicType: AlgebraicType.Type,
-  matchingBlockType: Maybe.Maybe<MatchingBlockType>,
+  matchingBlockType: MatchingBlockType | null,
   assumesNonnull: boolean,
   subtype: AlgebraicType.Subtype,
 ): ObjC.Keyword {
@@ -369,7 +369,7 @@ function swiftNameForAlgebraicTypeMatcher(
 
 function instanceMethodKeywordsForMatchingSubtypesOfAlgebraicType(
   algebraicType: AlgebraicType.Type,
-  matchingBlockType: Maybe.Maybe<MatchingBlockType>,
+  matchingBlockType: MatchingBlockType | null,
   nullable: boolean,
 ): ObjC.Keyword[] {
   const firstKeyword: ObjC.Keyword = firstKeywordForMatchMethodFromSubtype(
@@ -433,7 +433,7 @@ function blockInvocationForSubtype(
 
 function matcherCodeForAlgebraicType(
   algebraicType: AlgebraicType.Type,
-  matchingBlockType: Maybe.Maybe<MatchingBlockType>,
+  matchingBlockType: MatchingBlockType | null,
 ): string[] {
   return Maybe.match(
     function Just(matchingBlockType: MatchingBlockType) {
@@ -465,12 +465,12 @@ function matcherCodeForAlgebraicType(
 
 export function instanceMethodForMatchingSubtypesOfAlgebraicType(
   algebraicType: AlgebraicType.Type,
-  matchingBlockType: Maybe.Maybe<MatchingBlockType>,
+  matchingBlockType: MatchingBlockType | null,
   assumesNonnull: boolean,
 ): ObjC.Method {
   return {
     preprocessors: [],
-    belongsToProtocol: Maybe.Nothing<string>(),
+    belongsToProtocol: null,
     code: matcherCodeForAlgebraicType(algebraicType, matchingBlockType),
     comments: [],
     compilerAttributes: [swiftNameForAlgebraicTypeMatcher(algebraicType)],

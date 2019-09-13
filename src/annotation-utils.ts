@@ -11,7 +11,7 @@ import * as ObjectGeneration from './object-generation';
 export function annotationValuesWithName(
   annotations: {[name: string]: ObjectGeneration.Annotation[]},
   annotationName: string,
-): Maybe.Maybe<ObjectGeneration.Annotation[]> {
+): ObjectGeneration.Annotation[] | null {
   if (annotations && annotations[annotationName]) {
     return Maybe.Just<ObjectGeneration.Annotation[]>(
       annotations[annotationName],

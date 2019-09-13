@@ -27,7 +27,7 @@ describe('ObjectSpecCodeUtils', function() {
         typeLookups: [],
         excludes: [],
         includes: [],
-        libraryName: Maybe.Nothing<string>(),
+        libraryName: null,
         typeName: 'Foo',
       };
 
@@ -50,7 +50,7 @@ describe('ObjectSpecCodeUtils', function() {
           typeLookups: [],
           excludes: [],
           includes: [],
-          libraryName: Maybe.Nothing<string>(),
+          libraryName: null,
           typeName: 'Test',
         };
 
@@ -73,12 +73,12 @@ describe('ObjectSpecCodeUtils', function() {
             name: 'name',
             nullability: ObjC.Nullability.Inherited(),
             type: {
-              fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-              libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+              fileTypeIsDefinedIn: null,
+              libraryTypeIsDefinedIn: null,
               name: 'NSString',
               reference: 'NSString *',
-              underlyingType: Maybe.Just<string>('NSObject'),
-              conformingProtocol: Maybe.Nothing<string>(),
+              underlyingType: 'NSObject',
+              conformingProtocol: null,
             },
           },
         ],
@@ -86,7 +86,7 @@ describe('ObjectSpecCodeUtils', function() {
         typeLookups: [],
         excludes: [],
         includes: [],
-        libraryName: Maybe.Nothing<string>(),
+        libraryName: null,
         typeName: 'Test',
       };
 
@@ -109,12 +109,12 @@ describe('ObjectSpecCodeUtils', function() {
             name: 'age',
             nullability: ObjC.Nullability.Inherited(),
             type: {
-              fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-              libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+              fileTypeIsDefinedIn: null,
+              libraryTypeIsDefinedIn: null,
               name: 'NSUInteger',
               reference: 'NSUInteger',
-              underlyingType: Maybe.Nothing<string>(),
-              conformingProtocol: Maybe.Nothing<string>(),
+              underlyingType: null,
+              conformingProtocol: null,
             },
           },
         ],
@@ -122,7 +122,7 @@ describe('ObjectSpecCodeUtils', function() {
         typeLookups: [],
         excludes: [],
         includes: [],
-        libraryName: Maybe.Nothing<string>(),
+        libraryName: null,
         typeName: 'Test',
       };
 
@@ -144,12 +144,12 @@ describe('ObjectSpecCodeUtils', function() {
             name: 'name',
             nullability: ObjC.Nullability.Inherited(),
             type: {
-              fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-              libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+              fileTypeIsDefinedIn: null,
+              libraryTypeIsDefinedIn: null,
               name: 'NSString',
               reference: 'NSString *',
-              underlyingType: Maybe.Just<string>('NSObject'),
-              conformingProtocol: Maybe.Nothing<string>(),
+              underlyingType: 'NSObject',
+              conformingProtocol: null,
             },
           },
           {
@@ -158,12 +158,12 @@ describe('ObjectSpecCodeUtils', function() {
             name: 'age',
             nullability: ObjC.Nullability.Inherited(),
             type: {
-              fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-              libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+              fileTypeIsDefinedIn: null,
+              libraryTypeIsDefinedIn: null,
               name: 'NSUInteger',
               reference: 'NSUInteger',
-              underlyingType: Maybe.Nothing<string>(),
-              conformingProtocol: Maybe.Nothing<string>(),
+              underlyingType: null,
+              conformingProtocol: null,
             },
           },
         ],
@@ -171,7 +171,7 @@ describe('ObjectSpecCodeUtils', function() {
         typeLookups: [],
         excludes: [],
         includes: [],
-        libraryName: Maybe.Nothing<string>(),
+        libraryName: null,
         typeName: 'Test',
       };
 

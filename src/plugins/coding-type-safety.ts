@@ -38,7 +38,7 @@ function codingValidatorFunction(
     name: 'RMCodingValidatorFunction',
     parameters: [],
     returnType: {
-      type: Maybe.Nothing(),
+      type: null,
       modifiers: [],
     },
     code: attributes
@@ -93,8 +93,8 @@ export function createPlugin(): ObjectSpec.Plugin {
 }
 
 // Utilities to make definitions shorter.
-function nothing<T, R>(): (_: T) => Maybe.Maybe<R> {
-  return _ => Maybe.Nothing();
+function nothing<T, R>(): (_: T) => R | null {
+  return _ => null;
 }
 
 function empty<T, R>(): (_: T) => R[] {

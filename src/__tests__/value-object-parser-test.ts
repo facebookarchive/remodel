@@ -36,12 +36,12 @@ describe('ObjectSpecParser', function() {
             name: 'someArray',
             nullability: ObjC.Nullability.Inherited(),
             type: {
-              fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-              libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+              fileTypeIsDefinedIn: null,
+              libraryTypeIsDefinedIn: null,
               name: 'NSArray',
               reference: 'NSArray*',
-              underlyingType: Maybe.Just<string>('NSObject'),
-              conformingProtocol: Maybe.Nothing<string>(),
+              underlyingType: 'NSObject',
+              conformingProtocol: null,
             },
           },
           {
@@ -50,12 +50,12 @@ describe('ObjectSpecParser', function() {
             name: 'someBoolean',
             nullability: ObjC.Nullability.Inherited(),
             type: {
-              fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-              libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+              fileTypeIsDefinedIn: null,
+              libraryTypeIsDefinedIn: null,
               name: 'BOOL',
               reference: 'BOOL',
-              underlyingType: Maybe.Nothing<string>(),
-              conformingProtocol: Maybe.Nothing<string>(),
+              underlyingType: null,
+              conformingProtocol: null,
             },
           },
         ],
@@ -64,7 +64,7 @@ describe('ObjectSpecParser', function() {
         excludes: [],
         includes: [],
         typeName: 'RMSomething',
-        libraryName: Maybe.Nothing<string>(),
+        libraryName: null,
       };
       const expectedResult: Either.Either<
         Error.Error[],
@@ -132,12 +132,12 @@ describe('ObjectSpecParser', function() {
               name: 'someBlah',
               nullability: ObjC.Nullability.Inherited(),
               type: {
-                fileTypeIsDefinedIn: Maybe.Just('RMSomeOtherFile'),
-                libraryTypeIsDefinedIn: Maybe.Just('RMCustomLibrary'),
+                fileTypeIsDefinedIn: 'RMSomeOtherFile',
+                libraryTypeIsDefinedIn: 'RMCustomLibrary',
                 name: 'RMBlah',
                 reference: 'RMBlah*',
-                underlyingType: Maybe.Just<string>('NSObject'),
-                conformingProtocol: Maybe.Nothing<string>(),
+                underlyingType: 'NSObject',
+                conformingProtocol: null,
               },
             },
             {
@@ -146,12 +146,12 @@ describe('ObjectSpecParser', function() {
               name: 'someValue',
               nullability: ObjC.Nullability.Inherited(),
               type: {
-                fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-                libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+                fileTypeIsDefinedIn: null,
+                libraryTypeIsDefinedIn: null,
                 name: 'RMSomeValue',
                 reference: 'RMSomeValue',
-                underlyingType: Maybe.Just('BOOL'),
-                conformingProtocol: Maybe.Nothing<string>(),
+                underlyingType: 'BOOL',
+                conformingProtocol: null,
               },
             },
           ],
@@ -159,21 +159,21 @@ describe('ObjectSpecParser', function() {
           typeLookups: [
             {
               name: 'Foo',
-              library: Maybe.Just<string>('Bar'),
+              library: 'Bar',
               file: Maybe.Just<string>('NSObject+Baz'),
               canForwardDeclare: false,
             },
             {
               name: 'Scumbag',
-              library: Maybe.Just<string>('Steve'),
-              file: Maybe.Nothing<string>(),
+              library: 'Steve',
+              file: null,
               canForwardDeclare: true,
             },
           ],
           excludes: [],
           includes: [],
           typeName: 'RMSomething',
-          libraryName: Maybe.Just('RMSomethingLibrary'),
+          libraryName: 'RMSomethingLibrary',
         };
         const expectedResult: Either.Either<
           Error.Error[],
@@ -219,12 +219,12 @@ describe('ObjectSpecParser', function() {
             name: 'someBlah',
             nullability: ObjC.Nullability.Nullable(),
             type: {
-              fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-              libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+              fileTypeIsDefinedIn: null,
+              libraryTypeIsDefinedIn: null,
               name: 'RMBlah',
               reference: 'RMBlah*',
-              underlyingType: Maybe.Just<string>('NSObject'),
-              conformingProtocol: Maybe.Nothing<string>(),
+              underlyingType: 'NSObject',
+              conformingProtocol: null,
             },
           },
           {
@@ -239,12 +239,12 @@ describe('ObjectSpecParser', function() {
             name: 'someValue',
             nullability: ObjC.Nullability.Nonnull(),
             type: {
-              fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-              libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+              fileTypeIsDefinedIn: null,
+              libraryTypeIsDefinedIn: null,
               name: 'RMBlah',
               reference: 'RMBlah*',
-              underlyingType: Maybe.Just<string>('NSObject'),
-              conformingProtocol: Maybe.Nothing<string>(),
+              underlyingType: 'NSObject',
+              conformingProtocol: null,
             },
           },
         ],
@@ -253,7 +253,7 @@ describe('ObjectSpecParser', function() {
         excludes: [],
         includes: [],
         typeName: 'RMSomething',
-        libraryName: Maybe.Just('RMSomethingLibrary'),
+        libraryName: 'RMSomethingLibrary',
       };
       const expectedResult: Either.Either<
         Error.Error[],
@@ -292,13 +292,13 @@ describe('ObjectSpecParser', function() {
             name: 'multiple',
             nullability: ObjC.Nullability.Inherited(),
             type: {
-              fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-              libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+              fileTypeIsDefinedIn: null,
+              libraryTypeIsDefinedIn: null,
               name: 'NSEvolvedDictionary',
               reference:
                 'NSEvolvedDictionary<BOOL, NSFoo *, NSBar *, NSInteger>*',
-              underlyingType: Maybe.Just<string>('NSObject'),
-              conformingProtocol: Maybe.Nothing<string>(),
+              underlyingType: 'NSObject',
+              conformingProtocol: null,
             },
           },
           {
@@ -307,13 +307,13 @@ describe('ObjectSpecParser', function() {
             name: 'nested',
             nullability: ObjC.Nullability.Inherited(),
             type: {
-              fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-              libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+              fileTypeIsDefinedIn: null,
+              libraryTypeIsDefinedIn: null,
               name: 'NSArray',
               reference:
                 'NSArray<NSDictionary<NSArray<NSString *>, NSString *> *>*',
-              underlyingType: Maybe.Just<string>('NSObject'),
-              conformingProtocol: Maybe.Nothing<string>(),
+              underlyingType: 'NSObject',
+              conformingProtocol: null,
             },
           },
           {
@@ -322,13 +322,13 @@ describe('ObjectSpecParser', function() {
             name: 'protocols',
             nullability: ObjC.Nullability.Inherited(),
             type: {
-              fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-              libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+              fileTypeIsDefinedIn: null,
+              libraryTypeIsDefinedIn: null,
               name: 'NSDictionary',
               reference:
                 'NSDictionary<id<FooProtocol>, NSArray<id<BarProtocol>> *>*',
-              underlyingType: Maybe.Just<string>('NSObject'),
-              conformingProtocol: Maybe.Nothing<string>(),
+              underlyingType: 'NSObject',
+              conformingProtocol: null,
             },
           },
           {
@@ -337,13 +337,13 @@ describe('ObjectSpecParser', function() {
             name: 'ckAction',
             nullability: ObjC.Nullability.Inherited(),
             type: {
-              fileTypeIsDefinedIn: Maybe.Nothing<string>(),
-              libraryTypeIsDefinedIn: Maybe.Nothing<string>(),
+              fileTypeIsDefinedIn: null,
+              libraryTypeIsDefinedIn: null,
               name: 'CKAction',
               reference:
                 'CKAction<NSDictionary<NSArray<NSString *> *, id<FooProtocol>> *>',
-              underlyingType: Maybe.Just<string>('NSObject'),
-              conformingProtocol: Maybe.Nothing<string>(),
+              underlyingType: 'NSObject',
+              conformingProtocol: null,
             },
           },
         ],
@@ -352,7 +352,7 @@ describe('ObjectSpecParser', function() {
         excludes: [],
         includes: [],
         typeName: 'RMSomething',
-        libraryName: Maybe.Just('RMSomethingLibrary'),
+        libraryName: 'RMSomethingLibrary',
       };
       const expectedResult: Either.Either<
         Error.Error[],
@@ -393,7 +393,7 @@ describe('ObjectSpecParser', function() {
         excludes: [],
         includes: [],
         typeName: 'RMSomething',
-        libraryName: Maybe.Nothing<string>(),
+        libraryName: null,
       });
 
       expect(actualResult).toEqualJSON(expectedResult);

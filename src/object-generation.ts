@@ -9,8 +9,8 @@ import * as Maybe from './maybe';
 
 export interface TypeLookup {
   name: string;
-  library: Maybe.Maybe<string>;
-  file: Maybe.Maybe<string>;
+  library: string | null;
+  file: string | null;
   canForwardDeclare: boolean;
 }
 

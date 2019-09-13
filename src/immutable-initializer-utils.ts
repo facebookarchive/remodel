@@ -81,13 +81,15 @@ function toIvarAssignment(
   );
 }
 
-function canAssertExistenceForTypeOfAttribute(attribute: ObjectSpec.Attribute) {
+export function canAssertExistenceForTypeOfAttribute(
+  attribute: ObjectSpec.Attribute,
+) {
   return ObjCNullabilityUtils.canAssertExistenceForType(
     ObjectSpecCodeUtils.computeTypeOfAttribute(attribute),
   );
 }
 
-function isRequiredAttribute(
+export function isRequiredAttribute(
   assumeNonnull: boolean,
   attribute: ObjectSpec.Attribute,
 ): boolean {
@@ -97,8 +99,12 @@ function isRequiredAttribute(
   );
 }
 
-function toRequiredAssertion(attribute: ObjectSpec.Attribute): string {
-  return 'RMParameterAssert(' + attribute.name + ' != nil);';
+export function toRequiredAssertion(attribute: ObjectSpec.Attribute): string {
+  return toRequiredAssertionWithName(attribute.name);
+}
+
+export function toRequiredAssertionWithName(attributeName: string): string {
+  return 'RMParameterAssert(' + attributeName + ' != nil);';
 }
 
 function initializerCodeFromAttributes(
@@ -122,15 +128,20 @@ function initializerCodeFromAttributes(
     .concat(closing);
 }
 
+export function initializerKeywordsFromAttributes(
+  attributes: ObjectSpec.Attribute[],
+): ObjC.Keyword[] {
+  return [firstInitializerKeyword(attributes[0])].concat(
+    attributes.slice(1).map(attributeToKeyword),
+  );
+}
+
 export function initializerFromAttributes(
   assumeNonnull: boolean,
   supportsValueSemantics: boolean,
   attributes: ObjectSpec.Attribute[],
   copy: AssignmentCopier = defaultCopy,
 ): ObjC.Method {
-  const keywords = [firstInitializerKeyword(attributes[0])].concat(
-    attributes.slice(1).map(attributeToKeyword),
-  );
   return {
     preprocessors: [],
     belongsToProtocol: null,
@@ -144,16 +155,18 @@ export function initializerFromAttributes(
       ObjCCommentUtils.paramCommentsFromAttributes(attributes),
     ),
     compilerAttributes: ['NS_DESIGNATED_INITIALIZER'],
-    keywords: keywords,
-    returnType: {
-      type: Maybe.Just<ObjC.Type>({
-        name: 'instancetype',
-        reference: 'instancetype',
-      }),
-      modifiers: [],
-    },
+    keywords: initializerKeywordsFromAttributes(attributes),
+    returnType: RETURN_TYPE,
   };
 }
+
+export const RETURN_TYPE = {
+  type: Maybe.Just<ObjC.Type>({
+    name: 'instancetype',
+    reference: 'instancetype',
+  }),
+  modifiers: [],
+};
 
 export function initializerMethodsForObjectType(
   objectType: ObjectSpec.Type,

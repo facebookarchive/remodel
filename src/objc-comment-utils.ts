@@ -28,6 +28,14 @@ export function commentsAsBlockFromStringArray(
   return [{content: '/**'}].concat(commentBody).concat({content: ' */'});
 }
 
+export function singleLineCommentsBlockFromStringArray(
+  commentsAsStrings: string[],
+): ObjC.Comment[] {
+  return commentsAsStrings.map(comment => {
+    return {content: ['//', comment].filter(Boolean).join(' ')};
+  });
+}
+
 function repeat(string: string, times: number): string {
   return times > 1 ? string + repeat(string, times - 1) : string;
 }

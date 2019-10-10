@@ -38,9 +38,7 @@ function createObjectSpecObjCPlugIn(
 
     baseClass: plugin.baseClass != null ? plugin.baseClass : _ => null,
 
-    blockTypes: function(typeInformation: ObjectSpec.Type): ObjC.BlockType[] {
-      return [];
-    },
+    blockTypes: plugin.blockTypes != null ? plugin.blockTypes : _ => [],
 
     classMethods: function(typeInformation: ObjectSpec.Type): ObjC.Method[] {
       return plugin.classMethods(typeInformation);

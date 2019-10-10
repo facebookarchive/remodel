@@ -66,4 +66,5 @@ export interface Plugin {
   subclassingRestricted: (objectType: Type) => boolean;
   structs?: (objectType: Type) => Code.Struct[];
   baseClass?: (objectType: Type) => ObjC.BaseClass | null;
+  blockTypes?: (algebraicType: Type) => ObjC.BlockType[];
 }

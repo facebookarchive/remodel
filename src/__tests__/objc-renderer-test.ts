@@ -3697,6 +3697,86 @@ describe('ObjCRenderer', function() {
       expect(renderedOutput).toEqualJSON(expectedOutput);
     });
 
+    it('renders a header file with visibility specified', function() {
+      const fileToRender: Code.File = {
+        name: 'RMSomeValue',
+        type: Code.FileType.ObjectiveC,
+        imports: [],
+        enumerations: [],
+        blockTypes: [],
+        comments: [],
+        staticConstants: [],
+        forwardDeclarations: [],
+        functions: [],
+        diagnosticIgnores: [],
+        classes: [
+          {
+            baseClassName: 'NSObject',
+            covariantTypes: [],
+            classMethods: [],
+            comments: [],
+            inlineBlockTypedefs: [],
+            instanceMethods: [
+              {
+                preprocessors: [],
+                belongsToProtocol: null,
+                code: ['return [[RMSomeValue alloc] init];'],
+                comments: [],
+                compilerAttributes: [],
+                keywords: [
+                  {
+                    name: 'objectForKey',
+                    argument: Maybe.Just({
+                      name: 'key',
+                      modifiers: [],
+                      type: {
+                        name: 'KeyType',
+                        reference: 'KeyType',
+                      },
+                    }),
+                  },
+                ],
+                returnType: {
+                  type: Maybe.Just({
+                    name: 'ValueType',
+                    reference: 'ValueType',
+                  }),
+                  modifiers: [],
+                },
+              },
+            ],
+            name: 'RMSomeValue',
+            properties: [],
+            instanceVariables: [],
+            implementedProtocols: [],
+            nullability: ObjC.ClassNullability.default,
+            subclassingRestricted: false,
+            visibility: ObjC.ClassVisibility.default,
+          },
+        ],
+        structs: [],
+        namespaces: [],
+        macros: [],
+      };
+
+      const renderedOutput: Maybe.Maybe<string> = ObjCRenderer.renderHeader(
+        fileToRender,
+      );
+
+      console.log(renderedOutput);
+
+      const expectedOutput: string | null = Maybe.Just<string>(
+        '__attribute__((visibility("default")))\n' +
+          '@interface RMSomeValue : NSObject\n' +
+          '\n' +
+          '- (ValueType)objectForKey:(KeyType)key;\n' +
+          '\n' +
+          '@end\n',
+      );
+
+      expect(renderedOutput).toEqualJSON(expectedOutput);
+    });
+
     it(
       'does not render an implementation for a file which only contains public ' +
         'enumerations',

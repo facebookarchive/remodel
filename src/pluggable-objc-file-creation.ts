@@ -60,6 +60,7 @@ export interface ObjCGenerationTypeInfoProvider<T> {
   additionalTypesForType: (typeInformation: T) => T[];
   typeNameForType: (typeInformation: T) => string;
   commentsForType: (typeInformation: T) => string[];
+  visibilityForType: (typeInformation: T) => ObjC.ClassVisibility | undefined;
 }
 
 interface ObjCRenderingOptions {
@@ -355,6 +356,7 @@ function classFileCreationFunctionWithBaseClassAndPlugins<T>(
   diagnosticIgnores: List.List<string>,
   pathToValueFile: File.AbsoluteFilePath,
   plugins: List.List<ObjCGenerationPlugIn<T>>,
+  typeProvider: ObjCGenerationTypeInfoProvider<T>,
 ): (
   typeInformation: T,
   typeName: string,
@@ -405,6 +407,8 @@ function classFileCreationFunctionWithBaseClassAndPlugins<T>(
       },
       nullabilityEither,
     );
+
+    const visibility = typeProvider.visibilityForType(typeInformation);
 
     const customPluginBaseClass: Either.Either<
       Error.Error,
@@ -476,6 +480,7 @@ function classFileCreationFunctionWithBaseClassAndPlugins<T>(
         functions,
         plugins,
         nullability,
+        visibility,
       );
 
       const imports = importListWithBaseImportAppended(
@@ -597,6 +602,7 @@ function createClassesForObjectSpecType<T>(
   functions: ObjC.Function[],
   plugins: List.List<ObjCGenerationPlugIn<T>>,
   nullability: ObjC.ClassNullability,
+  visibility: ObjC.ClassVisibility | undefined,
 ): ObjC.Class[] {
   const classMethods = List.foldl<ObjCGenerationPlugIn<T>, ObjC.Method[]>(
     (soFar, plugin) => buildClassMethods(typeInformation, soFar, plugin),
@@ -651,6 +657,7 @@ function createClassesForObjectSpecType<T>(
       false,
       plugins,
     ),
+    visibility,
   );
 
   return Maybe.match(
@@ -676,6 +683,7 @@ function createClassIfNecessary(
   baseClassName: string,
   nullability: ObjC.ClassNullability,
   subclassingRestricted: boolean,
+  visibility: ObjC.ClassVisibility | undefined,
 ): ObjC.Class | null {
   if (
     classMethods.length > 0 ||
@@ -699,6 +707,7 @@ function createClassIfNecessary(
       implementedProtocols: implementedProtocols,
       nullability: nullability,
       subclassingRestricted: subclassingRestricted,
+      visibility: visibility,
     });
   }
 
@@ -801,6 +810,7 @@ function buildFileWriteRequest<T>(
     request.diagnosticIgnores,
     request.path,
     plugins,
+    typeInfoProvider,
   );
 
   const outputPath: File.AbsoluteFilePath = Maybe.match(

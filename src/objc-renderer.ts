@@ -767,6 +767,15 @@ function buildInstanceVariablesContainingAccessIdentifiers(
   ]);
 }
 
+function visibilityAttributeForVisibility(visibility: ObjC.ClassVisibility) {
+  switch (visibility) {
+    case ObjC.ClassVisibility.default:
+      return '__attribute__((visibility("default")))\n';
+    case ObjC.ClassVisibility.hidden:
+      return '__attribute__((visibility("hidden")))\n';
+  }
+}
+
 function headerClassSection(file: Code.File, classInfo: ObjC.Class): string {
   const macros = classMacros(classInfo);
 
@@ -785,6 +794,11 @@ function headerClassSection(file: Code.File, classInfo: ObjC.Class): string {
   const subclassingRestrictedStr = classInfo.subclassingRestricted
     ? '__attribute__((objc_subclassing_restricted))\n'
     : '';
+
+  const visibility =
+    classInfo.visibility != null
+      ? visibilityAttributeForVisibility(classInfo.visibility)
+      : '';
   const classSection =
     '@interface ' +
     classInfo.name +
@@ -837,6 +851,7 @@ function headerClassSection(file: Code.File, classInfo: ObjC.Class): string {
     prefixClassMacrosSection +
     classCommentsSection +
     subclassingRestrictedStr +
+    visibility +
     classSection +
     '\n' +
     instanceVariablesSection +

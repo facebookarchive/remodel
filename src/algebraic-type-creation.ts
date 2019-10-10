@@ -166,18 +166,35 @@ function pluginsToRunForAlgebraicType(
   );
 }
 
-function objcPluginForAlgebraicTypePlugin(
-  plugin: AlgebraicType.Plugin,
-): AlgebraicTypeObjCPlugIn {
-  return createAlgebraicTypeObjCPlugIn(plugin);
-}
-
 function typeNameForType(typeInformation: AlgebraicType.Type): string {
   return typeInformation.name;
 }
 
 function commentsForType(typeInformation: AlgebraicType.Type): string[] {
   return typeInformation.comments;
+}
+
+function visibilityForType(
+  typeInformation: AlgebraicType.Type,
+): ObjC.ClassVisibility | undefined {
+  var visibility: ObjC.ClassVisibility | undefined = undefined;
+
+  for (const key in typeInformation.annotations) {
+    if (key === 'visibility') {
+      const len = typeInformation.annotations[key].length;
+      if (len > 0) {
+        const lastValue =
+          typeInformation.annotations[key][len - 1].properties['value'];
+        if (lastValue === 'default') {
+          visibility = ObjC.ClassVisibility.default;
+        } else if (lastValue === 'hidden') {
+          visibility = ObjC.ClassVisibility.hidden;
+        }
+      }
+    }
+  }
+
+  return visibility;
 }
 
 export function fileWriteRequest(
@@ -189,7 +206,7 @@ export function fileWriteRequest(
     request.typeInformation,
   );
   const wrappedPlugins: List.List<AlgebraicTypeObjCPlugIn> = List.map(
-    objcPluginForAlgebraicTypePlugin,
+    createAlgebraicTypeObjCPlugIn,
     pluginsToRun,
   );
 
@@ -201,6 +218,7 @@ export function fileWriteRequest(
     },
     typeNameForType: typeNameForType,
     commentsForType: commentsForType,
+    visibilityForType: visibilityForType,
   };
 
   return PluggableObjCFileCreation.fileWriteRequest(

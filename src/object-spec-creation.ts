@@ -229,6 +229,29 @@ function commentsForType(typeInformation: ObjectSpec.Type): string[] {
   return typeInformation.comments;
 }
 
+function visibilityForType(
+  typeInformation: ObjectSpec.Type,
+): ObjC.ClassVisibility | undefined {
+  var visibility: ObjC.ClassVisibility | undefined = undefined;
+
+  for (const key in typeInformation.annotations) {
+    if (key === 'visibility') {
+      const len = typeInformation.annotations[key].length;
+      if (len > 0) {
+        const lastValue =
+          typeInformation.annotations[key][len - 1].properties['value'];
+        if (lastValue === 'default') {
+          visibility = ObjC.ClassVisibility.default;
+        } else if (lastValue === 'hidden') {
+          visibility = ObjC.ClassVisibility.hidden;
+        }
+      }
+    }
+  }
+
+  return visibility;
+}
+
 export function fileWriteRequest(
   request: Request,
   plugins: List.List<ObjectSpec.Plugin>,
@@ -248,6 +271,7 @@ export function fileWriteRequest(
     additionalTypesForType: type => additionalTypesForType(pluginsToRun, type),
     typeNameForType: typeNameForType,
     commentsForType: commentsForType,
+    visibilityForType: visibilityForType,
   };
 
   const requestWithUpdatedType = {

@@ -194,6 +194,11 @@ export enum ClassNullability {
   assumeNonnull,
 }
 
+export enum ClassVisibility {
+  default, /// use "default" visibility (usually means public)
+  hidden, /// use "hidden" visibility
+}
+
 export class Nullability {
   private nullabilityType: NullabilityType;
 
@@ -550,6 +555,7 @@ export interface Class {
   implementedProtocols: Protocol[];
   nullability: ClassNullability;
   subclassingRestricted: boolean;
+  visibility?: ClassVisibility;
 }
 
 export interface Protocol {

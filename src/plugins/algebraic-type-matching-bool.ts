@@ -13,14 +13,13 @@ import * as FileWriter from '../file-writer';
 import * as Maybe from '../maybe';
 import * as ObjC from '../objc';
 
-function matchingBlockTypeForPlugin(): Maybe.Maybe<
-  AlgebraicTypeUtils.MatchingBlockType
-> {
-  return Maybe.Just<AlgebraicTypeUtils.MatchingBlockType>({
+function matchingBlockTypeForPlugin(): AlgebraicTypeUtils.MatchingBlockType {
+  return {
     name: 'boolean',
     underlyingType: 'BOOL',
+    modifiers: [],
     defaultValue: 'NO',
-  });
+  };
 }
 
 export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {

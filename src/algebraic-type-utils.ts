@@ -13,6 +13,7 @@ import * as StringUtils from './string-utils';
 export interface MatchingBlockType {
   name: string;
   underlyingType: string;
+  modifiers: ObjC.KeywordArgumentModifier[];
   defaultValue: string;
 }
 
@@ -250,23 +251,12 @@ function blockParametersForSubtype(
 export function returnTypeForMatchingBlockType(
   matchingBlockType: MatchingBlockType | null,
 ): ObjC.ReturnType {
-  return Maybe.match(
-    function Just(matchingBlockType: MatchingBlockType) {
-      return {
-        type: Maybe.Just<ObjC.Type>(
-          typeForUnderlyingType(matchingBlockType.underlyingType),
-        ),
-        modifiers: [],
-      };
-    },
-    function Nothing() {
-      return {
-        type: Maybe.Nothing<ObjC.Type>(),
-        modifiers: [],
-      };
-    },
-    matchingBlockType,
-  );
+  return matchingBlockType != null
+    ? {
+        type: typeForUnderlyingType(matchingBlockType.underlyingType),
+        modifiers: matchingBlockType.modifiers,
+      }
+    : {type: null, modifiers: []};
 }
 
 export function blockTypeForSubtype(

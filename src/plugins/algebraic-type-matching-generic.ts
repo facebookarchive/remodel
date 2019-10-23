@@ -15,14 +15,15 @@ import * as Maybe from '../maybe';
 import * as ObjC from '../objc';
 import * as StringUtils from '../string-utils';
 
-function matchingBlockTypeForPlugin(): Maybe.Maybe<
-  AlgebraicTypeUtils.MatchingBlockType
-> {
-  return Maybe.Just<AlgebraicTypeUtils.MatchingBlockType>({
+function matchingBlockTypeForPlugin(
+  assumeNonnull: boolean,
+): AlgebraicTypeUtils.MatchingBlockType | null {
+  return {
     name: 'ObjectType',
     underlyingType: 'ObjectType',
+    modifiers: assumeNonnull ? [ObjC.KeywordArgumentModifier.Nullable()] : [],
     defaultValue: 'nil',
-  });
+  };
 }
 
 function fileNameForAlgebraicType(algebraicType: AlgebraicType.Type): string {
@@ -169,9 +170,10 @@ function keywordsForGenericAlgebraicTypeMatcher(
 function classMethodForGenericMatchingOfAlgebraicType(
   algebraicType: AlgebraicType.Type,
 ): ObjC.Method {
-  const matchingBlockType: Maybe.Maybe<
-    AlgebraicTypeUtils.MatchingBlockType
-  > = matchingBlockTypeForPlugin();
+  const matchingBlockType = matchingBlockTypeForPlugin(
+    algebraicType.includes.indexOf('RMAssumeNonnull') > -1,
+  );
+
   return {
     preprocessors: [],
     belongsToProtocol: null,
@@ -191,7 +193,9 @@ function classMethodForGenericMatchingOfAlgebraicType(
 function blockTypesForAlgebraicType(
   algebraicType: AlgebraicType.Type,
 ): ObjC.BlockType[] {
-  const matchingBlockType = matchingBlockTypeForPlugin();
+  const matchingBlockType = matchingBlockTypeForPlugin(
+    algebraicType.includes.indexOf('RMAssumeNonnull') > -1,
+  );
   return algebraicType.subtypes.map(subtype =>
     AlgebraicTypeUtils.blockTypeForSubtype(
       algebraicType,
@@ -217,7 +221,10 @@ function genericMatchingClassForAlgebraicType(
     properties: [],
     instanceVariables: [],
     implementedProtocols: [],
-    nullability: ObjC.ClassNullability.default,
+    nullability:
+      algebraicType.includes.indexOf('RMAssumeNonnull') > -1
+        ? ObjC.ClassNullability.assumeNonnull
+        : ObjC.ClassNullability.default,
     subclassingRestricted: true,
   };
 }

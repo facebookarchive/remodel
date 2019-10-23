@@ -5,8 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import * as Maybe from './maybe';
-
 export interface Type {
   name: string;
   reference: string;

@@ -13,14 +13,13 @@ import * as FileWriter from '../file-writer';
 import * as Maybe from '../maybe';
 import * as ObjC from '../objc';
 
-function matchingBlockTypeForPlugin(): Maybe.Maybe<
-  AlgebraicTypeUtils.MatchingBlockType
-> {
-  return Maybe.Just<AlgebraicTypeUtils.MatchingBlockType>({
+function matchingBlockTypeForPlugin(): AlgebraicTypeUtils.MatchingBlockType | null {
+  return {
     name: 'double',
     underlyingType: 'double',
+    modifiers: [],
     defaultValue: '0.0f',
-  });
+  };
 }
 
 export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {

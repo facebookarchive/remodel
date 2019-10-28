@@ -509,11 +509,11 @@ Feature: Outputting expected Algebraic Type matching methods
       {
         __block id result = nil;
 
-        SimpleADTSubtypeAMatchHandler matchSubtypeA = ^(void) {
+        SimpleADTSubtypeAMatchHandler __unsafe_unretained matchSubtypeA = ^(void) {
           result = subtypeAMatchHandler();
         };
 
-        SimpleADTSubtypeBMatchHandler matchSubtypeB = ^(void) {
+        SimpleADTSubtypeBMatchHandler __unsafe_unretained matchSubtypeB = ^(void) {
           result = subtypeBMatchHandler();
         };
 

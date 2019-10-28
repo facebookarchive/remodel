@@ -184,11 +184,11 @@ Feature: Controlling exactly what is output when generating files.
           NSCAssert(valueTypeSingleFile != nil, @"The ADT object valueTypeSingleFile is nil");
           __block std::unique_ptr<T> result;
 
-          RMValueTypeSingleFileOptionOneMatchHandler matchOptionOne = ^(void) {
+          RMValueTypeSingleFileOptionOneMatchHandler __unsafe_unretained matchOptionOne = ^(void) {
             result = std::make_unique<T>(optionOneMatchHandler());
           };
 
-          RMValueTypeSingleFileOptionTwoMatchHandler matchOptionTwo = ^(void) {
+          RMValueTypeSingleFileOptionTwoMatchHandler __unsafe_unretained matchOptionTwo = ^(void) {
             result = std::make_unique<T>(optionTwoMatchHandler());
           };
 

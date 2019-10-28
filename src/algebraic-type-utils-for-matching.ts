@@ -70,18 +70,15 @@ export function buildLocalFunctionBlockDefinitionsForSubtype(
           .map(ObjCRenderer.toBlockTypeParameterString)
           .join(', ')
       : 'void';
-  const start: string =
-    blockType.name +
-    ' ' +
-    localFunctionBlockDefinitionNameForSubtype(subtype) +
-    ' = ^(' +
-    paramList +
-    ') {';
+  const start = `${
+    blockType.name
+  } __unsafe_unretained ${localFunctionBlockDefinitionNameForSubtype(
+    subtype,
+  )} = ^(${paramList}) {`;
   const blockBody: string = blockInvocationWrapper(
-    matchBlockNameForSubtype(subtype) +
-      '(' +
-      blockType.parameters.map(nameOfBlockTypeParameter).join(', ') +
-      ')',
+    `${matchBlockNameForSubtype(subtype)}(${blockType.parameters
+      .map(nameOfBlockTypeParameter)
+      .join(', ')})`,
   );
   const end: string[] = ['};', ''];
   const blockCode: string[] = [start]

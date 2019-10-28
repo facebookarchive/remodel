@@ -736,11 +736,11 @@ describe('Plugins.AlgebraicTypeGenericMatching', function() {
         code: [
           '__block id result = nil;',
           '',
-          'TestSomeSubtypeMatchHandler matchSomeSubtype = ^(NSString *someString, NSUInteger someUnsignedInteger) {',
+          'TestSomeSubtypeMatchHandler __unsafe_unretained matchSomeSubtype = ^(NSString *someString, NSUInteger someUnsignedInteger) {',
           '  result = someSubtypeMatchHandler(someString, someUnsignedInteger);',
           '};',
           '',
-          'TestSingleAttributeSubtypeMatchHandler matchSingleAttributeSubtype = ^(SingleAttributeType *singleAttributeSubtype) {',
+          'TestSingleAttributeSubtypeMatchHandler __unsafe_unretained matchSingleAttributeSubtype = ^(SingleAttributeType *singleAttributeSubtype) {',
           '  result = singleAttributeSubtypeMatchHandler(singleAttributeSubtype);',
           '};',
           '',

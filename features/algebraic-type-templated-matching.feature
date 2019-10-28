@@ -43,19 +43,19 @@ Feature: Outputting Algebraic Types With Templated Matching
           NSCAssert(simpleADT != nil, @"The ADT object simpleADT is nil");
           __block std::unique_ptr<T> result;
 
-          SimpleADTFirstSubtypeMatchHandler matchFirstSubtype = ^(NSString *firstValue, NSUInteger secondValue) {
+          SimpleADTFirstSubtypeMatchHandler __unsafe_unretained matchFirstSubtype = ^(NSString *firstValue, NSUInteger secondValue) {
             result = std::make_unique<T>(firstSubtypeMatchHandler(firstValue, secondValue));
           };
 
-          SimpleADTSomeRandomSubtypeMatchHandler matchSomeRandomSubtype = ^(void) {
+          SimpleADTSomeRandomSubtypeMatchHandler __unsafe_unretained matchSomeRandomSubtype = ^(void) {
             result = std::make_unique<T>(someRandomSubtypeMatchHandler());
           };
 
-          SimpleADTSomeAttributeSubtypeMatchHandler matchSomeAttributeSubtype = ^(NSUInteger someAttributeSubtype) {
+          SimpleADTSomeAttributeSubtypeMatchHandler __unsafe_unretained matchSomeAttributeSubtype = ^(NSUInteger someAttributeSubtype) {
             result = std::make_unique<T>(someAttributeSubtypeMatchHandler(someAttributeSubtype));
           };
 
-          SimpleADTSecondSubtypeMatchHandler matchSecondSubtype = ^(BOOL something) {
+          SimpleADTSecondSubtypeMatchHandler __unsafe_unretained matchSecondSubtype = ^(BOOL something) {
             result = std::make_unique<T>(secondSubtypeMatchHandler(something));
           };
 

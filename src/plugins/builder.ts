@@ -525,7 +525,10 @@ function classesForBuilder(objectType: ObjectSpec.Type): ObjC.Class[] {
         instanceVariableForAttribute,
       ),
       implementedProtocols: [],
-      nullability: ObjC.ClassNullability.default,
+      nullability:
+        objectType.includes.indexOf('RMAssumeNonnull') >= 0
+          ? ObjC.ClassNullability.assumeNonnull
+          : ObjC.ClassNullability.default,
       subclassingRestricted: false,
     },
   ];

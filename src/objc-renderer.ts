@@ -977,12 +977,14 @@ function toStaticConstantString(constant: ObjC.Constant): string {
 }
 
 function qualifierForFunction(functionDefinition: ObjC.Function): string {
-  if (functionDefinition.isPublic && !functionDefinition.isInline) {
-    return 'extern';
-  } else if (functionDefinition.isPublic && functionDefinition.isInline) {
+  if (functionDefinition.isInline) {
     return 'static inline';
   } else {
-    return 'static';
+    if (functionDefinition.isPublic) {
+      return 'extern';
+    } else {
+      return 'static';
+    }
   }
 }
 
@@ -1338,7 +1340,7 @@ export function renderImplementation(file: Code.File): string | null {
     const macrosSection = codeSectionForCodeString(macrosStr);
 
     const staticFunctionProtoStr = file.functions
-      .filter(func => !func.isPublic)
+      .filter(func => !func.isInline && !func.isPublic)
       .map(func => functionDeclarationForFunction(func) + ';')
       .join('\n');
     const staticFunctionProtoSection = codeSectionForCodeString(

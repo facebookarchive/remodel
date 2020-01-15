@@ -172,6 +172,7 @@ describe('Plugins.AlgebraicTypeTemplatedMatching', function() {
             ],
           }),
         ],
+        cppClasses: [],
         namespaces: [],
         macros: [],
       };

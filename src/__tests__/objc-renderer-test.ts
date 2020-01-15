@@ -237,6 +237,7 @@ describe('ObjCRenderer', function() {
           },
         ],
         structs: [],
+        cppClasses: [],
         namespaces: [],
         macros: [],
       };
@@ -472,6 +473,7 @@ describe('ObjCRenderer', function() {
           },
         ],
         structs: [],
+        cppClasses: [],
         namespaces: [],
         macros: [],
       };
@@ -709,6 +711,7 @@ describe('ObjCRenderer', function() {
             },
           ],
           structs: [],
+          cppClasses: [],
           namespaces: [],
           macros: [],
         };
@@ -886,6 +889,7 @@ describe('ObjCRenderer', function() {
           },
         ],
         structs: [],
+        cppClasses: [],
         namespaces: [],
         macros: [],
       };
@@ -1017,6 +1021,7 @@ describe('ObjCRenderer', function() {
           },
         ],
         structs: [],
+        cppClasses: [],
         namespaces: [],
         macros: [],
       };
@@ -1151,6 +1156,7 @@ describe('ObjCRenderer', function() {
           },
         ],
         structs: [],
+        cppClasses: [],
         namespaces: [],
         macros: [],
       };
@@ -1243,6 +1249,7 @@ describe('ObjCRenderer', function() {
           },
         ],
         structs: [],
+        cppClasses: [],
         namespaces: [],
         macros: [],
       };
@@ -1379,6 +1386,7 @@ describe('ObjCRenderer', function() {
             },
           ],
           structs: [],
+          cppClasses: [],
           namespaces: [],
           macros: [],
         };
@@ -1483,6 +1491,7 @@ describe('ObjCRenderer', function() {
           },
         ],
         structs: [],
+        cppClasses: [],
         namespaces: [],
         macros: [],
       };
@@ -1604,6 +1613,7 @@ describe('ObjCRenderer', function() {
           },
         ],
         structs: [],
+        cppClasses: [],
         namespaces: [],
         macros: [],
       };
@@ -1685,6 +1695,7 @@ describe('ObjCRenderer', function() {
             },
           ],
           structs: [],
+          cppClasses: [],
           namespaces: [],
           macros: [],
         };
@@ -1781,6 +1792,7 @@ describe('ObjCRenderer', function() {
           },
         ],
         structs: [],
+        cppClasses: [],
         namespaces: [],
         macros: [],
       };
@@ -1882,6 +1894,7 @@ describe('ObjCRenderer', function() {
           },
         ],
         structs: [],
+        cppClasses: [],
         namespaces: [],
         macros: [],
       };
@@ -1993,6 +2006,7 @@ describe('ObjCRenderer', function() {
             },
           ],
           structs: [],
+          cppClasses: [],
           namespaces: [],
           macros: [],
         };
@@ -2050,6 +2064,7 @@ describe('ObjCRenderer', function() {
           diagnosticIgnores: [],
           classes: [],
           structs: [],
+          cppClasses: [],
           namespaces: [
             {
               name: 'Something',
@@ -2194,6 +2209,7 @@ describe('ObjCRenderer', function() {
           },
         ],
         structs: [],
+        cppClasses: [],
         namespaces: [],
         macros: [],
       };
@@ -2318,6 +2334,7 @@ describe('ObjCRenderer', function() {
           },
         ],
         structs: [],
+        cppClasses: [],
         namespaces: [],
         macros: [],
       };
@@ -2415,6 +2432,7 @@ describe('ObjCRenderer', function() {
           },
         ],
         structs: [],
+        cppClasses: [],
         namespaces: [],
         macros: [],
       };
@@ -2500,6 +2518,7 @@ describe('ObjCRenderer', function() {
           },
         ],
         structs: [],
+        cppClasses: [],
         namespaces: [],
         macros: [],
       };
@@ -2571,6 +2590,7 @@ describe('ObjCRenderer', function() {
           },
         ],
         structs: [],
+        cppClasses: [],
         namespaces: [],
         macros: [],
       };
@@ -2799,6 +2819,7 @@ describe('ObjCRenderer', function() {
           },
         ],
         structs: [],
+        cppClasses: [],
         namespaces: [],
         macros: [],
       };
@@ -2985,6 +3006,7 @@ describe('ObjCRenderer', function() {
           },
         ],
         structs: [],
+        cppClasses: [],
         namespaces: [],
         macros: [],
       };
@@ -3238,6 +3260,7 @@ describe('ObjCRenderer', function() {
           },
         ],
         structs: [],
+        cppClasses: [],
         namespaces: [],
         macros: [],
       };
@@ -3374,6 +3397,7 @@ describe('ObjCRenderer', function() {
           },
         ],
         structs: [],
+        cppClasses: [],
         namespaces: [],
         macros: [],
       };
@@ -3484,6 +3508,7 @@ describe('ObjCRenderer', function() {
           },
         ],
         structs: [],
+        cppClasses: [],
         namespaces: [],
         macros: [],
       };
@@ -3575,6 +3600,7 @@ describe('ObjCRenderer', function() {
           },
         ],
         structs: [],
+        cppClasses: [],
         namespaces: [],
         macros: [],
       };
@@ -3669,6 +3695,7 @@ describe('ObjCRenderer', function() {
           },
         ],
         structs: [],
+        cppClasses: [],
         namespaces: [],
         macros: [],
       };
@@ -3755,6 +3782,7 @@ describe('ObjCRenderer', function() {
           },
         ],
         structs: [],
+        cppClasses: [],
         namespaces: [],
         macros: [],
       };
@@ -3762,8 +3790,6 @@ describe('ObjCRenderer', function() {
       const renderedOutput: Maybe.Maybe<string> = ObjCRenderer.renderHeader(
         fileToRender,
       );
-
-      console.log(renderedOutput);
 
       const expectedOutput: string | null = Maybe.Just<string>(
         '__attribute__((visibility("default")))\n' +
@@ -3805,6 +3831,7 @@ describe('ObjCRenderer', function() {
           diagnosticIgnores: [],
           classes: [],
           structs: [],
+          cppClasses: [],
           namespaces: [],
           macros: [],
         };
@@ -3887,6 +3914,7 @@ describe('ObjCRenderer', function() {
         diagnosticIgnores: [],
         classes: [],
         structs: [],
+        cppClasses: [],
         namespaces: [],
         macros: [],
       };
@@ -3950,6 +3978,7 @@ describe('ObjCRenderer', function() {
           diagnosticIgnores: [],
           classes: [],
           structs: [],
+          cppClasses: [],
           namespaces: [],
           macros: [],
         };
@@ -3991,6 +4020,7 @@ describe('ObjCRenderer', function() {
           },
         ],
         structs: [],
+        cppClasses: [],
         namespaces: [],
         macros: [],
       };
@@ -4055,6 +4085,7 @@ describe('ObjCRenderer', function() {
             },
           ],
           structs: [],
+          cppClasses: [],
           namespaces: [],
           macros: [],
         };
@@ -4081,6 +4112,7 @@ describe('ObjCRenderer', function() {
         diagnosticIgnores: [],
         classes: [],
         structs: [],
+        cppClasses: [],
         namespaces: [],
         macros: [],
       };
@@ -4125,6 +4157,7 @@ describe('ObjCRenderer', function() {
         diagnosticIgnores: [],
         classes: [],
         structs: [],
+        cppClasses: [],
         namespaces: [],
         macros: [],
         nullability: ObjC.ClassNullability.assumeNonnull,
@@ -4207,6 +4240,7 @@ NS_ASSUME_NONNULL_END\n`);
         diagnosticIgnores: [],
         classes: [],
         structs: [],
+        cppClasses: [],
         namespaces: [],
         macros: [
           {
@@ -4273,6 +4307,7 @@ static int RMSomeFunction(BOOL parameter) {
         diagnosticIgnores: [],
         classes: [],
         structs: [],
+        cppClasses: [],
         namespaces: [],
         macros: [],
       };
@@ -4344,6 +4379,7 @@ static int RMSomeFunction(BOOL parameter) {
           },
         ],
         structs: [],
+        cppClasses: [],
         namespaces: [],
         macros: [],
       };
@@ -4430,6 +4466,7 @@ static int RMSomeFunction(BOOL parameter) {
           },
         ],
         structs: [],
+        cppClasses: [],
         namespaces: [],
         macros: [],
       };

@@ -7,6 +7,7 @@
 
 import * as Code from './code';
 import * as CPlusPlus from './cplusplus';
+import * as CppRenderer from './cpp-renderer';
 import * as FunctionUtils from './function-utils';
 import * as List from './list';
 import * as Maybe from './maybe';
@@ -636,6 +637,13 @@ export function toStructContents(struct: Code.Struct): string {
   return struct.match(toObjcStructContents, toCppStructContents);
 }
 
+function toCppClassContents(klass: CPlusPlus.Class) {
+  return ['#ifdef __cplusplus']
+    .concat(CppRenderer.renderClass(klass))
+    .concat('#endif // __cplusplus')
+    .join('\n');
+}
+
 function toNullabilityModifierStringNestingSubsequentToken(
   nullability: ObjC.Nullability,
 ): string {
@@ -922,6 +930,9 @@ export function renderHeader(file: Code.File): string | null {
   const structsStr = file.structs.map(toStructContents).join('\n');
   const structsSection = codeSectionForCodeString(structsStr);
 
+  const cppClassesStr = file.cppClasses.map(toCppClassContents).join('\n');
+  const cppClassesSection = codeSectionForCodeString(cppClassesStr);
+
   const namespacesStr: string = file.namespaces
     .map(toNamespaceContents)
     .join('\n');
@@ -941,6 +952,7 @@ export function renderHeader(file: Code.File): string | null {
     namespacesSection +
     classSection +
     structsSection +
+    cppClassesSection +
     functionsSection +
     postfixMacrosSection;
   return Maybe.Just<string>(contents.trim() + '\n');

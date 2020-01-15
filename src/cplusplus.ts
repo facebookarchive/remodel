@@ -54,3 +54,61 @@ export interface Namespace {
   name: string;
   templates: Template[];
 }
+
+export enum ClassSectionVisibility {
+  Public,
+  Private,
+}
+
+export enum TypePassBy {
+  Value,
+  Reference,
+  Pointer,
+}
+
+export interface TypeQualifier {
+  passBy: TypePassBy;
+  is_const: boolean;
+}
+
+export interface Type {
+  baseType: string;
+  qualifier: TypeQualifier;
+}
+
+export interface ClassMember {
+  type: Type;
+  name: string;
+}
+
+export interface MethodParam {
+  type: Type;
+  name: string;
+}
+
+export interface ClassConstructor {
+  kind: 'constructor';
+  name: string;
+}
+
+export interface Function {
+  kind: 'function';
+  name: string;
+  returnType: Type;
+  params: MethodParam[];
+  is_const: boolean;
+  code?: string[];
+}
+
+export type ClassMethod = Function | ClassConstructor;
+
+export interface ClassSection {
+  visibility: ClassSectionVisibility;
+  members: ClassMember[];
+  methods: ClassMethod[];
+}
+
+export interface Class {
+  name: string;
+  sections: ClassSection[];
+}

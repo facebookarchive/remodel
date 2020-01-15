@@ -563,6 +563,7 @@ function classFileCreationFunctionWithBaseClassAndPlugins<T>(
         newFile.macros = file.macros.concat(macros);
         newFile.classes = file.classes.concat(classes);
         newFile.structs = file.structs.concat(structs);
+        newFile.cppClasses = file.cppClasses;
         return newFile;
       } else {
         return {
@@ -587,6 +588,7 @@ function classFileCreationFunctionWithBaseClassAndPlugins<T>(
           macros: macros,
           classes: classes,
           structs: structs,
+          cppClasses: [],
           namespaces: [],
         };
       }

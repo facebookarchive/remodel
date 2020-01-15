@@ -279,6 +279,7 @@ describe('ObjectSpecCreation', function() {
                   },
                 ],
                 structs: [],
+                cppClasses: [],
                 namespaces: [],
                 macros: [],
               },

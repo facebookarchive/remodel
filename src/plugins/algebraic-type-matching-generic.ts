@@ -246,6 +246,7 @@ function genericMatchingFileForAlgebraicType(
     classes: [genericMatchingClassForAlgebraicType(algebraicType)],
     diagnosticIgnores: [],
     structs: [],
+    cppClasses: [],
     namespaces: [],
     macros: [],
   };

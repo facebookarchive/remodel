@@ -262,6 +262,7 @@ function matchingFileForAlgebraicType(
     classes: [],
     diagnosticIgnores: [],
     structs: [structForMatchingAlgebraicType(algebraicType)],
+    cppClasses: [],
     namespaces: [],
     macros: [],
   };

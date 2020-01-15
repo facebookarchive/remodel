@@ -555,6 +555,7 @@ function builderFileForValueType(
     classes: classesForBuilder(objectType),
     diagnosticIgnores: [],
     structs: [],
+    cppClasses: [],
     namespaces: [],
     macros: [],
   };

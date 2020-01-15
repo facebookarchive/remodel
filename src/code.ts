@@ -68,6 +68,7 @@ export interface File {
   classes: ObjC.Class[];
   diagnosticIgnores: string[];
   structs: Struct[];
+  cppClasses: CPlusPlus.Class[];
   nullability?: ObjC.ClassNullability;
   namespaces: CPlusPlus.Namespace[];
 }

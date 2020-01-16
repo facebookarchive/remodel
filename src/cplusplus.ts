@@ -86,9 +86,15 @@ export interface MethodParam {
   name: string;
 }
 
+export enum ConstructorDefault {
+  Default,
+  Delete,
+}
+
 export interface ClassConstructor {
   kind: 'constructor';
   name: string;
+  default?: ConstructorDefault;
 }
 
 export interface Function {

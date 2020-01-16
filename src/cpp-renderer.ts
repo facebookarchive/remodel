@@ -41,7 +41,20 @@ function renderMethodParameters(params: CPlusPlus.MethodParam[]): string {
 }
 
 function renderConstructor(constructor: CPlusPlus.ClassConstructor): string[] {
-  return [constructor.name + '() {}'];
+  var result = constructor.name + '()';
+
+  switch (constructor.default) {
+    case CPlusPlus.ConstructorDefault.Default:
+      result += ' = default;';
+      break;
+    case CPlusPlus.ConstructorDefault.Delete:
+      result += ' = delete;';
+      break;
+    default:
+      result += ' {}';
+  }
+
+  return [result];
 }
 
 export function renderFunction(funct: CPlusPlus.Function): string[] {

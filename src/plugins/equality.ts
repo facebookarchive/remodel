@@ -1430,20 +1430,19 @@ export function createPlugin(): ObjectSpec.Plugin {
       return [];
     },
     instanceMethods: function(objectType: ObjectSpec.Type): ObjC.Method[] {
-      if (objectType.attributes.length > 0) {
-        const generatedTypeEqualityInformation: GeneratedTypeEqualityInformation[] = objectType.attributes.map(
-          generatedTypeEqualityInformationForAttribute,
-        );
-        return [
-          isEqualInstanceMethod(
-            objectType.typeName,
-            generatedTypeEqualityInformation,
-          ),
-          hashInstanceMethod(generatedTypeEqualityInformation),
-        ];
-      } else {
+      if (objectType.attributes.length == 0) {
         return [];
       }
+      const generatedTypeEqualityInformation: GeneratedTypeEqualityInformation[] = objectType.attributes.map(
+        generatedTypeEqualityInformationForAttribute,
+      );
+      return [
+        isEqualInstanceMethod(
+          objectType.typeName,
+          generatedTypeEqualityInformation,
+        ),
+        hashInstanceMethod(generatedTypeEqualityInformation),
+      ];
     },
     macros: function(valueType: ObjectSpec.Type): ObjC.Macro[] {
       return [];

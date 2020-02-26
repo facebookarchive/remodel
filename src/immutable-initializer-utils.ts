@@ -175,9 +175,6 @@ export function initializerMethodsForObjectType(
   if (objectType.attributes.length == 0) {
     return [];
   }
-  if (objectType.includes.indexOf('FBDynamicProperties') >= 0) {
-    return [];
-  }
   const assumeNonnull: boolean =
     objectType.includes.indexOf('RMAssumeNonnull') >= 0;
   return [

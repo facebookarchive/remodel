@@ -376,7 +376,13 @@ function isImportRequiredForTypeLookup(
   algebraicType: AlgebraicType.Type,
   typeLookup: ObjectGeneration.TypeLookup,
 ): boolean {
-  return typeLookup.name !== algebraicType.name;
+  const needsImportsForAllTypeLookups = makePublicImportsForAlgebraicType(
+    algebraicType,
+  );
+  return (
+    typeLookup.name !== algebraicType.name &&
+    (!typeLookup.canForwardDeclare || needsImportsForAllTypeLookups)
+  );
 }
 
 function forwardDeclarationForTypeLookup(

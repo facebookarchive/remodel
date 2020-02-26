@@ -77,7 +77,6 @@ Feature: Outputting forward declarations in Algebraic Types
       #endif
 
       #import "SimpleADT.h"
-      #import "SomeType.h"
       #import <RMLib/RMProxy.h>
 
       typedef NS_ENUM(NSUInteger, SimpleADTSubtypes) {

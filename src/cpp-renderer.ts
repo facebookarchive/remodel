@@ -41,20 +41,49 @@ function renderMethodParameters(params: CPlusPlus.MethodParam[]): string {
 }
 
 function renderConstructor(constructor: CPlusPlus.ClassConstructor): string[] {
-  var result = constructor.name + '()';
+  var result: string[] = [];
 
   switch (constructor.default) {
     case CPlusPlus.ConstructorDefault.Default:
-      result += ' = default;';
+      result.push(constructor.name + '() = default;');
       break;
     case CPlusPlus.ConstructorDefault.Delete:
-      result += ' = delete;';
+      result.push(constructor.name + '() = delete;');
       break;
     default:
-      result += ' {}';
+      var currentLine =
+        constructor.name +
+        '(' +
+        renderMethodParameters(constructor.params) +
+        ')';
+      if (constructor.initializers.length > 0) {
+        result.push(currentLine + ' :');
+
+        constructor.initializers.reduce(
+          (previousValue, currentValue, currentIndex) => {
+            var line =
+              '  ' +
+              currentValue.memberName +
+              '(' +
+              currentValue.expression +
+              ')';
+            if (currentIndex < constructor.initializers.length - 1) {
+              line += ',';
+            } else {
+              line += ' {}';
+            }
+
+            previousValue.push(line);
+            return previousValue;
+          },
+          result,
+        );
+      } else {
+        result.push(currentLine + ' {}');
+      }
   }
 
-  return [result];
+  return result;
 }
 
 export function renderFunction(funct: CPlusPlus.Function): string[] {

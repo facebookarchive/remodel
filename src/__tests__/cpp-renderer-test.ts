@@ -89,7 +89,41 @@ describe('CPlusPlus Rendering', function() {
         sections: [
           {
             visibility: CPlusPlus.ClassSectionVisibility.Public,
-            methods: [complexFunc],
+            methods: [
+              <CPlusPlus.ClassMethod>{
+                kind: 'constructor',
+                name: 'MyClass',
+                default: CPlusPlus.ConstructorDefault.Default,
+              },
+              <CPlusPlus.ClassMethod>{
+                kind: 'constructor',
+                name: 'MyClass',
+                params: [
+                  {
+                    name: 'input',
+                    type: {
+                      baseType: 'FBFoobar',
+                      qualifier: {
+                        passBy: CPlusPlus.TypePassBy.Pointer,
+                        is_const: false,
+                      },
+                    },
+                  },
+                ],
+                initializers: [
+                  {
+                    memberName: 'field1_',
+                    expression: 'input.intValue',
+                  },
+                  {
+                    memberName: 'text_',
+                    expression: 'input.text',
+                  },
+                ],
+              },
+
+              complexFunc,
+            ],
             members: [],
           },
           {
@@ -106,6 +140,16 @@ describe('CPlusPlus Rendering', function() {
                   },
                 },
               },
+              {
+                name: 'text_',
+                type: {
+                  baseType: 'NSString',
+                  qualifier: {
+                    passBy: CPlusPlus.TypePassBy.Pointer,
+                    is_const: false,
+                  },
+                },
+              },
             ],
           },
         ],
@@ -116,10 +160,15 @@ describe('CPlusPlus Rendering', function() {
       const expectedOutput =
         'class MyClass {\n' +
         'public:\n' +
+        '  MyClass() = default;\n' +
+        '  MyClass(FBFoobar *input) :\n' +
+        '    field1_(input.intValue),\n' +
+        '    text_(input.text) {}\n' +
         '  Foobar *MyFunction(const MyStruct &param1, int param2);\n' +
         '\n' +
         'private:\n' +
         '  int field1_;\n' +
+        '  NSString *text_;\n' +
         '};';
 
       expect(renderedOutput).toEqual(expectedOutput);

@@ -91,10 +91,17 @@ export enum ConstructorDefault {
   Delete,
 }
 
+export interface ConstructorInitializer {
+  memberName: string;
+  expression: string;
+}
+
 export interface ClassConstructor {
   kind: 'constructor';
   name: string;
   default?: ConstructorDefault;
+  params: MethodParam[];
+  initializers: ConstructorInitializer[];
 }
 
 export interface Function {

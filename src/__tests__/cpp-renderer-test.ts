@@ -11,7 +11,7 @@
 import * as CPlusPlus from '../cplusplus';
 import * as CppRenderer from '../cpp-renderer';
 
-let complexFunc: CPlusPlus.Function = {
+const complexFunc: CPlusPlus.Function = {
   kind: 'function',
   name: 'MyFunction',
   returnType: {
@@ -46,6 +46,19 @@ let complexFunc: CPlusPlus.Function = {
   ],
 };
 
+function buildFunctionWithBody(): CPlusPlus.Function {
+  var result = {...complexFunc};
+  result.is_const = true;
+  result.code = ['return [Foobar new];'];
+  return result;
+}
+
+function buildFunctionWithEmptyBody(): CPlusPlus.Function {
+  var result = {...complexFunc};
+  result.code = [];
+  return result;
+}
+
 describe('CPlusPlus Rendering', function() {
   describe('EmitFunction', function() {
     it('emits a simple function declaration', function() {
@@ -79,6 +92,17 @@ describe('CPlusPlus Rendering', function() {
 
       const expectedOutput =
         'Foobar *MyFunction(const MyStruct &param1, int param2);';
+
+      expect(renderedOutput).toEqualJSON(expectedOutput);
+    });
+
+    it('emits a function declaration with empty body', function() {
+      const renderedOutput: string = CppRenderer.renderFunction(
+        buildFunctionWithEmptyBody(),
+      ).join('\n');
+
+      const expectedOutput =
+        'Foobar *MyFunction(const MyStruct &param1, int param2) {}';
 
       expect(renderedOutput).toEqualJSON(expectedOutput);
     });
@@ -122,7 +146,7 @@ describe('CPlusPlus Rendering', function() {
                 ],
               },
 
-              complexFunc,
+              buildFunctionWithBody(),
             ],
             members: [],
           },
@@ -161,10 +185,15 @@ describe('CPlusPlus Rendering', function() {
         'class MyClass {\n' +
         'public:\n' +
         '  MyClass() = default;\n' +
+        '\n' +
         '  MyClass(FBFoobar *input) :\n' +
         '    field1_(input.intValue),\n' +
         '    text_(input.text) {}\n' +
-        '  Foobar *MyFunction(const MyStruct &param1, int param2);\n' +
+        '\n' +
+        '  Foobar *MyFunction(const MyStruct &param1, int param2) const\n' +
+        '  {\n' +
+        '    return [Foobar new];\n' +
+        '  }\n' +
         '\n' +
         'private:\n' +
         '  int field1_;\n' +

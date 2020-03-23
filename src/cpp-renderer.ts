@@ -95,11 +95,15 @@ export function renderFunction(funct: CPlusPlus.Function): string[] {
     ')' +
     (funct.is_const ? ' const' : '');
 
-  if (funct.code) {
-    return [opener + ' {']
-      .concat(funct.code.map(StringUtils.indent(2)))
-      .concat('}')
-      .concat('');
+  if (funct.code != null) {
+    if (funct.code.length == 0) {
+      return [opener + ' {}'];
+    } else {
+      return [opener]
+        .concat('{')
+        .concat(funct.code.map(StringUtils.indent(2)))
+        .concat('}');
+    }
   } else {
     return [opener + ';'];
   }
@@ -131,9 +135,19 @@ function renderSection(section: CPlusPlus.ClassSection): string {
   result = result.concat(
     section.methods
       .map(renderMethod)
-      .reduce((agg: string[], value: string[]) => {
-        return agg.concat(value);
-      }, [])
+      .reduce(
+        (
+          agg: string[],
+          value: string[],
+          currentIndex: number,
+          array: string[][],
+        ) => {
+          return agg.concat(
+            currentIndex < array.length - 1 ? value.concat('') : value,
+          );
+        },
+        [],
+      )
       .map(StringUtils.indent(2)),
   );
 

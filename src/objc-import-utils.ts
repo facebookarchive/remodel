@@ -75,8 +75,8 @@ function isImportPresent(knownTypeImport: ObjC.Import | null): boolean {
   );
 }
 
-export function isImportRequiredForTypeWithName(typeName: string): boolean {
-  return !(
+export function isSystemType(typeName: string): boolean {
+  return (
     isFoundationType(typeName) ||
     (typeName in KNOWN_SYSTEM_TYPE_IMPORT_INFO &&
       !isImportPresent(KNOWN_SYSTEM_TYPE_IMPORT_INFO[typeName]))
@@ -95,7 +95,7 @@ export function shouldIncludeImportForType(
   typeName: string,
 ) {
   return (
-    isImportRequiredForTypeWithName(typeName) &&
+    !isSystemType(typeName) &&
     typeLookups.filter(lookup => typeLookupHasName(typeName, lookup)).length ==
       0
   );
@@ -249,8 +249,7 @@ export function requiresPublicImportForType(
   computedType: ObjC.Type,
 ): boolean {
   return (
-    isImportRequiredForTypeWithName(typeName) &&
-    !canForwardDeclareTypeName(computedType.name)
+    !isSystemType(typeName) && !canForwardDeclareTypeName(computedType.name)
   );
 }
 
@@ -259,8 +258,7 @@ export function canForwardDeclareType(
   computedType: ObjC.Type,
 ): boolean {
   return (
-    isImportRequiredForTypeWithName(typeName) &&
-    canForwardDeclareTypeName(computedType.name)
+    !isSystemType(typeName) && canForwardDeclareTypeName(computedType.name)
   );
 }
 

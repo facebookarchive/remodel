@@ -139,8 +139,8 @@ export function typeDefinitionImportForKnownSystemType(
     : Maybe.Nothing<ObjC.Import>();
 }
 
-export function canForwardDeclareType(type: ObjC.Type): boolean {
-  return ObjCTypeUtils.matchType(
+function canForwardDeclareTypeName(typeName: string): boolean {
+  return ObjCTypeUtils.matchTypeName(
     {
       id: function() {
         return false;
@@ -212,7 +212,7 @@ export function canForwardDeclareType(type: ObjC.Type): boolean {
         return false;
       },
     },
-    type,
+    typeName,
   );
 }
 
@@ -250,7 +250,7 @@ export function requiresPublicImportForType(
 ): boolean {
   return (
     isImportRequiredForTypeWithName(typeName) &&
-    !canForwardDeclareType(computedType)
+    !canForwardDeclareTypeName(computedType.name)
   );
 }
 
@@ -259,7 +259,9 @@ export function canForwardDeclareTypeForAttribute(
 ): boolean {
   return (
     isImportRequiredForTypeWithName(attribute.type.name) &&
-    canForwardDeclareType(ObjectSpecCodeUtils.computeTypeOfAttribute(attribute))
+    canForwardDeclareTypeName(
+      ObjectSpecCodeUtils.computeTypeOfAttribute(attribute).name,
+    )
   );
 }
 

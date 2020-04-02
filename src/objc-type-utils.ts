@@ -108,49 +108,57 @@ export interface TypeMatchers<T> {
   type);
 */
 export function matchType<T>(matchers: TypeMatchers<T>, type: ObjC.Type): T {
-  if (type.name === 'id') {
+  return matchTypeName(matchers, type.name);
+}
+
+/** Like matchType but allows you to pass a type name instead of an ObjC.Type. */
+export function matchTypeName<T>(
+  matchers: TypeMatchers<T>,
+  typeName: string,
+): T {
+  if (typeName === 'id') {
     return matchers.id();
-  } else if (type.name === 'NSObject') {
+  } else if (typeName === 'NSObject') {
     return matchers.NSObject();
-  } else if (type.name === 'BOOL') {
+  } else if (typeName === 'BOOL') {
     return matchers.BOOL();
-  } else if (type.name === 'NSInteger') {
+  } else if (typeName === 'NSInteger') {
     return matchers.NSInteger();
-  } else if (type.name === 'NSUInteger') {
+  } else if (typeName === 'NSUInteger') {
     return matchers.NSUInteger();
-  } else if (type.name === 'double') {
+  } else if (typeName === 'double') {
     return matchers.double();
-  } else if (type.name === 'float') {
+  } else if (typeName === 'float') {
     return matchers.float();
-  } else if (type.name === 'CGFloat') {
+  } else if (typeName === 'CGFloat') {
     return matchers.CGFloat();
-  } else if (type.name === 'NSTimeInterval') {
+  } else if (typeName === 'NSTimeInterval') {
     return matchers.NSTimeInterval();
-  } else if (type.name === 'uintptr_t') {
+  } else if (typeName === 'uintptr_t') {
     return matchers.uintptr_t();
-  } else if (type.name === 'uint32_t') {
+  } else if (typeName === 'uint32_t') {
     return matchers.uint32_t();
-  } else if (type.name === 'uint64_t') {
+  } else if (typeName === 'uint64_t') {
     return matchers.uint64_t();
-  } else if (type.name === 'int32_t') {
+  } else if (typeName === 'int32_t') {
     return matchers.int32_t();
-  } else if (type.name === 'int64_t') {
+  } else if (typeName === 'int64_t') {
     return matchers.int64_t();
-  } else if (type.name === 'SEL') {
+  } else if (typeName === 'SEL') {
     return matchers.SEL();
-  } else if (type.name === 'NSRange') {
+  } else if (typeName === 'NSRange') {
     return matchers.NSRange();
-  } else if (type.name === 'CGRect') {
+  } else if (typeName === 'CGRect') {
     return matchers.CGRect();
-  } else if (type.name === 'CGPoint') {
+  } else if (typeName === 'CGPoint') {
     return matchers.CGPoint();
-  } else if (type.name === 'CGSize') {
+  } else if (typeName === 'CGSize') {
     return matchers.CGSize();
-  } else if (type.name === 'UIEdgeInsets') {
+  } else if (typeName === 'UIEdgeInsets') {
     return matchers.UIEdgeInsets();
-  } else if (type.name === 'Class') {
+  } else if (typeName === 'Class') {
     return matchers.Class();
-  } else if (type.name === 'dispatch_block_t') {
+  } else if (typeName === 'dispatch_block_t') {
     return matchers.dispatch_block_t();
   } else {
     return matchers.unmatchedType();

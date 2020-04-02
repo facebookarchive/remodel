@@ -216,13 +216,6 @@ export function canForwardDeclareType(type: ObjC.Type): boolean {
   );
 }
 
-export function canForwardDeclareTypeForAttributeConsideringType(
-  attribute: ObjectSpec.Attribute,
-): boolean {
-  const type: ObjC.Type = ObjectSpecCodeUtils.computeTypeOfAttribute(attribute);
-  return canForwardDeclareType(type);
-}
-
 export function shouldForwardProtocolDeclareAttribute(
   attribute: ObjectSpec.Attribute,
 ): boolean {
@@ -266,7 +259,7 @@ export function canForwardDeclareTypeForAttribute(
 ): boolean {
   return (
     isImportRequiredForTypeWithName(attribute.type.name) &&
-    canForwardDeclareTypeForAttributeConsideringType(attribute)
+    canForwardDeclareType(ObjectSpecCodeUtils.computeTypeOfAttribute(attribute))
   );
 }
 

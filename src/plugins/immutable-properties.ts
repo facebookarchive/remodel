@@ -44,8 +44,13 @@ export function createPlugin(): ObjectSpec.Plugin {
     fileType: function(objectType: ObjectSpec.Type): Code.FileType | null {
       return Maybe.Nothing<Code.FileType>();
     },
-    forwardDeclarations:
-      ImmutableImportUtils.forwardClassDeclarationsForObjectType,
+    forwardDeclarations: function(
+      objectType: ObjectSpec.Type,
+    ): ObjC.ForwardDeclaration[] {
+      return objectType.includes.indexOf('UseForwardDeclarations') !== -1
+        ? ImmutableImportUtils.forwardClassDeclarationsForObjectType(objectType)
+        : [];
+    },
     functions: function(objectType: ObjectSpec.Type): ObjC.Function[] {
       return [];
     },

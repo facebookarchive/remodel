@@ -8,6 +8,7 @@
 import * as Code from '../code';
 import * as Error from '../error';
 import * as FileWriter from '../file-writer';
+import * as ImmutableImportUtils from '../immutable-import-utils';
 import * as Maybe from '../maybe';
 import * as ObjC from '../objc';
 import * as ObjCImportUtils from '../objc-import-utils';
@@ -366,12 +367,6 @@ function importForAttribute(
   );
 }
 
-function canUseForwardDeclarationForTypeLookup(
-  typeLookup: ObjectGeneration.TypeLookup,
-): boolean {
-  return typeLookup.canForwardDeclare;
-}
-
 export function importsForTypeLookupsOfObjectType(
   objectType: ObjectSpec.Type,
 ): ObjC.Import[] {
@@ -469,38 +464,10 @@ function mustDeclareImportForAttribute(
 function forwardDeclarationsForBuilder(
   objectType: ObjectSpec.Type,
 ): ObjC.ForwardDeclaration[] {
-  const typeLookupForwardDeclarations: ObjC.ForwardDeclaration[] = objectType.typeLookups
-    .filter(canUseForwardDeclarationForTypeLookup)
-    .map(function(
-      typeLookup: ObjectGeneration.TypeLookup,
-    ): ObjC.ForwardDeclaration {
-      return ObjC.ForwardDeclaration.ForwardClassDeclaration(typeLookup.name);
-    });
-
-  const attributeForwardClassDeclarations: ObjC.ForwardDeclaration[] = objectType.attributes
-    .filter(attribute =>
-      ObjCImportUtils.canForwardDeclareType(
-        attribute.type.name,
-        attribute.type.underlyingType,
-      ),
-    )
-    .map(function(attribute: ObjectSpec.Attribute): ObjC.ForwardDeclaration {
-      return ObjC.ForwardDeclaration.ForwardClassDeclaration(
-        attribute.type.name,
-      );
-    });
-
-  const attributeForwardProtocolDeclarations: ObjC.ForwardDeclaration[] = objectType.attributes
-    .filter(ObjCImportUtils.shouldForwardProtocolDeclareAttribute)
-    .map(
-      attribute =>
-        ObjCImportUtils.forwardProtocolDeclarationForAttribute(attribute)!,
-    );
-
-  return [ObjC.ForwardDeclaration.ForwardClassDeclaration(objectType.typeName)]
-    .concat(typeLookupForwardDeclarations)
-    .concat(attributeForwardClassDeclarations)
-    .concat(attributeForwardProtocolDeclarations);
+  return [
+    ObjC.ForwardDeclaration.ForwardClassDeclaration(objectType.typeName),
+    ...ImmutableImportUtils.forwardClassDeclarationsForObjectType(objectType),
+  ];
 }
 
 function classesForBuilder(objectType: ObjectSpec.Type): ObjC.Class[] {

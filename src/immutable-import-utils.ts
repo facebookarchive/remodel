@@ -107,8 +107,7 @@ function isForwardDeclarationRequiredForTypeLookup(
   typeLookup: ObjectGeneration.TypeLookup,
 ): boolean {
   return (
-    typeLookup.name === objectType.typeName ||
-    (typeLookup.canForwardDeclare && !makePublicImportsForValueType(objectType))
+    typeLookup.name === objectType.typeName || typeLookup.canForwardDeclare
   );
 }
 
@@ -139,11 +138,9 @@ function typeLookupsAllowForwardDeclarationForAttribute(
 function shouldForwardClassDeclareAttribute(
   valueTypeName: string,
   typeLookups: ObjectGeneration.TypeLookup[],
-  makePublicImports: boolean,
   attribute: ObjectSpec.Attribute,
 ): boolean {
   return (
-    !makePublicImports &&
     typeLookupsAllowForwardDeclarationForAttribute(typeLookups, attribute) &&
     ObjCImportUtils.canForwardDeclareType(
       attribute.type.name,
@@ -161,7 +158,6 @@ function forwardClassDeclarationForAttribute(
 export function forwardClassDeclarationsForObjectType(
   objectType: ObjectSpec.Type,
 ): ObjC.ForwardDeclaration[] {
-  const makePublicImports = makePublicImportsForValueType(objectType);
   const typeLookupForwardDeclarations = objectType.typeLookups
     .filter(typeLookup =>
       isForwardDeclarationRequiredForTypeLookup(objectType, typeLookup),
@@ -172,19 +168,16 @@ export function forwardClassDeclarationsForObjectType(
       shouldForwardClassDeclareAttribute(
         objectType.typeName,
         objectType.typeLookups,
-        makePublicImports,
         attribute,
       ),
     )
     .map(forwardClassDeclarationForAttribute);
-  const attributeForwardProtocolDeclarations = makePublicImports
-    ? []
-    : objectType.attributes
-        .filter(ObjCImportUtils.shouldForwardProtocolDeclareAttribute)
-        .map(
-          attribute =>
-            ObjCImportUtils.forwardProtocolDeclarationForAttribute(attribute)!,
-        );
+  const attributeForwardProtocolDeclarations = objectType.attributes
+    .filter(ObjCImportUtils.shouldForwardProtocolDeclareAttribute)
+    .map(
+      attribute =>
+        ObjCImportUtils.forwardProtocolDeclarationForAttribute(attribute)!,
+    );
   return ([] as ObjC.ForwardDeclaration[])
     .concat(typeLookupForwardDeclarations)
     .concat(attributeForwardClassDeclarations)

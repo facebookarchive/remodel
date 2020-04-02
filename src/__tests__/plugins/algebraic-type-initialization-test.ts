@@ -906,53 +906,6 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
   describe('#forwardDeclarations', function() {
     it(
       'returns a forward declaration when the same type being generated ' +
-        'is being used as an attribute type',
-      function() {
-        const algebraicType: AlgebraicType.Type = {
-          annotations: {},
-          name: 'Test',
-          includes: [],
-          excludes: [],
-          typeLookups: [],
-          libraryName: null,
-          comments: [],
-          subtypes: [
-            AlgebraicType.Subtype.NamedAttributeCollectionDefinition({
-              name: 'SomeSubtype',
-              comments: [],
-              attributes: [
-                {
-                  annotations: {},
-                  name: 'someFoo',
-                  comments: [],
-                  nullability: ObjC.Nullability.Inherited(),
-                  type: {
-                    name: 'Test',
-                    reference: 'Test *',
-                    libraryTypeIsDefinedIn: null,
-                    fileTypeIsDefinedIn: null,
-                    underlyingType: null,
-                    conformingProtocol: null,
-                    referencedGenericTypes: [],
-                  },
-                },
-              ],
-              annotations: {},
-            }),
-          ],
-        };
-        const forwardDeclarations: ObjC.ForwardDeclaration[] = AlgebraicTypePlugin.forwardDeclarations(
-          algebraicType,
-        );
-        const expectedForwardDeclarations: ObjC.ForwardDeclaration[] = [
-          ObjC.ForwardDeclaration.ForwardClassDeclaration('Test'),
-        ];
-        expect(forwardDeclarations).toEqualJSON(expectedForwardDeclarations);
-      },
-    );
-
-    it(
-      'returns a forward declaration when the same type being generated ' +
         'is being used in a type lookup',
       function() {
         const algebraicType: AlgebraicType.Type = {

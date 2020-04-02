@@ -2054,46 +2054,6 @@ describe('Plugins.ImmutableProperties', function() {
   describe('#forwardDeclarations', function() {
     it(
       'returns a forward declaration when the same type being generated ' +
-        'is being used as an attribute type',
-      function() {
-        const objectType: ObjectSpec.Type = {
-          annotations: {},
-          attributes: [
-            {
-              annotations: {},
-              comments: [],
-              name: 'value',
-              nullability: ObjC.Nullability.Inherited(),
-              type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
-                name: 'RMSomething',
-                reference: 'RMSomething *',
-                underlyingType: null,
-                conformingProtocol: null,
-                referencedGenericTypes: [],
-              },
-            },
-          ],
-          comments: [],
-          typeLookups: [],
-          excludes: [],
-          includes: [],
-          typeName: 'RMSomething',
-          libraryName: null,
-        };
-        const forwardDeclarations: ObjC.ForwardDeclaration[] = Plugin.forwardDeclarations(
-          objectType,
-        );
-        const expectedForwardDeclarations: ObjC.ForwardDeclaration[] = [
-          ObjC.ForwardDeclaration.ForwardClassDeclaration('RMSomething'),
-        ];
-        expect(forwardDeclarations).toEqualJSON(expectedForwardDeclarations);
-      },
-    );
-
-    it(
-      'returns a forward declaration when the same type being generated ' +
         'is being used in a type lookup',
       function() {
         const objectType: ObjectSpec.Type = {

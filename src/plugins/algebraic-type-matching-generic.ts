@@ -231,13 +231,14 @@ function genericMatchingClassForAlgebraicType(
 
 function genericMatchingFileForAlgebraicType(
   algebraicType: AlgebraicType.Type,
-  forBaseFile: boolean,
 ): Code.File {
   return {
     name: fileNameForAlgebraicType(algebraicType),
     type: Code.FileType.ObjectiveC,
-    imports: genericMatcherImportsForAlgebraicType(algebraicType, forBaseFile),
-    forwardDeclarations: [],
+    imports: genericMatcherImportsForAlgebraicType(algebraicType, false),
+    forwardDeclarations: AlgebraicTypeUtilsForMatching.forwardDeclarationsForAlgebraicType(
+      algebraicType,
+    ),
     comments: [],
     enumerations: [],
     blockTypes: [],
@@ -255,7 +256,7 @@ function genericMatchingFileForAlgebraicType(
 export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
   return {
     additionalFiles: function(algebraicType: AlgebraicType.Type): Code.File[] {
-      return [genericMatchingFileForAlgebraicType(algebraicType, false)];
+      return [genericMatchingFileForAlgebraicType(algebraicType)];
     },
     transformBaseFile: function(
       algebraicType: AlgebraicType.Type,
@@ -290,11 +291,8 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
     ): Code.FileType | null {
       return Maybe.Nothing<Code.FileType>();
     },
-    forwardDeclarations: function(
-      algebraicType: AlgebraicType.Type,
-    ): ObjC.ForwardDeclaration[] {
-      return [];
-    },
+    forwardDeclarations:
+      AlgebraicTypeUtilsForMatching.forwardDeclarationsForAlgebraicType,
     functions: function(algebraicType: AlgebraicType.Type): ObjC.Function[] {
       return [];
     },

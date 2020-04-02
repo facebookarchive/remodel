@@ -342,15 +342,13 @@ function shouldForwardDeclareAttribute(
   makePublicImports: boolean,
   attribute: AlgebraicType.SubtypeAttribute,
 ): boolean {
-  const declaringPublicAttributes =
+  return (
     !makePublicImports &&
     ObjCImportUtils.canForwardDeclareType(
       attribute.type.name,
       ObjectSpecCodeUtils.computeTypeOfAttribute(attribute),
-    );
-  const attributeTypeReferencesObjectType =
-    algebraicTypeName == attribute.type.name;
-  return declaringPublicAttributes || attributeTypeReferencesObjectType;
+    )
+  );
 }
 
 function makePublicImportsForAlgebraicType(

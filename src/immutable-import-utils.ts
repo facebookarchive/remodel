@@ -142,16 +142,14 @@ function shouldForwardClassDeclareAttribute(
   makePublicImports: boolean,
   attribute: ObjectSpec.Attribute,
 ): boolean {
-  const shouldExplicitlyForwardDeclare =
+  return (
     !makePublicImports &&
     typeLookupsAllowForwardDeclarationForAttribute(typeLookups, attribute) &&
     ObjCImportUtils.canForwardDeclareType(
       attribute.type.name,
       ObjectSpecCodeUtils.computeTypeOfAttribute(attribute),
-    );
-  const attributeTypeReferencesObjectType =
-    valueTypeName == attribute.type.name;
-  return shouldExplicitlyForwardDeclare || attributeTypeReferencesObjectType;
+    )
+  );
 }
 
 function forwardClassDeclarationForAttribute(

@@ -256,7 +256,9 @@ function matchingFileForAlgebraicType(
     enumerations: [],
     blockTypes: [],
     comments: [],
-    forwardDeclarations: [],
+    forwardDeclarations: AlgebraicTypeUtilsForMatching.forwardDeclarationsForAlgebraicType(
+      algebraicType,
+    ),
     staticConstants: [],
     functions: [],
     classes: [],
@@ -304,11 +306,8 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
     ): Code.FileType | null {
       return Maybe.Nothing<Code.FileType>();
     },
-    forwardDeclarations: function(
-      algebraicType: AlgebraicType.Type,
-    ): ObjC.ForwardDeclaration[] {
-      return [];
-    },
+    forwardDeclarations:
+      AlgebraicTypeUtilsForMatching.forwardDeclarationsForAlgebraicType,
     functions: function(algebraicType: AlgebraicType.Type): ObjC.Function[] {
       return [];
     },

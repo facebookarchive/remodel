@@ -54,6 +54,54 @@ function keywordForInvokingMatchMethodForSubtype(
   }
 }
 
+function referencedGenericTypeRefersToParentTypeName(
+  referencedGenericType: AlgebraicType.SubtypeReferencedGenericType,
+  parentTypeName: string,
+): boolean {
+  return (
+    referencedGenericType.name == parentTypeName ||
+    referencedGenericType.referencedGenericTypes.some(r =>
+      referencedGenericTypeRefersToParentTypeName(r, parentTypeName),
+    )
+  );
+}
+
+function subtypeRefersToParentTypeName(
+  type: AlgebraicType.SubtypeAttributeType,
+  parentTypeName: string,
+): boolean {
+  return (
+    type.name == parentTypeName ||
+    type.referencedGenericTypes.some(r =>
+      referencedGenericTypeRefersToParentTypeName(r, parentTypeName),
+    )
+  );
+}
+
+/**
+ * If an algebraic data type refers to itself, we need to forward-declare the
+ * type itself so that typedefs for matcher blocks can refer to it.
+ */
+export function forwardDeclarationsForAlgebraicType(
+  algebraicType: AlgebraicType.Type,
+): ObjC.ForwardDeclaration[] {
+  for (const subtype of algebraicType.subtypes) {
+    const refersToParent = subtype.match(
+      collection =>
+        collection.attributes.some(a =>
+          subtypeRefersToParentTypeName(a.type, algebraicType.name),
+        ),
+      a => subtypeRefersToParentTypeName(a.type, algebraicType.name),
+    );
+    if (refersToParent) {
+      return [
+        ObjC.ForwardDeclaration.ForwardClassDeclaration(algebraicType.name),
+      ];
+    }
+  }
+  return [];
+}
+
 export function buildLocalFunctionBlockDefinitionsForSubtype(
   algebraicType: AlgebraicType.Type,
   subtype: AlgebraicType.Subtype,

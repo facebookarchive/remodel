@@ -54,11 +54,17 @@ export interface AlgebraicTypeParseResult {
 // shared parse result types
 
 export interface ParsedAttributeType {
-  isNSObject: boolean;
   name: string;
   reference: string;
   underlyingType: string;
   conformingProtocol: string;
+  referencedGenericTypes: ParsedReferencedGenericType[];
+}
+
+export interface ParsedReferencedGenericType {
+  name: string;
+  conformingProtocol: string;
+  referencedGenericTypes: ParsedReferencedGenericType[];
 }
 
 export interface ParsedAttribute {

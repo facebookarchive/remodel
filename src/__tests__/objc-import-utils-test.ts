@@ -126,6 +126,7 @@ describe('ObjCImportUtils', function() {
         reference: 'NSArray*',
         underlyingType: 'NSObject',
         conformingProtocol: '',
+        referencedGenericTypes: [],
       };
       const attribute: ObjectSpec.Attribute = {
         annotations: {},

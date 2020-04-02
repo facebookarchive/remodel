@@ -60,6 +60,7 @@ describe('ObjectSpecPlugins.InitNewUnavailable', function() {
               reference: 'NSString *',
               underlyingType: 'NSObject',
               conformingProtocol: null,
+              referencedGenericTypes: [],
             },
           },
         ],

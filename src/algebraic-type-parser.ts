@@ -56,6 +56,9 @@ function subtypeAttributeTypeFromParsedAttribtueType(
     conformingProtocol: ObjectGenerationParsingUtils.possiblyUndefinedStringToMaybe(
       type.conformingProtocol,
     ),
+    referencedGenericTypes: type.referencedGenericTypes.map(
+      referencedGenericTypeFromParsedAttributeType,
+    ),
   };
 }
 
@@ -74,6 +77,24 @@ function subtypeAttributeFromParseResultAttribute(
     ),
     nullability: ObjectGenerationParsingUtils.nullabilityFromParseResultAnnotations(
       attribute.annotations,
+    ),
+  };
+}
+
+/**
+ * Very similar to subtypeAttributeTypeFromParsedAttribtueType,
+ * but referenced generic types do not have annotations.
+ */
+function referencedGenericTypeFromParsedAttributeType(
+  type: ObjectMonaParser.ParsedAttributeType,
+): AlgebraicType.SubtypeReferencedGenericType {
+  return {
+    name: type.name,
+    conformingProtocol: ObjectGenerationParsingUtils.possiblyUndefinedStringToMaybe(
+      type.conformingProtocol,
+    ),
+    referencedGenericTypes: type.referencedGenericTypes.map(
+      referencedGenericTypeFromParsedAttributeType,
     ),
   };
 }

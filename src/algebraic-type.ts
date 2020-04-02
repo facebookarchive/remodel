@@ -19,6 +19,13 @@ export interface SubtypeAttributeType {
   reference: string;
   underlyingType: string | null;
   conformingProtocol: string | null;
+  referencedGenericTypes: SubtypeReferencedGenericType[];
+}
+
+export interface SubtypeReferencedGenericType {
+  name: string;
+  conformingProtocol: string | null;
+  referencedGenericTypes: SubtypeReferencedGenericType[];
 }
 
 export interface SubtypeAttribute {

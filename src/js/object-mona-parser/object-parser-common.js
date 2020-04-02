@@ -12,9 +12,9 @@
 const mona = require('mona');
 
 function typeReferenceFromParsedDefinition(parsedTypeReference, genericsSection, protocolSection) {
-  if (genericsSection !== undefined) {
-    return parsedTypeReference + '<' + genericsSection + '>';
-  } else if (protocolSection !== undefined) {
+  if (genericsSection != null) {
+    return parsedTypeReference + '<' + genericsSection.text + '>';
+  } else if (protocolSection != null) {
     return parsedTypeReference + '<' + protocolSection + '>';
   } else {
     return parsedTypeReference;
@@ -41,7 +41,8 @@ function parseAttributeTypeReferenceSection(allowUnderlyingType) {
       typeName: typeReferenceSection,
       underlyingType: underlyingType,
       conformingProtocol: protocolSection,
-      suffixSpaces: suffixSpaceSection != null ? suffixSpaceSection : ''
+      suffixSpaces: suffixSpaceSection != null ? suffixSpaceSection : '',
+      referencedGenericTypes: genericsSection != null ? genericsSection.parsedAttributeTypes : []
     };
     return mona.value(parsedAttributeTypeReferenceSection);
   });
@@ -60,7 +61,10 @@ function parseAttributeTypeReferenceGenericSection() {
       const genericSection = ss(parseAttributeTypeReferenceGenericSection());
 
       const suffixSpaceValue = suffixSpaceSection != null ? suffixSpaceSection : '';
-      return mona.value(',' + suffixSpaceValue + genericSection);
+      return mona.value({
+        text: ',' + suffixSpaceValue + genericSection.text,
+        parsedAttributeTypes: genericSection.parsedAttributeTypes
+      });
     })));
 
     const referenceValue =
@@ -70,8 +74,21 @@ function parseAttributeTypeReferenceGenericSection() {
     const pointerValue =
     (pointerSection != null ? pointerSection : '') +
     (pointerSuffixSpaceSection != null ? pointerSuffixSpaceSection : '');
-    const genericValue = nextGenericSection != null ? nextGenericSection : '';
-    return mona.value(referenceValue + pointerValue + genericValue);
+
+    if (nextGenericSection != null) {
+      return mona.value({
+        text: referenceValue + pointerValue + nextGenericSection.text,
+        parsedAttributeTypes: [
+          typeReferenceSection,
+          ...nextGenericSection.parsedAttributeTypes
+        ],
+      });
+    } else {
+      return mona.value({
+        text: referenceValue + pointerValue,
+        parsedAttributeTypes: [typeReferenceSection]
+      });
+    }
   });
 }
 
@@ -208,8 +225,21 @@ function foundAttributeFromParsedSequences(comments, parsedAnnotations, attribut
       name: attributeTypeReferenceSection.typeName,
       reference: typeReference,
       underlyingType: attributeTypeReferenceSection.underlyingType,
-      conformingProtocol: attributeTypeReferenceSection.conformingProtocol
+      conformingProtocol: attributeTypeReferenceSection.conformingProtocol,
+      referencedGenericTypes: attributeTypeReferenceSection.referencedGenericTypes.map(
+        foundReferencedGenericTypeFromParsedSequence
+      )
     },
+  };
+}
+
+function foundReferencedGenericTypeFromParsedSequence(attributeTypeReferenceSection) {
+  return {
+    name: attributeTypeReferenceSection.typeName,
+    conformingProtocol: attributeTypeReferenceSection.conformingProtocol,
+    referencedGenericTypes: attributeTypeReferenceSection.referencedGenericTypes.map(
+      foundReferencedGenericTypeFromParsedSequence
+    )
   };
 }
 

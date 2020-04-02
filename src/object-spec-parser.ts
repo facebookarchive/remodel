@@ -56,6 +56,27 @@ function foundAttributeTypeFromParsedAttributeType(
     conformingProtocol: ObjectGenerationParsingUtils.possiblyUndefinedStringToMaybe(
       type.conformingProtocol,
     ),
+    referencedGenericTypes: type.referencedGenericTypes.map(
+      referencedGenericTypeFromParsedAttributeType,
+    ),
+  };
+}
+
+/**
+ * Very similar to foundAttributeTypeFromParsedAttributeType,
+ * but referenced generic types do not have annotations or underlying types.
+ */
+function referencedGenericTypeFromParsedAttributeType(
+  type: ObjectMonaParser.ParsedAttributeType,
+): ObjectSpec.ReferencedGenericType {
+  return {
+    name: type.name,
+    conformingProtocol: ObjectGenerationParsingUtils.possiblyUndefinedStringToMaybe(
+      type.conformingProtocol,
+    ),
+    referencedGenericTypes: type.referencedGenericTypes.map(
+      referencedGenericTypeFromParsedAttributeType,
+    ),
   };
 }
 

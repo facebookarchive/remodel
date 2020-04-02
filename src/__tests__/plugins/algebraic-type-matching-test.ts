@@ -50,6 +50,7 @@ function algebraicTestTypeWithTwoSubtypes(): AlgebraicType.Type {
               fileTypeIsDefinedIn: null,
               underlyingType: 'NSObject',
               conformingProtocol: null,
+              referencedGenericTypes: [],
             },
           },
           {
@@ -64,6 +65,7 @@ function algebraicTestTypeWithTwoSubtypes(): AlgebraicType.Type {
               fileTypeIsDefinedIn: null,
               underlyingType: null,
               conformingProtocol: null,
+              referencedGenericTypes: [],
             },
           },
         ],
@@ -81,6 +83,7 @@ function algebraicTestTypeWithTwoSubtypes(): AlgebraicType.Type {
           fileTypeIsDefinedIn: null,
           underlyingType: 'NSObject',
           conformingProtocol: null,
+          referencedGenericTypes: [],
         },
       }),
     ],

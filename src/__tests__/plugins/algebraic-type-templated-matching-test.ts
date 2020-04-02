@@ -45,6 +45,7 @@ describe('Plugins.AlgebraicTypeTemplatedMatching', function() {
                   fileTypeIsDefinedIn: null,
                   underlyingType: 'NSObject',
                   conformingProtocol: null,
+                  referencedGenericTypes: [],
                 },
               },
               {
@@ -59,6 +60,7 @@ describe('Plugins.AlgebraicTypeTemplatedMatching', function() {
                   fileTypeIsDefinedIn: null,
                   underlyingType: null,
                   conformingProtocol: null,
+                  referencedGenericTypes: [],
                 },
               },
             ],
@@ -82,6 +84,7 @@ describe('Plugins.AlgebraicTypeTemplatedMatching', function() {
               fileTypeIsDefinedIn: null,
               underlyingType: 'NSObject',
               conformingProtocol: null,
+              referencedGenericTypes: [],
             },
           }),
         ],

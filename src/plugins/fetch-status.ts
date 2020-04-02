@@ -47,6 +47,7 @@ function fetchStatusAttributeForAttribute(
       reference: 'BOOL',
       underlyingType: null,
       conformingProtocol: null,
+      referencedGenericTypes: [],
     },
   };
 }
@@ -95,6 +96,7 @@ function fetchStatusAttributeForValueType(
       ),
       underlyingType: 'NSObject',
       conformingProtocol: null,
+      referencedGenericTypes: [],
     },
   };
 }

@@ -44,6 +44,7 @@ describe('Plugins.FetchStatus', function() {
             reference: 'FooFetchStatus *',
             underlyingType: 'NSObject',
             conformingProtocol: null,
+            referencedGenericTypes: [],
           },
         },
       ];
@@ -68,6 +69,7 @@ describe('Plugins.FetchStatus', function() {
               reference: 'NSUInteger',
               underlyingType: null,
               conformingProtocol: null,
+              referencedGenericTypes: [],
             },
           },
         ],
@@ -98,6 +100,7 @@ describe('Plugins.FetchStatus', function() {
               reference: 'BOOL',
               underlyingType: null,
               conformingProtocol: null,
+              referencedGenericTypes: [],
             },
           },
         ],

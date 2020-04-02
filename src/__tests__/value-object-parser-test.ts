@@ -42,6 +42,7 @@ describe('ObjectSpecParser', function() {
               reference: 'NSArray*',
               underlyingType: 'NSObject',
               conformingProtocol: null,
+              referencedGenericTypes: [],
             },
           },
           {
@@ -56,6 +57,7 @@ describe('ObjectSpecParser', function() {
               reference: 'BOOL',
               underlyingType: null,
               conformingProtocol: null,
+              referencedGenericTypes: [],
             },
           },
         ],
@@ -138,6 +140,7 @@ describe('ObjectSpecParser', function() {
                 reference: 'RMBlah*',
                 underlyingType: 'NSObject',
                 conformingProtocol: null,
+                referencedGenericTypes: [],
               },
             },
             {
@@ -152,6 +155,7 @@ describe('ObjectSpecParser', function() {
                 reference: 'RMSomeValue',
                 underlyingType: 'BOOL',
                 conformingProtocol: null,
+                referencedGenericTypes: [],
               },
             },
           ],
@@ -225,6 +229,7 @@ describe('ObjectSpecParser', function() {
               reference: 'RMBlah*',
               underlyingType: 'NSObject',
               conformingProtocol: null,
+              referencedGenericTypes: [],
             },
           },
           {
@@ -245,6 +250,7 @@ describe('ObjectSpecParser', function() {
               reference: 'RMBlah*',
               underlyingType: 'NSObject',
               conformingProtocol: null,
+              referencedGenericTypes: [],
             },
           },
         ],
@@ -299,6 +305,28 @@ describe('ObjectSpecParser', function() {
                 'NSEvolvedDictionary<BOOL, NSFoo *, NSBar *, NSInteger>*',
               underlyingType: 'NSObject',
               conformingProtocol: null,
+              referencedGenericTypes: [
+                {
+                  name: 'BOOL',
+                  conformingProtocol: null,
+                  referencedGenericTypes: [],
+                },
+                {
+                  name: 'NSFoo',
+                  conformingProtocol: null,
+                  referencedGenericTypes: [],
+                },
+                {
+                  name: 'NSBar',
+                  conformingProtocol: null,
+                  referencedGenericTypes: [],
+                },
+                {
+                  name: 'NSInteger',
+                  conformingProtocol: null,
+                  referencedGenericTypes: [],
+                },
+              ],
             },
           },
           {
@@ -314,6 +342,30 @@ describe('ObjectSpecParser', function() {
                 'NSArray<NSDictionary<NSArray<NSString *>, NSString *> *>*',
               underlyingType: 'NSObject',
               conformingProtocol: null,
+              referencedGenericTypes: [
+                {
+                  name: 'NSDictionary',
+                  conformingProtocol: null,
+                  referencedGenericTypes: [
+                    {
+                      name: 'NSArray',
+                      conformingProtocol: null,
+                      referencedGenericTypes: [
+                        {
+                          name: 'NSString',
+                          conformingProtocol: null,
+                          referencedGenericTypes: [],
+                        },
+                      ],
+                    },
+                    {
+                      name: 'NSString',
+                      conformingProtocol: null,
+                      referencedGenericTypes: [],
+                    },
+                  ],
+                },
+              ],
             },
           },
           {
@@ -329,6 +381,24 @@ describe('ObjectSpecParser', function() {
                 'NSDictionary<id<FooProtocol>, NSArray<id<BarProtocol>> *>*',
               underlyingType: 'NSObject',
               conformingProtocol: null,
+              referencedGenericTypes: [
+                {
+                  name: 'id',
+                  conformingProtocol: 'FooProtocol',
+                  referencedGenericTypes: [],
+                },
+                {
+                  name: 'NSArray',
+                  conformingProtocol: null,
+                  referencedGenericTypes: [
+                    {
+                      name: 'id',
+                      conformingProtocol: 'BarProtocol',
+                      referencedGenericTypes: [],
+                    },
+                  ],
+                },
+              ],
             },
           },
           {
@@ -344,6 +414,30 @@ describe('ObjectSpecParser', function() {
                 'CKAction<NSDictionary<NSArray<NSString *> *, id<FooProtocol>> *>',
               underlyingType: 'NSObject',
               conformingProtocol: null,
+              referencedGenericTypes: [
+                {
+                  name: 'NSDictionary',
+                  conformingProtocol: null,
+                  referencedGenericTypes: [
+                    {
+                      name: 'NSArray',
+                      conformingProtocol: null,
+                      referencedGenericTypes: [
+                        {
+                          name: 'NSString',
+                          conformingProtocol: null,
+                          referencedGenericTypes: [],
+                        },
+                      ],
+                    },
+                    {
+                      name: 'id',
+                      conformingProtocol: 'FooProtocol',
+                      referencedGenericTypes: [],
+                    },
+                  ],
+                },
+              ],
             },
           },
         ],

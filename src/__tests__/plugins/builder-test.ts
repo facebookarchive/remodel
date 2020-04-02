@@ -330,6 +330,7 @@ describe('Plugins.Builder', function() {
                 reference: 'NSUInteger',
                 underlyingType: null,
                 conformingProtocol: null,
+                referencedGenericTypes: [],
               },
             },
             {
@@ -344,6 +345,7 @@ describe('Plugins.Builder', function() {
                 reference: 'RMCustomObject *',
                 underlyingType: 'NSObject',
                 conformingProtocol: null,
+                referencedGenericTypes: [],
               },
             },
             {
@@ -358,6 +360,7 @@ describe('Plugins.Builder', function() {
                 reference: 'BOOL',
                 underlyingType: null,
                 conformingProtocol: null,
+                referencedGenericTypes: [],
               },
             },
           ],
@@ -651,6 +654,7 @@ describe('Plugins.Builder', function() {
                 reference: 'NSUInteger',
                 underlyingType: null,
                 conformingProtocol: null,
+                referencedGenericTypes: [],
               },
             },
             {
@@ -665,6 +669,7 @@ describe('Plugins.Builder', function() {
                 reference: 'RMCustomObject *',
                 underlyingType: 'NSObject',
                 conformingProtocol: null,
+                referencedGenericTypes: [],
               },
             },
             {
@@ -679,6 +684,7 @@ describe('Plugins.Builder', function() {
                 reference: 'BOOL',
                 underlyingType: null,
                 conformingProtocol: null,
+                referencedGenericTypes: [],
               },
             },
           ],

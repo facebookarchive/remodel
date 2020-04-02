@@ -147,7 +147,7 @@ function shouldForwardClassDeclareAttribute(
     typeLookupsAllowForwardDeclarationForAttribute(typeLookups, attribute) &&
     ObjCImportUtils.canForwardDeclareType(
       attribute.type.name,
-      ObjectSpecCodeUtils.computeTypeOfAttribute(attribute),
+      attribute.type.underlyingType,
     )
   );
 }

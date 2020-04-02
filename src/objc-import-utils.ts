@@ -255,11 +255,9 @@ export function requiresPublicImportForType(
 
 export function canForwardDeclareType(
   typeName: string,
-  computedType: ObjC.Type,
+  underlyingTypeName: string | null,
 ): boolean {
-  return (
-    !isSystemType(typeName) && canForwardDeclareTypeName(computedType.name)
-  );
+  return !isSystemType(typeName) && underlyingTypeName == 'NSObject';
 }
 
 export function importForTypeLookup(

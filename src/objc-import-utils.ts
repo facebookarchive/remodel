@@ -254,14 +254,13 @@ export function requiresPublicImportForType(
   );
 }
 
-export function canForwardDeclareTypeForAttribute(
-  attribute: ObjectSpec.Attribute,
+export function canForwardDeclareType(
+  typeName: string,
+  computedType: ObjC.Type,
 ): boolean {
   return (
-    isImportRequiredForTypeWithName(attribute.type.name) &&
-    canForwardDeclareTypeName(
-      ObjectSpecCodeUtils.computeTypeOfAttribute(attribute).name,
-    )
+    isImportRequiredForTypeWithName(typeName) &&
+    canForwardDeclareTypeName(computedType.name)
   );
 }
 

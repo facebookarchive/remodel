@@ -145,7 +145,10 @@ function shouldForwardClassDeclareAttribute(
   const shouldExplicitlyForwardDeclare =
     !makePublicImports &&
     typeLookupsAllowForwardDeclarationForAttribute(typeLookups, attribute) &&
-    ObjCImportUtils.canForwardDeclareTypeForAttribute(attribute);
+    ObjCImportUtils.canForwardDeclareType(
+      attribute.type.name,
+      ObjectSpecCodeUtils.computeTypeOfAttribute(attribute),
+    );
   const attributeTypeReferencesObjectType =
     valueTypeName == attribute.type.name;
   return shouldExplicitlyForwardDeclare || attributeTypeReferencesObjectType;

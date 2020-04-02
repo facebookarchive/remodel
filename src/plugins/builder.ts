@@ -478,7 +478,12 @@ function forwardDeclarationsForBuilder(
     });
 
   const attributeForwardClassDeclarations: ObjC.ForwardDeclaration[] = objectType.attributes
-    .filter(ObjCImportUtils.canForwardDeclareTypeForAttribute)
+    .filter(attribute =>
+      ObjCImportUtils.canForwardDeclareType(
+        attribute.type.name,
+        ObjectSpecCodeUtils.computeTypeOfAttribute(attribute),
+      ),
+    )
     .map(function(attribute: ObjectSpec.Attribute): ObjC.ForwardDeclaration {
       return ObjC.ForwardDeclaration.ForwardClassDeclaration(
         attribute.type.name,

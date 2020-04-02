@@ -18,6 +18,7 @@ import * as ObjCCommentUtils from '../objc-comment-utils';
 import * as ObjCImportUtils from '../objc-import-utils';
 import * as ObjCNullabilityUtils from '../objc-nullability-utils';
 import * as ObjectGeneration from '../object-generation';
+import * as ObjectSpecCodeUtils from '../object-spec-code-utils';
 import * as StringUtils from '../string-utils';
 
 const PUBLIC_FOUNDATION_IMPORT: ObjC.Import = {
@@ -343,7 +344,10 @@ function shouldForwardDeclareAttribute(
 ): boolean {
   const declaringPublicAttributes =
     !makePublicImports &&
-    ObjCImportUtils.canForwardDeclareTypeForAttribute(attribute);
+    ObjCImportUtils.canForwardDeclareType(
+      attribute.type.name,
+      ObjectSpecCodeUtils.computeTypeOfAttribute(attribute),
+    );
   const attributeTypeReferencesObjectType =
     algebraicTypeName == attribute.type.name;
   return declaringPublicAttributes || attributeTypeReferencesObjectType;

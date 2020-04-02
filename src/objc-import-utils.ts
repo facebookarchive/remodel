@@ -264,26 +264,6 @@ export function requiresPublicImportForType(
 export function canForwardDeclareTypeForAttribute(
   attribute: ObjectSpec.Attribute,
 ): boolean {
-  const customFileDefined: boolean = Maybe.match(
-    function(fileName: string) {
-      return true;
-    },
-    function() {
-      return false;
-    },
-    attribute.type.fileTypeIsDefinedIn,
-  );
-
-  const customLibraryDefined: boolean = Maybe.match(
-    function(libraryName: string) {
-      return true;
-    },
-    function() {
-      return false;
-    },
-    attribute.type.libraryTypeIsDefinedIn,
-  );
-
   return (
     isImportRequiredForTypeWithName(attribute.type.name) &&
     canForwardDeclareTypeForAttributeConsideringType(attribute)

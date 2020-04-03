@@ -90,12 +90,6 @@ function importForAttribute(
   );
 }
 
-function SkipImportsInImplementationForValueType(
-  objectType: ObjectSpec.Type,
-): boolean {
-  return objectType.includes.indexOf('SkipImportsInImplementation') !== -1;
-}
-
 export function forwardClassDeclarationsForObjectType(
   objectType: ObjectSpec.Type,
 ): ObjC.ForwardDeclaration[] {
@@ -132,7 +126,8 @@ export function importsForObjectType(
   const makePublicImports =
     objectType.includes.indexOf('UseForwardDeclarations') === -1;
   const skipAttributeImports =
-    !makePublicImports && SkipImportsInImplementationForValueType(objectType);
+    !makePublicImports &&
+    objectType.includes.indexOf('SkipImportsInImplementation') !== -1;
   const typeLookupImports = objectType.typeLookups
     .filter(typeLookup => isImportRequiredForTypeLookup(objectType, typeLookup))
     .map(typeLookup =>

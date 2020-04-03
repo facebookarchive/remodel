@@ -397,12 +397,6 @@ function makePublicImportsForValueType(objectType: ObjectSpec.Type): boolean {
   return objectType.includes.indexOf('UseForwardDeclarations') === -1;
 }
 
-function SkipImportsInImplementationForValueType(
-  objectType: ObjectSpec.Type,
-): boolean {
-  return objectType.includes.indexOf('SkipImportsInImplementation') !== -1;
-}
-
 function importsForBuilder(
   objectType: ObjectSpec.Type,
   forBaseFile: boolean,
@@ -413,7 +407,8 @@ function importsForBuilder(
 
   const makePublicImports = makePublicImportsForValueType(objectType);
   const skipAttributeImports =
-    !makePublicImports && SkipImportsInImplementationForValueType(objectType);
+    !makePublicImports &&
+    objectType.includes.indexOf('SkipImportsInImplementation') !== -1;
 
   const attributeImports: ObjC.Import[] = skipAttributeImports
     ? []

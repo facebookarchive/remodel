@@ -282,16 +282,6 @@ function instanceVariablesForImplementationOfAlgebraicType(
   return [enumerationInstanceVariable].concat(attributeInstanceVariables);
 }
 
-function isImportRequiredForAttribute(
-  typeLookups: ObjectGeneration.TypeLookup[],
-  attribute: AlgebraicType.SubtypeAttribute,
-): boolean {
-  return ObjCImportUtils.shouldIncludeImportForType(
-    typeLookups,
-    attribute.type.name,
-  );
-}
-
 function makePublicImportsForAlgebraicType(
   algebraicType: AlgebraicType.Type,
 ): boolean {
@@ -469,9 +459,9 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
         ? []
         : AlgebraicTypeUtils.allAttributesFromSubtypes(algebraicType.subtypes)
             .filter(attribute =>
-              isImportRequiredForAttribute(
+              ObjCImportUtils.shouldIncludeImportForType(
                 algebraicType.typeLookups,
-                attribute,
+                attribute.type.name,
               ),
             )
             .map(attribute =>

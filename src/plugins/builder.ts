@@ -377,7 +377,10 @@ function importsForBuilder(
     ? []
     : objectType.attributes
         .filter(attribute =>
-          mustDeclareImportForAttribute(objectType.typeLookups, attribute),
+          ObjCImportUtils.shouldIncludeImportForType(
+            objectType.typeLookups,
+            attribute.type.name,
+          ),
         )
         .map(function(attribute: ObjectSpec.Attribute): ObjC.Import {
           return ObjCImportUtils.importForAttribute(
@@ -412,16 +415,6 @@ function importsForBuilder(
   ]
     .concat(typeLookupImports)
     .concat(attributeImports);
-}
-
-function mustDeclareImportForAttribute(
-  typeLookups: ObjectGeneration.TypeLookup[],
-  attribute: ObjectSpec.Attribute,
-): boolean {
-  return ObjCImportUtils.shouldIncludeImportForType(
-    typeLookups,
-    attribute.type.name,
-  );
 }
 
 function forwardDeclarationsForBuilder(

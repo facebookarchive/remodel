@@ -12,28 +12,6 @@ import * as ObjectGeneration from './object-generation';
 import * as ObjectSpec from './object-spec';
 import * as ObjectSpecCodeUtils from './object-spec-code-utils';
 
-function isImportRequiredForAttribute(
-  typeLookups: ObjectGeneration.TypeLookup[],
-  attribute: ObjectSpec.Attribute,
-): boolean {
-  const shouldIncludeImportForTypeName = ObjCImportUtils.shouldIncludeImportForType(
-    typeLookups,
-    attribute.type.name,
-  );
-  return Maybe.match(
-    function(protocol) {
-      return (
-        shouldIncludeImportForTypeName ||
-        ObjCImportUtils.shouldIncludeImportForType(typeLookups, protocol)
-      );
-    },
-    function() {
-      return shouldIncludeImportForTypeName;
-    },
-    attribute.type.conformingProtocol,
-  );
-}
-
 function isImportRequiredForTypeLookup(
   objectType: ObjectSpec.Type,
   typeLookup: ObjectGeneration.TypeLookup,
@@ -104,7 +82,10 @@ export function importsForObjectType(
     ? []
     : objectType.attributes
         .filter(attribute =>
-          isImportRequiredForAttribute(objectType.typeLookups, attribute),
+          ObjCImportUtils.shouldIncludeImportForType(
+            objectType.typeLookups,
+            attribute.type.name,
+          ),
         )
         .map(attribute =>
           ObjCImportUtils.importForAttribute(

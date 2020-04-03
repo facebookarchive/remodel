@@ -232,8 +232,7 @@ export function importForAttribute(
       return builtInImport;
     },
     function() {
-      const requiresPublicImport =
-        isPublic || (!isSystemType(typeName) && underlyingType != 'NSObject');
+      const requiresPublicImport = isPublic || underlyingType != 'NSObject';
       return {
         library: libraryForImport(libraryTypeIsDefinedIn, objectLibrary),
         file: fileForImport(fileTypeIsDefinedIn, typeName),

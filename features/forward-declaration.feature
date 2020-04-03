@@ -96,8 +96,6 @@ Feature: Outputting Value Objects With Forward Declarations
       #import <FooLibrary/RMSomeType.h>
       #import <UIKit/UIViewController.h>
       #import "RMProxy.h"
-      #import <HelloKit/HelloProtocol.h>
-      #import <WorldKit/HWorldProtocol.h>
 
       @implementation RMPage
 

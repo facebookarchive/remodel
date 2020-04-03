@@ -139,83 +139,6 @@ export function typeDefinitionImportForKnownSystemType(
     : Maybe.Nothing<ObjC.Import>();
 }
 
-function canForwardDeclareTypeName(typeName: string): boolean {
-  return ObjCTypeUtils.matchTypeName(
-    {
-      id: function() {
-        return false;
-      },
-      NSObject: function() {
-        return true;
-      },
-      BOOL: function() {
-        return false;
-      },
-      NSInteger: function() {
-        return false;
-      },
-      NSUInteger: function() {
-        return false;
-      },
-      double: function() {
-        return false;
-      },
-      float: function() {
-        return false;
-      },
-      CGFloat: function() {
-        return false;
-      },
-      NSTimeInterval: function() {
-        return false;
-      },
-      uintptr_t: function() {
-        return false;
-      },
-      uint32_t: function() {
-        return false;
-      },
-      uint64_t: function() {
-        return false;
-      },
-      int32_t: function() {
-        return false;
-      },
-      int64_t: function() {
-        return false;
-      },
-      SEL: function() {
-        return false;
-      },
-      NSRange: function() {
-        return false;
-      },
-      CGRect: function() {
-        return false;
-      },
-      CGPoint: function() {
-        return false;
-      },
-      CGSize: function() {
-        return false;
-      },
-      UIEdgeInsets: function() {
-        return false;
-      },
-      Class: function() {
-        return false;
-      },
-      dispatch_block_t: function() {
-        return false;
-      },
-      unmatchedType: function() {
-        return false;
-      },
-    },
-    typeName,
-  );
-}
-
 function classForwardDeclarationsForTypeName(
   typeName: string,
   typeLookups: ObjectGeneration.TypeLookup[],
@@ -290,15 +213,6 @@ export function forwardDeclarationsForAttributeType(
     }
   }
   return forwardDeclarations;
-}
-
-export function requiresPublicImportForType(
-  typeName: string,
-  computedType: ObjC.Type,
-): boolean {
-  return (
-    !isSystemType(typeName) && !canForwardDeclareTypeName(computedType.name)
-  );
 }
 
 export function importForTypeLookup(

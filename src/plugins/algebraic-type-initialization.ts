@@ -316,10 +316,8 @@ function importForAttribute(
     function() {
       const requiresPublicImport =
         isPublic ||
-        ObjCImportUtils.requiresPublicImportForType(
-          attribute.type.name,
-          AlgebraicTypeUtils.computeTypeOfAttribute(attribute),
-        );
+        (!ObjCImportUtils.isSystemType(attribute.type.name) &&
+          attribute.type.underlyingType != 'NSObject');
       return {
         library: ObjCImportUtils.libraryForImport(
           attribute.type.libraryTypeIsDefinedIn,

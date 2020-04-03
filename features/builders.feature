@@ -34,11 +34,11 @@ Feature: Outputting Value Objects
       #import <MyLib/RMEnum.h>
 
       @class RMPage;
-      @class RMSomeObject;
-      @class RMFooObject;
       @class RMRating;
       @class RMLibType;
       @protocol RMCustomProtocol;
+      @class RMSomeObject;
+      @class RMFooObject;
 
       @interface RMPageBuilder : NSObject
 
@@ -175,34 +175,8 @@ Feature: Outputting Value Objects
       #import <MyLib/RMSomeEnum.h>
 
       @class RMPage;
-      @class RMSomeObject;
       @class RMFooObject;
-
-      @interface RMPageBuilder : NSObject
-
-      + (instancetype)page;
-
-      + (instancetype)pageFromExistingPage:(RMPage *)existingPage;
-
-      - (RMPage *)build;
-
-      - (instancetype)withRating:(RMFooObject *)rating;
-
-      - (instancetype)withSomeEnumValue:(RMSomeEnum)someEnumValue;
-
-      - (instancetype)withCustomLibObject:(RMSomeObject *)customLibObject;
-
-      @end
-
-      """
-   And the file "project/values/RMPageBuilder.h" should contain:
-      """
-      #import <Foundation/Foundation.h>
-      #import <MyLib/RMSomeEnum.h>
-
-      @class RMPage;
       @class RMSomeObject;
-      @class RMFooObject;
 
       @interface RMPageBuilder : NSObject
 

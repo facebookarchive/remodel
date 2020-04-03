@@ -117,42 +117,85 @@ function forwardDeclarationForTypeLookup(
   return ObjC.ForwardDeclaration.ForwardClassDeclaration(typeLookup.name);
 }
 
-function typeLookupPreventsForwardDeclarationForAttribute(
-  typeLookup: ObjectGeneration.TypeLookup,
-  attribute: ObjectSpec.Attribute,
-): boolean {
-  return (
-    !typeLookup.canForwardDeclare && typeLookup.name === attribute.type.name
-  );
-}
-
-function typeLookupsAllowForwardDeclarationForAttribute(
-  typeLookups: ObjectGeneration.TypeLookup[],
-  attribute: ObjectSpec.Attribute,
-): boolean {
-  return !typeLookups.some(typeLookup =>
-    typeLookupPreventsForwardDeclarationForAttribute(typeLookup, attribute),
-  );
-}
-
-function shouldForwardClassDeclareAttribute(
-  valueTypeName: string,
-  typeLookups: ObjectGeneration.TypeLookup[],
-  attribute: ObjectSpec.Attribute,
-): boolean {
-  return (
-    typeLookupsAllowForwardDeclarationForAttribute(typeLookups, attribute) &&
-    ObjCImportUtils.canForwardDeclareType(
-      attribute.type.name,
-      attribute.type.underlyingType,
-    )
-  );
-}
-
 function forwardClassDeclarationForAttribute(
   attribute: ObjectSpec.Attribute,
 ): ObjC.ForwardDeclaration {
   return ObjC.ForwardDeclaration.ForwardClassDeclaration(attribute.type.name);
+}
+
+function protocolForwardDeclarationsForReferencedGenericType(
+  ref: ObjectSpec.ReferencedGenericType,
+): ObjC.ForwardDeclaration[] {
+  return (ref.conformingProtocol == null
+    ? []
+    : [
+        ObjC.ForwardDeclaration.ForwardProtocolDeclaration(
+          ref.conformingProtocol,
+        ),
+      ]
+  ).concat(
+    ...ref.referencedGenericTypes.map(
+      protocolForwardDeclarationsForReferencedGenericType,
+    ),
+  );
+}
+
+function classForwardDeclarationsForTypeName(
+  typeName: string,
+  typeLookups: ObjectGeneration.TypeLookup[],
+): ObjC.ForwardDeclaration[] {
+  if (ObjCImportUtils.isSystemType(typeName)) {
+    return []; // No need to forward-declare system types.
+  }
+  if (typeLookups.some(t => t.name === typeName && !t.canForwardDeclare)) {
+    return [];
+  }
+  return [ObjC.ForwardDeclaration.ForwardClassDeclaration(typeName)];
+}
+
+function classForwardDeclarationsForReferencedGenericType(
+  ref: ObjectSpec.ReferencedGenericType,
+  typeLookups: ObjectGeneration.TypeLookup[],
+): ObjC.ForwardDeclaration[] {
+  return classForwardDeclarationsForTypeName(ref.name, typeLookups).concat(
+    ...ref.referencedGenericTypes.map(t =>
+      classForwardDeclarationsForReferencedGenericType(t, typeLookups),
+    ),
+  );
+}
+
+function forwardDeclarationsForAttributeType(
+  attributeType: ObjectSpec.AttributeType,
+  typeLookups: ObjectGeneration.TypeLookup[],
+): ObjC.ForwardDeclaration[] {
+  const forwardDeclarations: ObjC.ForwardDeclaration[] = [];
+
+  // Protocols are always forward declared.
+  if (attributeType.conformingProtocol != null) {
+    forwardDeclarations.push(
+      ObjC.ForwardDeclaration.ForwardProtocolDeclaration(
+        attributeType.conformingProtocol,
+      ),
+    );
+  }
+  for (const r of attributeType.referencedGenericTypes) {
+    forwardDeclarations.push(
+      ...protocolForwardDeclarationsForReferencedGenericType(r),
+    );
+  }
+
+  // We can only forward-declare types that we assume to be NSObjects:
+  if (attributeType.underlyingType === 'NSObject') {
+    forwardDeclarations.push(
+      ...classForwardDeclarationsForTypeName(attributeType.name, typeLookups),
+    );
+    for (const r of attributeType.referencedGenericTypes) {
+      forwardDeclarations.push(
+        ...classForwardDeclarationsForReferencedGenericType(r, typeLookups),
+      );
+    }
+  }
+  return forwardDeclarations;
 }
 
 export function forwardClassDeclarationsForObjectType(
@@ -163,25 +206,13 @@ export function forwardClassDeclarationsForObjectType(
       isForwardDeclarationRequiredForTypeLookup(objectType, typeLookup),
     )
     .map(forwardDeclarationForTypeLookup);
-  const attributeForwardClassDeclarations = objectType.attributes
-    .filter(attribute =>
-      shouldForwardClassDeclareAttribute(
-        objectType.typeName,
-        objectType.typeLookups,
-        attribute,
+  return ([] as ObjC.ForwardDeclaration[])
+    .concat(
+      ...objectType.attributes.map(a =>
+        forwardDeclarationsForAttributeType(a.type, objectType.typeLookups),
       ),
     )
-    .map(forwardClassDeclarationForAttribute);
-  const attributeForwardProtocolDeclarations = objectType.attributes
-    .filter(ObjCImportUtils.shouldForwardProtocolDeclareAttribute)
-    .map(
-      attribute =>
-        ObjCImportUtils.forwardProtocolDeclarationForAttribute(attribute)!,
-    );
-  return ([] as ObjC.ForwardDeclaration[])
-    .concat(typeLookupForwardDeclarations)
-    .concat(attributeForwardClassDeclarations)
-    .concat(attributeForwardProtocolDeclarations);
+    .concat(typeLookupForwardDeclarations);
 }
 
 export function importsForObjectType(

@@ -42,11 +42,11 @@ Feature: Outputting Value Objects With Forward Declarations
       #import <Foundation/Foundation.h>
       #import <EnumLib/CustomEnum.h>
 
-      @class RMSomeType;
-      @class UIViewController;
       @class RMProxy;
+      @class RMSomeType;
       @protocol HelloProtocol;
       @protocol WorldProtocol;
+      @class UIViewController;
 
       /**
        * Important and gripping comment

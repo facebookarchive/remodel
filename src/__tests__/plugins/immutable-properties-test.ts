@@ -2053,8 +2053,8 @@ describe('Plugins.ImmutableProperties', function() {
 
   describe('#forwardDeclarations', function() {
     it(
-      'returns no forward declarations when the same type being generated ' +
-        'is not being referenced in a subtype',
+      'returns forward declarations when a type is referenced ' +
+        'and UseForwardDeclarations is included',
       function() {
         const objectType: ObjectSpec.Type = {
           annotations: {},
@@ -2069,8 +2069,8 @@ describe('Plugins.ImmutableProperties', function() {
                 libraryTypeIsDefinedIn: null,
                 name: 'Foo',
                 reference: 'Foo *',
-                underlyingType: null,
-                conformingProtocol: null,
+                underlyingType: 'NSObject',
+                conformingProtocol: 'Bar',
                 referencedGenericTypes: [],
               },
             },
@@ -2078,16 +2078,68 @@ describe('Plugins.ImmutableProperties', function() {
           comments: [],
           typeLookups: [],
           excludes: [],
-          includes: [],
+          includes: ['UseForwardDeclarations'],
           typeName: 'RMSomething',
           libraryName: null,
         };
         const forwardDeclarations: ObjC.ForwardDeclaration[] = Plugin.forwardDeclarations(
           objectType,
         );
-        const expectedForwardDeclarations: ObjC.ForwardDeclaration[] = [];
+        const expectedForwardDeclarations: ObjC.ForwardDeclaration[] = [
+          ObjC.ForwardDeclaration.ForwardProtocolDeclaration('Bar'),
+          ObjC.ForwardDeclaration.ForwardClassDeclaration('Foo'),
+        ];
         expect(forwardDeclarations).toEqualJSON(expectedForwardDeclarations);
       },
     );
+
+    it('returns forward declarations for referenced generic types', function() {
+      const objectType: ObjectSpec.Type = {
+        annotations: {},
+        attributes: [
+          {
+            annotations: {},
+            comments: [],
+            name: 'value',
+            nullability: ObjC.Nullability.Inherited(),
+            type: {
+              fileTypeIsDefinedIn: null,
+              libraryTypeIsDefinedIn: null,
+              name: 'NSDictionary',
+              reference: 'NSDictionary<Foo<Bar> *, id<Baz>> *',
+              underlyingType: 'NSObject',
+              conformingProtocol: null,
+              referencedGenericTypes: [
+                {
+                  name: 'Foo',
+                  conformingProtocol: 'Bar',
+                  referencedGenericTypes: [],
+                },
+                {
+                  name: 'id',
+                  conformingProtocol: 'Baz',
+                  referencedGenericTypes: [],
+                },
+              ],
+            },
+          },
+        ],
+        comments: [],
+        typeLookups: [],
+        excludes: [],
+        includes: ['UseForwardDeclarations'],
+        typeName: 'RMSomething',
+        libraryName: null,
+      };
+      const forwardDeclarations: ObjC.ForwardDeclaration[] = Plugin.forwardDeclarations(
+        objectType,
+      );
+      const expectedForwardDeclarations: ObjC.ForwardDeclaration[] = [
+        ObjC.ForwardDeclaration.ForwardProtocolDeclaration('Bar'),
+        ObjC.ForwardDeclaration.ForwardProtocolDeclaration('Baz'),
+        ObjC.ForwardDeclaration.ForwardClassDeclaration('Foo'),
+      ];
+      expect(forwardDeclarations).toEqualJSON(expectedForwardDeclarations);
+    });
   });
 });

@@ -904,59 +904,73 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
   });
 
   describe('#forwardDeclarations', function() {
-    it(
-      'returns a forward declaration when the same type being generated ' +
-        'is being used in a type lookup',
-      function() {
-        const algebraicType: AlgebraicType.Type = {
-          annotations: {},
-          name: 'Test',
-          includes: [],
-          excludes: [],
-          typeLookups: [
-            {
-              name: 'Test',
-              library: null,
-              file: null,
-              canForwardDeclare: true,
-            },
-          ],
-          libraryName: null,
-          comments: [],
-          subtypes: [
-            AlgebraicType.Subtype.NamedAttributeCollectionDefinition({
-              name: 'SomeSubtype',
-              comments: [],
-              attributes: [
-                {
-                  annotations: {},
-                  name: 'someFoo',
-                  comments: [],
-                  nullability: ObjC.Nullability.Inherited(),
-                  type: {
-                    name: 'Foo',
-                    reference: 'Foo *',
-                    libraryTypeIsDefinedIn: null,
-                    fileTypeIsDefinedIn: null,
-                    underlyingType: null,
-                    conformingProtocol: null,
-                    referencedGenericTypes: [],
-                  },
+    it('returns forward declarations when UseForwardDeclarations is in includes', function() {
+      const algebraicType: AlgebraicType.Type = {
+        annotations: {},
+        name: 'Test',
+        includes: ['UseForwardDeclarations'],
+        excludes: [],
+        typeLookups: [],
+        libraryName: null,
+        comments: [],
+        subtypes: [
+          AlgebraicType.Subtype.NamedAttributeCollectionDefinition({
+            name: 'SomeSubtype',
+            comments: [],
+            attributes: [
+              {
+                annotations: {},
+                name: 'someFoo',
+                comments: [],
+                nullability: ObjC.Nullability.Inherited(),
+                type: {
+                  name: 'Foo',
+                  reference:
+                    'Foo<NSString *, NSDictionary<id<Bar>, Baz *> *> *',
+                  libraryTypeIsDefinedIn: null,
+                  fileTypeIsDefinedIn: null,
+                  underlyingType: 'NSObject',
+                  conformingProtocol: null,
+                  referencedGenericTypes: [
+                    {
+                      name: 'NSString',
+                      conformingProtocol: null,
+                      referencedGenericTypes: [],
+                    },
+                    {
+                      name: 'NSDictionary',
+                      conformingProtocol: null,
+                      referencedGenericTypes: [
+                        {
+                          name: 'id',
+                          conformingProtocol: 'Bar',
+                          referencedGenericTypes: [],
+                        },
+                        {
+                          name: 'Baz',
+                          conformingProtocol: null,
+                          referencedGenericTypes: [],
+                        },
+                      ],
+                    },
+                  ],
                 },
-              ],
-              annotations: {},
-            }),
-          ],
-        };
-        const forwardDeclarations: ObjC.ForwardDeclaration[] = AlgebraicTypePlugin.forwardDeclarations(
-          algebraicType,
-        );
-        const expectedForwardDeclarations: ObjC.ForwardDeclaration[] = [
-          ObjC.ForwardDeclaration.ForwardClassDeclaration('Test'),
-        ];
-        expect(forwardDeclarations).toEqualJSON(expectedForwardDeclarations);
-      },
-    );
+              },
+            ],
+            annotations: {},
+          }),
+        ],
+      };
+      const forwardDeclarations: ObjC.ForwardDeclaration[] = AlgebraicTypePlugin.forwardDeclarations(
+        algebraicType,
+      );
+      const expectedForwardDeclarations: ObjC.ForwardDeclaration[] = [
+        ObjC.ForwardDeclaration.ForwardProtocolDeclaration('Bar'),
+        ObjC.ForwardDeclaration.ForwardClassDeclaration('Foo'),
+        ObjC.ForwardDeclaration.ForwardClassDeclaration('Baz'),
+      ];
+      expect(forwardDeclarations).toEqualJSON(expectedForwardDeclarations);
+    });
 
     it(
       'returns no forward declarations when the same type being generated ' +

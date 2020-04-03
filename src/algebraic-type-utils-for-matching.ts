@@ -55,7 +55,7 @@ function keywordForInvokingMatchMethodForSubtype(
 }
 
 function referencedGenericTypeRefersToParentTypeName(
-  referencedGenericType: AlgebraicType.SubtypeReferencedGenericType,
+  referencedGenericType: ObjC.ReferencedGenericType,
   parentTypeName: string,
 ): boolean {
   return (

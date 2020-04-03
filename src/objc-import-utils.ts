@@ -216,32 +216,80 @@ function canForwardDeclareTypeName(typeName: string): boolean {
   );
 }
 
-export function shouldForwardProtocolDeclareAttribute(
-  attribute: ObjectSpec.Attribute,
-): boolean {
-  return Maybe.match(
-    function(protocol) {
-      return protocol !== '';
-    },
-    function() {
-      return false;
-    },
-    attribute.type.conformingProtocol,
+function classForwardDeclarationsForTypeName(
+  typeName: string,
+  typeLookups: ObjectGeneration.TypeLookup[],
+): ObjC.ForwardDeclaration[] {
+  if (isSystemType(typeName)) {
+    return []; // No need to forward-declare system types.
+  }
+  if (typeLookups.some(t => t.name === typeName && !t.canForwardDeclare)) {
+    return [];
+  }
+  return [ObjC.ForwardDeclaration.ForwardClassDeclaration(typeName)];
+}
+
+function protocolForwardDeclarationsForReferencedGenericType(
+  ref: ObjC.ReferencedGenericType,
+): ObjC.ForwardDeclaration[] {
+  return (ref.conformingProtocol == null
+    ? []
+    : [
+        ObjC.ForwardDeclaration.ForwardProtocolDeclaration(
+          ref.conformingProtocol,
+        ),
+      ]
+  ).concat(
+    ...ref.referencedGenericTypes.map(
+      protocolForwardDeclarationsForReferencedGenericType,
+    ),
   );
 }
 
-export function forwardProtocolDeclarationForAttribute(
-  attribute: ObjectSpec.Attribute,
-): ObjC.ForwardDeclaration | null {
-  return Maybe.match(
-    function(protocol) {
-      return ObjC.ForwardDeclaration.ForwardProtocolDeclaration(protocol);
-    },
-    function() {
-      return null;
-    },
-    attribute.type.conformingProtocol,
+function classForwardDeclarationsForReferencedGenericType(
+  ref: ObjC.ReferencedGenericType,
+  typeLookups: ObjectGeneration.TypeLookup[],
+): ObjC.ForwardDeclaration[] {
+  return classForwardDeclarationsForTypeName(ref.name, typeLookups).concat(
+    ...ref.referencedGenericTypes.map(t =>
+      classForwardDeclarationsForReferencedGenericType(t, typeLookups),
+    ),
   );
+}
+
+export function forwardDeclarationsForAttributeType(
+  typeName: string,
+  underlyingType: string | null,
+  conformingProtocol: string | null,
+  referencedGenericTypes: ObjC.ReferencedGenericType[],
+  typeLookups: ObjectGeneration.TypeLookup[],
+): ObjC.ForwardDeclaration[] {
+  const forwardDeclarations: ObjC.ForwardDeclaration[] = [];
+
+  // Protocols are always forward declared.
+  if (conformingProtocol != null) {
+    forwardDeclarations.push(
+      ObjC.ForwardDeclaration.ForwardProtocolDeclaration(conformingProtocol),
+    );
+  }
+  for (const r of referencedGenericTypes) {
+    forwardDeclarations.push(
+      ...protocolForwardDeclarationsForReferencedGenericType(r),
+    );
+  }
+
+  // We can only forward-declare types that we assume to be NSObjects:
+  if (underlyingType === 'NSObject') {
+    forwardDeclarations.push(
+      ...classForwardDeclarationsForTypeName(typeName, typeLookups),
+    );
+    for (const r of referencedGenericTypes) {
+      forwardDeclarations.push(
+        ...classForwardDeclarationsForReferencedGenericType(r, typeLookups),
+      );
+    }
+  }
+  return forwardDeclarations;
 }
 
 export function requiresPublicImportForType(
@@ -251,13 +299,6 @@ export function requiresPublicImportForType(
   return (
     !isSystemType(typeName) && !canForwardDeclareTypeName(computedType.name)
   );
-}
-
-export function canForwardDeclareType(
-  typeName: string,
-  underlyingTypeName: string | null,
-): boolean {
-  return !isSystemType(typeName) && underlyingTypeName == 'NSObject';
 }
 
 export function importForTypeLookup(

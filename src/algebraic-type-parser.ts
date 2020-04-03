@@ -10,6 +10,7 @@
 import * as Either from './either';
 import * as Error from './error';
 import * as Maybe from './maybe';
+import * as ObjC from './objc';
 import * as AlgebraicType from './algebraic-type';
 import * as ObjectGeneration from './object-generation';
 import * as ObjectGenerationParsingUtils from './object-generation-parsing-utils';
@@ -87,7 +88,7 @@ function subtypeAttributeFromParseResultAttribute(
  */
 function referencedGenericTypeFromParsedAttributeType(
   type: ObjectMonaParser.ParsedAttributeType,
-): AlgebraicType.SubtypeReferencedGenericType {
+): ObjC.ReferencedGenericType {
   return {
     name: type.name,
     conformingProtocol: ObjectGenerationParsingUtils.possiblyUndefinedStringToMaybe(

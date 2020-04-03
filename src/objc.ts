@@ -581,3 +581,9 @@ export interface BaseClass {
   className: string;
   libraryName: string | null;
 }
+
+export interface ReferencedGenericType {
+  name: string;
+  conformingProtocol: string | null;
+  referencedGenericTypes: ReferencedGenericType[];
+}

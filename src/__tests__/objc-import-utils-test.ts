@@ -116,30 +116,4 @@ describe('ObjCImportUtils', function() {
       },
     );
   });
-
-  describe('#shouldForwardProtocolDeclareAttribute', function() {
-    it('should return false for the empty protocol', function() {
-      const attributeType: ObjectSpec.AttributeType = {
-        fileTypeIsDefinedIn: null,
-        libraryTypeIsDefinedIn: null,
-        name: 'NSArray',
-        reference: 'NSArray*',
-        underlyingType: 'NSObject',
-        conformingProtocol: '',
-        referencedGenericTypes: [],
-      };
-      const attribute: ObjectSpec.Attribute = {
-        annotations: {},
-        comments: [],
-        name: 'someArray',
-        nullability: ObjC.Nullability.Inherited(),
-        type: attributeType,
-      };
-
-      const shouldDeclare: boolean = ObjCImportUtils.shouldForwardProtocolDeclareAttribute(
-        attribute,
-      );
-      expect(shouldDeclare).toEqual(false);
-    });
-  });
 });

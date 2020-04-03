@@ -292,43 +292,6 @@ function isImportRequiredForAttribute(
   );
 }
 
-function importForAttribute(
-  objectLibrary: string | null,
-  isPublic: boolean,
-  attribute: AlgebraicType.SubtypeAttribute,
-): ObjC.Import {
-  const builtInImportMaybe: Maybe.Maybe<
-    ObjC.Import
-  > = ObjCImportUtils.typeDefinitionImportForKnownSystemType(
-    attribute.type.name,
-  );
-
-  return Maybe.match(
-    function(builtInImport: ObjC.Import) {
-      return builtInImport;
-    },
-    function() {
-      const requiresPublicImport =
-        isPublic ||
-        (!ObjCImportUtils.isSystemType(attribute.type.name) &&
-          attribute.type.underlyingType != 'NSObject');
-      return {
-        library: ObjCImportUtils.libraryForImport(
-          attribute.type.libraryTypeIsDefinedIn,
-          objectLibrary,
-        ),
-        file: ObjCImportUtils.fileForImport(
-          attribute.type.fileTypeIsDefinedIn,
-          attribute.type.name,
-        ),
-        isPublic: requiresPublicImport,
-        requiresCPlusPlus: false,
-      };
-    },
-    builtInImportMaybe,
-  );
-}
-
 function makePublicImportsForAlgebraicType(
   algebraicType: AlgebraicType.Type,
 ): boolean {
@@ -512,10 +475,13 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
               ),
             )
             .map(attribute =>
-              importForAttribute(
+              ObjCImportUtils.importForAttribute(
+                attribute.type.name,
+                attribute.type.underlyingType,
+                attribute.type.libraryTypeIsDefinedIn,
+                attribute.type.fileTypeIsDefinedIn,
                 algebraicType.libraryName,
                 makePublicImports,
-                attribute,
               ),
             );
       return baseImports.concat(typeLookupImports).concat(attributeImports);

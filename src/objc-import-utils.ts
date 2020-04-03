@@ -215,6 +215,36 @@ export function forwardDeclarationsForAttributeType(
   return forwardDeclarations;
 }
 
+export function importForAttribute(
+  typeName: string,
+  underlyingType: string | null,
+  libraryTypeIsDefinedIn: string | null,
+  fileTypeIsDefinedIn: string | null,
+  objectLibrary: string | null,
+  isPublic: boolean,
+): ObjC.Import {
+  const builtInImportMaybe: Maybe.Maybe<
+    ObjC.Import
+  > = typeDefinitionImportForKnownSystemType(typeName);
+
+  return Maybe.match(
+    function(builtInImport: ObjC.Import) {
+      return builtInImport;
+    },
+    function() {
+      const requiresPublicImport =
+        isPublic || (!isSystemType(typeName) && underlyingType != 'NSObject');
+      return {
+        library: libraryForImport(libraryTypeIsDefinedIn, objectLibrary),
+        file: fileForImport(fileTypeIsDefinedIn, typeName),
+        isPublic: requiresPublicImport,
+        requiresCPlusPlus: false,
+      };
+    },
+    builtInImportMaybe,
+  );
+}
+
 export function importForTypeLookup(
   defaultLibrary: string | null,
   isPublic: boolean,

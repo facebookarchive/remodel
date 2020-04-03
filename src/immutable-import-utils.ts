@@ -53,43 +53,6 @@ function importForTypeLookup(
   );
 }
 
-function importForAttribute(
-  objectLibrary: string | null,
-  isPublic: boolean,
-  attribute: ObjectSpec.Attribute,
-): ObjC.Import {
-  const builtInImportMaybe: Maybe.Maybe<
-    ObjC.Import
-  > = ObjCImportUtils.typeDefinitionImportForKnownSystemType(
-    attribute.type.name,
-  );
-
-  return Maybe.match(
-    function(builtInImport: ObjC.Import) {
-      return builtInImport;
-    },
-    function() {
-      const requiresPublicImport =
-        isPublic ||
-        (!ObjCImportUtils.isSystemType(attribute.type.name) &&
-          attribute.type.underlyingType != 'NSObject');
-      return {
-        library: ObjCImportUtils.libraryForImport(
-          attribute.type.libraryTypeIsDefinedIn,
-          objectLibrary,
-        ),
-        file: ObjCImportUtils.fileForImport(
-          attribute.type.fileTypeIsDefinedIn,
-          attribute.type.name,
-        ),
-        isPublic: requiresPublicImport,
-        requiresCPlusPlus: false,
-      };
-    },
-    builtInImportMaybe,
-  );
-}
-
 export function forwardClassDeclarationsForObjectType(
   objectType: ObjectSpec.Type,
 ): ObjC.ForwardDeclaration[] {
@@ -144,10 +107,13 @@ export function importsForObjectType(
           isImportRequiredForAttribute(objectType.typeLookups, attribute),
         )
         .map(attribute =>
-          importForAttribute(
+          ObjCImportUtils.importForAttribute(
+            attribute.type.name,
+            attribute.type.underlyingType,
+            attribute.type.libraryTypeIsDefinedIn,
+            attribute.type.fileTypeIsDefinedIn,
             objectType.libraryName,
             makePublicImports,
-            attribute,
           ),
         );
   return baseImports.concat(typeLookupImports).concat(attributeImports);

@@ -13,7 +13,7 @@ const mona = require('mona');
 
 function typeReferenceFromParsedDefinition(parsedTypeReference, genericsSection, protocolSection) {
   if (genericsSection != null) {
-    return parsedTypeReference + '<' + genericsSection.text + '>';
+    return parsedTypeReference + '<' + genericsSection.map(g => g.text).join(',') + '>';
   } else if (protocolSection != null) {
     return parsedTypeReference + '<' + protocolSection + '>';
   } else {
@@ -26,8 +26,8 @@ function typeReferenceFromParsedDefinition(parsedTypeReference, genericsSection,
 function parseAttributeTypeReferenceSection(allowUnderlyingType) {
   return mona.sequence(function(s) {
     const typeReferenceSection = s(mona.trimLeft(mona.text(mona.or(mona.alphanum(), mona.string('_')))));
-    const protocolSection = s(mona.maybe(mona.between(mona.string('<'), mona.string('>'), mona.text(mona.or(mona.alphanum())))));
-    const genericsSection = s(mona.maybe(mona.between(mona.string('<'), mona.string('>'), parseAttributeTypeReferenceGenericSection())));
+    const protocolSection = s(mona.maybe(mona.between(mona.string('<'), mona.string('>'), mona.text(mona.alphanum(), {min: 1}))));
+    const genericsSection = s(mona.maybe(mona.between(mona.string('<'), mona.string('>'), mona.split(parseAttributeTypeReferenceGenericSection(), mona.string(',')))));
     const underlyingType = !allowUnderlyingType ? null :
     s(mona.maybe(mona.between(mona.string('('),
     mona.string(')'),
@@ -42,7 +42,7 @@ function parseAttributeTypeReferenceSection(allowUnderlyingType) {
       underlyingType: underlyingType,
       conformingProtocol: protocolSection,
       suffixSpaces: suffixSpaceSection != null ? suffixSpaceSection : '',
-      referencedGenericTypes: genericsSection != null ? genericsSection.parsedAttributeTypes : []
+      referencedGenericTypes: genericsSection != null ? genericsSection.map(g => g.parsedAttributeType) : []
     };
     return mona.value(parsedAttributeTypeReferenceSection);
   });
@@ -55,18 +55,6 @@ function parseAttributeTypeReferenceGenericSection() {
     const pointerSection = s(mona.maybe(mona.string('*')));
     const pointerSuffixSpaceSection = s(mona.maybe(mona.spaces()));
 
-    const nextGenericSection = s(mona.maybe(mona.sequence(function (ss) {
-      const commaSection = ss(mona.string(','));
-      const suffixSpaceSection = ss(mona.maybe(mona.spaces()));
-      const genericSection = ss(parseAttributeTypeReferenceGenericSection());
-
-      const suffixSpaceValue = suffixSpaceSection != null ? suffixSpaceSection : '';
-      return mona.value({
-        text: ',' + suffixSpaceValue + genericSection.text,
-        parsedAttributeTypes: genericSection.parsedAttributeTypes
-      });
-    })));
-
     const referenceValue =
     (referencePrefixSpaceSection != null ? referencePrefixSpaceSection : '') +
     (typeReferenceSection.typeReference != null ? typeReferenceSection.typeReference : '') +
@@ -75,20 +63,10 @@ function parseAttributeTypeReferenceGenericSection() {
     (pointerSection != null ? pointerSection : '') +
     (pointerSuffixSpaceSection != null ? pointerSuffixSpaceSection : '');
 
-    if (nextGenericSection != null) {
-      return mona.value({
-        text: referenceValue + pointerValue + nextGenericSection.text,
-        parsedAttributeTypes: [
-          typeReferenceSection,
-          ...nextGenericSection.parsedAttributeTypes
-        ],
-      });
-    } else {
-      return mona.value({
-        text: referenceValue + pointerValue,
-        parsedAttributeTypes: [typeReferenceSection]
-      });
-    }
+    return mona.value({
+      text: referenceValue + pointerValue,
+      parsedAttributeType: typeReferenceSection,
+    });
   });
 }
 

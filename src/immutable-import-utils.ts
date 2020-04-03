@@ -92,29 +92,10 @@ function importForAttribute(
   );
 }
 
-function makePublicImportsForValueType(objectType: ObjectSpec.Type): boolean {
-  return objectType.includes.indexOf('UseForwardDeclarations') === -1;
-}
-
 function SkipImportsInImplementationForValueType(
   objectType: ObjectSpec.Type,
 ): boolean {
   return objectType.includes.indexOf('SkipImportsInImplementation') !== -1;
-}
-
-function isForwardDeclarationRequiredForTypeLookup(
-  objectType: ObjectSpec.Type,
-  typeLookup: ObjectGeneration.TypeLookup,
-): boolean {
-  return (
-    typeLookup.name === objectType.typeName || typeLookup.canForwardDeclare
-  );
-}
-
-function forwardDeclarationForTypeLookup(
-  typeLookup: ObjectGeneration.TypeLookup,
-): ObjC.ForwardDeclaration {
-  return ObjC.ForwardDeclaration.ForwardClassDeclaration(typeLookup.name);
 }
 
 function forwardClassDeclarationForAttribute(
@@ -201,18 +182,11 @@ function forwardDeclarationsForAttributeType(
 export function forwardClassDeclarationsForObjectType(
   objectType: ObjectSpec.Type,
 ): ObjC.ForwardDeclaration[] {
-  const typeLookupForwardDeclarations = objectType.typeLookups
-    .filter(typeLookup =>
-      isForwardDeclarationRequiredForTypeLookup(objectType, typeLookup),
-    )
-    .map(forwardDeclarationForTypeLookup);
-  return ([] as ObjC.ForwardDeclaration[])
-    .concat(
-      ...objectType.attributes.map(a =>
-        forwardDeclarationsForAttributeType(a.type, objectType.typeLookups),
-      ),
-    )
-    .concat(typeLookupForwardDeclarations);
+  return ([] as ObjC.ForwardDeclaration[]).concat(
+    ...objectType.attributes.map(a =>
+      forwardDeclarationsForAttributeType(a.type, objectType.typeLookups),
+    ),
+  );
 }
 
 export function importsForObjectType(
@@ -232,7 +206,8 @@ export function importsForObjectType(
       library: null,
     },
   ];
-  const makePublicImports = makePublicImportsForValueType(objectType);
+  const makePublicImports =
+    objectType.includes.indexOf('UseForwardDeclarations') === -1;
   const skipAttributeImports =
     !makePublicImports && SkipImportsInImplementationForValueType(objectType);
   const typeLookupImports = objectType.typeLookups

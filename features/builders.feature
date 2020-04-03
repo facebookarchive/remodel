@@ -37,8 +37,6 @@ Feature: Outputting Value Objects
       @class RMRating;
       @class RMLibType;
       @protocol RMCustomProtocol;
-      @class RMSomeObject;
-      @class RMFooObject;
 
       @interface RMPageBuilder : NSObject
 

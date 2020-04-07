@@ -139,39 +139,39 @@ export function typeDefinitionImportForKnownSystemType(
     : Maybe.Nothing<ObjC.Import>();
 }
 
-function* classForwardDeclarationsForTypeName(
-  typeName: string,
-  typeLookups: ObjectGeneration.TypeLookup[],
+function* protocolForwardDeclarations(
+  conformingProtocol: string | null,
+  referencedGenericTypes: ObjC.ReferencedGenericType[],
 ): Generator<ObjC.ForwardDeclaration> {
-  if (isSystemType(typeName)) {
-    return; // No need to forward-declare system types.
-  }
-  if (typeLookups.some(t => t.name === typeName && !t.canForwardDeclare)) {
-    return;
-  }
-  yield ObjC.ForwardDeclaration.ForwardClassDeclaration(typeName);
-}
-
-function* protocolForwardDeclarationsForReferencedGenericType(
-  ref: ObjC.ReferencedGenericType,
-): Generator<ObjC.ForwardDeclaration> {
-  if (ref.conformingProtocol != null) {
+  if (conformingProtocol != null) {
     yield ObjC.ForwardDeclaration.ForwardProtocolDeclaration(
-      ref.conformingProtocol,
+      conformingProtocol,
     );
   }
-  for (const t of ref.referencedGenericTypes) {
-    yield* protocolForwardDeclarationsForReferencedGenericType(t);
+  for (const t of referencedGenericTypes) {
+    yield* protocolForwardDeclarations(
+      t.conformingProtocol,
+      t.referencedGenericTypes,
+    );
   }
 }
 
-function* classForwardDeclarationsForReferencedGenericType(
-  ref: ObjC.ReferencedGenericType,
+function* classForwardDeclarations(
+  typeName: string,
+  referencedGenericTypes: ObjC.ReferencedGenericType[],
   typeLookups: ObjectGeneration.TypeLookup[],
 ): Generator<ObjC.ForwardDeclaration> {
-  yield* classForwardDeclarationsForTypeName(ref.name, typeLookups);
-  for (const t of ref.referencedGenericTypes) {
-    yield* classForwardDeclarationsForReferencedGenericType(t, typeLookups);
+  if (!isSystemType(typeName)) {
+    if (!typeLookups.some(t => t.name === typeName && !t.canForwardDeclare)) {
+      yield ObjC.ForwardDeclaration.ForwardClassDeclaration(typeName);
+    }
+  }
+  for (const t of referencedGenericTypes) {
+    yield* classForwardDeclarations(
+      t.name,
+      t.referencedGenericTypes,
+      typeLookups,
+    );
   }
 }
 
@@ -182,30 +182,19 @@ export function forwardDeclarationsForAttributeType(
   referencedGenericTypes: ObjC.ReferencedGenericType[],
   typeLookups: ObjectGeneration.TypeLookup[],
 ): ObjC.ForwardDeclaration[] {
-  const forwardDeclarations: ObjC.ForwardDeclaration[] = [];
-
-  // Protocols are always forward declared.
-  if (conformingProtocol != null) {
-    forwardDeclarations.push(
-      ObjC.ForwardDeclaration.ForwardProtocolDeclaration(conformingProtocol),
-    );
-  }
-  for (const r of referencedGenericTypes) {
-    forwardDeclarations.push(
-      ...protocolForwardDeclarationsForReferencedGenericType(r),
-    );
-  }
-
-  // We can only forward-declare types that we assume to be NSObjects:
+  const forwardDeclarations: ObjC.ForwardDeclaration[] = [
+    // Protocols are always forward declared.
+    ...protocolForwardDeclarations(conformingProtocol, referencedGenericTypes),
+  ];
+  // We can only forward-declare classes that we assume to be NSObjects:
   if (underlyingType === 'NSObject') {
     forwardDeclarations.push(
-      ...classForwardDeclarationsForTypeName(typeName, typeLookups),
+      ...classForwardDeclarations(
+        typeName,
+        referencedGenericTypes,
+        typeLookups,
+      ),
     );
-    for (const r of referencedGenericTypes) {
-      forwardDeclarations.push(
-        ...classForwardDeclarationsForReferencedGenericType(r, typeLookups),
-      );
-    }
   }
   return forwardDeclarations;
 }

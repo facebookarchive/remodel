@@ -139,45 +139,40 @@ export function typeDefinitionImportForKnownSystemType(
     : Maybe.Nothing<ObjC.Import>();
 }
 
-function classForwardDeclarationsForTypeName(
+function* classForwardDeclarationsForTypeName(
   typeName: string,
   typeLookups: ObjectGeneration.TypeLookup[],
-): ObjC.ForwardDeclaration[] {
+): Generator<ObjC.ForwardDeclaration> {
   if (isSystemType(typeName)) {
-    return []; // No need to forward-declare system types.
+    return; // No need to forward-declare system types.
   }
   if (typeLookups.some(t => t.name === typeName && !t.canForwardDeclare)) {
-    return [];
+    return;
   }
-  return [ObjC.ForwardDeclaration.ForwardClassDeclaration(typeName)];
+  yield ObjC.ForwardDeclaration.ForwardClassDeclaration(typeName);
 }
 
-function protocolForwardDeclarationsForReferencedGenericType(
+function* protocolForwardDeclarationsForReferencedGenericType(
   ref: ObjC.ReferencedGenericType,
-): ObjC.ForwardDeclaration[] {
-  return (ref.conformingProtocol == null
-    ? []
-    : [
-        ObjC.ForwardDeclaration.ForwardProtocolDeclaration(
-          ref.conformingProtocol,
-        ),
-      ]
-  ).concat(
-    ...ref.referencedGenericTypes.map(
-      protocolForwardDeclarationsForReferencedGenericType,
-    ),
-  );
+): Generator<ObjC.ForwardDeclaration> {
+  if (ref.conformingProtocol != null) {
+    yield ObjC.ForwardDeclaration.ForwardProtocolDeclaration(
+      ref.conformingProtocol,
+    );
+  }
+  for (const t of ref.referencedGenericTypes) {
+    yield* protocolForwardDeclarationsForReferencedGenericType(t);
+  }
 }
 
-function classForwardDeclarationsForReferencedGenericType(
+function* classForwardDeclarationsForReferencedGenericType(
   ref: ObjC.ReferencedGenericType,
   typeLookups: ObjectGeneration.TypeLookup[],
-): ObjC.ForwardDeclaration[] {
-  return classForwardDeclarationsForTypeName(ref.name, typeLookups).concat(
-    ...ref.referencedGenericTypes.map(t =>
-      classForwardDeclarationsForReferencedGenericType(t, typeLookups),
-    ),
-  );
+): Generator<ObjC.ForwardDeclaration> {
+  yield* classForwardDeclarationsForTypeName(ref.name, typeLookups);
+  for (const t of ref.referencedGenericTypes) {
+    yield* classForwardDeclarationsForReferencedGenericType(t, typeLookups);
+  }
 }
 
 export function forwardDeclarationsForAttributeType(

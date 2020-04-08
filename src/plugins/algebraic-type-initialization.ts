@@ -354,15 +354,6 @@ function buildAlgebraicTypeValidationErrors(
   }
 }
 
-function importForTypeLookup(
-  libraryName: string | null,
-  makePublicImports: boolean,
-  typeLookup: ObjectGeneration.TypeLookup,
-): ObjC.Import {
-  const isPublic = makePublicImports || !typeLookup.canForwardDeclare;
-  return ObjCImportUtils.importForTypeLookup(libraryName, isPublic, typeLookup);
-}
-
 export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
   return {
     additionalFiles: function(algebraicType: AlgebraicType.Type): Code.File[] {
@@ -446,9 +437,9 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
           isImportRequiredForTypeLookup(algebraicType, typeLookup),
         )
         .map(typeLookup =>
-          importForTypeLookup(
+          ObjCImportUtils.importForTypeLookup(
             algebraicType.libraryName,
-            makePublicImports,
+            makePublicImports || !typeLookup.canForwardDeclare,
             typeLookup,
           ),
         );

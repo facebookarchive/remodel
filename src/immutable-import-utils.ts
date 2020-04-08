@@ -19,18 +19,6 @@ function isImportRequiredForTypeLookup(
   return typeLookup.name !== objectType.typeName;
 }
 
-function importForTypeLookup(
-  objectLibrary: string | null,
-  isPublic: boolean,
-  typeLookup: ObjectGeneration.TypeLookup,
-): ObjC.Import {
-  return ObjCImportUtils.importForTypeLookup(
-    objectLibrary,
-    isPublic || !typeLookup.canForwardDeclare,
-    typeLookup,
-  );
-}
-
 export function forwardClassDeclarationsForObjectType(
   objectType: ObjectSpec.Type,
 ): ObjC.ForwardDeclaration[] {
@@ -72,9 +60,9 @@ export function importsForObjectType(
   const typeLookupImports = objectType.typeLookups
     .filter(typeLookup => isImportRequiredForTypeLookup(objectType, typeLookup))
     .map(typeLookup =>
-      importForTypeLookup(
+      ObjCImportUtils.importForTypeLookup(
         objectType.libraryName,
-        makePublicImports,
+        makePublicImports || !typeLookup.canForwardDeclare,
         typeLookup,
       ),
     );

@@ -46,7 +46,6 @@ describe('CommandLine', function() {
         outputPath: undefined,
         includes: [],
         excludes: [],
-        prohibitPluginDirectives: false,
         outputFlags: {
           emitHeaders: true,
           emitImplementations: true,
@@ -78,7 +77,6 @@ describe('CommandLine', function() {
         outputPath: undefined,
         includes: [],
         excludes: [],
-        prohibitPluginDirectives: false,
         outputFlags: {
           emitHeaders: true,
           emitImplementations: true,
@@ -111,7 +109,6 @@ describe('CommandLine', function() {
         outputPath: undefined,
         includes: [],
         excludes: [],
-        prohibitPluginDirectives: false,
         outputFlags: {
           emitHeaders: true,
           emitImplementations: true,
@@ -144,7 +141,6 @@ describe('CommandLine', function() {
         outputPath: undefined,
         includes: [],
         excludes: [],
-        prohibitPluginDirectives: false,
         outputFlags: {
           emitHeaders: true,
           emitImplementations: true,
@@ -176,7 +172,6 @@ describe('CommandLine', function() {
         outputPath: undefined,
         includes: [],
         excludes: [],
-        prohibitPluginDirectives: false,
         outputFlags: {
           emitHeaders: true,
           emitImplementations: true,
@@ -210,7 +205,6 @@ describe('CommandLine', function() {
         outputPath: undefined,
         includes: [],
         excludes: [],
-        prohibitPluginDirectives: false,
         outputFlags: {
           emitHeaders: true,
           emitImplementations: true,
@@ -246,7 +240,6 @@ describe('CommandLine', function() {
         outputPath: undefined,
         includes: [],
         excludes: [],
-        prohibitPluginDirectives: false,
         outputFlags: {
           emitHeaders: true,
           emitImplementations: true,
@@ -282,7 +275,6 @@ describe('CommandLine', function() {
         outputPath: undefined,
         includes: [],
         excludes: [],
-        prohibitPluginDirectives: false,
         outputFlags: {
           emitHeaders: true,
           emitImplementations: true,
@@ -317,7 +309,6 @@ describe('CommandLine', function() {
         outputPath: 'path/to/output',
         includes: [],
         excludes: [],
-        prohibitPluginDirectives: false,
         outputFlags: {
           emitHeaders: true,
           emitImplementations: true,
@@ -354,42 +345,6 @@ describe('CommandLine', function() {
         outputPath: undefined,
         includes: ['PluginOne', 'PluginTwo'],
         excludes: ['PluginThree'],
-        prohibitPluginDirectives: false,
-        outputFlags: {
-          emitHeaders: true,
-          emitImplementations: true,
-          outputList: [],
-          singleFile: false,
-        },
-      });
-
-      expect(parsedArgs).toEqualJSON(expectedResult);
-    });
-
-    it('sets flag to prohibit embedded plugin includes/excludes if passed flag', function() {
-      const args: string[] = [
-        'project/to/generate',
-        '--prohibit-plugin-directives',
-      ];
-      const parsedArgs: Maybe.Maybe<
-        CommandLine.Arguments
-      > = CommandLine.parseArgs(args);
-
-      const expectedResult = Maybe.Just<CommandLine.Arguments>({
-        givenPaths: ['project/to/generate'],
-        adtConfigPath: undefined,
-        valueObjectConfigPath: undefined,
-        objectConfigPath: undefined,
-        interestedLoggingTypes: List.of(
-          Logging.LoggingType.info,
-          Logging.LoggingType.error,
-        ),
-        minimalLevel: 10,
-        dryRun: false,
-        outputPath: undefined,
-        includes: [],
-        excludes: [],
-        prohibitPluginDirectives: true,
         outputFlags: {
           emitHeaders: true,
           emitImplementations: true,
@@ -438,7 +393,6 @@ describe('CommandLine', function() {
         outputPath: undefined,
         includes: ['PluginOne', 'PluginTwo'],
         excludes: [],
-        prohibitPluginDirectives: false,
         outputFlags: {
           emitHeaders: true,
           emitImplementations: true,
@@ -476,7 +430,6 @@ describe('CommandLine', function() {
         outputPath: undefined,
         includes: ['PluginOne', 'PluginTwo'],
         excludes: [],
-        prohibitPluginDirectives: false,
         outputFlags: {
           emitHeaders: true,
           emitImplementations: true,

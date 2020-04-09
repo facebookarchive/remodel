@@ -22,7 +22,6 @@ export interface Arguments {
   outputPath: string | undefined;
   includes: string[];
   excludes: string[];
-  prohibitPluginDirectives: boolean;
   outputFlags: OutputControl.OutputFlags;
 }
 
@@ -34,7 +33,6 @@ const DRY_RUN_FLAG: string = 'dry-run';
 const OUTPUT_PATH: string = 'output-path';
 const INCLUDE: string = 'include';
 const EXCLUDE: string = 'exclude';
-const PROHIBIT_PLUGIN_DIRECTIVES_FLAG: string = 'prohibit-plugin-directives';
 const HEADERS_ONLY: string = 'headers-only';
 const IMPL_ONLY: string = 'implementations-only';
 const EMIT: string = 'emit';
@@ -129,7 +127,6 @@ export function parseArgs(args: string[]): Arguments | null {
       DEBUG_LOGGING_FLAG,
       SILENT_LOGGING_FLAG,
       DRY_RUN_FLAG,
-      PROHIBIT_PLUGIN_DIRECTIVES_FLAG,
       HEADERS_ONLY,
       IMPL_ONLY,
       SINGLE_FILE,
@@ -174,7 +171,6 @@ export function parseArgs(args: string[]): Arguments | null {
       outputPath: parsedArgs[OUTPUT_PATH],
       includes: sanitizeArrayArg(parsedArgs[INCLUDE]),
       excludes: sanitizeArrayArg(parsedArgs[EXCLUDE]),
-      prohibitPluginDirectives: parsedArgs[PROHIBIT_PLUGIN_DIRECTIVES_FLAG],
       outputFlags: {
         emitHeaders: !sanitizedImplsOnly,
         emitImplementations: !sanitizedHeadersOnly,

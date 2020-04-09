@@ -33,7 +33,6 @@ interface AlgebraicTypeCreationContext {
   diagnosticIgnores: List.List<string>;
   plugins: List.List<AlgebraicType.Plugin>;
   defaultIncludes: List.List<string>;
-  prohibitPluginDirectives: Boolean;
 }
 
 interface PathAndTypeInfo {
@@ -142,36 +141,23 @@ function processAlgebraicTypeCreationRequest(
         return Either.mbind(function(
           creationContext: AlgebraicTypeCreationContext,
         ) {
-          if (
-            creationContext.prohibitPluginDirectives &&
-            (pathAndTypeInfo.typeInformation.includes.length > 0 ||
-              pathAndTypeInfo.typeInformation.excludes.length > 0)
-          ) {
-            return Either.Left<Error.Error[], FileWriter.FileWriteRequest>([
-              {
-                reason:
-                  'includes()/excludes() is disallowed with the --prohibit-plugin-directives flag',
-              },
-            ]);
-          } else {
-            const request: AlgebraicTypeCreation.Request = {
-              diagnosticIgnores: creationContext.diagnosticIgnores,
-              baseClassLibraryName: creationContext.baseClassLibraryName,
-              baseClassName: creationContext.baseClassName,
-              path: pathAndTypeInfo.path,
-              outputPath: options.outputPath,
-              outputFlags: options.outputFlags,
-              typeInformation: typeInformationContainingDefaultIncludes(
-                pathAndTypeInfo.typeInformation,
-                creationContext.defaultIncludes,
-              ),
-            };
+          const request: AlgebraicTypeCreation.Request = {
+            diagnosticIgnores: creationContext.diagnosticIgnores,
+            baseClassLibraryName: creationContext.baseClassLibraryName,
+            baseClassName: creationContext.baseClassName,
+            path: pathAndTypeInfo.path,
+            outputPath: options.outputPath,
+            outputFlags: options.outputFlags,
+            typeInformation: typeInformationContainingDefaultIncludes(
+              pathAndTypeInfo.typeInformation,
+              creationContext.defaultIncludes,
+            ),
+          };
 
-            return AlgebraicTypeCreation.fileWriteRequest(
-              request,
-              creationContext.plugins,
-            );
-          }
+          return AlgebraicTypeCreation.fileWriteRequest(
+            request,
+            creationContext.plugins,
+          );
         },
         creationContextEither);
       }, either),
@@ -269,7 +255,6 @@ function getAlgebraicTypeCreationContext(
                   configuration.defaultIncludes,
                 ),
               ),
-              prohibitPluginDirectives: parsedArgs.prohibitPluginDirectives,
             };
           },
           pluginsEither);

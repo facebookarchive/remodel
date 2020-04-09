@@ -33,7 +33,6 @@ interface ObjectSpecCreationContext {
   diagnosticIgnores: List.List<string>;
   plugins: List.List<ObjectSpec.Plugin>;
   defaultIncludes: List.List<string>;
-  prohibitPluginDirectives: Boolean;
 }
 
 interface PathAndTypeInfo {
@@ -131,36 +130,23 @@ function processObjectSpecCreationRequest(
         return Either.mbind(function(
           creationContext: ObjectSpecCreationContext,
         ) {
-          if (
-            creationContext.prohibitPluginDirectives &&
-            (pathAndTypeInfo.typeInformation.includes.length > 0 ||
-              pathAndTypeInfo.typeInformation.excludes.length > 0)
-          ) {
-            return Either.Left<Error.Error[], FileWriter.FileWriteRequest>([
-              {
-                reason:
-                  'includes()/excludes() is disallowed with the --prohibit-plugin-directives flag',
-              },
-            ]);
-          } else {
-            const request: ObjectSpecCreation.Request = {
-              diagnosticIgnores: creationContext.diagnosticIgnores,
-              baseClassLibraryName: creationContext.baseClassLibraryName,
-              baseClassName: creationContext.baseClassName,
-              path: pathAndTypeInfo.path,
-              outputPath: options.outputPath,
-              outputFlags: options.outputFlags,
-              typeInformation: typeInformationContainingDefaultIncludes(
-                pathAndTypeInfo.typeInformation,
-                creationContext.defaultIncludes,
-              ),
-            };
+          const request: ObjectSpecCreation.Request = {
+            diagnosticIgnores: creationContext.diagnosticIgnores,
+            baseClassLibraryName: creationContext.baseClassLibraryName,
+            baseClassName: creationContext.baseClassName,
+            path: pathAndTypeInfo.path,
+            outputPath: options.outputPath,
+            outputFlags: options.outputFlags,
+            typeInformation: typeInformationContainingDefaultIncludes(
+              pathAndTypeInfo.typeInformation,
+              creationContext.defaultIncludes,
+            ),
+          };
 
-            return ObjectSpecCreation.fileWriteRequest(
-              request,
-              creationContext.plugins,
-            );
-          }
+          return ObjectSpecCreation.fileWriteRequest(
+            request,
+            creationContext.plugins,
+          );
         },
         creationContextEither);
       }, either),
@@ -239,7 +225,6 @@ function getObjectSpecCreationContext(
                 configuration.defaultIncludes,
               ),
             ),
-            prohibitPluginDirectives: parsedArgs.prohibitPluginDirectives,
           };
         },
         pluginsEither);

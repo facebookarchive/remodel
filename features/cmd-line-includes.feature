@@ -178,20 +178,3 @@ Feature: Controlling includes/excludes from command line
       @end
 
       """
-
-  @announce
-  Scenario: Prevent files from containing includes()/excludes()
-    Given a file named "project/values/RMValueType.value" with:
-      """
-      # Simple file
-      RMValueType includes(RMBuilder) {
-        BOOL doesUserLike
-        NSString* identifier
-      }
-      """
-    And a file named "project/.valueObjectConfig" with:
-      """
-      { }
-      """
-    When I run `../../bin/generate project --prohibit-plugin-directives`
-    Then the file "project/values/RMValueType.h" should not exist

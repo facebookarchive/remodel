@@ -455,6 +455,45 @@ describe('ObjectSpecParser', function() {
       expect(actualResult).toEqualJSON(expectedResult);
     });
 
+    it('parses a value object with a generic type with no parameters', function() {
+      const valueFileContents = 'RMSomething {\n  FBFoo<> *foo\n}';
+      const actualResult: Either.Either<
+        Error.Error[],
+        ObjectSpec.Type
+      > = ObjectSpecParser.parse(valueFileContents);
+      const expectedFoundType: ObjectSpec.Type = {
+        annotations: {},
+        attributes: [
+          {
+            annotations: {},
+            comments: [],
+            name: 'foo',
+            nullability: ObjC.Nullability.Inherited(),
+            type: {
+              fileTypeIsDefinedIn: null,
+              libraryTypeIsDefinedIn: null,
+              name: 'FBFoo',
+              reference: 'FBFoo<>*',
+              underlyingType: 'NSObject',
+              conformingProtocol: null,
+              referencedGenericTypes: [],
+            },
+          },
+        ],
+        comments: [],
+        typeLookups: [],
+        excludes: [],
+        includes: [],
+        typeName: 'RMSomething',
+        libraryName: null,
+      };
+      const expectedResult: Either.Either<
+        Error.Error[],
+        ObjectSpec.Type
+      > = Either.Right<Error.Error[], ObjectSpec.Type>(expectedFoundType);
+      expect(actualResult).toEqualJSON(expectedResult);
+    });
+
     it('parses a value object which is invalid', function() {
       const valueFileContents = 'RMSomething {{}';
       const actualResult: Either.Either<

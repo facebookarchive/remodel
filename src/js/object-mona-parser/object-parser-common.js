@@ -25,7 +25,7 @@ function typeReferenceFromParsedDefinition(parsedTypeReference, genericsSection,
 // EnumName(NSUInteger)
 function parseAttributeTypeReferenceSection(allowUnderlyingType) {
   return mona.sequence(function(s) {
-    const typeReferenceSection = s(mona.trimLeft(mona.text(mona.or(mona.alphanum(), mona.string('_')))));
+    const typeReferenceSection = s(mona.trimLeft(mona.text(mona.or(mona.alphanum(), mona.string('_')), {min: 1})));
     const protocolSection = s(mona.maybe(mona.between(mona.string('<'), mona.string('>'), mona.text(mona.alphanum(), {min: 1}))));
     const genericsSection = s(mona.maybe(mona.between(mona.string('<'), mona.string('>'), mona.split(parseAttributeTypeReferenceGenericSection(), mona.string(',')))));
     const underlyingType = !allowUnderlyingType ? null :

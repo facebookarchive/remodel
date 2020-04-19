@@ -573,10 +573,32 @@ describe('Plugins.ImmutableProperties', function() {
       },
     );
 
-    it('includes an import for the provided type lookups', function() {
+    it('includes an import for referenced type lookups', function() {
       const objectType: ObjectSpec.Type = {
         annotations: {},
-        attributes: [],
+        attributes: [
+          {
+            annotations: {},
+            comments: [],
+            name: 'something',
+            nullability: ObjC.Nullability.Inherited(),
+            type: {
+              fileTypeIsDefinedIn: null,
+              libraryTypeIsDefinedIn: null,
+              name: 'Foo',
+              reference: 'Foo<Scumbag *> *',
+              underlyingType: 'NSObject',
+              conformingProtocol: null,
+              referencedGenericTypes: [
+                {
+                  name: 'Scumbag',
+                  conformingProtocol: null,
+                  referencedGenericTypes: [],
+                },
+              ],
+            },
+          },
+        ],
         comments: [],
         typeLookups: [
           {

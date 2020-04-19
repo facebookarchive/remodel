@@ -15,6 +15,7 @@ import * as ObjectSpecCodeUtils from './object-spec-code-utils';
 const KNOWN_SYSTEM_TYPE_IMPORT_INFO: {
   [id: string]: ObjC.Import | null;
 } = {
+  bool: Maybe.Nothing<ObjC.Import>(),
   BOOL: Maybe.Nothing<ObjC.Import>(),
   double: Maybe.Nothing<ObjC.Import>(),
   float: Maybe.Nothing<ObjC.Import>(),
@@ -43,11 +44,31 @@ const KNOWN_SYSTEM_TYPE_IMPORT_INFO: {
     requiresCPlusPlus: false,
     library: 'CoreGraphics',
   }),
+  int: Maybe.Nothing<ObjC.Import>(),
   int32_t: Maybe.Nothing<ObjC.Import>(),
   int64_t: Maybe.Nothing<ObjC.Import>(),
+  long: Maybe.Nothing<ObjC.Import>(),
   SEL: Maybe.Nothing<ObjC.Import>(),
+  UIColor: Maybe.Just({
+    file: 'UIKit.h',
+    isPublic: true,
+    requiresCPlusPlus: false,
+    library: 'UIKit',
+  }),
   UIEdgeInsets: Maybe.Just({
     file: 'UIGeometry.h',
+    isPublic: true,
+    requiresCPlusPlus: false,
+    library: 'UIKit',
+  }),
+  UIFont: Maybe.Just({
+    file: 'UIKit.h',
+    isPublic: true,
+    requiresCPlusPlus: false,
+    library: 'UIKit',
+  }),
+  UIImage: Maybe.Just({
+    file: 'UIKit.h',
     isPublic: true,
     requiresCPlusPlus: false,
     library: 'UIKit',
@@ -63,23 +84,11 @@ function isFoundationType(typeName: string): boolean {
   return typeName.indexOf('NS') === 0;
 }
 
-function isImportPresent(knownTypeImport: ObjC.Import | null): boolean {
-  return Maybe.match(
-    function(impt: ObjC.Import) {
-      return true;
-    },
-    function() {
-      return false;
-    },
-    knownTypeImport,
-  );
-}
-
 export function isSystemType(typeName: string): boolean {
   return (
     isFoundationType(typeName) ||
     (typeName in KNOWN_SYSTEM_TYPE_IMPORT_INFO &&
-      !isImportPresent(KNOWN_SYSTEM_TYPE_IMPORT_INFO[typeName]))
+      KNOWN_SYSTEM_TYPE_IMPORT_INFO[typeName] == null)
   );
 }
 
@@ -101,42 +110,12 @@ export function shouldIncludeImportForType(
   );
 }
 
-export function libraryForImport(
-  libraryTypeIsDefinedIn: string | null,
-  objectLibrary: string | null,
-): string | null {
-  return Maybe.match(
-    function(libraryName: string) {
-      return libraryName;
-    },
-    function() {
-      return objectLibrary;
-    },
-    libraryTypeIsDefinedIn,
-  );
-}
-
-export function fileForImport(
-  fileTypeIsDefinedIn: string | null,
-  typeName: string,
-): string {
-  return Maybe.match(
-    function(file: string) {
-      return file + '.h';
-    },
-    function() {
-      return typeName + '.h';
-    },
-    fileTypeIsDefinedIn,
-  );
-}
-
-export function typeDefinitionImportForKnownSystemType(
+function typeDefinitionImportForKnownSystemType(
   typeName: string,
 ): ObjC.Import | null {
   return typeName in KNOWN_SYSTEM_TYPE_IMPORT_INFO
     ? KNOWN_SYSTEM_TYPE_IMPORT_INFO[typeName]
-    : Maybe.Nothing<ObjC.Import>();
+    : null;
 }
 
 function* protocolForwardDeclarations(
@@ -199,6 +178,124 @@ export function forwardDeclarationsForAttributeType(
   return forwardDeclarations;
 }
 
+/**
+ * Applies only to attributes with underlyingType of NSObject that are not
+ * system types. System types and non-NSObjects are always publicly imported.
+ */
+export enum ObjectImportMode {
+  /** Generate imports in the header file. */
+  public,
+  /**
+   * Generate imports in the implementation file.
+   * Used if you forward-declare the type in the header.
+   */
+  private,
+  /** Generate no import at all, unless it's a system type. */
+  none,
+}
+
+function* classImports(
+  typeName: string,
+  underlyingType: string | null,
+  conformingProtocol: string | null,
+  referencedGenericTypes: ObjC.ReferencedGenericType[],
+  libraryTypeIsDefinedIn: string | null,
+  fileTypeIsDefinedIn: string | null,
+  objectLibrary: string | null,
+  importMode: ObjectImportMode,
+  typeLookups: ObjectGeneration.TypeLookup[],
+): Generator<ObjC.Import> {
+  // Protocols are imported only when there is a matching type lookup.
+  // Otherwise, they are forward declared only.
+  if (conformingProtocol != null && importMode != ObjectImportMode.none) {
+    const lookup = typeLookups.find(t => t.name === conformingProtocol);
+    if (lookup != null) {
+      yield {
+        library: lookup?.library ?? objectLibrary,
+        file: `${lookup?.file ?? conformingProtocol}.h`,
+        isPublic:
+          lookup?.canForwardDeclare === false ||
+          importMode === ObjectImportMode.public,
+        requiresCPlusPlus: false,
+      };
+    }
+  }
+
+  if (isFoundationType(typeName)) {
+    // Yield nothing.
+  } else if (typeName in KNOWN_SYSTEM_TYPE_IMPORT_INFO) {
+    const knownImport = KNOWN_SYSTEM_TYPE_IMPORT_INFO[typeName];
+    if (knownImport != null) {
+      yield knownImport;
+    }
+  } else {
+    const lookup = typeLookups.find(t => t.name === typeName);
+    if (
+      underlyingType === 'NSObject' &&
+      importMode == ObjectImportMode.none &&
+      lookup?.canForwardDeclare !== false
+    ) {
+      // Yield nothing.
+    } else {
+      yield {
+        library: libraryTypeIsDefinedIn ?? lookup?.library ?? objectLibrary,
+        file: `${fileTypeIsDefinedIn ?? lookup?.file ?? typeName}.h`,
+        isPublic:
+          underlyingType !== 'NSObject' ||
+          lookup?.canForwardDeclare === false ||
+          importMode === ObjectImportMode.public,
+        requiresCPlusPlus: false,
+      };
+    }
+  }
+  for (const t of referencedGenericTypes) {
+    yield* classImports(
+      t.name,
+      'NSObject', // Referenced generic types are always assumed to be NSObjects.
+      t.conformingProtocol,
+      t.referencedGenericTypes,
+      // libraryTypeIsDefinedIn and fileTypeIsDefinedIn come from deprecated
+      // annotations that cannot be placed on referenced generic types.
+      null,
+      null,
+      objectLibrary,
+      importMode,
+      typeLookups,
+    );
+  }
+}
+
+/**
+ * Returns the imports that should be generated for an attribute, including
+ * all referenced generic types. Takes care of looking up each type in
+ * typeLookups and adjusting the import accordingly if it's found.
+ * */
+export function importsForAttributeType(
+  typeName: string,
+  underlyingType: string | null,
+  conformingProtocol: string | null,
+  referencedGenericTypes: ObjC.ReferencedGenericType[],
+  libraryTypeIsDefinedIn: string | null,
+  fileTypeIsDefinedIn: string | null,
+  objectLibrary: string | null,
+  importMode: ObjectImportMode,
+  typeLookups: ObjectGeneration.TypeLookup[],
+): ObjC.Import[] {
+  return [
+    ...classImports(
+      typeName,
+      underlyingType,
+      conformingProtocol,
+      referencedGenericTypes,
+      libraryTypeIsDefinedIn,
+      fileTypeIsDefinedIn,
+      objectLibrary,
+      importMode,
+      typeLookups,
+    ),
+  ];
+}
+
 export function importForAttribute(
   typeName: string,
   underlyingType: string | null,
@@ -207,25 +304,19 @@ export function importForAttribute(
   objectLibrary: string | null,
   isPublic: boolean,
 ): ObjC.Import {
-  const builtInImportMaybe: Maybe.Maybe<
-    ObjC.Import
-  > = typeDefinitionImportForKnownSystemType(typeName);
+  const builtInImport = typeDefinitionImportForKnownSystemType(typeName);
+  if (builtInImport != null) {
+    return builtInImport;
+  }
 
-  return Maybe.match(
-    function(builtInImport: ObjC.Import) {
-      return builtInImport;
-    },
-    function() {
-      const requiresPublicImport = isPublic || underlyingType != 'NSObject';
-      return {
-        library: libraryForImport(libraryTypeIsDefinedIn, objectLibrary),
-        file: fileForImport(fileTypeIsDefinedIn, typeName),
-        isPublic: requiresPublicImport,
-        requiresCPlusPlus: false,
-      };
-    },
-    builtInImportMaybe,
-  );
+  const requiresPublicImport = isPublic || underlyingType != 'NSObject';
+  return {
+    library:
+      libraryTypeIsDefinedIn != null ? libraryTypeIsDefinedIn : objectLibrary,
+    file: `${fileTypeIsDefinedIn != null ? fileTypeIsDefinedIn : typeName}.h`,
+    isPublic: requiresPublicImport,
+    requiresCPlusPlus: false,
+  };
 }
 
 export function importForTypeLookup(

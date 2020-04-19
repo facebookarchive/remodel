@@ -38,7 +38,13 @@ export function forwardClassDeclarationsForObjectType(
 export function importsForObjectType(
   objectType: ObjectSpec.Type,
 ): ObjC.Import[] {
-  const baseImports: ObjC.Import[] = [
+  const makePublicImports =
+    objectType.includes.indexOf('UseForwardDeclarations') === -1;
+  const skipAttributeImports =
+    !makePublicImports &&
+    objectType.includes.indexOf('SkipImportsInImplementation') !== -1;
+
+  return [
     {
       file: 'Foundation.h',
       isPublic: true,
@@ -51,39 +57,23 @@ export function importsForObjectType(
       requiresCPlusPlus: false,
       library: null,
     },
-  ];
-  const makePublicImports =
-    objectType.includes.indexOf('UseForwardDeclarations') === -1;
-  const skipAttributeImports =
-    !makePublicImports &&
-    objectType.includes.indexOf('SkipImportsInImplementation') !== -1;
-  const typeLookupImports = objectType.typeLookups
-    .filter(typeLookup => isImportRequiredForTypeLookup(objectType, typeLookup))
-    .map(typeLookup =>
-      ObjCImportUtils.importForTypeLookup(
+  ].concat(
+    ...objectType.attributes.map(a =>
+      ObjCImportUtils.importsForAttributeType(
+        a.type.name,
+        a.type.underlyingType,
+        a.type.conformingProtocol,
+        a.type.referencedGenericTypes,
+        a.type.libraryTypeIsDefinedIn,
+        a.type.fileTypeIsDefinedIn,
         objectType.libraryName,
-        makePublicImports || !typeLookup.canForwardDeclare,
-        typeLookup,
+        makePublicImports
+          ? ObjCImportUtils.ObjectImportMode.public
+          : skipAttributeImports
+          ? ObjCImportUtils.ObjectImportMode.none
+          : ObjCImportUtils.ObjectImportMode.private,
+        objectType.typeLookups,
       ),
-    );
-  const attributeImports = skipAttributeImports
-    ? []
-    : objectType.attributes
-        .filter(attribute =>
-          ObjCImportUtils.shouldIncludeImportForType(
-            objectType.typeLookups,
-            attribute.type.name,
-          ),
-        )
-        .map(attribute =>
-          ObjCImportUtils.importForAttribute(
-            attribute.type.name,
-            attribute.type.underlyingType,
-            attribute.type.libraryTypeIsDefinedIn,
-            attribute.type.fileTypeIsDefinedIn,
-            objectType.libraryName,
-            makePublicImports,
-          ),
-        );
-  return baseImports.concat(typeLookupImports).concat(attributeImports);
+    ),
+  );
 }

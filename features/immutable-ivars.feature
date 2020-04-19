@@ -9,9 +9,6 @@ Feature: Outputting Value Objects with Ivars and Getters
       # Important and gripping comment
       # that takes up two lines.
       %library name=MyLib
-      %type name=RMSomeObject library=SomeLib file=AnotherFile
-      %type name=RMFooObject
-      %type name=RMSomeEnum canForwardDeclare=false
       %type name=RMSomeType library=FooLibrary
       # And an extra comment here for good measure.
       RMIvarObject {
@@ -49,9 +46,6 @@ Feature: Outputting Value Objects with Ivars and Getters
        */
 
       #import <Foundation/Foundation.h>
-      #import <SomeLib/AnotherFile.h>
-      #import <MyLib/RMFooObject.h>
-      #import <MyLib/RMSomeEnum.h>
       #import <FooLibrary/RMSomeType.h>
 
       /**

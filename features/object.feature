@@ -9,9 +9,6 @@ Feature: Outputting Objects
       # Important and gripping comment
       # that takes up two lines.
       %library name=MyLib
-      %type name=RMSomeObject library=SomeLib file=AnotherFile
-      %type name=RMFooObject
-      %type name=RMSomeEnum canForwardDeclare=false
       %type name=RMSomeType library=FooLibrary
       RMPage {
         BOOL doesUserLike
@@ -37,9 +34,6 @@ Feature: Outputting Objects
        */
 
       #import <Foundation/Foundation.h>
-      #import <SomeLib/AnotherFile.h>
-      #import <MyLib/RMFooObject.h>
-      #import <MyLib/RMSomeEnum.h>
       #import <FooLibrary/RMSomeType.h>
 
       /**

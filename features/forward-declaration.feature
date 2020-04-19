@@ -11,6 +11,7 @@ Feature: Outputting Value Objects With Forward Declarations
       %type name=RMSomeType library=FooLibrary
       %type name=UIViewController library=UIKit
       %type name=CustomEnum library=EnumLib canForwardDeclare=false
+      %type name=WorldProtocol library=WorldKit file=HWorldProtocol
       RMPage includes(UseForwardDeclarations) {
         BOOL doesUserLike
         NSString* identifier
@@ -23,7 +24,6 @@ Feature: Outputting Value Objects With Forward Declarations
         NSArray<RMSomeType *>* followers
         %import library=HelloKit file=HelloProtocol
         id<HelloProtocol> helloObj
-        %import library=WorldKit file=HWorldProtocol
         UIViewController<WorldProtocol> *worldVc
       }
       """
@@ -93,9 +93,10 @@ Feature: Outputting Value Objects With Forward Declarations
       #endif
 
       #import "RMPage.h"
-      #import <FooLibrary/RMSomeType.h>
-      #import <UIKit/UIViewController.h>
       #import "RMProxy.h"
+      #import <FooLibrary/RMSomeType.h>
+      #import <WorldKit/HWorldProtocol.h>
+      #import <UIKit/UIViewController.h>
 
       @implementation RMPage
 

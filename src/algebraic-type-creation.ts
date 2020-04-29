@@ -210,9 +210,7 @@ export function fileWriteRequest(
     pluginsToRun,
   );
 
-  const typeInfoProvider: PluggableObjCFileCreation.ObjCGenerationTypeInfoProvider<
-    AlgebraicType.Type
-  > = {
+  const typeInfoProvider: PluggableObjCFileCreation.ObjCGenerationTypeInfoProvider<AlgebraicType.Type> = {
     additionalTypesForType: function(typeInformation: AlgebraicType.Type) {
       return [];
     },

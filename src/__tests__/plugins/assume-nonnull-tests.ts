@@ -58,12 +58,12 @@ describe('ObjectSpecPlugins.AssumeNonnull', function() {
         typeName: 'Foo',
       };
 
-      const nullability: Maybe.Maybe<
-        ObjC.ClassNullability
-      > = ObjectSpecPlugin.nullability(objectType);
-      const expectedNullability: Maybe.Maybe<
-        ObjC.ClassNullability
-      > = Maybe.Just(ObjC.ClassNullability.assumeNonnull);
+      const nullability: Maybe.Maybe<ObjC.ClassNullability> = ObjectSpecPlugin.nullability(
+        objectType,
+      );
+      const expectedNullability: Maybe.Maybe<ObjC.ClassNullability> = Maybe.Just(
+        ObjC.ClassNullability.assumeNonnull,
+      );
       expect(nullability).toEqualJSON(expectedNullability);
     });
   });
@@ -109,12 +109,12 @@ describe('AlgebraicTypePlugins.AssumeNonnull', function() {
         subtypes: [],
       };
 
-      const nullability: Maybe.Maybe<
-        ObjC.ClassNullability
-      > = AlgebraicTypePlugin.nullability(algebraicType);
-      const expectedNullability: Maybe.Maybe<
-        ObjC.ClassNullability
-      > = Maybe.Just(ObjC.ClassNullability.assumeNonnull);
+      const nullability: Maybe.Maybe<ObjC.ClassNullability> = AlgebraicTypePlugin.nullability(
+        algebraicType,
+      );
+      const expectedNullability: Maybe.Maybe<ObjC.ClassNullability> = Maybe.Just(
+        ObjC.ClassNullability.assumeNonnull,
+      );
       expect(nullability).toEqualJSON(expectedNullability);
     });
   });

@@ -611,9 +611,7 @@ function multipleCodingKeyAnnotationErrorForValueAttribute(
   return length > 1
     ? Maybe.Just(
         Error.Error(
-          `Only one %codingKey name is supported: ${objectType.typeName}.${
-            attribute.name
-          } has ${length}.`,
+          `Only one %codingKey name is supported: ${objectType.typeName}.${attribute.name} has ${length}.`,
         ),
       )
     : null;

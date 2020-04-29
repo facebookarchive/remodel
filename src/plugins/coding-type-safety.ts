@@ -50,11 +50,7 @@ function codingValidatorFunction(
       )
       .map(
         attribute =>
-          `id<NSCoding> ${
-            attribute.name
-          }_must_conform_to_NSCoding __unused = (${
-            attribute.type.reference
-          })nil;`,
+          `id<NSCoding> ${attribute.name}_must_conform_to_NSCoding __unused = (${attribute.type.reference})nil;`,
       ),
     isInline: false,
     isPublic: false,

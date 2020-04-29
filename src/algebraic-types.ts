@@ -218,9 +218,10 @@ function getAlgebraicTypeCreationContext(
       basePlugins: BASE_PLUGINS,
       baseIncludes: BASE_INCLUDES,
     };
-    const configFuture: Promise.Future<
-      Either.Either<Error.Error[], Configuration.GenerationConfig>
-    > = Configuration.generateConfig(maybePath, configurationContext);
+    const configFuture: Promise.Future<Either.Either<
+      Error.Error[],
+      Configuration.GenerationConfig
+    >> = Configuration.generateConfig(maybePath, configurationContext);
 
     return Promise.map(function(
       either: Either.Either<Error.Error[], Configuration.GenerationConfig>,

@@ -22,9 +22,10 @@ describe('FileFinder', function() {
     it('returns a promise for empty when given a directory that is empty', function(finished) {
       fsExtra.removeSync(__dirname + '/tmp');
       fs.mkdirSync(__dirname + '/tmp');
-      const future: Promise.Future<
-        Either.Either<Error.Error, FileFinder.FilesAndDirectories>
-      > = FileFinder.findFilesAndDirectories(
+      const future: Promise.Future<Either.Either<
+        Error.Error,
+        FileFinder.FilesAndDirectories
+      >> = FileFinder.findFilesAndDirectories(
         File.getAbsoluteFilePath(__dirname + '/tmp'),
         'value',
       );
@@ -52,9 +53,10 @@ describe('FileFinder', function() {
         fsExtra.removeSync(__dirname + '/tmp');
         fs.mkdirSync(__dirname + '/tmp');
         fs.writeFileSync(__dirname + '/tmp/test.value', '');
-        const future: Promise.Future<
-          Either.Either<Error.Error, FileFinder.FilesAndDirectories>
-        > = FileFinder.findFilesAndDirectories(
+        const future: Promise.Future<Either.Either<
+          Error.Error,
+          FileFinder.FilesAndDirectories
+        >> = FileFinder.findFilesAndDirectories(
           File.getAbsoluteFilePath(__dirname + '/tmp/test.value'),
           'value',
         );
@@ -83,9 +85,10 @@ describe('FileFinder', function() {
         fsExtra.removeSync(__dirname + '/tmp');
         fs.mkdirSync(__dirname + '/tmp');
         fs.writeFileSync(__dirname + '/tmp/suf-test.suf', '');
-        const future: Promise.Future<
-          Either.Either<Error.Error, FileFinder.FilesAndDirectories>
-        > = FileFinder.findFilesAndDirectories(
+        const future: Promise.Future<Either.Either<
+          Error.Error,
+          FileFinder.FilesAndDirectories
+        >> = FileFinder.findFilesAndDirectories(
           File.getAbsoluteFilePath(__dirname + '/tmp/suf-test.suf'),
           'suf',
         );
@@ -113,9 +116,10 @@ describe('FileFinder', function() {
       function(finished) {
         fsExtra.removeSync(__dirname + '/tmp');
         fs.mkdirSync(__dirname + '/tmp');
-        const future: Promise.Future<
-          Either.Either<Error.Error, FileFinder.FilesAndDirectories>
-        > = FileFinder.findFilesAndDirectories(
+        const future: Promise.Future<Either.Either<
+          Error.Error,
+          FileFinder.FilesAndDirectories
+        >> = FileFinder.findFilesAndDirectories(
           File.getAbsoluteFilePath(__dirname + '/tmp/test.value'),
           'value',
         );
@@ -141,9 +145,10 @@ describe('FileFinder', function() {
         fsExtra.removeSync(__dirname + '/tmp');
         fs.mkdirSync(__dirname + '/tmp');
         fs.writeFileSync(__dirname + '/tmp/test.value', '');
-        const future: Promise.Future<
-          Either.Either<Error.Error, FileFinder.FilesAndDirectories>
-        > = FileFinder.findFilesAndDirectories(
+        const future: Promise.Future<Either.Either<
+          Error.Error,
+          FileFinder.FilesAndDirectories
+        >> = FileFinder.findFilesAndDirectories(
           File.getAbsoluteFilePath(__dirname + '/tmp'),
           'value',
         );
@@ -173,9 +178,10 @@ describe('FileFinder', function() {
         fs.mkdirSync(__dirname + '/tmp');
         fs.writeFileSync(__dirname + '/tmp/test.value', '');
         fs.writeFileSync(__dirname + '/tmp/test.value_ignore', '');
-        const future: Promise.Future<
-          Either.Either<Error.Error, FileFinder.FilesAndDirectories>
-        > = FileFinder.findFilesAndDirectories(
+        const future: Promise.Future<Either.Either<
+          Error.Error,
+          FileFinder.FilesAndDirectories
+        >> = FileFinder.findFilesAndDirectories(
           File.getAbsoluteFilePath(__dirname + '/tmp'),
           'value',
         );
@@ -205,9 +211,10 @@ describe('FileFinder', function() {
         fs.mkdirSync(__dirname + '/tmp');
         fs.writeFileSync(__dirname + '/tmp/test.value', '');
         fs.writeFileSync(__dirname + '/tmp/test2.value', '');
-        const future: Promise.Future<
-          Either.Either<Error.Error, FileFinder.FilesAndDirectories>
-        > = FileFinder.findFilesAndDirectories(
+        const future: Promise.Future<Either.Either<
+          Error.Error,
+          FileFinder.FilesAndDirectories
+        >> = FileFinder.findFilesAndDirectories(
           File.getAbsoluteFilePath(__dirname + '/tmp'),
           'value',
         );
@@ -240,9 +247,10 @@ describe('FileFinder', function() {
         fs.mkdirSync(__dirname + '/tmp');
         fs.writeFileSync(__dirname + '/tmp/test.value', '');
         fs.writeFileSync(__dirname + '/tmp/test2.enumValue', '');
-        const future: Promise.Future<
-          Either.Either<Error.Error, FileFinder.FilesAndDirectories>
-        > = FileFinder.findFilesAndDirectories(
+        const future: Promise.Future<Either.Either<
+          Error.Error,
+          FileFinder.FilesAndDirectories
+        >> = FileFinder.findFilesAndDirectories(
           File.getAbsoluteFilePath(__dirname + '/tmp'),
           'value',
         );
@@ -275,9 +283,10 @@ describe('FileFinder', function() {
         fs.writeFileSync(__dirname + '/tmp/README', '');
         fs.mkdirSync(__dirname + '/tmp/tmp2');
         fs.mkdirSync(__dirname + '/tmp/tmp3');
-        const future: Promise.Future<
-          Either.Either<Error.Error, FileFinder.FilesAndDirectories>
-        > = FileFinder.findFilesAndDirectories(
+        const future: Promise.Future<Either.Either<
+          Error.Error,
+          FileFinder.FilesAndDirectories
+        >> = FileFinder.findFilesAndDirectories(
           File.getAbsoluteFilePath(__dirname + '/tmp'),
           'value',
         );
@@ -313,9 +322,10 @@ describe('FileFinder', function() {
         fsExtra.removeSync(__dirname + '/tmp');
         fs.mkdirSync(__dirname + '/tmp');
         fs.writeFileSync(__dirname + '/tmp/README', '');
-        const future: Promise.Future<
-          Either.Either<Error.Error, FileFinder.FilesAndDirectories>
-        > = FileFinder.findFilesAndDirectories(
+        const future: Promise.Future<Either.Either<
+          Error.Error,
+          FileFinder.FilesAndDirectories
+        >> = FileFinder.findFilesAndDirectories(
           File.getAbsoluteFilePath(__dirname + '/tmp/README'),
           'value',
         );

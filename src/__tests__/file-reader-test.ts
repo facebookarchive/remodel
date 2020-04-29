@@ -32,9 +32,10 @@ describe('FileReader', function() {
         const path: File.AbsoluteFilePath = File.getAbsoluteFilePath(
           __dirname + '/tmp/test.value',
         );
-        const future: Promise.Future<
-          Either.Either<Error.Error[], File.Contents>
-        > = FileReader.read(path);
+        const future: Promise.Future<Either.Either<
+          Error.Error[],
+          File.Contents
+        >> = FileReader.read(path);
         Promise.then(function(
           result: Either.Either<Error.Error[], File.Contents>,
         ) {
@@ -62,9 +63,10 @@ describe('FileReader', function() {
         const path: File.AbsoluteFilePath = File.getAbsoluteFilePath(
           __dirname + '/tmp/test.value',
         );
-        const future: Promise.Future<
-          Either.Either<Error.Error[], File.Contents>
-        > = FileReader.read(path);
+        const future: Promise.Future<Either.Either<
+          Error.Error[],
+          File.Contents
+        >> = FileReader.read(path);
         Promise.then(function(
           result: Either.Either<Error.Error[], File.Contents>,
         ) {

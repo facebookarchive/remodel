@@ -424,9 +424,7 @@ function classFileCreationFunctionWithBaseClassAndPlugins<T>(
             ([currentBaseClass, nextBaseClass]) =>
               Either.Left(
                 Error.Error(
-                  `Conflicting base classes ${currentBaseClass.className} and ${
-                    nextBaseClass.className
-                  }`,
+                  `Conflicting base classes ${currentBaseClass.className} and ${nextBaseClass.className}`,
                 ),
               ),
             // If we only have one of the two, then we can continue with

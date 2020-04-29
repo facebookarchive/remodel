@@ -245,12 +245,9 @@ describe('LazySequence', function() {
         var wasRun: boolean = false;
         const soFar: string[] = [];
 
-        LazySequence.forEach(
-          function(str: string) {
-            soFar.push(str);
-          },
-          <LazySequence.Sequence<string>>mappedSequence,
-        );
+        LazySequence.forEach(function(str: string) {
+          soFar.push(str);
+        }, <LazySequence.Sequence<string>>mappedSequence);
 
         source.nextValue(1);
         expect(soFar).toEqualJSON(['1']);
@@ -262,9 +259,9 @@ describe('LazySequence', function() {
         expect(soFar).toEqualJSON(['1', '2', '3', '4']);
         source.finished();
 
-        const future: Promise.Future<string[]> = LazySequence.evaluate(<
-          LazySequence.Sequence<string>
-        >mappedSequence);
+        const future: Promise.Future<string[]> = LazySequence.evaluate(
+          <LazySequence.Sequence<string>>mappedSequence,
+        );
         Promise.then(function(numbers: string[]) {
           wasRun = true;
           expect(numbers).toEqualJSON(['1', '2', '3', '4']);

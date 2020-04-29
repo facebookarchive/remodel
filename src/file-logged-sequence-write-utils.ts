@@ -205,28 +205,26 @@ function writeAndLogSequence(
     >
   >,
 ): Promise.Future<ConsoleOutputResults> {
-  const outputResults: Promise.Future<
-    Promise.Future<Logging.Context<ConsoleOutputResults>>
-  > = LazySequence.foldl(
+  const outputResults: Promise.Future<Promise.Future<
+    Logging.Context<ConsoleOutputResults>
+  >> = LazySequence.foldl(
     trackConsoleOutput,
     Promise.resolved(
       Logging.munit<ConsoleOutputResults>({errorCount: 0, successCount: 0}),
     ).getFuture(),
     evaluatedSequence,
   );
-  const resultingLoggingContext: Promise.Future<
-    ConsoleOutputResults
-  > = Promise.mbind(function(
-    future: Promise.Future<Logging.Context<ConsoleOutputResults>>,
-  ) {
-    return Promise.map(function(
-      lcResults: Logging.Context<ConsoleOutputResults>,
-    ) {
-      return lcResults.value;
+  const resultingLoggingContext: Promise.Future<ConsoleOutputResults> = Promise.mbind(
+    function(future: Promise.Future<Logging.Context<ConsoleOutputResults>>) {
+      return Promise.map(function(
+        lcResults: Logging.Context<ConsoleOutputResults>,
+      ) {
+        return lcResults.value;
+      },
+      future);
     },
-    future);
-  },
-  outputResults);
+    outputResults,
+  );
 
   return resultingLoggingContext;
 }

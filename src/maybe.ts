@@ -28,20 +28,17 @@ export function match<T, U>(
 }
 
 export function catMaybes<T>(maybes: (T | null | undefined)[]): T[] {
-  return maybes.reduce(
-    (soFar, thisVal) => {
-      return match(
-        function(val: T) {
-          return soFar.concat(val);
-        },
-        function() {
-          return soFar;
-        },
-        thisVal,
-      );
-    },
-    [] as T[],
-  );
+  return maybes.reduce((soFar, thisVal) => {
+    return match(
+      function(val: T) {
+        return soFar.concat(val);
+      },
+      function() {
+        return soFar;
+      },
+      thisVal,
+    );
+  }, [] as T[]);
 }
 
 export function map<T, U>(
@@ -72,5 +69,9 @@ export function and<A, B>(
 }
 
 export function or<T>(a: T | null, b: T | null): T | null {
-  return match(aValue => aValue, () => b, a);
+  return match(
+    aValue => aValue,
+    () => b,
+    a,
+  );
 }

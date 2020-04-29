@@ -17,9 +17,9 @@ describe('CommandLine', function() {
   describe('#parseArgs', function() {
     it('returns an error when no arguments are passed in', function() {
       const args: string[] = [];
-      const parsedArgs: Maybe.Maybe<
-        CommandLine.Arguments
-      > = CommandLine.parseArgs(args);
+      const parsedArgs: Maybe.Maybe<CommandLine.Arguments> = CommandLine.parseArgs(
+        args,
+      );
 
       const expectedResult = Maybe.Nothing<CommandLine.Arguments>();
 
@@ -28,9 +28,9 @@ describe('CommandLine', function() {
 
     it('gives the default levels for everything when only a path is provided', function() {
       const args: string[] = ['project/to/generate'];
-      const parsedArgs: Maybe.Maybe<
-        CommandLine.Arguments
-      > = CommandLine.parseArgs(args);
+      const parsedArgs: Maybe.Maybe<CommandLine.Arguments> = CommandLine.parseArgs(
+        args,
+      );
 
       const expectedResult = Maybe.Just<CommandLine.Arguments>({
         givenPaths: ['project/to/generate'],
@@ -59,9 +59,9 @@ describe('CommandLine', function() {
 
     it('decreases the minimal level to one when --verbose is provided', function() {
       const args: string[] = ['--verbose', 'project/to/generate'];
-      const parsedArgs: Maybe.Maybe<
-        CommandLine.Arguments
-      > = CommandLine.parseArgs(args);
+      const parsedArgs: Maybe.Maybe<CommandLine.Arguments> = CommandLine.parseArgs(
+        args,
+      );
 
       const expectedResult = Maybe.Just<CommandLine.Arguments>({
         givenPaths: ['project/to/generate'],
@@ -90,9 +90,9 @@ describe('CommandLine', function() {
 
     it('includes perf logging when --perf-log is provided', function() {
       const args: string[] = ['--perf-log', 'project/to/generate'];
-      const parsedArgs: Maybe.Maybe<
-        CommandLine.Arguments
-      > = CommandLine.parseArgs(args);
+      const parsedArgs: Maybe.Maybe<CommandLine.Arguments> = CommandLine.parseArgs(
+        args,
+      );
 
       const expectedResult = Maybe.Just<CommandLine.Arguments>({
         givenPaths: ['project/to/generate'],
@@ -122,9 +122,9 @@ describe('CommandLine', function() {
 
     it('includes debug logging when --debug is provided', function() {
       const args: string[] = ['--debug', 'project/to/generate'];
-      const parsedArgs: Maybe.Maybe<
-        CommandLine.Arguments
-      > = CommandLine.parseArgs(args);
+      const parsedArgs: Maybe.Maybe<CommandLine.Arguments> = CommandLine.parseArgs(
+        args,
+      );
 
       const expectedResult = Maybe.Just<CommandLine.Arguments>({
         givenPaths: ['project/to/generate'],
@@ -154,9 +154,9 @@ describe('CommandLine', function() {
 
     it('includes dry run when --dry-run is provided', function() {
       const args: string[] = ['--dry-run', 'project/to/generate'];
-      const parsedArgs: Maybe.Maybe<
-        CommandLine.Arguments
-      > = CommandLine.parseArgs(args);
+      const parsedArgs: Maybe.Maybe<CommandLine.Arguments> = CommandLine.parseArgs(
+        args,
+      );
 
       const expectedResult = Maybe.Just<CommandLine.Arguments>({
         givenPaths: ['project/to/generate'],
@@ -190,9 +190,9 @@ describe('CommandLine', function() {
         '--silent',
         'project/to/generate',
       ];
-      const parsedArgs: Maybe.Maybe<
-        CommandLine.Arguments
-      > = CommandLine.parseArgs(args);
+      const parsedArgs: Maybe.Maybe<CommandLine.Arguments> = CommandLine.parseArgs(
+        args,
+      );
 
       const expectedResult = Maybe.Just<CommandLine.Arguments>({
         givenPaths: ['project/to/generate'],
@@ -222,9 +222,9 @@ describe('CommandLine', function() {
         '--value-object-config-path',
         'path/to/valueObjectConfig',
       ];
-      const parsedArgs: Maybe.Maybe<
-        CommandLine.Arguments
-      > = CommandLine.parseArgs(args);
+      const parsedArgs: Maybe.Maybe<CommandLine.Arguments> = CommandLine.parseArgs(
+        args,
+      );
 
       const expectedResult = Maybe.Just<CommandLine.Arguments>({
         givenPaths: ['project/to/generate'],
@@ -257,9 +257,9 @@ describe('CommandLine', function() {
         '--object-config-path',
         'path/to/objectConfig',
       ];
-      const parsedArgs: Maybe.Maybe<
-        CommandLine.Arguments
-      > = CommandLine.parseArgs(args);
+      const parsedArgs: Maybe.Maybe<CommandLine.Arguments> = CommandLine.parseArgs(
+        args,
+      );
 
       const expectedResult = Maybe.Just<CommandLine.Arguments>({
         givenPaths: ['project/to/generate'],
@@ -291,9 +291,9 @@ describe('CommandLine', function() {
         '--output-path=path/to/output',
         'project/to/generate',
       ];
-      const parsedArgs: Maybe.Maybe<
-        CommandLine.Arguments
-      > = CommandLine.parseArgs(args);
+      const parsedArgs: Maybe.Maybe<CommandLine.Arguments> = CommandLine.parseArgs(
+        args,
+      );
 
       const expectedResult = Maybe.Just<CommandLine.Arguments>({
         givenPaths: ['project/to/generate'],
@@ -327,9 +327,9 @@ describe('CommandLine', function() {
         '--include=PluginTwo',
         '--exclude=PluginThree',
       ];
-      const parsedArgs: Maybe.Maybe<
-        CommandLine.Arguments
-      > = CommandLine.parseArgs(args);
+      const parsedArgs: Maybe.Maybe<CommandLine.Arguments> = CommandLine.parseArgs(
+        args,
+      );
 
       const expectedResult = Maybe.Just<CommandLine.Arguments>({
         givenPaths: ['project/to/generate'],
@@ -358,9 +358,9 @@ describe('CommandLine', function() {
 
     it('returns nothing when both --headers-only and implementation-only are passed', function() {
       const args: string[] = ['--headers-only', '--implementation-only'];
-      const parsedArgs: Maybe.Maybe<
-        CommandLine.Arguments
-      > = CommandLine.parseArgs(args);
+      const parsedArgs: Maybe.Maybe<CommandLine.Arguments> = CommandLine.parseArgs(
+        args,
+      );
 
       const expectedResult = Maybe.Nothing<CommandLine.Arguments>();
 
@@ -375,9 +375,9 @@ describe('CommandLine', function() {
         '--emit=PluginOne',
         '--emit=object',
       ];
-      const parsedArgs: Maybe.Maybe<
-        CommandLine.Arguments
-      > = CommandLine.parseArgs(args);
+      const parsedArgs: Maybe.Maybe<CommandLine.Arguments> = CommandLine.parseArgs(
+        args,
+      );
 
       const expectedResult = Maybe.Just<CommandLine.Arguments>({
         givenPaths: ['project/to/generate'],
@@ -412,9 +412,9 @@ describe('CommandLine', function() {
         '--emit=all',
         '--emit=foo',
       ];
-      const parsedArgs: Maybe.Maybe<
-        CommandLine.Arguments
-      > = CommandLine.parseArgs(args);
+      const parsedArgs: Maybe.Maybe<CommandLine.Arguments> = CommandLine.parseArgs(
+        args,
+      );
 
       const expectedResult = Maybe.Just<CommandLine.Arguments>({
         givenPaths: ['project/to/generate'],
@@ -443,9 +443,9 @@ describe('CommandLine', function() {
 
     it('returns nothing when only --verbose is provided', function() {
       const args: string[] = ['--verbose'];
-      const parsedArgs: Maybe.Maybe<
-        CommandLine.Arguments
-      > = CommandLine.parseArgs(args);
+      const parsedArgs: Maybe.Maybe<CommandLine.Arguments> = CommandLine.parseArgs(
+        args,
+      );
 
       const expectedResult = Maybe.Nothing<CommandLine.Arguments>();
 

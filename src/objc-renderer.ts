@@ -1095,9 +1095,7 @@ export function toMacroImplementationString(
   macroDefinition: ObjC.Macro,
 ): string {
   const parameters = macroDefinition.parameters.join(', ');
-  return `#define ${macroDefinition.name}(${parameters}) ${
-    macroDefinition.code
-  }`;
+  return `#define ${macroDefinition.name}(${parameters}) ${macroDefinition.code}`;
 }
 
 export function toFunctionImplementationString(

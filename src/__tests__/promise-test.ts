@@ -157,13 +157,10 @@ describe('Promise', function() {
         return val + 3;
       }, future);
 
-      Promise.then(
-        function(val: number) {
-          wasCalled = true;
-          expect(val).toBe(6);
-        },
-        <Promise.Future<number>>mappedFuture,
-      );
+      Promise.then(function(val: number) {
+        wasCalled = true;
+        expect(val).toBe(6);
+      }, <Promise.Future<number>>mappedFuture);
 
       expect(wasCalled).toBe(true);
     });
@@ -257,9 +254,9 @@ describe('Promise', function() {
         const func: (a: number) => string = function(num: number) {
           return num.toString();
         };
-        const futureFunc: Promise.Future<
-          (a: number) => string
-        > = Promise.resolved(func).getFuture();
+        const futureFunc: Promise.Future<(
+          a: number,
+        ) => string> = Promise.resolved(func).getFuture();
         const numPromise: Promise.Promise<number> = Promise.pending<number>();
         var wasCalled: boolean = false;
 

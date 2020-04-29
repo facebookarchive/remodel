@@ -77,7 +77,11 @@ export function and<T, A, B>(
   b: Either<T, B>,
 ): Either<T, [A, B]> {
   return mbind(
-    rightA => mbind(rightB => Right<T, [A, B]>([rightA, rightB]), b),
+    rightA =>
+      mbind(
+        rightB => Right<T, [A, B]>([rightA, rightB]),
+        b,
+      ),
     a,
   );
 }

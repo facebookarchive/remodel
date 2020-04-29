@@ -236,10 +236,10 @@ describe('Logging', function() {
         },
         context);
 
-        const calledWith: ({
+        const calledWith: {
           loggingType: Logging.LoggingType;
           info: string;
-        })[] = [];
+        }[] = [];
 
         const logger: Logging.Logger = {
           interestedLoggingTypes: List.of(
@@ -283,10 +283,10 @@ describe('Logging', function() {
         },
         context);
 
-        const calledWith: ({
+        const calledWith: {
           loggingType: Logging.LoggingType;
           info: string;
-        })[] = [];
+        }[] = [];
         const logger: Logging.Logger = {
           interestedLoggingTypes: List.of(
             Logging.LoggingType.performance,
@@ -323,10 +323,10 @@ describe('Logging', function() {
           3,
         );
 
-        const calledWith: ({
+        const calledWith: {
           loggingType: Logging.LoggingType;
           info: string;
-        })[] = [];
+        }[] = [];
 
         const logger: Logging.Logger = {
           interestedLoggingTypes: List.of(

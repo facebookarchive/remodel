@@ -12,9 +12,10 @@ import * as ParallelProcess from './parallel-process';
 import * as Promise from './promise';
 
 function processFoundFileRequest(request: ParallelProcess.FindFilesRequest) {
-  const foundFilesFuture: Promise.Future<
-    Either.Either<Error.Error, FileFinder.FilesAndDirectories>
-  > = FileFinder.findFilesAndDirectories(
+  const foundFilesFuture: Promise.Future<Either.Either<
+    Error.Error,
+    FileFinder.FilesAndDirectories
+  >> = FileFinder.findFilesAndDirectories(
     request.directoryToSearch,
     request.fileExtension,
   );

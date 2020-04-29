@@ -265,9 +265,7 @@ export function fileWriteRequest(
     pluginsToRun,
   );
 
-  const typeInfoProvider: PluggableObjCFileCreation.ObjCGenerationTypeInfoProvider<
-    ObjectSpec.Type
-  > = {
+  const typeInfoProvider: PluggableObjCFileCreation.ObjCGenerationTypeInfoProvider<ObjectSpec.Type> = {
     additionalTypesForType: type => additionalTypesForType(pluginsToRun, type),
     typeNameForType: typeNameForType,
     commentsForType: commentsForType,

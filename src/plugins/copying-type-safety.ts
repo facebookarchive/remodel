@@ -62,11 +62,7 @@ function copyingValidatorFunction(
       )
       .map(
         attribute =>
-          `id<NSCopying> ${
-            attribute.name
-          }_must_conform_to_NSCopying __unused = (${
-            attribute.type.reference
-          })nil;`,
+          `id<NSCopying> ${attribute.name}_must_conform_to_NSCopying __unused = (${attribute.type.reference})nil;`,
       ),
     isPublic: false,
     isInline: false,

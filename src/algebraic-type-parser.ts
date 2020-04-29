@@ -20,9 +20,7 @@ function underlyingTypeForType(
   providedUnderlyingType: string,
   typeReference: string,
 ): string | null {
-  const underlyingType: Maybe.Maybe<
-    string
-  > = ObjectGenerationParsingUtils.possiblyUndefinedStringToMaybe(
+  const underlyingType: Maybe.Maybe<string> = ObjectGenerationParsingUtils.possiblyUndefinedStringToMaybe(
     providedUnderlyingType,
   );
   return Maybe.match(

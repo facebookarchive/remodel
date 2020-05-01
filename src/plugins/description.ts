@@ -424,9 +424,7 @@ export function createPlugin(): ObjectSpec.Plugin {
       return [];
     },
     imports: function(objectType: ObjectSpec.Type): ObjC.Import[] {
-      const attributeDescriptionImportMaybes: Maybe.Maybe<
-        ObjC.Import
-      >[] = objectType.attributes.map(
+      const attributeDescriptionImportMaybes = objectType.attributes.map(
         attributeDescriptionImportMaybeForObjectSpecAttribute,
       );
 
@@ -625,9 +623,7 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
       return [];
     },
     imports: function(algebraicType: AlgebraicType.Type): ObjC.Import[] {
-      const attributeDescriptionImportMaybes: Maybe.Maybe<
-        ObjC.Import
-      >[] = AlgebraicTypeUtils.allAttributesFromSubtypes(
+      const attributeDescriptionImportMaybes = AlgebraicTypeUtils.allAttributesFromSubtypes(
         algebraicType.subtypes,
       ).map(attributeDescriptionImportMaybeForAlgebraicAttribute);
 

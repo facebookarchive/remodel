@@ -2824,9 +2824,7 @@ describe('ObjCRenderer', function() {
         macros: [],
       };
 
-      const renderedOutput: Maybe.Maybe<string> = ObjCRenderer.renderImplementation(
-        fileToRender,
-      );
+      const renderedOutput = ObjCRenderer.renderImplementation(fileToRender);
 
       const expectedOutput: string | null = Maybe.Just<string>(
         '// Copyright something something. All Rights Reserved.\n\n' +
@@ -3011,9 +3009,7 @@ describe('ObjCRenderer', function() {
         macros: [],
       };
 
-      const renderedOutput: Maybe.Maybe<string> = ObjCRenderer.renderImplementation(
-        fileToRender,
-      );
+      const renderedOutput = ObjCRenderer.renderImplementation(fileToRender);
 
       const expectedOutput: string | null = Maybe.Just<string>(
         '#if  ! __has_feature(objc_arc)\n' +
@@ -3265,9 +3261,7 @@ describe('ObjCRenderer', function() {
         macros: [],
       };
 
-      const renderedOutput: Maybe.Maybe<string> = ObjCRenderer.renderImplementation(
-        fileToRender,
-      );
+      const renderedOutput = ObjCRenderer.renderImplementation(fileToRender);
 
       const expectedOutput: string | null = Maybe.Just<string>(
         '// Copyright something something. All Rights Reserved.\n\n' +
@@ -3402,9 +3396,7 @@ describe('ObjCRenderer', function() {
         macros: [],
       };
 
-      const renderedOutput: Maybe.Maybe<string> = ObjCRenderer.renderImplementation(
-        fileToRender,
-      );
+      const renderedOutput = ObjCRenderer.renderImplementation(fileToRender);
 
       const expectedOutput: string | null = Maybe.Just<string>(
         '#if  ! __has_feature(objc_arc)\n' +
@@ -3513,9 +3505,7 @@ describe('ObjCRenderer', function() {
         macros: [],
       };
 
-      const renderedOutput: Maybe.Maybe<string> = ObjCRenderer.renderImplementation(
-        fileToRender,
-      );
+      const renderedOutput = ObjCRenderer.renderImplementation(fileToRender);
 
       const expectedOutput: string | null = Maybe.Just<string>(
         '#if  ! __has_feature(objc_arc)\n' +
@@ -3605,9 +3595,7 @@ describe('ObjCRenderer', function() {
         macros: [],
       };
 
-      const renderedOutput: Maybe.Maybe<string> = ObjCRenderer.renderImplementation(
-        fileToRender,
-      );
+      const renderedOutput = ObjCRenderer.renderImplementation(fileToRender);
 
       const expectedOutput: string | null = Maybe.Just<string>(
         '#if  ! __has_feature(objc_arc)\n' +
@@ -3700,9 +3688,7 @@ describe('ObjCRenderer', function() {
         macros: [],
       };
 
-      const renderedOutput: Maybe.Maybe<string> = ObjCRenderer.renderImplementation(
-        fileToRender,
-      );
+      const renderedOutput = ObjCRenderer.renderImplementation(fileToRender);
 
       const expectedOutput: string | null = Maybe.Just<string>(
         '#if  ! __has_feature(objc_arc)\n' +
@@ -3787,9 +3773,7 @@ describe('ObjCRenderer', function() {
         macros: [],
       };
 
-      const renderedOutput: Maybe.Maybe<string> = ObjCRenderer.renderHeader(
-        fileToRender,
-      );
+      const renderedOutput = ObjCRenderer.renderHeader(fileToRender);
 
       const expectedOutput: string | null = Maybe.Just<string>(
         '__attribute__((visibility("default")))\n' +
@@ -3836,9 +3820,7 @@ describe('ObjCRenderer', function() {
           macros: [],
         };
 
-        const renderedOutput: Maybe.Maybe<string> = ObjCRenderer.renderImplementation(
-          fileToRender,
-        );
+        const renderedOutput = ObjCRenderer.renderImplementation(fileToRender);
         const expectedOutput: string | null = null;
         expect(renderedOutput).toEqualJSON(expectedOutput);
       },
@@ -3919,9 +3901,7 @@ describe('ObjCRenderer', function() {
         macros: [],
       };
 
-      const renderedOutput: Maybe.Maybe<string> = ObjCRenderer.renderImplementation(
-        fileToRender,
-      );
+      const renderedOutput = ObjCRenderer.renderImplementation(fileToRender);
 
       const expectedOutput: string | null = Maybe.Just<string>(
         '#if  ! __has_feature(objc_arc)\n' +
@@ -3983,9 +3963,7 @@ describe('ObjCRenderer', function() {
           macros: [],
         };
 
-        const renderedOutput: Maybe.Maybe<string> = ObjCRenderer.renderImplementation(
-          fileToRender,
-        );
+        const renderedOutput = ObjCRenderer.renderImplementation(fileToRender);
         const expectedOutput: string | null = null;
         expect(renderedOutput).toEqualJSON(expectedOutput);
       },
@@ -4025,9 +4003,7 @@ describe('ObjCRenderer', function() {
         macros: [],
       };
 
-      const renderedOutput: Maybe.Maybe<string> = ObjCRenderer.renderImplementation(
-        fileToRender,
-      );
+      const renderedOutput = ObjCRenderer.renderImplementation(fileToRender);
       const expectedOutput: string | null = null;
       expect(renderedOutput).toEqualJSON(expectedOutput);
     });
@@ -4090,9 +4066,7 @@ describe('ObjCRenderer', function() {
           macros: [],
         };
 
-        const renderedOutput: Maybe.Maybe<string> = ObjCRenderer.renderImplementation(
-          fileToRender,
-        );
+        const renderedOutput = ObjCRenderer.renderImplementation(fileToRender);
         const expectedOutput: string | null = null;
         expect(renderedOutput).toEqualJSON(expectedOutput);
       },
@@ -4117,9 +4091,7 @@ describe('ObjCRenderer', function() {
         macros: [],
       };
 
-      const renderedOutput: Maybe.Maybe<string> = ObjCRenderer.renderImplementation(
-        fileToRender,
-      );
+      const renderedOutput = ObjCRenderer.renderImplementation(fileToRender);
       const expectedOutput: string | null = null;
       expect(renderedOutput).toEqualJSON(expectedOutput);
     });
@@ -4163,9 +4135,7 @@ describe('ObjCRenderer', function() {
         nullability: ObjC.ClassNullability.assumeNonnull,
       };
 
-      const renderedOutput: Maybe.Maybe<string> = ObjCRenderer.renderImplementation(
-        fileToRender,
-      );
+      const renderedOutput = ObjCRenderer.renderImplementation(fileToRender);
 
       const expectedOutput: string | null = Maybe.Just<
         string
@@ -4252,9 +4222,7 @@ NS_ASSUME_NONNULL_END\n`);
         ],
       };
 
-      const renderedOutput: Maybe.Maybe<string> = ObjCRenderer.renderImplementation(
-        fileToRender,
-      );
+      const renderedOutput = ObjCRenderer.renderImplementation(fileToRender);
 
       const expectedOutput: string | null = Maybe.Just<
         string
@@ -4323,9 +4291,7 @@ static int RMSomeFunction(BOOL parameter) {
 }\n`);
       expect(renderedOutput).toEqualJSON(expectedOutput);
 
-      const renderedImpl: Maybe.Maybe<string> = ObjCRenderer.renderImplementation(
-        fileToRender,
-      );
+      const renderedImpl = ObjCRenderer.renderImplementation(fileToRender);
 
       expect(renderedImpl).toEqual(null);
     });
@@ -4397,9 +4363,7 @@ static int RMSomeFunction(BOOL parameter) {
       );
       expect(renderedOutput).toEqualJSON(expectedOutput);
 
-      const renderedImpl: Maybe.Maybe<string> = ObjCRenderer.renderImplementation(
-        fileToRender,
-      );
+      const renderedImpl = ObjCRenderer.renderImplementation(fileToRender);
 
       expect(renderedImpl).not.toContain('RMSomeFunction');
     });

@@ -688,10 +688,9 @@ export function createPlugin(): ObjectSpec.Plugin {
       }
     },
     imports: function(objectType: ObjectSpec.Type): ObjC.Import[] {
-      const codingImportMaybes: Maybe.Maybe<
-        ObjC.Import
-      >[] = objectType.attributes.map(importForAttributeCodingMethod);
-
+      const codingImportMaybes = objectType.attributes.map(
+        importForAttributeCodingMethod,
+      );
       return Maybe.catMaybes(codingImportMaybes);
     },
     instanceMethods: function(objectType: ObjectSpec.Type): ObjC.Method[] {

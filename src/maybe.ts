@@ -5,8 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-export type Maybe<T> = T | null;
-
 export function Just<T>(t: T): T | null {
   return t;
 }

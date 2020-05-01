@@ -21,13 +21,11 @@ function fileRequest(
   contents: string | null,
 ): FileWriter.Request | null {
   return Maybe.mbind(function(fileContents: string): FileWriter.Request | null {
-    return Maybe.Just<FileWriter.Request>(
-      FileWriter.Request(
-        File.getAbsoluteFilePath(
-          path.join(File.getAbsolutePathString(containingFolderPath), fileName),
-        ),
-        fileContents,
+    return FileWriter.Request(
+      File.getAbsoluteFilePath(
+        path.join(File.getAbsolutePathString(containingFolderPath), fileName),
       ),
+      fileContents,
     );
   }, contents);
 }

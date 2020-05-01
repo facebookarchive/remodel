@@ -109,11 +109,9 @@ function findFile(
   const promise = Promise.pending<File.AbsoluteFilePath | null>();
   fs.readdir(directory, function(err, files) {
     if (files != null && files.indexOf(fileName) !== -1) {
-      promise.setValue(
-        Maybe.Just(File.getAbsoluteFilePath(directory + '/' + fileName)),
-      );
+      promise.setValue(File.getAbsoluteFilePath(directory + '/' + fileName));
     } else {
-      promise.setValue(Maybe.Nothing<File.AbsoluteFilePath>());
+      promise.setValue(null);
     }
   });
   return promise.getFuture();
@@ -133,7 +131,7 @@ function findConfigForStringPath(
       function() {
         const nextPath = path.resolve(currentWorkingDirectoryPathString, '../');
         if (nextPath === currentWorkingDirectoryPathString) {
-          return Promise.munit(Maybe.Nothing<File.AbsoluteFilePath>());
+          return Promise.munit(null);
         } else {
           return findConfigForStringPath(fileName, nextPath);
         }

@@ -303,21 +303,21 @@ describe('ObjectSpecPlugins.Coding', function() {
           keywords: [
             {
               name: 'initWithCoder',
-              argument: Maybe.Just<ObjC.KeywordArgument>({
+              argument: {
                 name: 'aDecoder',
                 modifiers: [],
                 type: {
                   name: 'NSCoder',
                   reference: 'NSCoder *',
                 },
-              }),
+              },
             },
           ],
           returnType: {
-            type: Maybe.Just<ObjC.Type>({
+            type: {
               name: 'instancetype',
               reference: 'instancetype',
-            }),
+            },
             modifiers: [ObjC.KeywordArgumentModifier.Nullable()],
           },
         },
@@ -330,17 +330,17 @@ describe('ObjectSpecPlugins.Coding', function() {
           keywords: [
             {
               name: 'encodeWithCoder',
-              argument: Maybe.Just<ObjC.KeywordArgument>({
+              argument: {
                 name: 'aCoder',
                 modifiers: [],
                 type: {
                   name: 'NSCoder',
                   reference: 'NSCoder *',
                 },
-              }),
+              },
             },
           ],
-          returnType: {type: Maybe.Nothing<ObjC.Type>(), modifiers: []},
+          returnType: {type: null, modifiers: []},
         },
       ];
 
@@ -426,21 +426,21 @@ describe('ObjectSpecPlugins.Coding', function() {
           keywords: [
             {
               name: 'initWithCoder',
-              argument: Maybe.Just<ObjC.KeywordArgument>({
+              argument: {
                 name: 'aDecoder',
                 modifiers: [],
                 type: {
                   name: 'NSCoder',
                   reference: 'NSCoder *',
                 },
-              }),
+              },
             },
           ],
           returnType: {
-            type: Maybe.Just<ObjC.Type>({
+            type: {
               name: 'instancetype',
               reference: 'instancetype',
-            }),
+            },
             modifiers: [ObjC.KeywordArgumentModifier.Nullable()],
           },
         },
@@ -457,17 +457,17 @@ describe('ObjectSpecPlugins.Coding', function() {
           keywords: [
             {
               name: 'encodeWithCoder',
-              argument: Maybe.Just<ObjC.KeywordArgument>({
+              argument: {
                 name: 'aCoder',
                 modifiers: [],
                 type: {
                   name: 'NSCoder',
                   reference: 'NSCoder *',
                 },
-              }),
+              },
             },
           ],
-          returnType: {type: Maybe.Nothing<ObjC.Type>(), modifiers: []},
+          returnType: {type: null, modifiers: []},
         },
       ];
 
@@ -1123,21 +1123,21 @@ describe('AlgebraicTypePlugins.Coding', function() {
           keywords: [
             {
               name: 'initWithCoder',
-              argument: Maybe.Just<ObjC.KeywordArgument>({
+              argument: {
                 name: 'aDecoder',
                 modifiers: [],
                 type: {
                   name: 'NSCoder',
                   reference: 'NSCoder *',
                 },
-              }),
+              },
             },
           ],
           returnType: {
-            type: Maybe.Just<ObjC.Type>({
+            type: {
               name: 'instancetype',
               reference: 'instancetype',
-            }),
+            },
             modifiers: [ObjC.KeywordArgumentModifier.Nullable()],
           },
         },
@@ -1164,17 +1164,17 @@ describe('AlgebraicTypePlugins.Coding', function() {
           keywords: [
             {
               name: 'encodeWithCoder',
-              argument: Maybe.Just<ObjC.KeywordArgument>({
+              argument: {
                 name: 'aCoder',
                 modifiers: [],
                 type: {
                   name: 'NSCoder',
                   reference: 'NSCoder *',
                 },
-              }),
+              },
             },
           ],
-          returnType: {type: Maybe.Nothing<ObjC.Type>(), modifiers: []},
+          returnType: {type: null, modifiers: []},
         },
       ];
 

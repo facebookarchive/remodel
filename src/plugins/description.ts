@@ -55,7 +55,7 @@ const UI_GEOMETRY_IMPORT: ObjC.Import = {
 };
 
 const NSOBJECT_ATTRIBUTE_DESCRIPTION: AttributeDescription = {
-  descriptionFunctionImport: Maybe.Nothing<ObjC.Import>(),
+  descriptionFunctionImport: null,
   token: '%@',
   valueGenerator: useValueAccessor,
 };
@@ -71,7 +71,7 @@ function attributeDescriptionForType(type: ObjC.Type): AttributeDescription {
       },
       BOOL: function() {
         return {
-          descriptionFunctionImport: Maybe.Nothing<ObjC.Import>(),
+          descriptionFunctionImport: null,
           token: '%@',
           valueGenerator: function(valueAccessor: string): string {
             return valueAccessor + ' ? @"YES" : @"NO"';
@@ -80,84 +80,84 @@ function attributeDescriptionForType(type: ObjC.Type): AttributeDescription {
       },
       NSInteger: function() {
         return {
-          descriptionFunctionImport: Maybe.Nothing<ObjC.Import>(),
+          descriptionFunctionImport: null,
           token: '%lld',
           valueGenerator: castValueAccessorValue('long long'),
         };
       },
       NSUInteger: function() {
         return {
-          descriptionFunctionImport: Maybe.Nothing<ObjC.Import>(),
+          descriptionFunctionImport: null,
           token: '%llu',
           valueGenerator: castValueAccessorValue('unsigned long long'),
         };
       },
       double: function() {
         return {
-          descriptionFunctionImport: Maybe.Nothing<ObjC.Import>(),
+          descriptionFunctionImport: null,
           token: '%lf',
           valueGenerator: useValueAccessor,
         };
       },
       float: function() {
         return {
-          descriptionFunctionImport: Maybe.Nothing<ObjC.Import>(),
+          descriptionFunctionImport: null,
           token: '%f',
           valueGenerator: useValueAccessor,
         };
       },
       CGFloat: function() {
         return {
-          descriptionFunctionImport: Maybe.Nothing<ObjC.Import>(),
+          descriptionFunctionImport: null,
           token: '%f',
           valueGenerator: useValueAccessor,
         };
       },
       NSTimeInterval: function() {
         return {
-          descriptionFunctionImport: Maybe.Nothing<ObjC.Import>(),
+          descriptionFunctionImport: null,
           token: '%lf',
           valueGenerator: useValueAccessor,
         };
       },
       uintptr_t: function() {
         return {
-          descriptionFunctionImport: Maybe.Nothing<ObjC.Import>(),
+          descriptionFunctionImport: null,
           token: '%p',
           valueGenerator: castValueAccessorValue('void *'),
         };
       },
       uint32_t: function() {
         return {
-          descriptionFunctionImport: Maybe.Nothing<ObjC.Import>(),
+          descriptionFunctionImport: null,
           token: '%u',
           valueGenerator: useValueAccessor,
         };
       },
       uint64_t: function() {
         return {
-          descriptionFunctionImport: Maybe.Nothing<ObjC.Import>(),
+          descriptionFunctionImport: null,
           token: '%llu',
           valueGenerator: castValueAccessorValue('unsigned long long'),
         };
       },
       int32_t: function() {
         return {
-          descriptionFunctionImport: Maybe.Nothing<ObjC.Import>(),
+          descriptionFunctionImport: null,
           token: '%d',
           valueGenerator: useValueAccessor,
         };
       },
       int64_t: function() {
         return {
-          descriptionFunctionImport: Maybe.Nothing<ObjC.Import>(),
+          descriptionFunctionImport: null,
           token: '%lld',
           valueGenerator: castValueAccessorValue('long long'),
         };
       },
       SEL: function() {
         return {
-          descriptionFunctionImport: Maybe.Nothing<ObjC.Import>(),
+          descriptionFunctionImport: null,
           token: '%@',
           valueGenerator: useFunctionReturnValueAsDescriptionValue(
             'NSStringFromSelector',
@@ -166,7 +166,7 @@ function attributeDescriptionForType(type: ObjC.Type): AttributeDescription {
       },
       NSRange: function() {
         return {
-          descriptionFunctionImport: Maybe.Nothing<ObjC.Import>(),
+          descriptionFunctionImport: null,
           token: '%@',
           valueGenerator: useFunctionReturnValueAsDescriptionValue(
             'NSStringFromRange',
@@ -211,14 +211,14 @@ function attributeDescriptionForType(type: ObjC.Type): AttributeDescription {
       },
       Class: function() {
         return {
-          descriptionFunctionImport: Maybe.Nothing<ObjC.Import>(),
+          descriptionFunctionImport: null,
           token: '%@',
           valueGenerator: useValueAccessor,
         };
       },
       dispatch_block_t: function() {
         return {
-          descriptionFunctionImport: Maybe.Nothing<ObjC.Import>(),
+          descriptionFunctionImport: null,
           token: '%@',
           valueGenerator: useValueAccessor,
         };
@@ -326,14 +326,14 @@ function descriptionInstanceMethodWithCode(code: string[]): ObjC.Method {
     keywords: [
       {
         name: 'description',
-        argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+        argument: null,
       },
     ],
     returnType: {
-      type: Maybe.Just<ObjC.Type>({
+      type: {
         name: 'NSString',
         reference: 'NSString *',
-      }),
+      },
       modifiers: [],
     },
   };
@@ -405,7 +405,7 @@ export function createPlugin(): ObjectSpec.Plugin {
       return request;
     },
     fileType: function(objectType: ObjectSpec.Type): Code.FileType | null {
-      return Maybe.Nothing<Code.FileType>();
+      return null;
     },
     forwardDeclarations: function(
       objectType: ObjectSpec.Type,
@@ -463,7 +463,7 @@ export function createPlugin(): ObjectSpec.Plugin {
     nullability: function(
       objectType: ObjectSpec.Type,
     ): ObjC.ClassNullability | null {
-      return Maybe.Nothing<ObjC.ClassNullability>();
+      return null;
     },
     subclassingRestricted: function(objectType: ObjectSpec.Type): boolean {
       return false;
@@ -602,7 +602,7 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
     fileType: function(
       algebraicType: AlgebraicType.Type,
     ): Code.FileType | null {
-      return Maybe.Nothing<Code.FileType>();
+      return null;
     },
     forwardDeclarations: function(
       algebraicType: AlgebraicType.Type,
@@ -665,7 +665,7 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
     nullability: function(
       algebraicType: AlgebraicType.Type,
     ): ObjC.ClassNullability | null {
-      return Maybe.Nothing<ObjC.ClassNullability>();
+      return null;
     },
     subclassingRestricted: function(
       algebraicType: AlgebraicType.Type,

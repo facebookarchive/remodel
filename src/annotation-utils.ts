@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import * as Maybe from './maybe';
 import * as ObjectGeneration from './object-generation';
 
 export function annotationValuesWithName(
@@ -13,10 +12,8 @@ export function annotationValuesWithName(
   annotationName: string,
 ): ObjectGeneration.Annotation[] | null {
   if (annotations && annotations[annotationName]) {
-    return Maybe.Just<ObjectGeneration.Annotation[]>(
-      annotations[annotationName],
-    );
+    return annotations[annotationName];
   } else {
-    return Maybe.Nothing<ObjectGeneration.Annotation[]>();
+    return null;
   }
 }

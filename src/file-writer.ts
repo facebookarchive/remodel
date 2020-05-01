@@ -34,9 +34,9 @@ export function write(request: Request): Promise.Future<Error.Error | null> {
     {encoding: 'utf8'},
     function(err) {
       if (err) {
-        promise.setValue(Maybe.Just(Error.Error(err.message)));
+        promise.setValue(Error.Error(err.message));
       } else {
-        promise.setValue(Maybe.Nothing<Error.Error>());
+        promise.setValue(null);
       }
     },
   );

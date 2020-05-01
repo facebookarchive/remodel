@@ -77,7 +77,7 @@ describe('Maybe', function() {
     it('applies the bind when the maybe is a just', function() {
       const maybe: number | null = 3;
       const boundMaybe = Maybe.mbind(function(num: number) {
-        return Maybe.Just(num.toString());
+        return num.toString();
       }, maybe);
       const just = function(num: string) {
         return num;
@@ -93,7 +93,7 @@ describe('Maybe', function() {
     it('does not apply the bind when the maybe is a nothing', function() {
       const maybe: number | null = null;
       const boundMaybe = Maybe.mbind(function(num: number) {
-        return Maybe.Just(num.toString());
+        return num.toString();
       }, maybe);
       const just = function(num: string) {
         return num;
@@ -108,7 +108,7 @@ describe('Maybe', function() {
   });
 
   describe('#catMaybes', function() {
-    it('removes some Maybe.Nothings but returns the values from the Maybes that have them', function() {
+    it('removes some nulls but returns the values from the non-null items', function() {
       const maybes: (number | null)[] = [2, null, 4];
       const numbers: number[] = Maybe.catMaybes(maybes);
 

@@ -457,9 +457,7 @@ class Macro {
 function nullabilityMacro(nullability: ObjC.ClassNullability): Macro | null {
   switch (nullability) {
     case ObjC.ClassNullability.assumeNonnull:
-      return Maybe.Just(
-        new Macro('NS_ASSUME_NONNULL_BEGIN', 'NS_ASSUME_NONNULL_END'),
-      );
+      return new Macro('NS_ASSUME_NONNULL_BEGIN', 'NS_ASSUME_NONNULL_END');
     case ObjC.ClassNullability.default:
       return null;
   }
@@ -955,7 +953,7 @@ export function renderHeader(file: Code.File): string | null {
     cppClassesSection +
     functionsSection +
     postfixMacrosSection;
-  return Maybe.Just<string>(contents.trim() + '\n');
+  return contents.trim() + '\n';
 }
 
 function toMemorySemanticString(memorySemantic: ObjC.MemorySemantic): string {
@@ -1387,7 +1385,7 @@ export function renderImplementation(file: Code.File): string | null {
       postfixMacrosSection +
       diagnosticIgnoresEndSection;
 
-    return Maybe.Just<string>(contents.trim() + '\n');
+    return contents.trim() + '\n';
   } else {
     return null;
   }

@@ -59,9 +59,7 @@ describe('ObjectSpecPlugins.AssumeNonnull', function() {
       };
 
       const nullability = ObjectSpecPlugin.nullability(objectType);
-      const expectedNullability = Maybe.Just(
-        ObjC.ClassNullability.assumeNonnull,
-      );
+      const expectedNullability = ObjC.ClassNullability.assumeNonnull;
       expect(nullability).toEqualJSON(expectedNullability);
     });
   });
@@ -108,9 +106,7 @@ describe('AlgebraicTypePlugins.AssumeNonnull', function() {
       };
 
       const nullability = AlgebraicTypePlugin.nullability(algebraicType);
-      const expectedNullability = Maybe.Just(
-        ObjC.ClassNullability.assumeNonnull,
-      );
+      const expectedNullability = ObjC.ClassNullability.assumeNonnull;
       expect(nullability).toEqualJSON(expectedNullability);
     });
   });

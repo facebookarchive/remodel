@@ -522,7 +522,7 @@ function generationGroupForType(type: ObjC.Type): TypeEqualityGenerationGroup {
           hashGenerator: generatorForInvokingSystemFunctionWithNameWithAttributeValue(
             {
               name: 'ABS',
-              import: Maybe.Nothing<ObjC.Import>(),
+              import: null,
             },
           ),
         };
@@ -603,7 +603,7 @@ function generationGroupForType(type: ObjC.Type): TypeEqualityGenerationGroup {
           hashGenerator: generatorForInvokingSystemFunctionWithNameWithAttributeValue(
             {
               name: 'ABS',
-              import: Maybe.Nothing<ObjC.Import>(),
+              import: null,
             },
           ),
         };
@@ -613,12 +613,12 @@ function generationGroupForType(type: ObjC.Type): TypeEqualityGenerationGroup {
           equalityCheckGenerator: generatorForInvokingSystemFunctionWithNameWithBothAttributeValues(
             {
               name: 'sel_isEqual',
-              import: Maybe.Just<ObjC.Import>({
+              import: {
                 library: 'objc',
                 file: 'runtime.h',
                 isPublic: false,
                 requiresCPlusPlus: false,
-              }),
+              },
             },
           ),
           hashGenerator: attributeValueAccessor => [
@@ -636,7 +636,7 @@ function generationGroupForType(type: ObjC.Type): TypeEqualityGenerationGroup {
           equalityCheckGenerator: generatorForInvokingSystemFunctionWithNameWithBothAttributeValues(
             {
               name: 'NSEqualRanges',
-              import: Maybe.Nothing<ObjC.Import>(),
+              import: null,
             },
           ),
           hashGenerator: generatorForInvokingSubGenerators([
@@ -656,7 +656,7 @@ function generationGroupForType(type: ObjC.Type): TypeEqualityGenerationGroup {
           equalityCheckGenerator: generatorForInvokingSystemFunctionWithNameWithBothAttributeValues(
             {
               name: 'CGRectEqualToRect',
-              import: Maybe.Nothing<ObjC.Import>(),
+              import: null,
             },
           ),
           hashGenerator: generatorForInvokingSubGenerators([
@@ -676,7 +676,7 @@ function generationGroupForType(type: ObjC.Type): TypeEqualityGenerationGroup {
           equalityCheckGenerator: generatorForInvokingSystemFunctionWithNameWithBothAttributeValues(
             {
               name: 'CGPointEqualToPoint',
-              import: Maybe.Nothing<ObjC.Import>(),
+              import: null,
             },
           ),
           hashGenerator: generatorForInvokingSubGenerators([
@@ -696,7 +696,7 @@ function generationGroupForType(type: ObjC.Type): TypeEqualityGenerationGroup {
           equalityCheckGenerator: generatorForInvokingSystemFunctionWithNameWithBothAttributeValues(
             {
               name: 'CGSizeEqualToSize',
-              import: Maybe.Nothing<ObjC.Import>(),
+              import: null,
             },
           ),
           hashGenerator: generatorForInvokingSubGenerators([
@@ -716,7 +716,7 @@ function generationGroupForType(type: ObjC.Type): TypeEqualityGenerationGroup {
           equalityCheckGenerator: generatorForInvokingSystemFunctionWithNameWithBothAttributeValues(
             {
               name: 'UIEdgeInsetsEqualToEdgeInsets',
-              import: Maybe.Nothing<ObjC.Import>(),
+              import: null,
             },
           ),
           hashGenerator: generatorForInvokingSubGenerators([
@@ -900,7 +900,7 @@ function isEqualInstanceMethod(
     keywords: [
       {
         name: 'isEqual',
-        argument: Maybe.Just<ObjC.KeywordArgument>({
+        argument: {
           name: 'object',
           modifiers: [],
           type: {
@@ -909,17 +909,17 @@ function isEqualInstanceMethod(
               typeName,
             ),
           },
-        }),
+        },
       },
     ],
     code: code,
     comments: [],
     compilerAttributes: [],
     returnType: {
-      type: Maybe.Just<ObjC.Type>({
+      type: {
         name: 'BOOL',
         reference: 'BOOL',
-      }),
+      },
       modifiers: [],
     },
   };
@@ -948,7 +948,7 @@ function hashInstanceMethod(
     keywords: [
       {
         name: 'hash',
-        argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+        argument: null,
       },
     ],
     code: [
@@ -969,10 +969,10 @@ function hashInstanceMethod(
     comments: [],
     compilerAttributes: [],
     returnType: {
-      type: Maybe.Just<ObjC.Type>({
+      type: {
         name: 'NSUInteger',
         reference: 'NSUInteger',
-      }),
+      },
       modifiers: [],
     },
   };
@@ -998,10 +998,10 @@ const COMPARE_FLOATS_FN: ObjC.Function = {
     },
   ],
   returnType: {
-    type: Maybe.Just<ObjC.Type>({
+    type: {
       name: 'BOOL',
       reference: 'BOOL',
-    }),
+    },
     modifiers: [],
   },
   code: [
@@ -1025,10 +1025,10 @@ const HASH_FLOAT_FN: ObjC.Function = {
     },
   ],
   returnType: {
-    type: Maybe.Just<ObjC.Type>({
+    type: {
       name: 'NSUInteger',
       reference: 'NSUInteger',
-    }),
+    },
     modifiers: [],
   },
   code: [
@@ -1081,10 +1081,10 @@ const COMPARE_DOUBLES_FN: ObjC.Function = {
     },
   ],
   returnType: {
-    type: Maybe.Just<ObjC.Type>({
+    type: {
       name: 'BOOL',
       reference: 'BOOL',
-    }),
+    },
     modifiers: [],
   },
   code: [
@@ -1108,10 +1108,10 @@ const HASH_DOUBLE_FN: ObjC.Function = {
     },
   ],
   returnType: {
-    type: Maybe.Just<ObjC.Type>({
+    type: {
       name: 'NSUInteger',
       reference: 'NSUInteger',
-    }),
+    },
     modifiers: [],
   },
   code: [
@@ -1172,10 +1172,10 @@ const COMPARE_CGFLOATS_FN: ObjC.Function = {
     },
   ],
   returnType: {
-    type: Maybe.Just<ObjC.Type>({
+    type: {
       name: 'BOOL',
       reference: 'BOOL',
-    }),
+    },
     modifiers: [],
   },
   code: wrapCGFloatTypeComparisonCodeToAvoidUnusedFunctionWarning(
@@ -1200,10 +1200,10 @@ const HASH_CGFLOATS_FN: ObjC.Function = {
     },
   ],
   returnType: {
-    type: Maybe.Just<ObjC.Type>({
+    type: {
       name: 'NSUInteger',
       reference: 'NSUInteger',
-    }),
+    },
     modifiers: [],
   },
   code: wrapCGFloatTypeComparisonCodeToAvoidUnusedFunctionWarning(
@@ -1389,7 +1389,7 @@ export function createPlugin(): ObjectSpec.Plugin {
       return request;
     },
     fileType: function(objectType: ObjectSpec.Type): Code.FileType | null {
-      return Maybe.Nothing<Code.FileType>();
+      return null;
     },
     forwardDeclarations: function(
       objectType: ObjectSpec.Type,
@@ -1462,7 +1462,7 @@ export function createPlugin(): ObjectSpec.Plugin {
     nullability: function(
       objectType: ObjectSpec.Type,
     ): ObjC.ClassNullability | null {
-      return Maybe.Nothing<ObjC.ClassNullability>();
+      return null;
     },
     subclassingRestricted: function(objectType: ObjectSpec.Type): boolean {
       return false;
@@ -1598,7 +1598,7 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
     fileType: function(
       algebraicType: AlgebraicType.Type,
     ): Code.FileType | null {
-      return Maybe.Nothing<Code.FileType>();
+      return null;
     },
     forwardDeclarations: function(
       algebraicType: AlgebraicType.Type,
@@ -1671,7 +1671,7 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
     nullability: function(
       algebraicType: AlgebraicType.Type,
     ): ObjC.ClassNullability | null {
-      return Maybe.Nothing<ObjC.ClassNullability>();
+      return null;
     },
     subclassingRestricted: function(
       algebraicType: AlgebraicType.Type,

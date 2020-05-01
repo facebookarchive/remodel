@@ -451,14 +451,14 @@ describe('ObjectSpecPlugins.Equality', function() {
             keywords: [
               {
                 name: 'isEqual',
-                argument: Maybe.Just<ObjC.KeywordArgument>({
+                argument: {
                   name: 'object',
                   modifiers: [],
                   type: {
                     name: 'Foo',
                     reference: 'Foo *',
                   },
-                }),
+                },
               },
             ],
             code: [
@@ -484,10 +484,10 @@ describe('ObjectSpecPlugins.Equality', function() {
             comments: [],
             compilerAttributes: [],
             returnType: {
-              type: Maybe.Just({
+              type: {
                 name: 'BOOL',
                 reference: 'BOOL',
-              }),
+              },
               modifiers: [],
             },
           },
@@ -497,7 +497,7 @@ describe('ObjectSpecPlugins.Equality', function() {
             keywords: [
               {
                 name: 'hash',
-                argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+                argument: null,
               },
             ],
             code: [
@@ -518,10 +518,10 @@ describe('ObjectSpecPlugins.Equality', function() {
             comments: [],
             compilerAttributes: [],
             returnType: {
-              type: Maybe.Just({
+              type: {
                 name: 'NSUInteger',
                 reference: 'NSUInteger',
-              }),
+              },
               modifiers: [],
             },
           },
@@ -588,14 +588,14 @@ describe('ObjectSpecPlugins.Equality', function() {
             keywords: [
               {
                 name: 'isEqual',
-                argument: Maybe.Just<ObjC.KeywordArgument>({
+                argument: {
                   name: 'object',
                   modifiers: [],
                   type: {
                     name: 'Foo',
                     reference: 'Foo *',
                   },
-                }),
+                },
               },
             ],
             code: [
@@ -611,10 +611,10 @@ describe('ObjectSpecPlugins.Equality', function() {
             comments: [],
             compilerAttributes: [],
             returnType: {
-              type: Maybe.Just({
+              type: {
                 name: 'BOOL',
                 reference: 'BOOL',
-              }),
+              },
               modifiers: [],
             },
           },
@@ -624,7 +624,7 @@ describe('ObjectSpecPlugins.Equality', function() {
             keywords: [
               {
                 name: 'hash',
-                argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+                argument: null,
               },
             ],
             code: [
@@ -645,10 +645,10 @@ describe('ObjectSpecPlugins.Equality', function() {
             comments: [],
             compilerAttributes: [],
             returnType: {
-              type: Maybe.Just({
+              type: {
                 name: 'NSUInteger',
                 reference: 'NSUInteger',
-              }),
+              },
               modifiers: [],
             },
           },
@@ -761,10 +761,10 @@ describe('ObjectSpecPlugins.Equality', function() {
               },
             ],
             returnType: {
-              type: Maybe.Just<ObjC.Type>({
+              type: {
                 name: 'BOOL',
                 reference: 'BOOL',
-              }),
+              },
               modifiers: [],
             },
             code: [
@@ -787,10 +787,10 @@ describe('ObjectSpecPlugins.Equality', function() {
               },
             ],
             returnType: {
-              type: Maybe.Just<ObjC.Type>({
+              type: {
                 name: 'NSUInteger',
                 reference: 'NSUInteger',
-              }),
+              },
               modifiers: [],
             },
             code: [
@@ -897,10 +897,10 @@ describe('ObjectSpecPlugins.Equality', function() {
               },
             ],
             returnType: {
-              type: Maybe.Just<ObjC.Type>({
+              type: {
                 name: 'BOOL',
                 reference: 'BOOL',
-              }),
+              },
               modifiers: [],
             },
             code: [
@@ -923,10 +923,10 @@ describe('ObjectSpecPlugins.Equality', function() {
               },
             ],
             returnType: {
-              type: Maybe.Just<ObjC.Type>({
+              type: {
                 name: 'NSUInteger',
                 reference: 'NSUInteger',
-              }),
+              },
               modifiers: [],
             },
             code: [
@@ -1018,10 +1018,10 @@ describe('ObjectSpecPlugins.Equality', function() {
               },
             ],
             returnType: {
-              type: Maybe.Just<ObjC.Type>({
+              type: {
                 name: 'BOOL',
                 reference: 'BOOL',
-              }),
+              },
               modifiers: [],
             },
             code: [
@@ -1044,10 +1044,10 @@ describe('ObjectSpecPlugins.Equality', function() {
               },
             ],
             returnType: {
-              type: Maybe.Just<ObjC.Type>({
+              type: {
                 name: 'NSUInteger',
                 reference: 'NSUInteger',
-              }),
+              },
               modifiers: [],
             },
             code: [
@@ -1130,10 +1130,10 @@ describe('ObjectSpecPlugins.Equality', function() {
               },
             ],
             returnType: {
-              type: Maybe.Just<ObjC.Type>({
+              type: {
                 name: 'BOOL',
                 reference: 'BOOL',
-              }),
+              },
               modifiers: [],
             },
             code: [
@@ -1163,10 +1163,10 @@ describe('ObjectSpecPlugins.Equality', function() {
               },
             ],
             returnType: {
-              type: Maybe.Just<ObjC.Type>({
+              type: {
                 name: 'BOOL',
                 reference: 'BOOL',
-              }),
+              },
               modifiers: [],
             },
             code: [
@@ -1196,10 +1196,10 @@ describe('ObjectSpecPlugins.Equality', function() {
               },
             ],
             returnType: {
-              type: Maybe.Just<ObjC.Type>({
+              type: {
                 name: 'BOOL',
                 reference: 'BOOL',
-              }),
+              },
               modifiers: [],
             },
             code: [
@@ -1231,10 +1231,10 @@ describe('ObjectSpecPlugins.Equality', function() {
               },
             ],
             returnType: {
-              type: Maybe.Just<ObjC.Type>({
+              type: {
                 name: 'NSUInteger',
                 reference: 'NSUInteger',
-              }),
+              },
               modifiers: [],
             },
             code: [
@@ -1279,10 +1279,10 @@ describe('ObjectSpecPlugins.Equality', function() {
               },
             ],
             returnType: {
-              type: Maybe.Just<ObjC.Type>({
+              type: {
                 name: 'NSUInteger',
                 reference: 'NSUInteger',
-              }),
+              },
               modifiers: [],
             },
             code: [
@@ -1317,10 +1317,10 @@ describe('ObjectSpecPlugins.Equality', function() {
               },
             ],
             returnType: {
-              type: Maybe.Just<ObjC.Type>({
+              type: {
                 name: 'NSUInteger',
                 reference: 'NSUInteger',
-              }),
+              },
               modifiers: [],
             },
             code: [

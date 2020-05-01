@@ -298,7 +298,7 @@ export function keywordForMatchMethodFromSubtype(
   );
   return {
     name: StringUtils.lowercased(subtypeNameFromSubtype(subtype)),
-    argument: Maybe.Just({
+    argument: {
       name: blockParameterNameForMatchMethodFromSubtype(subtype),
       modifiers: (assumesNonnull
         ? [ObjC.KeywordArgumentModifier.Nullable()]
@@ -311,7 +311,7 @@ export function keywordForMatchMethodFromSubtype(
         name: blockType.name,
         reference: blockType.name,
       },
-    }),
+    },
   };
 }
 

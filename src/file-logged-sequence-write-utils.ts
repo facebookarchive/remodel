@@ -193,7 +193,7 @@ function writeFileForDryRun(
   request: FileWriter.Request,
 ): Promise.Future<Error.Error | null> {
   const promise = Promise.pending<Error.Error | null>();
-  promise.setValue(Maybe.Nothing<Error.Error>());
+  promise.setValue(null);
   return promise.getFuture();
 }
 

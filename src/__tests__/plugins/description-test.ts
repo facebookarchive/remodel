@@ -289,14 +289,14 @@ describe('ObjectSpecPlugins.Description', function() {
             keywords: [
               {
                 name: 'description',
-                argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+                argument: null,
               },
             ],
             returnType: {
-              type: Maybe.Just({
+              type: {
                 name: 'NSString',
                 reference: 'NSString *',
-              }),
+              },
               modifiers: [],
             },
           },
@@ -349,14 +349,14 @@ describe('ObjectSpecPlugins.Description', function() {
             keywords: [
               {
                 name: 'description',
-                argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+                argument: null,
               },
             ],
             returnType: {
-              type: Maybe.Just({
+              type: {
                 name: 'NSString',
                 reference: 'NSString *',
-              }),
+              },
               modifiers: [],
             },
           },
@@ -409,14 +409,14 @@ describe('ObjectSpecPlugins.Description', function() {
             keywords: [
               {
                 name: 'description',
-                argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+                argument: null,
               },
             ],
             returnType: {
-              type: Maybe.Just({
+              type: {
                 name: 'NSString',
                 reference: 'NSString *',
-              }),
+              },
               modifiers: [],
             },
           },
@@ -469,14 +469,14 @@ describe('ObjectSpecPlugins.Description', function() {
             keywords: [
               {
                 name: 'description',
-                argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+                argument: null,
               },
             ],
             returnType: {
-              type: Maybe.Just({
+              type: {
                 name: 'NSString',
                 reference: 'NSString *',
-              }),
+              },
               modifiers: [],
             },
           },
@@ -529,14 +529,14 @@ describe('ObjectSpecPlugins.Description', function() {
             keywords: [
               {
                 name: 'description',
-                argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+                argument: null,
               },
             ],
             returnType: {
-              type: Maybe.Just({
+              type: {
                 name: 'NSString',
                 reference: 'NSString *',
-              }),
+              },
               modifiers: [],
             },
           },
@@ -589,14 +589,14 @@ describe('ObjectSpecPlugins.Description', function() {
             keywords: [
               {
                 name: 'description',
-                argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+                argument: null,
               },
             ],
             returnType: {
-              type: Maybe.Just({
+              type: {
                 name: 'NSString',
                 reference: 'NSString *',
-              }),
+              },
               modifiers: [],
             },
           },
@@ -649,14 +649,14 @@ describe('ObjectSpecPlugins.Description', function() {
             keywords: [
               {
                 name: 'description',
-                argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+                argument: null,
               },
             ],
             returnType: {
-              type: Maybe.Just({
+              type: {
                 name: 'NSString',
                 reference: 'NSString *',
-              }),
+              },
               modifiers: [],
             },
           },
@@ -709,14 +709,14 @@ describe('ObjectSpecPlugins.Description', function() {
             keywords: [
               {
                 name: 'description',
-                argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+                argument: null,
               },
             ],
             returnType: {
-              type: Maybe.Just({
+              type: {
                 name: 'NSString',
                 reference: 'NSString *',
-              }),
+              },
               modifiers: [],
             },
           },
@@ -769,14 +769,14 @@ describe('ObjectSpecPlugins.Description', function() {
             keywords: [
               {
                 name: 'description',
-                argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+                argument: null,
               },
             ],
             returnType: {
-              type: Maybe.Just({
+              type: {
                 name: 'NSString',
                 reference: 'NSString *',
-              }),
+              },
               modifiers: [],
             },
           },
@@ -829,14 +829,14 @@ describe('ObjectSpecPlugins.Description', function() {
             keywords: [
               {
                 name: 'description',
-                argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+                argument: null,
               },
             ],
             returnType: {
-              type: Maybe.Just({
+              type: {
                 name: 'NSString',
                 reference: 'NSString *',
-              }),
+              },
               modifiers: [],
             },
           },
@@ -889,14 +889,14 @@ describe('ObjectSpecPlugins.Description', function() {
             keywords: [
               {
                 name: 'description',
-                argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+                argument: null,
               },
             ],
             returnType: {
-              type: Maybe.Just({
+              type: {
                 name: 'NSString',
                 reference: 'NSString *',
-              }),
+              },
               modifiers: [],
             },
           },
@@ -949,14 +949,14 @@ describe('ObjectSpecPlugins.Description', function() {
             keywords: [
               {
                 name: 'description',
-                argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+                argument: null,
               },
             ],
             returnType: {
-              type: Maybe.Just({
+              type: {
                 name: 'NSString',
                 reference: 'NSString *',
-              }),
+              },
               modifiers: [],
             },
           },
@@ -1009,14 +1009,14 @@ describe('ObjectSpecPlugins.Description', function() {
             keywords: [
               {
                 name: 'description',
-                argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+                argument: null,
               },
             ],
             returnType: {
-              type: Maybe.Just({
+              type: {
                 name: 'NSString',
                 reference: 'NSString *',
-              }),
+              },
               modifiers: [],
             },
           },
@@ -1072,14 +1072,14 @@ describe('ObjectSpecPlugins.Description', function() {
               keywords: [
                 {
                   name: 'description',
-                  argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+                  argument: null,
                 },
               ],
               returnType: {
-                type: Maybe.Just({
+                type: {
                   name: 'NSString',
                   reference: 'NSString *',
-                }),
+                },
                 modifiers: [],
               },
             },
@@ -1133,14 +1133,14 @@ describe('ObjectSpecPlugins.Description', function() {
             keywords: [
               {
                 name: 'description',
-                argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+                argument: null,
               },
             ],
             returnType: {
-              type: Maybe.Just({
+              type: {
                 name: 'NSString',
                 reference: 'NSString *',
-              }),
+              },
               modifiers: [],
             },
           },
@@ -1193,14 +1193,14 @@ describe('ObjectSpecPlugins.Description', function() {
             keywords: [
               {
                 name: 'description',
-                argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+                argument: null,
               },
             ],
             returnType: {
-              type: Maybe.Just({
+              type: {
                 name: 'NSString',
                 reference: 'NSString *',
-              }),
+              },
               modifiers: [],
             },
           },
@@ -1253,14 +1253,14 @@ describe('ObjectSpecPlugins.Description', function() {
             keywords: [
               {
                 name: 'description',
-                argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+                argument: null,
               },
             ],
             returnType: {
-              type: Maybe.Just({
+              type: {
                 name: 'NSString',
                 reference: 'NSString *',
-              }),
+              },
               modifiers: [],
             },
           },
@@ -1313,14 +1313,14 @@ describe('ObjectSpecPlugins.Description', function() {
             keywords: [
               {
                 name: 'description',
-                argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+                argument: null,
               },
             ],
             returnType: {
-              type: Maybe.Just({
+              type: {
                 name: 'NSString',
                 reference: 'NSString *',
-              }),
+              },
               modifiers: [],
             },
           },
@@ -1373,14 +1373,14 @@ describe('ObjectSpecPlugins.Description', function() {
             keywords: [
               {
                 name: 'description',
-                argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+                argument: null,
               },
             ],
             returnType: {
-              type: Maybe.Just({
+              type: {
                 name: 'NSString',
                 reference: 'NSString *',
-              }),
+              },
               modifiers: [],
             },
           },
@@ -1432,14 +1432,14 @@ describe('ObjectSpecPlugins.Description', function() {
             keywords: [
               {
                 name: 'description',
-                argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+                argument: null,
               },
             ],
             returnType: {
-              type: Maybe.Just({
+              type: {
                 name: 'NSString',
                 reference: 'NSString *',
-              }),
+              },
               modifiers: [],
             },
           },
@@ -1623,14 +1623,14 @@ describe('AlgebraicTypePlugins.Description', function() {
             keywords: [
               {
                 name: 'description',
-                argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+                argument: null,
               },
             ],
             returnType: {
-              type: Maybe.Just({
+              type: {
                 name: 'NSString',
                 reference: 'NSString *',
-              }),
+              },
               modifiers: [],
             },
           },

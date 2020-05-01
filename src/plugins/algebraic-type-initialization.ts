@@ -58,7 +58,7 @@ function internalValueSettingCodeForAttribute(
 function keywordArgumentFromAttribute(
   attribute: AlgebraicType.SubtypeAttribute,
 ): ObjC.KeywordArgument | null {
-  return Maybe.Just({
+  return {
     name: nameOfKeywordParameterForAttribute(attribute),
     modifiers: ObjCNullabilityUtils.keywordArgumentModifiersForNullability(
       attribute.nullability,
@@ -67,7 +67,7 @@ function keywordArgumentFromAttribute(
       name: attribute.type.name,
       reference: attribute.type.reference,
     },
-  });
+  };
 }
 
 function firstInitializerKeyword(
@@ -103,7 +103,7 @@ function keywordsForNamedAttributeSubtype(
     return [
       {
         name: StringUtils.lowercased(subtype.name),
-        argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+        argument: null,
       },
     ];
   }
@@ -214,10 +214,10 @@ function initializationClassMethodForSubtype(
     compilerAttributes: [],
     keywords: keywordsForSubtype(subtype),
     returnType: {
-      type: Maybe.Just<ObjC.Type>({
+      type: {
         name: 'instancetype',
         reference: 'instancetype',
-      }),
+      },
       modifiers: [],
     },
   };
@@ -386,7 +386,7 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
     fileType: function(
       algebraicType: AlgebraicType.Type,
     ): Code.FileType | null {
-      return Maybe.Nothing<Code.FileType>();
+      return null;
     },
     forwardDeclarations: function(
       algebraicType: AlgebraicType.Type,
@@ -503,7 +503,7 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
     nullability: function(
       algebraicType: AlgebraicType.Type,
     ): ObjC.ClassNullability | null {
-      return Maybe.Nothing<ObjC.ClassNullability>();
+      return null;
     },
     subclassingRestricted: function(
       algebraicType: AlgebraicType.Type,

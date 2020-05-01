@@ -57,32 +57,32 @@ describe('ObjCRenderer', function() {
                 keywords: [
                   {
                     name: 'someClassMethodWithValue1',
-                    argument: Maybe.Just({
+                    argument: {
                       name: 'value1',
                       modifiers: [],
                       type: {
                         name: 'RMSomething',
                         reference: 'RMSomething *',
                       },
-                    }),
+                    },
                   },
                   {
                     name: 'value2',
-                    argument: Maybe.Just({
+                    argument: {
                       name: 'value2',
                       modifiers: [],
                       type: {
                         name: 'RMSomething',
                         reference: 'RMSomething *',
                       },
-                    }),
+                    },
                   },
                 ],
                 returnType: {
-                  type: Maybe.Just({
+                  type: {
                     name: 'instancetype',
                     reference: 'instancetype',
-                  }),
+                  },
                   modifiers: [],
                 },
               },
@@ -106,32 +106,32 @@ describe('ObjCRenderer', function() {
                 keywords: [
                   {
                     name: 'initWithValue1',
-                    argument: Maybe.Just({
+                    argument: {
                       name: 'value1',
                       modifiers: [],
                       type: {
                         name: 'RMSomething',
                         reference: 'RMSomething *',
                       },
-                    }),
+                    },
                   },
                   {
                     name: 'value2',
-                    argument: Maybe.Just({
+                    argument: {
                       name: 'value2',
                       modifiers: [],
                       type: {
                         name: 'RMSomething',
                         reference: 'RMSomething *',
                       },
-                    }),
+                    },
                   },
                 ],
                 returnType: {
-                  type: Maybe.Just({
+                  type: {
                     name: 'instancetype',
                     reference: 'instancetype',
-                  }),
+                  },
                   modifiers: [],
                 },
               },
@@ -144,14 +144,14 @@ describe('ObjCRenderer', function() {
                 keywords: [
                   {
                     name: 'hash',
-                    argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+                    argument: null,
                   },
                 ],
                 returnType: {
-                  type: Maybe.Just({
+                  type: {
                     name: 'NSUInteger',
                     reference: 'NSUInteger',
-                  }),
+                  },
                   modifiers: [],
                 },
               },
@@ -246,28 +246,27 @@ describe('ObjCRenderer', function() {
         fileToRender,
       );
 
-      const expectedOutput: string | null = Maybe.Just<string>(
+      const expectedOutput: string | null =
         '// Copyright something something. All Rights Reserved.\n\n' +
-          '#import <RMLibrary/RMSomething.h>\n' +
-          '\n' +
-          '// Man, what a great class.\n' +
-          '@interface RMSomeValue : NSObject <NSCoding>\n' +
-          '{\n' +
-          '  @package\n' +
-          '  NSString *_value5;\n' +
-          '  @public\n' +
-          '  NSNumber *_value6;\n' +
-          '}\n' +
-          '\n' +
-          '@property (nonatomic, readonly) RMSomething *value1;\n' +
-          '@property (nonatomic, readonly) RMSomething *value2;\n' +
-          '\n' +
-          '+ (instancetype)someClassMethodWithValue1:(RMSomething *)value1 value2:(RMSomething *)value2;\n' +
-          '\n' +
-          '- (instancetype)initWithValue1:(RMSomething *)value1 value2:(RMSomething *)value2;\n' +
-          '\n' +
-          '@end\n',
-      );
+        '#import <RMLibrary/RMSomething.h>\n' +
+        '\n' +
+        '// Man, what a great class.\n' +
+        '@interface RMSomeValue : NSObject <NSCoding>\n' +
+        '{\n' +
+        '  @package\n' +
+        '  NSString *_value5;\n' +
+        '  @public\n' +
+        '  NSNumber *_value6;\n' +
+        '}\n' +
+        '\n' +
+        '@property (nonatomic, readonly) RMSomething *value1;\n' +
+        '@property (nonatomic, readonly) RMSomething *value2;\n' +
+        '\n' +
+        '+ (instancetype)someClassMethodWithValue1:(RMSomething *)value1 value2:(RMSomething *)value2;\n' +
+        '\n' +
+        '- (instancetype)initWithValue1:(RMSomething *)value1 value2:(RMSomething *)value2;\n' +
+        '\n' +
+        '@end\n';
 
       expect(renderedOutput).toEqualJSON(expectedOutput);
     });
@@ -313,32 +312,32 @@ describe('ObjCRenderer', function() {
                 keywords: [
                   {
                     name: 'someClassMethodWithValue1',
-                    argument: Maybe.Just({
+                    argument: {
                       name: 'value1',
                       modifiers: [],
                       type: {
                         name: 'RMSomething',
                         reference: 'RMSomething *',
                       },
-                    }),
+                    },
                   },
                   {
                     name: 'value2',
-                    argument: Maybe.Just({
+                    argument: {
                       name: 'value2',
                       modifiers: [],
                       type: {
                         name: 'RMSomething',
                         reference: 'RMSomething *',
                       },
-                    }),
+                    },
                   },
                 ],
                 returnType: {
-                  type: Maybe.Just({
+                  type: {
                     name: 'instancetype',
                     reference: 'instancetype',
-                  }),
+                  },
                   modifiers: [],
                 },
               },
@@ -362,32 +361,32 @@ describe('ObjCRenderer', function() {
                 keywords: [
                   {
                     name: 'initWithValue1',
-                    argument: Maybe.Just({
+                    argument: {
                       name: 'value1',
                       modifiers: [],
                       type: {
                         name: 'RMSomething',
                         reference: 'RMSomething *',
                       },
-                    }),
+                    },
                   },
                   {
                     name: 'value2',
-                    argument: Maybe.Just({
+                    argument: {
                       name: 'value2',
                       modifiers: [],
                       type: {
                         name: 'RMSomething',
                         reference: 'RMSomething *',
                       },
-                    }),
+                    },
                   },
                 ],
                 returnType: {
-                  type: Maybe.Just({
+                  type: {
                     name: 'instancetype',
                     reference: 'instancetype',
-                  }),
+                  },
                   modifiers: [],
                 },
               },
@@ -400,14 +399,14 @@ describe('ObjCRenderer', function() {
                 keywords: [
                   {
                     name: 'hash',
-                    argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+                    argument: null,
                   },
                 ],
                 returnType: {
-                  type: Maybe.Just({
+                  type: {
                     name: 'NSUInteger',
                     reference: 'NSUInteger',
-                  }),
+                  },
                   modifiers: [],
                 },
               },
@@ -482,21 +481,20 @@ describe('ObjCRenderer', function() {
         fileToRender,
       );
 
-      const expectedOutput: string | null = Maybe.Just<string>(
+      const expectedOutput: string | null =
         '// Copyright something something. All Rights Reserved.\n\n' +
-          '#import <RMLibrary/RMSomething.h>\n' +
-          '\n' +
-          '@interface RMSomeValue : NSObject <NSCoding>\n' +
-          '\n' +
-          '@property (nonatomic, readonly) RMSomething *value1;\n' +
-          '@property (nonatomic, readonly) RMSomething *value2;\n' +
-          '\n' +
-          '+ (instancetype)someClassMethodWithValue1:(RMSomething *)value1 value2:(RMSomething *)value2;\n' +
-          '\n' +
-          '- (instancetype)initWithValue1:(RMSomething *)value1 value2:(RMSomething *)value2;\n' +
-          '\n' +
-          '@end\n',
-      );
+        '#import <RMLibrary/RMSomething.h>\n' +
+        '\n' +
+        '@interface RMSomeValue : NSObject <NSCoding>\n' +
+        '\n' +
+        '@property (nonatomic, readonly) RMSomething *value1;\n' +
+        '@property (nonatomic, readonly) RMSomething *value2;\n' +
+        '\n' +
+        '+ (instancetype)someClassMethodWithValue1:(RMSomething *)value1 value2:(RMSomething *)value2;\n' +
+        '\n' +
+        '- (instancetype)initWithValue1:(RMSomething *)value1 value2:(RMSomething *)value2;\n' +
+        '\n' +
+        '@end\n';
 
       expect(renderedOutput).toEqualJSON(expectedOutput);
     });
@@ -551,32 +549,32 @@ describe('ObjCRenderer', function() {
                   keywords: [
                     {
                       name: 'someClassMethodWithValue1',
-                      argument: Maybe.Just({
+                      argument: {
                         name: 'value1',
                         modifiers: [],
                         type: {
                           name: 'RMSomething',
                           reference: 'RMSomething *',
                         },
-                      }),
+                      },
                     },
                     {
                       name: 'value2',
-                      argument: Maybe.Just({
+                      argument: {
                         name: 'value2',
                         modifiers: [],
                         type: {
                           name: 'RMSomething',
                           reference: 'RMSomething *',
                         },
-                      }),
+                      },
                     },
                   ],
                   returnType: {
-                    type: Maybe.Just({
+                    type: {
                       name: 'instancetype',
                       reference: 'instancetype',
-                    }),
+                    },
                     modifiers: [],
                   },
                 },
@@ -600,32 +598,32 @@ describe('ObjCRenderer', function() {
                   keywords: [
                     {
                       name: 'initWithValue1',
-                      argument: Maybe.Just({
+                      argument: {
                         name: 'value1',
                         modifiers: [],
                         type: {
                           name: 'RMSomething',
                           reference: 'RMSomething *',
                         },
-                      }),
+                      },
                     },
                     {
                       name: 'value2',
-                      argument: Maybe.Just({
+                      argument: {
                         name: 'value2',
                         modifiers: [],
                         type: {
                           name: 'RMSomething',
                           reference: 'RMSomething *',
                         },
-                      }),
+                      },
                     },
                   ],
                   returnType: {
-                    type: Maybe.Just({
+                    type: {
                       name: 'instancetype',
                       reference: 'instancetype',
-                    }),
+                    },
                     modifiers: [],
                   },
                 },
@@ -638,14 +636,14 @@ describe('ObjCRenderer', function() {
                   keywords: [
                     {
                       name: 'hash',
-                      argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+                      argument: null,
                     },
                   ],
                   returnType: {
-                    type: Maybe.Just({
+                    type: {
                       name: 'NSUInteger',
                       reference: 'NSUInteger',
-                    }),
+                    },
                     modifiers: [],
                   },
                 },
@@ -720,22 +718,21 @@ describe('ObjCRenderer', function() {
           fileToRender,
         );
 
-        const expectedOutput: string | null = Maybe.Just<string>(
+        const expectedOutput: string | null =
           '// Copyright something something. All Rights Reserved.\n\n' +
-            '#import <RMLibrary/RMSomething.h>\n' +
-            '#import <RMObjectSpec/RMObjectSpecBase.h>\n' +
-            '\n' +
-            '@interface RMSomeValue : RMObjectSpecBase <NSCoding>\n' +
-            '\n' +
-            '@property (nonatomic, readonly) RMSomething *value1;\n' +
-            '@property (nonatomic, readonly) RMSomething *value2;\n' +
-            '\n' +
-            '+ (instancetype)someClassMethodWithValue1:(RMSomething *)value1 value2:(RMSomething *)value2;\n' +
-            '\n' +
-            '- (instancetype)initWithValue1:(RMSomething *)value1 value2:(RMSomething *)value2;\n' +
-            '\n' +
-            '@end\n',
-        );
+          '#import <RMLibrary/RMSomething.h>\n' +
+          '#import <RMObjectSpec/RMObjectSpecBase.h>\n' +
+          '\n' +
+          '@interface RMSomeValue : RMObjectSpecBase <NSCoding>\n' +
+          '\n' +
+          '@property (nonatomic, readonly) RMSomething *value1;\n' +
+          '@property (nonatomic, readonly) RMSomething *value2;\n' +
+          '\n' +
+          '+ (instancetype)someClassMethodWithValue1:(RMSomething *)value1 value2:(RMSomething *)value2;\n' +
+          '\n' +
+          '- (instancetype)initWithValue1:(RMSomething *)value1 value2:(RMSomething *)value2;\n' +
+          '\n' +
+          '@end\n';
 
         expect(renderedOutput).toEqualJSON(expectedOutput);
       },
@@ -777,43 +774,43 @@ describe('ObjCRenderer', function() {
                 keywords: [
                   {
                     name: 'initWithValue',
-                    argument: Maybe.Just({
+                    argument: {
                       name: 'value',
                       modifiers: [],
                       type: {
                         name: 'NSString',
                         reference: 'NSString *',
                       },
-                    }),
+                    },
                   },
                   {
                     name: 'value2',
-                    argument: Maybe.Just({
+                    argument: {
                       name: 'value2',
                       modifiers: [],
                       type: {
                         name: 'BOOL',
                         reference: 'BOOL',
                       },
-                    }),
+                    },
                   },
                   {
                     name: 'value3',
-                    argument: Maybe.Just({
+                    argument: {
                       name: 'value3',
                       modifiers: [],
                       type: {
                         name: 'id',
                         reference: 'id',
                       },
-                    }),
+                    },
                   },
                 ],
                 returnType: {
-                  type: Maybe.Just({
+                  type: {
                     name: 'instancetype',
                     reference: 'instancetype',
-                  }),
+                  },
                   modifiers: [],
                 },
               },
@@ -826,14 +823,14 @@ describe('ObjCRenderer', function() {
                 keywords: [
                   {
                     name: 'hash',
-                    argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+                    argument: null,
                   },
                 ],
                 returnType: {
-                  type: Maybe.Just({
+                  type: {
                     name: 'NSUInteger',
                     reference: 'NSUInteger',
-                  }),
+                  },
                   modifiers: [],
                 },
               },
@@ -898,17 +895,16 @@ describe('ObjCRenderer', function() {
         fileToRender,
       );
 
-      const expectedOutput: string | null = Maybe.Just<string>(
+      const expectedOutput: string | null =
         '@interface RMSomeValue : NSObject\n' +
-          '\n' +
-          '@property (nonatomic, readonly, copy) NSString *value;\n' +
-          '@property (nonatomic, readonly) BOOL value2;\n' +
-          '@property (nonatomic, readonly, copy) id value3;\n' +
-          '\n' +
-          '- (instancetype)initWithValue:(NSString *)value value2:(BOOL)value2 value3:(id)value3;\n' +
-          '\n' +
-          '@end\n',
-      );
+        '\n' +
+        '@property (nonatomic, readonly, copy) NSString *value;\n' +
+        '@property (nonatomic, readonly) BOOL value2;\n' +
+        '@property (nonatomic, readonly, copy) id value3;\n' +
+        '\n' +
+        '- (instancetype)initWithValue:(NSString *)value value2:(BOOL)value2 value3:(id)value3;\n' +
+        '\n' +
+        '@end\n';
 
       expect(renderedOutput).toEqualJSON(expectedOutput);
     });
@@ -962,32 +958,32 @@ describe('ObjCRenderer', function() {
                 keywords: [
                   {
                     name: 'initWithValue1',
-                    argument: Maybe.Just({
+                    argument: {
                       name: 'value1',
                       modifiers: [],
                       type: {
                         name: 'RMSomething',
                         reference: 'RMSomething *',
                       },
-                    }),
+                    },
                   },
                   {
                     name: 'value2',
-                    argument: Maybe.Just({
+                    argument: {
                       name: 'value2',
                       modifiers: [],
                       type: {
                         name: 'RMSomething',
                         reference: 'RMSomething *',
                       },
-                    }),
+                    },
                   },
                 ],
                 returnType: {
-                  type: Maybe.Just({
+                  type: {
                     name: 'instancetype',
                     reference: 'instancetype',
-                  }),
+                  },
                   modifiers: [],
                 },
               },
@@ -1000,14 +996,14 @@ describe('ObjCRenderer', function() {
                 keywords: [
                   {
                     name: 'hash',
-                    argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+                    argument: null,
                   },
                 ],
                 returnType: {
-                  type: Maybe.Just({
+                  type: {
                     name: 'NSUInteger',
                     reference: 'NSUInteger',
-                  }),
+                  },
                   modifiers: [],
                 },
               },
@@ -1030,15 +1026,14 @@ describe('ObjCRenderer', function() {
         fileToRender,
       );
 
-      const expectedOutput: string | null = Maybe.Just<string>(
+      const expectedOutput: string | null =
         '#import <RMLibrary/RMSomething.h>\n' +
-          '\n' +
-          '@interface RMSomeValue : NSObject\n' +
-          '\n' +
-          '- (instancetype)initWithValue1:(RMSomething *)value1 value2:(RMSomething *)value2;\n' +
-          '\n' +
-          '@end\n',
-      );
+        '\n' +
+        '@interface RMSomeValue : NSObject\n' +
+        '\n' +
+        '- (instancetype)initWithValue1:(RMSomething *)value1 value2:(RMSomething *)value2;\n' +
+        '\n' +
+        '@end\n';
 
       expect(renderedOutput).toEqualJSON(expectedOutput);
     });
@@ -1097,32 +1092,32 @@ describe('ObjCRenderer', function() {
                 keywords: [
                   {
                     name: 'initWithValue1',
-                    argument: Maybe.Just({
+                    argument: {
                       name: 'value1',
                       modifiers: [],
                       type: {
                         name: 'RMSomething',
                         reference: 'RMSomething *',
                       },
-                    }),
+                    },
                   },
                   {
                     name: 'value2',
-                    argument: Maybe.Just({
+                    argument: {
                       name: 'value2',
                       modifiers: [],
                       type: {
                         name: 'RMSomething',
                         reference: 'RMSomething *',
                       },
-                    }),
+                    },
                   },
                 ],
                 returnType: {
-                  type: Maybe.Just({
+                  type: {
                     name: 'instancetype',
                     reference: 'instancetype',
-                  }),
+                  },
                   modifiers: [],
                 },
               },
@@ -1135,14 +1130,14 @@ describe('ObjCRenderer', function() {
                 keywords: [
                   {
                     name: 'hash',
-                    argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+                    argument: null,
                   },
                 ],
                 returnType: {
-                  type: Maybe.Just({
+                  type: {
                     name: 'NSUInteger',
                     reference: 'NSUInteger',
-                  }),
+                  },
                   modifiers: [],
                 },
               },
@@ -1165,17 +1160,16 @@ describe('ObjCRenderer', function() {
         fileToRender,
       );
 
-      const expectedOutput: string | null = Maybe.Just<string>(
+      const expectedOutput: string | null =
         '#import <RMLibrary/RMSomething.h>\n' +
-          '\n' +
-          '@interface RMSomeValue : NSObject\n' +
-          '\n' +
-          '#if DEBUG\n' +
-          '- (instancetype)initWithValue1:(RMSomething *)value1 value2:(RMSomething *)value2;\n' +
-          '#endif\n' +
-          '\n' +
-          '@end\n',
-      );
+        '\n' +
+        '@interface RMSomeValue : NSObject\n' +
+        '\n' +
+        '#if DEBUG\n' +
+        '- (instancetype)initWithValue1:(RMSomething *)value1 value2:(RMSomething *)value2;\n' +
+        '#endif\n' +
+        '\n' +
+        '@end\n';
 
       expect(renderedOutput).toEqualJSON(expectedOutput);
     });
@@ -1258,16 +1252,15 @@ describe('ObjCRenderer', function() {
         fileToRender,
       );
 
-      const expectedOutput: string | null = Maybe.Just<string>(
+      const expectedOutput: string | null =
         '#import <RMLibrary/RMSomething.h>\n' +
-          '\n' +
-          '@interface RMSomeValue : NSObject\n' +
-          '\n' +
-          '@property (nonatomic, readwrite) RMSomething *value1;\n' +
-          '@property (nonatomic, readwrite) RMSomething *value2;\n' +
-          '\n' +
-          '@end\n',
-      );
+        '\n' +
+        '@interface RMSomeValue : NSObject\n' +
+        '\n' +
+        '@property (nonatomic, readwrite) RMSomething *value1;\n' +
+        '@property (nonatomic, readwrite) RMSomething *value2;\n' +
+        '\n' +
+        '@end\n';
 
       expect(renderedOutput).toEqualJSON(expectedOutput);
     });
@@ -1324,10 +1317,10 @@ describe('ObjCRenderer', function() {
                 },
               ],
               returnType: {
-                type: Maybe.Just<ObjC.Type>({
+                type: {
                   name: 'NSString',
                   reference: 'NSString *',
-                }),
+                },
                 modifiers: [],
               },
               code: [
@@ -1346,10 +1339,10 @@ describe('ObjCRenderer', function() {
               name: 'AnotherPublicFunction',
               parameters: [],
               returnType: {
-                type: Maybe.Just<ObjC.Type>({
+                type: {
                   name: 'NSUInteger',
                   reference: 'NSUInteger',
-                }),
+                },
                 modifiers: [],
               },
               code: ['return 17;'],
@@ -1361,7 +1354,7 @@ describe('ObjCRenderer', function() {
               comments: [],
               name: 'ANonPublicFunction',
               parameters: [],
-              returnType: {type: Maybe.Nothing<ObjC.Type>(), modifiers: []},
+              returnType: {type: null, modifiers: []},
               code: ['something();'],
               isPublic: false,
               isInline: false,
@@ -1395,24 +1388,23 @@ describe('ObjCRenderer', function() {
           fileToRender,
         );
 
-        const expectedOutput: string | null = Maybe.Just<string>(
+        const expectedOutput: string | null =
           '#import <RMLibrary/RMSomething.h>\n' +
-            '\n' +
-            '@interface RMSomeValue : NSObject\n' +
-            '\n' +
-            '@end\n\n' +
-            '#ifdef __cplusplus\n' +
-            'extern "C" {\n' +
-            '#endif\n' +
-            '\n' +
-            '// There is just nothing in the world like a good function.\n' +
-            'extern NSString *APublicFunction(NSString *str, NSUInteger num);\n' +
-            'extern NSUInteger AnotherPublicFunction(void);\n' +
-            '\n' +
-            '#ifdef __cplusplus\n' +
-            '}\n' +
-            '#endif\n',
-        );
+          '\n' +
+          '@interface RMSomeValue : NSObject\n' +
+          '\n' +
+          '@end\n\n' +
+          '#ifdef __cplusplus\n' +
+          'extern "C" {\n' +
+          '#endif\n' +
+          '\n' +
+          '// There is just nothing in the world like a good function.\n' +
+          'extern NSString *APublicFunction(NSString *str, NSUInteger num);\n' +
+          'extern NSUInteger AnotherPublicFunction(void);\n' +
+          '\n' +
+          '#ifdef __cplusplus\n' +
+          '}\n' +
+          '#endif\n';
 
         expect(renderedOutput).toEqualJSON(expectedOutput);
       },
@@ -1500,19 +1492,18 @@ describe('ObjCRenderer', function() {
         fileToRender,
       );
 
-      const expectedOutput: string | null = Maybe.Just<string>(
+      const expectedOutput: string | null =
         '#import <RMLibrary/RMSomething.h>\n' +
-          '\n' +
-          '// This is a note about this very outgoing enumeration.\n' +
-          'typedef NS_ENUM(NSUInteger, SomePublicEnum) {\n' +
-          '  SomePublicEnumAValue,\n' +
-          '  SomePublicEnumSomeDifferentValue\n' +
-          '};\n' +
-          '\n' +
-          '@interface RMSomeValue : NSObject\n' +
-          '\n' +
-          '@end\n',
-      );
+        '\n' +
+        '// This is a note about this very outgoing enumeration.\n' +
+        'typedef NS_ENUM(NSUInteger, SomePublicEnum) {\n' +
+        '  SomePublicEnumAValue,\n' +
+        '  SomePublicEnumSomeDifferentValue\n' +
+        '};\n' +
+        '\n' +
+        '@interface RMSomeValue : NSObject\n' +
+        '\n' +
+        '@end\n';
 
       expect(renderedOutput).toEqualJSON(expectedOutput);
     });
@@ -1563,7 +1554,7 @@ describe('ObjCRenderer', function() {
                 nullability: ObjC.Nullability.Inherited(),
               },
             ],
-            returnType: {type: Maybe.Nothing<ObjC.Type>(), modifiers: []},
+            returnType: {type: null, modifiers: []},
             isPublic: true,
             nullability: ObjC.ClassNullability.default,
           },
@@ -1581,10 +1572,10 @@ describe('ObjCRenderer', function() {
               },
             ],
             returnType: {
-              type: Maybe.Just<ObjC.Type>({
+              type: {
                 name: 'Foo',
                 reference: 'Foo *',
-              }),
+              },
               modifiers: [],
             },
             isPublic: true,
@@ -1622,17 +1613,16 @@ describe('ObjCRenderer', function() {
         fileToRender,
       );
 
-      const expectedOutput: string | null = Maybe.Just<string>(
+      const expectedOutput: string | null =
         '#import <RMLibrary/RMSomething.h>\n' +
-          '\n' +
-          '// It is hard to articulate all the things I love about this block.\n' +
-          'typedef void (^SomeBlock)(NSString *aString, NSUInteger someUnsignedInteger);\n' +
-          'typedef Foo *(^AnotherBlock)(BOOL someBool);\n' +
-          '\n' +
-          '@interface RMSomeValue : NSObject\n' +
-          '\n' +
-          '@end\n',
-      );
+        '\n' +
+        '// It is hard to articulate all the things I love about this block.\n' +
+        'typedef void (^SomeBlock)(NSString *aString, NSUInteger someUnsignedInteger);\n' +
+        'typedef Foo *(^AnotherBlock)(BOOL someBool);\n' +
+        '\n' +
+        '@interface RMSomeValue : NSObject\n' +
+        '\n' +
+        '@end\n';
 
       expect(renderedOutput).toEqualJSON(expectedOutput);
     });
@@ -1671,7 +1661,7 @@ describe('ObjCRenderer', function() {
               ],
               name: 'ANonPublicFunction',
               parameters: [],
-              returnType: {type: Maybe.Nothing<ObjC.Type>(), modifiers: []},
+              returnType: {type: null, modifiers: []},
               code: ['something();'],
               isPublic: false,
               isInline: false,
@@ -1704,13 +1694,12 @@ describe('ObjCRenderer', function() {
           fileToRender,
         );
 
-        const expectedOutput: string | null = Maybe.Just<string>(
+        const expectedOutput: string | null =
           '#import <RMLibrary/RMSomething.h>\n' +
-            '\n' +
-            '@interface RMSomeValue : NSObject\n' +
-            '\n' +
-            '@end\n',
-        );
+          '\n' +
+          '@interface RMSomeValue : NSObject\n' +
+          '\n' +
+          '@end\n';
 
         expect(renderedOutput).toEqualJSON(expectedOutput);
       },
@@ -1801,16 +1790,15 @@ describe('ObjCRenderer', function() {
         fileToRender,
       );
 
-      const expectedOutput: string | null = Maybe.Just<string>(
+      const expectedOutput: string | null =
         '#import <RMLibrary/RMSomething.h>\n' +
-          '\n' +
-          '@interface RMSomeValue : NSObject <NSCoding, NSCopying>\n' +
-          '\n' +
-          '@property (nonatomic, readwrite) RMSomething *value1;\n' +
-          '@property (nonatomic, readwrite) RMSomething *value2;\n' +
-          '\n' +
-          '@end\n',
-      );
+        '\n' +
+        '@interface RMSomeValue : NSObject <NSCoding, NSCopying>\n' +
+        '\n' +
+        '@property (nonatomic, readwrite) RMSomething *value1;\n' +
+        '@property (nonatomic, readwrite) RMSomething *value2;\n' +
+        '\n' +
+        '@end\n';
 
       expect(renderedOutput).toEqualJSON(expectedOutput);
     });
@@ -1903,18 +1891,17 @@ describe('ObjCRenderer', function() {
         fileToRender,
       );
 
-      const expectedOutput: string | null = Maybe.Just<string>(
+      const expectedOutput: string | null =
         '#import <RMLibrary/RMSomething.h>\n\n' +
-          '@class RMCDeclaration;\n' +
-          '@protocol RMPDeclaration;\n' +
-          '\n' +
-          '@interface RMSomeValue : NSObject <NSCoding, NSCopying>\n' +
-          '\n' +
-          '@property (nonatomic, readwrite) RMSomething *value1;\n' +
-          '@property (nonatomic, readwrite) RMSomething *value2;\n' +
-          '\n' +
-          '@end\n',
-      );
+        '@class RMCDeclaration;\n' +
+        '@protocol RMPDeclaration;\n' +
+        '\n' +
+        '@interface RMSomeValue : NSObject <NSCoding, NSCopying>\n' +
+        '\n' +
+        '@property (nonatomic, readwrite) RMSomething *value1;\n' +
+        '@property (nonatomic, readwrite) RMSomething *value2;\n' +
+        '\n' +
+        '@end\n';
 
       expect(renderedOutput).toEqualJSON(expectedOutput);
     });
@@ -1964,10 +1951,10 @@ describe('ObjCRenderer', function() {
                   keywords: [
                     {
                       name: 'doSomething',
-                      argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+                      argument: null,
                     },
                   ],
-                  returnType: {type: Maybe.Nothing<ObjC.Type>(), modifiers: []},
+                  returnType: {type: null, modifiers: []},
                 },
               ],
               name: 'RMSomeValue',
@@ -2015,20 +2002,19 @@ describe('ObjCRenderer', function() {
           fileToRender,
         );
 
-        const expectedOutput: string | null = Maybe.Just<string>(
+        const expectedOutput: string | null =
           '#import <RMLibrary/RMSomething.h>\n' +
-            '\n' +
-            '@interface RMSomeValue : NSObject\n' +
-            '\n' +
-            '@property (nonatomic, readwrite) RMSomething *value1;\n' +
-            '// One special comment\n' +
-            '@property (nonatomic, readwrite) RMSomething *value2;\n' +
-            '\n' +
-            '// Check this method out!!!!\n' +
-            '- (void)doSomething;\n' +
-            '\n' +
-            '@end\n',
-        );
+          '\n' +
+          '@interface RMSomeValue : NSObject\n' +
+          '\n' +
+          '@property (nonatomic, readwrite) RMSomething *value1;\n' +
+          '// One special comment\n' +
+          '@property (nonatomic, readwrite) RMSomething *value2;\n' +
+          '\n' +
+          '// Check this method out!!!!\n' +
+          '- (void)doSomething;\n' +
+          '\n' +
+          '@end\n';
 
         expect(renderedOutput).toEqualJSON(expectedOutput);
       },
@@ -2092,16 +2078,15 @@ describe('ObjCRenderer', function() {
           fileToRender,
         );
 
-        const expectedOutput: string | null = Maybe.Just<string>(
+        const expectedOutput: string | null =
           '#import <RMLibrary/RMSomething.h>\n' +
-            '\n' +
-            'namespace Something {\n' +
-            '  template <typename T>\n' +
-            '  extern T someFunc(T(^someBlock)()) {\n' +
-            '    return someBlock();\n' +
-            '  }\n' +
-            '}\n',
-        );
+          '\n' +
+          'namespace Something {\n' +
+          '  template <typename T>\n' +
+          '  extern T someFunc(T(^someBlock)()) {\n' +
+          '    return someBlock();\n' +
+          '  }\n' +
+          '}\n';
 
         expect(renderedOutput).toEqualJSON(expectedOutput);
       },
@@ -2143,32 +2128,32 @@ describe('ObjCRenderer', function() {
                 keywords: [
                   {
                     name: 'initWithValue1',
-                    argument: Maybe.Just({
+                    argument: {
                       name: 'value1',
                       modifiers: [],
                       type: {
                         name: 'RMSomething',
                         reference: 'RMSomething *',
                       },
-                    }),
+                    },
                   },
                   {
                     name: 'value2',
-                    argument: Maybe.Just({
+                    argument: {
                       name: 'value2',
                       modifiers: [],
                       type: {
                         name: 'RMSomething',
                         reference: 'RMSomething *',
                       },
-                    }),
+                    },
                   },
                 ],
                 returnType: {
-                  type: Maybe.Just({
+                  type: {
                     name: 'instancetype',
                     reference: 'instancetype',
-                  }),
+                  },
                   modifiers: [],
                 },
               },
@@ -2218,16 +2203,15 @@ describe('ObjCRenderer', function() {
         fileToRender,
       );
 
-      const expectedOutput: string | null = Maybe.Just<string>(
+      const expectedOutput: string | null =
         '@interface RMSomeValue : NSObject\n' +
-          '\n' +
-          '@property (nonatomic, readonly) RMSomething *value1;\n' +
-          '@property (nonatomic, readonly) RMSomething *value2;\n' +
-          '\n' +
-          '- (instancetype)initWithValue1:(RMSomething *)value1 value2:(RMSomething *)value2 NS_DESIGNATED_INITIALIZER;\n' +
-          '\n' +
-          '@end\n',
-      );
+        '\n' +
+        '@property (nonatomic, readonly) RMSomething *value1;\n' +
+        '@property (nonatomic, readonly) RMSomething *value2;\n' +
+        '\n' +
+        '- (instancetype)initWithValue1:(RMSomething *)value1 value2:(RMSomething *)value2 NS_DESIGNATED_INITIALIZER;\n' +
+        '\n' +
+        '@end\n';
 
       expect(renderedOutput).toEqualJSON(expectedOutput);
     });
@@ -2268,32 +2252,32 @@ describe('ObjCRenderer', function() {
                 keywords: [
                   {
                     name: 'initWithValue1',
-                    argument: Maybe.Just({
+                    argument: {
                       name: 'value1',
                       modifiers: [],
                       type: {
                         name: 'RMSomething',
                         reference: 'RMSomething *',
                       },
-                    }),
+                    },
                   },
                   {
                     name: 'value2',
-                    argument: Maybe.Just({
+                    argument: {
                       name: 'value2',
                       modifiers: [],
                       type: {
                         name: 'RMSomething',
                         reference: 'RMSomething *',
                       },
-                    }),
+                    },
                   },
                 ],
                 returnType: {
-                  type: Maybe.Just({
+                  type: {
                     name: 'instancetype',
                     reference: 'instancetype',
-                  }),
+                  },
                   modifiers: [ObjC.KeywordArgumentModifier.Nullable()],
                 },
               },
@@ -2343,16 +2327,15 @@ describe('ObjCRenderer', function() {
         fileToRender,
       );
 
-      const expectedOutput: string | null = Maybe.Just<string>(
+      const expectedOutput: string | null =
         '@interface RMSomeValue : NSObject\n' +
-          '\n' +
-          '@property (nonatomic, readonly) RMSomething *value1;\n' +
-          '@property (nonatomic, readonly) RMSomething *value2;\n' +
-          '\n' +
-          '- (nullable instancetype)initWithValue1:(RMSomething *)value1 value2:(RMSomething *)value2;\n' +
-          '\n' +
-          '@end\n',
-      );
+        '\n' +
+        '@property (nonatomic, readonly) RMSomething *value1;\n' +
+        '@property (nonatomic, readonly) RMSomething *value2;\n' +
+        '\n' +
+        '- (nullable instancetype)initWithValue1:(RMSomething *)value1 value2:(RMSomething *)value2;\n' +
+        '\n' +
+        '@end\n';
 
       expect(renderedOutput).toEqualJSON(expectedOutput);
     });
@@ -2390,32 +2373,32 @@ describe('ObjCRenderer', function() {
                 keywords: [
                   {
                     name: 'someClassMethodWithValue1',
-                    argument: Maybe.Just({
+                    argument: {
                       name: 'value1',
                       modifiers: [],
                       type: {
                         name: 'RMSomething',
                         reference: 'RMSomething *',
                       },
-                    }),
+                    },
                   },
                   {
                     name: 'value2',
-                    argument: Maybe.Just({
+                    argument: {
                       name: 'value2',
                       modifiers: [],
                       type: {
                         name: 'RMSomething',
                         reference: 'RMSomething *',
                       },
-                    }),
+                    },
                   },
                 ],
                 returnType: {
-                  type: Maybe.Just({
+                  type: {
                     name: 'ObjectType',
                     reference: 'ObjectType',
-                  }),
+                  },
                   modifiers: [ObjC.KeywordArgumentModifier.Nullable()],
                 },
               },
@@ -2441,15 +2424,14 @@ describe('ObjCRenderer', function() {
         fileToRender,
       );
 
-      const expectedOutput: string | null = Maybe.Just<string>(
+      const expectedOutput: string | null =
         '#import <RMLibrary/RMSomething.h>\n' +
-          '\n' +
-          '@interface RMSomeValue<__covariant ObjectType> : NSObject\n' +
-          '\n' +
-          '+ (nullable ObjectType)someClassMethodWithValue1:(RMSomething *)value1 value2:(RMSomething *)value2;\n' +
-          '\n' +
-          '@end\n',
-      );
+        '\n' +
+        '@interface RMSomeValue<__covariant ObjectType> : NSObject\n' +
+        '\n' +
+        '+ (nullable ObjectType)someClassMethodWithValue1:(RMSomething *)value1 value2:(RMSomething *)value2;\n' +
+        '\n' +
+        '@end\n';
 
       expect(renderedOutput).toEqualJSON(expectedOutput);
     });
@@ -2490,21 +2472,21 @@ describe('ObjCRenderer', function() {
                 keywords: [
                   {
                     name: 'objectForKey',
-                    argument: Maybe.Just({
+                    argument: {
                       name: 'key',
                       modifiers: [],
                       type: {
                         name: 'KeyType',
                         reference: 'KeyType',
                       },
-                    }),
+                    },
                   },
                 ],
                 returnType: {
-                  type: Maybe.Just({
+                  type: {
                     name: 'ValueType',
                     reference: 'ValueType',
-                  }),
+                  },
                   modifiers: [ObjC.KeywordArgumentModifier.Nullable()],
                 },
               },
@@ -2527,15 +2509,14 @@ describe('ObjCRenderer', function() {
         fileToRender,
       );
 
-      const expectedOutput: string | null = Maybe.Just<string>(
+      const expectedOutput: string | null =
         '#import <RMLibrary/RMSomething.h>\n' +
-          '\n' +
-          '@interface RMSomeValue<__covariant KeyType, __covariant ValueType> : NSObject\n' +
-          '\n' +
-          '- (nullable ValueType)objectForKey:(KeyType)key;\n' +
-          '\n' +
-          '@end\n',
-      );
+        '\n' +
+        '@interface RMSomeValue<__covariant KeyType, __covariant ValueType> : NSObject\n' +
+        '\n' +
+        '- (nullable ValueType)objectForKey:(KeyType)key;\n' +
+        '\n' +
+        '@end\n';
 
       expect(renderedOutput).toEqualJSON(expectedOutput);
     });
@@ -2599,13 +2580,12 @@ describe('ObjCRenderer', function() {
         fileToRender,
       );
 
-      const expectedOutput: string | null = Maybe.Just<string>(
+      const expectedOutput: string | null =
         '@interface RMSomeValue : NSObject <NSCoding>\n' +
-          '\n' +
-          '@property (nonatomic, readonly) RMSomething *value1;\n' +
-          '\n' +
-          '@end\n',
-      );
+        '\n' +
+        '@property (nonatomic, readonly) RMSomething *value1;\n' +
+        '\n' +
+        '@end\n';
 
       expect(renderedOutput).toEqualJSON(expectedOutput);
     });
@@ -2653,32 +2633,32 @@ describe('ObjCRenderer', function() {
                 keywords: [
                   {
                     name: 'someClassMethodWithValue1',
-                    argument: Maybe.Just({
+                    argument: {
                       name: 'value1',
                       modifiers: [],
                       type: {
                         name: 'RMSomething',
                         reference: 'RMSomething *',
                       },
-                    }),
+                    },
                   },
                   {
                     name: 'value2',
-                    argument: Maybe.Just({
+                    argument: {
                       name: 'value2',
                       modifiers: [],
                       type: {
                         name: 'RMSomething',
                         reference: 'RMSomething *',
                       },
-                    }),
+                    },
                   },
                 ],
                 returnType: {
-                  type: Maybe.Just({
+                  type: {
                     name: 'instancetype',
                     reference: 'instancetype',
-                  }),
+                  },
                   modifiers: [],
                 },
               },
@@ -2702,32 +2682,32 @@ describe('ObjCRenderer', function() {
                 keywords: [
                   {
                     name: 'initWithValue1',
-                    argument: Maybe.Just({
+                    argument: {
                       name: 'value1',
                       modifiers: [],
                       type: {
                         name: 'RMSomething',
                         reference: 'RMSomething *',
                       },
-                    }),
+                    },
                   },
                   {
                     name: 'value2',
-                    argument: Maybe.Just({
+                    argument: {
                       name: 'value2',
                       modifiers: [],
                       type: {
                         name: 'RMSomething',
                         reference: 'RMSomething *',
                       },
-                    }),
+                    },
                   },
                 ],
                 returnType: {
-                  type: Maybe.Just({
+                  type: {
                     name: 'instancetype',
                     reference: 'instancetype',
-                  }),
+                  },
                   modifiers: [],
                 },
               },
@@ -2826,42 +2806,41 @@ describe('ObjCRenderer', function() {
 
       const renderedOutput = ObjCRenderer.renderImplementation(fileToRender);
 
-      const expectedOutput: string | null = Maybe.Just<string>(
+      const expectedOutput: string | null =
         '// Copyright something something. All Rights Reserved.\n\n' +
-          '#if  ! __has_feature(objc_arc)\n' +
-          '#error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).\n' +
-          '#endif\n\n' +
-          '#import "RMSomeValue.h"\n' +
-          '\n' +
-          '#pragma clang diagnostic push\n' +
-          '#pragma GCC diagnostic ignored "-Wprotocol"\n' +
-          '#pragma GCC diagnostic ignored "-Wincomplete-implementation"\n' +
-          '\n' +
-          '@implementation RMSomeValue\n' +
-          '{\n' +
-          '  RMSomethingElse _value3;\n' +
-          '  RMSomething *_value4;\n' +
-          '  __weak RMSomething *_value5;\n' +
-          '}\n' +
-          '\n' +
-          '+ (instancetype)someClassMethodWithValue1:(RMSomething *)value1 value2:(RMSomething *)value2\n' +
-          '{\n' +
-          '  return [(id)self new];\n' +
-          '}\n' +
-          '\n' +
-          '- (instancetype)initWithValue1:(RMSomething *)value1 value2:(RMSomething *)value2\n' +
-          '{\n' +
-          '  if ((self = [super init])) {\n' +
-          '    _value1 = [value1 copy];\n' +
-          '    _value2 = [value2 copy];\n' +
-          '  }\n' +
-          '\n' +
-          '  return self;\n' +
-          '}\n' +
-          '\n' +
-          '@end\n' +
-          '#pragma clang diagnostic pop\n',
-      );
+        '#if  ! __has_feature(objc_arc)\n' +
+        '#error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).\n' +
+        '#endif\n\n' +
+        '#import "RMSomeValue.h"\n' +
+        '\n' +
+        '#pragma clang diagnostic push\n' +
+        '#pragma GCC diagnostic ignored "-Wprotocol"\n' +
+        '#pragma GCC diagnostic ignored "-Wincomplete-implementation"\n' +
+        '\n' +
+        '@implementation RMSomeValue\n' +
+        '{\n' +
+        '  RMSomethingElse _value3;\n' +
+        '  RMSomething *_value4;\n' +
+        '  __weak RMSomething *_value5;\n' +
+        '}\n' +
+        '\n' +
+        '+ (instancetype)someClassMethodWithValue1:(RMSomething *)value1 value2:(RMSomething *)value2\n' +
+        '{\n' +
+        '  return [(id)self new];\n' +
+        '}\n' +
+        '\n' +
+        '- (instancetype)initWithValue1:(RMSomething *)value1 value2:(RMSomething *)value2\n' +
+        '{\n' +
+        '  if ((self = [super init])) {\n' +
+        '    _value1 = [value1 copy];\n' +
+        '    _value2 = [value2 copy];\n' +
+        '  }\n' +
+        '\n' +
+        '  return self;\n' +
+        '}\n' +
+        '\n' +
+        '@end\n' +
+        '#pragma clang diagnostic pop\n';
 
       expect(renderedOutput).toEqualJSON(expectedOutput);
     });
@@ -2938,32 +2917,32 @@ describe('ObjCRenderer', function() {
                 keywords: [
                   {
                     name: 'initWithValue1',
-                    argument: Maybe.Just({
+                    argument: {
                       name: 'value1',
                       modifiers: [],
                       type: {
                         name: 'RMSomething',
                         reference: 'RMSomething *',
                       },
-                    }),
+                    },
                   },
                   {
                     name: 'value2',
-                    argument: Maybe.Just({
+                    argument: {
                       name: 'value2',
                       modifiers: [],
                       type: {
                         name: 'RMSomething',
                         reference: 'RMSomething *',
                       },
-                    }),
+                    },
                   },
                 ],
                 returnType: {
-                  type: Maybe.Just({
+                  type: {
                     name: 'instancetype',
                     reference: 'instancetype',
-                  }),
+                  },
                   modifiers: [],
                 },
               },
@@ -3011,30 +2990,29 @@ describe('ObjCRenderer', function() {
 
       const renderedOutput = ObjCRenderer.renderImplementation(fileToRender);
 
-      const expectedOutput: string | null = Maybe.Just<string>(
+      const expectedOutput: string | null =
         '#if  ! __has_feature(objc_arc)\n' +
-          '#error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).\n' +
-          '#endif\n\n' +
-          '#import "RMSomeValue.h"\n' +
-          '\n' +
-          '// The most interesting comment in the world.\n' +
-          'static __unsafe_unretained NSString * const kSomething = @"FOOOOO";\n' +
-          'static assign NSUInteger const kSomethingElse = 2;\n' +
-          '\n' +
-          '@implementation RMSomeValue\n' +
-          '\n' +
-          '- (instancetype)initWithValue1:(RMSomething *)value1 value2:(RMSomething *)value2\n' +
-          '{\n' +
-          '  if ((self = [super init])) {\n' +
-          '    _value1 = [value1 copy];\n' +
-          '    _value2 = [value2 copy];\n' +
-          '  }\n' +
-          '\n' +
-          '  return self;\n' +
-          '}\n' +
-          '\n' +
-          '@end\n',
-      );
+        '#error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).\n' +
+        '#endif\n\n' +
+        '#import "RMSomeValue.h"\n' +
+        '\n' +
+        '// The most interesting comment in the world.\n' +
+        'static __unsafe_unretained NSString * const kSomething = @"FOOOOO";\n' +
+        'static assign NSUInteger const kSomethingElse = 2;\n' +
+        '\n' +
+        '@implementation RMSomeValue\n' +
+        '\n' +
+        '- (instancetype)initWithValue1:(RMSomething *)value1 value2:(RMSomething *)value2\n' +
+        '{\n' +
+        '  if ((self = [super init])) {\n' +
+        '    _value1 = [value1 copy];\n' +
+        '    _value2 = [value2 copy];\n' +
+        '  }\n' +
+        '\n' +
+        '  return self;\n' +
+        '}\n' +
+        '\n' +
+        '@end\n';
 
       expect(renderedOutput).toEqualJSON(expectedOutput);
     });
@@ -3085,32 +3063,32 @@ describe('ObjCRenderer', function() {
                 keywords: [
                   {
                     name: 'someClassMethodWithValue1',
-                    argument: Maybe.Just({
+                    argument: {
                       name: 'value1',
                       modifiers: [],
                       type: {
                         name: 'RMSomething',
                         reference: 'RMSomething *',
                       },
-                    }),
+                    },
                   },
                   {
                     name: 'value2',
-                    argument: Maybe.Just({
+                    argument: {
                       name: 'value2',
                       modifiers: [],
                       type: {
                         name: 'RMSomething',
                         reference: 'RMSomething *',
                       },
-                    }),
+                    },
                   },
                 ],
                 returnType: {
-                  type: Maybe.Just({
+                  type: {
                     name: 'instancetype',
                     reference: 'instancetype',
-                  }),
+                  },
                   modifiers: [],
                 },
               },
@@ -3139,32 +3117,32 @@ describe('ObjCRenderer', function() {
                 keywords: [
                   {
                     name: 'initWithValue1',
-                    argument: Maybe.Just({
+                    argument: {
                       name: 'value1',
                       modifiers: [],
                       type: {
                         name: 'RMSomething',
                         reference: 'RMSomething *',
                       },
-                    }),
+                    },
                   },
                   {
                     name: 'value2',
-                    argument: Maybe.Just({
+                    argument: {
                       name: 'value2',
                       modifiers: [],
                       type: {
                         name: 'RMSomething',
                         reference: 'RMSomething *',
                       },
-                    }),
+                    },
                   },
                 ],
                 returnType: {
-                  type: Maybe.Just({
+                  type: {
                     name: 'instancetype',
                     reference: 'instancetype',
-                  }),
+                  },
                   modifiers: [],
                 },
               },
@@ -3263,46 +3241,45 @@ describe('ObjCRenderer', function() {
 
       const renderedOutput = ObjCRenderer.renderImplementation(fileToRender);
 
-      const expectedOutput: string | null = Maybe.Just<string>(
+      const expectedOutput: string | null =
         '// Copyright something something. All Rights Reserved.\n\n' +
-          '#if  ! __has_feature(objc_arc)\n' +
-          '#error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).\n' +
-          '#endif\n\n' +
-          '#import "RMSomeValue.h"\n' +
-          '\n' +
-          '#pragma clang diagnostic push\n' +
-          '#pragma GCC diagnostic ignored "-Wprotocol"\n' +
-          '#pragma GCC diagnostic ignored "-Wincomplete-implementation"\n' +
-          '\n' +
-          '@implementation RMSomeValue\n' +
-          '{\n' +
-          '  RMSomethingElse _value3;\n' +
-          '  RMSomething *_value4;\n' +
-          '  __weak RMSomething *_value5;\n' +
-          '}\n' +
-          '\n' +
-          '#if DEBUG\n' +
-          '+ (instancetype)someClassMethodWithValue1:(RMSomething *)value1 value2:(RMSomething *)value2\n' +
-          '{\n' +
-          '  return [(id)self new];\n' +
-          '}\n' +
-          '#endif\n' +
-          '\n' +
-          '#pragma push test\n' +
-          '- (instancetype)initWithValue1:(RMSomething *)value1 value2:(RMSomething *)value2\n' +
-          '{\n' +
-          '  if ((self = [super init])) {\n' +
-          '    _value1 = [value1 copy];\n' +
-          '    _value2 = [value2 copy];\n' +
-          '  }\n' +
-          '\n' +
-          '  return self;\n' +
-          '}\n' +
-          '#pragma pop\n' +
-          '\n' +
-          '@end\n' +
-          '#pragma clang diagnostic pop\n',
-      );
+        '#if  ! __has_feature(objc_arc)\n' +
+        '#error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).\n' +
+        '#endif\n\n' +
+        '#import "RMSomeValue.h"\n' +
+        '\n' +
+        '#pragma clang diagnostic push\n' +
+        '#pragma GCC diagnostic ignored "-Wprotocol"\n' +
+        '#pragma GCC diagnostic ignored "-Wincomplete-implementation"\n' +
+        '\n' +
+        '@implementation RMSomeValue\n' +
+        '{\n' +
+        '  RMSomethingElse _value3;\n' +
+        '  RMSomething *_value4;\n' +
+        '  __weak RMSomething *_value5;\n' +
+        '}\n' +
+        '\n' +
+        '#if DEBUG\n' +
+        '+ (instancetype)someClassMethodWithValue1:(RMSomething *)value1 value2:(RMSomething *)value2\n' +
+        '{\n' +
+        '  return [(id)self new];\n' +
+        '}\n' +
+        '#endif\n' +
+        '\n' +
+        '#pragma push test\n' +
+        '- (instancetype)initWithValue1:(RMSomething *)value1 value2:(RMSomething *)value2\n' +
+        '{\n' +
+        '  if ((self = [super init])) {\n' +
+        '    _value1 = [value1 copy];\n' +
+        '    _value2 = [value2 copy];\n' +
+        '  }\n' +
+        '\n' +
+        '  return self;\n' +
+        '}\n' +
+        '#pragma pop\n' +
+        '\n' +
+        '@end\n' +
+        '#pragma clang diagnostic pop\n';
 
       expect(renderedOutput).toEqualJSON(expectedOutput);
     });
@@ -3346,10 +3323,10 @@ describe('ObjCRenderer', function() {
               },
             ],
             returnType: {
-              type: Maybe.Just<ObjC.Type>({
+              type: {
                 name: 'NSString',
                 reference: 'NSString *',
-              }),
+              },
               modifiers: [],
             },
             code: [
@@ -3367,7 +3344,7 @@ describe('ObjCRenderer', function() {
             comments: [{content: '// Functions are like fungus'}],
             name: 'ANonPublicFunction',
             parameters: [],
-            returnType: {type: Maybe.Nothing<ObjC.Type>(), modifiers: []},
+            returnType: {type: null, modifiers: []},
             code: ['something();'],
             isPublic: false,
             isInline: false,
@@ -3398,29 +3375,28 @@ describe('ObjCRenderer', function() {
 
       const renderedOutput = ObjCRenderer.renderImplementation(fileToRender);
 
-      const expectedOutput: string | null = Maybe.Just<string>(
+      const expectedOutput: string | null =
         '#if  ! __has_feature(objc_arc)\n' +
-          '#error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).\n' +
-          '#endif\n\n' +
-          '#import "RMSomeValue.h"\n' +
-          '\n' +
-          'static void ANonPublicFunction(void);\n\n' +
-          '@implementation RMSomeValue\n' +
-          '\n' +
-          '@end\n' +
-          'extern NSString *APublicFunction(NSString *str, NSUInteger num) {\n' +
-          '#if SOMETHING\n' +
-          '  return @"foo";\n' +
-          '#else\n' +
-          '  return @"bar";\n' +
-          '#endif\n' +
-          '}\n' +
-          '\n' +
-          '// Functions are like fungus\n' +
-          'static void ANonPublicFunction(void) {\n' +
-          '  something();\n' +
-          '}\n',
-      );
+        '#error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).\n' +
+        '#endif\n\n' +
+        '#import "RMSomeValue.h"\n' +
+        '\n' +
+        'static void ANonPublicFunction(void);\n\n' +
+        '@implementation RMSomeValue\n' +
+        '\n' +
+        '@end\n' +
+        'extern NSString *APublicFunction(NSString *str, NSUInteger num) {\n' +
+        '#if SOMETHING\n' +
+        '  return @"foo";\n' +
+        '#else\n' +
+        '  return @"bar";\n' +
+        '#endif\n' +
+        '}\n' +
+        '\n' +
+        '// Functions are like fungus\n' +
+        'static void ANonPublicFunction(void) {\n' +
+        '  something();\n' +
+        '}\n';
 
       expect(renderedOutput).toEqual(expectedOutput);
     });
@@ -3458,32 +3434,32 @@ describe('ObjCRenderer', function() {
                 keywords: [
                   {
                     name: 'someClassMethodWithValue1',
-                    argument: Maybe.Just({
+                    argument: {
                       name: 'value1',
                       modifiers: [],
                       type: {
                         name: 'RMSomething',
                         reference: 'RMSomething *',
                       },
-                    }),
+                    },
                   },
                   {
                     name: 'value2',
-                    argument: Maybe.Just({
+                    argument: {
                       name: 'value2',
                       modifiers: [],
                       type: {
                         name: 'RMSomething',
                         reference: 'RMSomething *',
                       },
-                    }),
+                    },
                   },
                 ],
                 returnType: {
-                  type: Maybe.Just({
+                  type: {
                     name: 'ObjectType',
                     reference: 'ObjectType',
-                  }),
+                  },
                   modifiers: [],
                 },
               },
@@ -3507,21 +3483,20 @@ describe('ObjCRenderer', function() {
 
       const renderedOutput = ObjCRenderer.renderImplementation(fileToRender);
 
-      const expectedOutput: string | null = Maybe.Just<string>(
+      const expectedOutput: string | null =
         '#if  ! __has_feature(objc_arc)\n' +
-          '#error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).\n' +
-          '#endif\n\n' +
-          '#import "RMSomeValue.h"\n' +
-          '\n' +
-          '@implementation RMSomeValue\n' +
-          '\n' +
-          '+ (id)someClassMethodWithValue1:(RMSomething *)value1 value2:(RMSomething *)value2\n' +
-          '{\n' +
-          '  return [[RMSomeValue alloc] init];\n' +
-          '}\n' +
-          '\n' +
-          '@end\n',
-      );
+        '#error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).\n' +
+        '#endif\n\n' +
+        '#import "RMSomeValue.h"\n' +
+        '\n' +
+        '@implementation RMSomeValue\n' +
+        '\n' +
+        '+ (id)someClassMethodWithValue1:(RMSomething *)value1 value2:(RMSomething *)value2\n' +
+        '{\n' +
+        '  return [[RMSomeValue alloc] init];\n' +
+        '}\n' +
+        '\n' +
+        '@end\n';
 
       expect(renderedOutput).toEqualJSON(expectedOutput);
     });
@@ -3561,21 +3536,21 @@ describe('ObjCRenderer', function() {
                 keywords: [
                   {
                     name: 'objectForKey',
-                    argument: Maybe.Just({
+                    argument: {
                       name: 'key',
                       modifiers: [],
                       type: {
                         name: 'KeyType',
                         reference: 'KeyType',
                       },
-                    }),
+                    },
                   },
                 ],
                 returnType: {
-                  type: Maybe.Just({
+                  type: {
                     name: 'ValueType',
                     reference: 'ValueType',
-                  }),
+                  },
                   modifiers: [],
                 },
               },
@@ -3597,21 +3572,20 @@ describe('ObjCRenderer', function() {
 
       const renderedOutput = ObjCRenderer.renderImplementation(fileToRender);
 
-      const expectedOutput: string | null = Maybe.Just<string>(
+      const expectedOutput: string | null =
         '#if  ! __has_feature(objc_arc)\n' +
-          '#error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).\n' +
-          '#endif\n\n' +
-          '#import "RMSomeValue.h"\n' +
-          '\n' +
-          '@implementation RMSomeValue\n' +
-          '\n' +
-          '- (id)objectForKey:(id)key\n' +
-          '{\n' +
-          '  return [[RMSomeValue alloc] init];\n' +
-          '}\n' +
-          '\n' +
-          '@end\n',
-      );
+        '#error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).\n' +
+        '#endif\n\n' +
+        '#import "RMSomeValue.h"\n' +
+        '\n' +
+        '@implementation RMSomeValue\n' +
+        '\n' +
+        '- (id)objectForKey:(id)key\n' +
+        '{\n' +
+        '  return [[RMSomeValue alloc] init];\n' +
+        '}\n' +
+        '\n' +
+        '@end\n';
 
       expect(renderedOutput).toEqualJSON(expectedOutput);
     });
@@ -3690,22 +3664,21 @@ describe('ObjCRenderer', function() {
 
       const renderedOutput = ObjCRenderer.renderImplementation(fileToRender);
 
-      const expectedOutput: string | null = Maybe.Just<string>(
+      const expectedOutput: string | null =
         '#if  ! __has_feature(objc_arc)\n' +
-          '#error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).\n' +
-          '#endif\n\n' +
-          '#import "RMSomeValue.h"\n' +
-          '\n' +
-          '// This is a note about this very introspective enumeration.\n' +
-          'typedef NS_ENUM(NSInteger, SomePrivateEnum) {\n' +
-          '  SomePrivateEnumSomeValue,\n' +
-          '  SomePrivateEnumSomeOtherValue\n' +
-          '};\n' +
-          '\n' +
-          '@implementation RMSomeValue\n' +
-          '\n' +
-          '@end\n',
-      );
+        '#error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).\n' +
+        '#endif\n\n' +
+        '#import "RMSomeValue.h"\n' +
+        '\n' +
+        '// This is a note about this very introspective enumeration.\n' +
+        'typedef NS_ENUM(NSInteger, SomePrivateEnum) {\n' +
+        '  SomePrivateEnumSomeValue,\n' +
+        '  SomePrivateEnumSomeOtherValue\n' +
+        '};\n' +
+        '\n' +
+        '@implementation RMSomeValue\n' +
+        '\n' +
+        '@end\n';
 
       expect(renderedOutput).toEqualJSON(expectedOutput);
     });
@@ -3739,21 +3712,21 @@ describe('ObjCRenderer', function() {
                 keywords: [
                   {
                     name: 'objectForKey',
-                    argument: Maybe.Just({
+                    argument: {
                       name: 'key',
                       modifiers: [],
                       type: {
                         name: 'KeyType',
                         reference: 'KeyType',
                       },
-                    }),
+                    },
                   },
                 ],
                 returnType: {
-                  type: Maybe.Just({
+                  type: {
                     name: 'ValueType',
                     reference: 'ValueType',
-                  }),
+                  },
                   modifiers: [],
                 },
               },
@@ -3775,14 +3748,13 @@ describe('ObjCRenderer', function() {
 
       const renderedOutput = ObjCRenderer.renderHeader(fileToRender);
 
-      const expectedOutput: string | null = Maybe.Just<string>(
+      const expectedOutput: string | null =
         '__attribute__((visibility("default")))\n' +
-          '@interface RMSomeValue : NSObject\n' +
-          '\n' +
-          '- (ValueType)objectForKey:(KeyType)key;\n' +
-          '\n' +
-          '@end\n',
-      );
+        '@interface RMSomeValue : NSObject\n' +
+        '\n' +
+        '- (ValueType)objectForKey:(KeyType)key;\n' +
+        '\n' +
+        '@end\n';
 
       expect(renderedOutput).toEqualJSON(expectedOutput);
     });
@@ -3861,7 +3833,7 @@ describe('ObjCRenderer', function() {
                 nullability: ObjC.Nullability.Inherited(),
               },
             ],
-            returnType: {type: Maybe.Nothing<ObjC.Type>(), modifiers: []},
+            returnType: {type: null, modifiers: []},
             isPublic: true,
             nullability: ObjC.ClassNullability.default,
           },
@@ -3879,10 +3851,10 @@ describe('ObjCRenderer', function() {
               },
             ],
             returnType: {
-              type: Maybe.Just<ObjC.Type>({
+              type: {
                 name: 'Foo',
                 reference: 'Foo *',
-              }),
+              },
               modifiers: [],
             },
             isPublic: false,
@@ -3903,14 +3875,13 @@ describe('ObjCRenderer', function() {
 
       const renderedOutput = ObjCRenderer.renderImplementation(fileToRender);
 
-      const expectedOutput: string | null = Maybe.Just<string>(
+      const expectedOutput: string | null =
         '#if  ! __has_feature(objc_arc)\n' +
-          '#error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).\n' +
-          '#endif\n\n' +
-          '#import "RMSomeValue.h"\n' +
-          '\n' +
-          'typedef Foo *(^AnotherBlock)(BOOL someBool);\n',
-      );
+        '#error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).\n' +
+        '#endif\n\n' +
+        '#import "RMSomeValue.h"\n' +
+        '\n' +
+        'typedef Foo *(^AnotherBlock)(BOOL someBool);\n';
 
       expect(renderedOutput).toEqualJSON(expectedOutput);
     });
@@ -3946,7 +3917,7 @@ describe('ObjCRenderer', function() {
                   nullability: ObjC.Nullability.Inherited(),
                 },
               ],
-              returnType: {type: Maybe.Nothing<ObjC.Type>(), modifiers: []},
+              returnType: {type: null, modifiers: []},
               isPublic: true,
               nullability: ObjC.ClassNullability.default,
             },
@@ -4114,10 +4085,10 @@ describe('ObjCRenderer', function() {
               {name: 'parameter', type: {name: 'BOOL', reference: 'BOOL'}},
             ],
             returnType: {
-              type: Maybe.Just({
+              type: {
                 name: 'int',
                 reference: 'int',
-              }),
+              },
               modifiers: [],
             },
             code: ['// Test'],
@@ -4137,9 +4108,8 @@ describe('ObjCRenderer', function() {
 
       const renderedOutput = ObjCRenderer.renderImplementation(fileToRender);
 
-      const expectedOutput: string | null = Maybe.Just<
-        string
-      >(`#if  ! __has_feature(objc_arc)
+      const expectedOutput: string | null = <string>(
+        `#if  ! __has_feature(objc_arc)
 #error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).
 #endif
 
@@ -4150,7 +4120,8 @@ extern int RMSomeFunction(BOOL parameter) {
   // Test
 }
 
-NS_ASSUME_NONNULL_END\n`);
+NS_ASSUME_NONNULL_END\n`
+      );
 
       expect(renderedOutput).toEqualJSON(expectedOutput);
 
@@ -4158,9 +4129,7 @@ NS_ASSUME_NONNULL_END\n`);
         fileToRender,
       );
 
-      const expectedHeader: string | null = Maybe.Just<
-        string
-      >(`NS_ASSUME_NONNULL_BEGIN
+      const expectedHeader: string | null = <string>`NS_ASSUME_NONNULL_BEGIN
 
 #ifdef __cplusplus
 extern \"C\" {
@@ -4172,7 +4141,7 @@ extern int RMSomeFunction(BOOL parameter);
 }
 #endif
 
-NS_ASSUME_NONNULL_END\n`);
+NS_ASSUME_NONNULL_END\n`;
 
       expect(renderedHeader).toEqualJSON(expectedHeader);
     });
@@ -4195,10 +4164,10 @@ NS_ASSUME_NONNULL_END\n`);
               {name: 'parameter', type: {name: 'BOOL', reference: 'BOOL'}},
             ],
             returnType: {
-              type: Maybe.Just({
+              type: {
                 name: 'int',
                 reference: 'int',
-              }),
+              },
               modifiers: [],
             },
             code: [],
@@ -4224,9 +4193,8 @@ NS_ASSUME_NONNULL_END\n`);
 
       const renderedOutput = ObjCRenderer.renderImplementation(fileToRender);
 
-      const expectedOutput: string | null = Maybe.Just<
-        string
-      >(`#if  ! __has_feature(objc_arc)
+      const expectedOutput: string | null = <string>(
+        `#if  ! __has_feature(objc_arc)
 #error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).
 #endif
 
@@ -4237,7 +4205,8 @@ static int RMSomeFunction(BOOL parameter);
 
 static int RMSomeFunction(BOOL parameter) {
 
-}\n`);
+}\n`
+      );
 
       expect(renderedOutput).toEqualJSON(expectedOutput);
     });
@@ -4260,10 +4229,10 @@ static int RMSomeFunction(BOOL parameter) {
               {name: 'parameter', type: {name: 'BOOL', reference: 'BOOL'}},
             ],
             returnType: {
-              type: Maybe.Just({
+              type: {
                 name: 'int',
                 reference: 'int',
-              }),
+              },
               modifiers: [],
             },
             code: ['// Test'],
@@ -4284,11 +4253,11 @@ static int RMSomeFunction(BOOL parameter) {
         fileToRender,
       );
 
-      const expectedOutput: string | null = Maybe.Just<
-        string
-      >(`static inline int RMSomeFunction(BOOL parameter) {
+      const expectedOutput: string | null = <string>(
+        `static inline int RMSomeFunction(BOOL parameter) {
   // Test
-}\n`);
+}\n`
+      );
       expect(renderedOutput).toEqualJSON(expectedOutput);
 
       const renderedImpl = ObjCRenderer.renderImplementation(fileToRender);
@@ -4330,10 +4299,10 @@ static int RMSomeFunction(BOOL parameter) {
                   {name: 'parameter', type: {name: 'BOOL', reference: 'BOOL'}},
                 ],
                 returnType: {
-                  type: Maybe.Just({
+                  type: {
                     name: 'int',
                     reference: 'int',
-                  }),
+                  },
                   modifiers: [],
                 },
                 code: ['// Test'],
@@ -4353,14 +4322,13 @@ static int RMSomeFunction(BOOL parameter) {
       const renderedOutput: string | null = ObjCRenderer.renderHeader(
         fileToRender,
       );
-      const expectedOutput: string | null = Maybe.Just<string>(
+      const expectedOutput: string | null =
         '__attribute__((objc_subclassing_restricted))\n' +
-          '@interface RMSomeValue : NSObject <RMTestProtocol>\n\n' +
-          '@end\n\n' +
-          'static inline int RMSomeFunction(BOOL parameter) {\n' +
-          '  // Test\n' +
-          '}\n',
-      );
+        '@interface RMSomeValue : NSObject <RMTestProtocol>\n\n' +
+        '@end\n\n' +
+        'static inline int RMSomeFunction(BOOL parameter) {\n' +
+        '  // Test\n' +
+        '}\n';
       expect(renderedOutput).toEqualJSON(expectedOutput);
 
       const renderedImpl = ObjCRenderer.renderImplementation(fileToRender);
@@ -4409,11 +4377,11 @@ static int RMSomeFunction(BOOL parameter) {
                 keywords: [
                   {
                     name: 'testClassMethod',
-                    argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+                    argument: null,
                   },
                 ],
                 returnType: {
-                  type: Maybe.Nothing<ObjC.Type>(),
+                  type: null,
                   modifiers: [],
                 },
               },
@@ -4621,10 +4589,10 @@ static int RMSomeFunction(BOOL parameter) {
         name: 'TestFunction',
         parameters: [],
         returnType: {
-          type: Maybe.Just({
+          type: {
             name: 'RMSomething',
             reference: 'RMSomething *',
-          }),
+          },
           modifiers: [
             ObjC.KeywordArgumentModifier.Nullable(),
             ObjC.KeywordArgumentModifier.UnsafeUnretained(),
@@ -4658,10 +4626,10 @@ static int RMSomeFunction(BOOL parameter) {
           },
         ],
         returnType: {
-          type: Maybe.Just({
+          type: {
             name: 'RMSomething',
             reference: 'RMSomething *',
-          }),
+          },
           modifiers: [],
         },
         comments: [],

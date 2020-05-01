@@ -23,14 +23,14 @@ function initUnavailableInstanceMethod(): ObjC.Method {
     keywords: [
       {
         name: 'init',
-        argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+        argument: null,
       },
     ],
     returnType: {
-      type: Maybe.Just<ObjC.Type>({
+      type: {
         name: 'instancetype',
         reference: 'instancetype',
-      }),
+      },
       modifiers: [],
     },
   };
@@ -46,14 +46,14 @@ function newUnavailableClassMethod(): ObjC.Method {
     keywords: [
       {
         name: 'new',
-        argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+        argument: null,
       },
     ],
     returnType: {
-      type: Maybe.Just<ObjC.Type>({
+      type: {
         name: 'instancetype',
         reference: 'instancetype',
-      }),
+      },
       modifiers: [],
     },
   };
@@ -89,7 +89,7 @@ export function createPlugin(): ObjectSpec.Plugin {
       return request;
     },
     fileType: function(objectType: ObjectSpec.Type): Code.FileType | null {
-      return Maybe.Nothing<Code.FileType>();
+      return null;
     },
     forwardDeclarations: function(
       objectType: ObjectSpec.Type,
@@ -133,7 +133,7 @@ export function createPlugin(): ObjectSpec.Plugin {
     nullability: function(
       objectType: ObjectSpec.Type,
     ): ObjC.ClassNullability | null {
-      return Maybe.Nothing<ObjC.ClassNullability>();
+      return null;
     },
     subclassingRestricted: function(objectType: ObjectSpec.Type): boolean {
       return false;
@@ -171,7 +171,7 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
     fileType: function(
       algebraicType: AlgebraicType.Type,
     ): Code.FileType | null {
-      return Maybe.Nothing<Code.FileType>();
+      return null;
     },
     forwardDeclarations: function(
       algebraicType: AlgebraicType.Type,
@@ -221,7 +221,7 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
     nullability: function(
       algebraicType: AlgebraicType.Type,
     ): ObjC.ClassNullability | null {
-      return Maybe.Nothing<ObjC.ClassNullability>();
+      return null;
     },
     subclassingRestricted: function(
       algebraicType: AlgebraicType.Type,

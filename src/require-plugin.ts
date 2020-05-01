@@ -19,8 +19,8 @@ function requiredModuleForPath(
   absolutePath: File.AbsoluteFilePath,
 ): any | null {
   try {
-    return Maybe.Just(
-      requireJsPlugin.requirePlugin(File.getAbsolutePathString(absolutePath)),
+    return requireJsPlugin.requirePlugin(
+      File.getAbsolutePathString(absolutePath),
     );
   } catch (e) {
     return null;
@@ -50,17 +50,15 @@ function requirePlugin<T>(
 }
 
 function valueObjectPluginFromModule(module: any): ObjectSpec.Plugin | null {
-  return module.createPlugin !== undefined
-    ? Maybe.Just<ObjectSpec.Plugin>(module.createPlugin())
-    : Maybe.Nothing<ObjectSpec.Plugin>();
+  return module.createPlugin !== undefined ? module.createPlugin() : null;
 }
 
 function algebraicTypePluginFromModule(
   module: any,
 ): AlgebraicType.Plugin | null {
   return module.createAlgebraicTypePlugin !== undefined
-    ? Maybe.Just<AlgebraicType.Plugin>(module.createAlgebraicTypePlugin())
-    : Maybe.Nothing<AlgebraicType.Plugin>();
+    ? module.createAlgebraicTypePlugin()
+    : null;
 }
 
 export function requireObjectSpecPlugin(

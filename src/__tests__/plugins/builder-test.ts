@@ -83,14 +83,14 @@ describe('Plugins.Builder', function() {
                     keywords: [
                       {
                         name: 'fooBarBaz',
-                        argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+                        argument: null,
                       },
                     ],
                     returnType: {
-                      type: Maybe.Just({
+                      type: {
                         name: 'instancetype',
                         reference: 'instancetype',
-                      }),
+                      },
                       modifiers: [],
                     },
                   },
@@ -103,21 +103,21 @@ describe('Plugins.Builder', function() {
                     keywords: [
                       {
                         name: 'fooBarBazFromExistingFooBarBaz',
-                        argument: Maybe.Just<ObjC.KeywordArgument>({
+                        argument: {
                           name: 'existingFooBarBaz',
                           modifiers: [],
                           type: {
                             name: 'FooBarBaz',
                             reference: 'FooBarBaz *',
                           },
-                        }),
+                        },
                       },
                     ],
                     returnType: {
-                      type: Maybe.Just({
+                      type: {
                         name: 'instancetype',
                         reference: 'instancetype',
-                      }),
+                      },
                       modifiers: [],
                     },
                   },
@@ -134,14 +134,14 @@ describe('Plugins.Builder', function() {
                     keywords: [
                       {
                         name: 'build',
-                        argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+                        argument: null,
                       },
                     ],
                     returnType: {
-                      type: Maybe.Just({
+                      type: {
                         name: 'FooBarBaz',
                         reference: 'FooBarBaz *',
-                      }),
+                      },
                       modifiers: [],
                     },
                   },
@@ -229,14 +229,14 @@ describe('Plugins.Builder', function() {
                     keywords: [
                       {
                         name: 'ferr',
-                        argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+                        argument: null,
                       },
                     ],
                     returnType: {
-                      type: Maybe.Just({
+                      type: {
                         name: 'instancetype',
                         reference: 'instancetype',
-                      }),
+                      },
                       modifiers: [],
                     },
                   },
@@ -249,21 +249,21 @@ describe('Plugins.Builder', function() {
                     keywords: [
                       {
                         name: 'ferrFromExistingFerr',
-                        argument: Maybe.Just<ObjC.KeywordArgument>({
+                        argument: {
                           name: 'existingFerr',
                           modifiers: [],
                           type: {
                             name: 'RMFerr',
                             reference: 'RMFerr *',
                           },
-                        }),
+                        },
                       },
                     ],
                     returnType: {
-                      type: Maybe.Just({
+                      type: {
                         name: 'instancetype',
                         reference: 'instancetype',
-                      }),
+                      },
                       modifiers: [],
                     },
                   },
@@ -280,14 +280,14 @@ describe('Plugins.Builder', function() {
                     keywords: [
                       {
                         name: 'build',
-                        argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+                        argument: null,
                       },
                     ],
                     returnType: {
-                      type: Maybe.Just({
+                      type: {
                         name: 'RMFerr',
                         reference: 'RMFerr *',
-                      }),
+                      },
                       modifiers: [],
                     },
                   },
@@ -428,14 +428,14 @@ describe('Plugins.Builder', function() {
                     keywords: [
                       {
                         name: 'ferr',
-                        argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+                        argument: null,
                       },
                     ],
                     returnType: {
-                      type: Maybe.Just({
+                      type: {
                         name: 'instancetype',
                         reference: 'instancetype',
-                      }),
+                      },
                       modifiers: [],
                     },
                   },
@@ -453,21 +453,21 @@ describe('Plugins.Builder', function() {
                     keywords: [
                       {
                         name: 'ferrFromExistingFerr',
-                        argument: Maybe.Just<ObjC.KeywordArgument>({
+                        argument: {
                           name: 'existingFerr',
                           modifiers: [],
                           type: {
                             name: 'RMFerr',
                             reference: 'RMFerr *',
                           },
-                        }),
+                        },
                       },
                     ],
                     returnType: {
-                      type: Maybe.Just({
+                      type: {
                         name: 'instancetype',
                         reference: 'instancetype',
-                      }),
+                      },
                       modifiers: [],
                     },
                   },
@@ -486,14 +486,14 @@ describe('Plugins.Builder', function() {
                     keywords: [
                       {
                         name: 'build',
-                        argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+                        argument: null,
                       },
                     ],
                     returnType: {
-                      type: Maybe.Just({
+                      type: {
                         name: 'RMFerr',
                         reference: 'RMFerr *',
-                      }),
+                      },
                       modifiers: [],
                     },
                   },
@@ -509,21 +509,21 @@ describe('Plugins.Builder', function() {
                     keywords: [
                       {
                         name: 'withSomeUnsignedInteger',
-                        argument: Maybe.Just<ObjC.KeywordArgument>({
+                        argument: {
                           name: 'someUnsignedInteger',
                           modifiers: [],
                           type: {
                             name: 'NSUInteger',
                             reference: 'NSUInteger',
                           },
-                        }),
+                        },
                       },
                     ],
                     returnType: {
-                      type: Maybe.Just({
+                      type: {
                         name: 'instancetype',
                         reference: 'instancetype',
-                      }),
+                      },
                       modifiers: [],
                     },
                   },
@@ -539,21 +539,21 @@ describe('Plugins.Builder', function() {
                     keywords: [
                       {
                         name: 'withSomeCustomObject',
-                        argument: Maybe.Just<ObjC.KeywordArgument>({
+                        argument: {
                           name: 'someCustomObject',
                           modifiers: [],
                           type: {
                             name: 'RMCustomObject',
                             reference: 'RMCustomObject *',
                           },
-                        }),
+                        },
                       },
                     ],
                     returnType: {
-                      type: Maybe.Just({
+                      type: {
                         name: 'instancetype',
                         reference: 'instancetype',
-                      }),
+                      },
                       modifiers: [],
                     },
                   },
@@ -566,21 +566,21 @@ describe('Plugins.Builder', function() {
                     keywords: [
                       {
                         name: 'withSomeBool',
-                        argument: Maybe.Just<ObjC.KeywordArgument>({
+                        argument: {
                           name: 'someBool',
                           modifiers: [],
                           type: {
                             name: 'BOOL',
                             reference: 'BOOL',
                           },
-                        }),
+                        },
                       },
                     ],
                     returnType: {
-                      type: Maybe.Just({
+                      type: {
                         name: 'instancetype',
                         reference: 'instancetype',
-                      }),
+                      },
                       modifiers: [],
                     },
                   },
@@ -752,14 +752,14 @@ describe('Plugins.Builder', function() {
                     keywords: [
                       {
                         name: 'ferr',
-                        argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+                        argument: null,
                       },
                     ],
                     returnType: {
-                      type: Maybe.Just({
+                      type: {
                         name: 'instancetype',
                         reference: 'instancetype',
-                      }),
+                      },
                       modifiers: [],
                     },
                   },
@@ -777,21 +777,21 @@ describe('Plugins.Builder', function() {
                     keywords: [
                       {
                         name: 'ferrFromExistingFerr',
-                        argument: Maybe.Just<ObjC.KeywordArgument>({
+                        argument: {
                           name: 'existingFerr',
                           modifiers: [],
                           type: {
                             name: 'RMFerr',
                             reference: 'RMFerr *',
                           },
-                        }),
+                        },
                       },
                     ],
                     returnType: {
-                      type: Maybe.Just({
+                      type: {
                         name: 'instancetype',
                         reference: 'instancetype',
-                      }),
+                      },
                       modifiers: [],
                     },
                   },
@@ -810,14 +810,14 @@ describe('Plugins.Builder', function() {
                     keywords: [
                       {
                         name: 'build',
-                        argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+                        argument: null,
                       },
                     ],
                     returnType: {
-                      type: Maybe.Just({
+                      type: {
                         name: 'RMFerr',
                         reference: 'RMFerr *',
-                      }),
+                      },
                       modifiers: [],
                     },
                   },
@@ -833,21 +833,21 @@ describe('Plugins.Builder', function() {
                     keywords: [
                       {
                         name: 'withSomeUnsignedInteger',
-                        argument: Maybe.Just<ObjC.KeywordArgument>({
+                        argument: {
                           name: 'someUnsignedInteger',
                           modifiers: [],
                           type: {
                             name: 'NSUInteger',
                             reference: 'NSUInteger',
                           },
-                        }),
+                        },
                       },
                     ],
                     returnType: {
-                      type: Maybe.Just({
+                      type: {
                         name: 'instancetype',
                         reference: 'instancetype',
-                      }),
+                      },
                       modifiers: [],
                     },
                   },
@@ -863,21 +863,21 @@ describe('Plugins.Builder', function() {
                     keywords: [
                       {
                         name: 'withSomeCustomObject',
-                        argument: Maybe.Just<ObjC.KeywordArgument>({
+                        argument: {
                           name: 'someCustomObject',
                           modifiers: [],
                           type: {
                             name: 'RMCustomObject',
                             reference: 'RMCustomObject *',
                           },
-                        }),
+                        },
                       },
                     ],
                     returnType: {
-                      type: Maybe.Just({
+                      type: {
                         name: 'instancetype',
                         reference: 'instancetype',
-                      }),
+                      },
                       modifiers: [],
                     },
                   },
@@ -890,21 +890,21 @@ describe('Plugins.Builder', function() {
                     keywords: [
                       {
                         name: 'withSomeBool',
-                        argument: Maybe.Just<ObjC.KeywordArgument>({
+                        argument: {
                           name: 'someBool',
                           modifiers: [],
                           type: {
                             name: 'BOOL',
                             reference: 'BOOL',
                           },
-                        }),
+                        },
                       },
                     ],
                     returnType: {
-                      type: Maybe.Just({
+                      type: {
                         name: 'instancetype',
                         reference: 'instancetype',
-                      }),
+                      },
                       modifiers: [],
                     },
                   },

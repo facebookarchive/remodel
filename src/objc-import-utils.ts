@@ -15,69 +15,69 @@ import * as ObjectSpecCodeUtils from './object-spec-code-utils';
 const KNOWN_SYSTEM_TYPE_IMPORT_INFO: {
   [id: string]: ObjC.Import | null;
 } = {
-  bool: Maybe.Nothing<ObjC.Import>(),
-  BOOL: Maybe.Nothing<ObjC.Import>(),
-  double: Maybe.Nothing<ObjC.Import>(),
-  float: Maybe.Nothing<ObjC.Import>(),
-  id: Maybe.Nothing<ObjC.Import>(),
-  CGFloat: Maybe.Just({
+  bool: null,
+  BOOL: null,
+  double: null,
+  float: null,
+  id: null,
+  CGFloat: {
     file: 'CGBase.h',
     isPublic: true,
     requiresCPlusPlus: false,
     library: 'CoreGraphics',
-  }),
-  CGPoint: Maybe.Just({
+  },
+  CGPoint: {
     file: 'CGGeometry.h',
     isPublic: true,
     requiresCPlusPlus: false,
     library: 'CoreGraphics',
-  }),
-  CGRect: Maybe.Just({
+  },
+  CGRect: {
     file: 'CGGeometry.h',
     isPublic: true,
     requiresCPlusPlus: false,
     library: 'CoreGraphics',
-  }),
-  CGSize: Maybe.Just({
+  },
+  CGSize: {
     file: 'CGGeometry.h',
     isPublic: true,
     requiresCPlusPlus: false,
     library: 'CoreGraphics',
-  }),
-  int: Maybe.Nothing<ObjC.Import>(),
-  int32_t: Maybe.Nothing<ObjC.Import>(),
-  int64_t: Maybe.Nothing<ObjC.Import>(),
-  long: Maybe.Nothing<ObjC.Import>(),
-  SEL: Maybe.Nothing<ObjC.Import>(),
-  UIColor: Maybe.Just({
+  },
+  int: null,
+  int32_t: null,
+  int64_t: null,
+  long: null,
+  SEL: null,
+  UIColor: {
     file: 'UIKit.h',
     isPublic: true,
     requiresCPlusPlus: false,
     library: 'UIKit',
-  }),
-  UIEdgeInsets: Maybe.Just({
+  },
+  UIEdgeInsets: {
     file: 'UIGeometry.h',
     isPublic: true,
     requiresCPlusPlus: false,
     library: 'UIKit',
-  }),
-  UIFont: Maybe.Just({
+  },
+  UIFont: {
     file: 'UIKit.h',
     isPublic: true,
     requiresCPlusPlus: false,
     library: 'UIKit',
-  }),
-  UIImage: Maybe.Just({
+  },
+  UIImage: {
     file: 'UIKit.h',
     isPublic: true,
     requiresCPlusPlus: false,
     library: 'UIKit',
-  }),
-  uint64_t: Maybe.Nothing<ObjC.Import>(),
-  uint32_t: Maybe.Nothing<ObjC.Import>(),
-  uintptr_t: Maybe.Nothing<ObjC.Import>(),
-  Class: Maybe.Nothing<ObjC.Import>(),
-  dispatch_block_t: Maybe.Nothing<ObjC.Import>(),
+  },
+  uint64_t: null,
+  uint32_t: null,
+  uintptr_t: null,
+  Class: null,
+  dispatch_block_t: null,
 };
 
 function isFoundationType(typeName: string): boolean {

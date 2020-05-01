@@ -5,14 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-export function Just<T>(t: T): T | null {
-  return t;
-}
-
-export function Nothing<T>(): T | null {
-  return null;
-}
-
 export function match<T, U>(
   just: (t: T) => U,
   nothing: () => U,

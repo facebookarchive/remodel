@@ -47,14 +47,14 @@ function builderClassMethodForValueType(
     keywords: [
       {
         name: shortNameOfObjectToBuildForValueTypeWithName(objectType.typeName),
-        argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+        argument: null,
       },
     ],
     returnType: {
-      type: Maybe.Just<ObjC.Type>({
+      type: {
         name: 'instancetype',
         reference: 'instancetype',
-      }),
+      },
       modifiers: [],
     },
   };
@@ -174,7 +174,7 @@ function builderFromExistingObjectClassMethodForValueType(
           StringUtils.capitalize(
             shortNameOfObjectToBuildForValueTypeWithName(objectType.typeName),
           ),
-        argument: Maybe.Just<ObjC.KeywordArgument>({
+        argument: {
           name: keywordArgumentNameForBuilderFromExistingObjectClassMethodForValueType(
             objectType,
           ),
@@ -185,14 +185,14 @@ function builderFromExistingObjectClassMethodForValueType(
               objectType.typeName,
             ),
           },
-        }),
+        },
       },
     ],
     returnType: {
-      type: Maybe.Just<ObjC.Type>({
+      type: {
         name: 'instancetype',
         reference: 'instancetype',
-      }),
+      },
       modifiers: [],
     },
   };
@@ -223,16 +223,16 @@ function buildObjectInstanceMethodForValueType(
     keywords: [
       {
         name: 'build',
-        argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+        argument: null,
       },
     ],
     returnType: {
-      type: Maybe.Just<ObjC.Type>({
+      type: {
         name: objectType.typeName,
         reference: ObjectSpecUtils.typeReferenceForValueTypeWithName(
           objectType.typeName,
         ),
-      }),
+      },
       modifiers: [],
     },
   };
@@ -291,7 +291,7 @@ function withInstanceMethodForAttribute(
     keywords: [
       {
         name: keywordNameForAttribute(attribute),
-        argument: Maybe.Just<ObjC.KeywordArgument>({
+        argument: {
           name: keywordArgumentNameForAttribute(attribute),
           modifiers: ObjCNullabilityUtils.keywordArgumentModifiersForNullability(
             attribute.nullability,
@@ -300,14 +300,14 @@ function withInstanceMethodForAttribute(
             name: attribute.type.name,
             reference: attribute.type.reference,
           },
-        }),
+        },
       },
     ],
     returnType: {
-      type: Maybe.Just<ObjC.Type>({
+      type: {
         name: 'instancetype',
         reference: 'instancetype',
-      }),
+      },
       modifiers: [],
     },
   };
@@ -522,7 +522,7 @@ export function createPlugin(): ObjectSpec.Plugin {
       return request;
     },
     fileType: function(objectType: ObjectSpec.Type): Code.FileType | null {
-      return Maybe.Nothing<Code.FileType>();
+      return null;
     },
     forwardDeclarations: function(
       objectType: ObjectSpec.Type,
@@ -562,7 +562,7 @@ export function createPlugin(): ObjectSpec.Plugin {
     nullability: function(
       objectType: ObjectSpec.Type,
     ): ObjC.ClassNullability | null {
-      return Maybe.Nothing<ObjC.ClassNullability>();
+      return null;
     },
     subclassingRestricted: function(objectType: ObjectSpec.Type): boolean {
       return false;

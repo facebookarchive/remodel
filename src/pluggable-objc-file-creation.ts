@@ -374,9 +374,7 @@ function classFileCreationFunctionWithBaseClassAndPlugins<T>(
       Either.Either<Error.Error, Code.FileType | null>
     >(
       (soFar, plugin) => buildFileType(typeInformation, soFar, plugin),
-      Either.Right<Error.Error, Code.FileType | null>(
-        Maybe.Nothing<Code.FileType>(),
-      ),
+      Either.Right<Error.Error, Code.FileType | null>(null),
       plugins,
     );
     const nullabilityEither = List.foldl<
@@ -384,9 +382,7 @@ function classFileCreationFunctionWithBaseClassAndPlugins<T>(
       Either.Either<Error.Error, ObjC.ClassNullability | null>
     >(
       (soFar, plugin) => buildNullability(typeInformation, soFar, plugin),
-      Either.Right<Error.Error, ObjC.ClassNullability | null>(
-        Maybe.Nothing<ObjC.ClassNullability>(),
-      ),
+      Either.Right<Error.Error, ObjC.ClassNullability | null>(null),
       plugins,
     );
 
@@ -437,7 +433,7 @@ function classFileCreationFunctionWithBaseClassAndPlugins<T>(
       },
       // We start with Nothing rather than with the configuration-specified base
       // class so that we don't always produce an error.
-      Either.Right(Maybe.Nothing<ObjC.BaseClass>()),
+      Either.Right(null as ObjC.BaseClass | null),
       plugins,
     );
 
@@ -693,7 +689,7 @@ function createClassIfNecessary(
     implementedProtocols.length > 0 ||
     subclassingRestricted
   ) {
-    return Maybe.Just({
+    return {
       baseClassName: baseClassName,
       covariantTypes: [],
       comments: ObjCCommentUtils.commentsAsBlockFromStringArray(comments),
@@ -708,10 +704,10 @@ function createClassIfNecessary(
       nullability: nullability,
       subclassingRestricted: subclassingRestricted,
       visibility: visibility,
-    });
+    };
   }
 
-  return Maybe.Nothing<ObjC.Class>();
+  return null;
 }
 
 function fileCreationRequestContainingArrayOfPossibleError(

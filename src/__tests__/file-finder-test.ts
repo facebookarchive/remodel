@@ -408,8 +408,8 @@ describe('FileFinder', function() {
           File.getAbsoluteFilePath(__dirname + '/tmp/tmp2'),
         );
         Promise.then(function(result: File.AbsoluteFilePath | null) {
-          const expectedResult = Maybe.Just(
-            File.getAbsoluteFilePath(__dirname + '/.valueObjectConfig'),
+          const expectedResult = File.getAbsoluteFilePath(
+            __dirname + '/.valueObjectConfig',
           );
           expect(result).toEqualJSON(expectedResult);
           fsExtra.removeSync(__dirname + '/tmp');
@@ -429,7 +429,7 @@ describe('FileFinder', function() {
           File.getAbsoluteFilePath(__dirname + '/tmp'),
         );
         Promise.then(function(result: File.AbsoluteFilePath | null) {
-          const expectedResult = Maybe.Nothing<File.AbsoluteFilePath>();
+          const expectedResult = null;
           expect(result).toEqualJSON(expectedResult);
           fsExtra.removeSync(__dirname + '/tmp');
           finished();

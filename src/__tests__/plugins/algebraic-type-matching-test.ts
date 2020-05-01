@@ -118,7 +118,7 @@ describe('Plugins.AlgebraicTypeVoidMatching', function() {
               nullability: ObjC.Nullability.Inherited(),
             },
           ],
-          returnType: {type: Maybe.Nothing<ObjC.Type>(), modifiers: []},
+          returnType: {type: null, modifiers: []},
           isPublic: true,
           nullability: ObjC.ClassNullability.default,
         },
@@ -135,7 +135,7 @@ describe('Plugins.AlgebraicTypeVoidMatching', function() {
               nullability: ObjC.Nullability.Inherited(),
             },
           ],
-          returnType: {type: Maybe.Nothing<ObjC.Type>(), modifiers: []},
+          returnType: {type: null, modifiers: []},
           isPublic: true,
           nullability: ObjC.ClassNullability.default,
         },
@@ -178,7 +178,7 @@ describe('Plugins.AlgebraicTypeVoidMatching', function() {
         keywords: [
           {
             name: 'matchSomeSubtype',
-            argument: Maybe.Just<ObjC.KeywordArgument>({
+            argument: {
               name: 'someSubtypeMatchHandler',
               modifiers: [
                 ObjC.KeywordArgumentModifier.Noescape(),
@@ -188,11 +188,11 @@ describe('Plugins.AlgebraicTypeVoidMatching', function() {
                 name: 'TestSomeSubtypeMatchHandler',
                 reference: 'TestSomeSubtypeMatchHandler',
               },
-            }),
+            },
           },
           {
             name: 'singleAttributeSubtype',
-            argument: Maybe.Just<ObjC.KeywordArgument>({
+            argument: {
               name: 'singleAttributeSubtypeMatchHandler',
               modifiers: [
                 ObjC.KeywordArgumentModifier.Noescape(),
@@ -202,10 +202,10 @@ describe('Plugins.AlgebraicTypeVoidMatching', function() {
                 name: 'TestSingleAttributeSubtypeMatchHandler',
                 reference: 'TestSingleAttributeSubtypeMatchHandler',
               },
-            }),
+            },
           },
         ],
-        returnType: {type: Maybe.Nothing<ObjC.Type>(), modifiers: []},
+        returnType: {type: null, modifiers: []},
       };
 
       expect(instanceMethods).toContain(expectedInstanceMethod);
@@ -242,10 +242,10 @@ describe('Plugins.AlgebraicTypeBoolMatching', function() {
             },
           ],
           returnType: {
-            type: Maybe.Just<ObjC.Type>({
+            type: {
               name: 'BOOL',
               reference: 'BOOL',
-            }),
+            },
             modifiers: [],
           },
           isPublic: true,
@@ -265,10 +265,10 @@ describe('Plugins.AlgebraicTypeBoolMatching', function() {
             },
           ],
           returnType: {
-            type: Maybe.Just<ObjC.Type>({
+            type: {
               name: 'BOOL',
               reference: 'BOOL',
-            }),
+            },
             modifiers: [],
           },
           isPublic: true,
@@ -315,7 +315,7 @@ describe('Plugins.AlgebraicTypeBoolMatching', function() {
         keywords: [
           {
             name: 'matchBooleanSomeSubtype',
-            argument: Maybe.Just<ObjC.KeywordArgument>({
+            argument: {
               name: 'someSubtypeMatchHandler',
               modifiers: [
                 ObjC.KeywordArgumentModifier.Noescape(),
@@ -325,11 +325,11 @@ describe('Plugins.AlgebraicTypeBoolMatching', function() {
                 name: 'TestBooleanSomeSubtypeMatchHandler',
                 reference: 'TestBooleanSomeSubtypeMatchHandler',
               },
-            }),
+            },
           },
           {
             name: 'singleAttributeSubtype',
-            argument: Maybe.Just<ObjC.KeywordArgument>({
+            argument: {
               name: 'singleAttributeSubtypeMatchHandler',
               modifiers: [
                 ObjC.KeywordArgumentModifier.Noescape(),
@@ -339,14 +339,14 @@ describe('Plugins.AlgebraicTypeBoolMatching', function() {
                 name: 'TestBooleanSingleAttributeSubtypeMatchHandler',
                 reference: 'TestBooleanSingleAttributeSubtypeMatchHandler',
               },
-            }),
+            },
           },
         ],
         returnType: {
-          type: Maybe.Just<ObjC.Type>({
+          type: {
             name: 'BOOL',
             reference: 'BOOL',
-          }),
+          },
           modifiers: [],
         },
       };
@@ -387,10 +387,10 @@ describe('Plugins.AlgebraicTypeIntegerMatching', function() {
             },
           ],
           returnType: {
-            type: Maybe.Just<ObjC.Type>({
+            type: {
               name: 'NSInteger',
               reference: 'NSInteger',
-            }),
+            },
             modifiers: [],
           },
           isPublic: true,
@@ -410,10 +410,10 @@ describe('Plugins.AlgebraicTypeIntegerMatching', function() {
             },
           ],
           returnType: {
-            type: Maybe.Just<ObjC.Type>({
+            type: {
               name: 'NSInteger',
               reference: 'NSInteger',
-            }),
+            },
             modifiers: [],
           },
           isPublic: true,
@@ -460,7 +460,7 @@ describe('Plugins.AlgebraicTypeIntegerMatching', function() {
         keywords: [
           {
             name: 'matchIntegerSomeSubtype',
-            argument: Maybe.Just<ObjC.KeywordArgument>({
+            argument: {
               name: 'someSubtypeMatchHandler',
               modifiers: [
                 ObjC.KeywordArgumentModifier.Noescape(),
@@ -470,11 +470,11 @@ describe('Plugins.AlgebraicTypeIntegerMatching', function() {
                 name: 'TestIntegerSomeSubtypeMatchHandler',
                 reference: 'TestIntegerSomeSubtypeMatchHandler',
               },
-            }),
+            },
           },
           {
             name: 'singleAttributeSubtype',
-            argument: Maybe.Just<ObjC.KeywordArgument>({
+            argument: {
               name: 'singleAttributeSubtypeMatchHandler',
               modifiers: [
                 ObjC.KeywordArgumentModifier.Noescape(),
@@ -484,14 +484,14 @@ describe('Plugins.AlgebraicTypeIntegerMatching', function() {
                 name: 'TestIntegerSingleAttributeSubtypeMatchHandler',
                 reference: 'TestIntegerSingleAttributeSubtypeMatchHandler',
               },
-            }),
+            },
           },
         ],
         returnType: {
-          type: Maybe.Just<ObjC.Type>({
+          type: {
             name: 'NSInteger',
             reference: 'NSInteger',
-          }),
+          },
           modifiers: [],
         },
       };
@@ -532,10 +532,10 @@ describe('Plugins.AlgebraicTypeDoubleMatching', function() {
             },
           ],
           returnType: {
-            type: Maybe.Just<ObjC.Type>({
+            type: {
               name: 'double',
               reference: 'double',
-            }),
+            },
             modifiers: [],
           },
           isPublic: true,
@@ -555,10 +555,10 @@ describe('Plugins.AlgebraicTypeDoubleMatching', function() {
             },
           ],
           returnType: {
-            type: Maybe.Just<ObjC.Type>({
+            type: {
               name: 'double',
               reference: 'double',
-            }),
+            },
             modifiers: [],
           },
           isPublic: true,
@@ -605,7 +605,7 @@ describe('Plugins.AlgebraicTypeDoubleMatching', function() {
         keywords: [
           {
             name: 'matchDoubleSomeSubtype',
-            argument: Maybe.Just<ObjC.KeywordArgument>({
+            argument: {
               name: 'someSubtypeMatchHandler',
               modifiers: [
                 ObjC.KeywordArgumentModifier.Noescape(),
@@ -615,11 +615,11 @@ describe('Plugins.AlgebraicTypeDoubleMatching', function() {
                 name: 'TestDoubleSomeSubtypeMatchHandler',
                 reference: 'TestDoubleSomeSubtypeMatchHandler',
               },
-            }),
+            },
           },
           {
             name: 'singleAttributeSubtype',
-            argument: Maybe.Just<ObjC.KeywordArgument>({
+            argument: {
               name: 'singleAttributeSubtypeMatchHandler',
               modifiers: [
                 ObjC.KeywordArgumentModifier.Noescape(),
@@ -629,14 +629,14 @@ describe('Plugins.AlgebraicTypeDoubleMatching', function() {
                 name: 'TestDoubleSingleAttributeSubtypeMatchHandler',
                 reference: 'TestDoubleSingleAttributeSubtypeMatchHandler',
               },
-            }),
+            },
           },
         ],
         returnType: {
-          type: Maybe.Just<ObjC.Type>({
+          type: {
             name: 'double',
             reference: 'double',
-          }),
+          },
           modifiers: [],
         },
       };
@@ -686,10 +686,10 @@ describe('Plugins.AlgebraicTypeGenericMatching', function() {
             },
           ],
           returnType: {
-            type: Maybe.Just<ObjC.Type>({
+            type: {
               name: 'ObjectType',
               reference: 'ObjectType',
-            }),
+            },
             modifiers: [],
           },
           isPublic: true,
@@ -709,10 +709,10 @@ describe('Plugins.AlgebraicTypeGenericMatching', function() {
             },
           ],
           returnType: {
-            type: Maybe.Just<ObjC.Type>({
+            type: {
               name: 'ObjectType',
               reference: 'ObjectType',
-            }),
+            },
             modifiers: [],
           },
           isPublic: true,
@@ -756,18 +756,18 @@ describe('Plugins.AlgebraicTypeGenericMatching', function() {
         keywords: [
           {
             name: 'match',
-            argument: Maybe.Just<ObjC.KeywordArgument>({
+            argument: {
               name: 'test',
               modifiers: [],
               type: {
                 name: 'Test',
                 reference: 'Test*',
               },
-            }),
+            },
           },
           {
             name: 'someSubtype',
-            argument: Maybe.Just<ObjC.KeywordArgument>({
+            argument: {
               name: 'someSubtypeMatchHandler',
               modifiers: [
                 ObjC.KeywordArgumentModifier.Noescape(),
@@ -777,11 +777,11 @@ describe('Plugins.AlgebraicTypeGenericMatching', function() {
                 name: 'TestObjectTypeSomeSubtypeMatchHandler',
                 reference: 'TestObjectTypeSomeSubtypeMatchHandler',
               },
-            }),
+            },
           },
           {
             name: 'singleAttributeSubtype',
-            argument: Maybe.Just<ObjC.KeywordArgument>({
+            argument: {
               name: 'singleAttributeSubtypeMatchHandler',
               modifiers: [
                 ObjC.KeywordArgumentModifier.Noescape(),
@@ -791,14 +791,14 @@ describe('Plugins.AlgebraicTypeGenericMatching', function() {
                 name: 'TestObjectTypeSingleAttributeSubtypeMatchHandler',
                 reference: 'TestObjectTypeSingleAttributeSubtypeMatchHandler',
               },
-            }),
+            },
           },
         ],
         returnType: {
-          type: Maybe.Just<ObjC.Type>({
+          type: {
             name: 'ObjectType',
             reference: 'ObjectType',
-          }),
+          },
           modifiers: [],
         },
       };

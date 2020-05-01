@@ -160,7 +160,7 @@ export function parseArgs(args: string[]): Arguments | null {
     );
     return null;
   } else {
-    return Maybe.Just({
+    return {
       givenPaths: parsedArgs._,
       adtConfigPath: parsedArgs[ADT_CONFIG_PATH],
       valueObjectConfigPath: parsedArgs[VALUE_OBJECT_CONFIG_PATH],
@@ -177,6 +177,6 @@ export function parseArgs(args: string[]): Arguments | null {
         outputList: sanitizeEmitOption(parsedArgs[EMIT]),
         singleFile: sanitizeBooleanArg(parsedArgs[SINGLE_FILE], false),
       },
-    });
+    };
   }
 }

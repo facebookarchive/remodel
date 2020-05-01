@@ -273,21 +273,21 @@ function decodeMethodWithCode(code: string[]): ObjC.Method {
     keywords: [
       {
         name: 'initWithCoder',
-        argument: Maybe.Just<ObjC.KeywordArgument>({
+        argument: {
           name: 'aDecoder',
           modifiers: [],
           type: {
             name: 'NSCoder',
             reference: 'NSCoder *',
           },
-        }),
+        },
       },
     ],
     returnType: {
-      type: Maybe.Just<ObjC.Type>({
+      type: {
         name: 'instancetype',
         reference: 'instancetype',
-      }),
+      },
       modifiers: [ObjC.KeywordArgumentModifier.Nullable()],
     },
   };
@@ -303,18 +303,18 @@ function encodeMethodWithCode(code: string[]): ObjC.Method {
     keywords: [
       {
         name: 'encodeWithCoder',
-        argument: Maybe.Just<ObjC.KeywordArgument>({
+        argument: {
           name: 'aCoder',
           modifiers: [],
           type: {
             name: 'NSCoder',
             reference: 'NSCoder *',
           },
-        }),
+        },
       },
     ],
     returnType: {
-      type: Maybe.Nothing<ObjC.Type>(),
+      type: null,
       modifiers: [],
     },
   };
@@ -609,10 +609,8 @@ function multipleCodingKeyAnnotationErrorForValueAttribute(
 ): Error.Error | null {
   const length = codingKeysFromAnnotations(attribute.annotations).length;
   return length > 1
-    ? Maybe.Just(
-        Error.Error(
-          `Only one %codingKey name is supported: ${objectType.typeName}.${attribute.name} has ${length}.`,
-        ),
+    ? Error.Error(
+        `Only one %codingKey name is supported: ${objectType.typeName}.${attribute.name} has ${length}.`,
       )
     : null;
 }
@@ -656,7 +654,7 @@ export function createPlugin(): ObjectSpec.Plugin {
       return request;
     },
     fileType: function(objectType: ObjectSpec.Type): Code.FileType | null {
-      return Maybe.Nothing<Code.FileType>();
+      return null;
     },
     forwardDeclarations: function(
       objectType: ObjectSpec.Type,
@@ -764,7 +762,7 @@ export function createPlugin(): ObjectSpec.Plugin {
     nullability: function(
       objectType: ObjectSpec.Type,
     ): ObjC.ClassNullability | null {
-      return Maybe.Nothing<ObjC.ClassNullability>();
+      return null;
     },
     subclassingRestricted: function(objectType: ObjectSpec.Type): boolean {
       return false;
@@ -1028,10 +1026,8 @@ function unsupportedAnnotationErrorForAlgebraicAttribute(
   attribute: AlgebraicType.SubtypeAttribute,
 ): Error.Error | null {
   return codingKeysFromAnnotations(attribute.annotations).length != 0
-    ? Maybe.Just(
-        Error.Error(
-          'Custom coding keys are not supported for algebraic type attributes',
-        ),
+    ? Error.Error(
+        'Custom coding keys are not supported for algebraic type attributes',
       )
     : null;
 }
@@ -1128,7 +1124,7 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
     fileType: function(
       algebraicType: AlgebraicType.Type,
     ): Code.FileType | null {
-      return Maybe.Nothing<Code.FileType>();
+      return null;
     },
     forwardDeclarations: function(
       algebraicType: AlgebraicType.Type,
@@ -1228,7 +1224,7 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
     nullability: function(
       algebraicType: AlgebraicType.Type,
     ): ObjC.ClassNullability | null {
-      return Maybe.Nothing<ObjC.ClassNullability>();
+      return null;
     },
     subclassingRestricted: function(
       algebraicType: AlgebraicType.Type,

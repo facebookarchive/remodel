@@ -17,7 +17,7 @@ import * as ObjectSpecCodeUtils from './object-spec-code-utils';
 function keywordArgumentFromAttribute(
   attribute: ObjectSpec.Attribute,
 ): ObjC.KeywordArgument | null {
-  return Maybe.Just({
+  return {
     name: attribute.name,
     modifiers: ObjCNullabilityUtils.keywordArgumentModifiersForNullability(
       attribute.nullability,
@@ -26,7 +26,7 @@ function keywordArgumentFromAttribute(
       name: attribute.type.name,
       reference: attribute.type.reference,
     },
-  });
+  };
 }
 
 function firstInitializerKeyword(
@@ -161,10 +161,10 @@ export function initializerFromAttributes(
 }
 
 export const RETURN_TYPE = {
-  type: Maybe.Just<ObjC.Type>({
+  type: {
     name: 'instancetype',
     reference: 'instancetype',
-  }),
+  },
   modifiers: [],
 };
 

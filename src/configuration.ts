@@ -144,7 +144,7 @@ function parsedJsonToBaseClass(parsed: any): ObjC.BaseClass {
     return {
       className: paredBaseClassInfo[BASE_CLASS_NAME_KEY],
       libraryName: paredBaseClassInfo[BASE_CLASS_LIBRARY_NAME_KEY]
-        ? Maybe.Just(paredBaseClassInfo[BASE_CLASS_LIBRARY_NAME_KEY])
+        ? paredBaseClassInfo[BASE_CLASS_LIBRARY_NAME_KEY]
         : null,
     };
   } else {

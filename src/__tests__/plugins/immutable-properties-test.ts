@@ -86,21 +86,21 @@ describe('Plugins.ImmutableProperties', function() {
             keywords: [
               {
                 name: 'initWithValue',
-                argument: Maybe.Just({
+                argument: {
                   name: 'value',
                   modifiers: [],
                   type: {
                     name: 'NSString',
                     reference: 'NSString *',
                   },
-                }),
+                },
               },
             ],
             returnType: {
-              type: Maybe.Just({
+              type: {
                 name: 'instancetype',
                 reference: 'instancetype',
-              }),
+              },
               modifiers: [],
             },
           },
@@ -159,21 +159,21 @@ describe('Plugins.ImmutableProperties', function() {
             keywords: [
               {
                 name: 'initWithValue',
-                argument: Maybe.Just({
+                argument: {
                   name: 'value',
                   modifiers: [],
                   type: {
                     name: 'NSString',
                     reference: 'NSString *',
                   },
-                }),
+                },
               },
             ],
             returnType: {
-              type: Maybe.Just({
+              type: {
                 name: 'instancetype',
                 reference: 'instancetype',
-              }),
+              },
               modifiers: [],
             },
           },
@@ -280,54 +280,54 @@ describe('Plugins.ImmutableProperties', function() {
             keywords: [
               {
                 name: 'initWithValue',
-                argument: Maybe.Just({
+                argument: {
                   name: 'value',
                   modifiers: [],
                   type: {
                     name: 'NSString',
                     reference: 'NSString *',
                   },
-                }),
+                },
               },
               {
                 name: 'value2',
-                argument: Maybe.Just({
+                argument: {
                   name: 'value2',
                   modifiers: [],
                   type: {
                     name: 'BOOL',
                     reference: 'BOOL',
                   },
-                }),
+                },
               },
               {
                 name: 'value3',
-                argument: Maybe.Just({
+                argument: {
                   name: 'value3',
                   modifiers: [],
                   type: {
                     name: 'RMAnotherSomething',
                     reference: 'RMAnotherSomething *',
                   },
-                }),
+                },
               },
               {
                 name: 'value4',
-                argument: Maybe.Just({
+                argument: {
                   name: 'value4',
                   modifiers: [],
                   type: {
                     name: 'id',
                     reference: 'id',
                   },
-                }),
+                },
               },
             ],
             returnType: {
-              type: Maybe.Just({
+              type: {
                 name: 'instancetype',
                 reference: 'instancetype',
-              }),
+              },
               modifiers: [],
             },
           },
@@ -434,54 +434,54 @@ describe('Plugins.ImmutableProperties', function() {
             keywords: [
               {
                 name: 'initWithValue',
-                argument: Maybe.Just({
+                argument: {
                   name: 'value',
                   modifiers: [],
                   type: {
                     name: 'NSString',
                     reference: 'NSString *',
                   },
-                }),
+                },
               },
               {
                 name: 'value2',
-                argument: Maybe.Just({
+                argument: {
                   name: 'value2',
                   modifiers: [],
                   type: {
                     name: 'BOOL',
                     reference: 'BOOL',
                   },
-                }),
+                },
               },
               {
                 name: 'value3',
-                argument: Maybe.Just({
+                argument: {
                   name: 'value3',
                   modifiers: [],
                   type: {
                     name: 'RMAnotherSomething',
                     reference: 'RMAnotherSomething *',
                   },
-                }),
+                },
               },
               {
                 name: 'value4',
-                argument: Maybe.Just({
+                argument: {
                   name: 'value4',
                   modifiers: [],
                   type: {
                     name: 'id',
                     reference: 'id',
                   },
-                }),
+                },
               },
             ],
             returnType: {
-              type: Maybe.Just({
+              type: {
                 name: 'instancetype',
                 reference: 'instancetype',
-              }),
+              },
               modifiers: [],
             },
           },

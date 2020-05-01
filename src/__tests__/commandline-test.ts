@@ -19,7 +19,7 @@ describe('CommandLine', function() {
       const args: string[] = [];
       const parsedArgs = CommandLine.parseArgs(args);
 
-      const expectedResult = Maybe.Nothing<CommandLine.Arguments>();
+      const expectedResult = null;
 
       expect(parsedArgs).toEqualJSON(expectedResult);
     });
@@ -28,7 +28,7 @@ describe('CommandLine', function() {
       const args: string[] = ['project/to/generate'];
       const parsedArgs = CommandLine.parseArgs(args);
 
-      const expectedResult = Maybe.Just<CommandLine.Arguments>({
+      const expectedResult = {
         givenPaths: ['project/to/generate'],
         adtConfigPath: undefined,
         valueObjectConfigPath: undefined,
@@ -48,7 +48,7 @@ describe('CommandLine', function() {
           outputList: [],
           singleFile: false,
         },
-      });
+      };
 
       expect(parsedArgs).toEqualJSON(expectedResult);
     });
@@ -57,7 +57,7 @@ describe('CommandLine', function() {
       const args: string[] = ['--verbose', 'project/to/generate'];
       const parsedArgs = CommandLine.parseArgs(args);
 
-      const expectedResult = Maybe.Just<CommandLine.Arguments>({
+      const expectedResult = {
         givenPaths: ['project/to/generate'],
         adtConfigPath: undefined,
         valueObjectConfigPath: undefined,
@@ -77,7 +77,7 @@ describe('CommandLine', function() {
           outputList: [],
           singleFile: false,
         },
-      });
+      };
 
       expect(parsedArgs).toEqualJSON(expectedResult);
     });
@@ -86,7 +86,7 @@ describe('CommandLine', function() {
       const args: string[] = ['--perf-log', 'project/to/generate'];
       const parsedArgs = CommandLine.parseArgs(args);
 
-      const expectedResult = Maybe.Just<CommandLine.Arguments>({
+      const expectedResult = {
         givenPaths: ['project/to/generate'],
         adtConfigPath: undefined,
         valueObjectConfigPath: undefined,
@@ -107,7 +107,7 @@ describe('CommandLine', function() {
           outputList: [],
           singleFile: false,
         },
-      });
+      };
 
       expect(parsedArgs).toEqualJSON(expectedResult);
     });
@@ -116,7 +116,7 @@ describe('CommandLine', function() {
       const args: string[] = ['--debug', 'project/to/generate'];
       const parsedArgs = CommandLine.parseArgs(args);
 
-      const expectedResult = Maybe.Just<CommandLine.Arguments>({
+      const expectedResult = {
         givenPaths: ['project/to/generate'],
         adtConfigPath: undefined,
         valueObjectConfigPath: undefined,
@@ -137,7 +137,7 @@ describe('CommandLine', function() {
           outputList: [],
           singleFile: false,
         },
-      });
+      };
 
       expect(parsedArgs).toEqualJSON(expectedResult);
     });
@@ -146,7 +146,7 @@ describe('CommandLine', function() {
       const args: string[] = ['--dry-run', 'project/to/generate'];
       const parsedArgs = CommandLine.parseArgs(args);
 
-      const expectedResult = Maybe.Just<CommandLine.Arguments>({
+      const expectedResult = {
         givenPaths: ['project/to/generate'],
         adtConfigPath: undefined,
         valueObjectConfigPath: undefined,
@@ -166,7 +166,7 @@ describe('CommandLine', function() {
           outputList: [],
           singleFile: false,
         },
-      });
+      };
 
       expect(parsedArgs).toEqualJSON(expectedResult);
     });
@@ -180,7 +180,7 @@ describe('CommandLine', function() {
       ];
       const parsedArgs = CommandLine.parseArgs(args);
 
-      const expectedResult = Maybe.Just<CommandLine.Arguments>({
+      const expectedResult = {
         givenPaths: ['project/to/generate'],
         adtConfigPath: undefined,
         valueObjectConfigPath: undefined,
@@ -197,7 +197,7 @@ describe('CommandLine', function() {
           outputList: [],
           singleFile: false,
         },
-      });
+      };
 
       expect(parsedArgs).toEqualJSON(expectedResult);
     });
@@ -210,7 +210,7 @@ describe('CommandLine', function() {
       ];
       const parsedArgs = CommandLine.parseArgs(args);
 
-      const expectedResult = Maybe.Just<CommandLine.Arguments>({
+      const expectedResult = {
         givenPaths: ['project/to/generate'],
         adtConfigPath: undefined,
         valueObjectConfigPath: 'path/to/valueObjectConfig',
@@ -230,7 +230,7 @@ describe('CommandLine', function() {
           outputList: [],
           singleFile: false,
         },
-      });
+      };
 
       expect(parsedArgs).toEqualJSON(expectedResult);
     });
@@ -243,7 +243,7 @@ describe('CommandLine', function() {
       ];
       const parsedArgs = CommandLine.parseArgs(args);
 
-      const expectedResult = Maybe.Just<CommandLine.Arguments>({
+      const expectedResult = {
         givenPaths: ['project/to/generate'],
         adtConfigPath: undefined,
         valueObjectConfigPath: undefined,
@@ -263,7 +263,7 @@ describe('CommandLine', function() {
           outputList: [],
           singleFile: false,
         },
-      });
+      };
 
       expect(parsedArgs).toEqualJSON(expectedResult);
     });
@@ -275,7 +275,7 @@ describe('CommandLine', function() {
       ];
       const parsedArgs = CommandLine.parseArgs(args);
 
-      const expectedResult = Maybe.Just<CommandLine.Arguments>({
+      const expectedResult = {
         givenPaths: ['project/to/generate'],
         adtConfigPath: undefined,
         valueObjectConfigPath: undefined,
@@ -295,7 +295,7 @@ describe('CommandLine', function() {
           outputList: [],
           singleFile: false,
         },
-      });
+      };
 
       expect(parsedArgs).toEqualJSON(expectedResult);
     });
@@ -309,7 +309,7 @@ describe('CommandLine', function() {
       ];
       const parsedArgs = CommandLine.parseArgs(args);
 
-      const expectedResult = Maybe.Just<CommandLine.Arguments>({
+      const expectedResult = {
         givenPaths: ['project/to/generate'],
         adtConfigPath: undefined,
         valueObjectConfigPath: undefined,
@@ -329,7 +329,7 @@ describe('CommandLine', function() {
           outputList: [],
           singleFile: false,
         },
-      });
+      };
 
       expect(parsedArgs).toEqualJSON(expectedResult);
     });
@@ -338,7 +338,7 @@ describe('CommandLine', function() {
       const args: string[] = ['--headers-only', '--implementation-only'];
       const parsedArgs = CommandLine.parseArgs(args);
 
-      const expectedResult = Maybe.Nothing<CommandLine.Arguments>();
+      const expectedResult = null;
 
       expect(parsedArgs).toEqualJSON(expectedResult);
     });
@@ -353,7 +353,7 @@ describe('CommandLine', function() {
       ];
       const parsedArgs = CommandLine.parseArgs(args);
 
-      const expectedResult = Maybe.Just<CommandLine.Arguments>({
+      const expectedResult = {
         givenPaths: ['project/to/generate'],
         adtConfigPath: undefined,
         valueObjectConfigPath: undefined,
@@ -373,7 +373,7 @@ describe('CommandLine', function() {
           outputList: ['PluginOne', 'object'],
           singleFile: false,
         },
-      });
+      };
 
       expect(parsedArgs).toEqualJSON(expectedResult);
     });
@@ -388,7 +388,7 @@ describe('CommandLine', function() {
       ];
       const parsedArgs = CommandLine.parseArgs(args);
 
-      const expectedResult = Maybe.Just<CommandLine.Arguments>({
+      const expectedResult = {
         givenPaths: ['project/to/generate'],
         adtConfigPath: undefined,
         valueObjectConfigPath: undefined,
@@ -408,7 +408,7 @@ describe('CommandLine', function() {
           outputList: [],
           singleFile: false,
         },
-      });
+      };
 
       expect(parsedArgs).toEqualJSON(expectedResult);
     });
@@ -417,7 +417,7 @@ describe('CommandLine', function() {
       const args: string[] = ['--verbose'];
       const parsedArgs = CommandLine.parseArgs(args);
 
-      const expectedResult = Maybe.Nothing<CommandLine.Arguments>();
+      const expectedResult = null;
 
       expect(parsedArgs).toEqualJSON(expectedResult);
     });

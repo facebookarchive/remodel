@@ -138,14 +138,14 @@ function firstKeywordForGenericMatchMethod(
 ): ObjC.Keyword {
   return {
     name: 'match',
-    argument: Maybe.Just({
+    argument: {
       name: parameterNameForAlgebraicType(algebraicType),
       modifiers: [],
       type: {
         name: algebraicType.name,
         reference: algebraicType.name + '*',
       },
-    }),
+    },
   };
 }
 
@@ -289,7 +289,7 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
     fileType: function(
       algebraicType: AlgebraicType.Type,
     ): Code.FileType | null {
-      return Maybe.Nothing<Code.FileType>();
+      return null;
     },
     forwardDeclarations:
       AlgebraicTypeUtilsForMatching.forwardDeclarationsForAlgebraicType,
@@ -336,7 +336,7 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
     nullability: function(
       algebraicType: AlgebraicType.Type,
     ): ObjC.ClassNullability | null {
-      return Maybe.Nothing<ObjC.ClassNullability>();
+      return null;
     },
     subclassingRestricted: function(
       algebraicType: AlgebraicType.Type,

@@ -39,7 +39,7 @@ describe('ObjectSpecCreation', function() {
           fileType: function(
             objectType: ObjectSpec.Type,
           ): Code.FileType | null {
-            return Maybe.Nothing<Code.FileType>();
+            return null;
           },
           forwardDeclarations: function(
             objectType: ObjectSpec.Type,
@@ -71,14 +71,14 @@ describe('ObjectSpecCreation', function() {
                 keywords: [
                   {
                     name: 'description',
-                    argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+                    argument: null,
                   },
                 ],
                 returnType: {
-                  type: Maybe.Just({
+                  type: {
                     name: 'NSString',
                     reference: 'NSString *',
-                  }),
+                  },
                   modifiers: [],
                 },
               },
@@ -134,7 +134,7 @@ describe('ObjectSpecCreation', function() {
           nullability: function(
             objectType: ObjectSpec.Type,
           ): ObjC.ClassNullability | null {
-            return Maybe.Nothing<ObjC.ClassNullability>();
+            return null;
           },
           subclassingRestricted: function(
             objectType: ObjectSpec.Type,
@@ -160,7 +160,7 @@ describe('ObjectSpecCreation', function() {
           diagnosticIgnores: List.of<string>(),
           path: File.getAbsoluteFilePath('something.value'),
           typeInformation: objectType,
-          outputPath: Maybe.Nothing<File.AbsoluteFilePath>(),
+          outputPath: null,
           outputFlags: {
             emitHeaders: true,
             emitImplementations: true,
@@ -232,7 +232,7 @@ describe('ObjectSpecCreation', function() {
           fileType: function(
             objectType: ObjectSpec.Type,
           ): Code.FileType | null {
-            return Maybe.Nothing<Code.FileType>();
+            return null;
           },
           forwardDeclarations: function(
             objectType: ObjectSpec.Type,
@@ -331,7 +331,7 @@ describe('ObjectSpecCreation', function() {
           nullability: function(
             objectType: ObjectSpec.Type,
           ): ObjC.ClassNullability | null {
-            return Maybe.Nothing<ObjC.ClassNullability>();
+            return null;
           },
           subclassingRestricted: function(
             objectType: ObjectSpec.Type,
@@ -357,7 +357,7 @@ describe('ObjectSpecCreation', function() {
           diagnosticIgnores: List.of<string>(),
           path: File.getAbsoluteFilePath('something.value'),
           typeInformation: objectType,
-          outputPath: Maybe.Nothing<File.AbsoluteFilePath>(),
+          outputPath: null,
           outputFlags: {
             emitHeaders: true,
             emitImplementations: true,
@@ -413,7 +413,7 @@ describe('ObjectSpecCreation', function() {
           fileType: function(
             objectType: ObjectSpec.Type,
           ): Code.FileType | null {
-            return Maybe.Nothing<Code.FileType>();
+            return null;
           },
           forwardDeclarations: function(
             objectType: ObjectSpec.Type,
@@ -500,7 +500,7 @@ describe('ObjectSpecCreation', function() {
           nullability: function(
             objectType: ObjectSpec.Type,
           ): ObjC.ClassNullability | null {
-            return Maybe.Nothing<ObjC.ClassNullability>();
+            return null;
           },
           subclassingRestricted: function(
             objectType: ObjectSpec.Type,
@@ -526,7 +526,7 @@ describe('ObjectSpecCreation', function() {
           diagnosticIgnores: List.of<string>(),
           path: File.getAbsoluteFilePath('something.value'),
           typeInformation: objectType,
-          outputPath: Maybe.Nothing<File.AbsoluteFilePath>(),
+          outputPath: null,
           outputFlags: {
             emitHeaders: true,
             emitImplementations: true,
@@ -600,7 +600,7 @@ describe('ObjectSpecCreation', function() {
           fileType: function(
             objectType: ObjectSpec.Type,
           ): Code.FileType | null {
-            return Maybe.Nothing<Code.FileType>();
+            return null;
           },
           forwardDeclarations: function(
             objectType: ObjectSpec.Type,
@@ -625,14 +625,14 @@ describe('ObjectSpecCreation', function() {
                 keywords: [
                   {
                     name: 'foo',
-                    argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+                    argument: null,
                   },
                 ],
                 returnType: {
-                  type: Maybe.Just({
+                  type: {
                     name: 'NSString',
                     reference: 'NSString *',
-                  }),
+                  },
                   modifiers: [],
                 },
               },
@@ -688,7 +688,7 @@ describe('ObjectSpecCreation', function() {
           nullability: function(
             objectType: ObjectSpec.Type,
           ): ObjC.ClassNullability | null {
-            return Maybe.Nothing<ObjC.ClassNullability>();
+            return null;
           },
           subclassingRestricted: function(
             objectType: ObjectSpec.Type,
@@ -714,7 +714,7 @@ describe('ObjectSpecCreation', function() {
           diagnosticIgnores: List.of<string>(),
           path: File.getAbsoluteFilePath('something.value'),
           typeInformation: objectType,
-          outputPath: Maybe.Nothing<File.AbsoluteFilePath>(),
+          outputPath: null,
           outputFlags: {
             emitHeaders: true,
             emitImplementations: true,
@@ -763,7 +763,7 @@ describe('ObjectSpecCreation', function() {
           fileType: function(
             objectType: ObjectSpec.Type,
           ): Code.FileType | null {
-            return Maybe.Nothing<Code.FileType>();
+            return null;
           },
           forwardDeclarations: function(
             objectType: ObjectSpec.Type,
@@ -788,14 +788,14 @@ describe('ObjectSpecCreation', function() {
                 keywords: [
                   {
                     name: 'getSomeString',
-                    argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+                    argument: null,
                   },
                 ],
                 returnType: {
-                  type: Maybe.Just({
+                  type: {
                     name: 'NSString',
                     reference: 'NSString *',
-                  }),
+                  },
                   modifiers: [],
                 },
               },
@@ -810,14 +810,14 @@ describe('ObjectSpecCreation', function() {
                 keywords: [
                   {
                     name: 'debugDescription',
-                    argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+                    argument: null,
                   },
                 ],
                 returnType: {
-                  type: Maybe.Just({
+                  type: {
                     name: 'NSString',
                     reference: 'NSString *',
-                  }),
+                  },
                   modifiers: [],
                 },
               },
@@ -830,14 +830,14 @@ describe('ObjectSpecCreation', function() {
                 keywords: [
                   {
                     name: 'initSomethingElse',
-                    argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+                    argument: null,
                   },
                 ],
                 returnType: {
-                  type: Maybe.Just({
+                  type: {
                     name: 'instancetype',
                     reference: 'instancetype',
-                  }),
+                  },
                   modifiers: [],
                 },
               },
@@ -893,7 +893,7 @@ describe('ObjectSpecCreation', function() {
           nullability: function(
             objectType: ObjectSpec.Type,
           ): ObjC.ClassNullability | null {
-            return Maybe.Nothing<ObjC.ClassNullability>();
+            return null;
           },
           subclassingRestricted: function(
             objectType: ObjectSpec.Type,
@@ -919,7 +919,7 @@ describe('ObjectSpecCreation', function() {
           diagnosticIgnores: List.of<string>(),
           path: File.getAbsoluteFilePath('something.value'),
           typeInformation: objectType,
-          outputPath: Maybe.Nothing<File.AbsoluteFilePath>(),
+          outputPath: null,
           outputFlags: {
             emitHeaders: true,
             emitImplementations: true,
@@ -1015,7 +1015,7 @@ describe('ObjectSpecCreation', function() {
           fileType: function(
             objectType: ObjectSpec.Type,
           ): Code.FileType | null {
-            return Maybe.Nothing<Code.FileType>();
+            return null;
           },
           forwardDeclarations: function(
             objectType: ObjectSpec.Type,
@@ -1071,7 +1071,7 @@ describe('ObjectSpecCreation', function() {
           nullability: function(
             objectType: ObjectSpec.Type,
           ): ObjC.ClassNullability | null {
-            return Maybe.Nothing<ObjC.ClassNullability>();
+            return null;
           },
           subclassingRestricted: function(
             objectType: ObjectSpec.Type,
@@ -1097,7 +1097,7 @@ describe('ObjectSpecCreation', function() {
           diagnosticIgnores: List.of<string>(),
           path: File.getAbsoluteFilePath('something.value'),
           typeInformation: objectType,
-          outputPath: Maybe.Nothing<File.AbsoluteFilePath>(),
+          outputPath: null,
           outputFlags: {
             emitHeaders: true,
             emitImplementations: true,
@@ -1152,7 +1152,7 @@ describe('ObjectSpecCreation', function() {
           fileType: function(
             objectType: ObjectSpec.Type,
           ): Code.FileType | null {
-            return Maybe.Nothing<Code.FileType>();
+            return null;
           },
           forwardDeclarations: function(
             objectType: ObjectSpec.Type,
@@ -1208,7 +1208,7 @@ describe('ObjectSpecCreation', function() {
           nullability: function(
             objectType: ObjectSpec.Type,
           ): ObjC.ClassNullability | null {
-            return Maybe.Nothing<ObjC.ClassNullability>();
+            return null;
           },
           subclassingRestricted: function(
             objectType: ObjectSpec.Type,
@@ -1239,7 +1239,7 @@ describe('ObjectSpecCreation', function() {
           fileType: function(
             objectType: ObjectSpec.Type,
           ): Code.FileType | null {
-            return Maybe.Nothing<Code.FileType>();
+            return null;
           },
           forwardDeclarations: function(
             objectType: ObjectSpec.Type,
@@ -1295,7 +1295,7 @@ describe('ObjectSpecCreation', function() {
           nullability: function(
             objectType: ObjectSpec.Type,
           ): ObjC.ClassNullability | null {
-            return Maybe.Nothing<ObjC.ClassNullability>();
+            return null;
           },
           subclassingRestricted: function(
             objectType: ObjectSpec.Type,
@@ -1321,7 +1321,7 @@ describe('ObjectSpecCreation', function() {
           diagnosticIgnores: List.of<string>(),
           path: File.getAbsoluteFilePath('something.value'),
           typeInformation: objectType,
-          outputPath: Maybe.Nothing<File.AbsoluteFilePath>(),
+          outputPath: null,
           outputFlags: {
             emitHeaders: true,
             emitImplementations: true,
@@ -1368,7 +1368,7 @@ describe('ObjectSpecCreation', function() {
           fileType: function(
             objectType: ObjectSpec.Type,
           ): Code.FileType | null {
-            return Maybe.Nothing<Code.FileType>();
+            return null;
           },
           forwardDeclarations: function(
             objectType: ObjectSpec.Type,
@@ -1393,14 +1393,14 @@ describe('ObjectSpecCreation', function() {
                 keywords: [
                   {
                     name: 'getSomeString',
-                    argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+                    argument: null,
                   },
                 ],
                 returnType: {
-                  type: Maybe.Just({
+                  type: {
                     name: 'NSString',
                     reference: 'NSString *',
-                  }),
+                  },
                   modifiers: [],
                 },
               },
@@ -1415,14 +1415,14 @@ describe('ObjectSpecCreation', function() {
                 keywords: [
                   {
                     name: 'debugDescription',
-                    argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+                    argument: null,
                   },
                 ],
                 returnType: {
-                  type: Maybe.Just({
+                  type: {
                     name: 'NSString',
                     reference: 'NSString *',
-                  }),
+                  },
                   modifiers: [],
                 },
               },
@@ -1478,7 +1478,7 @@ describe('ObjectSpecCreation', function() {
           nullability: function(
             objectType: ObjectSpec.Type,
           ): ObjC.ClassNullability | null {
-            return Maybe.Nothing<ObjC.ClassNullability>();
+            return null;
           },
           subclassingRestricted: function(
             objectType: ObjectSpec.Type,
@@ -1499,7 +1499,7 @@ describe('ObjectSpecCreation', function() {
           fileType: function(
             objectType: ObjectSpec.Type,
           ): Code.FileType | null {
-            return Maybe.Nothing<Code.FileType>();
+            return null;
           },
           forwardDeclarations: function(
             objectType: ObjectSpec.Type,
@@ -1524,14 +1524,14 @@ describe('ObjectSpecCreation', function() {
                 keywords: [
                   {
                     name: 'initSomethingElse',
-                    argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+                    argument: null,
                   },
                 ],
                 returnType: {
-                  type: Maybe.Just({
+                  type: {
                     name: 'instancetype',
                     reference: 'instancetype',
-                  }),
+                  },
                   modifiers: [],
                 },
               },
@@ -1587,7 +1587,7 @@ describe('ObjectSpecCreation', function() {
           nullability: function(
             objectType: ObjectSpec.Type,
           ): ObjC.ClassNullability | null {
-            return Maybe.Nothing<ObjC.ClassNullability>();
+            return null;
           },
           subclassingRestricted: function(
             objectType: ObjectSpec.Type,
@@ -1613,7 +1613,7 @@ describe('ObjectSpecCreation', function() {
           diagnosticIgnores: List.of<string>(),
           path: File.getAbsoluteFilePath('something.value'),
           typeInformation: objectType,
-          outputPath: Maybe.Nothing<File.AbsoluteFilePath>(),
+          outputPath: null,
           outputFlags: {
             emitHeaders: true,
             emitImplementations: true,
@@ -1703,7 +1703,7 @@ describe('ObjectSpecCreation', function() {
           fileType: function(
             objectType: ObjectSpec.Type,
           ): Code.FileType | null {
-            return Maybe.Nothing<Code.FileType>();
+            return null;
           },
           forwardDeclarations: function(
             objectType: ObjectSpec.Type,
@@ -1728,14 +1728,14 @@ describe('ObjectSpecCreation', function() {
                 keywords: [
                   {
                     name: 'getSomeString',
-                    argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+                    argument: null,
                   },
                 ],
                 returnType: {
-                  type: Maybe.Just({
+                  type: {
                     name: 'NSString',
                     reference: 'NSString *',
-                  }),
+                  },
                   modifiers: [],
                 },
               },
@@ -1750,14 +1750,14 @@ describe('ObjectSpecCreation', function() {
                 keywords: [
                   {
                     name: 'debugDescription',
-                    argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+                    argument: null,
                   },
                 ],
                 returnType: {
-                  type: Maybe.Just({
+                  type: {
                     name: 'NSString',
                     reference: 'NSString *',
-                  }),
+                  },
                   modifiers: [],
                 },
               },
@@ -1813,7 +1813,7 @@ describe('ObjectSpecCreation', function() {
           nullability: function(
             objectType: ObjectSpec.Type,
           ): ObjC.ClassNullability | null {
-            return Maybe.Nothing<ObjC.ClassNullability>();
+            return null;
           },
           subclassingRestricted: function(
             objectType: ObjectSpec.Type,
@@ -1838,7 +1838,7 @@ describe('ObjectSpecCreation', function() {
           fileType: function(
             objectType: ObjectSpec.Type,
           ): Code.FileType | null {
-            return Maybe.Nothing<Code.FileType>();
+            return null;
           },
           forwardDeclarations: function(
             objectType: ObjectSpec.Type,
@@ -1863,14 +1863,14 @@ describe('ObjectSpecCreation', function() {
                 keywords: [
                   {
                     name: 'initSomethingElse',
-                    argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+                    argument: null,
                   },
                 ],
                 returnType: {
-                  type: Maybe.Just({
+                  type: {
                     name: 'instancetype',
                     reference: 'instancetype',
-                  }),
+                  },
                   modifiers: [],
                 },
               },
@@ -1926,7 +1926,7 @@ describe('ObjectSpecCreation', function() {
           nullability: function(
             objectType: ObjectSpec.Type,
           ): ObjC.ClassNullability | null {
-            return Maybe.Nothing<ObjC.ClassNullability>();
+            return null;
           },
           subclassingRestricted: function(
             objectType: ObjectSpec.Type,
@@ -1952,7 +1952,7 @@ describe('ObjectSpecCreation', function() {
           diagnosticIgnores: List.of<string>(),
           path: File.getAbsoluteFilePath('something.value'),
           typeInformation: objectType,
-          outputPath: Maybe.Nothing<File.AbsoluteFilePath>(),
+          outputPath: null,
           outputFlags: {
             emitHeaders: true,
             emitImplementations: true,
@@ -2037,7 +2037,7 @@ describe('ObjectSpecCreation', function() {
           return request;
         },
         fileType: function(objectType: ObjectSpec.Type): Code.FileType | null {
-          return Maybe.Nothing<Code.FileType>();
+          return null;
         },
         forwardDeclarations: function(
           objectType: ObjectSpec.Type,
@@ -2062,14 +2062,14 @@ describe('ObjectSpecCreation', function() {
               keywords: [
                 {
                   name: 'description',
-                  argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+                  argument: null,
                 },
               ],
               returnType: {
-                type: Maybe.Just({
+                type: {
                   name: 'NSString',
                   reference: 'NSString *',
-                }),
+                },
                 modifiers: [],
               },
             },
@@ -2123,7 +2123,7 @@ describe('ObjectSpecCreation', function() {
         nullability: function(
           objectType: ObjectSpec.Type,
         ): ObjC.ClassNullability | null {
-          return Maybe.Nothing<ObjC.ClassNullability>();
+          return null;
         },
         subclassingRestricted: function(objectType: ObjectSpec.Type): boolean {
           return false;
@@ -2147,9 +2147,9 @@ describe('ObjectSpecCreation', function() {
         diagnosticIgnores: List.of<string>(),
         path: File.getAbsoluteFilePath('something.value'),
         typeInformation: objectType,
-        outputPath: Maybe.Just<File.AbsoluteFilePath>({
+        outputPath: {
           absolutePath: 'local/path',
-        }),
+        },
         outputFlags: {
           emitHeaders: true,
           emitImplementations: true,

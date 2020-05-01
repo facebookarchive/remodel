@@ -40,14 +40,14 @@ function keywordForInvokingMatchMethodForSubtype(
   if (index === 0) {
     return AlgebraicTypeUtils.firstKeywordForMatchMethodFromSubtype(
       algebraicType,
-      Maybe.Nothing<AlgebraicTypeUtils.MatchingBlockType>(),
+      null,
       false,
       subtype,
     );
   } else {
     return AlgebraicTypeUtils.keywordForMatchMethodFromSubtype(
       algebraicType,
-      Maybe.Nothing<AlgebraicTypeUtils.MatchingBlockType>(),
+      null,
       false,
       subtype,
     );
@@ -109,7 +109,7 @@ export function buildLocalFunctionBlockDefinitionsForSubtype(
 ): string[] {
   const blockType: ObjC.BlockType = AlgebraicTypeUtils.blockTypeForSubtype(
     algebraicType,
-    Maybe.Nothing<AlgebraicTypeUtils.MatchingBlockType>(),
+    null,
     subtype,
   );
   const paramList =

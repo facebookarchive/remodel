@@ -85,14 +85,14 @@ describe('ObjectSpecPlugins.InitNewUnavailable', function() {
           keywords: [
             {
               name: 'init',
-              argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+              argument: null,
             },
           ],
           returnType: {
-            type: Maybe.Just<ObjC.Type>({
+            type: {
               name: 'instancetype',
               reference: 'instancetype',
-            }),
+            },
             modifiers: [],
           },
         },
@@ -112,14 +112,14 @@ describe('ObjectSpecPlugins.InitNewUnavailable', function() {
           keywords: [
             {
               name: 'new',
-              argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+              argument: null,
             },
           ],
           returnType: {
-            type: Maybe.Just<ObjC.Type>({
+            type: {
               name: 'instancetype',
               reference: 'instancetype',
-            }),
+            },
             modifiers: [],
           },
         },
@@ -163,14 +163,14 @@ describe('AlgebraicTypePlugins.InitNewUnavailable', function() {
           keywords: [
             {
               name: 'init',
-              argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+              argument: null,
             },
           ],
           returnType: {
-            type: Maybe.Just<ObjC.Type>({
+            type: {
               name: 'instancetype',
               reference: 'instancetype',
-            }),
+            },
             modifiers: [],
           },
         },
@@ -190,14 +190,14 @@ describe('AlgebraicTypePlugins.InitNewUnavailable', function() {
           keywords: [
             {
               name: 'new',
-              argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+              argument: null,
             },
           ],
           returnType: {
-            type: Maybe.Just<ObjC.Type>({
+            type: {
               name: 'instancetype',
               reference: 'instancetype',
-            }),
+            },
             modifiers: [],
           },
         },

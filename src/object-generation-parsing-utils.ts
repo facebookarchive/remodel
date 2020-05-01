@@ -26,9 +26,9 @@ function annotationValuesFromAnnotations(
   annotationName: string,
 ): {[key: string]: string}[] | null {
   if (annotations !== undefined && annotations[annotationName] != null) {
-    return Maybe.Just<{[key: string]: string}[]>(annotations[annotationName]);
+    return annotations[annotationName];
   } else {
-    return Maybe.Nothing<{[key: string]: string}[]>();
+    return null;
   }
 }
 
@@ -36,7 +36,7 @@ function libraryNameFromAnnotation(annotation: {
   [key: string]: string;
 }): string | null {
   if (annotation != null && annotation['name'] != null) {
-    return Maybe.Just<string>(annotation['name']);
+    return annotation['name'];
   } else {
     return null;
   }
@@ -93,9 +93,7 @@ export function valueFromImportAnnotationFromAnnotations(
   const importAnnotation = importAnnotationFromAnnotations(annotations);
   return Maybe.match(
     function(annotation: {[key: string]: string}) {
-      return annotation[key] != null
-        ? Maybe.Just<string>(annotation[key])
-        : null;
+      return annotation[key] != null ? annotation[key] : null;
     },
     function() {
       return null;

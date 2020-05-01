@@ -273,13 +273,11 @@ function outputDirectory(
   outputPath: string | undefined,
 ): File.AbsoluteFilePath | null {
   if (outputPath === undefined || outputPath === '') {
-    return Maybe.Nothing<File.AbsoluteFilePath>();
+    return null;
   } else {
-    return Maybe.Just<File.AbsoluteFilePath>(
-      PathUtils.getAbsolutePathFromDirectoryAndAbsoluteOrRelativePath(
-        File.getAbsoluteFilePath(directoryRunFrom),
-        outputPath,
-      ),
+    return PathUtils.getAbsolutePathFromDirectoryAndAbsoluteOrRelativePath(
+      File.getAbsoluteFilePath(directoryRunFrom),
+      outputPath,
     );
   }
 }

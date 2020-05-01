@@ -321,14 +321,14 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
             keywords: [
               {
                 name: 'someSubtype',
-                argument: Maybe.Nothing<ObjC.KeywordArgument>(),
+                argument: null,
               },
             ],
             returnType: {
-              type: Maybe.Just<ObjC.Type>({
+              type: {
                 name: 'instancetype',
                 reference: 'instancetype',
-              }),
+              },
               modifiers: [],
             },
           },
@@ -424,32 +424,32 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
             keywords: [
               {
                 name: 'someSubtypeWithSomeString',
-                argument: Maybe.Just<ObjC.KeywordArgument>({
+                argument: {
                   name: 'someString',
                   modifiers: [],
                   type: {
                     name: 'NSString',
                     reference: 'NSString *',
                   },
-                }),
+                },
               },
               {
                 name: 'someUnsignedInteger',
-                argument: Maybe.Just<ObjC.KeywordArgument>({
+                argument: {
                   name: 'someUnsignedInteger',
                   modifiers: [],
                   type: {
                     name: 'NSUInteger',
                     reference: 'NSUInteger',
                   },
-                }),
+                },
               },
             ],
             returnType: {
-              type: Maybe.Just<ObjC.Type>({
+              type: {
                 name: 'instancetype',
                 reference: 'instancetype',
-              }),
+              },
               modifiers: [],
             },
           },
@@ -467,21 +467,21 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
             keywords: [
               {
                 name: 'singleAttributeSubtype',
-                argument: Maybe.Just<ObjC.KeywordArgument>({
+                argument: {
                   name: 'singleAttributeSubtype',
                   modifiers: [],
                   type: {
                     name: 'SingleAttributeType',
                     reference: 'SingleAttributeType *',
                   },
-                }),
+                },
               },
             ],
             returnType: {
-              type: Maybe.Just<ObjC.Type>({
+              type: {
                 name: 'instancetype',
                 reference: 'instancetype',
-              }),
+              },
               modifiers: [],
             },
           },

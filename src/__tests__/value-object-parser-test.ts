@@ -164,7 +164,7 @@ describe('ObjectSpecParser', function() {
             {
               name: 'Foo',
               library: 'Bar',
-              file: Maybe.Just<string>('NSObject+Baz'),
+              file: 'NSObject+Baz',
               canForwardDeclare: false,
             },
             {

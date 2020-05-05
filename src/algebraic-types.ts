@@ -61,6 +61,7 @@ const BASE_PLUGINS: List.List<string> = List.of(
   'assume-nonnull',
   'coding',
   'copying',
+  'copying-type-safety',
   'description',
   'equality',
   'init-new-unavailable',

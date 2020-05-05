@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import * as Maybe from '../maybe';
+import * as AlgebraicType from '../algebraic-type';
 import * as ObjC from '../objc';
 import * as ObjectSpec from '../object-spec';
 import * as ObjectSpecUtils from '../object-spec-utils';
@@ -70,10 +70,28 @@ function copyingValidatorFunction(
   };
 }
 
+const INSTANCE_METHODS = [
+  {
+    preprocessors: [],
+    belongsToProtocol: null,
+    code: null,
+    comments: [],
+    compilerAttributes: [],
+    keywords: [{argument: null, name: 'copy'}],
+    returnType: {
+      type: {
+        name: 'instancetype',
+        reference: 'instancetype',
+      },
+      modifiers: [],
+    },
+  },
+];
+
 export function createPlugin(): ObjectSpec.Plugin {
   return {
     additionalFiles: empty(),
-    transformBaseFile: (a, b) => b,
+    transformBaseFile: (_, b) => b,
     additionalTypes: empty(),
     attributes: empty(),
     classMethods: empty(),
@@ -89,7 +107,7 @@ export function createPlugin(): ObjectSpec.Plugin {
     headerComments: empty(),
     implementedProtocols: empty(),
     imports: empty(),
-    instanceMethods: empty(),
+    instanceMethods: _ => INSTANCE_METHODS,
     macros: empty(),
     properties: empty(),
     requiredIncludesToRun: ['RMCopyingTypeSafety'],
@@ -97,6 +115,31 @@ export function createPlugin(): ObjectSpec.Plugin {
     validationErrors: empty(),
     nullability: nothing(),
     subclassingRestricted: _ => false,
+  };
+}
+
+export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
+  return {
+    additionalFiles: empty(),
+    blockTypes: empty(),
+    classMethods: empty(),
+    enumerations: empty(),
+    fileType: nothing(),
+    forwardDeclarations: empty(),
+    functions: empty(),
+    headerComments: empty(),
+    implementedProtocols: empty(),
+    imports: empty(),
+    instanceMethods: _ => INSTANCE_METHODS,
+    instanceVariables: empty(),
+    macros: empty(),
+    nullability: nothing(),
+    requiredIncludesToRun: ['RMCopyingTypeSafety'],
+    staticConstants: empty(),
+    subclassingRestricted: _ => false,
+    transformBaseFile: (_, b) => b,
+    transformFileRequest: request => request,
+    validationErrors: empty(),
   };
 }
 

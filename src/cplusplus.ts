@@ -81,7 +81,7 @@ export interface ClassMember {
   name: string;
 }
 
-export interface MethodParam {
+export interface FunctionParam {
   type: Type;
   name: string;
 }
@@ -97,28 +97,25 @@ export interface ConstructorInitializer {
 }
 
 export interface ClassConstructor {
-  kind: 'constructor';
   name: string;
   default?: ConstructorDefault;
-  params: MethodParam[];
+  params: FunctionParam[];
   initializers: ConstructorInitializer[];
 }
 
 export interface Function {
-  kind: 'function';
   name: string;
   returnType: Type;
-  params: MethodParam[];
+  params: FunctionParam[];
   is_const: boolean;
   code?: string[];
 }
 
-export type ClassMethod = Function | ClassConstructor;
-
 export interface ClassSection {
   visibility: ClassSectionVisibility;
   members: ClassMember[];
-  methods: ClassMethod[];
+  constructors: ClassConstructor[];
+  methods: Function[];
 }
 
 export interface Class {

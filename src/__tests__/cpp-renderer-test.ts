@@ -12,7 +12,6 @@ import * as CPlusPlus from '../cplusplus';
 import * as CppRenderer from '../cpp-renderer';
 
 const complexFunc: CPlusPlus.Function = {
-  kind: 'function',
   name: 'MyFunction',
   returnType: {
     baseType: 'Foobar',
@@ -59,11 +58,81 @@ function buildFunctionWithEmptyBody(): CPlusPlus.Function {
   return result;
 }
 
+function buildClass(): CPlusPlus.Class {
+  return {
+    name: 'MyClass',
+    sections: [
+      {
+        visibility: CPlusPlus.ClassSectionVisibility.Public,
+        constructors: [
+          <CPlusPlus.ClassConstructor>{
+            name: 'MyClass',
+            default: CPlusPlus.ConstructorDefault.Default,
+          },
+          <CPlusPlus.ClassConstructor>{
+            name: 'MyClass',
+            params: [
+              {
+                name: 'input',
+                type: {
+                  baseType: 'FBFoobar',
+                  qualifier: {
+                    passBy: CPlusPlus.TypePassBy.Pointer,
+                    is_const: false,
+                  },
+                },
+              },
+            ],
+            initializers: [
+              {
+                memberName: 'field1_',
+                expression: 'input.intValue',
+              },
+              {
+                memberName: 'text_',
+                expression: 'input.text',
+              },
+            ],
+          },
+        ],
+        methods: [buildFunctionWithBody()],
+        members: [],
+      },
+      {
+        visibility: CPlusPlus.ClassSectionVisibility.Private,
+        constructors: [],
+        methods: [],
+        members: [
+          {
+            name: 'field1_',
+            type: {
+              baseType: 'int',
+              qualifier: {
+                passBy: CPlusPlus.TypePassBy.Value,
+                is_const: false,
+              },
+            },
+          },
+          {
+            name: 'text_',
+            type: {
+              baseType: 'NSString',
+              qualifier: {
+                passBy: CPlusPlus.TypePassBy.Pointer,
+                is_const: false,
+              },
+            },
+          },
+        ],
+      },
+    ],
+  };
+}
+
 describe('CPlusPlus Rendering', function() {
   describe('EmitFunction', function() {
     it('emits a simple function declaration', function() {
       let funct: CPlusPlus.Function = {
-        kind: 'function',
         name: 'MyFunction',
         returnType: {
           baseType: 'void',
@@ -76,9 +145,9 @@ describe('CPlusPlus Rendering', function() {
         params: [],
       };
 
-      const renderedOutput: string = CppRenderer.renderFunction(funct).join(
-        '\n',
-      );
+      const renderedOutput: string = CppRenderer.renderFunctionDeclaration(
+        funct,
+      ).join('\n');
 
       const expectedOutput = 'void MyFunction();';
 
@@ -86,7 +155,7 @@ describe('CPlusPlus Rendering', function() {
     });
 
     it('emits a function declaration with return type and params', function() {
-      const renderedOutput: string = CppRenderer.renderFunction(
+      const renderedOutput: string = CppRenderer.renderFunctionDeclaration(
         complexFunc,
       ).join('\n');
 
@@ -96,8 +165,8 @@ describe('CPlusPlus Rendering', function() {
       expect(renderedOutput).toEqualJSON(expectedOutput);
     });
 
-    it('emits a function declaration with empty body', function() {
-      const renderedOutput: string = CppRenderer.renderFunction(
+    it('emits a function definition with empty body', function() {
+      const renderedOutput: string = CppRenderer.renderFunctionDefinition(
         buildFunctionWithEmptyBody(),
       ).join('\n');
 
@@ -107,93 +176,18 @@ describe('CPlusPlus Rendering', function() {
       expect(renderedOutput).toEqualJSON(expectedOutput);
     });
 
-    it('emits a full class', function() {
-      let klass: CPlusPlus.Class = {
-        name: 'MyClass',
-        sections: [
-          {
-            visibility: CPlusPlus.ClassSectionVisibility.Public,
-            methods: [
-              <CPlusPlus.ClassMethod>{
-                kind: 'constructor',
-                name: 'MyClass',
-                default: CPlusPlus.ConstructorDefault.Default,
-              },
-              <CPlusPlus.ClassMethod>{
-                kind: 'constructor',
-                name: 'MyClass',
-                params: [
-                  {
-                    name: 'input',
-                    type: {
-                      baseType: 'FBFoobar',
-                      qualifier: {
-                        passBy: CPlusPlus.TypePassBy.Pointer,
-                        is_const: false,
-                      },
-                    },
-                  },
-                ],
-                initializers: [
-                  {
-                    memberName: 'field1_',
-                    expression: 'input.intValue',
-                  },
-                  {
-                    memberName: 'text_',
-                    expression: 'input.text',
-                  },
-                ],
-              },
-
-              buildFunctionWithBody(),
-            ],
-            members: [],
-          },
-          {
-            visibility: CPlusPlus.ClassSectionVisibility.Private,
-            methods: [],
-            members: [
-              {
-                name: 'field1_',
-                type: {
-                  baseType: 'int',
-                  qualifier: {
-                    passBy: CPlusPlus.TypePassBy.Value,
-                    is_const: false,
-                  },
-                },
-              },
-              {
-                name: 'text_',
-                type: {
-                  baseType: 'NSString',
-                  qualifier: {
-                    passBy: CPlusPlus.TypePassBy.Pointer,
-                    is_const: false,
-                  },
-                },
-              },
-            ],
-          },
-        ],
-      };
-
-      const renderedOutput: string = CppRenderer.renderClass(klass).join('\n');
+    it('emits a full class declaration', function() {
+      const renderedOutput: string = CppRenderer.renderClassDeclaration(
+        buildClass(),
+      ).join('\n');
 
       const expectedOutput =
         'class MyClass {\n' +
         'public:\n' +
         '  MyClass() = default;\n' +
+        '  MyClass(FBFoobar *input);\n' +
         '\n' +
-        '  MyClass(FBFoobar *input) :\n' +
-        '    field1_(input.intValue),\n' +
-        '    text_(input.text) {}\n' +
-        '\n' +
-        '  Foobar *MyFunction(const MyStruct &param1, int param2) const\n' +
-        '  {\n' +
-        '    return [Foobar new];\n' +
-        '  }\n' +
+        '  Foobar *MyFunction(const MyStruct &param1, int param2) const;\n' +
         '\n' +
         'private:\n' +
         '  int field1_;\n' +
@@ -201,6 +195,24 @@ describe('CPlusPlus Rendering', function() {
         '};';
 
       expect(renderedOutput).toEqual(expectedOutput);
+    });
+
+    it('emits a full class definition', function() {
+      const renderedDefinition: string = CppRenderer.renderClassDefinition(
+        buildClass(),
+      ).join('\n');
+
+      const expectedDefintion =
+        'MyClass::MyClass(FBFoobar *input) :\n' +
+        '  field1_(input.intValue),\n' +
+        '  text_(input.text) {}\n' +
+        '\n' +
+        'Foobar *MyClass::MyFunction(const MyStruct &param1, int param2) const\n' +
+        '{\n' +
+        '  return [Foobar new];\n' +
+        '}';
+
+      expect(renderedDefinition).toEqual(expectedDefintion);
     });
   });
 });

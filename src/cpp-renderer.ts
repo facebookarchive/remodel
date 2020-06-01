@@ -32,15 +32,17 @@ function typeToString(type: CPlusPlus.Type): string {
   return result;
 }
 
-function renderMethodParam(param: CPlusPlus.MethodParam): string {
+function renderParam(param: CPlusPlus.FunctionParam): string {
   return typeToString(param.type) + param.name;
 }
 
-function renderMethodParameters(params: CPlusPlus.MethodParam[]): string {
-  return params.map(renderMethodParam).join(', ');
+function renderParameters(params: CPlusPlus.FunctionParam[]): string {
+  return params.map(renderParam).join(', ');
 }
 
-function renderConstructor(constructor: CPlusPlus.ClassConstructor): string[] {
+function renderConstructorDeclaration(
+  constructor: CPlusPlus.ClassConstructor,
+): string[] {
   var result: string[] = [];
 
   switch (constructor.default) {
@@ -51,10 +53,32 @@ function renderConstructor(constructor: CPlusPlus.ClassConstructor): string[] {
       result.push(constructor.name + '() = delete;');
       break;
     default:
+      result.push(
+        constructor.name + '(' + renderParameters(constructor.params) + ');',
+      );
+  }
+
+  return result;
+}
+
+function renderConstructorDefinition(
+  className: string,
+  constructor: CPlusPlus.ClassConstructor,
+): string[] {
+  var result: string[] = [];
+
+  switch (constructor.default) {
+    case CPlusPlus.ConstructorDefault.Default:
+    case CPlusPlus.ConstructorDefault.Delete:
+      // no need to emit
+      break;
+    default:
       var currentLine =
+        className +
+        '::' +
         constructor.name +
         '(' +
-        renderMethodParameters(constructor.params) +
+        renderParameters(constructor.params) +
         ')';
       if (constructor.initializers.length > 0) {
         result.push(currentLine + ' :');
@@ -86,12 +110,30 @@ function renderConstructor(constructor: CPlusPlus.ClassConstructor): string[] {
   return result;
 }
 
-export function renderFunction(funct: CPlusPlus.Function): string[] {
+export function renderFunctionDeclaration(funct: CPlusPlus.Function): string[] {
   var opener =
     typeToString(funct.returnType) +
     funct.name +
     '(' +
-    renderMethodParameters(funct.params) +
+    renderParameters(funct.params) +
+    ')' +
+    (funct.is_const ? ' const' : '');
+
+  return [opener + ';'];
+}
+
+export function renderFunctionDefinitionCore(
+  className: string,
+  funct: CPlusPlus.Function,
+): string[] {
+  var classQualifier = className.length > 0 ? className + '::' : '';
+
+  var opener =
+    typeToString(funct.returnType) +
+    classQualifier +
+    funct.name +
+    '(' +
+    renderParameters(funct.params) +
     ')' +
     (funct.is_const ? ' const' : '');
 
@@ -109,13 +151,15 @@ export function renderFunction(funct: CPlusPlus.Function): string[] {
   }
 }
 
-export function renderMethod(method: CPlusPlus.ClassMethod): string[] {
-  switch (method.kind) {
-    case 'constructor':
-      return renderConstructor(method);
-    case 'function':
-      return renderFunction(method);
-  }
+export function renderFunctionDefinition(funct: CPlusPlus.Function): string[] {
+  return renderFunctionDefinitionCore('', funct);
+}
+
+export function renderMethodDefinition(
+  className: string,
+  funct: CPlusPlus.Function,
+): string[] {
+  return renderFunctionDefinitionCore(className, funct);
 }
 
 function renderSectionVisibility(section: CPlusPlus.ClassSection): string {
@@ -133,23 +177,22 @@ function renderSection(section: CPlusPlus.ClassSection): string {
 
   // add methods
   result = result.concat(
-    section.methods
-      .map(renderMethod)
-      .reduce(
-        (
-          agg: string[],
-          value: string[],
-          currentIndex: number,
-          array: string[][],
-        ) => {
-          return agg.concat(
-            currentIndex < array.length - 1 ? value.concat('') : value,
-          );
-        },
-        [],
-      )
+    section.constructors
+      .map(renderConstructorDeclaration)
+      .flat()
       .map(StringUtils.indent(2)),
   );
+
+  if (section.methods.length > 0) {
+    result.push('');
+
+    result = result.concat(
+      section.methods
+        .map(renderFunctionDeclaration)
+        .flat()
+        .map(StringUtils.indent(2)),
+    );
+  }
 
   // add members
   result = result.concat(
@@ -163,7 +206,47 @@ function renderSection(section: CPlusPlus.ClassSection): string {
   return result.join('\n');
 }
 
-export function renderClass(klass: CPlusPlus.Class): string[] {
+function spaceOutGroups(groups: string[][]): string[] {
+  var result: string[] = [];
+
+  groups.forEach(lines => {
+    if (result.length > 0 && lines.length > 0) {
+      result.push('');
+    }
+    result = result.concat(lines);
+  });
+
+  return result;
+}
+
+export function renderClassDeclaration(klass: CPlusPlus.Class): string[] {
   var sections = klass.sections.map(renderSection).join('\n\n');
   return ['class ' + klass.name + ' {'].concat([sections]).concat(['};']);
+}
+
+export function renderClassDefinition(klass: CPlusPlus.Class): string[] {
+  var result: string[] = [];
+
+  // render all constructors first
+  var constructors = klass.sections.reduce(
+    (previousValue, currentValue, currentIndex) => {
+      return previousValue.concat(
+        currentValue.constructors.map(
+          renderConstructorDefinition.bind(null, klass.name),
+        ),
+      );
+    },
+    Array<Array<string>>(),
+  );
+
+  var methods = klass.sections.reduce(
+    (previousValue, currentValue, currentIndex) => {
+      return previousValue.concat(
+        currentValue.methods.map(renderMethodDefinition.bind(null, klass.name)),
+      );
+    },
+    Array<Array<string>>(),
+  );
+
+  return spaceOutGroups(constructors.concat(methods));
 }

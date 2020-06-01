@@ -635,9 +635,16 @@ export function toStructContents(struct: Code.Struct): string {
   return struct.match(toObjcStructContents, toCppStructContents);
 }
 
-function toCppClassContents(klass: CPlusPlus.Class) {
+function toCppClassDeclaration(klass: CPlusPlus.Class) {
   return ['#ifdef __cplusplus']
-    .concat(CppRenderer.renderClass(klass))
+    .concat(CppRenderer.renderClassDeclaration(klass))
+    .concat('#endif // __cplusplus')
+    .join('\n');
+}
+
+function toCppClassDefinition(klass: CPlusPlus.Class) {
+  return ['#ifdef __cplusplus']
+    .concat(CppRenderer.renderClassDefinition(klass))
     .concat('#endif // __cplusplus')
     .join('\n');
 }
@@ -928,7 +935,7 @@ export function renderHeader(file: Code.File): string | null {
   const structsStr = file.structs.map(toStructContents).join('\n');
   const structsSection = codeSectionForCodeString(structsStr);
 
-  const cppClassesStr = file.cppClasses.map(toCppClassContents).join('\n');
+  const cppClassesStr = file.cppClasses.map(toCppClassDeclaration).join('\n');
   const cppClassesSection = codeSectionForCodeString(cppClassesStr);
 
   const namespacesStr: string = file.namespaces
@@ -1364,6 +1371,11 @@ export function renderImplementation(file: Code.File): string | null {
       .map(implementationClassSection)
       .join('\n\n');
 
+    var cppClassesStr = file.cppClasses.map(toCppClassDefinition).join('\n\n');
+    if (cppClassesStr.length > 0) {
+      cppClassesStr += '\n';
+    }
+
     const postfixMacrosSection: string = codeSectionForCodeString(
       macros.map(toPostfixMacroString).join('\n'),
     );
@@ -1381,6 +1393,7 @@ export function renderImplementation(file: Code.File): string | null {
       staticFunctionProtoSection +
       classesSection +
       '\n' +
+      cppClassesStr +
       functionsSection +
       postfixMacrosSection +
       diagnosticIgnoresEndSection;

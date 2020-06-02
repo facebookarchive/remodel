@@ -60,6 +60,7 @@ export interface Plugin {
   instanceVariables?: (objectType: Type) => ObjC.InstanceVariable[];
   macros: (objectType: Type) => ObjC.Macro[];
   properties: (objectType: Type) => ObjC.Property[];
+  protocols?: (objectType: Type) => ObjC.Protocol[];
   requiredIncludesToRun: string[];
   staticConstants: (objectType: Type) => ObjC.Constant[];
   validationErrors: (objectType: Type) => Error.Error[];

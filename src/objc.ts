@@ -587,3 +587,13 @@ export interface ReferencedGenericType {
   conformingProtocol: string | null;
   referencedGenericTypes: ReferencedGenericType[];
 }
+
+export interface Protocol {
+  name: String;
+  comments: Comment[];
+  implementedProtocols: ImplementedProtocol[];
+  instanceMethods: Method[];
+  classMethods: Method[];
+  properties: Property[];
+  nullability: ClassNullability;
+}

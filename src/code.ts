@@ -71,4 +71,5 @@ export interface File {
   cppClasses: CPlusPlus.Class[];
   nullability?: ObjC.ClassNullability;
   namespaces: CPlusPlus.Namespace[];
+  protocols?: ObjC.Protocol[];
 }

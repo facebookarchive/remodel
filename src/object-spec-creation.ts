@@ -102,6 +102,10 @@ function createObjectSpecObjCPlugIn(
       return plugin.properties(typeInformation);
     },
 
+    protocols: function(typeInformation: ObjectSpec.Type): ObjC.Protocol[] {
+      return plugin.protocols != null ? plugin.protocols(typeInformation) : [];
+    },
+
     staticConstants: function(
       typeInformation: ObjectSpec.Type,
     ): ObjC.Constant[] {

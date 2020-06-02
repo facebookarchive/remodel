@@ -38,6 +38,7 @@ export interface ObjCGenerationPlugIn<T> {
   instanceMethods: (typeInformation: T) => ObjC.Method[];
   macros: (typeInformation: T) => ObjC.Macro[];
   properties: (typeInformation: T) => ObjC.Property[];
+  protocols: (typeInformation: T) => ObjC.Protocol[];
   staticConstants: (typeInformation: T) => ObjC.Constant[];
   validationErrors: (typeInformation: T) => Error.Error[];
   nullability: (typeInformation: T) => ObjC.ClassNullability | null;
@@ -146,6 +147,14 @@ function buildImplementedProtocols<T>(
   plugin: ObjCGenerationPlugIn<T>,
 ): ObjC.ImplementedProtocol[] {
   return soFar.concat(plugin.implementedProtocols(typeInformation));
+}
+
+function buildProtocols<T>(
+  typeInformation: T,
+  soFar: ObjC.Protocol[],
+  plugin: ObjCGenerationPlugIn<T>,
+): ObjC.Protocol[] {
+  return soFar.concat(plugin.protocols(typeInformation));
 }
 
 function checkSubclassingRestricted<T>(
@@ -527,6 +536,12 @@ function classFileCreationFunctionWithBaseClassAndPlugins<T>(
         plugins,
       );
 
+      const protocols = List.foldl<ObjCGenerationPlugIn<T>, ObjC.Protocol[]>(
+        (soFar, plugin) => buildProtocols(typeInformation, soFar, plugin),
+        [],
+        plugins,
+      );
+
       const structs = List.foldl<ObjCGenerationPlugIn<T>, Code.Struct[]>(
         (soFar, plugin) => buildStructs(typeInformation, soFar, plugin),
         [],
@@ -580,6 +595,7 @@ function classFileCreationFunctionWithBaseClassAndPlugins<T>(
           functions: finalFunctions,
           nullability: classes.length > 0 ? undefined : nullability,
           macros: macros,
+          protocols: protocols,
           classes: classes,
           structs: structs,
           cppClasses: [],

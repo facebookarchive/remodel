@@ -896,6 +896,50 @@ function toDeclarationString(forwardDeclaration: ObjC.ForwardDeclaration) {
   );
 }
 
+function protocolSection(file: Code.File, protocol: ObjC.Protocol) {
+  const nullability = nullabilityMacro(protocol.nullability);
+
+  const protocolComments = protocol.comments.map(toCommentString).join('\n');
+  const protocolCommentsSection = codeSectionForCodeStringWithoutExtraSpace(
+    protocolComments,
+  );
+
+  const protocolSection = codeSectionForCodeString(
+    `@protocol ${protocol.name}${implementedProtocolsString(
+      protocol.implementedProtocols,
+    )}`,
+  );
+
+  const propertiesStr = protocol.properties.map(toPropertyString).join('\n');
+  const propertiesSection = codeSectionForCodeString(propertiesStr);
+
+  const implementedProtocols = implementedProtocolsIncludingNSObjectAndADTInit(
+    protocol.implementedProtocols,
+  );
+  const classMethodsStr = protocol.classMethods
+    .filter(method => includeMethodInHeader(implementedProtocols, method))
+    .map(toClassMethodHeaderString)
+    .join('\n\n');
+  const classMethodsSection = codeSectionForCodeString(classMethodsStr);
+
+  const instanceMethodsStr = protocol.instanceMethods
+    .filter(method => includeMethodInHeader(implementedProtocols, method))
+    .map(toInstanceMethodHeaderString)
+    .join('\n\n');
+  const instanceMethodsSection = codeSectionForCodeString(instanceMethodsStr);
+
+  return (
+    (nullability != null ? codeSectionForCodeString(nullability.prefix) : '') +
+    protocolCommentsSection +
+    protocolSection +
+    propertiesSection +
+    classMethodsSection +
+    instanceMethodsSection +
+    '@end\n\n' +
+    (nullability != null ? codeSectionForCodeString(nullability.postfix) : '')
+  );
+}
+
 export function renderHeader(file: Code.File): string | null {
   const commentsStr = file.comments.map(toCommentString).join('\n');
   const commentsSection = codeSectionForCodeString(commentsStr);
@@ -936,6 +980,16 @@ export function renderHeader(file: Code.File): string | null {
     ),
   );
 
+  const protocols = file.protocols;
+  const protocolsSection =
+    protocols != null
+      ? codeSectionForCodeString(
+          protocols
+            .map(protocol => protocolSection(file, protocol))
+            .join('\n\n'),
+        )
+      : '';
+
   const classSection = codeSectionForCodeString(
     file.classes.map(cls => headerClassSection(file, cls)).join('\n\n'),
   );
@@ -963,6 +1017,7 @@ export function renderHeader(file: Code.File): string | null {
     enumerationsSection +
     blocksSection +
     namespacesSection +
+    protocolsSection +
     classSection +
     structsSection +
     cppClassesSection +

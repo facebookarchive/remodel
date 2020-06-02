@@ -114,6 +114,10 @@ function createAlgebraicTypeObjCPlugIn(
       return [];
     },
 
+    protocols: function(typeInformation: AlgebraicType.Type): ObjC.Protocol[] {
+      return [];
+    },
+
     staticConstants: function(
       typeInformation: AlgebraicType.Type,
     ): ObjC.Constant[] {

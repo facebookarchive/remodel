@@ -54,7 +54,7 @@ export function createPlugin(): ObjectSpec.Plugin {
     },
     implementedProtocols: function(
       objectType: ObjectSpec.Type,
-    ): ObjC.Protocol[] {
+    ): ObjC.ImplementedProtocol[] {
       return [];
     },
     imports: function(objectType: ObjectSpec.Type): ObjC.Import[] {
@@ -141,7 +141,7 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
     },
     implementedProtocols: function(
       algebraicType: AlgebraicType.Type,
-    ): ObjC.Protocol[] {
+    ): ObjC.ImplementedProtocol[] {
       return [];
     },
     imports: function(algebraicType: AlgebraicType.Type): ObjC.Import[] {

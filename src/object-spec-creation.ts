@@ -74,6 +74,12 @@ function createObjectSpecObjCPlugIn(
       return plugin.functions(typeInformation);
     },
 
+    implementedProtocols: function(
+      typeInformation: ObjectSpec.Type,
+    ): ObjC.ImplementedProtocol[] {
+      return plugin.implementedProtocols(typeInformation);
+    },
+
     imports: function(typeInformation: ObjectSpec.Type): ObjC.Import[] {
       return plugin.imports(typeInformation);
     },
@@ -94,10 +100,6 @@ function createObjectSpecObjCPlugIn(
 
     properties: function(typeInformation: ObjectSpec.Type): ObjC.Property[] {
       return plugin.properties(typeInformation);
-    },
-
-    protocols: function(typeInformation: ObjectSpec.Type): ObjC.Protocol[] {
-      return plugin.implementedProtocols(typeInformation);
     },
 
     staticConstants: function(

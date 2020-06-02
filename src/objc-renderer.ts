@@ -31,14 +31,14 @@ function doesNotBelongToAnImplementedProtocol(
 }
 
 function includeMethodInHeader(
-  implementedProtocols: ObjC.Protocol[],
+  implementedProtocols: ObjC.ImplementedProtocol[],
   instanceMethod: ObjC.Method,
 ): boolean {
   if (instanceMethod.compilerAttributes.indexOf('NS_UNAVAILABLE') !== -1) {
     return true;
   } else {
     const implementedProtocolNames: string[] = implementedProtocols.map(
-      toProtocolString,
+      toImplementedProtocolString,
     );
     return Maybe.match(
       belongsToProtocol =>
@@ -362,13 +362,19 @@ function covariantTypesString(covariantTypes: string[]): string {
   }
 }
 
-function toProtocolString(protocol: ObjC.Protocol): string {
+function toImplementedProtocolString(
+  protocol: ObjC.ImplementedProtocol,
+): string {
   return protocol.name;
 }
 
-function protocolsString(protocols: ObjC.Protocol[]): string {
+function implementedProtocolsString(
+  protocols: ObjC.ImplementedProtocol[],
+): string {
   var dedupedProtocolStrings = List.toArray(
-    Unique.uniqueValuesInList(List.fromArray(protocols.map(toProtocolString))),
+    Unique.uniqueValuesInList(
+      List.fromArray(protocols.map(toImplementedProtocolString)),
+    ),
   );
   if (dedupedProtocolStrings.length > 0) {
     return ' <' + dedupedProtocolStrings.join(', ') + '>';
@@ -378,8 +384,8 @@ function protocolsString(protocols: ObjC.Protocol[]): string {
 }
 
 function implementedProtocolsIncludingNSObjectAndADTInit(
-  implementedProtocols: ObjC.Protocol[],
-): ObjC.Protocol[] {
+  implementedProtocols: ObjC.ImplementedProtocol[],
+): ObjC.ImplementedProtocol[] {
   return implementedProtocols
     .concat({name: 'NSObject'})
     .concat({name: 'ADTInit'});
@@ -802,7 +808,9 @@ function headerClassSection(file: Code.File, classInfo: ObjC.Class): string {
   );
 
   const covariantTypesStr = covariantTypesString(classInfo.covariantTypes);
-  const protocolsStr = protocolsString(classInfo.implementedProtocols);
+  const implementedProtocolsStr = implementedProtocolsString(
+    classInfo.implementedProtocols,
+  );
 
   const subclassingRestrictedStr = classInfo.subclassingRestricted
     ? '__attribute__((objc_subclassing_restricted))\n'
@@ -818,7 +826,7 @@ function headerClassSection(file: Code.File, classInfo: ObjC.Class): string {
     covariantTypesStr +
     ' : ' +
     classInfo.baseClassName +
-    protocolsStr;
+    implementedProtocolsStr;
 
   const inlinedBlocksStr: string = classInfo.inlineBlockTypedefs
     .filter(blockTypeIsPublic(true))

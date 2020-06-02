@@ -117,7 +117,7 @@ describe('ObjectSpecCreation', function() {
           },
           implementedProtocols: function(
             objectType: ObjectSpec.Type,
-          ): ObjC.Protocol[] {
+          ): ObjC.ImplementedProtocol[] {
             return [];
           },
           functions: function(objectType: ObjectSpec.Type): ObjC.Function[] {
@@ -314,7 +314,7 @@ describe('ObjectSpecCreation', function() {
           },
           implementedProtocols: function(
             objectType: ObjectSpec.Type,
-          ): ObjC.Protocol[] {
+          ): ObjC.ImplementedProtocol[] {
             return [{name: 'NSCopying'}];
           },
           functions: function(objectType: ObjectSpec.Type): ObjC.Function[] {
@@ -483,7 +483,7 @@ describe('ObjectSpecCreation', function() {
           },
           implementedProtocols: function(
             objectType: ObjectSpec.Type,
-          ): ObjC.Protocol[] {
+          ): ObjC.ImplementedProtocol[] {
             return [{name: 'NSCopying'}];
           },
           functions: function(objectType: ObjectSpec.Type): ObjC.Function[] {
@@ -671,7 +671,7 @@ describe('ObjectSpecCreation', function() {
           },
           implementedProtocols: function(
             objectType: ObjectSpec.Type,
-          ): ObjC.Protocol[] {
+          ): ObjC.ImplementedProtocol[] {
             return [];
           },
           functions: function(objectType: ObjectSpec.Type): ObjC.Function[] {
@@ -876,7 +876,7 @@ describe('ObjectSpecCreation', function() {
           },
           implementedProtocols: function(
             objectType: ObjectSpec.Type,
-          ): ObjC.Protocol[] {
+          ): ObjC.ImplementedProtocol[] {
             return [];
           },
           functions: function(objectType: ObjectSpec.Type): ObjC.Function[] {
@@ -1054,7 +1054,7 @@ describe('ObjectSpecCreation', function() {
           },
           implementedProtocols: function(
             objectType: ObjectSpec.Type,
-          ): ObjC.Protocol[] {
+          ): ObjC.ImplementedProtocol[] {
             return [];
           },
           functions: function(objectType: ObjectSpec.Type): ObjC.Function[] {
@@ -1191,7 +1191,7 @@ describe('ObjectSpecCreation', function() {
           },
           implementedProtocols: function(
             objectType: ObjectSpec.Type,
-          ): ObjC.Protocol[] {
+          ): ObjC.ImplementedProtocol[] {
             return [];
           },
           functions: function(objectType: ObjectSpec.Type): ObjC.Function[] {
@@ -1278,7 +1278,7 @@ describe('ObjectSpecCreation', function() {
           },
           implementedProtocols: function(
             objectType: ObjectSpec.Type,
-          ): ObjC.Protocol[] {
+          ): ObjC.ImplementedProtocol[] {
             return [];
           },
           functions: function(objectType: ObjectSpec.Type): ObjC.Function[] {
@@ -1461,7 +1461,7 @@ describe('ObjectSpecCreation', function() {
           },
           implementedProtocols: function(
             objectType: ObjectSpec.Type,
-          ): ObjC.Protocol[] {
+          ): ObjC.ImplementedProtocol[] {
             return [];
           },
           functions: function(objectType: ObjectSpec.Type): ObjC.Function[] {
@@ -1570,7 +1570,7 @@ describe('ObjectSpecCreation', function() {
           },
           implementedProtocols: function(
             objectType: ObjectSpec.Type,
-          ): ObjC.Protocol[] {
+          ): ObjC.ImplementedProtocol[] {
             return [];
           },
           functions: function(objectType: ObjectSpec.Type): ObjC.Function[] {
@@ -1796,7 +1796,7 @@ describe('ObjectSpecCreation', function() {
           },
           implementedProtocols: function(
             objectType: ObjectSpec.Type,
-          ): ObjC.Protocol[] {
+          ): ObjC.ImplementedProtocol[] {
             return [];
           },
           functions: function(objectType: ObjectSpec.Type): ObjC.Function[] {
@@ -1909,7 +1909,7 @@ describe('ObjectSpecCreation', function() {
           },
           implementedProtocols: function(
             objectType: ObjectSpec.Type,
-          ): ObjC.Protocol[] {
+          ): ObjC.ImplementedProtocol[] {
             return [];
           },
           functions: function(objectType: ObjectSpec.Type): ObjC.Function[] {
@@ -2108,7 +2108,7 @@ describe('ObjectSpecCreation', function() {
         },
         implementedProtocols: function(
           objectType: ObjectSpec.Type,
-        ): ObjC.Protocol[] {
+        ): ObjC.ImplementedProtocol[] {
           return [];
         },
         functions: function(objectType: ObjectSpec.Type): ObjC.Function[] {

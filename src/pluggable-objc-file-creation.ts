@@ -32,12 +32,12 @@ export interface ObjCGenerationPlugIn<T> {
   fileType: (typeInformation: T) => Code.FileType | null;
   forwardDeclarations: (typeInformation: T) => ObjC.ForwardDeclaration[];
   functions: (typeInformation: T) => ObjC.Function[];
+  implementedProtocols: (typeInformation: T) => ObjC.ImplementedProtocol[];
   imports: (typeInformation: T) => ObjC.Import[];
   instanceVariables: (typeInformation: T) => ObjC.InstanceVariable[];
   instanceMethods: (typeInformation: T) => ObjC.Method[];
   macros: (typeInformation: T) => ObjC.Macro[];
   properties: (typeInformation: T) => ObjC.Property[];
-  protocols: (typeInformation: T) => ObjC.Protocol[];
   staticConstants: (typeInformation: T) => ObjC.Constant[];
   validationErrors: (typeInformation: T) => Error.Error[];
   nullability: (typeInformation: T) => ObjC.ClassNullability | null;
@@ -140,12 +140,12 @@ function buildInstanceVariables<T>(
   return soFar.concat(plugin.instanceVariables(typeInformation));
 }
 
-function buildProtocols<T>(
+function buildImplementedProtocols<T>(
   typeInformation: T,
-  soFar: ObjC.Protocol[],
+  soFar: ObjC.ImplementedProtocol[],
   plugin: ObjCGenerationPlugIn<T>,
-): ObjC.Protocol[] {
-  return soFar.concat(plugin.protocols(typeInformation));
+): ObjC.ImplementedProtocol[] {
+  return soFar.concat(plugin.implementedProtocols(typeInformation));
 }
 
 function checkSubclassingRestricted<T>(
@@ -629,9 +629,10 @@ function createClassesForObjectSpecType<T>(
 
   const implementedProtocols = List.foldr<
     ObjCGenerationPlugIn<T>,
-    ObjC.Protocol[]
+    ObjC.ImplementedProtocol[]
   >(
-    (soFar, plugin) => buildProtocols(typeInformation, soFar, plugin),
+    (soFar, plugin) =>
+      buildImplementedProtocols(typeInformation, soFar, plugin),
     [],
     plugins,
   );
@@ -673,7 +674,7 @@ function createClassIfNecessary(
   properties: ObjC.Property[],
   instanceVariables: ObjC.InstanceVariable[],
   functions: ObjC.Function[],
-  implementedProtocols: ObjC.Protocol[],
+  implementedProtocols: ObjC.ImplementedProtocol[],
   comments: string[],
   typeName: string,
   baseClassName: string,

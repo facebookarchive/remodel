@@ -669,7 +669,7 @@ export function createPlugin(): ObjectSpec.Plugin {
     },
     implementedProtocols: function(
       objectType: ObjectSpec.Type,
-    ): ObjC.Protocol[] {
+    ): ObjC.ImplementedProtocol[] {
       const secureCoding = objectType.includes.indexOf('NSSecureCoding') >= 0;
       if (secureCoding) {
         return [
@@ -1141,7 +1141,7 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
     },
     implementedProtocols: function(
       algebraicType: AlgebraicType.Type,
-    ): ObjC.Protocol[] {
+    ): ObjC.ImplementedProtocol[] {
       const secureCoding =
         algebraicType.includes.indexOf('NSSecureCoding') >= 0;
       if (secureCoding) {

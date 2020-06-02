@@ -82,6 +82,12 @@ function createAlgebraicTypeObjCPlugIn(
       return plugin.functions(typeInformation);
     },
 
+    implementedProtocols: function(
+      typeInformation: AlgebraicType.Type,
+    ): ObjC.ImplementedProtocol[] {
+      return plugin.implementedProtocols(typeInformation);
+    },
+
     imports: function(typeInformation: AlgebraicType.Type): ObjC.Import[] {
       return plugin.imports(typeInformation);
     },
@@ -106,10 +112,6 @@ function createAlgebraicTypeObjCPlugIn(
 
     properties: function(typeInformation: AlgebraicType.Type): ObjC.Property[] {
       return [];
-    },
-
-    protocols: function(typeInformation: AlgebraicType.Type): ObjC.Protocol[] {
-      return plugin.implementedProtocols(typeInformation);
     },
 
     staticConstants: function(

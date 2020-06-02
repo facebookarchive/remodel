@@ -550,13 +550,13 @@ export interface Class {
   name: string;
   properties: Property[];
   instanceVariables: InstanceVariable[];
-  implementedProtocols: Protocol[];
+  implementedProtocols: ImplementedProtocol[];
   nullability: ClassNullability;
   subclassingRestricted: boolean;
   visibility?: ClassVisibility;
 }
 
-export interface Protocol {
+export interface ImplementedProtocol {
   name: string;
 }
 

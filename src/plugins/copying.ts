@@ -84,7 +84,7 @@ export function createPlugin(): ObjectSpec.Plugin {
     },
     implementedProtocols: function(
       objectType: ObjectSpec.Type,
-    ): ObjC.Protocol[] {
+    ): ObjC.ImplementedProtocol[] {
       return [
         {
           name: 'NSCopying',
@@ -168,7 +168,7 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
     },
     implementedProtocols: function(
       algebraicType: AlgebraicType.Type,
-    ): ObjC.Protocol[] {
+    ): ObjC.ImplementedProtocol[] {
       return [
         {
           name: 'NSCopying',

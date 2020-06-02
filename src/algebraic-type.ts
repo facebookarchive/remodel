@@ -116,7 +116,7 @@ export interface Plugin {
   forwardDeclarations: (algebraicType: Type) => ObjC.ForwardDeclaration[];
   functions: (algebraicType: Type) => ObjC.Function[];
   headerComments: (algebraicType: Type) => ObjC.Comment[];
-  implementedProtocols: (algebraicType: Type) => ObjC.Protocol[];
+  implementedProtocols: (algebraicType: Type) => ObjC.ImplementedProtocol[];
   imports: (algebraicType: Type) => ObjC.Import[];
   instanceMethods: (algebraicType: Type) => ObjC.Method[];
   instanceVariables: (algebraicType: Type) => ObjC.InstanceVariable[];

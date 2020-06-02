@@ -537,7 +537,7 @@ export function createPlugin(): ObjectSpec.Plugin {
     },
     implementedProtocols: function(
       objectType: ObjectSpec.Type,
-    ): ObjC.Protocol[] {
+    ): ObjC.ImplementedProtocol[] {
       return [];
     },
     imports: function(objectType: ObjectSpec.Type): ObjC.Import[] {

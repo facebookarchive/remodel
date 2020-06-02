@@ -140,6 +140,7 @@ function toPropertyModifierString(modifier: ObjC.PropertyModifier): string {
     returnString('nullable'),
     returnString('readonly'),
     returnString('readwrite'),
+    selector => `setter=${selector}`,
     returnString('strong'),
     returnString('weak'),
     returnString('unsafe_unretained'),

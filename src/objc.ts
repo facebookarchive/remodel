@@ -301,6 +301,7 @@ enum PropertyModifierType {
   nullable,
   readonly,
   readwrite,
+  setter,
   strong,
   weak,
   unsafeUnretained,
@@ -308,52 +309,58 @@ enum PropertyModifierType {
 
 export class PropertyModifier {
   private modifierType: PropertyModifierType;
-  constructor(type: PropertyModifierType) {
+  private selector: string | null;
+  constructor(type: PropertyModifierType, selector: string | null) {
     this.modifierType = type;
+    this.selector = selector;
   }
 
   static Assign() {
-    return new PropertyModifier(PropertyModifierType.assign);
+    return new PropertyModifier(PropertyModifierType.assign, null);
   }
 
   static Atomic() {
-    return new PropertyModifier(PropertyModifierType.atomic);
+    return new PropertyModifier(PropertyModifierType.atomic, null);
   }
 
   static Copy() {
-    return new PropertyModifier(PropertyModifierType.copy);
+    return new PropertyModifier(PropertyModifierType.copy, null);
   }
 
   static Nonatomic() {
-    return new PropertyModifier(PropertyModifierType.nonatomic);
+    return new PropertyModifier(PropertyModifierType.nonatomic, null);
   }
 
   static Nonnull() {
-    return new PropertyModifier(PropertyModifierType.nonnull);
+    return new PropertyModifier(PropertyModifierType.nonnull, null);
   }
 
   static Nullable() {
-    return new PropertyModifier(PropertyModifierType.nullable);
+    return new PropertyModifier(PropertyModifierType.nullable, null);
   }
 
   static Readonly() {
-    return new PropertyModifier(PropertyModifierType.readonly);
+    return new PropertyModifier(PropertyModifierType.readonly, null);
   }
 
   static Readwrite() {
-    return new PropertyModifier(PropertyModifierType.readwrite);
+    return new PropertyModifier(PropertyModifierType.readwrite, null);
+  }
+
+  static Setter(selector: string) {
+    return new PropertyModifier(PropertyModifierType.setter, selector);
   }
 
   static Strong() {
-    return new PropertyModifier(PropertyModifierType.strong);
+    return new PropertyModifier(PropertyModifierType.strong, null);
   }
 
   static Weak() {
-    return new PropertyModifier(PropertyModifierType.weak);
+    return new PropertyModifier(PropertyModifierType.weak, null);
   }
 
   static UnsafeUnretained() {
-    return new PropertyModifier(PropertyModifierType.unsafeUnretained);
+    return new PropertyModifier(PropertyModifierType.unsafeUnretained, null);
   }
 
   match<T>(
@@ -365,6 +372,7 @@ export class PropertyModifier {
     nullable: () => T,
     readonly: () => T,
     readwrite: () => T,
+    setter: (selector) => T,
     strong: () => T,
     weak: () => T,
     unsafeUnretained: () => T,
@@ -386,6 +394,8 @@ export class PropertyModifier {
         return readonly();
       case PropertyModifierType.readwrite:
         return readwrite();
+      case PropertyModifierType.setter:
+        return setter(this.selector);
       case PropertyModifierType.strong:
         return strong();
       case PropertyModifierType.weak:

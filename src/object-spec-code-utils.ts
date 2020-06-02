@@ -248,6 +248,9 @@ export function shouldCopyIncomingValueForAttribute(
     function readwrite() {
       return false;
     },
+    function setter() {
+      return false;
+    },
     function strong() {
       return false;
     },

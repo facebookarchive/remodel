@@ -47,6 +47,9 @@ function propertyModifiersForCopyingFromAttribute(
     function readwrite() {
       return [];
     },
+    function setter() {
+      return [];
+    },
     function strong() {
       return [];
     },

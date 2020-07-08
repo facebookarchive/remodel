@@ -81,7 +81,11 @@ const KNOWN_SYSTEM_TYPE_IMPORT_INFO: {
 };
 
 function isFoundationType(typeName: string): boolean {
-  return typeName.indexOf('NS') === 0;
+  // NSLayoutAttribute is NS-prefixed, but is part of UIKit.
+  //
+  // TODO(natesm) can we just remove this entirely? There are other
+  // NS types outside of Foundation that this can break on.
+  return typeName.indexOf('NS') === 0 && typeName != 'NSLayoutAttribute';
 }
 
 export function isSystemType(typeName: string): boolean {

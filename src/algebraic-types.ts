@@ -203,13 +203,9 @@ function pluginsFromPluginConfigs(
 }
 
 function getAlgebraicTypeCreationContext(
-  currentWorkingDirectory: File.AbsoluteFilePath,
+  findConfigFuture: Promise.Future<File.AbsoluteFilePath | null>,
   parsedArgs: CommandLine.Arguments,
 ): Promise.Future<Either.Either<Error.Error[], AlgebraicTypeCreationContext>> {
-  const findConfigFuture = FileFinder.findConfig(
-    '.algebraicTypeConfig',
-    currentWorkingDirectory,
-  );
   return Promise.mbind(function(
     maybePath: File.AbsoluteFilePath | null,
   ): Promise.Future<
@@ -285,6 +281,7 @@ function outputDirectory(
 
 export function generate(
   directoryRunFrom: string,
+  optionalConfigPath: string | undefined,
   parsedArgs: CommandLine.Arguments,
 ): Promise.Future<List.List<WriteFileUtils.ConsoleOutputResults>> {
   const promises = parsedArgs.givenPaths.map(givenPath => {
@@ -297,8 +294,14 @@ export function generate(
       parsedArgs.outputPath,
     );
 
+    const configPath = optionalConfigPath
+      ? FileFinder.findConfigAtPath(
+          File.getAbsoluteFilePath(optionalConfigPath),
+        )
+      : FileFinder.searchForConfig('.algebraicTypeConfig', requestedPath);
+
     const algebraicTypeCreationContextFuture = getAlgebraicTypeCreationContext(
-      requestedPath,
+      configPath,
       parsedArgs,
     );
 

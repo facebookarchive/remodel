@@ -350,7 +350,7 @@ describe('FileFinder', function() {
     );
   });
 
-  describe('#findConfig', function() {
+  describe('#searchForConfig', function() {
     it(
       'returns just the path to the file when it is in the given working ' +
         'directory',
@@ -358,7 +358,7 @@ describe('FileFinder', function() {
         fsExtra.removeSync(__dirname + '/tmp');
         fs.mkdirSync(__dirname + '/tmp');
         fs.writeFileSync(__dirname + '/tmp/.valueObjectConfig', '');
-        const future: Promise.Future<File.AbsoluteFilePath | null> = FileFinder.findConfig(
+        const future: Promise.Future<File.AbsoluteFilePath | null> = FileFinder.searchForConfig(
           '.valueObjectConfig',
           File.getAbsoluteFilePath(__dirname + '/tmp'),
         );
@@ -380,7 +380,7 @@ describe('FileFinder', function() {
         fsExtra.removeSync(__dirname + '/tmp');
         fs.mkdirSync(__dirname + '/tmp');
         fs.writeFileSync(__dirname + '/.valueObjectConfig', '');
-        const future: Promise.Future<File.AbsoluteFilePath | null> = FileFinder.findConfig(
+        const future: Promise.Future<File.AbsoluteFilePath | null> = FileFinder.searchForConfig(
           '.valueObjectConfig',
           File.getAbsoluteFilePath(__dirname + '/tmp'),
         );
@@ -403,7 +403,7 @@ describe('FileFinder', function() {
         fs.mkdirSync(__dirname + '/tmp');
         fs.mkdirSync(__dirname + '/tmp/tmp2');
         fs.writeFileSync(__dirname + '/.valueObjectConfig', '');
-        const future: Promise.Future<File.AbsoluteFilePath | null> = FileFinder.findConfig(
+        const future: Promise.Future<File.AbsoluteFilePath | null> = FileFinder.searchForConfig(
           '.valueObjectConfig',
           File.getAbsoluteFilePath(__dirname + '/tmp/tmp2'),
         );
@@ -417,14 +417,13 @@ describe('FileFinder', function() {
         }, future);
       },
     );
-
     it(
       'returns nothing when the object does not exist all the way up to the ' +
         'root of the file system',
       function(finished) {
         fsExtra.removeSync(__dirname + '/tmp');
         fs.mkdirSync(__dirname + '/tmp');
-        const future: Promise.Future<File.AbsoluteFilePath | null> = FileFinder.findConfig(
+        const future: Promise.Future<File.AbsoluteFilePath | null> = FileFinder.searchForConfig(
           '.someCrazyFileThatDoesntExist',
           File.getAbsoluteFilePath(__dirname + '/tmp'),
         );
@@ -436,5 +435,40 @@ describe('FileFinder', function() {
         }, future);
       },
     );
+  });
+
+  describe('#findConfigAtPath', function() {
+    it('returns just the path to the file when we specify the path exactly', function(finished) {
+      fsExtra.removeSync(__dirname + '/tmp');
+      fs.mkdirSync(__dirname + '/tmp');
+      fs.writeFileSync(__dirname + '/tmp/.valueObjectConfig', '');
+      const future: Promise.Future<File.AbsoluteFilePath | null> = FileFinder.findConfigAtPath(
+        File.getAbsoluteFilePath(__dirname + '/tmp/.valueObjectConfig'),
+      );
+      Promise.then(function(result: File.AbsoluteFilePath | null) {
+        const expectedResult = File.getAbsoluteFilePath(
+          __dirname + '/tmp/.valueObjectConfig',
+        );
+        expect(result).toEqualJSON(expectedResult);
+        fsExtra.removeSync(__dirname + '/tmp');
+        finished();
+      }, future);
+    });
+
+    it('Does not return path if not at location', function(finished) {
+      fsExtra.removeSync(__dirname + '/tmp');
+      fs.mkdirSync(__dirname + '/tmp');
+      fs.writeFileSync(__dirname + '/.valueObjectConfig', '');
+      const future: Promise.Future<File.AbsoluteFilePath | null> = FileFinder.findConfigAtPath(
+        File.getAbsoluteFilePath(__dirname + '/tmp/.valueObjectConfig'),
+      );
+      Promise.then(function(result: File.AbsoluteFilePath | null) {
+        const expectedResult = null;
+        expect(result).toEqualJSON(expectedResult);
+        fsExtra.removeSync(__dirname + '/tmp');
+        fsExtra.writeFileSync(__dirname + '/.valueObjectConfig', '');
+        finished();
+      }, future);
+    });
   });
 });

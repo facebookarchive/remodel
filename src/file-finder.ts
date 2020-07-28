@@ -117,9 +117,9 @@ function findFile(
   return promise.getFuture();
 }
 
-function findConfigForStringPath(
+function searchForConfigWithStringPath(
   fileName: string,
-  currentWorkingDirectoryPathString: string,
+  searchPath: string,
 ): Promise.Future<File.AbsoluteFilePath | null> {
   return Promise.mbind(function(
     maybe: File.AbsoluteFilePath | null,
@@ -129,25 +129,41 @@ function findConfigForStringPath(
         return Promise.munit(foundPath);
       },
       function() {
-        const nextPath = path.resolve(currentWorkingDirectoryPathString, '../');
-        if (nextPath === currentWorkingDirectoryPathString) {
+        const nextPath = path.resolve(searchPath, '../');
+        if (nextPath === searchPath) {
           return Promise.munit(null);
         } else {
-          return findConfigForStringPath(fileName, nextPath);
+          return searchForConfigWithStringPath(fileName, nextPath);
         }
       },
       maybe,
     );
   },
-  findFile(fileName, currentWorkingDirectoryPathString));
+  findFile(fileName, searchPath));
 }
 
-export function findConfig(
+/**
+ * Searches for a file with the specified name, looking up through parent directories and stopping at the first hit.
+ * @param fileName The file name to find.
+ * @param startingPath The directory to start at.
+ */
+export function searchForConfig(
   fileName: string,
-  currentWorkingDirectory: File.AbsoluteFilePath,
+  startingPath: File.AbsoluteFilePath,
 ): Promise.Future<File.AbsoluteFilePath | null> {
-  return findConfigForStringPath(
+  return searchForConfigWithStringPath(
     fileName,
-    File.getAbsolutePathString(currentWorkingDirectory),
+    File.getAbsolutePathString(startingPath),
   );
+}
+
+/**
+ * Takes a path to a config file, verifies it is present.
+ * @param configPath The complete path to the config file we want to open.
+ */
+export function findConfigAtPath(
+  configPath: File.AbsoluteFilePath,
+): Promise.Future<File.AbsoluteFilePath | null> {
+  const absPath = File.getAbsolutePathString(configPath);
+  return findFile(path.basename(absPath), path.resolve(absPath, '../'));
 }

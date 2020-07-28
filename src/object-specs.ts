@@ -237,25 +237,6 @@ function getObjectSpecCreationContext(
   valueObjectConfigPathFuture);
 }
 
-function valueObjectConfigPathFuture(
-  configFileName: string,
-  requestedPath: File.AbsoluteFilePath,
-  configPathFromArguments: string | undefined,
-): Promise.Future<File.AbsoluteFilePath | null> {
-  var absoluteValueObjectConfigPath: Promise.Future<File.AbsoluteFilePath | null>;
-  if (configPathFromArguments === undefined) {
-    absoluteValueObjectConfigPath = FileFinder.findConfig(
-      configFileName,
-      requestedPath,
-    );
-  } else {
-    absoluteValueObjectConfigPath = Promise.munit(
-      File.getAbsoluteFilePath(configPathFromArguments),
-    );
-  }
-  return absoluteValueObjectConfigPath;
-}
-
 function outputDirectory(
   directoryRunFrom: string,
   outputPath: string | undefined,
@@ -288,12 +269,14 @@ export function generate(
       parsedArgs.outputPath,
     );
 
+    const configPath = optionalConfigPath
+      ? FileFinder.findConfigAtPath(
+          File.getAbsoluteFilePath(optionalConfigPath),
+        )
+      : FileFinder.searchForConfig(configFileName, requestedPath);
+
     const valueObjectCreationContextFuture = getObjectSpecCreationContext(
-      valueObjectConfigPathFuture(
-        configFileName,
-        requestedPath,
-        optionalConfigPath,
-      ),
+      configPath,
       configurationContext,
       parsedArgs,
     );

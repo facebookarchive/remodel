@@ -61,7 +61,11 @@ export function main(
         ObjectSpecDefaultConfig.OBJECT_SPEC_DEFAULT_CONFIG,
         args,
       );
-      const algebraicTypesFuture = AlgebraicTypes.generate(process.cwd(), args);
+      const algebraicTypesFuture = AlgebraicTypes.generate(
+        process.cwd(),
+        args.adtConfigPath,
+        args,
+      );
 
       const promise = Promise.all(
         List.of(valueObjectsFuture, objectsFuture, algebraicTypesFuture),

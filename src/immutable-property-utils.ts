@@ -102,5 +102,6 @@ export function propertyFromAttribute(
       reference: attribute.type.reference,
     },
     access: ObjC.PropertyAccess.Public(),
+    preprocessors: [],
   };
 }

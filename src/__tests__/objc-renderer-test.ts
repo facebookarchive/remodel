@@ -170,6 +170,7 @@ describe('ObjCRenderer', function() {
                   name: 'RMSomething',
                   reference: 'RMSomething *',
                 },
+                preprocessors: [],
               },
               {
                 comments: [],
@@ -183,6 +184,7 @@ describe('ObjCRenderer', function() {
                   name: 'RMSomething',
                   reference: 'RMSomething *',
                 },
+                preprocessors: [],
               },
             ],
             instanceVariables: [
@@ -425,6 +427,7 @@ describe('ObjCRenderer', function() {
                   name: 'RMSomething',
                   reference: 'RMSomething *',
                 },
+                preprocessors: [],
               },
               {
                 comments: [],
@@ -438,6 +441,7 @@ describe('ObjCRenderer', function() {
                   name: 'RMSomething',
                   reference: 'RMSomething *',
                 },
+                preprocessors: [],
               },
             ],
             instanceVariables: [
@@ -662,6 +666,7 @@ describe('ObjCRenderer', function() {
                     name: 'RMSomething',
                     reference: 'RMSomething *',
                   },
+                  preprocessors: [],
                 },
                 {
                   comments: [],
@@ -675,6 +680,7 @@ describe('ObjCRenderer', function() {
                     name: 'RMSomething',
                     reference: 'RMSomething *',
                   },
+                  preprocessors: [],
                 },
               ],
               instanceVariables: [
@@ -850,6 +856,7 @@ describe('ObjCRenderer', function() {
                   name: 'NSString',
                   reference: 'NSString *',
                 },
+                preprocessors: [],
               },
               {
                 comments: [],
@@ -863,6 +870,7 @@ describe('ObjCRenderer', function() {
                   name: 'BOOL',
                   reference: 'BOOL',
                 },
+                preprocessors: [],
               },
               {
                 comments: [],
@@ -877,6 +885,7 @@ describe('ObjCRenderer', function() {
                   name: 'id',
                   reference: 'id',
                 },
+                preprocessors: [],
               },
             ],
             instanceVariables: [],
@@ -1221,6 +1230,7 @@ describe('ObjCRenderer', function() {
                   name: 'RMSomething',
                   reference: 'RMSomething *',
                 },
+                preprocessors: [],
               },
               {
                 comments: [],
@@ -1234,6 +1244,7 @@ describe('ObjCRenderer', function() {
                   name: 'RMSomething',
                   reference: 'RMSomething *',
                 },
+                preprocessors: [],
               },
             ],
             instanceVariables: [],
@@ -1752,6 +1763,7 @@ describe('ObjCRenderer', function() {
                   name: 'RMSomething',
                   reference: 'RMSomething *',
                 },
+                preprocessors: [],
               },
               {
                 comments: [],
@@ -1765,6 +1777,7 @@ describe('ObjCRenderer', function() {
                   name: 'RMSomething',
                   reference: 'RMSomething *',
                 },
+                preprocessors: [],
               },
             ],
             instanceVariables: [],
@@ -1853,6 +1866,7 @@ describe('ObjCRenderer', function() {
                   name: 'RMSomething',
                   reference: 'RMSomething *',
                 },
+                preprocessors: [],
               },
               {
                 comments: [],
@@ -1866,6 +1880,7 @@ describe('ObjCRenderer', function() {
                   name: 'RMSomething',
                   reference: 'RMSomething *',
                 },
+                preprocessors: [],
               },
             ],
             instanceVariables: [],
@@ -1971,6 +1986,7 @@ describe('ObjCRenderer', function() {
                     name: 'RMSomething',
                     reference: 'RMSomething *',
                   },
+                  preprocessors: [],
                 },
                 {
                   comments: [{content: '// One special comment'}],
@@ -1984,6 +2000,7 @@ describe('ObjCRenderer', function() {
                     name: 'RMSomething',
                     reference: 'RMSomething *',
                   },
+                  preprocessors: [],
                 },
               ],
               instanceVariables: [],
@@ -2172,6 +2189,7 @@ describe('ObjCRenderer', function() {
                   name: 'RMSomething',
                   reference: 'RMSomething *',
                 },
+                preprocessors: [],
               },
               {
                 comments: [],
@@ -2185,6 +2203,7 @@ describe('ObjCRenderer', function() {
                   name: 'RMSomething',
                   reference: 'RMSomething *',
                 },
+                preprocessors: [],
               },
             ],
             instanceVariables: [],
@@ -2296,6 +2315,7 @@ describe('ObjCRenderer', function() {
                   name: 'RMSomething',
                   reference: 'RMSomething *',
                 },
+                preprocessors: [],
               },
               {
                 comments: [],
@@ -2309,6 +2329,7 @@ describe('ObjCRenderer', function() {
                   name: 'RMSomething',
                   reference: 'RMSomething *',
                 },
+                preprocessors: [],
               },
             ],
             instanceVariables: [],
@@ -2555,6 +2576,7 @@ describe('ObjCRenderer', function() {
                   name: 'RMSomething',
                   reference: 'RMSomething *',
                 },
+                preprocessors: [],
               },
             ],
             instanceVariables: [],
@@ -2726,6 +2748,7 @@ describe('ObjCRenderer', function() {
                   name: 'RMSomething',
                   reference: 'RMSomething *',
                 },
+                preprocessors: [],
               },
               {
                 comments: [],
@@ -2739,6 +2762,7 @@ describe('ObjCRenderer', function() {
                   name: 'RMSomething',
                   reference: 'RMSomething *',
                 },
+                preprocessors: [],
               },
             ],
             instanceVariables: [
@@ -2961,6 +2985,7 @@ describe('ObjCRenderer', function() {
                   name: 'RMSomething',
                   reference: 'RMSomething *',
                 },
+                preprocessors: [],
               },
               {
                 comments: [],
@@ -2974,6 +2999,7 @@ describe('ObjCRenderer', function() {
                   name: 'RMSomething',
                   reference: 'RMSomething *',
                 },
+                preprocessors: [],
               },
             ],
             instanceVariables: [],
@@ -3161,6 +3187,7 @@ describe('ObjCRenderer', function() {
                   name: 'RMSomething',
                   reference: 'RMSomething *',
                 },
+                preprocessors: [],
               },
               {
                 comments: [],
@@ -3174,6 +3201,7 @@ describe('ObjCRenderer', function() {
                   name: 'RMSomething',
                   reference: 'RMSomething *',
                 },
+                preprocessors: [],
               },
             ],
             instanceVariables: [

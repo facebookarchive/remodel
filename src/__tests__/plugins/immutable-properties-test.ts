@@ -1841,6 +1841,7 @@ describe('Plugins.ImmutableProperties', function() {
             name: 'BOOL',
             reference: 'BOOL',
           },
+          preprocessors: [],
         },
       ];
 
@@ -1891,6 +1892,7 @@ describe('Plugins.ImmutableProperties', function() {
             name: 'RMSomething',
             reference: 'RMSomething *',
           },
+          preprocessors: [],
         },
       ];
 
@@ -1943,6 +1945,7 @@ describe('Plugins.ImmutableProperties', function() {
               name: 'RMSomething',
               reference: 'RMSomething *',
             },
+            preprocessors: [],
           },
         ];
 

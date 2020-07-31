@@ -211,12 +211,14 @@ function toPropertyString(property: ObjC.Property): string {
   );
 
   return (
+    toOptionalPreprocessorOpeningCodeString(property) +
     propertyCommentsSection +
     '@property (' +
     property.modifiers.map(toPropertyModifierString).join(', ') +
     ') ' +
     toPropertyTypeAndNameString(property.returnType, property.name) +
-    ';'
+    ';' +
+    toOptionalPreprocessorClosingCodeString(property)
   );
 }
 
@@ -260,12 +262,20 @@ function toKeywordString(
   );
 }
 
-function toOptionalPreprocessorOpeningCodeString(method: ObjC.Method): string {
-  if (method.preprocessors.length == 0) {
+/// Allows us to reuse the following two functions with any code item
+/// with a "preprocessors" field.
+interface HasPreprocessors {
+  preprocessors: ObjC.Preprocessor[];
+}
+
+function toOptionalPreprocessorOpeningCodeString(
+  item: HasPreprocessors,
+): string {
+  if (item.preprocessors.length == 0) {
     return '';
   }
   return (
-    method.preprocessors
+    item.preprocessors
       .map(function(object) {
         return object.openingCode;
       })
@@ -273,13 +283,15 @@ function toOptionalPreprocessorOpeningCodeString(method: ObjC.Method): string {
   );
 }
 
-function toOptionalPreprocessorClosingCodeString(method: ObjC.Method): string {
-  if (method.preprocessors.length == 0) {
+function toOptionalPreprocessorClosingCodeString(
+  item: HasPreprocessors,
+): string {
+  if (item.preprocessors.length == 0) {
     return '';
   }
   return (
     '\n' +
-    method.preprocessors
+    item.preprocessors
       .map(function(object) {
         return object.closingCode;
       })

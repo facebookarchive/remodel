@@ -539,6 +539,7 @@ export interface Property {
   access: PropertyAccess;
   name: string;
   returnType: Type;
+  preprocessors: Preprocessor[];
 }
 
 export interface InstanceVariable {

@@ -159,7 +159,7 @@ Feature: Outputting Value Objects / Algebraic Types decorated with NS_ASSUME_NON
 
       + (instancetype)bar;
 
-      + (instancetype)bazWithAString:(NSString *)aString bString:(nullable NSString *)bString;
+      + (instancetype)bazWithAString:(NSString *)aString bString:(nullable NSString *)bString NS_SWIFT_NAME(baz(aString:bString:));
 
       + (instancetype)new NS_UNAVAILABLE;
 

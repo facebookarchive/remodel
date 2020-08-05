@@ -65,14 +65,14 @@ Feature: Outputting Algebraic Types
        * Really good type,
        * always use this
        */
-      + (instancetype)firstSubtypeWithFirstValue:(NSString *)firstValue secondValue:(NSUInteger)secondValue;
+      + (instancetype)firstSubtypeWithFirstValue:(NSString *)firstValue secondValue:(NSUInteger)secondValue NS_SWIFT_NAME(firstSubtype(firstValue:secondValue:));
 
       + (instancetype)new NS_UNAVAILABLE;
 
       /**
        * @param something Something is commented!
        */
-      + (instancetype)secondSubtypeWithSomething:(BOOL)something;
+      + (instancetype)secondSubtypeWithSomething:(BOOL)something NS_SWIFT_NAME(secondSubtype(something:));
 
       + (instancetype)someAttributeSubtype:(NSUInteger)someAttributeSubtype;
 
@@ -280,11 +280,11 @@ Feature: Outputting Algebraic Types
 
       @interface SimpleADT : NSProxy <NSCopying>
 
-      + (instancetype)firstSubtypeWithFirstValue:(NSString *)firstValue secondValue:(NSUInteger)secondValue;
+      + (instancetype)firstSubtypeWithFirstValue:(NSString *)firstValue secondValue:(NSUInteger)secondValue NS_SWIFT_NAME(firstSubtype(firstValue:secondValue:));
 
       + (instancetype)new NS_UNAVAILABLE;
 
-      + (instancetype)secondSubtypeWithSomething:(BOOL)something;
+      + (instancetype)secondSubtypeWithSomething:(BOOL)something NS_SWIFT_NAME(secondSubtype(something:));
 
       - (instancetype)init NS_UNAVAILABLE;
 
@@ -452,11 +452,11 @@ Feature: Outputting Algebraic Types
 
       @interface SimpleADT : NSObject <NSCopying>
 
-      + (instancetype)firstSubtypeWithFirstValue:(Foo *)firstValue secondValue:(NSUInteger)secondValue;
+      + (instancetype)firstSubtypeWithFirstValue:(Foo *)firstValue secondValue:(NSUInteger)secondValue NS_SWIFT_NAME(firstSubtype(firstValue:secondValue:));
 
       + (instancetype)new NS_UNAVAILABLE;
 
-      + (instancetype)secondSubtypeWithSomething:(BOOL)something;
+      + (instancetype)secondSubtypeWithSomething:(BOOL)something NS_SWIFT_NAME(secondSubtype(something:));
 
       + (instancetype)someRandomSubtype;
 

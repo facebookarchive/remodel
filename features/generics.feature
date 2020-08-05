@@ -145,7 +145,7 @@ Feature: Outputting Objects With Generic Types
 
       @interface SimpleADT : NSObject <NSCopying>
 
-      + (instancetype)firstSubtypeWithNamesToAges:(NSDictionary<NSString *, NSNumber *> *)namesToAges namesToInventory:(NSDictionary<NSString *, NSArray<NSNumber *> *> *)namesToInventory;
+      + (instancetype)firstSubtypeWithNamesToAges:(NSDictionary<NSString *, NSNumber *> *)namesToAges namesToInventory:(NSDictionary<NSString *, NSArray<NSNumber *> *> *)namesToInventory NS_SWIFT_NAME(firstSubtype(namesToAges:namesToInventory:));
 
       + (instancetype)namesToAgesSingleAttribute:(NSDictionary<NSString *, NSString *> *)namesToAgesSingleAttribute;
 

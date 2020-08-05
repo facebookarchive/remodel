@@ -145,6 +145,24 @@ export function keywordsForSubtype(
   );
 }
 
+function swiftNameForSubtype(subtype: AlgebraicType.Subtype): string | null {
+  return subtype.match(
+    collection => {
+      if (collection.attributes.length > 0) {
+        const name = StringUtils.lowercased(collection.name);
+        const keywords = collection.attributes
+          .map(attribute => `${attribute.name}:`)
+          .join('');
+
+        return `NS_SWIFT_NAME(${name}(${keywords}))`;
+      } else {
+        return null;
+      }
+    },
+    attribute => null,
+  );
+}
+
 function canAssertExistenceForTypeOfAttribute(
   attribute: AlgebraicType.SubtypeAttribute,
 ) {
@@ -211,7 +229,7 @@ function initializationClassMethodForSubtype(
     comments: ObjCCommentUtils.commentsAsBlockFromStringArray(
       commentsForSubtype(subtype),
     ),
-    compilerAttributes: [],
+    compilerAttributes: Maybe.catMaybes([swiftNameForSubtype(subtype)]),
     keywords: keywordsForSubtype(subtype),
     returnType: {
       type: {

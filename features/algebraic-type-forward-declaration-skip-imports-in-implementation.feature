@@ -51,11 +51,11 @@ Feature: Outputting forward declarations in Algebraic Types
 
       @interface SimpleADT : NSObject <NSCopying>
 
-      + (instancetype)firstSubtypeWithFirstValue:(RMProxy *)firstValue secondValue:(NSUInteger)secondValue thirdValue:(NSArray<SomeType *> *)thirdValue helloObj:(id<HelloProtocol>)helloObj;
+      + (instancetype)firstSubtypeWithFirstValue:(RMProxy *)firstValue secondValue:(NSUInteger)secondValue thirdValue:(NSArray<SomeType *> *)thirdValue helloObj:(id<HelloProtocol>)helloObj NS_SWIFT_NAME(firstSubtype(firstValue:secondValue:thirdValue:helloObj:));
 
       + (instancetype)new NS_UNAVAILABLE;
 
-      + (instancetype)secondSubtypeWithSomething:(BOOL)something;
+      + (instancetype)secondSubtypeWithSomething:(BOOL)something NS_SWIFT_NAME(secondSubtype(something:));
 
       + (instancetype)someRandomSubtype;
 
@@ -251,11 +251,11 @@ Feature: Outputting forward declarations in Algebraic Types
 
       @interface SimpleADT : NSObject <NSCopying>
 
-      + (instancetype)firstSubtypeWithFirstValue:(RMProxy *)firstValue secondValue:(MyEnum)secondValue;
+      + (instancetype)firstSubtypeWithFirstValue:(RMProxy *)firstValue secondValue:(MyEnum)secondValue NS_SWIFT_NAME(firstSubtype(firstValue:secondValue:));
 
       + (instancetype)new NS_UNAVAILABLE;
 
-      + (instancetype)secondSubtypeWithSomething:(BOOL)something;
+      + (instancetype)secondSubtypeWithSomething:(BOOL)something NS_SWIFT_NAME(secondSubtype(something:));
 
       + (instancetype)someRandomSubtype;
 

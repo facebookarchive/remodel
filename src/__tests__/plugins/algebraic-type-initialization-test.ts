@@ -420,7 +420,9 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
               'return object;',
             ],
             comments: [],
-            compilerAttributes: [],
+            compilerAttributes: [
+              'NS_SWIFT_NAME(someSubtype(someString:someUnsignedInteger:))',
+            ],
             keywords: [
               {
                 name: 'someSubtypeWithSomeString',

@@ -149,6 +149,7 @@ export interface Function {
   isPublic: boolean;
   isInline: boolean;
   compilerAttributes: string[];
+  trailingMacros?: string[];
 }
 
 export interface Macro {
@@ -162,6 +163,7 @@ export interface BlockTypeParameter {
   name: string;
   type: Type;
   nullability: Nullability;
+  trailingMacros?: string[];
 }
 
 export interface BlockType {
@@ -580,6 +582,7 @@ export interface StructMember {
   name: string;
   type: Type;
   nullability: Nullability;
+  trailingMacros?: string[];
 }
 
 export interface Struct {

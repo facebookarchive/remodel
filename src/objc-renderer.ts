@@ -527,6 +527,9 @@ function toBlockTypeDeclaration(blockType: ObjC.BlockType): string {
     blockType.parameters.length > 0
       ? blockType.parameters.map(toBlockTypeParameterString).join(', ')
       : 'void';
+  const trailingMacros = blockType.parameters.flatMap(
+    param => param.trailingMacros,
+  );
 
   return (
     blockTypeCommentsSection +
@@ -536,7 +539,9 @@ function toBlockTypeDeclaration(blockType: ObjC.BlockType): string {
     blockType.name +
     ')(' +
     paramList +
-    ');'
+    ')' +
+    trailingMacros.join('') +
+    ';'
   );
 }
 
@@ -688,6 +693,7 @@ function toStructMemberContent(structMember: ObjC.StructMember): string[] {
     renderableTypeReferenceNestingSubsequentToken(structMember.type.reference) +
       nullabilityModifier +
       structMember.name +
+      (structMember.trailingMacros?.join('') || '') +
       ';',
   ]);
 }
@@ -696,7 +702,6 @@ function toObjcStructContents(struct: ObjC.Struct): string {
   const comments = struct.comments.map(toCommentString).join('\n');
   const structDeclaration = 'typedef struct ' + struct.name + ' {' + '\n';
   const endStructDeclaration = '} ' + struct.name + ';';
-
   return (
     codeSectionForCodeStringWithoutExtraSpace(comments) +
     structDeclaration +
@@ -808,7 +813,7 @@ function visibilityAttributeForVisibility(visibility: ObjC.ClassVisibility) {
   }
 }
 
-function headerClassSection(file: Code.File, classInfo: ObjC.Class): string {
+function headerClassSection(classInfo: ObjC.Class): string {
   const macros = classMacros(classInfo);
 
   const prefixClassMacrosSection: string = codeSectionForCodeString(
@@ -909,7 +914,7 @@ function toDeclarationString(forwardDeclaration: ObjC.ForwardDeclaration) {
   );
 }
 
-function protocolSection(file: Code.File, protocol: ObjC.Protocol) {
+function protocolSection(protocol: ObjC.Protocol) {
   const nullability = nullabilityMacro(protocol.nullability);
 
   const protocolComments = protocol.comments.map(toCommentString).join('\n');
@@ -997,14 +1002,12 @@ export function renderHeader(file: Code.File): string | null {
   const protocolsSection =
     protocols != null
       ? codeSectionForCodeString(
-          protocols
-            .map(protocol => protocolSection(file, protocol))
-            .join('\n\n'),
+          protocols.map(protocol => protocolSection(protocol)).join('\n\n'),
         )
       : '';
 
   const classSection = codeSectionForCodeString(
-    file.classes.map(cls => headerClassSection(file, cls)).join('\n\n'),
+    file.classes.map(cls => headerClassSection(cls)).join('\n\n'),
   );
 
   const structsStr = file.structs.map(toStructContents).join('\n');
@@ -1155,7 +1158,10 @@ function functionDeclarationForFunction(
     (functionDefinition.parameters.length > 0
       ? functionDefinition.parameters.map(toFunctionParameterString).join(', ')
       : 'void') +
-    ')'
+    ')' +
+    (functionDefinition.trailingMacros
+      ? functionDefinition.trailingMacros.join('')
+      : '')
   );
 }
 

@@ -85,7 +85,11 @@ function isFoundationType(typeName: string): boolean {
   //
   // TODO(natesm) can we just remove this entirely? There are other
   // NS types outside of Foundation that this can break on.
-  return typeName.indexOf('NS') === 0 && typeName != 'NSLayoutAttribute';
+  return (
+    typeName.indexOf('NS') === 0 &&
+    typeName != 'NSLayoutAttribute' &&
+    typeName != 'NSTextAlignment'
+  );
 }
 
 export function isSystemType(typeName: string): boolean {

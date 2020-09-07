@@ -97,7 +97,7 @@ Feature: Outputting forward declarations in Algebraic Types
 
       + (instancetype)firstSubtypeWithFirstValue:(RMProxy *)firstValue secondValue:(NSUInteger)secondValue thirdValue:(NSArray<SomeType *> *)thirdValue helloObj:(id<HelloProtocol>)helloObj
       {
-        SimpleADT *object = [(id)self new];
+        SimpleADT *object = [(Class)self new];
         object->_subtype = SimpleADTSubtypesFirstSubtype;
         object->_firstSubtype_firstValue = firstValue;
         object->_firstSubtype_secondValue = secondValue;
@@ -108,7 +108,7 @@ Feature: Outputting forward declarations in Algebraic Types
 
       + (instancetype)secondSubtypeWithSomething:(BOOL)something
       {
-        SimpleADT *object = [(id)self new];
+        SimpleADT *object = [(Class)self new];
         object->_subtype = SimpleADTSubtypesSecondSubtype;
         object->_secondSubtype_something = something;
         return object;
@@ -116,7 +116,7 @@ Feature: Outputting forward declarations in Algebraic Types
 
       + (instancetype)someRandomSubtype
       {
-        SimpleADT *object = [(id)self new];
+        SimpleADT *object = [(Class)self new];
         object->_subtype = SimpleADTSubtypesSomeRandomSubtype;
         return object;
       }
@@ -295,7 +295,7 @@ Feature: Outputting forward declarations in Algebraic Types
 
       + (instancetype)firstSubtypeWithFirstValue:(RMProxy *)firstValue secondValue:(MyEnum)secondValue
       {
-        SimpleADT *object = [(id)self new];
+        SimpleADT *object = [(Class)self new];
         object->_subtype = SimpleADTSubtypesFirstSubtype;
         object->_firstSubtype_firstValue = firstValue;
         object->_firstSubtype_secondValue = secondValue;
@@ -304,7 +304,7 @@ Feature: Outputting forward declarations in Algebraic Types
 
       + (instancetype)secondSubtypeWithSomething:(BOOL)something
       {
-        SimpleADT *object = [(id)self new];
+        SimpleADT *object = [(Class)self new];
         object->_subtype = SimpleADTSubtypesSecondSubtype;
         object->_secondSubtype_something = something;
         return object;
@@ -312,7 +312,7 @@ Feature: Outputting forward declarations in Algebraic Types
 
       + (instancetype)someRandomSubtype
       {
-        SimpleADT *object = [(id)self new];
+        SimpleADT *object = [(Class)self new];
         object->_subtype = SimpleADTSubtypesSomeRandomSubtype;
         return object;
       }

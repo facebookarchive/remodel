@@ -312,7 +312,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
             preprocessors: [],
             belongsToProtocol: null,
             code: [
-              'Foo *object = [(id)self new];',
+              'Foo *object = [(Class)self new];',
               'object->_subtype = FooSubtypesSomeSubtype;',
               'return object;',
             ],
@@ -413,7 +413,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
             preprocessors: [],
             belongsToProtocol: null,
             code: [
-              'Test *object = [(id)self new];',
+              'Test *object = [(Class)self new];',
               'object->_subtype = TestSubtypesSomeSubtype;',
               'object->_someSubtype_someString = someString;',
               'object->_someSubtype_someUnsignedInteger = someUnsignedInteger;',
@@ -459,7 +459,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
             preprocessors: [],
             belongsToProtocol: null,
             code: [
-              'Test *object = [(id)self new];',
+              'Test *object = [(Class)self new];',
               'object->_subtype = TestSubtypesSingleAttributeSubtype;',
               'object->_singleAttributeSubtype = singleAttributeSubtype;',
               'return object;',

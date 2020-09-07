@@ -190,7 +190,7 @@ Feature: Outputting Objects With Generic Types
 
       + (instancetype)firstSubtypeWithNamesToAges:(NSDictionary<NSString *, NSNumber *> *)namesToAges namesToInventory:(NSDictionary<NSString *, NSArray<NSNumber *> *> *)namesToInventory
       {
-        SimpleADT *object = [(id)self new];
+        SimpleADT *object = [(Class)self new];
         object->_subtype = SimpleADTSubtypesFirstSubtype;
         object->_firstSubtype_namesToAges = namesToAges;
         object->_firstSubtype_namesToInventory = namesToInventory;
@@ -199,7 +199,7 @@ Feature: Outputting Objects With Generic Types
 
       + (instancetype)namesToAgesSingleAttribute:(NSDictionary<NSString *, NSString *> *)namesToAgesSingleAttribute
       {
-        SimpleADT *object = [(id)self new];
+        SimpleADT *object = [(Class)self new];
         object->_subtype = SimpleADTSubtypesNamesToAgesSingleAttribute;
         object->_namesToAgesSingleAttribute = namesToAgesSingleAttribute;
         return object;
@@ -207,7 +207,7 @@ Feature: Outputting Objects With Generic Types
 
       + (instancetype)namesToInventorySingleAttribute:(NSDictionary<NSString *, NSArray<NSNumber *> *> *)namesToInventorySingleAttribute
       {
-        SimpleADT *object = [(id)self new];
+        SimpleADT *object = [(Class)self new];
         object->_subtype = SimpleADTSubtypesNamesToInventorySingleAttribute;
         object->_namesToInventorySingleAttribute = namesToInventorySingleAttribute;
         return object;

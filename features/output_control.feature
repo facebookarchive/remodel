@@ -227,14 +227,14 @@ Feature: Controlling exactly what is output when generating files.
 
       + (instancetype)optionOne
       {
-        RMValueTypeSingleFile *object = [(id)self new];
+        RMValueTypeSingleFile *object = [(Class)self new];
         object->_subtype = RMValueTypeSingleFileSubtypesOptionOne;
         return object;
       }
 
       + (instancetype)optionTwo
       {
-        RMValueTypeSingleFile *object = [(id)self new];
+        RMValueTypeSingleFile *object = [(Class)self new];
         object->_subtype = RMValueTypeSingleFileSubtypesOptionTwo;
         return object;
       }
@@ -513,14 +513,14 @@ Feature: Controlling exactly what is output when generating files.
 
       + (instancetype)optionOne
       {
-        RMValueTypeSingleFile *object = [(id)self new];
+        RMValueTypeSingleFile *object = [(Class)self new];
         object->_subtype = RMValueTypeSingleFileSubtypesOptionOne;
         return object;
       }
 
       + (instancetype)optionTwo
       {
-        RMValueTypeSingleFile *object = [(id)self new];
+        RMValueTypeSingleFile *object = [(Class)self new];
         object->_subtype = RMValueTypeSingleFileSubtypesOptionTwo;
         return object;
       }

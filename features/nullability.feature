@@ -206,7 +206,7 @@ Feature: Outputting Objects With Nullability Annotations
       + (instancetype)firstSubtypeWithFirstValue:(nonnull NSString *)firstValue secondValue:(NSUInteger)secondValue
       {
         RMParameterAssert(firstValue != nil);
-        SimpleADT *object = [(id)self new];
+        SimpleADT *object = [(Class)self new];
         object->_subtype = SimpleADTSubtypesFirstSubtype;
         object->_firstSubtype_firstValue = firstValue;
         object->_firstSubtype_secondValue = secondValue;
@@ -215,7 +215,7 @@ Feature: Outputting Objects With Nullability Annotations
 
       + (instancetype)secondSubtypeWithSomething:(BOOL)something
       {
-        SimpleADT *object = [(id)self new];
+        SimpleADT *object = [(Class)self new];
         object->_subtype = SimpleADTSubtypesSecondSubtype;
         object->_secondSubtype_something = something;
         return object;
@@ -223,7 +223,7 @@ Feature: Outputting Objects With Nullability Annotations
 
       + (instancetype)someAttributeSubtype:(nullable NSNumber *)someAttributeSubtype
       {
-        SimpleADT *object = [(id)self new];
+        SimpleADT *object = [(Class)self new];
         object->_subtype = SimpleADTSubtypesSomeAttributeSubtype;
         object->_someAttributeSubtype = someAttributeSubtype;
         return object;
@@ -231,7 +231,7 @@ Feature: Outputting Objects With Nullability Annotations
 
       + (instancetype)someRandomSubtype
       {
-        SimpleADT *object = [(id)self new];
+        SimpleADT *object = [(Class)self new];
         object->_subtype = SimpleADTSubtypesSomeRandomSubtype;
         return object;
       }

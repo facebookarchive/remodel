@@ -119,7 +119,7 @@ Feature: Outputting Algebraic Types
 
       + (instancetype)firstSubtypeWithFirstValue:(NSString *)firstValue secondValue:(NSUInteger)secondValue
       {
-        SimpleADT *object = [(id)self new];
+        SimpleADT *object = [(Class)self new];
         object->_subtype = SimpleADTSubtypesFirstSubtype;
         object->_firstSubtype_firstValue = firstValue;
         object->_firstSubtype_secondValue = secondValue;
@@ -128,7 +128,7 @@ Feature: Outputting Algebraic Types
 
       + (instancetype)secondSubtypeWithSomething:(BOOL)something
       {
-        SimpleADT *object = [(id)self new];
+        SimpleADT *object = [(Class)self new];
         object->_subtype = SimpleADTSubtypesSecondSubtype;
         object->_secondSubtype_something = something;
         return object;
@@ -136,7 +136,7 @@ Feature: Outputting Algebraic Types
 
       + (instancetype)someAttributeSubtype:(NSUInteger)someAttributeSubtype
       {
-        SimpleADT *object = [(id)self new];
+        SimpleADT *object = [(Class)self new];
         object->_subtype = SimpleADTSubtypesSomeAttributeSubtype;
         object->_someAttributeSubtype = someAttributeSubtype;
         return object;
@@ -144,7 +144,7 @@ Feature: Outputting Algebraic Types
 
       + (instancetype)someRandomSubtype
       {
-        SimpleADT *object = [(id)self new];
+        SimpleADT *object = [(Class)self new];
         object->_subtype = SimpleADTSubtypesSomeRandomSubtype;
         return object;
       }
@@ -324,7 +324,7 @@ Feature: Outputting Algebraic Types
 
       + (instancetype)firstSubtypeWithFirstValue:(NSString *)firstValue secondValue:(NSUInteger)secondValue
       {
-        SimpleADT *object = [(id)self new];
+        SimpleADT *object = [(Class)self new];
         object->_subtype = SimpleADTSubtypesFirstSubtype;
         object->_firstSubtype_firstValue = firstValue;
         object->_firstSubtype_secondValue = secondValue;
@@ -333,7 +333,7 @@ Feature: Outputting Algebraic Types
 
       + (instancetype)secondSubtypeWithSomething:(BOOL)something
       {
-        SimpleADT *object = [(id)self new];
+        SimpleADT *object = [(Class)self new];
         object->_subtype = SimpleADTSubtypesSecondSubtype;
         object->_secondSubtype_something = something;
         return object;
@@ -497,7 +497,7 @@ Feature: Outputting Algebraic Types
 
       + (instancetype)firstSubtypeWithFirstValue:(Foo *)firstValue secondValue:(NSUInteger)secondValue
       {
-        SimpleADT *object = [(id)self new];
+        SimpleADT *object = [(Class)self new];
         object->_subtype = SimpleADTSubtypesFirstSubtype;
         object->_firstSubtype_firstValue = firstValue;
         object->_firstSubtype_secondValue = secondValue;
@@ -506,7 +506,7 @@ Feature: Outputting Algebraic Types
 
       + (instancetype)secondSubtypeWithSomething:(BOOL)something
       {
-        SimpleADT *object = [(id)self new];
+        SimpleADT *object = [(Class)self new];
         object->_subtype = SimpleADTSubtypesSecondSubtype;
         object->_secondSubtype_something = something;
         return object;
@@ -514,7 +514,7 @@ Feature: Outputting Algebraic Types
 
       + (instancetype)someRandomSubtype
       {
-        SimpleADT *object = [(id)self new];
+        SimpleADT *object = [(Class)self new];
         object->_subtype = SimpleADTSubtypesSomeRandomSubtype;
         return object;
       }

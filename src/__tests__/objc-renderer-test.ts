@@ -51,7 +51,7 @@ describe('ObjCRenderer', function() {
               {
                 preprocessors: [],
                 belongsToProtocol: null,
-                code: ['return [(id)self new];'],
+                code: ['return [(Class)self new];'],
                 comments: [],
                 compilerAttributes: [],
                 keywords: [
@@ -308,7 +308,7 @@ describe('ObjCRenderer', function() {
               {
                 preprocessors: [],
                 belongsToProtocol: null,
-                code: ['return [(id)self new];'],
+                code: ['return [(Class)self new];'],
                 comments: [],
                 compilerAttributes: [],
                 keywords: [
@@ -547,7 +547,7 @@ describe('ObjCRenderer', function() {
                 {
                   preprocessors: [],
                   belongsToProtocol: null,
-                  code: ['return [(id)self new];'],
+                  code: ['return [(Class)self new];'],
                   comments: [],
                   compilerAttributes: [],
                   keywords: [
@@ -2649,7 +2649,7 @@ describe('ObjCRenderer', function() {
               {
                 preprocessors: [],
                 belongsToProtocol: null,
-                code: ['return [(id)self new];'],
+                code: ['return [(Class)self new];'],
                 comments: [],
                 compilerAttributes: [],
                 keywords: [
@@ -2850,7 +2850,7 @@ describe('ObjCRenderer', function() {
         '\n' +
         '+ (instancetype)someClassMethodWithValue1:(RMSomething *)value1 value2:(RMSomething *)value2\n' +
         '{\n' +
-        '  return [(id)self new];\n' +
+        '  return [(Class)self new];\n' +
         '}\n' +
         '\n' +
         '- (instancetype)initWithValue1:(RMSomething *)value1 value2:(RMSomething *)value2\n' +
@@ -3083,7 +3083,7 @@ describe('ObjCRenderer', function() {
                   },
                 ],
                 belongsToProtocol: null,
-                code: ['return [(id)self new];'],
+                code: ['return [(Class)self new];'],
                 comments: [],
                 compilerAttributes: [],
                 keywords: [
@@ -3290,7 +3290,7 @@ describe('ObjCRenderer', function() {
         '#if DEBUG\n' +
         '+ (instancetype)someClassMethodWithValue1:(RMSomething *)value1 value2:(RMSomething *)value2\n' +
         '{\n' +
-        '  return [(id)self new];\n' +
+        '  return [(Class)self new];\n' +
         '}\n' +
         '#endif\n' +
         '\n' +

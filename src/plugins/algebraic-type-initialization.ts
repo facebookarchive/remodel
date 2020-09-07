@@ -195,7 +195,7 @@ function initializationClassMethodForSubtype(
     algebraicType.name +
       ' *' +
       nameOfObjectWithinInitializer() +
-      ' = [(id)self new];',
+      ' = [(Class)self new];',
     nameOfObjectWithinInitializer() +
       '->' +
       AlgebraicTypeUtils.valueAccessorForInstanceVariableStoringSubtype() +

@@ -203,7 +203,7 @@ Feature: Outputting Value Objects / Algebraic Types decorated with NS_ASSUME_NON
 
       + (instancetype)bar
       {
-        RMFoo *object = [(id)self new];
+        RMFoo *object = [(Class)self new];
         object->_subtype = RMFooSubtypesBar;
         return object;
       }
@@ -211,7 +211,7 @@ Feature: Outputting Value Objects / Algebraic Types decorated with NS_ASSUME_NON
       + (instancetype)bazWithAString:(NSString *)aString bString:(nullable NSString *)bString
       {
         RMParameterAssert(aString != nil);
-        RMFoo *object = [(id)self new];
+        RMFoo *object = [(Class)self new];
         object->_subtype = RMFooSubtypesBaz;
         object->_baz_aString = aString;
         object->_baz_bString = bString;

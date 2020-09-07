@@ -72,14 +72,14 @@ Feature: Outputting expected Algebraic Type matching methods
 
       + (instancetype)subtypeA
       {
-        SimpleADT *object = [(id)self new];
+        SimpleADT *object = [(Class)self new];
         object->_subtype = SimpleADTSubtypesSubtypeA;
         return object;
       }
 
       + (instancetype)subtypeB
       {
-        SimpleADT *object = [(id)self new];
+        SimpleADT *object = [(Class)self new];
         object->_subtype = SimpleADTSubtypesSubtypeB;
         return object;
       }
@@ -225,14 +225,14 @@ Feature: Outputting expected Algebraic Type matching methods
 
       + (instancetype)subtypeA
       {
-        SimpleADT *object = [(id)self new];
+        SimpleADT *object = [(Class)self new];
         object->_subtype = SimpleADTSubtypesSubtypeA;
         return object;
       }
 
       + (instancetype)subtypeB
       {
-        SimpleADT *object = [(id)self new];
+        SimpleADT *object = [(Class)self new];
         object->_subtype = SimpleADTSubtypesSubtypeB;
         return object;
       }
@@ -378,14 +378,14 @@ Feature: Outputting expected Algebraic Type matching methods
 
       + (instancetype)subtypeA
       {
-        SimpleADT *object = [(id)self new];
+        SimpleADT *object = [(Class)self new];
         object->_subtype = SimpleADTSubtypesSubtypeA;
         return object;
       }
 
       + (instancetype)subtypeB
       {
-        SimpleADT *object = [(id)self new];
+        SimpleADT *object = [(Class)self new];
         object->_subtype = SimpleADTSubtypesSubtypeB;
         return object;
       }

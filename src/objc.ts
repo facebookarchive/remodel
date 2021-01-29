@@ -13,6 +13,7 @@ export interface Type {
 enum ForwardDeclarationType {
   class,
   protocol,
+  struct,
 }
 
 export class ForwardDeclaration {
@@ -32,15 +33,22 @@ export class ForwardDeclaration {
     return new ForwardDeclaration(ForwardDeclarationType.protocol, name);
   }
 
+  static ForwardStructDeclaration(name: string) {
+    return new ForwardDeclaration(ForwardDeclarationType.struct, name);
+  }
+
   match<T>(
     classDeclaration: (name: string) => T,
     protocolDeclaration: (name: string) => T,
+    structDeclaration: (name: string) => T,
   ) {
     switch (this.declarationType) {
       case ForwardDeclarationType.class:
         return classDeclaration(this.name);
       case ForwardDeclarationType.protocol:
         return protocolDeclaration(this.name);
+      case ForwardDeclarationType.struct:
+        return structDeclaration(this.name);
     }
   }
 }

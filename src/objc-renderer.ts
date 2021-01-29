@@ -911,6 +911,9 @@ function toDeclarationString(forwardDeclaration: ObjC.ForwardDeclaration) {
     function(protocolDeclarationName: string): string {
       return '@protocol ' + protocolDeclarationName + ';';
     },
+    function(structTypeName: string): string {
+      return `typedef struct _${structTypeName} *${structTypeName}Ref;`;
+    },
   );
 }
 

@@ -144,7 +144,7 @@ Likewise, Remodel does not support attributes with protocol types  at this time 
 AddressBookContact {
   NSUInteger identifier
   NSString *name
-  id<NSCopying> *myInfo // This will cause a generation time failure since Remodel does not support protocol types for attributes
+  id<NSCopying> myInfo // This will cause a generation time failure since Remodel does not support protocol types for attributes
 }
 ```
 

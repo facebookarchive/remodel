@@ -1083,10 +1083,13 @@ function codeForBranchingOnSubtypeWithSubtypeMapper(
   const failureCase: string[] = [
     'else {',
     StringUtils.indent(2)(
-      '[[NSException exceptionWithName:@"InvalidSubtypeException" reason:[NSString stringWithFormat:@"Invalid subtype provided: %@", ' +
+      '[aDecoder failWithError:[NSError errorWithDomain:NSCocoaErrorDomain code:NSCoderReadCorruptError ' +
+        'userInfo:@{NSDebugDescriptionErrorKey:[NSString stringWithFormat:@"*** [%@ %@]: Invalid subtype provided: %@", ' +
+        '[self class], NSStringFromSelector(_cmd), ' +
         codeableAttributeForSubtypePropertyOfAlgebraicType().valueAccessor +
-        '] userInfo:nil] raise];',
+        ']}]];',
     ),
+    StringUtils.indent(2)('return nil;'),
     '}',
   ];
   return subtypeBranches.concat(failureCase);

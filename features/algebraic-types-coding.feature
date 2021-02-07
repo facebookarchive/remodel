@@ -114,7 +114,8 @@ Feature: Outputting Algebraic Types
             _subtype = SimpleADTSubtypesSecondSubtype;
           }
           else {
-            [[NSException exceptionWithName:@"InvalidSubtypeException" reason:[NSString stringWithFormat:@"Invalid subtype provided: %@", codedSubtype] userInfo:nil] raise];
+            [aDecoder failWithError:[NSError errorWithDomain:NSCocoaErrorDomain code:NSCoderReadCorruptError userInfo:@{NSDebugDescriptionErrorKey:[NSString stringWithFormat:@"*** [%@ %@]: Invalid subtype provided: %@", [self class], NSStringFromSelector(_cmd), codedSubtype]}]];
+            return nil;
           }
         }
         return self;

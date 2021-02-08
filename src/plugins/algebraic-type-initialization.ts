@@ -149,9 +149,11 @@ function swiftNameForSubtype(subtype: AlgebraicType.Subtype): string | null {
   return subtype.match(
     collection => {
       if (collection.attributes.length > 0) {
-        const name = StringUtils.lowercased(collection.name);
+        const name = StringUtils.swiftCaseForString(collection.name);
         const keywords = collection.attributes
-          .map(attribute => `${attribute.name}:`)
+          .map(
+            attribute => `${StringUtils.swiftCaseForString(attribute.name)}:`,
+          )
           .join('');
 
         return `NS_SWIFT_NAME(${name}(${keywords}))`;

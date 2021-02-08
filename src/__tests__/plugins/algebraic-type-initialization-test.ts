@@ -491,6 +491,109 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
         expect(classMethods).toEqualJSON(expectedClassMethods);
       },
     );
+
+    it('converts swift acronyms properly to lowercase', function() {
+      const algebraicType: AlgebraicType.Type = {
+        annotations: {},
+        name: 'Test',
+        includes: [],
+        excludes: [],
+        typeLookups: [],
+        libraryName: null,
+        comments: [],
+        subtypes: [
+          AlgebraicType.Subtype.NamedAttributeCollectionDefinition({
+            name: 'URLSubtype',
+            comments: [],
+            attributes: [
+              {
+                annotations: {},
+                name: 'URL',
+                comments: [],
+                nullability: ObjC.Nullability.Inherited(),
+                type: {
+                  name: 'NSURL',
+                  reference: 'NSURL *',
+                  libraryTypeIsDefinedIn: null,
+                  fileTypeIsDefinedIn: null,
+                  underlyingType: 'NSObject',
+                  conformingProtocol: null,
+                  referencedGenericTypes: [],
+                },
+              },
+              {
+                annotations: {},
+                name: 'URLProp',
+                comments: [],
+                nullability: ObjC.Nullability.Inherited(),
+                type: {
+                  name: 'NSURL',
+                  reference: 'NSURL *',
+                  libraryTypeIsDefinedIn: null,
+                  fileTypeIsDefinedIn: null,
+                  underlyingType: 'NSObject',
+                  conformingProtocol: null,
+                  referencedGenericTypes: [],
+                },
+              },
+              {
+                annotations: {},
+                name: 'someURL',
+                comments: [],
+                nullability: ObjC.Nullability.Inherited(),
+                type: {
+                  name: 'NSURL',
+                  reference: 'NSURL *',
+                  libraryTypeIsDefinedIn: null,
+                  fileTypeIsDefinedIn: null,
+                  underlyingType: 'NSObject',
+                  conformingProtocol: null,
+                  referencedGenericTypes: [],
+                },
+              },
+              {
+                annotations: {},
+                name: 'string',
+                comments: [],
+                nullability: ObjC.Nullability.Inherited(),
+                type: {
+                  name: 'NSString',
+                  reference: 'NSString *',
+                  libraryTypeIsDefinedIn: null,
+                  fileTypeIsDefinedIn: null,
+                  underlyingType: 'NSObject',
+                  conformingProtocol: null,
+                  referencedGenericTypes: [],
+                },
+              },
+              {
+                annotations: {},
+                name: 'someString',
+                comments: [],
+                nullability: ObjC.Nullability.Inherited(),
+                type: {
+                  name: 'NSString',
+                  reference: 'NSString *',
+                  libraryTypeIsDefinedIn: null,
+                  fileTypeIsDefinedIn: null,
+                  underlyingType: 'NSObject',
+                  conformingProtocol: null,
+                  referencedGenericTypes: [],
+                },
+              },
+            ],
+            annotations: {},
+          }),
+        ],
+      };
+
+      const classMethods: ObjC.Method[] = AlgebraicTypePlugin.classMethods(
+        algebraicType,
+      );
+      expect(classMethods[0].compilerAttributes[0]).toEqual(
+        'NS_SWIFT_NAME(urlSubtype(url:urlProp:someURL:string:someString:))',
+      );
+    });
   });
 
   describe('#instanceVariables', function() {

@@ -73,3 +73,24 @@ export function stringRemovingCapitalizedPrefix(
     prefixIncludingFirstCharacter.length - 1,
   );
 }
+
+export function swiftCaseForString(s: string): string {
+  const firstLowercaseCharacterIndex = firstLowercaseCharacterIndexInString(s);
+  if (firstLowercaseCharacterIndex === -1) {
+    return s.toLowerCase();
+  } else if (firstLowercaseCharacterIndex > 0) {
+    const e = Math.max(1, firstLowercaseCharacterIndex - 1);
+    return `${s.substring(0, e).toLowerCase()}${s.substring(e)}`;
+  }
+  return s;
+}
+
+function firstLowercaseCharacterIndexInString(s: string): number {
+  for (let i = 0; i < s.length; i++) {
+    const c = s.charAt(i);
+    if (c.toLowerCase() === c) {
+      return i;
+    }
+  }
+  return -1;
+}

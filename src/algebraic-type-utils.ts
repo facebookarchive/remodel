@@ -350,7 +350,8 @@ function swiftNameForAlgebraicTypeMatcher(
 ): string {
   const keywords = algebraicType.subtypes
     .map(
-      subtype => StringUtils.lowercased(subtypeNameFromSubtype(subtype)) + ':',
+      subtype =>
+        StringUtils.swiftCaseForString(subtypeNameFromSubtype(subtype)) + ':',
     )
     .join('');
 

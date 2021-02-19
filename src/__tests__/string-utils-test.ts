@@ -104,4 +104,26 @@ describe('StringUtils', function() {
       expect(strippedString).toEqualJSON(expectedStrippedString);
     });
   });
+
+  describe('#swiftCaseForString', function() {
+    it('lowercases leading capitalizations', function() {
+      const value: string = StringUtils.swiftCaseForString('StandardSubtype');
+      expect(value).toEqual('standardSubtype');
+    });
+
+    it('lowercases leading acronyms', function() {
+      const value: string = StringUtils.swiftCaseForString('XYZSubtype');
+      expect(value).toEqual('xyzSubtype');
+    });
+
+    it('does not lowercase middle acronyms', function() {
+      const value: string = StringUtils.swiftCaseForString('SubtypeXYZSubtype');
+      expect(value).toEqual('subtypeXYZSubtype');
+    });
+
+    it('does not lowercase trailing acronyms', function() {
+      const value: string = StringUtils.swiftCaseForString('SubtypeXYZ');
+      expect(value).toEqual('subtypeXYZ');
+    });
+  });
 });

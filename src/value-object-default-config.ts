@@ -26,6 +26,7 @@ export const VALUE_OBJECT_DEFAULT_CONFIG = {
     'copying',
     'copying-type-safety',
     'description',
+    'description-attribute-error',
     'equality',
     'fetch-status',
     'immutable-ivars',

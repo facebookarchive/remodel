@@ -259,6 +259,7 @@ describe('ObjectSpecCreation', function() {
                 enumerations: [],
                 blockTypes: [],
                 staticConstants: [],
+                globalVariables: [],
                 diagnosticIgnores: [],
                 forwardDeclarations: [],
                 functions: [],

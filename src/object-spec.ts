@@ -63,6 +63,7 @@ export interface Plugin {
   protocols?: (objectType: Type) => ObjC.Protocol[];
   requiredIncludesToRun: string[];
   staticConstants: (objectType: Type) => ObjC.Constant[];
+  globalVariables?: (objectType: Type) => ObjC.GlobalVariable[];
   validationErrors: (objectType: Type) => Error.Error[];
   nullability: (objectType: Type) => ObjC.ClassNullability | null;
   subclassingRestricted: (objectType: Type) => boolean;

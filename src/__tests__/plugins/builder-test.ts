@@ -64,6 +64,7 @@ describe('Plugins.Builder', function() {
             enumerations: [],
             blockTypes: [],
             staticConstants: [],
+            globalVariables: [],
             diagnosticIgnores: [],
             functions: [],
             forwardDeclarations: [
@@ -210,6 +211,7 @@ describe('Plugins.Builder', function() {
             enumerations: [],
             blockTypes: [],
             staticConstants: [],
+            globalVariables: [],
             diagnosticIgnores: [],
             functions: [],
             forwardDeclarations: [
@@ -408,6 +410,7 @@ describe('Plugins.Builder', function() {
             enumerations: [],
             blockTypes: [],
             staticConstants: [],
+            globalVariables: [],
             diagnosticIgnores: [],
             forwardDeclarations: [
               ObjC.ForwardDeclaration.ForwardClassDeclaration('RMFerr'),
@@ -732,6 +735,7 @@ describe('Plugins.Builder', function() {
             enumerations: [],
             blockTypes: [],
             staticConstants: [],
+            globalVariables: [],
             diagnosticIgnores: [],
             forwardDeclarations: [
               ObjC.ForwardDeclaration.ForwardClassDeclaration('RMFerr'),

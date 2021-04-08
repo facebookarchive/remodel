@@ -1075,6 +1075,14 @@ function toStaticConstantString(constant: ObjC.Constant): string {
   );
 }
 
+function toglobalVariablestring(global: ObjC.GlobalVariable): string {
+  const constantComments = global.comments.map(toCommentString).join('\n');
+  const constantCommentsSection = codeSectionForCodeStringWithoutExtraSpace(
+    constantComments,
+  );
+  return `${constantCommentsSection}${global.type.reference} ${global.name} = ${global.value};`;
+}
+
 function qualifierForFunction(functionDefinition: ObjC.Function): string {
   if (functionDefinition.isInline) {
     return 'static inline';
@@ -1424,6 +1432,9 @@ export function renderImplementation(file: Code.File): string | null {
       .join('\n');
     const staticConstantsSection = codeSectionForCodeString(staticConstantsStr);
 
+    const globalVariablesStr = file.globalVariables.map(toglobalVariablestring).join('\n');
+    const globalVariablesSection = codeSectionForCodeString(globalVariablesStr);
+
     const enumerationsStr = file.enumerations
       .filter(enumerationIsPublic(false))
       .map(toNSEnumDeclaration)
@@ -1472,6 +1483,7 @@ export function renderImplementation(file: Code.File): string | null {
       diagnosticIgnoresSection +
       prefixMacrosSection +
       staticConstantsSection +
+      globalVariablesSection +
       enumerationsSection +
       blocksSection +
       macrosSection +

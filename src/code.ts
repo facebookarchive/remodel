@@ -63,6 +63,7 @@ export interface File {
   enumerations: ObjC.Enumeration[];
   blockTypes: ObjC.BlockType[];
   staticConstants: ObjC.Constant[];
+  globalVariables: ObjC.GlobalVariable[];
   macros: ObjC.Macro[];
   functions: ObjC.Function[];
   classes: ObjC.Class[];

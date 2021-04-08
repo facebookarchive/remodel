@@ -260,6 +260,7 @@ function matchingFileForAlgebraicType(
       algebraicType,
     ),
     staticConstants: [],
+    globalVariables: [],
     functions: [],
     classes: [],
     diagnosticIgnores: [],

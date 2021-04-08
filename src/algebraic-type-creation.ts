@@ -124,6 +124,10 @@ function createAlgebraicTypeObjCPlugIn(
       return plugin.staticConstants(typeInformation);
     },
 
+    globalVariables: function(typeInformation: AlgebraicType.Type): ObjC.GlobalVariable[] {
+      return plugin.globalVariables ? plugin.globalVariables(typeInformation) : [];
+    },
+
     validationErrors: function(
       typeInformation: AlgebraicType.Type,
     ): Error.Error[] {

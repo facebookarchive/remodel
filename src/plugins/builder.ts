@@ -479,6 +479,7 @@ function builderFileForValueType(
     enumerations: [],
     blockTypes: [],
     staticConstants: [],
+    globalVariables: [],
     functions: [],
     classes: classesForBuilder(objectType),
     diagnosticIgnores: [],

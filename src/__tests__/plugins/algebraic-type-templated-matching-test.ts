@@ -127,6 +127,7 @@ describe('Plugins.AlgebraicTypeTemplatedMatching', function() {
         blockTypes: [],
         comments: [],
         staticConstants: [],
+        globalVariables: [],
         forwardDeclarations: [],
         functions: [],
         diagnosticIgnores: [],

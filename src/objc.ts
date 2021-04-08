@@ -302,6 +302,13 @@ export interface Constant {
   value: string;
 }
 
+export interface GlobalVariable {
+  comments: Comment[];
+  name: string;
+  type: Type;
+  value: string;
+}
+
 enum PropertyModifierType {
   assign,
   atomic,

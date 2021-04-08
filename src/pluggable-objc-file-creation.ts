@@ -40,6 +40,7 @@ export interface ObjCGenerationPlugIn<T> {
   properties: (typeInformation: T) => ObjC.Property[];
   protocols: (typeInformation: T) => ObjC.Protocol[];
   staticConstants: (typeInformation: T) => ObjC.Constant[];
+  globalVariables: (typeInformation: T) => ObjC.GlobalVariable[];
   validationErrors: (typeInformation: T) => Error.Error[];
   nullability: (typeInformation: T) => ObjC.ClassNullability | null;
   subclassingRestricted: (typeInformation: T) => boolean;
@@ -83,6 +84,14 @@ function buildStaticConstants<T>(
   plugin: ObjCGenerationPlugIn<T>,
 ): ObjC.Constant[] {
   return soFar.concat(plugin.staticConstants(typeInformation));
+}
+
+function buildglobalVariables<T>(
+  typeInformation: T,
+  soFar: ObjC.GlobalVariable[],
+  plugin: ObjCGenerationPlugIn<T>,
+): ObjC.GlobalVariable[] {
+  return soFar.concat(plugin.globalVariables(typeInformation));
 }
 
 function buildStructs<T>(
@@ -530,6 +539,12 @@ function classFileCreationFunctionWithBaseClassAndPlugins<T>(
         plugins,
       );
 
+      const globalVariables = List.foldl<ObjCGenerationPlugIn<T>, ObjC.GlobalVariable[]>(
+        (soFar, plugin) => buildglobalVariables(typeInformation, soFar, plugin),
+        [],
+        plugins,
+      );
+
       const macros = List.foldl<ObjCGenerationPlugIn<T>, ObjC.Macro[]>(
         (soFar, plugin) => buildMacros(typeInformation, soFar, plugin),
         [],
@@ -568,6 +583,7 @@ function classFileCreationFunctionWithBaseClassAndPlugins<T>(
           List.toArray(diagnosticIgnores),
         );
         newFile.staticConstants = file.staticConstants.concat(staticConstants);
+        newFile.globalVariables = file.globalVariables.concat(globalVariables);
         newFile.functions = file.functions.concat(finalFunctions);
         newFile.macros = file.macros.concat(macros);
         newFile.classes = file.classes.concat(classes);
@@ -592,6 +608,7 @@ function classFileCreationFunctionWithBaseClassAndPlugins<T>(
           blockTypes: blockTypes,
           diagnosticIgnores: List.toArray(diagnosticIgnores),
           staticConstants: staticConstants,
+          globalVariables: globalVariables,
           functions: finalFunctions,
           nullability: classes.length > 0 ? undefined : nullability,
           macros: macros,

@@ -243,6 +243,7 @@ function genericMatchingFileForAlgebraicType(
     enumerations: [],
     blockTypes: [],
     staticConstants: [],
+    globalVariables: [],
     functions: [],
     classes: [genericMatchingClassForAlgebraicType(algebraicType)],
     diagnosticIgnores: [],

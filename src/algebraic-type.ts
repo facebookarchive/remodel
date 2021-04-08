@@ -123,6 +123,7 @@ export interface Plugin {
   macros: (algebraicType: Type) => ObjC.Macro[];
   requiredIncludesToRun: string[];
   staticConstants: (algebraicType: Type) => ObjC.Constant[];
+  globalVariables?: (algebraicType: Type) => ObjC.GlobalVariable[];
   validationErrors: (algebraicType: Type) => Error.Error[];
   nullability: (algebraicType: Type) => ObjC.ClassNullability | null;
   subclassingRestricted: (algebraicType: Type) => boolean;

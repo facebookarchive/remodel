@@ -1432,7 +1432,9 @@ export function renderImplementation(file: Code.File): string | null {
       .join('\n');
     const staticConstantsSection = codeSectionForCodeString(staticConstantsStr);
 
-    const globalVariablesStr = file.globalVariables.map(toglobalVariablestring).join('\n');
+    const globalVariablesStr = file.globalVariables
+      .map(toglobalVariablestring)
+      .join('\n');
     const globalVariablesSection = codeSectionForCodeString(globalVariablesStr);
 
     const enumerationsStr = file.enumerations

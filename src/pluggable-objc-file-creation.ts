@@ -539,7 +539,10 @@ function classFileCreationFunctionWithBaseClassAndPlugins<T>(
         plugins,
       );
 
-      const globalVariables = List.foldl<ObjCGenerationPlugIn<T>, ObjC.GlobalVariable[]>(
+      const globalVariables = List.foldl<
+        ObjCGenerationPlugIn<T>,
+        ObjC.GlobalVariable[]
+      >(
         (soFar, plugin) => buildglobalVariables(typeInformation, soFar, plugin),
         [],
         plugins,

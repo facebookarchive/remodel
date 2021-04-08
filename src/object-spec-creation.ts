@@ -112,8 +112,12 @@ function createObjectSpecObjCPlugIn(
       return plugin.staticConstants(typeInformation);
     },
 
-    globalVariables: function(typeInformation: ObjectSpec.Type): ObjC.GlobalVariable[] {
-      return plugin.globalVariables ? plugin.globalVariables(typeInformation) : [];
+    globalVariables: function(
+      typeInformation: ObjectSpec.Type,
+    ): ObjC.GlobalVariable[] {
+      return plugin.globalVariables
+        ? plugin.globalVariables(typeInformation)
+        : [];
     },
 
     validationErrors: function(

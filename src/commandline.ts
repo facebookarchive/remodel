@@ -37,6 +37,7 @@ const HEADERS_ONLY: string = 'headers-only';
 const IMPL_ONLY: string = 'implementations-only';
 const EMIT: string = 'emit';
 const SINGLE_FILE: string = 'output-single-file';
+const ONE_CPU: string = 'one-cpu';
 
 const ADT_CONFIG_PATH: string = 'adt-config-path';
 const VALUE_OBJECT_CONFIG_PATH: string = 'value-object-config-path';
@@ -130,6 +131,7 @@ export function parseArgs(args: string[]): Arguments | null {
       HEADERS_ONLY,
       IMPL_ONLY,
       SINGLE_FILE,
+      ONE_CPU,
     ],
     string: [
       ADT_CONFIG_PATH,

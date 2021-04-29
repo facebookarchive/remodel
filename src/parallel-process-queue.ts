@@ -12,7 +12,7 @@ import * as os from 'os';
 import * as ParallelProcess from './parallel-process';
 import {Map} from 'immutable';
 
-const CPUS = os.cpus();
+const NUM_CPUS = process.argv.indexOf('--one-cpu') != -1 ? 1 : os.cpus().length;
 
 var pidToWorkersMap = Map<number, child_process.ChildProcess>();
 var requestIdToSequenceSource = Map<
@@ -44,7 +44,7 @@ class CircularArray<T> {
 }
 
 const allItems: number[] = [];
-for (var i = 0; i < CPUS.length; i++) {
+for (var i = 0; i < NUM_CPUS; i++) {
   const loc = __dirname + '/parallel-process-worker.js';
   const process: child_process.ChildProcess = child_process.fork(loc);
   pidToWorkersMap = pidToWorkersMap.set(process.pid, process);

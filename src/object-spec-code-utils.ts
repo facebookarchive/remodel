@@ -49,6 +49,32 @@ function invocationPartOfConstructorInvocationForAttributes(
   }
 }
 
+export function shouldUseObjectBehavior(objectSpec: ObjectSpec.Type): boolean {
+  return objectSpec.includes.indexOf('LSObjectBehavior') != -1;
+}
+
+export function typeForSpec(valueType: ObjectSpec.Type): ObjC.Type {
+  return {
+    name: valueType.typeName,
+    reference: valueType.typeName + ' *',
+  };
+}
+
+export function isAttributeMutable(
+  objectSpec: ObjectSpec.Type,
+  attribute: ObjectSpec.Attribute,
+): boolean {
+  return (
+    shouldUseObjectBehavior(objectSpec) && 'ls-mutable' in attribute.annotations
+  );
+}
+
+export function isTypeMutable(objectSpec: ObjectSpec.Type): boolean {
+  return objectSpec.attributes.some(attr =>
+    isAttributeMutable(objectSpec, attr),
+  );
+}
+
 export function methodInvocationForConstructor(
   objectType: ObjectSpec.Type,
   valueGenerator: (attribute: ObjectSpec.Attribute) => string,

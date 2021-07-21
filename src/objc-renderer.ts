@@ -417,10 +417,17 @@ function toFunctionHeaderString(functionDefinition: ObjC.Function): string {
     functionHeaderComments,
   );
 
+  const ifdefOpening = functionDefinition.wrappedInIfdef
+    ? `#ifdef ${functionDefinition.wrappedInIfdef}\n`
+    : '';
+  const ifdefClosing = functionDefinition.wrappedInIfdef ? `\n#endif` : '';
+
   return (
+    ifdefOpening +
     functionHeaderCommentsSection +
     functionDeclarationForFunction(functionDefinition) +
-    ';'
+    ';' +
+    ifdefClosing
   );
 }
 
@@ -1199,14 +1206,20 @@ export function toMacroImplementationString(
 export function toFunctionImplementationString(
   functionDefinition: ObjC.Function,
 ): string {
+  const ifdefOpening = functionDefinition.wrappedInIfdef
+    ? `#ifdef ${functionDefinition.wrappedInIfdef}\n`
+    : '';
+  const ifdefClosing = functionDefinition.wrappedInIfdef ? `\n#endif` : '';
   return (
+    ifdefOpening +
     declarationCommentsForFunctionImplementation(functionDefinition) +
     functionDeclarationForFunction(functionDefinition) +
     ' {\n' +
     functionDefinition.code
       .map(line => indentFunctionCode(StringUtils.indent(2), line))
       .join('\n') +
-    '\n}'
+    '\n}' +
+    ifdefClosing
   );
 }
 

@@ -158,6 +158,7 @@ export interface Function {
   isInline: boolean;
   compilerAttributes: string[];
   trailingMacros?: string[];
+  wrappedInIfdef?: string;
 }
 
 export interface Macro {

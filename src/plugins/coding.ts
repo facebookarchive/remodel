@@ -53,6 +53,28 @@ function codingKeysFromAnnotations(
   );
 }
 
+function getKeyValue(
+  annotations: ObjectGeneration.AnnotationMap,
+  annotation: string,
+  key: string,
+): string | null {
+  const jsonCodingAnnotation = annotations[annotation];
+  if (jsonCodingAnnotation) {
+    const propertiesDict = jsonCodingAnnotation[0];
+    if (propertiesDict) {
+      const property = propertiesDict['properties'];
+      if (property) {
+        const value = property[key];
+        if (value) {
+          return value;
+        }
+      }
+    }
+  }
+
+  return null;
+}
+
 function legacyCodingKeyNameForAnnotation(
   legacyKeyAnnotation: ObjectGeneration.Annotation,
 ): string {
@@ -870,6 +892,7 @@ function decodedStatementForSubtypeProperty(
 function decodeCodeForAlgebraicType(
   algebraicType: AlgebraicType.Type,
   secureCoding: boolean,
+  fallbackDecodingFunction: string | null,
 ): string[] {
   const codeableAttributeForSubtypeProperty: CodeableAttribute = codeableAttributeForSubtypePropertyOfAlgebraicType();
   const switchStatement: string[] = codeForBranchingOnSubtypeWithSubtypeMapper(
@@ -877,6 +900,7 @@ function decodeCodeForAlgebraicType(
     codeableAttributeForSubtypeProperty.valueAccessor,
     (algebraicType, subtype) =>
       decodeStatementsForAlgebraicSubtype(algebraicType, subtype, secureCoding),
+    fallbackDecodingFunction,
   );
   return [
     decodeStatementForSubtype(
@@ -1068,6 +1092,7 @@ function codeForBranchingOnSubtypeWithSubtypeMapper(
     algebraicType: AlgebraicType.Type,
     subtype: AlgebraicType.Subtype,
   ) => string[],
+  fallbackDecodingFunction: string | null,
 ): string[] {
   const subtypeBranches: string[] = algebraicType.subtypes.reduce(
     (soFar, subtype) =>
@@ -1080,19 +1105,32 @@ function codeForBranchingOnSubtypeWithSubtypeMapper(
       ),
     [],
   );
-  const failureCase: string[] = [
-    'else {',
-    StringUtils.indent(2)(
-      '[aDecoder failWithError:[NSError errorWithDomain:NSCocoaErrorDomain code:NSCoderReadCorruptError ' +
-        'userInfo:@{NSDebugDescriptionErrorKey:[NSString stringWithFormat:@"*** [%@ %@]: Invalid subtype provided: %@", ' +
-        '[self class], NSStringFromSelector(_cmd), ' +
-        codeableAttributeForSubtypePropertyOfAlgebraicType().valueAccessor +
-        ']}]];',
-    ),
-    StringUtils.indent(2)('return nil;'),
-    '}',
-  ];
-  return subtypeBranches.concat(failureCase);
+
+  if (fallbackDecodingFunction != null) {
+    const fallbackDecodingFunctionInvocation: string[] = [
+      'else {',
+      StringUtils.indent(2)(
+        'return ' + fallbackDecodingFunction + '(aDecoder);',
+      ),
+      '}',
+    ];
+    return subtypeBranches.concat(fallbackDecodingFunctionInvocation);
+  } else {
+    const failureCase: string[] = [
+      'else {',
+      StringUtils.indent(2)(
+        '[aDecoder failWithError:[NSError errorWithDomain:NSCocoaErrorDomain code:NSCoderReadCorruptError ' +
+          'userInfo:@{NSDebugDescriptionErrorKey:[NSString stringWithFormat:@"*** [%@ %@]: Invalid subtype provided: %@", ' +
+          '[self class], NSStringFromSelector(_cmd), ' +
+          codeableAttributeForSubtypePropertyOfAlgebraicType().valueAccessor +
+          ']}]];',
+      ),
+      StringUtils.indent(2)('return nil;'),
+      '}',
+    ];
+
+    return subtypeBranches.concat(failureCase);
+  }
 }
 
 export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
@@ -1162,7 +1200,25 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
       }
     },
     imports: function(algebraicType: AlgebraicType.Type): ObjC.Import[] {
-      return [];
+      const file = getKeyValue(
+        algebraicType.annotations,
+        'fallbackDecoding',
+        'file',
+      );
+      return file == null
+        ? []
+        : [
+            {
+              file: `${file}.h`,
+              library: getKeyValue(
+                algebraicType.annotations,
+                'fallbackDecoding',
+                'library',
+              ),
+              requiresCPlusPlus: false,
+              isPublic: false,
+            },
+          ];
     },
     instanceMethods: function(
       algebraicType: AlgebraicType.Type,
@@ -1172,6 +1228,7 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
       const decodeCode: string[] = decodeCodeForAlgebraicType(
         algebraicType,
         secureCoding,
+        getKeyValue(algebraicType.annotations, 'fallbackDecoding', 'name'),
       );
       const encodeCode: string[] = encodeCodeForAlgebraicType(algebraicType);
       return [

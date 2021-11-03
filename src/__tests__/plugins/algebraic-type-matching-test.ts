@@ -90,10 +90,11 @@ function algebraicTestTypeWithTwoSubtypes(): AlgebraicType.Type {
   };
 }
 
-describe('Plugins.AlgebraicTypeVoidMatching', function() {
-  describe('#blockTypes', function() {
-    it('returns block types for matching an algebraic type', function() {
-      const algebraicType: AlgebraicType.Type = algebraicTestTypeWithTwoSubtypes();
+describe('Plugins.AlgebraicTypeVoidMatching', function () {
+  describe('#blockTypes', function () {
+    it('returns block types for matching an algebraic type', function () {
+      const algebraicType: AlgebraicType.Type =
+        algebraicTestTypeWithTwoSubtypes();
       const blockTypes: ObjC.BlockType[] = VoidPlugin.blockTypes(algebraicType);
 
       const expectedBlockTypes: ObjC.BlockType[] = [
@@ -145,12 +146,12 @@ describe('Plugins.AlgebraicTypeVoidMatching', function() {
     });
   });
 
-  describe('#instanceMethods', function() {
-    it('returns an instance method for matching the subtypes of an algebraic type', function() {
-      const algebraicType: AlgebraicType.Type = algebraicTestTypeWithTwoSubtypes();
-      const instanceMethods: ObjC.Method[] = VoidPlugin.instanceMethods(
-        algebraicType,
-      );
+  describe('#instanceMethods', function () {
+    it('returns an instance method for matching the subtypes of an algebraic type', function () {
+      const algebraicType: AlgebraicType.Type =
+        algebraicTestTypeWithTwoSubtypes();
+      const instanceMethods: ObjC.Method[] =
+        VoidPlugin.instanceMethods(algebraicType);
 
       const expectedInstanceMethod: ObjC.Method = {
         preprocessors: [],
@@ -213,10 +214,11 @@ describe('Plugins.AlgebraicTypeVoidMatching', function() {
   });
 });
 
-describe('Plugins.AlgebraicTypeBoolMatching', function() {
-  describe('#blockTypes', function() {
-    it('returns block types for bool matching an algebraic type', function() {
-      const algebraicType: AlgebraicType.Type = algebraicTestTypeWithTwoSubtypes();
+describe('Plugins.AlgebraicTypeBoolMatching', function () {
+  describe('#blockTypes', function () {
+    it('returns block types for bool matching an algebraic type', function () {
+      const algebraicType: AlgebraicType.Type =
+        algebraicTestTypeWithTwoSubtypes();
       const blockTypes: ObjC.BlockType[] = BoolPlugin.blockTypes(algebraicType);
 
       const expectedBlockTypes: ObjC.BlockType[] = [
@@ -280,12 +282,12 @@ describe('Plugins.AlgebraicTypeBoolMatching', function() {
     });
   });
 
-  describe('#instanceMethods', function() {
-    it('returns an instance method for bool matching the subtypes of an algebraic type', function() {
-      const algebraicType: AlgebraicType.Type = algebraicTestTypeWithTwoSubtypes();
-      const instanceMethods: ObjC.Method[] = BoolPlugin.instanceMethods(
-        algebraicType,
-      );
+  describe('#instanceMethods', function () {
+    it('returns an instance method for bool matching the subtypes of an algebraic type', function () {
+      const algebraicType: AlgebraicType.Type =
+        algebraicTestTypeWithTwoSubtypes();
+      const instanceMethods: ObjC.Method[] =
+        BoolPlugin.instanceMethods(algebraicType);
 
       const expectedInstanceMethod: ObjC.Method = {
         preprocessors: [],
@@ -356,13 +358,13 @@ describe('Plugins.AlgebraicTypeBoolMatching', function() {
   });
 });
 
-describe('Plugins.AlgebraicTypeIntegerMatching', function() {
-  describe('#blockTypes', function() {
-    it('returns block types for integer matching an algebraic type', function() {
-      const algebraicType: AlgebraicType.Type = algebraicTestTypeWithTwoSubtypes();
-      const blockTypes: ObjC.BlockType[] = IntegerPlugin.blockTypes(
-        algebraicType,
-      );
+describe('Plugins.AlgebraicTypeIntegerMatching', function () {
+  describe('#blockTypes', function () {
+    it('returns block types for integer matching an algebraic type', function () {
+      const algebraicType: AlgebraicType.Type =
+        algebraicTestTypeWithTwoSubtypes();
+      const blockTypes: ObjC.BlockType[] =
+        IntegerPlugin.blockTypes(algebraicType);
 
       const expectedBlockTypes: ObjC.BlockType[] = [
         {
@@ -425,12 +427,12 @@ describe('Plugins.AlgebraicTypeIntegerMatching', function() {
     });
   });
 
-  describe('#instanceMethods', function() {
-    it('returns an instance method for integer matching the subtypes of an algebraic type', function() {
-      const algebraicType: AlgebraicType.Type = algebraicTestTypeWithTwoSubtypes();
-      const instanceMethods: ObjC.Method[] = IntegerPlugin.instanceMethods(
-        algebraicType,
-      );
+  describe('#instanceMethods', function () {
+    it('returns an instance method for integer matching the subtypes of an algebraic type', function () {
+      const algebraicType: AlgebraicType.Type =
+        algebraicTestTypeWithTwoSubtypes();
+      const instanceMethods: ObjC.Method[] =
+        IntegerPlugin.instanceMethods(algebraicType);
 
       const expectedInstanceMethod: ObjC.Method = {
         preprocessors: [],
@@ -501,13 +503,13 @@ describe('Plugins.AlgebraicTypeIntegerMatching', function() {
   });
 });
 
-describe('Plugins.AlgebraicTypeDoubleMatching', function() {
-  describe('#blockTypes', function() {
-    it('returns block types for double matching an algebraic type', function() {
-      const algebraicType: AlgebraicType.Type = algebraicTestTypeWithTwoSubtypes();
-      const blockTypes: ObjC.BlockType[] = DoublePlugin.blockTypes(
-        algebraicType,
-      );
+describe('Plugins.AlgebraicTypeDoubleMatching', function () {
+  describe('#blockTypes', function () {
+    it('returns block types for double matching an algebraic type', function () {
+      const algebraicType: AlgebraicType.Type =
+        algebraicTestTypeWithTwoSubtypes();
+      const blockTypes: ObjC.BlockType[] =
+        DoublePlugin.blockTypes(algebraicType);
 
       const expectedBlockTypes: ObjC.BlockType[] = [
         {
@@ -570,12 +572,12 @@ describe('Plugins.AlgebraicTypeDoubleMatching', function() {
     });
   });
 
-  describe('#instanceMethods', function() {
-    it('returns an instance method for double matching the subtypes of an algebraic type', function() {
-      const algebraicType: AlgebraicType.Type = algebraicTestTypeWithTwoSubtypes();
-      const instanceMethods: ObjC.Method[] = DoublePlugin.instanceMethods(
-        algebraicType,
-      );
+  describe('#instanceMethods', function () {
+    it('returns an instance method for double matching the subtypes of an algebraic type', function () {
+      const algebraicType: AlgebraicType.Type =
+        algebraicTestTypeWithTwoSubtypes();
+      const instanceMethods: ObjC.Method[] =
+        DoublePlugin.instanceMethods(algebraicType);
 
       const expectedInstanceMethod: ObjC.Method = {
         preprocessors: [],
@@ -646,22 +648,24 @@ describe('Plugins.AlgebraicTypeDoubleMatching', function() {
   });
 });
 
-describe('Plugins.AlgebraicTypeGenericMatching', function() {
-  describe('#newFile', function() {
-    it('returns a new matching file for algebraic type', function() {
-      const algebraicType: AlgebraicType.Type = algebraicTestTypeWithTwoSubtypes();
-      const actualFilename = GenericPlugin.additionalFiles(algebraicType)[0]
-        .name;
+describe('Plugins.AlgebraicTypeGenericMatching', function () {
+  describe('#newFile', function () {
+    it('returns a new matching file for algebraic type', function () {
+      const algebraicType: AlgebraicType.Type =
+        algebraicTestTypeWithTwoSubtypes();
+      const actualFilename =
+        GenericPlugin.additionalFiles(algebraicType)[0].name;
       expect(actualFilename).toEqual('TestMatcher');
     });
   });
 
-  describe('#blockTypes', function() {
-    it('returns block types in additional file for generic matching an algebraic type', function() {
-      const algebraicType: AlgebraicType.Type = algebraicTestTypeWithTwoSubtypes();
-      const blockTypes: ObjC.BlockType[] = GenericPlugin.additionalFiles(
-        algebraicType,
-      )[0].classes[0].inlineBlockTypedefs;
+  describe('#blockTypes', function () {
+    it('returns block types in additional file for generic matching an algebraic type', function () {
+      const algebraicType: AlgebraicType.Type =
+        algebraicTestTypeWithTwoSubtypes();
+      const blockTypes: ObjC.BlockType[] =
+        GenericPlugin.additionalFiles(algebraicType)[0].classes[0]
+          .inlineBlockTypedefs;
 
       const expectedBlockTypes: ObjC.BlockType[] = [
         {
@@ -724,14 +728,14 @@ describe('Plugins.AlgebraicTypeGenericMatching', function() {
     });
   });
 
-  describe('#classMethods', function() {
-    it('returns a class method for generic algebraic type matching', function() {
-      const algebraicType: AlgebraicType.Type = algebraicTestTypeWithTwoSubtypes();
-      const instanceMethods: ObjC.Method[] = GenericPlugin.instanceMethods(
-        algebraicType,
-      );
-      const classMethods = GenericPlugin.additionalFiles(algebraicType)[0]
-        .classes[0].classMethods;
+  describe('#classMethods', function () {
+    it('returns a class method for generic algebraic type matching', function () {
+      const algebraicType: AlgebraicType.Type =
+        algebraicTestTypeWithTwoSubtypes();
+      const instanceMethods: ObjC.Method[] =
+        GenericPlugin.instanceMethods(algebraicType);
+      const classMethods =
+        GenericPlugin.additionalFiles(algebraicType)[0].classes[0].classMethods;
 
       const expectedClassMethod: ObjC.Method = {
         preprocessors: [],

@@ -41,7 +41,7 @@ function findFilesSequence(
 > {
   var lastTime = new Date();
   return ParallelProcessQueue.findFiles(directoryToScan, fileExtension).map(
-    function(path: File.AbsoluteFilePath) {
+    function (path: File.AbsoluteFilePath) {
       const thisTime = new Date();
       const loggedValue = performanceLog(
         'findFilesSequence',
@@ -60,11 +60,11 @@ function readFileForFoundObjectSpec(
 ): Promise.Future<
   Logging.Context<Either.Either<Error.Error[], UnparsedObjectCreationRequest>>
 > {
-  return FileReader.read(path).map(function(
+  return FileReader.read(path).map(function (
     either: Either.Either<Error.Error[], File.Contents>,
   ) {
     return Logging.munit(
-      Either.map(function(contents: File.Contents) {
+      Either.map(function (contents: File.Contents) {
         return {path: path, fileContents: contents};
       }, either),
     );

@@ -45,44 +45,44 @@ function copyInstanceMethod(): ObjC.Method {
 
 export function createPlugin(): ObjectSpec.Plugin {
   return {
-    additionalFiles: function(objectType: ObjectSpec.Type): Code.File[] {
+    additionalFiles: function (objectType: ObjectSpec.Type): Code.File[] {
       return [];
     },
-    transformBaseFile: function(
+    transformBaseFile: function (
       objectType: ObjectSpec.Type,
       baseFile: Code.File,
     ): Code.File {
       return baseFile;
     },
-    additionalTypes: function(objectType: ObjectSpec.Type): ObjectSpec.Type[] {
+    additionalTypes: function (objectType: ObjectSpec.Type): ObjectSpec.Type[] {
       return [];
     },
-    attributes: function(objectType: ObjectSpec.Type): ObjectSpec.Attribute[] {
+    attributes: function (objectType: ObjectSpec.Type): ObjectSpec.Attribute[] {
       return [];
     },
-    classMethods: function(objectType: ObjectSpec.Type): ObjC.Method[] {
+    classMethods: function (objectType: ObjectSpec.Type): ObjC.Method[] {
       return [];
     },
-    transformFileRequest: function(
+    transformFileRequest: function (
       request: FileWriter.Request,
     ): FileWriter.Request {
       return request;
     },
-    fileType: function(objectType: ObjectSpec.Type): Code.FileType | null {
+    fileType: function (objectType: ObjectSpec.Type): Code.FileType | null {
       return null;
     },
-    forwardDeclarations: function(
+    forwardDeclarations: function (
       objectType: ObjectSpec.Type,
     ): ObjC.ForwardDeclaration[] {
       return [];
     },
-    functions: function(objectType: ObjectSpec.Type): ObjC.Function[] {
+    functions: function (objectType: ObjectSpec.Type): ObjC.Function[] {
       return [];
     },
-    headerComments: function(objectType: ObjectSpec.Type): ObjC.Comment[] {
+    headerComments: function (objectType: ObjectSpec.Type): ObjC.Comment[] {
       return [];
     },
-    implementedProtocols: function(
+    implementedProtocols: function (
       objectType: ObjectSpec.Type,
     ): ObjC.ImplementedProtocol[] {
       return [
@@ -91,31 +91,31 @@ export function createPlugin(): ObjectSpec.Plugin {
         },
       ];
     },
-    imports: function(objectType: ObjectSpec.Type): ObjC.Import[] {
+    imports: function (objectType: ObjectSpec.Type): ObjC.Import[] {
       return [];
     },
-    instanceMethods: function(objectType: ObjectSpec.Type): ObjC.Method[] {
+    instanceMethods: function (objectType: ObjectSpec.Type): ObjC.Method[] {
       return [copyInstanceMethod()];
     },
-    macros: function(valueType: ObjectSpec.Type): ObjC.Macro[] {
+    macros: function (valueType: ObjectSpec.Type): ObjC.Macro[] {
       return [];
     },
-    properties: function(objectType: ObjectSpec.Type): ObjC.Property[] {
+    properties: function (objectType: ObjectSpec.Type): ObjC.Property[] {
       return [];
     },
     requiredIncludesToRun: ['RMCopying'],
-    staticConstants: function(objectType: ObjectSpec.Type): ObjC.Constant[] {
+    staticConstants: function (objectType: ObjectSpec.Type): ObjC.Constant[] {
       return [];
     },
-    validationErrors: function(objectType: ObjectSpec.Type): Error.Error[] {
+    validationErrors: function (objectType: ObjectSpec.Type): Error.Error[] {
       return [];
     },
-    nullability: function(
+    nullability: function (
       objectType: ObjectSpec.Type,
     ): ObjC.ClassNullability | null {
       return null;
     },
-    subclassingRestricted: function(objectType: ObjectSpec.Type): boolean {
+    subclassingRestricted: function (objectType: ObjectSpec.Type): boolean {
       return false;
     },
   };
@@ -123,50 +123,50 @@ export function createPlugin(): ObjectSpec.Plugin {
 
 export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
   return {
-    additionalFiles: function(algebraicType: AlgebraicType.Type): Code.File[] {
+    additionalFiles: function (algebraicType: AlgebraicType.Type): Code.File[] {
       return [];
     },
-    transformBaseFile: function(
+    transformBaseFile: function (
       algebraicType: AlgebraicType.Type,
       baseFile: Code.File,
     ): Code.File {
       return baseFile;
     },
-    blockTypes: function(algebraicType: AlgebraicType.Type): ObjC.BlockType[] {
+    blockTypes: function (algebraicType: AlgebraicType.Type): ObjC.BlockType[] {
       return [];
     },
-    classMethods: function(algebraicType: AlgebraicType.Type): ObjC.Method[] {
+    classMethods: function (algebraicType: AlgebraicType.Type): ObjC.Method[] {
       return [];
     },
-    enumerations: function(
+    enumerations: function (
       algebraicType: AlgebraicType.Type,
     ): ObjC.Enumeration[] {
       return [];
     },
-    transformFileRequest: function(
+    transformFileRequest: function (
       request: FileWriter.Request,
     ): FileWriter.Request {
       return request;
     },
-    fileType: function(
+    fileType: function (
       algebraicType: AlgebraicType.Type,
     ): Code.FileType | null {
       return null;
     },
-    forwardDeclarations: function(
+    forwardDeclarations: function (
       algebraicType: AlgebraicType.Type,
     ): ObjC.ForwardDeclaration[] {
       return [];
     },
-    functions: function(algebraicType: AlgebraicType.Type): ObjC.Function[] {
+    functions: function (algebraicType: AlgebraicType.Type): ObjC.Function[] {
       return [];
     },
-    headerComments: function(
+    headerComments: function (
       algebraicType: AlgebraicType.Type,
     ): ObjC.Comment[] {
       return [];
     },
-    implementedProtocols: function(
+    implementedProtocols: function (
       algebraicType: AlgebraicType.Type,
     ): ObjC.ImplementedProtocol[] {
       return [
@@ -175,39 +175,39 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
         },
       ];
     },
-    imports: function(algebraicType: AlgebraicType.Type): ObjC.Import[] {
+    imports: function (algebraicType: AlgebraicType.Type): ObjC.Import[] {
       return [];
     },
-    instanceMethods: function(
+    instanceMethods: function (
       algebraicType: AlgebraicType.Type,
     ): ObjC.Method[] {
       return [copyInstanceMethod()];
     },
-    instanceVariables: function(
+    instanceVariables: function (
       algebraicType: AlgebraicType.Type,
     ): ObjC.InstanceVariable[] {
       return [];
     },
-    macros: function(algebraicType: AlgebraicType.Type): ObjC.Macro[] {
+    macros: function (algebraicType: AlgebraicType.Type): ObjC.Macro[] {
       return [];
     },
     requiredIncludesToRun: ['RMCopying'],
-    staticConstants: function(
+    staticConstants: function (
       algebraicType: AlgebraicType.Type,
     ): ObjC.Constant[] {
       return [];
     },
-    validationErrors: function(
+    validationErrors: function (
       algebraicType: AlgebraicType.Type,
     ): Error.Error[] {
       return [];
     },
-    nullability: function(
+    nullability: function (
       algebraicType: AlgebraicType.Type,
     ): ObjC.ClassNullability | null {
       return null;
     },
-    subclassingRestricted: function(
+    subclassingRestricted: function (
       algebraicType: AlgebraicType.Type,
     ): boolean {
       return false;

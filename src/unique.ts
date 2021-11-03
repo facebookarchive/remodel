@@ -15,7 +15,7 @@ export interface UniquesReductionTracker<T> {
 
 export function uniqueValuesInList<T>(list: List.List<T>): List.List<T> {
   const tracker: UniquesReductionTracker<T> = List.foldr(
-    function(
+    function (
       currentReductionTracker: UniquesReductionTracker<T>,
       value: T,
     ): UniquesReductionTracker<T> {

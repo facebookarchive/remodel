@@ -35,7 +35,7 @@ export class Source<T> {
 
   finished(): void {
     const allValues = this.sharedState.valuesSoFar;
-    this.sharedState.pendingPromises.forEach(function(
+    this.sharedState.pendingPromises.forEach(function (
       promise: Promise.Promise<T[]>,
     ) {
       promise.setValue(allValues);
@@ -49,7 +49,7 @@ export class Source<T> {
     }
 
     this.sharedState.valuesSoFar.push(val);
-    this.sharedState.thenHandlers.forEach(function(f) {
+    this.sharedState.thenHandlers.forEach(function (f) {
       f(val);
     });
   }
@@ -84,10 +84,10 @@ export function forEach<T>(f: (val: T) => void, seq: Sequence<T>): void {
 
 export function map<T, U>(f: (val: T) => U, seq: Sequence<T>): Sequence<U> {
   const newSource: Source<U> = source<U>();
-  forEach(function(val: T) {
+  forEach(function (val: T) {
     newSource.nextValue(f(val));
   }, seq);
-  Promise.then(function() {
+  Promise.then(function () {
     newSource.finished();
   }, evaluate(seq));
   return newSource.getSequence();
@@ -100,10 +100,10 @@ export function foldl<T, U>(
 ): Promise.Future<U> {
   const promise = Promise.pending<U>();
   var soFar = initialValue;
-  forEach(function(val: T) {
+  forEach(function (val: T) {
     soFar = f(soFar, val);
   }, sequence);
-  Promise.then(function() {
+  Promise.then(function () {
     promise.setValue(soFar);
   }, evaluate(sequence));
   return promise.getFuture();

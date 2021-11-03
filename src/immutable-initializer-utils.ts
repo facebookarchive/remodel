@@ -115,11 +115,13 @@ function initializerCodeFromAttributes(
 ): string[] {
   const requiredParameterAssertions = attributes
     .filter(canAssertExistenceForTypeOfAttribute)
-    .filter(attribute => isRequiredAttribute(assumeNonnull, attribute))
+    .filter((attribute) => isRequiredAttribute(assumeNonnull, attribute))
     .map(toRequiredAssertion);
   const opening = ['if ((self = [super init])) {'];
   const iVarAssignments = attributes
-    .map(attribute => toIvarAssignment(supportsValueSemantics, attribute, copy))
+    .map((attribute) =>
+      toIvarAssignment(supportsValueSemantics, attribute, copy),
+    )
     .map(StringUtils.indent(2));
   const closing = ['}', '', 'return self;'];
   return requiredParameterAssertions

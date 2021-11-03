@@ -19,9 +19,11 @@ const UI_GEOMETRY_IMPORT: ObjC.Import = {
 const NSOBJECT_CODING_STATEMENTS: CodingStatements = {
   codingFunctionImport: null,
   encodeStatement: 'encodeObject',
-  encodeValueStatementGenerator: encodeValueStatementGeneratorForEncodingValueDirectly,
+  encodeValueStatementGenerator:
+    encodeValueStatementGeneratorForEncodingValueDirectly,
   decodeStatementGenerator: decodeObjectStatementGenerator,
-  decodeValueStatementGenerator: decodeValueStatementGeneratorForDecodingValueDirectly,
+  decodeValueStatementGenerator:
+    decodeValueStatementGeneratorForDecodingValueDirectly,
 };
 
 const UNSUPPORTED_TYPE_CODING_STATEMENTS: CodingStatements = {
@@ -53,7 +55,7 @@ function encodeValueStatementGeneratorForEncodingValueDirectly(
 function encodeValueStatementGeneratorForEncodingValueAsString(
   encodingFunction: string,
 ): (valueAccessor: string) => string {
-  return function(valueAccessor: string): string {
+  return function (valueAccessor: string): string {
     return encodingFunction + '(' + valueAccessor + ')';
   };
 }
@@ -67,7 +69,7 @@ function decodeValueStatementGeneratorForDecodingValueDirectly(
 function decodeValueStatementGeneratorForDecodingValueFromString(
   decodingFunction: string,
 ): (decodedValueCode: string) => string {
-  return function(decodedValueCode: string): string {
+  return function (decodedValueCode: string): string {
     return decodingFunction + '(' + decodedValueCode + ')';
   };
 }
@@ -87,7 +89,11 @@ function decodeValueSatementGeneratorForValueStoredAsNSString(
 function insecureDecodeValueStatementGeneratorGenerator(
   decodeStatement: string,
 ): (type: ObjC.Type, key: string, secureCoding: boolean) => string {
-  return function(type: ObjC.Type, key: string, secureCoding: boolean): string {
+  return function (
+    type: ObjC.Type,
+    key: string,
+    secureCoding: boolean,
+  ): string {
     return `[aDecoder ${decodeStatement}:${key}]`;
   };
 }
@@ -107,229 +113,269 @@ function decodeObjectStatementGenerator(
 export function codingStatementsForType(type: ObjC.Type): CodingStatements {
   return ObjCTypeUtils.matchType(
     {
-      id: function() {
+      id: function () {
         return NSOBJECT_CODING_STATEMENTS;
       },
-      NSObject: function() {
+      NSObject: function () {
         return NSOBJECT_CODING_STATEMENTS;
       },
-      BOOL: function() {
+      BOOL: function () {
         return {
           codingFunctionImport: null,
           encodeStatement: 'encodeBool',
-          encodeValueStatementGenerator: encodeValueStatementGeneratorForEncodingValueDirectly,
-          decodeStatementGenerator: insecureDecodeValueStatementGeneratorGenerator(
-            'decodeBoolForKey',
-          ),
-          decodeValueStatementGenerator: decodeValueStatementGeneratorForDecodingValueDirectly,
+          encodeValueStatementGenerator:
+            encodeValueStatementGeneratorForEncodingValueDirectly,
+          decodeStatementGenerator:
+            insecureDecodeValueStatementGeneratorGenerator('decodeBoolForKey'),
+          decodeValueStatementGenerator:
+            decodeValueStatementGeneratorForDecodingValueDirectly,
         };
       },
-      NSInteger: function() {
+      NSInteger: function () {
         return {
           codingFunctionImport: null,
           encodeStatement: 'encodeInteger',
-          encodeValueStatementGenerator: encodeValueStatementGeneratorForEncodingValueDirectly,
-          decodeStatementGenerator: insecureDecodeValueStatementGeneratorGenerator(
-            'decodeIntegerForKey',
-          ),
-          decodeValueStatementGenerator: decodeValueStatementGeneratorForDecodingValueDirectly,
+          encodeValueStatementGenerator:
+            encodeValueStatementGeneratorForEncodingValueDirectly,
+          decodeStatementGenerator:
+            insecureDecodeValueStatementGeneratorGenerator(
+              'decodeIntegerForKey',
+            ),
+          decodeValueStatementGenerator:
+            decodeValueStatementGeneratorForDecodingValueDirectly,
         };
       },
-      NSUInteger: function() {
+      NSUInteger: function () {
         return {
           codingFunctionImport: null,
           encodeStatement: 'encodeInteger',
-          encodeValueStatementGenerator: encodeValueStatementGeneratorForEncodingValueDirectly,
-          decodeStatementGenerator: insecureDecodeValueStatementGeneratorGenerator(
-            'decodeIntegerForKey',
-          ),
-          decodeValueStatementGenerator: decodeValueStatementGeneratorForDecodingValueDirectly,
+          encodeValueStatementGenerator:
+            encodeValueStatementGeneratorForEncodingValueDirectly,
+          decodeStatementGenerator:
+            insecureDecodeValueStatementGeneratorGenerator(
+              'decodeIntegerForKey',
+            ),
+          decodeValueStatementGenerator:
+            decodeValueStatementGeneratorForDecodingValueDirectly,
         };
       },
-      double: function() {
+      double: function () {
         return {
           codingFunctionImport: null,
           encodeStatement: 'encodeDouble',
-          encodeValueStatementGenerator: encodeValueStatementGeneratorForEncodingValueDirectly,
-          decodeStatementGenerator: insecureDecodeValueStatementGeneratorGenerator(
-            'decodeDoubleForKey',
-          ),
-          decodeValueStatementGenerator: decodeValueStatementGeneratorForDecodingValueDirectly,
+          encodeValueStatementGenerator:
+            encodeValueStatementGeneratorForEncodingValueDirectly,
+          decodeStatementGenerator:
+            insecureDecodeValueStatementGeneratorGenerator(
+              'decodeDoubleForKey',
+            ),
+          decodeValueStatementGenerator:
+            decodeValueStatementGeneratorForDecodingValueDirectly,
         };
       },
-      float: function() {
+      float: function () {
         return {
           codingFunctionImport: null,
           encodeStatement: 'encodeFloat',
-          encodeValueStatementGenerator: encodeValueStatementGeneratorForEncodingValueDirectly,
-          decodeStatementGenerator: insecureDecodeValueStatementGeneratorGenerator(
-            'decodeFloatForKey',
-          ),
-          decodeValueStatementGenerator: decodeValueStatementGeneratorForDecodingValueDirectly,
+          encodeValueStatementGenerator:
+            encodeValueStatementGeneratorForEncodingValueDirectly,
+          decodeStatementGenerator:
+            insecureDecodeValueStatementGeneratorGenerator('decodeFloatForKey'),
+          decodeValueStatementGenerator:
+            decodeValueStatementGeneratorForDecodingValueDirectly,
         };
       },
-      CGFloat: function() {
+      CGFloat: function () {
         return {
           codingFunctionImport: null,
           encodeStatement: 'encodeFloat',
-          encodeValueStatementGenerator: encodeValueStatementGeneratorForEncodingValueDirectly,
-          decodeStatementGenerator: insecureDecodeValueStatementGeneratorGenerator(
-            'decodeFloatForKey',
-          ),
-          decodeValueStatementGenerator: decodeValueStatementGeneratorForDecodingValueDirectly,
+          encodeValueStatementGenerator:
+            encodeValueStatementGeneratorForEncodingValueDirectly,
+          decodeStatementGenerator:
+            insecureDecodeValueStatementGeneratorGenerator('decodeFloatForKey'),
+          decodeValueStatementGenerator:
+            decodeValueStatementGeneratorForDecodingValueDirectly,
         };
       },
-      NSTimeInterval: function() {
+      NSTimeInterval: function () {
         return {
           codingFunctionImport: null,
           encodeStatement: 'encodeDouble',
-          encodeValueStatementGenerator: encodeValueStatementGeneratorForEncodingValueDirectly,
-          decodeStatementGenerator: insecureDecodeValueStatementGeneratorGenerator(
-            'decodeDoubleForKey',
-          ),
-          decodeValueStatementGenerator: decodeValueStatementGeneratorForDecodingValueDirectly,
+          encodeValueStatementGenerator:
+            encodeValueStatementGeneratorForEncodingValueDirectly,
+          decodeStatementGenerator:
+            insecureDecodeValueStatementGeneratorGenerator(
+              'decodeDoubleForKey',
+            ),
+          decodeValueStatementGenerator:
+            decodeValueStatementGeneratorForDecodingValueDirectly,
         };
       },
-      uintptr_t: function() {
+      uintptr_t: function () {
         return {
           codingFunctionImport: null,
           encodeStatement: 'encodeInteger',
-          encodeValueStatementGenerator: encodeValueStatementGeneratorForEncodingValueDirectly,
-          decodeStatementGenerator: insecureDecodeValueStatementGeneratorGenerator(
-            'decodeIntegerForKey',
-          ),
-          decodeValueStatementGenerator: decodeValueStatementGeneratorForDecodingValueDirectly,
+          encodeValueStatementGenerator:
+            encodeValueStatementGeneratorForEncodingValueDirectly,
+          decodeStatementGenerator:
+            insecureDecodeValueStatementGeneratorGenerator(
+              'decodeIntegerForKey',
+            ),
+          decodeValueStatementGenerator:
+            decodeValueStatementGeneratorForDecodingValueDirectly,
         };
       },
-      uint32_t: function() {
+      uint32_t: function () {
         return {
           codingFunctionImport: null,
           encodeStatement: 'encodeInt32',
-          encodeValueStatementGenerator: encodeValueStatementGeneratorForEncodingValueDirectly,
-          decodeStatementGenerator: insecureDecodeValueStatementGeneratorGenerator(
-            'decodeInt32ForKey',
-          ),
-          decodeValueStatementGenerator: decodeValueStatementGeneratorForDecodingValueDirectly,
+          encodeValueStatementGenerator:
+            encodeValueStatementGeneratorForEncodingValueDirectly,
+          decodeStatementGenerator:
+            insecureDecodeValueStatementGeneratorGenerator('decodeInt32ForKey'),
+          decodeValueStatementGenerator:
+            decodeValueStatementGeneratorForDecodingValueDirectly,
         };
       },
-      uint64_t: function() {
+      uint64_t: function () {
         return {
           codingFunctionImport: null,
           encodeStatement: 'encodeInt64',
-          encodeValueStatementGenerator: encodeValueStatementGeneratorForEncodingValueDirectly,
-          decodeStatementGenerator: insecureDecodeValueStatementGeneratorGenerator(
-            'decodeInt64ForKey',
-          ),
-          decodeValueStatementGenerator: decodeValueStatementGeneratorForDecodingValueDirectly,
+          encodeValueStatementGenerator:
+            encodeValueStatementGeneratorForEncodingValueDirectly,
+          decodeStatementGenerator:
+            insecureDecodeValueStatementGeneratorGenerator('decodeInt64ForKey'),
+          decodeValueStatementGenerator:
+            decodeValueStatementGeneratorForDecodingValueDirectly,
         };
       },
-      int32_t: function() {
+      int32_t: function () {
         return {
           codingFunctionImport: null,
           encodeStatement: 'encodeInt32',
-          encodeValueStatementGenerator: encodeValueStatementGeneratorForEncodingValueDirectly,
-          decodeStatementGenerator: insecureDecodeValueStatementGeneratorGenerator(
-            'decodeInt32ForKey',
-          ),
-          decodeValueStatementGenerator: decodeValueStatementGeneratorForDecodingValueDirectly,
+          encodeValueStatementGenerator:
+            encodeValueStatementGeneratorForEncodingValueDirectly,
+          decodeStatementGenerator:
+            insecureDecodeValueStatementGeneratorGenerator('decodeInt32ForKey'),
+          decodeValueStatementGenerator:
+            decodeValueStatementGeneratorForDecodingValueDirectly,
         };
       },
-      int64_t: function() {
+      int64_t: function () {
         return {
           codingFunctionImport: null,
           encodeStatement: 'encodeInt64',
-          encodeValueStatementGenerator: encodeValueStatementGeneratorForEncodingValueDirectly,
-          decodeStatementGenerator: insecureDecodeValueStatementGeneratorGenerator(
-            'decodeInt64ForKey',
-          ),
-          decodeValueStatementGenerator: decodeValueStatementGeneratorForDecodingValueDirectly,
+          encodeValueStatementGenerator:
+            encodeValueStatementGeneratorForEncodingValueDirectly,
+          decodeStatementGenerator:
+            insecureDecodeValueStatementGeneratorGenerator('decodeInt64ForKey'),
+          decodeValueStatementGenerator:
+            decodeValueStatementGeneratorForDecodingValueDirectly,
         };
       },
-      SEL: function() {
+      SEL: function () {
         return {
           codingFunctionImport: null,
           encodeStatement: 'encodeObject',
-          encodeValueStatementGenerator: encodeValueStatementGeneratorForEncodingValueAsString(
-            'NSStringFromSelector',
-          ),
-          decodeStatementGenerator: decodeValueSatementGeneratorForValueStoredAsNSString,
-          decodeValueStatementGenerator: decodeValueStatementGeneratorForDecodingValueFromString(
-            'NSSelectorFromString',
-          ),
+          encodeValueStatementGenerator:
+            encodeValueStatementGeneratorForEncodingValueAsString(
+              'NSStringFromSelector',
+            ),
+          decodeStatementGenerator:
+            decodeValueSatementGeneratorForValueStoredAsNSString,
+          decodeValueStatementGenerator:
+            decodeValueStatementGeneratorForDecodingValueFromString(
+              'NSSelectorFromString',
+            ),
         };
       },
-      NSRange: function() {
+      NSRange: function () {
         return {
           codingFunctionImport: null,
           encodeStatement: 'encodeObject',
-          encodeValueStatementGenerator: encodeValueStatementGeneratorForEncodingValueAsString(
-            'NSStringFromRange',
-          ),
-          decodeStatementGenerator: decodeValueSatementGeneratorForValueStoredAsNSString,
-          decodeValueStatementGenerator: decodeValueStatementGeneratorForDecodingValueFromString(
-            'NSRangeFromString',
-          ),
+          encodeValueStatementGenerator:
+            encodeValueStatementGeneratorForEncodingValueAsString(
+              'NSStringFromRange',
+            ),
+          decodeStatementGenerator:
+            decodeValueSatementGeneratorForValueStoredAsNSString,
+          decodeValueStatementGenerator:
+            decodeValueStatementGeneratorForDecodingValueFromString(
+              'NSRangeFromString',
+            ),
         };
       },
-      CGRect: function() {
+      CGRect: function () {
         return {
           codingFunctionImport: UI_GEOMETRY_IMPORT,
           encodeStatement: 'encodeObject',
-          encodeValueStatementGenerator: encodeValueStatementGeneratorForEncodingValueAsString(
-            'NSStringFromCGRect',
-          ),
-          decodeStatementGenerator: decodeValueSatementGeneratorForValueStoredAsNSString,
-          decodeValueStatementGenerator: decodeValueStatementGeneratorForDecodingValueFromString(
-            'CGRectFromString',
-          ),
+          encodeValueStatementGenerator:
+            encodeValueStatementGeneratorForEncodingValueAsString(
+              'NSStringFromCGRect',
+            ),
+          decodeStatementGenerator:
+            decodeValueSatementGeneratorForValueStoredAsNSString,
+          decodeValueStatementGenerator:
+            decodeValueStatementGeneratorForDecodingValueFromString(
+              'CGRectFromString',
+            ),
         };
       },
-      CGPoint: function() {
+      CGPoint: function () {
         return {
           codingFunctionImport: UI_GEOMETRY_IMPORT,
           encodeStatement: 'encodeObject',
-          encodeValueStatementGenerator: encodeValueStatementGeneratorForEncodingValueAsString(
-            'NSStringFromCGPoint',
-          ),
-          decodeStatementGenerator: decodeValueSatementGeneratorForValueStoredAsNSString,
-          decodeValueStatementGenerator: decodeValueStatementGeneratorForDecodingValueFromString(
-            'CGPointFromString',
-          ),
+          encodeValueStatementGenerator:
+            encodeValueStatementGeneratorForEncodingValueAsString(
+              'NSStringFromCGPoint',
+            ),
+          decodeStatementGenerator:
+            decodeValueSatementGeneratorForValueStoredAsNSString,
+          decodeValueStatementGenerator:
+            decodeValueStatementGeneratorForDecodingValueFromString(
+              'CGPointFromString',
+            ),
         };
       },
-      CGSize: function() {
+      CGSize: function () {
         return {
           codingFunctionImport: UI_GEOMETRY_IMPORT,
           encodeStatement: 'encodeObject',
-          encodeValueStatementGenerator: encodeValueStatementGeneratorForEncodingValueAsString(
-            'NSStringFromCGSize',
-          ),
-          decodeStatementGenerator: decodeValueSatementGeneratorForValueStoredAsNSString,
-          decodeValueStatementGenerator: decodeValueStatementGeneratorForDecodingValueFromString(
-            'CGSizeFromString',
-          ),
+          encodeValueStatementGenerator:
+            encodeValueStatementGeneratorForEncodingValueAsString(
+              'NSStringFromCGSize',
+            ),
+          decodeStatementGenerator:
+            decodeValueSatementGeneratorForValueStoredAsNSString,
+          decodeValueStatementGenerator:
+            decodeValueStatementGeneratorForDecodingValueFromString(
+              'CGSizeFromString',
+            ),
         };
       },
-      UIEdgeInsets: function() {
+      UIEdgeInsets: function () {
         return {
           codingFunctionImport: UI_GEOMETRY_IMPORT,
           encodeStatement: 'encodeObject',
-          encodeValueStatementGenerator: encodeValueStatementGeneratorForEncodingValueAsString(
-            'NSStringFromUIEdgeInsets',
-          ),
-          decodeStatementGenerator: decodeValueSatementGeneratorForValueStoredAsNSString,
-          decodeValueStatementGenerator: decodeValueStatementGeneratorForDecodingValueFromString(
-            'UIEdgeInsetsFromString',
-          ),
+          encodeValueStatementGenerator:
+            encodeValueStatementGeneratorForEncodingValueAsString(
+              'NSStringFromUIEdgeInsets',
+            ),
+          decodeStatementGenerator:
+            decodeValueSatementGeneratorForValueStoredAsNSString,
+          decodeValueStatementGenerator:
+            decodeValueStatementGeneratorForDecodingValueFromString(
+              'UIEdgeInsetsFromString',
+            ),
         };
       },
-      Class: function() {
+      Class: function () {
         return UNSUPPORTED_TYPE_CODING_STATEMENTS;
       },
-      dispatch_block_t: function() {
+      dispatch_block_t: function () {
         return UNSUPPORTED_TYPE_CODING_STATEMENTS;
       },
-      unmatchedType: function() {
+      unmatchedType: function () {
         return null!;
       },
     },

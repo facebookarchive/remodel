@@ -29,17 +29,17 @@ export function Empty<T>(): Queue<T> {
 
 export function dequeue<T>(queue: Queue<T>): DequeueResult<T> {
   return queue.forwardList.match(
-    function() {
+    function () {
       const newForwardList = List.reverse(queue.backwardList);
       return newForwardList.match(
-        function() {
+        function () {
           const result: DequeueResult<T> = {
             value: null,
             queue: Empty<T>(),
           };
           return result;
         },
-        function(head: T, tail: List.List<T>) {
+        function (head: T, tail: List.List<T>) {
           const newQueue = new Queue<T>(tail, List.of<T>());
           const result: DequeueResult<T> = {
             value: head,
@@ -49,7 +49,7 @@ export function dequeue<T>(queue: Queue<T>): DequeueResult<T> {
         },
       );
     },
-    function(head: T, tail: List.List<T>) {
+    function (head: T, tail: List.List<T>) {
       const newQueue = new Queue<T>(tail, queue.backwardList);
       const result: DequeueResult<T> = {
         value: head,

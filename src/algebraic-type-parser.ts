@@ -20,9 +20,10 @@ function underlyingTypeForType(
   providedUnderlyingType: string,
   typeReference: string,
 ): string | null {
-  const underlyingType = ObjectGenerationParsingUtils.possiblyUndefinedStringToMaybe(
-    providedUnderlyingType,
-  );
+  const underlyingType =
+    ObjectGenerationParsingUtils.possiblyUndefinedStringToMaybe(
+      providedUnderlyingType,
+    );
   return Maybe.match(
     function Just(type: string) {
       return underlyingType;
@@ -41,20 +42,23 @@ function subtypeAttributeTypeFromParsedAttribtueType(
 ): AlgebraicType.SubtypeAttributeType {
   /* tsline:enable:max-line-length */
   return {
-    fileTypeIsDefinedIn: ObjectGenerationParsingUtils.valueFromImportAnnotationFromAnnotations(
-      annotations,
-      'file',
-    ),
-    libraryTypeIsDefinedIn: ObjectGenerationParsingUtils.valueFromImportAnnotationFromAnnotations(
-      annotations,
-      'library',
-    ),
+    fileTypeIsDefinedIn:
+      ObjectGenerationParsingUtils.valueFromImportAnnotationFromAnnotations(
+        annotations,
+        'file',
+      ),
+    libraryTypeIsDefinedIn:
+      ObjectGenerationParsingUtils.valueFromImportAnnotationFromAnnotations(
+        annotations,
+        'library',
+      ),
     name: type.name,
     reference: type.reference,
     underlyingType: underlyingTypeForType(type.underlyingType, type.reference),
-    conformingProtocol: ObjectGenerationParsingUtils.possiblyUndefinedStringToMaybe(
-      type.conformingProtocol,
-    ),
+    conformingProtocol:
+      ObjectGenerationParsingUtils.possiblyUndefinedStringToMaybe(
+        type.conformingProtocol,
+      ),
     referencedGenericTypes: type.referencedGenericTypes.map(
       referencedGenericTypeFromParsedAttributeType,
     ),
@@ -65,18 +69,20 @@ function subtypeAttributeFromParseResultAttribute(
   attribute: ObjectMonaParser.ParsedAttribute,
 ): AlgebraicType.SubtypeAttribute {
   return {
-    annotations: ObjectGenerationParsingUtils.foundAnnotationFromParsedAnnotations(
-      attribute.annotations,
-    ),
+    annotations:
+      ObjectGenerationParsingUtils.foundAnnotationFromParsedAnnotations(
+        attribute.annotations,
+      ),
     name: attribute.name,
     comments: attribute.comments,
     type: subtypeAttributeTypeFromParsedAttribtueType(
       attribute.type,
       attribute.annotations,
     ),
-    nullability: ObjectGenerationParsingUtils.nullabilityFromParseResultAnnotations(
-      attribute.annotations,
-    ),
+    nullability:
+      ObjectGenerationParsingUtils.nullabilityFromParseResultAnnotations(
+        attribute.annotations,
+      ),
   };
 }
 
@@ -89,9 +95,10 @@ function referencedGenericTypeFromParsedAttributeType(
 ): ObjC.ReferencedGenericType {
   return {
     name: type.name,
-    conformingProtocol: ObjectGenerationParsingUtils.possiblyUndefinedStringToMaybe(
-      type.conformingProtocol,
-    ),
+    conformingProtocol:
+      ObjectGenerationParsingUtils.possiblyUndefinedStringToMaybe(
+        type.conformingProtocol,
+      ),
     referencedGenericTypes: type.referencedGenericTypes.map(
       referencedGenericTypeFromParsedAttributeType,
     ),
@@ -111,9 +118,10 @@ function subtypeFromParsedSubtype(
         attributes: subtype.namedCollectionValue.attributes.map(
           subtypeAttributeFromParseResultAttribute,
         ),
-        annotations: ObjectGenerationParsingUtils.foundAnnotationFromParsedAnnotations(
-          subtype.namedCollectionValue.annotations,
-        ),
+        annotations:
+          ObjectGenerationParsingUtils.foundAnnotationFromParsedAnnotations(
+            subtype.namedCollectionValue.annotations,
+          ),
       });
 }
 
@@ -121,9 +129,10 @@ function algebraicTypeFromParsedType(
   type: ObjectMonaParser.AlgebraicParsedType,
 ): AlgebraicType.Type {
   return {
-    annotations: ObjectGenerationParsingUtils.foundAnnotationFromParsedAnnotations(
-      type.annotations,
-    ),
+    annotations:
+      ObjectGenerationParsingUtils.foundAnnotationFromParsedAnnotations(
+        type.annotations,
+      ),
     comments: type.comments,
     name: type.typeName,
     includes: type.includes,
@@ -132,10 +141,10 @@ function algebraicTypeFromParsedType(
       type.annotations,
     ),
     typeLookups: Either.match(
-      function(errors: Error.Error[]) {
+      function (errors: Error.Error[]) {
         return [];
       },
-      function(typeLookups: ObjectGeneration.TypeLookup[]) {
+      function (typeLookups: ObjectGeneration.TypeLookup[]) {
         return typeLookups;
       },
       ObjectGenerationParsingUtils.typeLookupsFromRawAnnotations(
@@ -149,9 +158,8 @@ function algebraicTypeFromParsedType(
 export function parse(
   input: string,
 ): Either.Either<Error.Error[], AlgebraicType.Type> {
-  const result: ObjectMonaParser.AlgebraicTypeParseResult = ObjectMonaParser.parseAlgebraicType(
-    input,
-  );
+  const result: ObjectMonaParser.AlgebraicTypeParseResult =
+    ObjectMonaParser.parseAlgebraicType(input);
 
   if (result.isValid) {
     const type: AlgebraicType.Type = algebraicTypeFromParsedType(result.type);

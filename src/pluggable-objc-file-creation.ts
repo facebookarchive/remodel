@@ -179,11 +179,11 @@ function buildFileType<T>(
   soFar: Either.Either<Error.Error, Code.FileType | null>,
   plugin: ObjCGenerationPlugIn<T>,
 ): Either.Either<Error.Error, Code.FileType | null> {
-  return Either.mbind(function(maybeExistingType: Code.FileType | null) {
+  return Either.mbind(function (maybeExistingType: Code.FileType | null) {
     return Maybe.match(
-      function(existingType: Code.FileType) {
+      function (existingType: Code.FileType) {
         return Maybe.match(
-          function(newType: Code.FileType) {
+          function (newType: Code.FileType) {
             if (newType === existingType) {
               return Either.Right<Error.Error, Code.FileType | null>(newType);
             }
@@ -191,7 +191,7 @@ function buildFileType<T>(
               Error.Error('conflicting file type requirements'),
             );
           },
-          function() {
+          function () {
             return Either.Right<Error.Error, Code.FileType | null>(
               existingType,
             );
@@ -199,7 +199,7 @@ function buildFileType<T>(
           plugin.fileType(typeInformation),
         );
       },
-      function() {
+      function () {
         return Either.Right<Error.Error, Code.FileType | null>(
           plugin.fileType(typeInformation),
         );
@@ -214,13 +214,13 @@ function buildNullability<T>(
   soFar: Either.Either<Error.Error, ObjC.ClassNullability | null>,
   plugin: ObjCGenerationPlugIn<T>,
 ): Either.Either<Error.Error, ObjC.ClassNullability | null> {
-  return Either.mbind(function(
+  return Either.mbind(function (
     maybeExistingType: ObjC.ClassNullability | null,
   ) {
     return Maybe.match(
-      function(existingType: ObjC.ClassNullability) {
+      function (existingType: ObjC.ClassNullability) {
         return Maybe.match(
-          function(newType: ObjC.ClassNullability) {
+          function (newType: ObjC.ClassNullability) {
             if (newType === existingType) {
               return Either.Right<Error.Error, ObjC.ClassNullability | null>(
                 newType,
@@ -230,7 +230,7 @@ function buildNullability<T>(
               Error.Error('conflicting file type requirements'),
             );
           },
-          function() {
+          function () {
             return Either.Right<Error.Error, ObjC.ClassNullability | null>(
               existingType,
             );
@@ -238,7 +238,7 @@ function buildNullability<T>(
           plugin.nullability(typeInformation),
         );
       },
-      function() {
+      function () {
         return Either.Right<Error.Error, ObjC.ClassNullability | null>(
           plugin.nullability(typeInformation),
         );
@@ -337,7 +337,7 @@ function importListWithBaseImportAppended(
   pluginImports: ObjC.Import[],
 ): ObjC.Import[] {
   return Maybe.match(
-    function(libraryName: string): ObjC.Import[] {
+    function (libraryName: string): ObjC.Import[] {
       const importForBaseClass: ObjC.Import = {
         file: baseClassName + '.h',
         isPublic: true,
@@ -346,7 +346,7 @@ function importListWithBaseImportAppended(
       };
       return [importForBaseClass].concat(pluginImports);
     },
-    function(): ObjC.Import[] {
+    function (): ObjC.Import[] {
       return pluginImports;
     },
     baseClassLibraryName,
@@ -381,7 +381,7 @@ function classFileCreationFunctionWithBaseClassAndPlugins<T>(
   comments: string[],
   file?: Code.File,
 ) => Either.Either<Error.Error, Code.File> {
-  return function(
+  return function (
     typeInformation: T,
     typeName: string,
     comments: string[],
@@ -405,15 +405,15 @@ function classFileCreationFunctionWithBaseClassAndPlugins<T>(
     );
 
     const nullability = Either.match(
-      function() {
+      function () {
         return ObjC.ClassNullability.default;
       },
-      function(maybeNullability: ObjC.ClassNullability | null) {
+      function (maybeNullability: ObjC.ClassNullability | null) {
         return Maybe.match(
-          function(nullability: ObjC.ClassNullability) {
+          function (nullability: ObjC.ClassNullability) {
             return nullability;
           },
-          function() {
+          function () {
             return ObjC.ClassNullability.default;
           },
           maybeNullability,
@@ -429,7 +429,7 @@ function classFileCreationFunctionWithBaseClassAndPlugins<T>(
       ObjC.BaseClass | null
     > = List.foldl(
       (currentEither, nextPlugin) => {
-        return Either.mbind(maybeCurrentBaseClass => {
+        return Either.mbind((maybeCurrentBaseClass) => {
           const maybeNextBaseClass = nextPlugin.baseClass(typeInformation);
 
           return Maybe.match(
@@ -458,9 +458,9 @@ function classFileCreationFunctionWithBaseClassAndPlugins<T>(
     // Allow the plugin-specified base class to override the one that was
     // specified in the configuration file.
     const baseClass: Either.Either<Error.Error, ObjC.BaseClass> = Either.map(
-      maybeCustom =>
+      (maybeCustom) =>
         Maybe.match(
-          custom => custom,
+          (custom) => custom,
           () => ({className: baseClassName, libraryName: baseClassLibraryName}),
           maybeCustom,
         ),
@@ -469,10 +469,10 @@ function classFileCreationFunctionWithBaseClassAndPlugins<T>(
 
     return Either.map(([maybeFileType, baseClass]) => {
       const fileType = Maybe.match(
-        function(fileType: Code.FileType) {
+        function (fileType: Code.FileType) {
           return fileType;
         },
-        function() {
+        function () {
           return Code.FileType.ObjectiveC;
         },
         maybeFileType,
@@ -578,9 +578,8 @@ function classFileCreationFunctionWithBaseClassAndPlugins<T>(
           ),
         );
         newFile.enumerations = file.enumerations.concat(enumerations);
-        newFile.forwardDeclarations = file.forwardDeclarations.concat(
-          forwardDeclarations,
-        );
+        newFile.forwardDeclarations =
+          file.forwardDeclarations.concat(forwardDeclarations);
         newFile.blockTypes = file.blockTypes.concat(blockTypes);
         newFile.diagnosticIgnores = file.diagnosticIgnores.concat(
           List.toArray(diagnosticIgnores),
@@ -694,10 +693,10 @@ function createClassesForObjectSpecType<T>(
   );
 
   return Maybe.match(
-    function(classInfo) {
+    function (classInfo) {
       return [classInfo];
     },
-    function() {
+    function () {
       return [];
     },
     classDefintionMaybe,
@@ -751,12 +750,12 @@ function fileCreationRequestContainingArrayOfPossibleError(
   fileCreationRequest: Either.Either<Error.Error, FileWriter.FileWriteRequest>,
 ): Either.Either<Error.Error[], FileWriter.FileWriteRequest> {
   return Either.match(
-    function(
+    function (
       error: Error.Error,
     ): Either.Either<Error.Error[], FileWriter.FileWriteRequest> {
       return Either.Left([error]);
     },
-    function(
+    function (
       fileWriteRequest: FileWriter.FileWriteRequest,
     ): Either.Either<Error.Error[], FileWriter.FileWriteRequest> {
       return Either.Right(fileWriteRequest);
@@ -781,7 +780,7 @@ function fileWriteRequestContainingAdditionalFile(
     outputFlags.emitImplementations,
   );
 
-  return Either.map(function(
+  return Either.map(function (
     fileWriteRequestForAdditionalFile: FileWriter.FileWriteRequest,
   ): FileWriter.FileWriteRequest {
     const updatedRequest: FileWriter.FileWriteRequest = {
@@ -834,23 +833,21 @@ function buildFileWriteRequest<T>(
     typeName: string,
     comments: string[],
     file?: Code.File,
-  ) => Either.Either<
-    Error.Error,
-    Code.File
-  > = classFileCreationFunctionWithBaseClassAndPlugins(
-    request.baseClassName,
-    request.baseClassLibraryName,
-    request.diagnosticIgnores,
-    request.path,
-    plugins,
-    typeInfoProvider,
-  );
+  ) => Either.Either<Error.Error, Code.File> =
+    classFileCreationFunctionWithBaseClassAndPlugins(
+      request.baseClassName,
+      request.baseClassLibraryName,
+      request.diagnosticIgnores,
+      request.path,
+      plugins,
+      typeInfoProvider,
+    );
 
   const outputPath: File.AbsoluteFilePath = Maybe.match(
-    function(file: File.AbsoluteFilePath): File.AbsoluteFilePath {
+    function (file: File.AbsoluteFilePath): File.AbsoluteFilePath {
       return file;
     },
-    function(): File.AbsoluteFilePath {
+    function (): File.AbsoluteFilePath {
       const fullPathAsString: string = File.getAbsolutePathString(request.path);
       return File.getAbsoluteFilePath(path.dirname(fullPathAsString));
     },
@@ -858,7 +855,7 @@ function buildFileWriteRequest<T>(
   );
 
   // filter down to the plugins that we want to emit if we are filtered
-  const filteredPlugins = List.filter(function(p) {
+  const filteredPlugins = List.filter(function (p) {
     return OutputControl.ShouldEmitPluginFile(
       request.outputFlags,
       p.requiredIncludesToRun[0],
@@ -874,38 +871,38 @@ function buildFileWriteRequest<T>(
       typeInfoProvider.typeNameForType(request.typeInformation),
       typeInfoProvider.commentsForType(request.typeInformation),
     )
-      .map(function(file: Code.File) {
+      .map(function (file: Code.File) {
         return transformFileWithPlugins(
           file,
           request.typeInformation,
           filteredPlugins,
         );
       })
-      .mbind(function(file: Code.File) {
+      .mbind(function (file: Code.File) {
         // gather additional type files, then merge them into our base file
         const extraTypes = typeInfoProvider.additionalTypesForType(
           request.typeInformation,
         );
-        return extraTypes.reduce(function(
+        return extraTypes.reduce(function (
           prev: Either.Either<Error.Error, Code.File>,
           type: T,
         ) {
-          return prev.mbind(function(prevFile: Code.File) {
+          return prev.mbind(function (prevFile: Code.File) {
             return classFileFromTypeInfo(
               type,
               typeInfoProvider.typeNameForType(type),
               typeInfoProvider.commentsForType(type),
               prevFile,
             )
-              .map(function(file: Code.File) {
+              .map(function (file: Code.File) {
                 return transformFileWithPlugins(file, type, filteredPlugins);
               })
-              .map(function(file: Code.File) {
+              .map(function (file: Code.File) {
                 // plugins can add headers we don't want, as it's tough to know whether you
                 // are the main type, or an additional type when generating the file, so for
                 // now I am just going to filter the headers out.
                 var newFile = file;
-                newFile.imports = file.imports.filter(function(
+                newFile.imports = file.imports.filter(function (
                   value: ObjC.Import,
                 ) {
                   return (
@@ -927,7 +924,7 @@ function buildFileWriteRequest<T>(
     const fileWriteRequestOrError: Either.Either<
       Error.Error,
       FileWriter.FileWriteRequest
-    > = Either.mbind(function(file: Code.File) {
+    > = Either.mbind(function (file: Code.File) {
       const emptyRequest = Either.Right<
         Error.Error,
         FileWriter.FileWriteRequest
@@ -955,46 +952,42 @@ function buildFileWriteRequest<T>(
 
     // each type info will manifest as its own file, regardless of whether
     // the single-file output flag is set.
-    const allFileRequests = typeInfos.map(function(type: T) {
+    const allFileRequests = typeInfos.map(function (type: T) {
       // build base file if we are allowed to
-      const classFile: Either.Either<
-        Error.Error,
-        Code.File[]
-      > = OutputControl.ShouldEmitObject(request.outputFlags)
-        ? classFileFromTypeInfo(
-            type,
-            typeInfoProvider.typeNameForType(type),
-            typeInfoProvider.commentsForType(type),
-          ).map(function(file: Code.File) {
-            return [file];
-          })
-        : Either.Right<Error.Error, Code.File[]>([]);
+      const classFile: Either.Either<Error.Error, Code.File[]> =
+        OutputControl.ShouldEmitObject(request.outputFlags)
+          ? classFileFromTypeInfo(
+              type,
+              typeInfoProvider.typeNameForType(type),
+              typeInfoProvider.commentsForType(type),
+            ).map(function (file: Code.File) {
+              return [file];
+            })
+          : Either.Right<Error.Error, Code.File[]>([]);
 
       // add files from plugins, or merge them into our base file
       // We'll end up with an array of files. If single file is set,
       // we will only have one entry in the array.
-      const filesToWrite: Either.Either<
-        Error.Error,
-        Code.File[]
-      > = classFile.map(function(files: Code.File[]) {
-        const additionalFiles: Code.File[] = List.foldl<
-          ObjCGenerationPlugIn<T>,
-          Code.File[]
-        >(
-          (soFar, plugin) => buildAdditionalFiles(type, soFar, plugin),
-          [],
-          filteredPlugins,
-        );
-        return files.concat(additionalFiles);
-      });
+      const filesToWrite: Either.Either<Error.Error, Code.File[]> =
+        classFile.map(function (files: Code.File[]) {
+          const additionalFiles: Code.File[] = List.foldl<
+            ObjCGenerationPlugIn<T>,
+            Code.File[]
+          >(
+            (soFar, plugin) => buildAdditionalFiles(type, soFar, plugin),
+            [],
+            filteredPlugins,
+          );
+          return files.concat(additionalFiles);
+        });
 
       // create file write requests for each file
       const completeFileCreationRequest: Either.Either<
         Error.Error,
         FileWriter.FileWriteRequest
-      > = Either.mbind(function(files: Code.File[]) {
+      > = Either.mbind(function (files: Code.File[]) {
         return files.reduce(
-          function(
+          function (
             soFar: Either.Either<Error.Error, FileWriter.FileWriteRequest>,
             currentFile: Code.File,
           ) {
@@ -1018,11 +1011,11 @@ function buildFileWriteRequest<T>(
     });
 
     // Unify all write requests
-    return allFileRequests.reduce(function(
+    return allFileRequests.reduce(function (
       soFar: Either.Either<Error.Error[], FileWriter.FileWriteRequest>,
       current: Either.Either<Error.Error[], FileWriter.FileWriteRequest>,
     ) {
-      return Either.map(function(
+      return Either.map(function (
         request: FileWriter.FileWriteRequest,
       ): FileWriter.FileWriteRequest {
         return {
@@ -1059,32 +1052,30 @@ export function fileWriteRequest<T>(
   typeInfoProvider: ObjCGenerationTypeInfoProvider<T>,
   plugins: List.List<ObjCGenerationPlugIn<T>>,
 ): Either.Either<Error.Error[], FileWriter.FileWriteRequest> {
-  const validatedRequest: Either.Either<
-    Error.Error[],
-    T
-  > = valueObjectsToCreateWithPlugins(plugins, request.typeInformation);
+  const validatedRequest: Either.Either<Error.Error[], T> =
+    valueObjectsToCreateWithPlugins(plugins, request.typeInformation);
 
   return Either.match(
-    function(errors: Error.Error[]) {
+    function (errors: Error.Error[]) {
       return Either.Left<Error.Error[], FileWriter.FileWriteRequest>(
-        errors.map(function(error: Error.Error) {
+        errors.map(function (error: Error.Error) {
           return Error.Error(
             '[' + request.path.absolutePath + ']' + Error.getReason(error),
           );
         }),
       );
     },
-    function(typeInformation: T) {
+    function (typeInformation: T) {
       const eitherRequest: Either.Either<
         Error.Error[],
         FileWriter.FileWriteRequest
       > = buildFileWriteRequest(request, typeInfoProvider, plugins);
       return List.foldr(
-        function(
+        function (
           soFar: Either.Either<Error.Error[], FileWriter.FileWriteRequest>,
           plugin: ObjCGenerationPlugIn<T>,
         ): Either.Either<Error.Error[], FileWriter.FileWriteRequest> {
-          return Either.map(function(
+          return Either.map(function (
             request: FileWriter.FileWriteRequest,
           ): FileWriter.FileWriteRequest {
             const writeRequest: FileWriter.FileWriteRequest = {

@@ -32,7 +32,7 @@ export function write(request: Request): Promise.Future<Error.Error | null> {
     File.getAbsolutePathString(request.path),
     request.content,
     {encoding: 'utf8'},
-    function(err) {
+    function (err) {
       if (err) {
         promise.setValue(Error.Error(err.message));
       } else {

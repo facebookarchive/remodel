@@ -60,7 +60,7 @@ function referencedGenericTypeRefersToParentTypeName(
 ): boolean {
   return (
     referencedGenericType.name == parentTypeName ||
-    referencedGenericType.referencedGenericTypes.some(r =>
+    referencedGenericType.referencedGenericTypes.some((r) =>
       referencedGenericTypeRefersToParentTypeName(r, parentTypeName),
     )
   );
@@ -72,7 +72,7 @@ function subtypeRefersToParentTypeName(
 ): boolean {
   return (
     type.name == parentTypeName ||
-    type.referencedGenericTypes.some(r =>
+    type.referencedGenericTypes.some((r) =>
       referencedGenericTypeRefersToParentTypeName(r, parentTypeName),
     )
   );
@@ -87,11 +87,11 @@ export function forwardDeclarationsForAlgebraicType(
 ): ObjC.ForwardDeclaration[] {
   for (const subtype of algebraicType.subtypes) {
     const refersToParent = subtype.match(
-      collection =>
-        collection.attributes.some(a =>
+      (collection) =>
+        collection.attributes.some((a) =>
           subtypeRefersToParentTypeName(a.type, algebraicType.name),
         ),
-      a => subtypeRefersToParentTypeName(a.type, algebraicType.name),
+      (a) => subtypeRefersToParentTypeName(a.type, algebraicType.name),
     );
     if (refersToParent) {
       return [

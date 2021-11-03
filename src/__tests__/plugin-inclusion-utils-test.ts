@@ -13,18 +13,19 @@ import * as Maybe from '../maybe';
 import * as PluginInclusionUtils from '../plugin-inclusion-utils';
 import * as ObjectSpec from '../object-spec';
 
-describe('PluginInclusionUtils', function() {
-  describe('#includesContainingDefaultIncludes', function() {
-    it('returns includes containing the provided default include', function() {
+describe('PluginInclusionUtils', function () {
+  describe('#includesContainingDefaultIncludes', function () {
+    it('returns includes containing the provided default include', function () {
       const includesFromType: string[] = [];
       const excludesFromType: string[] = [];
       const defaultIncludes: List.List<string> = List.of<string>('SomeDefault');
 
-      const includes: string[] = PluginInclusionUtils.includesContainingDefaultIncludes(
-        includesFromType,
-        excludesFromType,
-        defaultIncludes,
-      );
+      const includes: string[] =
+        PluginInclusionUtils.includesContainingDefaultIncludes(
+          includesFromType,
+          excludesFromType,
+          defaultIncludes,
+        );
       const expectedIncludes: string[] = ['SomeDefault'];
 
       expect(includes).toEqualJSON(expectedIncludes);
@@ -33,18 +34,18 @@ describe('PluginInclusionUtils', function() {
     it(
       'returns includes containing the provided default include as well as its own ' +
         'include which is supplied',
-      function() {
+      function () {
         const includesFromType: string[] = ['SomeAlreadyIncludedThang'];
         const excludesFromType: string[] = [];
-        const defaultIncludes: List.List<string> = List.of<string>(
-          'SomeDefault',
-        );
+        const defaultIncludes: List.List<string> =
+          List.of<string>('SomeDefault');
 
-        const includes: string[] = PluginInclusionUtils.includesContainingDefaultIncludes(
-          includesFromType,
-          excludesFromType,
-          defaultIncludes,
-        );
+        const includes: string[] =
+          PluginInclusionUtils.includesContainingDefaultIncludes(
+            includesFromType,
+            excludesFromType,
+            defaultIncludes,
+          );
         const expectedIncludes: string[] = [
           'SomeAlreadyIncludedThang',
           'SomeDefault',
@@ -57,21 +58,21 @@ describe('PluginInclusionUtils', function() {
     it(
       'returns includes containing the provided default include as well as two of its own ' +
         'includes which are supplied',
-      function() {
+      function () {
         const includesFromType: string[] = [
           'SomeAlreadyIncludedThang',
           'Another',
         ];
         const excludesFromType: string[] = [];
-        const defaultIncludes: List.List<string> = List.of<string>(
-          'SomeDefault',
-        );
+        const defaultIncludes: List.List<string> =
+          List.of<string>('SomeDefault');
 
-        const includes: string[] = PluginInclusionUtils.includesContainingDefaultIncludes(
-          includesFromType,
-          excludesFromType,
-          defaultIncludes,
-        );
+        const includes: string[] =
+          PluginInclusionUtils.includesContainingDefaultIncludes(
+            includesFromType,
+            excludesFromType,
+            defaultIncludes,
+          );
         const expectedIncludes: string[] = [
           'SomeAlreadyIncludedThang',
           'Another',
@@ -82,16 +83,17 @@ describe('PluginInclusionUtils', function() {
       },
     );
 
-    it('does not return includes when the only default include is excluded', function() {
+    it('does not return includes when the only default include is excluded', function () {
       const includesFromType: string[] = [];
       const excludesFromType: string[] = ['SomeDefault'];
       const defaultIncludes: List.List<string> = List.of<string>('SomeDefault');
 
-      const includes: string[] = PluginInclusionUtils.includesContainingDefaultIncludes(
-        includesFromType,
-        excludesFromType,
-        defaultIncludes,
-      );
+      const includes: string[] =
+        PluginInclusionUtils.includesContainingDefaultIncludes(
+          includesFromType,
+          excludesFromType,
+          defaultIncludes,
+        );
       const expectedIncludes: string[] = [];
 
       expect(includes).toEqualJSON(expectedIncludes);
@@ -100,7 +102,7 @@ describe('PluginInclusionUtils', function() {
     it(
       'returns includes containing only one provided default include when two default ' +
         'includes are supplied but one is excluded',
-      function() {
+      function () {
         const includesFromType: string[] = [];
         const excludesFromType: string[] = ['Another'];
         const defaultIncludes: List.List<string> = List.of<string>(
@@ -108,11 +110,12 @@ describe('PluginInclusionUtils', function() {
           'Another',
         );
 
-        const includes: string[] = PluginInclusionUtils.includesContainingDefaultIncludes(
-          includesFromType,
-          excludesFromType,
-          defaultIncludes,
-        );
+        const includes: string[] =
+          PluginInclusionUtils.includesContainingDefaultIncludes(
+            includesFromType,
+            excludesFromType,
+            defaultIncludes,
+          );
         const expectedIncludes: string[] = ['SomeDefault'];
 
         expect(includes).toEqualJSON(expectedIncludes);

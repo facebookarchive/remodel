@@ -17,7 +17,7 @@ export function createPlugin(): ObjectSpec.Plugin {
     additionalTypes: empty(),
     attributes: empty(),
     classMethods: empty(),
-    transformFileRequest: request => request,
+    transformFileRequest: (request) => request,
     fileType: nothing(),
     forwardDeclarations: empty(),
     functions: empty(),
@@ -29,8 +29,10 @@ export function createPlugin(): ObjectSpec.Plugin {
     properties: empty(),
     requiredIncludesToRun: ['RMDescriptionAttributeError'],
     staticConstants: empty(),
-    validationErrors: objectSpec =>
-      objectSpec.attributes.some(attribute => attribute.name === 'description')
+    validationErrors: (objectSpec) =>
+      objectSpec.attributes.some(
+        (attribute) => attribute.name === 'description',
+      )
         ? [
             Error(
               'Adding a method named `description` will override the basic `NSObject` method for a string describing the entire object. Consider using a different name instead.',
@@ -38,15 +40,15 @@ export function createPlugin(): ObjectSpec.Plugin {
           ]
         : [],
     nullability: nothing(),
-    subclassingRestricted: _ => false,
+    subclassingRestricted: (_) => false,
   };
 }
 
 // Utilities to make definitions shorter.
 function nothing<T, R>(): (T) => R | null {
-  return _ => null;
+  return (_) => null;
 }
 
 function empty<T, R>(): (T) => R[] {
-  return _ => [];
+  return (_) => [];
 }

@@ -14,9 +14,9 @@ import * as Maybe from '../maybe';
 import * as ObjectGeneration from '../object-generation';
 import * as ObjectGenerationParsingUtils from '../object-generation-parsing-utils';
 
-describe('ObjectGenerationParsingUtils', function() {
-  describe('#typeLookupsFromRawAnnotations', function() {
-    it('creates a single type lookup when there is a single type annotation', function() {
+describe('ObjectGenerationParsingUtils', function () {
+  describe('#typeLookupsFromRawAnnotations', function () {
+    it('creates a single type lookup when there is a single type annotation', function () {
       const typeLookups: Either.Either<
         Error.Error[],
         ObjectGeneration.TypeLookup[]
@@ -44,7 +44,7 @@ describe('ObjectGenerationParsingUtils', function() {
     it(
       'creates a single type lookup when there is a single type annotation with ' +
         'different information',
-      function() {
+      function () {
         const typeLookups: Either.Either<
           Error.Error[],
           ObjectGeneration.TypeLookup[]
@@ -73,7 +73,7 @@ describe('ObjectGenerationParsingUtils', function() {
     it(
       'creates two type lookups when there are two type annotations with ' +
         'different information',
-      function() {
+      function () {
         const typeLookups: Either.Either<
           Error.Error[],
           ObjectGeneration.TypeLookup[]
@@ -111,7 +111,7 @@ describe('ObjectGenerationParsingUtils', function() {
     it(
       'creates a full single type lookup when there is a single type annotation with ' +
         'all information',
-      function() {
+      function () {
         const typeLookups: Either.Either<
           Error.Error[],
           ObjectGeneration.TypeLookup[]
@@ -140,7 +140,7 @@ describe('ObjectGenerationParsingUtils', function() {
       },
     );
 
-    it('returns an error when the only type annotation does not have a name', function() {
+    it('returns an error when the only type annotation does not have a name', function () {
       const typeLookups: Either.Either<
         Error.Error[],
         ObjectGeneration.TypeLookup[]
@@ -154,7 +154,7 @@ describe('ObjectGenerationParsingUtils', function() {
       expect(typeLookups).toEqualJSON(expectedTypeLookups);
     });
 
-    it('returns two errors when the two type annotations do not have names', function() {
+    it('returns two errors when the two type annotations do not have names', function () {
       const typeLookups: Either.Either<
         Error.Error[],
         ObjectGeneration.TypeLookup[]

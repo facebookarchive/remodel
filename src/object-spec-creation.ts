@@ -25,66 +25,68 @@ function createObjectSpecObjCPlugIn(
   plugin: ObjectSpec.Plugin,
 ): ObjectSpecObjCPlugIn {
   return {
-    additionalFiles: function(typeInformation: ObjectSpec.Type): Code.File[] {
+    additionalFiles: function (typeInformation: ObjectSpec.Type): Code.File[] {
       return plugin.additionalFiles(typeInformation);
     },
 
-    transformBaseFile: function(
+    transformBaseFile: function (
       typeInformation: ObjectSpec.Type,
       baseFile: Code.File,
     ): Code.File {
       return plugin.transformBaseFile(typeInformation, baseFile);
     },
 
-    baseClass: plugin.baseClass != null ? plugin.baseClass : _ => null,
+    baseClass: plugin.baseClass != null ? plugin.baseClass : (_) => null,
 
-    blockTypes: plugin.blockTypes != null ? plugin.blockTypes : _ => [],
+    blockTypes: plugin.blockTypes != null ? plugin.blockTypes : (_) => [],
 
-    classMethods: function(typeInformation: ObjectSpec.Type): ObjC.Method[] {
+    classMethods: function (typeInformation: ObjectSpec.Type): ObjC.Method[] {
       return plugin.classMethods(typeInformation);
     },
 
-    comments: function(typeInformation: ObjectSpec.Type): ObjC.Comment[] {
+    comments: function (typeInformation: ObjectSpec.Type): ObjC.Comment[] {
       return plugin.headerComments(typeInformation);
     },
 
-    enumerations: function(
+    enumerations: function (
       typeInformation: ObjectSpec.Type,
     ): ObjC.Enumeration[] {
       return [];
     },
 
-    transformFileRequest: function(
+    transformFileRequest: function (
       writeRequest: FileWriter.Request,
     ): FileWriter.Request {
       return plugin.transformFileRequest(writeRequest);
     },
 
-    fileType: function(typeInformation: ObjectSpec.Type): Code.FileType | null {
+    fileType: function (
+      typeInformation: ObjectSpec.Type,
+    ): Code.FileType | null {
       return plugin.fileType(typeInformation);
     },
 
-    forwardDeclarations: function(
+    forwardDeclarations: function (
       typeInformation: ObjectSpec.Type,
     ): ObjC.ForwardDeclaration[] {
       return plugin.forwardDeclarations(typeInformation);
     },
 
-    functions: function(typeInformation: ObjectSpec.Type): ObjC.Function[] {
+    functions: function (typeInformation: ObjectSpec.Type): ObjC.Function[] {
       return plugin.functions(typeInformation);
     },
 
-    implementedProtocols: function(
+    implementedProtocols: function (
       typeInformation: ObjectSpec.Type,
     ): ObjC.ImplementedProtocol[] {
       return plugin.implementedProtocols(typeInformation);
     },
 
-    imports: function(typeInformation: ObjectSpec.Type): ObjC.Import[] {
+    imports: function (typeInformation: ObjectSpec.Type): ObjC.Import[] {
       return plugin.imports(typeInformation);
     },
 
-    instanceVariables: function(
+    instanceVariables: function (
       typeInformation: ObjectSpec.Type,
     ): ObjC.InstanceVariable[] {
       return plugin.instanceVariables != null
@@ -92,27 +94,29 @@ function createObjectSpecObjCPlugIn(
         : [];
     },
 
-    instanceMethods: function(typeInformation: ObjectSpec.Type): ObjC.Method[] {
+    instanceMethods: function (
+      typeInformation: ObjectSpec.Type,
+    ): ObjC.Method[] {
       return plugin.instanceMethods(typeInformation);
     },
 
     macros: plugin.macros,
 
-    properties: function(typeInformation: ObjectSpec.Type): ObjC.Property[] {
+    properties: function (typeInformation: ObjectSpec.Type): ObjC.Property[] {
       return plugin.properties(typeInformation);
     },
 
-    protocols: function(typeInformation: ObjectSpec.Type): ObjC.Protocol[] {
+    protocols: function (typeInformation: ObjectSpec.Type): ObjC.Protocol[] {
       return plugin.protocols != null ? plugin.protocols(typeInformation) : [];
     },
 
-    staticConstants: function(
+    staticConstants: function (
       typeInformation: ObjectSpec.Type,
     ): ObjC.Constant[] {
       return plugin.staticConstants(typeInformation);
     },
 
-    globalVariables: function(
+    globalVariables: function (
       typeInformation: ObjectSpec.Type,
     ): ObjC.GlobalVariable[] {
       return plugin.globalVariables
@@ -120,23 +124,25 @@ function createObjectSpecObjCPlugIn(
         : [];
     },
 
-    validationErrors: function(
+    validationErrors: function (
       typeInformation: ObjectSpec.Type,
     ): Error.Error[] {
       return plugin.validationErrors(typeInformation);
     },
 
-    nullability: function(
+    nullability: function (
       typeInformation: ObjectSpec.Type,
     ): ObjC.ClassNullability | null {
       return plugin.nullability(typeInformation);
     },
 
-    subclassingRestricted: function(typeInformation: ObjectSpec.Type): boolean {
+    subclassingRestricted: function (
+      typeInformation: ObjectSpec.Type,
+    ): boolean {
       return plugin.subclassingRestricted(typeInformation);
     },
 
-    structs: function(typeInformation: ObjectSpec.Type): Code.Struct[] {
+    structs: function (typeInformation: ObjectSpec.Type): Code.Struct[] {
       return plugin.structs != null ? plugin.structs(typeInformation) : [];
     },
 
@@ -207,7 +213,7 @@ function shouldRunPluginForIncludes(
   includes: string[],
   plugin: ObjectSpec.Plugin,
 ): boolean {
-  return plugin.requiredIncludesToRun.every(requiredInclude =>
+  return plugin.requiredIncludesToRun.every((requiredInclude) =>
     shouldRunPluginForInclude(includes, requiredInclude),
   );
 }
@@ -217,7 +223,7 @@ function pluginsToRunForValueType(
   objectType: ObjectSpec.Type,
 ): List.List<ObjectSpec.Plugin> {
   return List.filter(
-    plugin => shouldRunPluginForIncludes(objectType.includes, plugin),
+    (plugin) => shouldRunPluginForIncludes(objectType.includes, plugin),
     plugins,
   );
 }
@@ -279,12 +285,14 @@ export function fileWriteRequest(
     pluginsToRun,
   );
 
-  const typeInfoProvider: PluggableObjCFileCreation.ObjCGenerationTypeInfoProvider<ObjectSpec.Type> = {
-    additionalTypesForType: type => additionalTypesForType(pluginsToRun, type),
-    typeNameForType: typeNameForType,
-    commentsForType: commentsForType,
-    visibilityForType: visibilityForType,
-  };
+  const typeInfoProvider: PluggableObjCFileCreation.ObjCGenerationTypeInfoProvider<ObjectSpec.Type> =
+    {
+      additionalTypesForType: (type) =>
+        additionalTypesForType(pluginsToRun, type),
+      typeNameForType: typeNameForType,
+      commentsForType: commentsForType,
+      visibilityForType: visibilityForType,
+    };
 
   const requestWithUpdatedType = {
     diagnosticIgnores: request.diagnosticIgnores,

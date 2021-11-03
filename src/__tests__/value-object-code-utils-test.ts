@@ -17,9 +17,9 @@ function valueGenerator(attribute: ObjectSpec.Attribute): string {
   return attribute.name;
 }
 
-describe('ObjectSpecCodeUtils', function() {
-  describe('#methodInvocationForConstructor', function() {
-    it('returns a constructor with no parameters when there are no attributes', function() {
+describe('ObjectSpecCodeUtils', function () {
+  describe('#methodInvocationForConstructor', function () {
+    it('returns a constructor with no parameters when there are no attributes', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [],
@@ -31,10 +31,11 @@ describe('ObjectSpecCodeUtils', function() {
         typeName: 'Foo',
       };
 
-      const methodInvocation: string = ObjectSpecCodeUtils.methodInvocationForConstructor(
-        objectType,
-        valueGenerator,
-      );
+      const methodInvocation: string =
+        ObjectSpecCodeUtils.methodInvocationForConstructor(
+          objectType,
+          valueGenerator,
+        );
       const expectedMethodInvocation: string = '[Foo new]';
       expect(methodInvocation).toEqualJSON(expectedMethodInvocation);
     });
@@ -42,7 +43,7 @@ describe('ObjectSpecCodeUtils', function() {
     it(
       'returns a constructor with no parameters and the correct name when there ' +
         'are no attributes',
-      function() {
+      function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [],
@@ -54,16 +55,17 @@ describe('ObjectSpecCodeUtils', function() {
           typeName: 'Test',
         };
 
-        const methodInvocation: string = ObjectSpecCodeUtils.methodInvocationForConstructor(
-          objectType,
-          valueGenerator,
-        );
+        const methodInvocation: string =
+          ObjectSpecCodeUtils.methodInvocationForConstructor(
+            objectType,
+            valueGenerator,
+          );
         const expectedMethodInvocation: string = '[Test new]';
         expect(methodInvocation).toEqualJSON(expectedMethodInvocation);
       },
     );
 
-    it('returns a constructor with one parameter when there is one attribute', function() {
+    it('returns a constructor with one parameter when there is one attribute', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
@@ -91,16 +93,17 @@ describe('ObjectSpecCodeUtils', function() {
         typeName: 'Test',
       };
 
-      const methodInvocation: string = ObjectSpecCodeUtils.methodInvocationForConstructor(
-        objectType,
-        valueGenerator,
-      );
+      const methodInvocation: string =
+        ObjectSpecCodeUtils.methodInvocationForConstructor(
+          objectType,
+          valueGenerator,
+        );
       const expectedMethodInvocation: string =
         '[[Test alloc] initWithName:name]';
       expect(methodInvocation).toEqualJSON(expectedMethodInvocation);
     });
 
-    it('returns a constructor with the correct parameter when there is one attribute', function() {
+    it('returns a constructor with the correct parameter when there is one attribute', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
@@ -128,15 +131,16 @@ describe('ObjectSpecCodeUtils', function() {
         typeName: 'Test',
       };
 
-      const methodInvocation: string = ObjectSpecCodeUtils.methodInvocationForConstructor(
-        objectType,
-        valueGenerator,
-      );
+      const methodInvocation: string =
+        ObjectSpecCodeUtils.methodInvocationForConstructor(
+          objectType,
+          valueGenerator,
+        );
       const expectedMethodInvocation: string = '[[Test alloc] initWithAge:age]';
       expect(methodInvocation).toEqualJSON(expectedMethodInvocation);
     });
 
-    it('returns a constructor with the two parameters when there are two attributes', function() {
+    it('returns a constructor with the two parameters when there are two attributes', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
@@ -179,10 +183,11 @@ describe('ObjectSpecCodeUtils', function() {
         typeName: 'Test',
       };
 
-      const methodInvocation: string = ObjectSpecCodeUtils.methodInvocationForConstructor(
-        objectType,
-        valueGenerator,
-      );
+      const methodInvocation: string =
+        ObjectSpecCodeUtils.methodInvocationForConstructor(
+          objectType,
+          valueGenerator,
+        );
       const expectedMethodInvocation: string =
         '[[Test alloc] initWithName:name age:age]';
       expect(methodInvocation).toEqualJSON(expectedMethodInvocation);

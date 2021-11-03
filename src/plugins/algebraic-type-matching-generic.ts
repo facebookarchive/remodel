@@ -105,16 +105,17 @@ function genericMatchingCodeForAlgebraicType(
     [],
   );
 
-  const keywordPartsForMatchInvocation: string[] = algebraicType.subtypes.reduce(
-    (soFar, subtype, idx) =>
-      AlgebraicTypeUtilsForMatching.buildKeywordPartsForInvokingMatchMethodForSubtype(
-        algebraicType,
-        soFar,
-        subtype,
-        idx,
-      ),
-    [],
-  );
+  const keywordPartsForMatchInvocation: string[] =
+    algebraicType.subtypes.reduce(
+      (soFar, subtype, idx) =>
+        AlgebraicTypeUtilsForMatching.buildKeywordPartsForInvokingMatchMethodForSubtype(
+          algebraicType,
+          soFar,
+          subtype,
+          idx,
+        ),
+      [],
+    );
   const matchInvocation: string[] = [
     '[' +
       parameterNameForAlgebraicType(algebraicType) +
@@ -153,16 +154,16 @@ function keywordsForGenericAlgebraicTypeMatcher(
   algebraicType: AlgebraicType.Type,
   matchingBlockType: AlgebraicTypeUtils.MatchingBlockType | null,
 ): ObjC.Keyword[] {
-  const firstKeyword: ObjC.Keyword = firstKeywordForGenericMatchMethod(
-    algebraicType,
-  );
-  const subtypeKeywords: ObjC.Keyword[] = algebraicType.subtypes.map(subtype =>
-    AlgebraicTypeUtils.keywordForMatchMethodFromSubtype(
-      algebraicType,
-      matchingBlockType,
-      false,
-      subtype,
-    ),
+  const firstKeyword: ObjC.Keyword =
+    firstKeywordForGenericMatchMethod(algebraicType);
+  const subtypeKeywords: ObjC.Keyword[] = algebraicType.subtypes.map(
+    (subtype) =>
+      AlgebraicTypeUtils.keywordForMatchMethodFromSubtype(
+        algebraicType,
+        matchingBlockType,
+        false,
+        subtype,
+      ),
   );
   return [firstKeyword].concat(subtypeKeywords);
 }
@@ -184,9 +185,8 @@ function classMethodForGenericMatchingOfAlgebraicType(
       algebraicType,
       matchingBlockType,
     ),
-    returnType: AlgebraicTypeUtils.returnTypeForMatchingBlockType(
-      matchingBlockType,
-    ),
+    returnType:
+      AlgebraicTypeUtils.returnTypeForMatchingBlockType(matchingBlockType),
   };
 }
 
@@ -196,7 +196,7 @@ function blockTypesForAlgebraicType(
   const matchingBlockType = matchingBlockTypeForPlugin(
     algebraicType.includes.indexOf('RMAssumeNonnull') > -1,
   );
-  return algebraicType.subtypes.map(subtype =>
+  return algebraicType.subtypes.map((subtype) =>
     AlgebraicTypeUtils.blockTypeForSubtype(
       algebraicType,
       matchingBlockType,
@@ -236,9 +236,10 @@ function genericMatchingFileForAlgebraicType(
     name: fileNameForAlgebraicType(algebraicType),
     type: Code.FileType.ObjectiveC,
     imports: genericMatcherImportsForAlgebraicType(algebraicType, false),
-    forwardDeclarations: AlgebraicTypeUtilsForMatching.forwardDeclarationsForAlgebraicType(
-      algebraicType,
-    ),
+    forwardDeclarations:
+      AlgebraicTypeUtilsForMatching.forwardDeclarationsForAlgebraicType(
+        algebraicType,
+      ),
     comments: [],
     enumerations: [],
     blockTypes: [],
@@ -256,10 +257,10 @@ function genericMatchingFileForAlgebraicType(
 
 export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
   return {
-    additionalFiles: function(algebraicType: AlgebraicType.Type): Code.File[] {
+    additionalFiles: function (algebraicType: AlgebraicType.Type): Code.File[] {
       return [genericMatchingFileForAlgebraicType(algebraicType)];
     },
-    transformBaseFile: function(
+    transformBaseFile: function (
       algebraicType: AlgebraicType.Type,
       baseFile: Code.File,
     ): Code.File {
@@ -271,75 +272,75 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
       );
       return baseFile;
     },
-    blockTypes: function(algebraicType: AlgebraicType.Type): ObjC.BlockType[] {
+    blockTypes: function (algebraicType: AlgebraicType.Type): ObjC.BlockType[] {
       return [];
     },
-    classMethods: function(algebraicType: AlgebraicType.Type): ObjC.Method[] {
+    classMethods: function (algebraicType: AlgebraicType.Type): ObjC.Method[] {
       return [];
     },
-    enumerations: function(
+    enumerations: function (
       algebraicType: AlgebraicType.Type,
     ): ObjC.Enumeration[] {
       return [];
     },
-    transformFileRequest: function(
+    transformFileRequest: function (
       request: FileWriter.Request,
     ): FileWriter.Request {
       return request;
     },
-    fileType: function(
+    fileType: function (
       algebraicType: AlgebraicType.Type,
     ): Code.FileType | null {
       return null;
     },
     forwardDeclarations:
       AlgebraicTypeUtilsForMatching.forwardDeclarationsForAlgebraicType,
-    functions: function(algebraicType: AlgebraicType.Type): ObjC.Function[] {
+    functions: function (algebraicType: AlgebraicType.Type): ObjC.Function[] {
       return [];
     },
-    headerComments: function(
+    headerComments: function (
       algebraicType: AlgebraicType.Type,
     ): ObjC.Comment[] {
       return [];
     },
-    implementedProtocols: function(
+    implementedProtocols: function (
       algebraicType: AlgebraicType.Type,
     ): ObjC.ImplementedProtocol[] {
       return [];
     },
-    imports: function(algebraicType: AlgebraicType.Type): ObjC.Import[] {
+    imports: function (algebraicType: AlgebraicType.Type): ObjC.Import[] {
       return [];
     },
-    instanceMethods: function(
+    instanceMethods: function (
       algebraicType: AlgebraicType.Type,
     ): ObjC.Method[] {
       return [];
     },
-    instanceVariables: function(
+    instanceVariables: function (
       algebraicType: AlgebraicType.Type,
     ): ObjC.InstanceVariable[] {
       return [];
     },
-    macros: function(algebraicType: AlgebraicType.Type): ObjC.Macro[] {
+    macros: function (algebraicType: AlgebraicType.Type): ObjC.Macro[] {
       return [];
     },
     requiredIncludesToRun: ['GenericMatching'],
-    staticConstants: function(
+    staticConstants: function (
       algebraicType: AlgebraicType.Type,
     ): ObjC.Constant[] {
       return [];
     },
-    validationErrors: function(
+    validationErrors: function (
       algebraicType: AlgebraicType.Type,
     ): Error.Error[] {
       return [];
     },
-    nullability: function(
+    nullability: function (
       algebraicType: AlgebraicType.Type,
     ): ObjC.ClassNullability | null {
       return null;
     },
-    subclassingRestricted: function(
+    subclassingRestricted: function (
       algebraicType: AlgebraicType.Type,
     ): boolean {
       return false;

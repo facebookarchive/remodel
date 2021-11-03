@@ -13,7 +13,7 @@ export function includesContainingDefaultIncludes(
   defaultIncludes: List.List<string>,
 ): string[] {
   const defaultIncludesToInclude: string[] = List.foldr(
-    function(soFar: string[], defaultInclude: string): string[] {
+    function (soFar: string[], defaultInclude: string): string[] {
       if (excludesFromType.indexOf(defaultInclude) === -1) {
         return soFar.concat(defaultInclude);
       } else {

@@ -15,22 +15,22 @@ import * as fsExtra from 'fs-extra';
 import * as LazySequence from '../lazy-sequence';
 import * as Promise from '../promise';
 
-describe('ParallelProcessQueue', function() {
+describe('ParallelProcessQueue', function () {
   it(
     'should find all the files of a given extension inside of the directory ' +
       'that it is given to scan',
-    function(finished) {
+    function (finished) {
       fsExtra.removeSync(__dirname + '/tmp');
       fs.mkdirSync(__dirname + '/tmp');
       fs.writeFileSync(__dirname + '/tmp/test.value', '');
-      const sequence: LazySequence.Sequence<File.AbsoluteFilePath> = ParallelProcessQueue.findFiles(
-        File.getAbsoluteFilePath(__dirname + '/tmp'),
-        'value',
-      );
-      const future: Promise.Future<File.AbsoluteFilePath[]> = LazySequence.evaluate(
-        sequence,
-      );
-      Promise.then(function(fileLocations: File.AbsoluteFilePath[]) {
+      const sequence: LazySequence.Sequence<File.AbsoluteFilePath> =
+        ParallelProcessQueue.findFiles(
+          File.getAbsoluteFilePath(__dirname + '/tmp'),
+          'value',
+        );
+      const future: Promise.Future<File.AbsoluteFilePath[]> =
+        LazySequence.evaluate(sequence);
+      Promise.then(function (fileLocations: File.AbsoluteFilePath[]) {
         expect(fileLocations).toEqualJSON([
           {absolutePath: __dirname + '/tmp/test.value'},
         ]);
@@ -41,18 +41,18 @@ describe('ParallelProcessQueue', function() {
     },
   );
 
-  it('should find no files when the given extension has no files', function(finished) {
+  it('should find no files when the given extension has no files', function (finished) {
     fsExtra.removeSync(__dirname + '/tmp');
     fs.mkdirSync(__dirname + '/tmp');
     fs.writeFileSync(__dirname + '/tmp/test.value', '');
-    const sequence: LazySequence.Sequence<File.AbsoluteFilePath> = ParallelProcessQueue.findFiles(
-      File.getAbsoluteFilePath(__dirname + '/tmp'),
-      'enumValue',
-    );
-    const future: Promise.Future<File.AbsoluteFilePath[]> = LazySequence.evaluate(
-      sequence,
-    );
-    Promise.then(function(fileLocations: File.AbsoluteFilePath[]) {
+    const sequence: LazySequence.Sequence<File.AbsoluteFilePath> =
+      ParallelProcessQueue.findFiles(
+        File.getAbsoluteFilePath(__dirname + '/tmp'),
+        'enumValue',
+      );
+    const future: Promise.Future<File.AbsoluteFilePath[]> =
+      LazySequence.evaluate(sequence);
+    Promise.then(function (fileLocations: File.AbsoluteFilePath[]) {
       expect(fileLocations).toEqualJSON([]);
       fs.unlinkSync(__dirname + '/tmp/test.value');
       fs.rmdirSync(__dirname + '/tmp');
@@ -63,7 +63,7 @@ describe('ParallelProcessQueue', function() {
   it(
     'returns a promise for multiple values and directories when given a ' +
       'directory that contains values and other directories',
-    function(finished) {
+    function (finished) {
       fsExtra.removeSync(__dirname + '/tmp');
       fs.mkdirSync(__dirname + '/tmp');
       fs.writeFileSync(__dirname + '/tmp/test.value', '');
@@ -75,14 +75,14 @@ describe('ParallelProcessQueue', function() {
       fs.writeFileSync(__dirname + '/tmp/tmp3/test.value', '');
       fs.mkdirSync(__dirname + '/tmp/tmp3/tmp4');
       fs.writeFileSync(__dirname + '/tmp/tmp3/tmp4/test2.value', '');
-      const sequence: LazySequence.Sequence<File.AbsoluteFilePath> = ParallelProcessQueue.findFiles(
-        File.getAbsoluteFilePath(__dirname + '/tmp'),
-        'value',
-      );
-      const future: Promise.Future<File.AbsoluteFilePath[]> = LazySequence.evaluate(
-        sequence,
-      );
-      Promise.then(function(fileLocations: File.AbsoluteFilePath[]) {
+      const sequence: LazySequence.Sequence<File.AbsoluteFilePath> =
+        ParallelProcessQueue.findFiles(
+          File.getAbsoluteFilePath(__dirname + '/tmp'),
+          'value',
+        );
+      const future: Promise.Future<File.AbsoluteFilePath[]> =
+        LazySequence.evaluate(sequence);
+      Promise.then(function (fileLocations: File.AbsoluteFilePath[]) {
         expect(fileLocations).toContain({
           absolutePath: __dirname + '/tmp/test.value',
         });
@@ -117,7 +117,7 @@ describe('ParallelProcessQueue', function() {
     'returns a promise for multiple values and directories when given a ' +
       'directory that contains values and other directories but does not contain ' +
       'files that look like directories but are not',
-    function(finished) {
+    function (finished) {
       fsExtra.removeSync(__dirname + '/tmp');
       fs.mkdirSync(__dirname + '/tmp');
       fs.writeFileSync(__dirname + '/tmp/README', '');
@@ -130,14 +130,14 @@ describe('ParallelProcessQueue', function() {
       fs.writeFileSync(__dirname + '/tmp/tmp3/test.value', '');
       fs.mkdirSync(__dirname + '/tmp/tmp3/tmp4');
       fs.writeFileSync(__dirname + '/tmp/tmp3/tmp4/test2.value', '');
-      const sequence: LazySequence.Sequence<File.AbsoluteFilePath> = ParallelProcessQueue.findFiles(
-        File.getAbsoluteFilePath(__dirname + '/tmp'),
-        'value',
-      );
-      const future: Promise.Future<File.AbsoluteFilePath[]> = LazySequence.evaluate(
-        sequence,
-      );
-      Promise.then(function(fileLocations: File.AbsoluteFilePath[]) {
+      const sequence: LazySequence.Sequence<File.AbsoluteFilePath> =
+        ParallelProcessQueue.findFiles(
+          File.getAbsoluteFilePath(__dirname + '/tmp'),
+          'value',
+        );
+      const future: Promise.Future<File.AbsoluteFilePath[]> =
+        LazySequence.evaluate(sequence);
+      Promise.then(function (fileLocations: File.AbsoluteFilePath[]) {
         expect(fileLocations).toContain({
           absolutePath: __dirname + '/tmp/test.value',
         });

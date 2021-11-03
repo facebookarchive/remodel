@@ -27,10 +27,7 @@ export function pipeline3<T, U, V, W>(
   g: (val: U) => V,
   h: (val: V) => W,
 ): Functor<W> {
-  return funct
-    .map(f)
-    .map(g)
-    .map(h);
+  return funct.map(f).map(g).map(h);
 }
 
 export function pipeline4<T, U, V, W, X>(
@@ -40,11 +37,7 @@ export function pipeline4<T, U, V, W, X>(
   h: (val: V) => W,
   i: (val: W) => X,
 ): Functor<X> {
-  return funct
-    .map(f)
-    .map(g)
-    .map(h)
-    .map(i);
+  return funct.map(f).map(g).map(h).map(i);
 }
 
 /* tslint:disable:max-line-length */
@@ -57,12 +50,7 @@ export function pipeline5<T, U, V, W, X, Y>(
   j: (val: X) => Y,
 ): Functor<Y> {
   /* tsline:enable:max-line-length */
-  return funct
-    .map(f)
-    .map(g)
-    .map(h)
-    .map(i)
-    .map(j);
+  return funct.map(f).map(g).map(h).map(i).map(j);
 }
 
 /* tslint:disable:max-line-length */
@@ -76,11 +64,5 @@ export function pipeline6<T, U, V, W, X, Y, Z>(
   k: (val: Y) => Z,
 ): Functor<Z> {
   /* tsline:enable:max-line-length */
-  return funct
-    .map(f)
-    .map(g)
-    .map(h)
-    .map(i)
-    .map(j)
-    .map(k);
+  return funct.map(f).map(g).map(h).map(i).map(j).map(k);
 }

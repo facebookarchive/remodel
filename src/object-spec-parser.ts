@@ -20,9 +20,10 @@ export function underlyingTypeForType(
   providedUnderlyingType: string | null,
   typeReference: string,
 ): string | null {
-  const underlyingType = ObjectGenerationParsingUtils.possiblyUndefinedStringToMaybe(
-    providedUnderlyingType,
-  );
+  const underlyingType =
+    ObjectGenerationParsingUtils.possiblyUndefinedStringToMaybe(
+      providedUnderlyingType,
+    );
   return Maybe.match(
     function Just(type: string) {
       return underlyingType;
@@ -41,20 +42,23 @@ function foundAttributeTypeFromParsedAttributeType(
 ): ObjectSpec.AttributeType {
   /* tsline:enable:max-line-length */
   return {
-    fileTypeIsDefinedIn: ObjectGenerationParsingUtils.valueFromImportAnnotationFromAnnotations(
-      annotations,
-      'file',
-    ),
-    libraryTypeIsDefinedIn: ObjectGenerationParsingUtils.valueFromImportAnnotationFromAnnotations(
-      annotations,
-      'library',
-    ),
+    fileTypeIsDefinedIn:
+      ObjectGenerationParsingUtils.valueFromImportAnnotationFromAnnotations(
+        annotations,
+        'file',
+      ),
+    libraryTypeIsDefinedIn:
+      ObjectGenerationParsingUtils.valueFromImportAnnotationFromAnnotations(
+        annotations,
+        'library',
+      ),
     name: type.name,
     reference: type.reference,
     underlyingType: underlyingTypeForType(type.underlyingType, type.reference),
-    conformingProtocol: ObjectGenerationParsingUtils.possiblyUndefinedStringToMaybe(
-      type.conformingProtocol,
-    ),
+    conformingProtocol:
+      ObjectGenerationParsingUtils.possiblyUndefinedStringToMaybe(
+        type.conformingProtocol,
+      ),
     referencedGenericTypes: type.referencedGenericTypes.map(
       referencedGenericTypeFromParsedAttributeType,
     ),
@@ -70,9 +74,10 @@ function referencedGenericTypeFromParsedAttributeType(
 ): ObjC.ReferencedGenericType {
   return {
     name: type.name,
-    conformingProtocol: ObjectGenerationParsingUtils.possiblyUndefinedStringToMaybe(
-      type.conformingProtocol,
-    ),
+    conformingProtocol:
+      ObjectGenerationParsingUtils.possiblyUndefinedStringToMaybe(
+        type.conformingProtocol,
+      ),
     referencedGenericTypes: type.referencedGenericTypes.map(
       referencedGenericTypeFromParsedAttributeType,
     ),
@@ -83,14 +88,16 @@ function foundAttributeFromParseResultAttribute(
   attribute: ObjectMonaParser.ParsedAttribute,
 ): ObjectSpec.Attribute {
   return {
-    annotations: ObjectGenerationParsingUtils.foundAnnotationFromParsedAnnotations(
-      attribute.annotations,
-    ),
+    annotations:
+      ObjectGenerationParsingUtils.foundAnnotationFromParsedAnnotations(
+        attribute.annotations,
+      ),
     comments: attribute.comments,
     name: attribute.name,
-    nullability: ObjectGenerationParsingUtils.nullabilityFromParseResultAnnotations(
-      attribute.annotations,
-    ),
+    nullability:
+      ObjectGenerationParsingUtils.nullabilityFromParseResultAnnotations(
+        attribute.annotations,
+      ),
     type: foundAttributeTypeFromParsedAttributeType(
       attribute.type,
       attribute.annotations,
@@ -102,9 +109,10 @@ function foundTypeFromParsedType(
   foundType: ObjectMonaParser.ObjectSpecParsedType,
 ): ObjectSpec.Type {
   return {
-    annotations: ObjectGenerationParsingUtils.foundAnnotationFromParsedAnnotations(
-      foundType.annotations,
-    ),
+    annotations:
+      ObjectGenerationParsingUtils.foundAnnotationFromParsedAnnotations(
+        foundType.annotations,
+      ),
     attributes: foundType.attributes.map(
       foundAttributeFromParseResultAttribute,
     ),
@@ -113,10 +121,10 @@ function foundTypeFromParsedType(
     includes: foundType.includes,
     excludes: foundType.excludes,
     typeLookups: Either.match(
-      function(errors: Error.Error[]) {
+      function (errors: Error.Error[]) {
         return [];
       },
-      function(typeLookups: ObjectGeneration.TypeLookup[]) {
+      function (typeLookups: ObjectGeneration.TypeLookup[]) {
         return typeLookups;
       },
       ObjectGenerationParsingUtils.typeLookupsFromRawAnnotations(
@@ -132,9 +140,8 @@ function foundTypeFromParsedType(
 export function parse(
   input: string,
 ): Either.Either<Error.Error[], ObjectSpec.Type> {
-  const result: ObjectMonaParser.ObjectSpecParseResult = ObjectMonaParser.parseObjectSpec(
-    input,
-  );
+  const result: ObjectMonaParser.ObjectSpecParseResult =
+    ObjectMonaParser.parseObjectSpec(input);
 
   if (result.isValid) {
     const foundType: ObjectSpec.Type = foundTypeFromParsedType(

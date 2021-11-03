@@ -54,14 +54,14 @@ function copyingValidatorFunction(
       modifiers: [],
     },
     code: attributes
-      .filter(attribute =>
+      .filter((attribute) =>
         shouldValidateNSCopyingConformanceOfAttribute(
           supportsValueSemantics,
           attribute,
         ),
       )
       .map(
-        attribute =>
+        (attribute) =>
           `id<NSCopying> ${attribute.name}_must_conform_to_NSCopying __unused = (${attribute.type.reference})nil;`,
       ),
     isPublic: false,
@@ -95,10 +95,10 @@ export function createPlugin(): ObjectSpec.Plugin {
     additionalTypes: empty(),
     attributes: empty(),
     classMethods: empty(),
-    transformFileRequest: request => request,
+    transformFileRequest: (request) => request,
     fileType: nothing(),
     forwardDeclarations: empty(),
-    functions: objectType => [
+    functions: (objectType) => [
       copyingValidatorFunction(
         ObjectSpecUtils.typeSupportsValueObjectSemantics(objectType),
         objectType.attributes,
@@ -107,14 +107,14 @@ export function createPlugin(): ObjectSpec.Plugin {
     headerComments: empty(),
     implementedProtocols: empty(),
     imports: empty(),
-    instanceMethods: _ => INSTANCE_METHODS,
+    instanceMethods: (_) => INSTANCE_METHODS,
     macros: empty(),
     properties: empty(),
     requiredIncludesToRun: ['RMCopyingTypeSafety'],
     staticConstants: empty(),
     validationErrors: empty(),
     nullability: nothing(),
-    subclassingRestricted: _ => false,
+    subclassingRestricted: (_) => false,
   };
 }
 
@@ -130,24 +130,24 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
     headerComments: empty(),
     implementedProtocols: empty(),
     imports: empty(),
-    instanceMethods: _ => INSTANCE_METHODS,
+    instanceMethods: (_) => INSTANCE_METHODS,
     instanceVariables: empty(),
     macros: empty(),
     nullability: nothing(),
     requiredIncludesToRun: ['RMCopyingTypeSafety'],
     staticConstants: empty(),
-    subclassingRestricted: _ => false,
+    subclassingRestricted: (_) => false,
     transformBaseFile: (_, b) => b,
-    transformFileRequest: request => request,
+    transformFileRequest: (request) => request,
     validationErrors: empty(),
   };
 }
 
 // Utilities to make definitions shorter.
 function nothing<T, R>(): (T) => R | null {
-  return _ => null;
+  return (_) => null;
 }
 
 function empty<T, R>(): (T) => R[] {
-  return _ => [];
+  return (_) => [];
 }

@@ -27,18 +27,18 @@ function toAsyncLoggingPipelineForm<T, U>(
 ): (
   future: Promise.Future<Logging.Context<T>>,
 ) => Promise.Future<Logging.Context<U>> {
-  return function(future: Promise.Future<Logging.Context<T>>) {
-    return Promise.mbind(function(context: Logging.Context<T>) {
+  return function (future: Promise.Future<Logging.Context<T>>) {
+    return Promise.mbind(function (context: Logging.Context<T>) {
       const value: T = Logging.getValue(context);
       const beforeTime = new Date();
       const result: Promise.Future<Logging.Context<U>> = f(value);
-      return Promise.map(function(resultContext: Logging.Context<U>) {
+      return Promise.map(function (resultContext: Logging.Context<U>) {
         const afterTime = new Date();
         const func: any = f;
-        const combinedContext = Logging.mbind(function(t: T) {
+        const combinedContext = Logging.mbind(function (t: T) {
           return resultContext;
         }, context);
-        return Logging.mbind(function(u: U) {
+        return Logging.mbind(function (u: U) {
           return performanceLog(func.name, beforeTime, afterTime, u);
         }, combinedContext);
       }, result);
@@ -68,8 +68,8 @@ function evaluateFutureLoggingForLogger<T>(
 ): (
   future: Promise.Future<Logging.Context<T>>,
 ) => Promise.Future<Logging.Context<T>> {
-  return function(future: Promise.Future<Logging.Context<T>>) {
-    return Promise.map(function(context: Logging.Context<T>) {
+  return function (future: Promise.Future<Logging.Context<T>>) {
+    return Promise.map(function (context: Logging.Context<T>) {
       return Logging.evaluate(logger, context);
     }, future);
   };

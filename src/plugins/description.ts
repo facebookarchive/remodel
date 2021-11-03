@@ -34,7 +34,7 @@ function useValueAccessor(valueAccessor: string): string {
 function castValueAccessorValue(
   castToApply: string,
 ): (valueAccessor: string) => string {
-  return function(valueAccessor: string): string {
+  return function (valueAccessor: string): string {
     return '(' + castToApply + ')' + valueAccessor;
   };
 }
@@ -42,7 +42,7 @@ function castValueAccessorValue(
 function useFunctionReturnValueAsDescriptionValue(
   functionToCall: string,
 ): (valueAccessor: string) => string {
-  return function(valueAccessor: string): string {
+  return function (valueAccessor: string): string {
     return functionToCall + '(' + valueAccessor + ')';
   };
 }
@@ -63,99 +63,99 @@ const NSOBJECT_ATTRIBUTE_DESCRIPTION: AttributeDescription = {
 function attributeDescriptionForType(type: ObjC.Type): AttributeDescription {
   return ObjCTypeUtils.matchType(
     {
-      id: function() {
+      id: function () {
         return NSOBJECT_ATTRIBUTE_DESCRIPTION;
       },
-      NSObject: function() {
+      NSObject: function () {
         return NSOBJECT_ATTRIBUTE_DESCRIPTION;
       },
-      BOOL: function() {
+      BOOL: function () {
         return {
           descriptionFunctionImport: null,
           token: '%@',
-          valueGenerator: function(valueAccessor: string): string {
+          valueGenerator: function (valueAccessor: string): string {
             return valueAccessor + ' ? @"YES" : @"NO"';
           },
         };
       },
-      NSInteger: function() {
+      NSInteger: function () {
         return {
           descriptionFunctionImport: null,
           token: '%lld',
           valueGenerator: castValueAccessorValue('long long'),
         };
       },
-      NSUInteger: function() {
+      NSUInteger: function () {
         return {
           descriptionFunctionImport: null,
           token: '%llu',
           valueGenerator: castValueAccessorValue('unsigned long long'),
         };
       },
-      double: function() {
+      double: function () {
         return {
           descriptionFunctionImport: null,
           token: '%lf',
           valueGenerator: useValueAccessor,
         };
       },
-      float: function() {
+      float: function () {
         return {
           descriptionFunctionImport: null,
           token: '%f',
           valueGenerator: useValueAccessor,
         };
       },
-      CGFloat: function() {
+      CGFloat: function () {
         return {
           descriptionFunctionImport: null,
           token: '%f',
           valueGenerator: useValueAccessor,
         };
       },
-      NSTimeInterval: function() {
+      NSTimeInterval: function () {
         return {
           descriptionFunctionImport: null,
           token: '%lf',
           valueGenerator: useValueAccessor,
         };
       },
-      uintptr_t: function() {
+      uintptr_t: function () {
         return {
           descriptionFunctionImport: null,
           token: '%p',
           valueGenerator: castValueAccessorValue('void *'),
         };
       },
-      uint32_t: function() {
+      uint32_t: function () {
         return {
           descriptionFunctionImport: null,
           token: '%u',
           valueGenerator: useValueAccessor,
         };
       },
-      uint64_t: function() {
+      uint64_t: function () {
         return {
           descriptionFunctionImport: null,
           token: '%llu',
           valueGenerator: castValueAccessorValue('unsigned long long'),
         };
       },
-      int32_t: function() {
+      int32_t: function () {
         return {
           descriptionFunctionImport: null,
           token: '%d',
           valueGenerator: useValueAccessor,
         };
       },
-      int64_t: function() {
+      int64_t: function () {
         return {
           descriptionFunctionImport: null,
           token: '%lld',
           valueGenerator: castValueAccessorValue('long long'),
         };
       },
-      SEL: function() {
+      SEL: function () {
         return {
           descriptionFunctionImport: null,
           token: '%@',
@@ -164,25 +164,23 @@ function attributeDescriptionForType(type: ObjC.Type): AttributeDescription {
           ),
         };
       },
-      NSRange: function() {
+      NSRange: function () {
         return {
           descriptionFunctionImport: null,
           token: '%@',
-          valueGenerator: useFunctionReturnValueAsDescriptionValue(
-            'NSStringFromRange',
-          ),
+          valueGenerator:
+            useFunctionReturnValueAsDescriptionValue('NSStringFromRange'),
         };
       },
-      CGRect: function() {
+      CGRect: function () {
         return {
           descriptionFunctionImport: UI_GEOMETRY_IMPORT,
           token: '%@',
-          valueGenerator: useFunctionReturnValueAsDescriptionValue(
-            'NSStringFromCGRect',
-          ),
+          valueGenerator:
+            useFunctionReturnValueAsDescriptionValue('NSStringFromCGRect'),
         };
       },
-      CGPoint: function() {
+      CGPoint: function () {
         return {
           descriptionFunctionImport: UI_GEOMETRY_IMPORT,
           token: '%@',
@@ -191,16 +189,15 @@ function attributeDescriptionForType(type: ObjC.Type): AttributeDescription {
           ),
         };
       },
-      CGSize: function() {
+      CGSize: function () {
         return {
           descriptionFunctionImport: UI_GEOMETRY_IMPORT,
           token: '%@',
-          valueGenerator: useFunctionReturnValueAsDescriptionValue(
-            'NSStringFromCGSize',
-          ),
+          valueGenerator:
+            useFunctionReturnValueAsDescriptionValue('NSStringFromCGSize'),
         };
       },
-      UIEdgeInsets: function() {
+      UIEdgeInsets: function () {
         return {
           descriptionFunctionImport: UI_GEOMETRY_IMPORT,
           token: '%@',
@@ -209,21 +206,21 @@ function attributeDescriptionForType(type: ObjC.Type): AttributeDescription {
           ),
         };
       },
-      Class: function() {
+      Class: function () {
         return {
           descriptionFunctionImport: null,
           token: '%@',
           valueGenerator: useValueAccessor,
         };
       },
-      dispatch_block_t: function() {
+      dispatch_block_t: function () {
         return {
           descriptionFunctionImport: null,
           token: '%@',
           valueGenerator: useValueAccessor,
         };
       },
-      unmatchedType: function() {
+      unmatchedType: function () {
         return null!;
       },
     },
@@ -269,9 +266,8 @@ function attributeDescriptionImportMaybeForAlgebraicAttribute(
 function computedAttributeDescriptionFromAttribute(
   attribute: ObjectSpec.Attribute,
 ): ComputedAttributeDescription {
-  const attributeDescription: AttributeDescription = attributeDescriptionForObjectSpecAttribute(
-    attribute,
-  );
+  const attributeDescription: AttributeDescription =
+    attributeDescriptionForObjectSpecAttribute(attribute);
   return computedAttributeDescriptionFromAttributeDescription(
     attributeDescription,
     attribute.name,
@@ -342,9 +338,8 @@ function descriptionInstanceMethodWithCode(code: string[]): ObjC.Method {
 function doesValueAttributeContainAnUnknownType(
   attribute: ObjectSpec.Attribute,
 ): boolean {
-  const attributeDescription: AttributeDescription = attributeDescriptionForObjectSpecAttribute(
-    attribute,
-  );
+  const attributeDescription: AttributeDescription =
+    attributeDescriptionForObjectSpecAttribute(attribute);
   return attributeDescription == null;
 }
 
@@ -353,7 +348,7 @@ function valueAttributeToUnknownTypeError(
   attribute: ObjectSpec.Attribute,
 ): Error.Error {
   return Maybe.match(
-    function(underlyingType: string): Error.Error {
+    function (underlyingType: string): Error.Error {
       return Error.Error(
         'The Description plugin does not know how to format the backing type "' +
           underlyingType +
@@ -364,7 +359,7 @@ function valueAttributeToUnknownTypeError(
           '. Did you declare the wrong backing type?',
       );
     },
-    function(): Error.Error {
+    function (): Error.Error {
       return Error.Error(
         'The Description plugin does not know how to format the type "' +
           attribute.type.name +
@@ -381,60 +376,59 @@ function valueAttributeToUnknownTypeError(
 
 export function createPlugin(): ObjectSpec.Plugin {
   return {
-    additionalFiles: function(objectType: ObjectSpec.Type): Code.File[] {
+    additionalFiles: function (objectType: ObjectSpec.Type): Code.File[] {
       return [];
     },
-    transformBaseFile: function(
+    transformBaseFile: function (
       objectType: ObjectSpec.Type,
       baseFile: Code.File,
     ): Code.File {
       return baseFile;
     },
-    additionalTypes: function(objectType: ObjectSpec.Type): ObjectSpec.Type[] {
+    additionalTypes: function (objectType: ObjectSpec.Type): ObjectSpec.Type[] {
       return [];
     },
-    attributes: function(objectType: ObjectSpec.Type): ObjectSpec.Attribute[] {
+    attributes: function (objectType: ObjectSpec.Type): ObjectSpec.Attribute[] {
       return [];
     },
-    classMethods: function(objectType: ObjectSpec.Type): ObjC.Method[] {
+    classMethods: function (objectType: ObjectSpec.Type): ObjC.Method[] {
       return [];
     },
-    transformFileRequest: function(
+    transformFileRequest: function (
       request: FileWriter.Request,
     ): FileWriter.Request {
       return request;
     },
-    fileType: function(objectType: ObjectSpec.Type): Code.FileType | null {
+    fileType: function (objectType: ObjectSpec.Type): Code.FileType | null {
       return null;
     },
-    forwardDeclarations: function(
+    forwardDeclarations: function (
       objectType: ObjectSpec.Type,
     ): ObjC.ForwardDeclaration[] {
       return [];
     },
-    functions: function(objectType: ObjectSpec.Type): ObjC.Function[] {
+    functions: function (objectType: ObjectSpec.Type): ObjC.Function[] {
       return [];
     },
-    headerComments: function(objectType: ObjectSpec.Type): ObjC.Comment[] {
+    headerComments: function (objectType: ObjectSpec.Type): ObjC.Comment[] {
       return [];
     },
-    implementedProtocols: function(
+    implementedProtocols: function (
       objectType: ObjectSpec.Type,
     ): ObjC.ImplementedProtocol[] {
       return [];
     },
-    imports: function(objectType: ObjectSpec.Type): ObjC.Import[] {
+    imports: function (objectType: ObjectSpec.Type): ObjC.Import[] {
       const attributeDescriptionImportMaybes = objectType.attributes.map(
         attributeDescriptionImportMaybeForObjectSpecAttribute,
       );
 
       return Maybe.catMaybes(attributeDescriptionImportMaybes);
     },
-    instanceMethods: function(objectType: ObjectSpec.Type): ObjC.Method[] {
+    instanceMethods: function (objectType: ObjectSpec.Type): ObjC.Method[] {
       if (objectType.attributes.length > 0) {
-        const attributeDescriptions: ComputedAttributeDescription[] = objectType.attributes.map(
-          computedAttributeDescriptionFromAttribute,
-        );
+        const attributeDescriptions: ComputedAttributeDescription[] =
+          objectType.attributes.map(computedAttributeDescriptionFromAttribute);
         const code: string[] = [
           returnStatementForAttributeDescriptions(attributeDescriptions),
         ];
@@ -443,29 +437,29 @@ export function createPlugin(): ObjectSpec.Plugin {
         return [];
       }
     },
-    macros: function(valueType: ObjectSpec.Type): ObjC.Macro[] {
+    macros: function (valueType: ObjectSpec.Type): ObjC.Macro[] {
       return [];
     },
-    properties: function(objectType: ObjectSpec.Type): ObjC.Property[] {
+    properties: function (objectType: ObjectSpec.Type): ObjC.Property[] {
       return [];
     },
     requiredIncludesToRun: ['RMDescription'],
-    staticConstants: function(objectType: ObjectSpec.Type): ObjC.Constant[] {
+    staticConstants: function (objectType: ObjectSpec.Type): ObjC.Constant[] {
       return [];
     },
-    validationErrors: function(objectType: ObjectSpec.Type): Error.Error[] {
+    validationErrors: function (objectType: ObjectSpec.Type): Error.Error[] {
       return objectType.attributes
         .filter(doesValueAttributeContainAnUnknownType)
-        .map(attribute =>
+        .map((attribute) =>
           valueAttributeToUnknownTypeError(objectType, attribute),
         );
     },
-    nullability: function(
+    nullability: function (
       objectType: ObjectSpec.Type,
     ): ObjC.ClassNullability | null {
       return null;
     },
-    subclassingRestricted: function(objectType: ObjectSpec.Type): boolean {
+    subclassingRestricted: function (objectType: ObjectSpec.Type): boolean {
       return false;
     },
   };
@@ -475,9 +469,10 @@ function computedAttributeDescriptionFromAlgebraicSubtypeAttribute(
   subtype: AlgebraicType.Subtype,
   attribute: AlgebraicType.SubtypeAttribute,
 ): ComputedAttributeDescription {
-  const attributeDescription: AttributeDescription = attributeDescriptionForType(
-    AlgebraicTypeUtils.computeTypeOfAttribute(attribute),
-  );
+  const attributeDescription: AttributeDescription =
+    attributeDescriptionForType(
+      AlgebraicTypeUtils.computeTypeOfAttribute(attribute),
+    );
   return computedAttributeDescriptionFromAttributeDescription(
     attributeDescription,
     attribute.name,
@@ -493,16 +488,16 @@ function returnStatementForAlgebraicSubtype(
   subtype: AlgebraicType.Subtype,
 ): string[] {
   return subtype.match(
-    function(
+    function (
       namedAttributeCollectionSubtype: AlgebraicType.NamedAttributeCollectionSubtype,
     ) {
-      const attributeDescriptions: ComputedAttributeDescription[] = namedAttributeCollectionSubtype.attributes.map(
-        attribute =>
+      const attributeDescriptions: ComputedAttributeDescription[] =
+        namedAttributeCollectionSubtype.attributes.map((attribute) =>
           computedAttributeDescriptionFromAlgebraicSubtypeAttribute(
             subtype,
             attribute,
           ),
-      );
+        );
       return [
         returnStatementForAttributeDescriptions(
           attributeDescriptions,
@@ -510,7 +505,7 @@ function returnStatementForAlgebraicSubtype(
         ),
       ];
     },
-    function(attribute: AlgebraicType.SubtypeAttribute) {
+    function (attribute: AlgebraicType.SubtypeAttribute) {
       const attributeDescriptions = [
         computedAttributeDescriptionFromAlgebraicSubtypeAttribute(
           subtype,
@@ -535,9 +530,10 @@ function descriptionInstanceMethodCodeForAlgebraicType(
 function doesAlgebraicAttributeContainAnUnknownType(
   attribute: AlgebraicType.SubtypeAttribute,
 ): boolean {
-  const attributeDescription: AttributeDescription = attributeDescriptionForType(
-    AlgebraicTypeUtils.computeTypeOfAttribute(attribute),
-  );
+  const attributeDescription: AttributeDescription =
+    attributeDescriptionForType(
+      AlgebraicTypeUtils.computeTypeOfAttribute(attribute),
+    );
   return attributeDescription == null;
 }
 
@@ -546,7 +542,7 @@ function algebraicAttributeToUnknownTypeError(
   attribute: AlgebraicType.SubtypeAttribute,
 ): Error.Error {
   return Maybe.match(
-    function(underlyingType: string): Error.Error {
+    function (underlyingType: string): Error.Error {
       return Error.Error(
         'The Description plugin does not know how to format the backing type "' +
           underlyingType +
@@ -557,7 +553,7 @@ function algebraicAttributeToUnknownTypeError(
           '. Did you declare the wrong backing type?',
       );
     },
-    function(): Error.Error {
+    function (): Error.Error {
       return Error.Error(
         'The Description plugin does not know how to format the type "' +
           attribute.type.name +
@@ -574,100 +570,100 @@ function algebraicAttributeToUnknownTypeError(
 
 export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
   return {
-    additionalFiles: function(algebraicType: AlgebraicType.Type): Code.File[] {
+    additionalFiles: function (algebraicType: AlgebraicType.Type): Code.File[] {
       return [];
     },
-    transformBaseFile: function(
+    transformBaseFile: function (
       algebraicType: AlgebraicType.Type,
       baseFile: Code.File,
     ): Code.File {
       return baseFile;
     },
-    blockTypes: function(algebraicType: AlgebraicType.Type): ObjC.BlockType[] {
+    blockTypes: function (algebraicType: AlgebraicType.Type): ObjC.BlockType[] {
       return [];
     },
-    classMethods: function(algebraicType: AlgebraicType.Type): ObjC.Method[] {
+    classMethods: function (algebraicType: AlgebraicType.Type): ObjC.Method[] {
       return [];
     },
-    enumerations: function(
+    enumerations: function (
       algebraicType: AlgebraicType.Type,
     ): ObjC.Enumeration[] {
       return [];
     },
-    transformFileRequest: function(
+    transformFileRequest: function (
       request: FileWriter.Request,
     ): FileWriter.Request {
       return request;
     },
-    fileType: function(
+    fileType: function (
       algebraicType: AlgebraicType.Type,
     ): Code.FileType | null {
       return null;
     },
-    forwardDeclarations: function(
+    forwardDeclarations: function (
       algebraicType: AlgebraicType.Type,
     ): ObjC.ForwardDeclaration[] {
       return [];
     },
-    functions: function(algebraicType: AlgebraicType.Type): ObjC.Function[] {
+    functions: function (algebraicType: AlgebraicType.Type): ObjC.Function[] {
       return [];
     },
-    headerComments: function(
+    headerComments: function (
       algebraicType: AlgebraicType.Type,
     ): ObjC.Comment[] {
       return [];
     },
-    implementedProtocols: function(
+    implementedProtocols: function (
       algebraicType: AlgebraicType.Type,
     ): ObjC.ImplementedProtocol[] {
       return [];
     },
-    imports: function(algebraicType: AlgebraicType.Type): ObjC.Import[] {
-      const attributeDescriptionImportMaybes = AlgebraicTypeUtils.allAttributesFromSubtypes(
-        algebraicType.subtypes,
-      ).map(attributeDescriptionImportMaybeForAlgebraicAttribute);
+    imports: function (algebraicType: AlgebraicType.Type): ObjC.Import[] {
+      const attributeDescriptionImportMaybes =
+        AlgebraicTypeUtils.allAttributesFromSubtypes(
+          algebraicType.subtypes,
+        ).map(attributeDescriptionImportMaybeForAlgebraicAttribute);
 
       return Maybe.catMaybes(attributeDescriptionImportMaybes);
     },
-    instanceMethods: function(
+    instanceMethods: function (
       algebraicType: AlgebraicType.Type,
     ): ObjC.Method[] {
-      const code: string[] = descriptionInstanceMethodCodeForAlgebraicType(
-        algebraicType,
-      );
+      const code: string[] =
+        descriptionInstanceMethodCodeForAlgebraicType(algebraicType);
       return [descriptionInstanceMethodWithCode(code)];
     },
-    instanceVariables: function(
+    instanceVariables: function (
       algebraicType: AlgebraicType.Type,
     ): ObjC.InstanceVariable[] {
       return [];
     },
-    macros: function(algebraicType: AlgebraicType.Type): ObjC.Macro[] {
+    macros: function (algebraicType: AlgebraicType.Type): ObjC.Macro[] {
       return [];
     },
     requiredIncludesToRun: ['RMDescription'],
-    staticConstants: function(
+    staticConstants: function (
       algebraicType: AlgebraicType.Type,
     ): ObjC.Constant[] {
       return [];
     },
-    validationErrors: function(
+    validationErrors: function (
       algebraicType: AlgebraicType.Type,
     ): Error.Error[] {
       return AlgebraicTypeUtils.allAttributesFromSubtypes(
         algebraicType.subtypes,
       )
         .filter(doesAlgebraicAttributeContainAnUnknownType)
-        .map(attribute =>
+        .map((attribute) =>
           algebraicAttributeToUnknownTypeError(algebraicType, attribute),
         );
     },
-    nullability: function(
+    nullability: function (
       algebraicType: AlgebraicType.Type,
     ): ObjC.ClassNullability | null {
       return null;
     },
-    subclassingRestricted: function(
+    subclassingRestricted: function (
       algebraicType: AlgebraicType.Type,
     ): boolean {
       return false;

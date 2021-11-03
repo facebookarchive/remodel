@@ -32,26 +32,26 @@ function trackConsoleOutput(
     Logging.Context<Either.Either<Error.Error[], ObjectGenerationSuccess>>
   >,
 ): Promise.Future<Logging.Context<ConsoleOutputResults>> {
-  return Promise.mbind(function(
+  return Promise.mbind(function (
     lcResults: Logging.Context<ConsoleOutputResults>,
   ) {
-    return Promise.map(function(
+    return Promise.map(function (
       output: Logging.Context<
         Either.Either<Error.Error[], ObjectGenerationSuccess>
       >,
     ) {
-      return Logging.mbind(function(results: ConsoleOutputResults) {
-        return Logging.map(function(
+      return Logging.mbind(function (results: ConsoleOutputResults) {
+        return Logging.map(function (
           either: Either.Either<Error.Error[], ObjectGenerationSuccess>,
         ) {
           return Either.match(
-            function(errors: Error.Error[]): ConsoleOutputResults {
+            function (errors: Error.Error[]): ConsoleOutputResults {
               return {
                 errorCount: results.errorCount + 1,
                 successCount: results.successCount,
               };
             },
-            function(success: ObjectGenerationSuccess): ConsoleOutputResults {
+            function (success: ObjectGenerationSuccess): ConsoleOutputResults {
               return {
                 errorCount: results.errorCount,
                 successCount: results.successCount + 1,
@@ -74,7 +74,7 @@ function loggerForParsedArgs(
   return {
     interestedLoggingTypes: parsedArgs.interestedLoggingTypes,
     minimalLevel: parsedArgs.minimalLevel,
-    processLog: function(
+    processLog: function (
       loggingType: Logging.LoggingType,
       time: Date,
       info: string,
@@ -122,12 +122,12 @@ function failOnError(
   soFar: Either.Either<Error.Error[], ObjectGenerationSuccess>,
   thisOne: Error.Error | null,
 ): Either.Either<Error.Error[], ObjectGenerationSuccess> {
-  return Either.mbind(function(success: ObjectGenerationSuccess) {
+  return Either.mbind(function (success: ObjectGenerationSuccess) {
     return Maybe.match(
-      function(errors: Error.Error) {
+      function (errors: Error.Error) {
         return Either.Left<Error.Error[], ObjectGenerationSuccess>([errors]);
       },
-      function() {
+      function () {
         return soFar;
       },
       thisOne,
@@ -142,11 +142,11 @@ function generateOutput(
 > {
   return Promise.munit(
     Either.match(
-      function(errors: Error.Error[]) {
+      function (errors: Error.Error[]) {
         const message: string = errors.map(Error.getReason).join('\n');
         return Logging.Error(10, message, either);
       },
-      function(success: ObjectGenerationSuccess) {
+      function (success: ObjectGenerationSuccess) {
         return Logging.Info(10, success.name + ' Generated', either);
       },
       either,
@@ -165,7 +165,7 @@ function writeRequestToEitherErrorOrGenerationSuccess(
   const promiseForAllWriteRequestsFinished = Promise.all(
     List.map(fileWriter, request.requests),
   );
-  return Promise.map(function(results: List.List<Error.Error | null>) {
+  return Promise.map(function (results: List.List<Error.Error | null>) {
     const success = Either.Right<Error.Error[], ObjectGenerationSuccess>({
       name: request.name,
     });
@@ -183,7 +183,7 @@ function writeFiles(
 > {
   return Either.match(
     propagateGenerationSuccessError,
-    request =>
+    (request) =>
       writeRequestToEitherErrorOrGenerationSuccess(fileWriter, request),
     either,
   );
@@ -205,26 +205,27 @@ function writeAndLogSequence(
     >
   >,
 ): Promise.Future<ConsoleOutputResults> {
-  const outputResults: Promise.Future<Promise.Future<
-    Logging.Context<ConsoleOutputResults>
-  >> = LazySequence.foldl(
+  const outputResults: Promise.Future<
+    Promise.Future<Logging.Context<ConsoleOutputResults>>
+  > = LazySequence.foldl(
     trackConsoleOutput,
     Promise.resolved(
       Logging.munit<ConsoleOutputResults>({errorCount: 0, successCount: 0}),
     ).getFuture(),
     evaluatedSequence,
   );
-  const resultingLoggingContext: Promise.Future<ConsoleOutputResults> = Promise.mbind(
-    function(future: Promise.Future<Logging.Context<ConsoleOutputResults>>) {
-      return Promise.map(function(
+  const resultingLoggingContext: Promise.Future<ConsoleOutputResults> =
+    Promise.mbind(function (
+      future: Promise.Future<Logging.Context<ConsoleOutputResults>>,
+    ) {
+      return Promise.map(function (
         lcResults: Logging.Context<ConsoleOutputResults>,
       ) {
         return lcResults.value;
       },
       future);
     },
-    outputResults,
-  );
+    outputResults);
 
   return resultingLoggingContext;
 }
@@ -241,7 +242,7 @@ export function evaluateObjectFileWriteRequestSequence(
 
   const writtenFileSequence = LoggingSequenceUtils.mapLoggedSequence3(
     writeRequestSequence,
-    request => writeFiles(fileWriter, request),
+    (request) => writeFiles(fileWriter, request),
     generateOutput,
   );
 

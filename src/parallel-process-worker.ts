@@ -12,18 +12,17 @@ import * as ParallelProcess from './parallel-process';
 import * as Promise from './promise';
 
 function processFoundFileRequest(request: ParallelProcess.FindFilesRequest) {
-  const foundFilesFuture: Promise.Future<Either.Either<
-    Error.Error,
-    FileFinder.FilesAndDirectories
-  >> = FileFinder.findFilesAndDirectories(
+  const foundFilesFuture: Promise.Future<
+    Either.Either<Error.Error, FileFinder.FilesAndDirectories>
+  > = FileFinder.findFilesAndDirectories(
     request.directoryToSearch,
     request.fileExtension,
   );
-  Promise.then(function(
+  Promise.then(function (
     either: Either.Either<Error.Error, FileFinder.FilesAndDirectories>,
   ) {
     const response: ParallelProcess.Response = Either.match(
-      function(error: Error.Error) {
+      function (error: Error.Error) {
         const errorResponse: ParallelProcess.Response = {
           pid: process.pid,
           responseType: ParallelProcess.ResponseType.findFilesResponse,
@@ -37,7 +36,7 @@ function processFoundFileRequest(request: ParallelProcess.FindFilesRequest) {
         };
         return errorResponse;
       },
-      function(information: FileFinder.FilesAndDirectories) {
+      function (information: FileFinder.FilesAndDirectories) {
         const successResponse: ParallelProcess.Response = {
           pid: process.pid,
           responseType: ParallelProcess.ResponseType.findFilesResponse,
@@ -60,7 +59,7 @@ function processFoundFileRequest(request: ParallelProcess.FindFilesRequest) {
   foundFilesFuture);
 }
 
-process.on('message', function(request: ParallelProcess.Request) {
+process.on('message', function (request: ParallelProcess.Request) {
   switch (request.requestType) {
     case ParallelProcess.RequestType.findFilesRequest:
       processFoundFileRequest(request.findFilesRequest);

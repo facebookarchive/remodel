@@ -15,15 +15,13 @@ import * as AlgebraicType from '../algebraic-type';
 import * as AlgebraicTypeParser from '../algebraic-type-parser';
 import * as ObjC from '../objc';
 
-describe('AlgebraicTypeParser', function() {
-  describe('#parseAlgebraicType', function() {
-    it('parses an algebraic type with a subtype that has two properties that are valid', function() {
+describe('AlgebraicTypeParser', function () {
+  describe('#parseAlgebraicType', function () {
+    it('parses an algebraic type with a subtype that has two properties that are valid', function () {
       const fileContents =
         'RMSomething { RMOption { uint64_t someUnsignedInt } }';
-      const actualResult: Either.Either<
-        Error.Error[],
-        AlgebraicType.Type
-      > = AlgebraicTypeParser.parse(fileContents);
+      const actualResult: Either.Either<Error.Error[], AlgebraicType.Type> =
+        AlgebraicTypeParser.parse(fileContents);
 
       const expectedADT: AlgebraicType.Type = {
         annotations: {},
@@ -59,20 +57,16 @@ describe('AlgebraicTypeParser', function() {
         libraryName: null,
       };
 
-      const expectedResult: Either.Either<
-        Error.Error[],
-        AlgebraicType.Type
-      > = Either.Right<Error.Error[], AlgebraicType.Type>(expectedADT);
+      const expectedResult: Either.Either<Error.Error[], AlgebraicType.Type> =
+        Either.Right<Error.Error[], AlgebraicType.Type>(expectedADT);
       expect(actualResult).toEqualJSON(expectedResult);
     });
 
-    it('parses an algebraic type with a single value subtype', function() {
+    it('parses an algebraic type with a single value subtype', function () {
       const fileContents =
         'RMSomething { %singleAttributeSubtype attributeType="RMObject *" rmObjectProperty }';
-      const actualResult: Either.Either<
-        Error.Error[],
-        AlgebraicType.Type
-      > = AlgebraicTypeParser.parse(fileContents);
+      const actualResult: Either.Either<Error.Error[], AlgebraicType.Type> =
+        AlgebraicTypeParser.parse(fileContents);
 
       const expectedADT: AlgebraicType.Type = {
         annotations: {},
@@ -101,24 +95,20 @@ describe('AlgebraicTypeParser', function() {
         libraryName: null,
       };
 
-      const expectedResult: Either.Either<
-        Error.Error[],
-        AlgebraicType.Type
-      > = Either.Right<Error.Error[], AlgebraicType.Type>(expectedADT);
+      const expectedResult: Either.Either<Error.Error[], AlgebraicType.Type> =
+        Either.Right<Error.Error[], AlgebraicType.Type>(expectedADT);
       expect(actualResult).toEqualJSON(expectedResult);
     });
 
-    it('parses an algebraic type with a single value subtype that has lots of custom information', function() {
+    it('parses an algebraic type with a single value subtype that has lots of custom information', function () {
       const fileContents =
         '%type name=Scumbag library=Steve\n' +
         'RMSomething { #comment\n' +
         ' %singleAttributeSubtype attributeType="RMObject *"\n' +
         ' %import file=RMSomeOtherFile library=RMCustomLibrary\n' +
         ' rmObjectProperty }';
-      const actualResult: Either.Either<
-        Error.Error[],
-        AlgebraicType.Type
-      > = AlgebraicTypeParser.parse(fileContents);
+      const actualResult: Either.Either<Error.Error[], AlgebraicType.Type> =
+        AlgebraicTypeParser.parse(fileContents);
 
       const expectedADT: AlgebraicType.Type = {
         annotations: {
@@ -172,17 +162,15 @@ describe('AlgebraicTypeParser', function() {
         libraryName: null,
       };
 
-      const expectedResult: Either.Either<
-        Error.Error[],
-        AlgebraicType.Type
-      > = Either.Right<Error.Error[], AlgebraicType.Type>(expectedADT);
+      const expectedResult: Either.Either<Error.Error[], AlgebraicType.Type> =
+        Either.Right<Error.Error[], AlgebraicType.Type>(expectedADT);
       expect(actualResult).toEqualJSON(expectedResult);
     });
 
     it(
       'parses an ADT with two subtypes and lots of custom ' +
         'information that are valid',
-      function() {
+      function () {
         const fileContents =
           '#My warm something\n' +
           '%library name=RMSomethingLibrary \n' +
@@ -192,10 +180,8 @@ describe('AlgebraicTypeParser', function() {
           '   RMBlah *someBlah\n RMSomeValue(BOOL) someValue\n' +
           ' }\n' +
           '}';
-        const actualResult: Either.Either<
-          Error.Error[],
-          AlgebraicType.Type
-        > = AlgebraicTypeParser.parse(fileContents);
+        const actualResult: Either.Either<Error.Error[], AlgebraicType.Type> =
+          AlgebraicTypeParser.parse(fileContents);
         const expectedADT: AlgebraicType.Type = {
           annotations: {
             library: [
@@ -261,15 +247,13 @@ describe('AlgebraicTypeParser', function() {
           ],
           libraryName: 'RMSomethingLibrary',
         };
-        const expectedResult: Either.Either<
-          Error.Error[],
-          AlgebraicType.Type
-        > = Either.Right<Error.Error[], AlgebraicType.Type>(expectedADT);
+        const expectedResult: Either.Either<Error.Error[], AlgebraicType.Type> =
+          Either.Right<Error.Error[], AlgebraicType.Type>(expectedADT);
         expect(actualResult).toEqualJSON(expectedResult);
       },
     );
 
-    it('parses an ADT with two subtypes and nullability attributes', function() {
+    it('parses an ADT with two subtypes and nullability attributes', function () {
       const fileContents =
         'RMSomething {\n' +
         '  RMOption {\n' +
@@ -277,10 +261,8 @@ describe('AlgebraicTypeParser', function() {
         '   RMBlah *someBlah\n %nonnull\n RMBlah *someValue\n' +
         ' }\n' +
         '}';
-      const actualResult: Either.Either<
-        Error.Error[],
-        AlgebraicType.Type
-      > = AlgebraicTypeParser.parse(fileContents);
+      const actualResult: Either.Either<Error.Error[], AlgebraicType.Type> =
+        AlgebraicTypeParser.parse(fileContents);
       const expectedADT: AlgebraicType.Type = {
         annotations: {},
         name: 'RMSomething',
@@ -341,14 +323,12 @@ describe('AlgebraicTypeParser', function() {
         ],
         libraryName: null,
       };
-      const expectedResult: Either.Either<
-        Error.Error[],
-        AlgebraicType.Type
-      > = Either.Right<Error.Error[], AlgebraicType.Type>(expectedADT);
+      const expectedResult: Either.Either<Error.Error[], AlgebraicType.Type> =
+        Either.Right<Error.Error[], AlgebraicType.Type>(expectedADT);
       expect(actualResult).toEqualJSON(expectedResult);
     });
 
-    it('parses an ADT with subtypes with generics', function() {
+    it('parses an ADT with subtypes with generics', function () {
       const fileContents =
         'RMSomething {\n' +
         '  RMOption {\n' +
@@ -358,10 +338,8 @@ describe('AlgebraicTypeParser', function() {
         '    CKAction<NSDictionary<NSArray<NSString *> *, id<FooProtocol>> *> ckAction\n' +
         '  }\n' +
         '}';
-      const actualResult: Either.Either<
-        Error.Error[],
-        AlgebraicType.Type
-      > = AlgebraicTypeParser.parse(fileContents);
+      const actualResult: Either.Either<Error.Error[], AlgebraicType.Type> =
+        AlgebraicTypeParser.parse(fileContents);
       const expectedADT: AlgebraicType.Type = {
         annotations: {},
         name: 'RMSomething',
@@ -528,29 +506,23 @@ describe('AlgebraicTypeParser', function() {
         ],
         libraryName: null,
       };
-      const expectedResult: Either.Either<
-        Error.Error[],
-        AlgebraicType.Type
-      > = Either.Right<Error.Error[], AlgebraicType.Type>(expectedADT);
+      const expectedResult: Either.Either<Error.Error[], AlgebraicType.Type> =
+        Either.Right<Error.Error[], AlgebraicType.Type>(expectedADT);
       expect(actualResult).toEqualJSON(expectedResult);
     });
 
-    it('parses a value object which is invalid', function() {
+    it('parses a value object which is invalid', function () {
       const valueFileContents = 'RMSomething {{}';
-      const actualResult: Either.Either<
-        Error.Error[],
-        AlgebraicType.Type
-      > = AlgebraicTypeParser.parse(valueFileContents);
-      const expectedResult: Either.Either<
-        Error.Error[],
-        AlgebraicType.Type
-      > = Either.Left<Error.Error[], AlgebraicType.Type>([
-        Error.Error('(line 1, column 16) expected string matching {}}'),
-      ]);
+      const actualResult: Either.Either<Error.Error[], AlgebraicType.Type> =
+        AlgebraicTypeParser.parse(valueFileContents);
+      const expectedResult: Either.Either<Error.Error[], AlgebraicType.Type> =
+        Either.Left<Error.Error[], AlgebraicType.Type>([
+          Error.Error('(line 1, column 16) expected string matching {}}'),
+        ]);
       expect(actualResult).toEqualJSON(expectedResult);
     });
 
-    it('parses annotations on named attribute collection subtypes', function() {
+    it('parses annotations on named attribute collection subtypes', function () {
       const fileContents = [
         'RMADT {',
         '  %testAnnotation key=value',

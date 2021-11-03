@@ -15,11 +15,12 @@ import * as Error from '../../error';
 import * as Maybe from '../../maybe';
 import * as ObjC from '../../objc';
 
-const AlgebraicTypePlugin = AlgebraicTypeInitialization.createAlgebraicTypePlugin();
+const AlgebraicTypePlugin =
+  AlgebraicTypeInitialization.createAlgebraicTypePlugin();
 
-describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
-  describe('#imports', function() {
-    it('includes a public import for Foundation/Foundation.h', function() {
+describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function () {
+  describe('#imports', function () {
+    it('includes a public import for Foundation/Foundation.h', function () {
       const algebraicType: AlgebraicType.Type = {
         annotations: {},
         name: 'Foo',
@@ -48,7 +49,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
       expect(imports).toContain(expectedImport);
     });
 
-    it('includes a private import for its own header', function() {
+    it('includes a private import for its own header', function () {
       const algebraicType: AlgebraicType.Type = {
         annotations: {},
         name: 'Foo',
@@ -80,7 +81,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
     it(
       'does not include a public import for its own type when it is included ' +
         'in a type lookup',
-      function() {
+      function () {
         const algebraicType: AlgebraicType.Type = {
           annotations: {},
           name: 'Foo',
@@ -106,9 +107,8 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
           ],
         };
 
-        const imports: ObjC.Import[] = AlgebraicTypePlugin.imports(
-          algebraicType,
-        );
+        const imports: ObjC.Import[] =
+          AlgebraicTypePlugin.imports(algebraicType);
         const expectedImport: ObjC.Import = {
           library: null,
           file: 'Foo.h',
@@ -119,7 +119,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
       },
     );
 
-    it('includes the public imports for some of its attributes', function() {
+    it('includes the public imports for some of its attributes', function () {
       const algebraicType: AlgebraicType.Type = {
         annotations: {},
         name: 'Test',
@@ -217,7 +217,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
     it(
       'includes for an attribute that is an NSObject but does not have a ' +
         'specified library and the algebraic type is in a library',
-      function() {
+      function () {
         const algebraicType: AlgebraicType.Type = {
           annotations: {},
           name: 'Test',
@@ -245,9 +245,8 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
           ],
         };
 
-        const imports: ObjC.Import[] = AlgebraicTypePlugin.imports(
-          algebraicType,
-        );
+        const imports: ObjC.Import[] =
+          AlgebraicTypePlugin.imports(algebraicType);
         const expectedImport: ObjC.Import = {
           library: 'RMSomeLibrary',
           file: 'Foo.h',
@@ -259,8 +258,8 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
     );
   });
 
-  describe('#instanceMethods', function() {
-    it('returns an internal initializer', function() {
+  describe('#instanceMethods', function () {
+    it('returns an internal initializer', function () {
       const algebraicType: AlgebraicType.Type = {
         annotations: {},
         name: 'Foo',
@@ -281,11 +280,11 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
     });
   });
 
-  describe('#classMethods', function() {
+  describe('#classMethods', function () {
     it(
       'returns a single class method when there is one subtype ' +
         'with no attributes',
-      function() {
+      function () {
         const algebraicType: AlgebraicType.Type = {
           annotations: {},
           name: 'Foo',
@@ -304,9 +303,8 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
           ],
         };
 
-        const classMethods: ObjC.Method[] = AlgebraicTypePlugin.classMethods(
-          algebraicType,
-        );
+        const classMethods: ObjC.Method[] =
+          AlgebraicTypePlugin.classMethods(algebraicType);
         const expectedClassMethods: ObjC.Method[] = [
           {
             preprocessors: [],
@@ -340,7 +338,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
     it(
       'returns two class methods when there are two subtypes ' +
         'with some attributes',
-      function() {
+      function () {
         const algebraicType: AlgebraicType.Type = {
           annotations: {},
           name: 'Test',
@@ -405,9 +403,8 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
           ],
         };
 
-        const classMethods: ObjC.Method[] = AlgebraicTypePlugin.classMethods(
-          algebraicType,
-        );
+        const classMethods: ObjC.Method[] =
+          AlgebraicTypePlugin.classMethods(algebraicType);
         const expectedClassMethods: ObjC.Method[] = [
           {
             preprocessors: [],
@@ -492,7 +489,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
       },
     );
 
-    it('converts swift acronyms properly to lowercase', function() {
+    it('converts swift acronyms properly to lowercase', function () {
       const algebraicType: AlgebraicType.Type = {
         annotations: {},
         name: 'Test',
@@ -587,20 +584,19 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
         ],
       };
 
-      const classMethods: ObjC.Method[] = AlgebraicTypePlugin.classMethods(
-        algebraicType,
-      );
+      const classMethods: ObjC.Method[] =
+        AlgebraicTypePlugin.classMethods(algebraicType);
       expect(classMethods[0].compilerAttributes[0]).toEqual(
         'NS_SWIFT_NAME(urlSubtype(url:urlProp:someURL:string:someString:))',
       );
     });
   });
 
-  describe('#instanceVariables', function() {
+  describe('#instanceVariables', function () {
     it(
       'returns internal properties for storing the subtypes attributes as well ' +
         'as the type',
-      function() {
+      function () {
         const algebraicType: AlgebraicType.Type = {
           annotations: {},
           name: 'Test',
@@ -665,9 +661,8 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
           ],
         };
 
-        const instanceVariables: ObjC.InstanceVariable[] = AlgebraicTypePlugin.instanceVariables(
-          algebraicType,
-        );
+        const instanceVariables: ObjC.InstanceVariable[] =
+          AlgebraicTypePlugin.instanceVariables(algebraicType);
         const expectedInstanceVariables: ObjC.InstanceVariable[] = [
           {
             comments: [],
@@ -715,8 +710,8 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
     );
   });
 
-  describe('#enumerations', function() {
-    it('returns an enumeration for its subtypes', function() {
+  describe('#enumerations', function () {
+    it('returns an enumeration for its subtypes', function () {
       const algebraicType: AlgebraicType.Type = {
         annotations: {},
         name: 'Foo',
@@ -795,8 +790,8 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
     });
   });
 
-  describe('#validationErrors', function() {
-    it('returns no validation errors when there are no attributes on the provided subtypes', function() {
+  describe('#validationErrors', function () {
+    it('returns no validation errors when there are no attributes on the provided subtypes', function () {
       const algebraicType: AlgebraicType.Type = {
         annotations: {},
         name: 'Foo',
@@ -821,13 +816,12 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
         ],
       };
 
-      const errors: Error.Error[] = AlgebraicTypePlugin.validationErrors(
-        algebraicType,
-      );
+      const errors: Error.Error[] =
+        AlgebraicTypePlugin.validationErrors(algebraicType);
       expect(errors).toEqualJSON([]);
     });
 
-    it('returns a validation error when there are two subtypes with the same name', function() {
+    it('returns a validation error when there are two subtypes with the same name', function () {
       const algebraicType: AlgebraicType.Type = {
         annotations: {},
         name: 'Test',
@@ -883,9 +877,8 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
           }),
         ],
       };
-      const errors: Error.Error[] = AlgebraicTypePlugin.validationErrors(
-        algebraicType,
-      );
+      const errors: Error.Error[] =
+        AlgebraicTypePlugin.validationErrors(algebraicType);
       const expectedErrors: Error.Error[] = [
         Error.Error(
           'Algebraic types cannot have two subtypes with the same name, but found two or more subtypes with the name SomeSubtype',
@@ -894,7 +887,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
       expect(errors).toEqualJSON(expectedErrors);
     });
 
-    it('returns a validation error when there are two single attribute subtypes with the same name', function() {
+    it('returns a validation error when there are two single attribute subtypes with the same name', function () {
       const algebraicType: AlgebraicType.Type = {
         annotations: {},
         name: 'Test',
@@ -936,9 +929,8 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
           }),
         ],
       };
-      const errors: Error.Error[] = AlgebraicTypePlugin.validationErrors(
-        algebraicType,
-      );
+      const errors: Error.Error[] =
+        AlgebraicTypePlugin.validationErrors(algebraicType);
       const expectedErrors: Error.Error[] = [
         Error.Error(
           'Algebraic types cannot have two subtypes with the same name, but found two or more subtypes with the name SingleAttributeSubtype',
@@ -947,7 +939,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
       expect(errors).toEqualJSON(expectedErrors);
     });
 
-    it('returns a validation error when one single attribute subtype and one named subtype have same name', function() {
+    it('returns a validation error when one single attribute subtype and one named subtype have same name', function () {
       const algebraicType: AlgebraicType.Type = {
         annotations: {},
         name: 'Test',
@@ -996,9 +988,8 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
           }),
         ],
       };
-      const errors: Error.Error[] = AlgebraicTypePlugin.validationErrors(
-        algebraicType,
-      );
+      const errors: Error.Error[] =
+        AlgebraicTypePlugin.validationErrors(algebraicType);
       const expectedErrors: Error.Error[] = [
         Error.Error(
           'Algebraic types cannot have two subtypes with the same name, but found two or more subtypes with the name SomeSubtype',
@@ -1008,8 +999,8 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
     });
   });
 
-  describe('#forwardDeclarations', function() {
-    it('returns forward declarations when UseForwardDeclarations is in includes', function() {
+  describe('#forwardDeclarations', function () {
+    it('returns forward declarations when UseForwardDeclarations is in includes', function () {
       const algebraicType: AlgebraicType.Type = {
         annotations: {},
         name: 'Test',
@@ -1066,9 +1057,8 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
           }),
         ],
       };
-      const forwardDeclarations: ObjC.ForwardDeclaration[] = AlgebraicTypePlugin.forwardDeclarations(
-        algebraicType,
-      );
+      const forwardDeclarations: ObjC.ForwardDeclaration[] =
+        AlgebraicTypePlugin.forwardDeclarations(algebraicType);
       const expectedForwardDeclarations: ObjC.ForwardDeclaration[] = [
         ObjC.ForwardDeclaration.ForwardProtocolDeclaration('Bar'),
         ObjC.ForwardDeclaration.ForwardClassDeclaration('Foo'),
@@ -1080,7 +1070,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
     it(
       'returns no forward declarations when the same type being generated ' +
         'is not being referenced in a subtype',
-      function() {
+      function () {
         const algebraicType: AlgebraicType.Type = {
           annotations: {},
           name: 'Test',
@@ -1114,9 +1104,8 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function() {
             }),
           ],
         };
-        const forwardDeclarations: ObjC.ForwardDeclaration[] = AlgebraicTypePlugin.forwardDeclarations(
-          algebraicType,
-        );
+        const forwardDeclarations: ObjC.ForwardDeclaration[] =
+          AlgebraicTypePlugin.forwardDeclarations(algebraicType);
         const expectedForwardDeclarations: ObjC.ForwardDeclaration[] = [];
         expect(forwardDeclarations).toEqualJSON(expectedForwardDeclarations);
       },

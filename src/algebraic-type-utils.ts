@@ -29,12 +29,12 @@ export function attributesFromSubtype(
   subtype: AlgebraicType.Subtype,
 ): AlgebraicType.SubtypeAttribute[] {
   return subtype.match(
-    function(
+    function (
       namedAttributeCollectionSubtype: AlgebraicType.NamedAttributeCollectionSubtype,
     ) {
       return namedAttributeCollectionSubtype.attributes;
     },
-    function(attribute: AlgebraicType.SubtypeAttribute) {
+    function (attribute: AlgebraicType.SubtypeAttribute) {
       return [attribute];
     },
   );
@@ -42,12 +42,12 @@ export function attributesFromSubtype(
 
 export function subtypeNameFromSubtype(subtype: AlgebraicType.Subtype): string {
   return subtype.match(
-    function(
+    function (
       namedAttributeCollectionSubtype: AlgebraicType.NamedAttributeCollectionSubtype,
     ) {
       return StringUtils.capitalize(namedAttributeCollectionSubtype.name);
     },
-    function(attribute: AlgebraicType.SubtypeAttribute) {
+    function (attribute: AlgebraicType.SubtypeAttribute) {
       return StringUtils.capitalize(attribute.name);
     },
   );
@@ -73,9 +73,9 @@ export function mapAttributesWithSubtypeFromSubtypes<T>(
     attribute: AlgebraicType.SubtypeAttribute,
   ) => T,
 ): T[] {
-  return subtypes.reduce(function(soFar: T[], subtype: AlgebraicType.Subtype) {
+  return subtypes.reduce(function (soFar: T[], subtype: AlgebraicType.Subtype) {
     return soFar.concat(
-      attributesFromSubtype(subtype).map(attribute =>
+      attributesFromSubtype(subtype).map((attribute) =>
         mapper(subtype, attribute),
       ),
     );
@@ -94,7 +94,7 @@ export function computeTypeOfAttribute(
 ): ObjC.Type {
   return Maybe.match(
     typeForUnderlyingType,
-    function(): ObjC.Type {
+    function (): ObjC.Type {
       return {
         name: attribute.type.name,
         reference: attribute.type.reference,
@@ -118,7 +118,7 @@ export function nameOfInstanceVariableForAttribute(
   attribute: AlgebraicType.SubtypeAttribute,
 ): string {
   return subtype.match(
-    function(
+    function (
       namedAttributeCollectionSubtype: AlgebraicType.NamedAttributeCollectionSubtype,
     ) {
       return (
@@ -127,7 +127,7 @@ export function nameOfInstanceVariableForAttribute(
         StringUtils.lowercased(attribute.name)
       );
     },
-    function(attribute: AlgebraicType.SubtypeAttribute) {
+    function (attribute: AlgebraicType.SubtypeAttribute) {
       return StringUtils.lowercased(attribute.name);
     },
   );
@@ -238,9 +238,8 @@ function blockTypeParameterForSubtypeAttribute(
 function blockParametersForSubtype(
   subtype: AlgebraicType.Subtype,
 ): ObjC.BlockTypeParameter[] {
-  const attributes: AlgebraicType.SubtypeAttribute[] = attributesFromSubtype(
-    subtype,
-  );
+  const attributes: AlgebraicType.SubtypeAttribute[] =
+    attributesFromSubtype(subtype);
   if (attributes.length > 0) {
     return attributes.map(blockTypeParameterForSubtypeAttribute);
   } else {
@@ -350,7 +349,7 @@ function swiftNameForAlgebraicTypeMatcher(
 ): string {
   const keywords = algebraicType.subtypes
     .map(
-      subtype =>
+      (subtype) =>
         StringUtils.swiftCaseForString(subtypeNameFromSubtype(subtype)) + ':',
     )
     .join('');
@@ -371,7 +370,7 @@ function instanceMethodKeywordsForMatchingSubtypesOfAlgebraicType(
   );
   const additionalKeywords: ObjC.Keyword[] = algebraicType.subtypes
     .slice(1)
-    .map(subtype =>
+    .map((subtype) =>
       keywordForMatchMethodFromSubtype(
         algebraicType,
         matchingBlockType,
@@ -414,7 +413,7 @@ function blockInvocationForSubtype(
     blockParameterNameForMatchMethodFromSubtype(subtype) +
     '(' +
     attributesFromSubtype(subtype)
-      .map(attribute =>
+      .map((attribute) =>
         valueAccessorForInstanceVariableForAttribute(subtype, attribute),
       )
       .join(', ') +
@@ -428,11 +427,12 @@ function matcherCodeForAlgebraicType(
 ): string[] {
   return Maybe.match(
     function Just(matchingBlockType: MatchingBlockType) {
-      const switchStatement: string[] = codeForSwitchingOnSubtypeWithSubtypeMapper(
-        algebraicType,
-        valueAccessorForInstanceVariableStoringSubtype(),
-        resultReturningBlockInvocationWithNilCheckForSubtype,
-      );
+      const switchStatement: string[] =
+        codeForSwitchingOnSubtypeWithSubtypeMapper(
+          algebraicType,
+          valueAccessorForInstanceVariableStoringSubtype(),
+          resultReturningBlockInvocationWithNilCheckForSubtype,
+        );
       return [
         '__block ' +
           matchingBlockType.underlyingType +

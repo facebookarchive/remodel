@@ -17,9 +17,9 @@ import * as ObjectSpec from '../../object-spec';
 const ObjectSpecPlugin = SubclassingRestricted.createPlugin();
 const AlgebraicTypePlugin = SubclassingRestricted.createAlgebraicTypePlugin();
 
-describe('ObjectSpecPlugins.SubclassingRestricted', function() {
-  describe('#instanceMethods', function() {
-    it('generates class with subclassing restricted compiler annotation', function() {
+describe('ObjectSpecPlugins.SubclassingRestricted', function () {
+  describe('#instanceMethods', function () {
+    it('generates class with subclassing restricted compiler annotation', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [],
@@ -31,17 +31,16 @@ describe('ObjectSpecPlugins.SubclassingRestricted', function() {
         typeName: 'Foo',
       };
 
-      const subclassingRestricted: boolean = ObjectSpecPlugin.subclassingRestricted(
-        objectType,
-      );
+      const subclassingRestricted: boolean =
+        ObjectSpecPlugin.subclassingRestricted(objectType);
       expect(subclassingRestricted).toEqual(true);
     });
   });
 });
 
-describe('AlgebraicTypePlugins.SubclassingRestricted', function() {
-  describe('#instanceMethods', function() {
-    it('always generates unavailable init/new methods for ADTs', function() {
+describe('AlgebraicTypePlugins.SubclassingRestricted', function () {
+  describe('#instanceMethods', function () {
+    it('always generates unavailable init/new methods for ADTs', function () {
       const algebraicType: AlgebraicType.Type = {
         annotations: {},
         name: 'Foo',
@@ -60,9 +59,8 @@ describe('AlgebraicTypePlugins.SubclassingRestricted', function() {
         ],
       };
 
-      const subclassingRestricted: boolean = AlgebraicTypePlugin.subclassingRestricted(
-        algebraicType,
-      );
+      const subclassingRestricted: boolean =
+        AlgebraicTypePlugin.subclassingRestricted(algebraicType);
       expect(subclassingRestricted).toEqual(true);
     });
   });

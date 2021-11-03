@@ -12,21 +12,19 @@ import * as LazySequence from '../lazy-sequence';
 import * as Functor from '../functor';
 import * as Promise from '../promise';
 
-describe('LazySequence', function() {
-  describe('Sequence', function() {
+describe('LazySequence', function () {
+  describe('Sequence', function () {
     it(
       'should return a future for an array of the sequnce when asked to ' +
         'evalutate the lazy sequence',
-      function() {
-        const source: LazySequence.Source<number> = LazySequence.source<
-          number
-        >();
+      function () {
+        const source: LazySequence.Source<number> =
+          LazySequence.source<number>();
         const sequence: LazySequence.Sequence<number> = source.getSequence();
-        const future: Promise.Future<number[]> = LazySequence.evaluate(
-          sequence,
-        );
+        const future: Promise.Future<number[]> =
+          LazySequence.evaluate(sequence);
         var wasRun: boolean = false;
-        Promise.then(function(numbers: number[]) {
+        Promise.then(function (numbers: number[]) {
           wasRun = true;
           expect(numbers).toEqualJSON([1, 2, 3, 4]);
         }, future);
@@ -44,22 +42,20 @@ describe('LazySequence', function() {
     it(
       'should allow a hook into each new value as it comes into the sequence' +
         'as the values come in',
-      function() {
-        const source: LazySequence.Source<number> = LazySequence.source<
-          number
-        >();
+      function () {
+        const source: LazySequence.Source<number> =
+          LazySequence.source<number>();
         const sequence: LazySequence.Sequence<number> = source.getSequence();
-        const future: Promise.Future<number[]> = LazySequence.evaluate(
-          sequence,
-        );
+        const future: Promise.Future<number[]> =
+          LazySequence.evaluate(sequence);
         var wasRun: boolean = false;
         const soFar: number[] = [];
 
-        LazySequence.forEach(function(num: number) {
+        LazySequence.forEach(function (num: number) {
           soFar.push(num);
         }, sequence);
 
-        Promise.then(function(numbers: number[]) {
+        Promise.then(function (numbers: number[]) {
           wasRun = true;
           expect(numbers).toEqualJSON([1, 2, 3, 4]);
         }, future);
@@ -82,18 +78,16 @@ describe('LazySequence', function() {
       'should allow a hook into each new value as it comes into the sequence' +
         'as the values come in but it does all the values so far when the ' +
         'enumeration starts after the events start coming in',
-      function() {
-        const source: LazySequence.Source<number> = LazySequence.source<
-          number
-        >();
+      function () {
+        const source: LazySequence.Source<number> =
+          LazySequence.source<number>();
         const sequence: LazySequence.Sequence<number> = source.getSequence();
-        const future: Promise.Future<number[]> = LazySequence.evaluate(
-          sequence,
-        );
+        const future: Promise.Future<number[]> =
+          LazySequence.evaluate(sequence);
         var wasRun: boolean = false;
         const soFar: number[] = [];
 
-        Promise.then(function(numbers: number[]) {
+        Promise.then(function (numbers: number[]) {
           wasRun = true;
           expect(numbers).toEqualJSON([1, 2, 3, 4]);
         }, future);
@@ -101,7 +95,7 @@ describe('LazySequence', function() {
         source.nextValue(1);
         expect(soFar).toEqualJSON([]);
 
-        LazySequence.forEach(function(num: number) {
+        LazySequence.forEach(function (num: number) {
           soFar.push(num);
         }, sequence);
 
@@ -120,10 +114,9 @@ describe('LazySequence', function() {
     it(
       'should allow for evaluation to be called even after the sequence has ' +
         'been completed',
-      function() {
-        const source: LazySequence.Source<number> = LazySequence.source<
-          number
-        >();
+      function () {
+        const source: LazySequence.Source<number> =
+          LazySequence.source<number>();
         const sequence: LazySequence.Sequence<number> = source.getSequence();
         var wasRun: boolean = false;
 
@@ -133,10 +126,9 @@ describe('LazySequence', function() {
         source.nextValue(4);
         source.finished();
 
-        const future: Promise.Future<number[]> = LazySequence.evaluate(
-          sequence,
-        );
-        Promise.then(function(numbers: number[]) {
+        const future: Promise.Future<number[]> =
+          LazySequence.evaluate(sequence);
+        Promise.then(function (numbers: number[]) {
           wasRun = true;
           expect(numbers).toEqualJSON([1, 2, 3, 4]);
         }, future);
@@ -145,11 +137,11 @@ describe('LazySequence', function() {
       },
     );
 
-    it('should error if calling nextValue after finished', function() {
+    it('should error if calling nextValue after finished', function () {
       const source: LazySequence.Source<number> = LazySequence.source<number>();
       source.nextValue(3);
       source.finished();
-      expect(function() {
+      expect(function () {
         source.nextValue(3);
       }).toThrow();
     });
@@ -157,13 +149,12 @@ describe('LazySequence', function() {
     it(
       'should allow mapping to another lazy sequence and evaluating the ' +
         'result',
-      function() {
-        const source: LazySequence.Source<number> = LazySequence.source<
-          number
-        >();
+      function () {
+        const source: LazySequence.Source<number> =
+          LazySequence.source<number>();
         const sequence: LazySequence.Sequence<number> = source.getSequence();
         const mappedSequence: LazySequence.Sequence<string> = LazySequence.map(
-          function(num: number) {
+          function (num: number) {
             return num.toString();
           },
           sequence,
@@ -176,10 +167,9 @@ describe('LazySequence', function() {
         source.nextValue(4);
         source.finished();
 
-        const future: Promise.Future<string[]> = LazySequence.evaluate(
-          mappedSequence,
-        );
-        Promise.then(function(numbers: string[]) {
+        const future: Promise.Future<string[]> =
+          LazySequence.evaluate(mappedSequence);
+        Promise.then(function (numbers: string[]) {
           wasRun = true;
           expect(numbers).toEqualJSON(['1', '2', '3', '4']);
         }, future);
@@ -191,13 +181,12 @@ describe('LazySequence', function() {
     it(
       'should allow mapping to another lazy sequence and getting each of ' +
         'the values as they come in',
-      function() {
-        const source: LazySequence.Source<number> = LazySequence.source<
-          number
-        >();
+      function () {
+        const source: LazySequence.Source<number> =
+          LazySequence.source<number>();
         const sequence: LazySequence.Sequence<number> = source.getSequence();
         const mappedSequence: LazySequence.Sequence<string> = LazySequence.map(
-          function(num: number) {
+          function (num: number) {
             return num.toString();
           },
           sequence,
@@ -205,7 +194,7 @@ describe('LazySequence', function() {
         var wasRun: boolean = false;
         const soFar: string[] = [];
 
-        LazySequence.forEach(function(str: string) {
+        LazySequence.forEach(function (str: string) {
           soFar.push(str);
         }, mappedSequence);
 
@@ -219,10 +208,9 @@ describe('LazySequence', function() {
         expect(soFar).toEqualJSON(['1', '2', '3', '4']);
         source.finished();
 
-        const future: Promise.Future<string[]> = LazySequence.evaluate(
-          mappedSequence,
-        );
-        Promise.then(function(numbers: string[]) {
+        const future: Promise.Future<string[]> =
+          LazySequence.evaluate(mappedSequence);
+        Promise.then(function (numbers: string[]) {
           wasRun = true;
           expect(numbers).toEqualJSON(['1', '2', '3', '4']);
         }, future);
@@ -234,18 +222,17 @@ describe('LazySequence', function() {
     it(
       'should allow mapping as a functor and getting each of ' +
         'the values as they come in',
-      function() {
-        const source: LazySequence.Source<number> = LazySequence.source<
-          number
-        >();
+      function () {
+        const source: LazySequence.Source<number> =
+          LazySequence.source<number>();
         const sequence: LazySequence.Sequence<number> = source.getSequence();
-        const mappedSequence = Functor.map(function(num: number) {
+        const mappedSequence = Functor.map(function (num: number) {
           return num.toString();
         }, sequence);
         var wasRun: boolean = false;
         const soFar: string[] = [];
 
-        LazySequence.forEach(function(str: string) {
+        LazySequence.forEach(function (str: string) {
           soFar.push(str);
         }, <LazySequence.Sequence<string>>mappedSequence);
 
@@ -262,7 +249,7 @@ describe('LazySequence', function() {
         const future: Promise.Future<string[]> = LazySequence.evaluate(
           <LazySequence.Sequence<string>>mappedSequence,
         );
-        Promise.then(function(numbers: string[]) {
+        Promise.then(function (numbers: string[]) {
           wasRun = true;
           expect(numbers).toEqualJSON(['1', '2', '3', '4']);
         }, future);
@@ -271,11 +258,11 @@ describe('LazySequence', function() {
       },
     );
 
-    it('should allow folding and getting each of the values as they come in', function() {
+    it('should allow folding and getting each of the values as they come in', function () {
       const source: LazySequence.Source<number> = LazySequence.source<number>();
       const sequence: LazySequence.Sequence<number> = source.getSequence();
       const foldedSequence: Promise.Future<number[]> = LazySequence.foldl(
-        function(soFar: number[], num: number) {
+        function (soFar: number[], num: number) {
           if (num % 2 === 0) {
             return soFar.concat(num);
           } else {
@@ -293,7 +280,7 @@ describe('LazySequence', function() {
       source.nextValue(4);
       source.finished();
 
-      Promise.then(function(numbers: number[]) {
+      Promise.then(function (numbers: number[]) {
         wasRun = true;
         expect(numbers).toEqualJSON([2, 4]);
       }, foldedSequence);

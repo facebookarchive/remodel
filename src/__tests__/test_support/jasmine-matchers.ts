@@ -10,11 +10,11 @@
 
 import * as jsondiffpatch from 'jsondiffpatch';
 
-beforeEach(function() {
+beforeEach(function () {
   jasmine.addMatchers({
-    toEqualJSON: function(util, customEqualityTesters) {
+    toEqualJSON: function (util, customEqualityTesters) {
       return {
-        compare: function(actual: any, expected: any) {
+        compare: function (actual: any, expected: any) {
           const areObjectsEqual = util.equals(
             actual,
             expected,

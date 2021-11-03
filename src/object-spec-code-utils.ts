@@ -70,7 +70,7 @@ export function isAttributeMutable(
 }
 
 export function isTypeMutable(objectSpec: ObjectSpec.Type): boolean {
-  return objectSpec.attributes.some(attr =>
+  return objectSpec.attributes.some((attr) =>
     isAttributeMutable(objectSpec, attr),
   );
 }
@@ -124,7 +124,7 @@ export function computeTypeOfAttribute(
 ): ObjC.Type {
   return Maybe.match(
     typeForUnderlyingType,
-    function(): ObjC.Type {
+    function (): ObjC.Type {
       return {
         name: attribute.type.name,
         reference: attribute.type.reference,
@@ -153,81 +153,81 @@ export function propertyOwnershipModifierForAttribute(
   }
   return ObjCTypeUtils.matchType(
     {
-      id: function() {
+      id: function () {
         return Maybe.match(
-          function(protocol) {
+          function (protocol) {
             return ObjC.PropertyModifier.Assign();
           },
-          function() {
+          function () {
             return propertyModifierForCopyable(supportsValueSemantics);
           },
           attribute.type.conformingProtocol,
         );
       },
-      NSObject: function() {
+      NSObject: function () {
         return propertyModifierForCopyable(supportsValueSemantics);
       },
-      BOOL: function() {
+      BOOL: function () {
         return ObjC.PropertyModifier.Assign();
       },
-      NSInteger: function() {
+      NSInteger: function () {
         return ObjC.PropertyModifier.Assign();
       },
-      NSUInteger: function() {
+      NSUInteger: function () {
         return ObjC.PropertyModifier.Assign();
       },
-      double: function() {
+      double: function () {
         return ObjC.PropertyModifier.Assign();
       },
-      float: function() {
+      float: function () {
         return ObjC.PropertyModifier.Assign();
       },
-      CGFloat: function() {
+      CGFloat: function () {
         return ObjC.PropertyModifier.Assign();
       },
-      NSTimeInterval: function() {
+      NSTimeInterval: function () {
         return ObjC.PropertyModifier.Assign();
       },
-      uintptr_t: function() {
+      uintptr_t: function () {
         return ObjC.PropertyModifier.Assign();
       },
-      uint32_t: function() {
+      uint32_t: function () {
         return ObjC.PropertyModifier.Assign();
       },
-      uint64_t: function() {
+      uint64_t: function () {
         return ObjC.PropertyModifier.Assign();
       },
-      int32_t: function() {
+      int32_t: function () {
         return ObjC.PropertyModifier.Assign();
       },
-      int64_t: function() {
+      int64_t: function () {
         return ObjC.PropertyModifier.Assign();
       },
-      SEL: function() {
+      SEL: function () {
         return ObjC.PropertyModifier.Assign();
       },
-      NSRange: function() {
+      NSRange: function () {
         return ObjC.PropertyModifier.Assign();
       },
-      CGRect: function() {
+      CGRect: function () {
         return ObjC.PropertyModifier.Assign();
       },
-      CGPoint: function() {
+      CGPoint: function () {
         return ObjC.PropertyModifier.Assign();
       },
-      CGSize: function() {
+      CGSize: function () {
         return ObjC.PropertyModifier.Assign();
       },
-      UIEdgeInsets: function() {
+      UIEdgeInsets: function () {
         return ObjC.PropertyModifier.Assign();
       },
-      Class: function() {
+      Class: function () {
         return ObjC.PropertyModifier.UnsafeUnretained();
       },
-      dispatch_block_t: function() {
+      dispatch_block_t: function () {
         return propertyModifierForCopyable(supportsValueSemantics);
       },
-      unmatchedType: function() {
+      unmatchedType: function () {
         return undefined;
       },
     },

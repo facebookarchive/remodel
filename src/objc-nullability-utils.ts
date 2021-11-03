@@ -61,7 +61,7 @@ export function nullabilityRequiresNonnullProtection(
   assumeNonnull: boolean,
   attributeNullabilities: ObjC.Nullability[],
 ): boolean {
-  return attributeNullabilities.some(nullability =>
+  return attributeNullabilities.some((nullability) =>
     shouldProtectFromNilValuesForNullability(assumeNonnull, nullability),
   );
 }
@@ -69,73 +69,73 @@ export function nullabilityRequiresNonnullProtection(
 export function canAssertExistenceForType(type: ObjC.Type): boolean {
   return ObjCTypeUtils.matchType(
     {
-      id: function() {
+      id: function () {
         return true;
       },
-      NSObject: function() {
+      NSObject: function () {
         return true;
       },
-      BOOL: function() {
+      BOOL: function () {
         return false;
       },
-      NSInteger: function() {
+      NSInteger: function () {
         return false;
       },
-      NSUInteger: function() {
+      NSUInteger: function () {
         return false;
       },
-      double: function() {
+      double: function () {
         return false;
       },
-      float: function() {
+      float: function () {
         return false;
       },
-      CGFloat: function() {
+      CGFloat: function () {
         return false;
       },
-      NSTimeInterval: function() {
+      NSTimeInterval: function () {
         return false;
       },
-      uintptr_t: function() {
+      uintptr_t: function () {
         return false;
       },
-      uint32_t: function() {
+      uint32_t: function () {
         return false;
       },
-      uint64_t: function() {
+      uint64_t: function () {
         return false;
       },
-      int32_t: function() {
+      int32_t: function () {
         return false;
       },
-      int64_t: function() {
+      int64_t: function () {
         return false;
       },
-      SEL: function() {
+      SEL: function () {
         return false;
       },
-      NSRange: function() {
+      NSRange: function () {
         return false;
       },
-      CGRect: function() {
+      CGRect: function () {
         return false;
       },
-      CGPoint: function() {
+      CGPoint: function () {
         return false;
       },
-      CGSize: function() {
+      CGSize: function () {
         return false;
       },
-      UIEdgeInsets: function() {
+      UIEdgeInsets: function () {
         return false;
       },
-      Class: function() {
+      Class: function () {
         return true;
       },
-      dispatch_block_t: function() {
+      dispatch_block_t: function () {
         return true;
       },
-      unmatchedType: function() {
+      unmatchedType: function () {
         return false;
       },
     },

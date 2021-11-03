@@ -86,22 +86,22 @@ class EqualityFunction {
 
 function nameOfEqualityFunction(equalityFunction: EqualityFunction): string {
   return equalityFunction.match(
-    function(): string {
+    function (): string {
       return 'CompareFloats';
     },
-    function(): string {
+    function (): string {
       return 'CompareDoubles';
     },
-    function(): string {
+    function (): string {
       return 'CompareCGFloats';
     },
-    function(): string {
+    function (): string {
       return 'HashFloat';
     },
-    function(): string {
+    function (): string {
       return 'HashDouble';
     },
-    function(): string {
+    function (): string {
       return 'HashCGFloat';
     },
   );
@@ -111,26 +111,26 @@ function equalityFunctionsToIncludeForEqualityFunction(
   equalityFunction: EqualityFunction,
 ): EqualityFunction[] {
   return equalityFunction.match(
-    function(): EqualityFunction[] {
+    function (): EqualityFunction[] {
       return [EqualityFunction.CompareFloats()];
     },
-    function(): EqualityFunction[] {
+    function (): EqualityFunction[] {
       return [EqualityFunction.CompareDoubles()];
     },
-    function(): EqualityFunction[] {
+    function (): EqualityFunction[] {
       return [
         EqualityFunction.CompareFloats(),
         EqualityFunction.CompareDoubles(),
         EqualityFunction.CompareCGFloats(),
       ];
     },
-    function(): EqualityFunction[] {
+    function (): EqualityFunction[] {
       return [EqualityFunction.HashFloat()];
     },
-    function(): EqualityFunction[] {
+    function (): EqualityFunction[] {
       return [EqualityFunction.HashDouble()];
     },
-    function(): EqualityFunction[] {
+    function (): EqualityFunction[] {
       return [
         EqualityFunction.HashFloat(),
         EqualityFunction.HashDouble(),
@@ -193,16 +193,16 @@ class ComputationCost {
 
 function computationCostAsNumber(computationCost: ComputationCost): number {
   return computationCost.match(
-    function(): number {
+    function (): number {
       return 1;
     },
-    function(): number {
+    function (): number {
       return 2;
     },
-    function(): number {
+    function (): number {
       return 3;
     },
-    function(): number {
+    function (): number {
       return 4;
     },
   );
@@ -233,7 +233,7 @@ function attributeValueOnComparisonObject(
   return 'object->' + attributeValueAccessor;
 }
 
-const GENERATOR_FOR_COMPARING_POINTER_EQUALITY = function(
+const GENERATOR_FOR_COMPARING_POINTER_EQUALITY = function (
   attributeValueAccessor: string,
 ): TypeEqualityValue[] {
   return [
@@ -279,12 +279,11 @@ function buildTypeEqualityValueImportsToInclude(
   return soFar.concat(typeEqualityValue.importsToInclude);
 }
 
-const GENERATOR_FOR_COMPARING_OBJECT_EQUALITY = function(
+const GENERATOR_FOR_COMPARING_OBJECT_EQUALITY = function (
   attributeValueAccessor: string,
 ): TypeEqualityValue[] {
-  const pointerEqualityValues: TypeEqualityValue[] = GENERATOR_FOR_COMPARING_POINTER_EQUALITY(
-    attributeValueAccessor,
-  );
+  const pointerEqualityValues: TypeEqualityValue[] =
+    GENERATOR_FOR_COMPARING_POINTER_EQUALITY(attributeValueAccessor);
   return [
     {
       value:
@@ -308,7 +307,7 @@ const GENERATOR_FOR_COMPARING_OBJECT_EQUALITY = function(
   ];
 };
 
-const GENERATOR_FOR_HASHING_POINTER_VALUE = function(
+const GENERATOR_FOR_HASHING_POINTER_VALUE = function (
   attributeValueAccessor: string,
 ): TypeEqualityValue[] {
   return [
@@ -321,7 +320,7 @@ const GENERATOR_FOR_HASHING_POINTER_VALUE = function(
   ];
 };
 
-const GENERATOR_FOR_HASHING_OBJECT_VALUE = function(
+const GENERATOR_FOR_HASHING_OBJECT_VALUE = function (
   attributeValueAccessor: string,
 ): TypeEqualityValue[] {
   return [
@@ -341,7 +340,7 @@ function returnEmptyArray() {
 function generatorForCastingAttributeValueToType(
   targetType: ObjC.Type,
 ): (attributeValueAccessor: string) => TypeEqualityValue[] {
-  return function(attributeValueAccessor: string): TypeEqualityValue[] {
+  return function (attributeValueAccessor: string): TypeEqualityValue[] {
     return [
       {
         value: '(' + targetType.reference + ')' + attributeValueAccessor,
@@ -356,7 +355,7 @@ function generatorForCastingAttributeValueToType(
 function generatorForInvokingSystemFunctionWithNameWithBothAttributeValues(
   systemFunction: SystemFunction,
 ): (attributeValueAccessor: string) => TypeEqualityValue[] {
-  return function(attributeValueAccessor: string): TypeEqualityValue[] {
+  return function (attributeValueAccessor: string): TypeEqualityValue[] {
     return [
       {
         value:
@@ -368,7 +367,7 @@ function generatorForInvokingSystemFunctionWithNameWithBothAttributeValues(
           ')',
         functionsToInclude: [],
         importsToInclude: Maybe.match(
-          function(importToInclude: ObjC.Import): ObjC.Import[] {
+          function (importToInclude: ObjC.Import): ObjC.Import[] {
             return [importToInclude];
           },
           returnEmptyArray,
@@ -383,7 +382,7 @@ function generatorForInvokingSystemFunctionWithNameWithBothAttributeValues(
 function generatorForInvokingFunctionWithBothAttributeValues(
   equalityFunction: EqualityFunction,
 ): (attributeValueAccessor: string) => TypeEqualityValue[] {
-  return function(attributeValueAccessor: string): TypeEqualityValue[] {
+  return function (attributeValueAccessor: string): TypeEqualityValue[] {
     return [
       {
         value:
@@ -393,9 +392,8 @@ function generatorForInvokingFunctionWithBothAttributeValues(
           ', ' +
           attributeValueOnComparisonObject(attributeValueAccessor) +
           ')',
-        functionsToInclude: equalityFunctionsToIncludeForEqualityFunction(
-          equalityFunction,
-        ),
+        functionsToInclude:
+          equalityFunctionsToIncludeForEqualityFunction(equalityFunction),
         importsToInclude: [],
         computationCost: ComputationCost.FunctionInvocation(),
       },
@@ -406,13 +404,13 @@ function generatorForInvokingFunctionWithBothAttributeValues(
 function generatorForInvokingSystemFunctionWithNameWithAttributeValue(
   systemFunction: SystemFunction,
 ): (attributeValueAccessor: string) => TypeEqualityValue[] {
-  return function(attributeValueAccessor: string): TypeEqualityValue[] {
+  return function (attributeValueAccessor: string): TypeEqualityValue[] {
     return [
       {
         value: systemFunction.name + '(' + attributeValueAccessor + ')',
         functionsToInclude: [],
         importsToInclude: Maybe.match(
-          function(importToInclude: ObjC.Import): ObjC.Import[] {
+          function (importToInclude: ObjC.Import): ObjC.Import[] {
             return [importToInclude];
           },
           returnEmptyArray,
@@ -427,7 +425,7 @@ function generatorForInvokingSystemFunctionWithNameWithAttributeValue(
 function generatorForInvokingFunctionWithAttributeValue(
   equalityFunction: EqualityFunction,
 ): (attributeValueAccessor: string) => TypeEqualityValue[] {
-  return function(attributeValueAccessor: string): TypeEqualityValue[] {
+  return function (attributeValueAccessor: string): TypeEqualityValue[] {
     return [
       {
         value:
@@ -435,9 +433,8 @@ function generatorForInvokingFunctionWithAttributeValue(
           '(' +
           attributeValueAccessor +
           ')',
-        functionsToInclude: equalityFunctionsToIncludeForEqualityFunction(
-          equalityFunction,
-        ),
+        functionsToInclude:
+          equalityFunctionsToIncludeForEqualityFunction(equalityFunction),
         importsToInclude: [],
         computationCost: ComputationCost.FunctionInvocation(),
       },
@@ -456,7 +453,7 @@ function buildTypeEqualityValuesFromGenerators(
 function generatorForInvokingSubGenerators(
   generators: {(attributeValueAccessor: string): TypeEqualityValue[]}[],
 ): (attributeValueAccessor: string) => TypeEqualityValue[] {
-  return function(attributeValueAccessor: string): TypeEqualityValue[] {
+  return function (attributeValueAccessor: string): TypeEqualityValue[] {
     return generators.reduce(
       (soFar, generator) =>
         buildTypeEqualityValuesFromGenerators(
@@ -502,116 +499,114 @@ const CGSIZE_TYPE: ObjC.Type = {
 function generationGroupForType(type: ObjC.Type): TypeEqualityGenerationGroup {
   return ObjCTypeUtils.matchType(
     {
-      id: function() {
+      id: function () {
         return NSOBJECT_GENERATION_GROUP;
       },
-      NSObject: function() {
+      NSObject: function () {
         return NSOBJECT_GENERATION_GROUP;
       },
-      BOOL: function() {
+      BOOL: function () {
         return {
           equalityCheckGenerator: GENERATOR_FOR_COMPARING_POINTER_EQUALITY,
-          hashGenerator: generatorForCastingAttributeValueToType(
-            NSUINTEGER_TYPE,
-          ),
+          hashGenerator:
+            generatorForCastingAttributeValueToType(NSUINTEGER_TYPE),
         };
       },
-      NSInteger: function() {
+      NSInteger: function () {
         return {
           equalityCheckGenerator: GENERATOR_FOR_COMPARING_POINTER_EQUALITY,
-          hashGenerator: generatorForInvokingSystemFunctionWithNameWithAttributeValue(
-            {
+          hashGenerator:
+            generatorForInvokingSystemFunctionWithNameWithAttributeValue({
               name: 'ABS',
               import: null,
-            },
-          ),
+            }),
         };
       },
-      NSUInteger: function() {
+      NSUInteger: function () {
         return {
           equalityCheckGenerator: GENERATOR_FOR_COMPARING_POINTER_EQUALITY,
           hashGenerator: GENERATOR_FOR_HASHING_POINTER_VALUE,
         };
       },
-      double: function() {
+      double: function () {
         return {
-          equalityCheckGenerator: generatorForInvokingFunctionWithBothAttributeValues(
-            EqualityFunction.CompareDoubles(),
-          ),
+          equalityCheckGenerator:
+            generatorForInvokingFunctionWithBothAttributeValues(
+              EqualityFunction.CompareDoubles(),
+            ),
           hashGenerator: generatorForInvokingFunctionWithAttributeValue(
             EqualityFunction.HashDouble(),
           ),
         };
       },
-      float: function() {
+      float: function () {
         return {
-          equalityCheckGenerator: generatorForInvokingFunctionWithBothAttributeValues(
-            EqualityFunction.CompareFloats(),
-          ),
+          equalityCheckGenerator:
+            generatorForInvokingFunctionWithBothAttributeValues(
+              EqualityFunction.CompareFloats(),
+            ),
           hashGenerator: generatorForInvokingFunctionWithAttributeValue(
             EqualityFunction.HashFloat(),
           ),
         };
       },
-      CGFloat: function() {
+      CGFloat: function () {
         return {
-          equalityCheckGenerator: generatorForInvokingFunctionWithBothAttributeValues(
-            EqualityFunction.CompareCGFloats(),
-          ),
+          equalityCheckGenerator:
+            generatorForInvokingFunctionWithBothAttributeValues(
+              EqualityFunction.CompareCGFloats(),
+            ),
           hashGenerator: generatorForInvokingFunctionWithAttributeValue(
             EqualityFunction.HashCGFloat(),
           ),
         };
       },
-      NSTimeInterval: function() {
+      NSTimeInterval: function () {
         return {
-          equalityCheckGenerator: generatorForProvidingEqualityValuesFromGeneratorOfType(
-            DOUBLE_TYPE,
-          ),
-          hashGenerator: generatorForProvidingHashValuesFromGeneratorOfType(
-            DOUBLE_TYPE,
-          ),
+          equalityCheckGenerator:
+            generatorForProvidingEqualityValuesFromGeneratorOfType(DOUBLE_TYPE),
+          hashGenerator:
+            generatorForProvidingHashValuesFromGeneratorOfType(DOUBLE_TYPE),
         };
       },
-      uintptr_t: function() {
+      uintptr_t: function () {
         return {
           equalityCheckGenerator: GENERATOR_FOR_COMPARING_POINTER_EQUALITY,
           hashGenerator: GENERATOR_FOR_HASHING_POINTER_VALUE,
         };
       },
-      uint32_t: function() {
+      uint32_t: function () {
         return {
           equalityCheckGenerator: GENERATOR_FOR_COMPARING_POINTER_EQUALITY,
           hashGenerator: GENERATOR_FOR_HASHING_POINTER_VALUE,
         };
       },
-      uint64_t: function() {
+      uint64_t: function () {
         return {
           equalityCheckGenerator: GENERATOR_FOR_COMPARING_POINTER_EQUALITY,
           hashGenerator: GENERATOR_FOR_HASHING_POINTER_VALUE,
         };
       },
-      int32_t: function() {
+      int32_t: function () {
         return {
           equalityCheckGenerator: GENERATOR_FOR_COMPARING_POINTER_EQUALITY,
           hashGenerator: GENERATOR_FOR_HASHING_POINTER_VALUE,
         };
       },
-      int64_t: function() {
+      int64_t: function () {
         return {
           equalityCheckGenerator: GENERATOR_FOR_COMPARING_POINTER_EQUALITY,
-          hashGenerator: generatorForInvokingSystemFunctionWithNameWithAttributeValue(
-            {
+          hashGenerator:
+            generatorForInvokingSystemFunctionWithNameWithAttributeValue({
               name: 'ABS',
               import: null,
-            },
-          ),
+            }),
         };
       },
-      SEL: function() {
+      SEL: function () {
         return {
-          equalityCheckGenerator: generatorForInvokingSystemFunctionWithNameWithBothAttributeValues(
-            {
+          equalityCheckGenerator:
+            generatorForInvokingSystemFunctionWithNameWithBothAttributeValues({
               name: 'sel_isEqual',
               import: {
                 library: 'objc',
@@ -619,9 +614,8 @@ function generationGroupForType(type: ObjC.Type): TypeEqualityGenerationGroup {
                 isPublic: false,
                 requiresCPlusPlus: false,
               },
-            },
-          ),
-          hashGenerator: attributeValueAccessor => [
+            }),
+          hashGenerator: (attributeValueAccessor) => [
             {
               value: `NSStringFromSelector(${attributeValueAccessor}).hash`,
               functionsToInclude: [],
@@ -631,14 +625,13 @@ function generationGroupForType(type: ObjC.Type): TypeEqualityGenerationGroup {
           ],
         };
       },
-      NSRange: function() {
+      NSRange: function () {
         return {
-          equalityCheckGenerator: generatorForInvokingSystemFunctionWithNameWithBothAttributeValues(
-            {
+          equalityCheckGenerator:
+            generatorForInvokingSystemFunctionWithNameWithBothAttributeValues({
               name: 'NSEqualRanges',
               import: null,
-            },
-          ),
+            }),
           hashGenerator: generatorForInvokingSubGenerators([
             generatorForProvidingHashValuesFromGeneratorOfTypeWithSubValue(
               NSUINTEGER_TYPE,
@@ -651,14 +644,13 @@ function generationGroupForType(type: ObjC.Type): TypeEqualityGenerationGroup {
           ]),
         };
       },
-      CGRect: function() {
+      CGRect: function () {
         return {
-          equalityCheckGenerator: generatorForInvokingSystemFunctionWithNameWithBothAttributeValues(
-            {
+          equalityCheckGenerator:
+            generatorForInvokingSystemFunctionWithNameWithBothAttributeValues({
               name: 'CGRectEqualToRect',
               import: null,
-            },
-          ),
+            }),
           hashGenerator: generatorForInvokingSubGenerators([
             generatorForProvidingHashValuesFromGeneratorOfTypeWithSubValue(
               CGPOINT_TYPE,
@@ -671,14 +663,13 @@ function generationGroupForType(type: ObjC.Type): TypeEqualityGenerationGroup {
           ]),
         };
       },
-      CGPoint: function() {
+      CGPoint: function () {
         return {
-          equalityCheckGenerator: generatorForInvokingSystemFunctionWithNameWithBothAttributeValues(
-            {
+          equalityCheckGenerator:
+            generatorForInvokingSystemFunctionWithNameWithBothAttributeValues({
               name: 'CGPointEqualToPoint',
               import: null,
-            },
-          ),
+            }),
           hashGenerator: generatorForInvokingSubGenerators([
             generatorForProvidingHashValuesFromGeneratorOfTypeWithSubValue(
               CGFLOAT_TYPE,
@@ -691,14 +682,13 @@ function generationGroupForType(type: ObjC.Type): TypeEqualityGenerationGroup {
           ]),
         };
       },
-      CGSize: function() {
+      CGSize: function () {
         return {
-          equalityCheckGenerator: generatorForInvokingSystemFunctionWithNameWithBothAttributeValues(
-            {
+          equalityCheckGenerator:
+            generatorForInvokingSystemFunctionWithNameWithBothAttributeValues({
               name: 'CGSizeEqualToSize',
               import: null,
-            },
-          ),
+            }),
           hashGenerator: generatorForInvokingSubGenerators([
             generatorForProvidingHashValuesFromGeneratorOfTypeWithSubValue(
               CGFLOAT_TYPE,
@@ -711,14 +701,13 @@ function generationGroupForType(type: ObjC.Type): TypeEqualityGenerationGroup {
           ]),
         };
       },
-      UIEdgeInsets: function() {
+      UIEdgeInsets: function () {
         return {
-          equalityCheckGenerator: generatorForInvokingSystemFunctionWithNameWithBothAttributeValues(
-            {
+          equalityCheckGenerator:
+            generatorForInvokingSystemFunctionWithNameWithBothAttributeValues({
               name: 'UIEdgeInsetsEqualToEdgeInsets',
               import: null,
-            },
-          ),
+            }),
           hashGenerator: generatorForInvokingSubGenerators([
             generatorForProvidingHashValuesFromGeneratorOfTypeWithSubValue(
               CGFLOAT_TYPE,
@@ -739,13 +728,13 @@ function generationGroupForType(type: ObjC.Type): TypeEqualityGenerationGroup {
           ]),
         };
       },
-      Class: function() {
+      Class: function () {
         return NSOBJECT_GENERATION_GROUP;
       },
-      dispatch_block_t: function() {
+      dispatch_block_t: function () {
         return NSOBJECT_GENERATION_GROUP;
       },
-      unmatchedType: function() {
+      unmatchedType: function () {
         return null!;
       },
     },
@@ -757,10 +746,9 @@ function generatorForProvidingHashValuesFromGeneratorOfTypeWithSubValue(
   type: ObjC.Type,
   propertyName: string,
 ): (attributeValueAccessor: string) => TypeEqualityValue[] {
-  return function(attributeValueAccessor: string): TypeEqualityValue[] {
-    const generationGroup: TypeEqualityGenerationGroup = generationGroupForType(
-      type,
-    );
+  return function (attributeValueAccessor: string): TypeEqualityValue[] {
+    const generationGroup: TypeEqualityGenerationGroup =
+      generationGroupForType(type);
     return generationGroup.hashGenerator(
       attributeValueAccessor + '.' + propertyName,
     );
@@ -770,10 +758,9 @@ function generatorForProvidingHashValuesFromGeneratorOfTypeWithSubValue(
 function generatorForProvidingEqualityValuesFromGeneratorOfType(
   type: ObjC.Type,
 ): (attributeValueAccessor: string) => TypeEqualityValue[] {
-  return function(attributeValueAccessor: string): TypeEqualityValue[] {
-    const generationGroup: TypeEqualityGenerationGroup = generationGroupForType(
-      type,
-    );
+  return function (attributeValueAccessor: string): TypeEqualityValue[] {
+    const generationGroup: TypeEqualityGenerationGroup =
+      generationGroupForType(type);
     return generationGroup.equalityCheckGenerator(attributeValueAccessor);
   };
 }
@@ -781,10 +768,9 @@ function generatorForProvidingEqualityValuesFromGeneratorOfType(
 function generatorForProvidingHashValuesFromGeneratorOfType(
   type: ObjC.Type,
 ): (attributeValueAccessor: string) => TypeEqualityValue[] {
-  return function(attributeValueAccessor: string): TypeEqualityValue[] {
-    const generationGroup: TypeEqualityGenerationGroup = generationGroupForType(
-      type,
-    );
+  return function (attributeValueAccessor: string): TypeEqualityValue[] {
+    const generationGroup: TypeEqualityGenerationGroup =
+      generationGroupForType(type);
     return generationGroup.hashGenerator(attributeValueAccessor);
   };
 }
@@ -798,12 +784,10 @@ function generatedTypeEqualityInformationForAttribute(
   attribute: ObjectSpec.Attribute,
 ): GeneratedTypeEqualityInformation {
   const type: ObjC.Type = ObjectSpecCodeUtils.computeTypeOfAttribute(attribute);
-  const generationGroup: TypeEqualityGenerationGroup = generationGroupForType(
-    type,
-  );
-  const attributeValueAccessor: string = ObjectSpecCodeUtils.ivarForAttribute(
-    attribute,
-  );
+  const generationGroup: TypeEqualityGenerationGroup =
+    generationGroupForType(type);
+  const attributeValueAccessor: string =
+    ObjectSpecCodeUtils.ivarForAttribute(attribute);
   return generatedTypeEqualityInformationForGenerationGroup(
     generationGroup,
     attributeValueAccessor,
@@ -877,16 +861,14 @@ function isEqualInstanceMethod(
     '}',
     'return',
   ];
-  const equalityCheckEqualityValues: TypeEqualityValue[] = generatedTypeEqualityInformation.reduce(
-    buildEqualityChecks,
-    [],
-  );
-  const equalityCheckEqualityValuesSortedByCost: TypeEqualityValue[] = equalityCheckEqualityValues
-    .concat()
-    .sort(compareTypeEqualityValuesByComputationCost);
-  const equalityChecks: string[] = equalityCheckEqualityValuesSortedByCost.map(
-    selectValue,
-  );
+  const equalityCheckEqualityValues: TypeEqualityValue[] =
+    generatedTypeEqualityInformation.reduce(buildEqualityChecks, []);
+  const equalityCheckEqualityValuesSortedByCost: TypeEqualityValue[] =
+    equalityCheckEqualityValues
+      .concat()
+      .sort(compareTypeEqualityValuesByComputationCost);
+  const equalityChecks: string[] =
+    equalityCheckEqualityValuesSortedByCost.map(selectValue);
   const equalityChecksUpUntilLastOne: string[] = equalityChecks
     .slice(0, equalityChecks.length - 1)
     .map(stringForIncludingEqualityCheckInCode);
@@ -905,9 +887,8 @@ function isEqualInstanceMethod(
           modifiers: [],
           type: {
             name: typeName,
-            reference: ObjectSpecUtils.typeReferenceForValueTypeWithName(
-              typeName,
-            ),
+            reference:
+              ObjectSpecUtils.typeReferenceForValueTypeWithName(typeName),
           },
         },
       },
@@ -935,10 +916,8 @@ function buildHashValues(
 function hashInstanceMethod(
   generatedTypeEqualityInformation: GeneratedTypeEqualityInformation[],
 ): ObjC.Method {
-  const hashEqualityValues: TypeEqualityValue[] = generatedTypeEqualityInformation.reduce(
-    buildHashValues,
-    [],
-  );
+  const hashEqualityValues: TypeEqualityValue[] =
+    generatedTypeEqualityInformation.reduce(buildHashValues, []);
   const hashValues: string[] = hashEqualityValues.map(selectValue);
   const hashValuesGroup: string = hashValues.join(', ');
 
@@ -1219,22 +1198,22 @@ function functionDefinitionForEqualityFunction(
   equalityFunction: EqualityFunction,
 ): ObjC.Function {
   return equalityFunction.match(
-    function(): ObjC.Function {
+    function (): ObjC.Function {
       return COMPARE_FLOATS_FN;
     },
-    function(): ObjC.Function {
+    function (): ObjC.Function {
       return COMPARE_DOUBLES_FN;
     },
-    function(): ObjC.Function {
+    function (): ObjC.Function {
       return COMPARE_CGFLOATS_FN;
     },
-    function(): ObjC.Function {
+    function (): ObjC.Function {
       return HASH_FLOAT_FN;
     },
-    function(): ObjC.Function {
+    function (): ObjC.Function {
       return HASH_DOUBLE_FN;
     },
-    function(): ObjC.Function {
+    function (): ObjC.Function {
       return HASH_CGFLOATS_FN;
     },
   );
@@ -1267,9 +1246,8 @@ function buildEqualityFunctionsToIncludeTracker(
   const equalityFunctionName: string = nameOfEqualityFunction(equalityFunction);
   if (tracker.equalityFunctionsIncluded[equalityFunctionName] !== true) {
     return {
-      equalityFunctionsToInclude: tracker.equalityFunctionsToInclude.concat(
-        equalityFunction,
-      ),
+      equalityFunctionsToInclude:
+        tracker.equalityFunctionsToInclude.concat(equalityFunction),
       equalityFunctionsIncluded: objectIncludingValue(
         tracker.equalityFunctionsIncluded,
         equalityFunctionName,
@@ -1303,19 +1281,18 @@ function buildFunctionsToInclude(
 function functionsToIncludeForGeneratedTypeEqualityInformation(
   generatedTypeEqualityInformation: GeneratedTypeEqualityInformation[],
 ): ObjC.Function[] {
-  const allEqualityFunctions: EqualityFunction[] = generatedTypeEqualityInformation.reduce(
-    buildFunctionsToInclude,
-    [],
-  );
+  const allEqualityFunctions: EqualityFunction[] =
+    generatedTypeEqualityInformation.reduce(buildFunctionsToInclude, []);
 
   const emptyTracker: EqualityFunctionsToIncludeTracker = {
     equalityFunctionsToInclude: [],
     equalityFunctionsIncluded: {},
   };
-  const tracker: EqualityFunctionsToIncludeTracker = allEqualityFunctions.reduce(
-    buildEqualityFunctionsToIncludeTracker,
-    emptyTracker,
-  );
+  const tracker: EqualityFunctionsToIncludeTracker =
+    allEqualityFunctions.reduce(
+      buildEqualityFunctionsToIncludeTracker,
+      emptyTracker,
+    );
 
   return tracker.equalityFunctionsToInclude.map(
     functionDefinitionForEqualityFunction,
@@ -1326,9 +1303,8 @@ function doesValueAttributeContainAnUnknownType(
   attribute: ObjectSpec.Attribute,
 ): boolean {
   const type: ObjC.Type = ObjectSpecCodeUtils.computeTypeOfAttribute(attribute);
-  const generationGroup: TypeEqualityGenerationGroup = generationGroupForType(
-    type,
-  );
+  const generationGroup: TypeEqualityGenerationGroup =
+    generationGroupForType(type);
   return generationGroup == null;
 }
 
@@ -1337,7 +1313,7 @@ function attributeToUnknownTypeError(
   attribute: ObjectSpec.Attribute,
 ): Error.Error {
   return Maybe.match(
-    function(underlyingType: string): Error.Error {
+    function (underlyingType: string): Error.Error {
       return Error.Error(
         'The Equality plugin does not know how to compare or hash the backing type "' +
           underlyingType +
@@ -1348,7 +1324,7 @@ function attributeToUnknownTypeError(
           '. Did you declare the wrong backing type?',
       );
     },
-    function(): Error.Error {
+    function (): Error.Error {
       return Error.Error(
         'The Equality plugin does not know how to compare or hash the type "' +
           attribute.type.name +
@@ -1365,42 +1341,43 @@ function attributeToUnknownTypeError(
 
 export function createPlugin(): ObjectSpec.Plugin {
   return {
-    additionalFiles: function(objectType: ObjectSpec.Type): Code.File[] {
+    additionalFiles: function (objectType: ObjectSpec.Type): Code.File[] {
       return [];
     },
-    transformBaseFile: function(
+    transformBaseFile: function (
       objectType: ObjectSpec.Type,
       baseFile: Code.File,
     ): Code.File {
       return baseFile;
     },
-    additionalTypes: function(objectType: ObjectSpec.Type): ObjectSpec.Type[] {
+    additionalTypes: function (objectType: ObjectSpec.Type): ObjectSpec.Type[] {
       return [];
     },
-    attributes: function(objectType: ObjectSpec.Type): ObjectSpec.Attribute[] {
+    attributes: function (objectType: ObjectSpec.Type): ObjectSpec.Attribute[] {
       return [];
     },
-    classMethods: function(objectType: ObjectSpec.Type): ObjC.Method[] {
+    classMethods: function (objectType: ObjectSpec.Type): ObjC.Method[] {
       return [];
     },
-    transformFileRequest: function(
+    transformFileRequest: function (
       request: FileWriter.Request,
     ): FileWriter.Request {
       return request;
     },
-    fileType: function(objectType: ObjectSpec.Type): Code.FileType | null {
+    fileType: function (objectType: ObjectSpec.Type): Code.FileType | null {
       return null;
     },
-    forwardDeclarations: function(
+    forwardDeclarations: function (
       objectType: ObjectSpec.Type,
     ): ObjC.ForwardDeclaration[] {
       return [];
     },
-    functions: function(objectType: ObjectSpec.Type): ObjC.Function[] {
+    functions: function (objectType: ObjectSpec.Type): ObjC.Function[] {
       if (objectType.attributes.length > 0) {
-        const generatedTypeEqualityInformation: GeneratedTypeEqualityInformation[] = objectType.attributes.map(
-          generatedTypeEqualityInformationForAttribute,
-        );
+        const generatedTypeEqualityInformation: GeneratedTypeEqualityInformation[] =
+          objectType.attributes.map(
+            generatedTypeEqualityInformationForAttribute,
+          );
         return functionsToIncludeForGeneratedTypeEqualityInformation(
           generatedTypeEqualityInformation,
         );
@@ -1408,14 +1385,15 @@ export function createPlugin(): ObjectSpec.Plugin {
         return [];
       }
     },
-    headerComments: function(objectType: ObjectSpec.Type): ObjC.Comment[] {
+    headerComments: function (objectType: ObjectSpec.Type): ObjC.Comment[] {
       return [];
     },
-    imports: function(objectType: ObjectSpec.Type): ObjC.Import[] {
+    imports: function (objectType: ObjectSpec.Type): ObjC.Import[] {
       if (objectType.attributes.length > 0) {
-        const generatedTypeEqualityInformation: GeneratedTypeEqualityInformation[] = objectType.attributes.map(
-          generatedTypeEqualityInformationForAttribute,
-        );
+        const generatedTypeEqualityInformation: GeneratedTypeEqualityInformation[] =
+          objectType.attributes.map(
+            generatedTypeEqualityInformationForAttribute,
+          );
         return generatedTypeEqualityInformation.reduce(
           buildImportsToInclude,
           [],
@@ -1424,18 +1402,17 @@ export function createPlugin(): ObjectSpec.Plugin {
         return [];
       }
     },
-    implementedProtocols: function(
+    implementedProtocols: function (
       objectType: ObjectSpec.Type,
     ): ObjC.ImplementedProtocol[] {
       return [];
     },
-    instanceMethods: function(objectType: ObjectSpec.Type): ObjC.Method[] {
+    instanceMethods: function (objectType: ObjectSpec.Type): ObjC.Method[] {
       if (objectType.attributes.length == 0) {
         return [];
       }
-      const generatedTypeEqualityInformation: GeneratedTypeEqualityInformation[] = objectType.attributes.map(
-        generatedTypeEqualityInformationForAttribute,
-      );
+      const generatedTypeEqualityInformation: GeneratedTypeEqualityInformation[] =
+        objectType.attributes.map(generatedTypeEqualityInformationForAttribute);
       return [
         isEqualInstanceMethod(
           objectType.typeName,
@@ -1444,27 +1421,27 @@ export function createPlugin(): ObjectSpec.Plugin {
         hashInstanceMethod(generatedTypeEqualityInformation),
       ];
     },
-    macros: function(valueType: ObjectSpec.Type): ObjC.Macro[] {
+    macros: function (valueType: ObjectSpec.Type): ObjC.Macro[] {
       return [];
     },
-    properties: function(objectType: ObjectSpec.Type): ObjC.Property[] {
+    properties: function (objectType: ObjectSpec.Type): ObjC.Property[] {
       return [];
     },
     requiredIncludesToRun: ['RMEquality'],
-    staticConstants: function(objectType: ObjectSpec.Type): ObjC.Constant[] {
+    staticConstants: function (objectType: ObjectSpec.Type): ObjC.Constant[] {
       return [];
     },
-    validationErrors: function(objectType: ObjectSpec.Type): Error.Error[] {
+    validationErrors: function (objectType: ObjectSpec.Type): Error.Error[] {
       return objectType.attributes
         .filter(doesValueAttributeContainAnUnknownType)
-        .map(attribute => attributeToUnknownTypeError(objectType, attribute));
+        .map((attribute) => attributeToUnknownTypeError(objectType, attribute));
     },
-    nullability: function(
+    nullability: function (
       objectType: ObjectSpec.Type,
     ): ObjC.ClassNullability | null {
       return null;
     },
-    subclassingRestricted: function(objectType: ObjectSpec.Type): boolean {
+    subclassingRestricted: function (objectType: ObjectSpec.Type): boolean {
       return false;
     },
   };
@@ -1487,9 +1464,8 @@ function generatedTypeEqualityInformationForSubtypeAttributeForAlgebraicType(
     name: 'NSUInteger',
     reference: 'NSUInteger',
   };
-  const generationGroup: TypeEqualityGenerationGroup = generationGroupForType(
-    type,
-  );
+  const generationGroup: TypeEqualityGenerationGroup =
+    generationGroupForType(type);
   return generatedTypeEqualityInformationForGenerationGroup(
     generationGroup,
     AlgebraicTypeUtils.valueAccessorForInstanceVariableStoringSubtype(),
@@ -1501,9 +1477,8 @@ function generatedTypeEqualityInformationForAlgebraicSubtypeAttribute(
   attribute: AlgebraicType.SubtypeAttribute,
 ): GeneratedTypeEqualityInformation {
   const type: ObjC.Type = AlgebraicTypeUtils.computeTypeOfAttribute(attribute);
-  const generationGroup: TypeEqualityGenerationGroup = generationGroupForType(
-    type,
-  );
+  const generationGroup: TypeEqualityGenerationGroup =
+    generationGroupForType(type);
   return generatedTypeEqualityInformationForGenerationGroup(
     generationGroup,
     AlgebraicTypeUtils.valueAccessorForInstanceVariableForAttribute(
@@ -1516,10 +1491,11 @@ function generatedTypeEqualityInformationForAlgebraicSubtypeAttribute(
 function generatedTypeEqualityInformationForAlgebraicType(
   algebraicType: AlgebraicType.Type,
 ): GeneratedTypeEqualityInformation[] {
-  const attributeGeneratedTypeEqualityInformation: GeneratedTypeEqualityInformation[] = AlgebraicTypeUtils.mapAttributesWithSubtypeFromSubtypes(
-    algebraicType.subtypes,
-    generatedTypeEqualityInformationForAlgebraicSubtypeAttribute,
-  );
+  const attributeGeneratedTypeEqualityInformation: GeneratedTypeEqualityInformation[] =
+    AlgebraicTypeUtils.mapAttributesWithSubtypeFromSubtypes(
+      algebraicType.subtypes,
+      generatedTypeEqualityInformationForAlgebraicSubtypeAttribute,
+    );
   return [
     generatedTypeEqualityInformationForSubtypeAttributeForAlgebraicType(
       algebraicType,
@@ -1531,9 +1507,8 @@ function doesAlgebraicAttributeContainAnUnknownType(
   attribute: AlgebraicType.SubtypeAttribute,
 ): boolean {
   const type: ObjC.Type = AlgebraicTypeUtils.computeTypeOfAttribute(attribute);
-  const generationGroup: TypeEqualityGenerationGroup = generationGroupForType(
-    type,
-  );
+  const generationGroup: TypeEqualityGenerationGroup =
+    generationGroupForType(type);
   return generationGroup == null;
 }
 
@@ -1542,7 +1517,7 @@ function algebraicAttributeToUnknownTypeError(
   attribute: AlgebraicType.SubtypeAttribute,
 ): Error.Error {
   return Maybe.match(
-    function(underlyingType: string): Error.Error {
+    function (underlyingType: string): Error.Error {
       return Error.Error(
         'The Equality plugin does not know how to compare or hash the backing type "' +
           underlyingType +
@@ -1553,7 +1528,7 @@ function algebraicAttributeToUnknownTypeError(
           '. Did you declare the wrong backing type?',
       );
     },
-    function(): Error.Error {
+    function (): Error.Error {
       return Error.Error(
         'The Equality plugin does not know how to compare or hash the type "' +
           attribute.type.name +
@@ -1570,71 +1545,68 @@ function algebraicAttributeToUnknownTypeError(
 
 export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
   return {
-    additionalFiles: function(algebraicType: AlgebraicType.Type): Code.File[] {
+    additionalFiles: function (algebraicType: AlgebraicType.Type): Code.File[] {
       return [];
     },
-    transformBaseFile: function(
+    transformBaseFile: function (
       algebraicType: AlgebraicType.Type,
       baseFile: Code.File,
     ): Code.File {
       return baseFile;
     },
-    blockTypes: function(algebraicType: AlgebraicType.Type): ObjC.BlockType[] {
+    blockTypes: function (algebraicType: AlgebraicType.Type): ObjC.BlockType[] {
       return [];
     },
-    classMethods: function(algebraicType: AlgebraicType.Type): ObjC.Method[] {
+    classMethods: function (algebraicType: AlgebraicType.Type): ObjC.Method[] {
       return [];
     },
-    enumerations: function(
+    enumerations: function (
       algebraicType: AlgebraicType.Type,
     ): ObjC.Enumeration[] {
       return [];
     },
-    transformFileRequest: function(
+    transformFileRequest: function (
       request: FileWriter.Request,
     ): FileWriter.Request {
       return request;
     },
-    fileType: function(
+    fileType: function (
       algebraicType: AlgebraicType.Type,
     ): Code.FileType | null {
       return null;
     },
-    forwardDeclarations: function(
+    forwardDeclarations: function (
       algebraicType: AlgebraicType.Type,
     ): ObjC.ForwardDeclaration[] {
       return [];
     },
-    functions: function(algebraicType: AlgebraicType.Type): ObjC.Function[] {
-      const generatedTypeEqualityInformation: GeneratedTypeEqualityInformation[] = generatedTypeEqualityInformationForAlgebraicType(
-        algebraicType,
-      );
+    functions: function (algebraicType: AlgebraicType.Type): ObjC.Function[] {
+      const generatedTypeEqualityInformation: GeneratedTypeEqualityInformation[] =
+        generatedTypeEqualityInformationForAlgebraicType(algebraicType);
       return functionsToIncludeForGeneratedTypeEqualityInformation(
         generatedTypeEqualityInformation,
       );
     },
-    headerComments: function(
+    headerComments: function (
       algebraicType: AlgebraicType.Type,
     ): ObjC.Comment[] {
       return [];
     },
-    implementedProtocols: function(
+    implementedProtocols: function (
       algebraicType: AlgebraicType.Type,
     ): ObjC.ImplementedProtocol[] {
       return [];
     },
-    imports: function(algebraicType: AlgebraicType.Type): ObjC.Import[] {
-      const generatedTypeEqualityInformation: GeneratedTypeEqualityInformation[] = generatedTypeEqualityInformationForAlgebraicType(
-        algebraicType,
-      );
+    imports: function (algebraicType: AlgebraicType.Type): ObjC.Import[] {
+      const generatedTypeEqualityInformation: GeneratedTypeEqualityInformation[] =
+        generatedTypeEqualityInformationForAlgebraicType(algebraicType);
       return generatedTypeEqualityInformation.reduce(buildImportsToInclude, []);
     },
-    instanceMethods: function(
+    instanceMethods: function (
       algebraicType: AlgebraicType.Type,
     ): ObjC.Method[] {
-      const generatedTypeEqualityInformation: GeneratedTypeEqualityInformation[] = generatedTypeEqualityInformationForAlgebraicType(
-        algebraicType,
-      );
+      const generatedTypeEqualityInformation: GeneratedTypeEqualityInformation[] =
+        generatedTypeEqualityInformationForAlgebraicType(algebraicType);
       return [
         isEqualInstanceMethod(
           algebraicType.name,
@@ -1643,37 +1615,37 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
         hashInstanceMethod(generatedTypeEqualityInformation),
       ];
     },
-    instanceVariables: function(
+    instanceVariables: function (
       algebraicType: AlgebraicType.Type,
     ): ObjC.InstanceVariable[] {
       return [];
     },
-    macros: function(algebraicType: AlgebraicType.Type): ObjC.Macro[] {
+    macros: function (algebraicType: AlgebraicType.Type): ObjC.Macro[] {
       return [];
     },
     requiredIncludesToRun: ['RMEquality'],
-    staticConstants: function(
+    staticConstants: function (
       algebraicType: AlgebraicType.Type,
     ): ObjC.Constant[] {
       return [];
     },
-    validationErrors: function(
+    validationErrors: function (
       algebraicType: AlgebraicType.Type,
     ): Error.Error[] {
       return AlgebraicTypeUtils.allAttributesFromSubtypes(
         algebraicType.subtypes,
       )
         .filter(doesAlgebraicAttributeContainAnUnknownType)
-        .map(attribute =>
+        .map((attribute) =>
           algebraicAttributeToUnknownTypeError(algebraicType, attribute),
         );
     },
-    nullability: function(
+    nullability: function (
       algebraicType: AlgebraicType.Type,
     ): ObjC.ClassNullability | null {
       return null;
     },
-    subclassingRestricted: function(
+    subclassingRestricted: function (
       algebraicType: AlgebraicType.Type,
     ): boolean {
       return false;

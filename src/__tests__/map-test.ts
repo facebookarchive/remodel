@@ -11,9 +11,9 @@
 import * as Map from '../map';
 import * as Maybe from '../maybe';
 
-describe('Map', function() {
-  describe('#get', function() {
-    it('should return nothing when looking up on the empty map', function() {
+describe('Map', function () {
+  describe('#get', function () {
+    it('should return nothing when looking up on the empty map', function () {
       const map: Map.Map<string, string> = Map.Empty<string, string>();
       const actualValue = Map.get('key', map);
 
@@ -25,7 +25,7 @@ describe('Map', function() {
     it(
       'should return the actual value when looking up on a map that has ' +
         'that key',
-      function() {
+      function () {
         const map: Map.Map<string, string> = Map.Map<string, string>([
           ['key', 'value'],
         ]);
@@ -40,7 +40,7 @@ describe('Map', function() {
     it(
       'should return the actual value when looking up on a map that has ' +
         'a key and value but not that key',
-      function() {
+      function () {
         const map: Map.Map<string, string> = Map.Map<string, string>([
           ['key', 'value'],
         ]);
@@ -53,8 +53,8 @@ describe('Map', function() {
     );
   });
 
-  describe('#insert', function() {
-    it('inserts a value into an empty map and can read it out', function() {
+  describe('#insert', function () {
+    it('inserts a value into an empty map and can read it out', function () {
       const map: Map.Map<string, string> = Map.Empty<string, string>();
       const insertedMap = Map.insert('anotherKey', 'value', map);
       const actualValue = Map.get('anotherKey', insertedMap);
@@ -67,7 +67,7 @@ describe('Map', function() {
     it(
       'inserts a value into a map that has values but not at the key that is ' +
         'being inserted and can read it out',
-      function() {
+      function () {
         const map: Map.Map<string, string> = Map.Map<string, string>([
           ['key', 'value'],
         ]);
@@ -83,7 +83,7 @@ describe('Map', function() {
     it(
       'inserts a value into a map that has values at the key that is ' +
         'being inserted and can read it out',
-      function() {
+      function () {
         const map: Map.Map<string, string> = Map.Map<string, string>([
           ['key', 'value'],
         ]);
@@ -97,8 +97,8 @@ describe('Map', function() {
     );
   });
 
-  describe('#remove', function() {
-    it('deletes a value from an empty map and can cannot read it out', function() {
+  describe('#remove', function () {
+    it('deletes a value from an empty map and can cannot read it out', function () {
       const map: Map.Map<string, string> = Map.Empty<string, string>();
       const clearedMap = Map.remove('key', map);
       const actualValue = Map.get('key', clearedMap);
@@ -111,7 +111,7 @@ describe('Map', function() {
     it(
       'deletes a value from a non-empty map that does not already have that key ' +
         'and can cannot read it out',
-      function() {
+      function () {
         const map: Map.Map<string, string> = Map.Map<string, string>([
           ['key', 'value'],
         ]);
@@ -127,7 +127,7 @@ describe('Map', function() {
     it(
       'deletes a value from a non-empty map that does not already have that key ' +
         'and can read the other key out',
-      function() {
+      function () {
         const map: Map.Map<string, string> = Map.Map<string, string>([
           ['key', 'value'],
         ]);
@@ -143,7 +143,7 @@ describe('Map', function() {
     it(
       'deletes a value from a non-empty map that does already have that key ' +
         'and can not read that key out',
-      function() {
+      function () {
         const map: Map.Map<string, string> = Map.Map<string, string>([
           ['key', 'value'],
         ]);
@@ -157,15 +157,15 @@ describe('Map', function() {
     );
   });
 
-  describe('#containsKey', function() {
-    it('should return false when the key is not present in the map', function() {
+  describe('#containsKey', function () {
+    it('should return false when the key is not present in the map', function () {
       const map: Map.Map<string, number> = Map.Empty<string, number>();
       const actualValue = Map.containsKey('something', map);
 
       expect(actualValue).toBe(false);
     });
 
-    it('should return true when the key is present in the map', function() {
+    it('should return true when the key is present in the map', function () {
       const map: Map.Map<string, number> = Map.Map<string, number>([
         ['something', 4],
       ]);
@@ -175,11 +175,11 @@ describe('Map', function() {
     });
   });
 
-  describe('#foldl', function() {
-    it('returns the initial value when given an empty map', function() {
+  describe('#foldl', function () {
+    it('returns the initial value when given an empty map', function () {
       const map: Map.Map<string, number> = Map.Empty<string, number>();
       const actualValue: Map.Map<string, number> = Map.foldl(
-        function(soFar: Map.Map<string, number>, key: string, num: number) {
+        function (soFar: Map.Map<string, number>, key: string, num: number) {
           return Map.insert(key, num * 2, soFar);
         },
         Map.Empty<string, number>(),
@@ -191,12 +191,12 @@ describe('Map', function() {
       expect(actualValue).toEqualJSON(expectedValue);
     });
 
-    it('returns the folded value when given a non empty map', function() {
+    it('returns the folded value when given a non empty map', function () {
       const map: Map.Map<string, number> = Map.Map<string, number>([
         ['something', 4],
       ]);
       const actualValue: Map.Map<string, number> = Map.foldl(
-        function(soFar: Map.Map<string, number>, key: string, num: number) {
+        function (soFar: Map.Map<string, number>, key: string, num: number) {
           return Map.insert(key, num * 2, soFar);
         },
         Map.Empty<string, number>(),
@@ -212,13 +212,13 @@ describe('Map', function() {
       expect(actualValue).toEqualJSON(expectedValue);
     });
 
-    it('returns the folded value when given a larger map', function() {
+    it('returns the folded value when given a larger map', function () {
       const map: Map.Map<string, number> = Map.Map<string, number>([
         ['something', 4],
         ['else', 8],
       ]);
       const actualValue: Map.Map<string, number> = Map.foldl(
-        function(soFar: Map.Map<string, number>, key: string, num: number) {
+        function (soFar: Map.Map<string, number>, key: string, num: number) {
           return Map.insert(key, num * 2, soFar);
         },
         Map.Empty<string, number>(),

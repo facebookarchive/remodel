@@ -16,9 +16,9 @@ import * as ObjectSpec from '../../object-spec';
 
 const Plugin = ImmutableProperties.createPlugin();
 
-describe('Plugins.ImmutableProperties', function() {
-  describe('#instanceMethods', function() {
-    it('is an empty array when there are no attributes', function() {
+describe('Plugins.ImmutableProperties', function () {
+  describe('#instanceMethods', function () {
+    it('is an empty array when there are no attributes', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [],
@@ -40,7 +40,7 @@ describe('Plugins.ImmutableProperties', function() {
     it(
       'is an initializer with a single property when one attribute is ' +
         'given',
-      function() {
+      function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
@@ -113,7 +113,7 @@ describe('Plugins.ImmutableProperties', function() {
     it(
       'is an initializer with a single property when one attribute is ' +
         'given and value semantics are turned off',
-      function() {
+      function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
@@ -186,7 +186,7 @@ describe('Plugins.ImmutableProperties', function() {
     it(
       'is an initializer with multiple properties when many attribtutes are ' +
         'given',
-      function() {
+      function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
@@ -340,7 +340,7 @@ describe('Plugins.ImmutableProperties', function() {
     it(
       'is an initializer with multiple properties when many attribtutes are ' +
         'given and value semantics are off',
-      function() {
+      function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
@@ -492,8 +492,8 @@ describe('Plugins.ImmutableProperties', function() {
     );
   });
 
-  describe('#imports', function() {
-    it('includes foundation even when there are no attributes', function() {
+  describe('#imports', function () {
+    it('includes foundation even when there are no attributes', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [],
@@ -520,7 +520,7 @@ describe('Plugins.ImmutableProperties', function() {
     it(
       'includes an import for itself locally when the type is not inside ' +
         'of a library',
-      function() {
+      function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [],
@@ -548,7 +548,7 @@ describe('Plugins.ImmutableProperties', function() {
     it(
       'includes an import for itself in a library when the type itself is ' +
         'inside of a library',
-      function() {
+      function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [],
@@ -573,7 +573,7 @@ describe('Plugins.ImmutableProperties', function() {
       },
     );
 
-    it('includes an import for referenced type lookups', function() {
+    it('includes an import for referenced type lookups', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
@@ -640,7 +640,7 @@ describe('Plugins.ImmutableProperties', function() {
     it(
       'does not include a public import for itself when it is provided with ' +
         'a type lookup for itself',
-      function() {
+      function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [],
@@ -672,7 +672,7 @@ describe('Plugins.ImmutableProperties', function() {
     it(
       'includes for an attribute that is an NSObject but does not have a ' +
         'specified library and the value object is in a library',
-      function() {
+      function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
@@ -716,7 +716,7 @@ describe('Plugins.ImmutableProperties', function() {
     it(
       'includes for an attribute that is an NSObject but does not have a ' +
         'specified library and the value object is not in a library',
-      function() {
+      function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
@@ -760,7 +760,7 @@ describe('Plugins.ImmutableProperties', function() {
     it(
       'includes for an attribute that is an NSObject but specifies which file ' +
         'it should be without a library and the value object is not in a library',
-      function() {
+      function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
@@ -804,7 +804,7 @@ describe('Plugins.ImmutableProperties', function() {
     it(
       'includes for an attribute that is an NSObject but specifies which file ' +
         'it should be with a library and the value object is not in a library',
-      function() {
+      function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
@@ -848,7 +848,7 @@ describe('Plugins.ImmutableProperties', function() {
     it(
       'includes for an attribute that is an NSObject but specifies which file ' +
         'it should be with a library and the value object is in a library',
-      function() {
+      function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
@@ -892,7 +892,7 @@ describe('Plugins.ImmutableProperties', function() {
     it(
       'includes for an attribute that is an NSObject but specifies which library ' +
         'it should be and the value object is in a library',
-      function() {
+      function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
@@ -933,7 +933,7 @@ describe('Plugins.ImmutableProperties', function() {
       },
     );
 
-    it('does not include anything for BOOL type attributes', function() {
+    it('does not include anything for BOOL type attributes', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
@@ -981,7 +981,7 @@ describe('Plugins.ImmutableProperties', function() {
       expect(actualImports).toEqualJSON(baseImports);
     });
 
-    it('does not include anything for double type attributes', function() {
+    it('does not include anything for double type attributes', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
@@ -1029,7 +1029,7 @@ describe('Plugins.ImmutableProperties', function() {
       expect(actualImports).toEqualJSON(baseImports);
     });
 
-    it('does not include anything for float type attributes', function() {
+    it('does not include anything for float type attributes', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
@@ -1077,7 +1077,7 @@ describe('Plugins.ImmutableProperties', function() {
       expect(actualImports).toEqualJSON(baseImports);
     });
 
-    it('does not include anything for NSTimeInterval type attributes', function() {
+    it('does not include anything for NSTimeInterval type attributes', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
@@ -1125,7 +1125,7 @@ describe('Plugins.ImmutableProperties', function() {
       expect(actualImports).toEqualJSON(baseImports);
     });
 
-    it('includes CGBase for CGFloat type attributes', function() {
+    it('includes CGBase for CGFloat type attributes', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
@@ -1179,7 +1179,7 @@ describe('Plugins.ImmutableProperties', function() {
       expect(actualImports).toEqualJSON(baseImports);
     });
 
-    it('includes CGBase for CGRect type attributes', function() {
+    it('includes CGBase for CGRect type attributes', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
@@ -1233,7 +1233,7 @@ describe('Plugins.ImmutableProperties', function() {
       expect(actualImports).toEqualJSON(baseImports);
     });
 
-    it('includes CGBase anything for CGPoint type attributes', function() {
+    it('includes CGBase anything for CGPoint type attributes', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
@@ -1287,7 +1287,7 @@ describe('Plugins.ImmutableProperties', function() {
       expect(actualImports).toEqualJSON(baseImports);
     });
 
-    it('does not include anything for SEL type attributes', function() {
+    it('does not include anything for SEL type attributes', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
@@ -1335,7 +1335,7 @@ describe('Plugins.ImmutableProperties', function() {
       expect(actualImports).toEqualJSON(baseImports);
     });
 
-    it('includes CGBase anything for CGSize type attributes', function() {
+    it('includes CGBase anything for CGSize type attributes', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
@@ -1389,7 +1389,7 @@ describe('Plugins.ImmutableProperties', function() {
       expect(actualImports).toEqualJSON(baseImports);
     });
 
-    it('includes UIGeometry for UIEdgeInsets type attributes', function() {
+    it('includes UIGeometry for UIEdgeInsets type attributes', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
@@ -1443,7 +1443,7 @@ describe('Plugins.ImmutableProperties', function() {
       expect(actualImports).toEqualJSON(baseImports);
     });
 
-    it('does not include anything for int32_t type attributes', function() {
+    it('does not include anything for int32_t type attributes', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
@@ -1491,7 +1491,7 @@ describe('Plugins.ImmutableProperties', function() {
       expect(actualImports).toEqualJSON(baseImports);
     });
 
-    it('does not include anything for int64_t type attributes', function() {
+    it('does not include anything for int64_t type attributes', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
@@ -1539,7 +1539,7 @@ describe('Plugins.ImmutableProperties', function() {
       expect(actualImports).toEqualJSON(baseImports);
     });
 
-    it('does not include anything for uint32_t type attributes', function() {
+    it('does not include anything for uint32_t type attributes', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
@@ -1587,7 +1587,7 @@ describe('Plugins.ImmutableProperties', function() {
       expect(actualImports).toEqualJSON(baseImports);
     });
 
-    it('does not include anything for uint64_t type attributes', function() {
+    it('does not include anything for uint64_t type attributes', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
@@ -1635,7 +1635,7 @@ describe('Plugins.ImmutableProperties', function() {
       expect(actualImports).toEqualJSON(baseImports);
     });
 
-    it('does not include anything for NSUInteger type attributes', function() {
+    it('does not include anything for NSUInteger type attributes', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
@@ -1683,7 +1683,7 @@ describe('Plugins.ImmutableProperties', function() {
       expect(actualImports).toEqualJSON(baseImports);
     });
 
-    it('does not include anything for NSUInteger type attributes', function() {
+    it('does not include anything for NSUInteger type attributes', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
@@ -1731,7 +1731,7 @@ describe('Plugins.ImmutableProperties', function() {
       expect(actualImports).toEqualJSON(baseImports);
     });
 
-    it('does not include anything for NSString type attributes', function() {
+    it('does not include anything for NSString type attributes', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
@@ -1780,8 +1780,8 @@ describe('Plugins.ImmutableProperties', function() {
     });
   });
 
-  describe('#properties', function() {
-    it('includes no properties when there are no attributes', function() {
+  describe('#properties', function () {
+    it('includes no properties when there are no attributes', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [],
@@ -1798,7 +1798,7 @@ describe('Plugins.ImmutableProperties', function() {
       expect(actualImports).toEqualJSON([]);
     });
 
-    it('includes readonly nonatomic properties for non object attributes', function() {
+    it('includes readonly nonatomic properties for non object attributes', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
@@ -1848,7 +1848,7 @@ describe('Plugins.ImmutableProperties', function() {
       expect(actualProperties).toEqualJSON(expectedProperties);
     });
 
-    it('includes readonly nonatomic copy properties for object attributes', function() {
+    it('includes readonly nonatomic copy properties for object attributes', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
@@ -1902,7 +1902,7 @@ describe('Plugins.ImmutableProperties', function() {
     it(
       'includes readonly nonatomic properties for object attributes when ' +
         'value semantics are off',
-      function() {
+      function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
@@ -1954,8 +1954,8 @@ describe('Plugins.ImmutableProperties', function() {
     );
   });
 
-  describe('#propertyModifiersFromAttribute', function() {
-    it('returns a copyable property for an NSObject attribute with value semantics enabled', function() {
+  describe('#propertyModifiersFromAttribute', function () {
+    it('returns a copyable property for an NSObject attribute with value semantics enabled', function () {
       const attribute: ObjectSpec.Attribute = {
         annotations: {},
         comments: [],
@@ -1972,14 +1972,12 @@ describe('Plugins.ImmutableProperties', function() {
         },
       };
 
-      const modifiers: ObjC.PropertyModifier[] = ImmutablePropertyUtils.propertyModifiersFromAttribute(
-        true,
-        attribute,
-      );
+      const modifiers: ObjC.PropertyModifier[] =
+        ImmutablePropertyUtils.propertyModifiersFromAttribute(true, attribute);
       expect(modifiers).toContain(ObjC.PropertyModifier.Copy());
     });
 
-    it('returns a copyable property for an NSObject attribute with value semantics disabled', function() {
+    it('returns a copyable property for an NSObject attribute with value semantics disabled', function () {
       const attribute: ObjectSpec.Attribute = {
         annotations: {},
         comments: [],
@@ -1996,14 +1994,12 @@ describe('Plugins.ImmutableProperties', function() {
         },
       };
 
-      const modifiers: ObjC.PropertyModifier[] = ImmutablePropertyUtils.propertyModifiersFromAttribute(
-        false,
-        attribute,
-      );
+      const modifiers: ObjC.PropertyModifier[] =
+        ImmutablePropertyUtils.propertyModifiersFromAttribute(false, attribute);
       expect(modifiers).not.toContain(ObjC.PropertyModifier.Copy());
     });
 
-    it('returns a non-copyable property for an NSObject attribute', function() {
+    it('returns a non-copyable property for an NSObject attribute', function () {
       const attribute: ObjectSpec.Attribute = {
         annotations: {},
         comments: [],
@@ -2020,14 +2016,12 @@ describe('Plugins.ImmutableProperties', function() {
         },
       };
 
-      const modifiers: ObjC.PropertyModifier[] = ImmutablePropertyUtils.propertyModifiersFromAttribute(
-        true,
-        attribute,
-      );
+      const modifiers: ObjC.PropertyModifier[] =
+        ImmutablePropertyUtils.propertyModifiersFromAttribute(true, attribute);
       expect(modifiers).not.toContain(ObjC.PropertyModifier.Copy());
     });
 
-    it('returns a nonnull property for a nonnull attribute', function() {
+    it('returns a nonnull property for a nonnull attribute', function () {
       const attribute: ObjectSpec.Attribute = {
         annotations: {},
         comments: [],
@@ -2044,14 +2038,12 @@ describe('Plugins.ImmutableProperties', function() {
         },
       };
 
-      const modifiers: ObjC.PropertyModifier[] = ImmutablePropertyUtils.propertyModifiersFromAttribute(
-        true,
-        attribute,
-      );
+      const modifiers: ObjC.PropertyModifier[] =
+        ImmutablePropertyUtils.propertyModifiersFromAttribute(true, attribute);
       expect(modifiers).toContain(ObjC.PropertyModifier.Nonnull());
     });
 
-    it('returns a nullable property for an nullable attribute', function() {
+    it('returns a nullable property for an nullable attribute', function () {
       const attribute: ObjectSpec.Attribute = {
         annotations: {},
         comments: [],
@@ -2068,19 +2060,17 @@ describe('Plugins.ImmutableProperties', function() {
         },
       };
 
-      const modifiers: ObjC.PropertyModifier[] = ImmutablePropertyUtils.propertyModifiersFromAttribute(
-        true,
-        attribute,
-      );
+      const modifiers: ObjC.PropertyModifier[] =
+        ImmutablePropertyUtils.propertyModifiersFromAttribute(true, attribute);
       expect(modifiers).toContain(ObjC.PropertyModifier.Nullable());
     });
   });
 
-  describe('#forwardDeclarations', function() {
+  describe('#forwardDeclarations', function () {
     it(
       'returns forward declarations when a type is referenced ' +
         'and UseForwardDeclarations is included',
-      function() {
+      function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
@@ -2107,9 +2097,8 @@ describe('Plugins.ImmutableProperties', function() {
           typeName: 'RMSomething',
           libraryName: null,
         };
-        const forwardDeclarations: ObjC.ForwardDeclaration[] = Plugin.forwardDeclarations(
-          objectType,
-        );
+        const forwardDeclarations: ObjC.ForwardDeclaration[] =
+          Plugin.forwardDeclarations(objectType);
         const expectedForwardDeclarations: ObjC.ForwardDeclaration[] = [
           ObjC.ForwardDeclaration.ForwardProtocolDeclaration('Bar'),
           ObjC.ForwardDeclaration.ForwardClassDeclaration('Foo'),
@@ -2118,7 +2107,7 @@ describe('Plugins.ImmutableProperties', function() {
       },
     );
 
-    it('returns forward declarations for referenced generic types', function() {
+    it('returns forward declarations for referenced generic types', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
@@ -2156,9 +2145,8 @@ describe('Plugins.ImmutableProperties', function() {
         typeName: 'RMSomething',
         libraryName: null,
       };
-      const forwardDeclarations: ObjC.ForwardDeclaration[] = Plugin.forwardDeclarations(
-        objectType,
-      );
+      const forwardDeclarations: ObjC.ForwardDeclaration[] =
+        Plugin.forwardDeclarations(objectType);
       const expectedForwardDeclarations: ObjC.ForwardDeclaration[] = [
         ObjC.ForwardDeclaration.ForwardProtocolDeclaration('Bar'),
         ObjC.ForwardDeclaration.ForwardProtocolDeclaration('Baz'),

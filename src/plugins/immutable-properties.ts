@@ -18,60 +18,59 @@ import * as ObjectSpecUtils from '../object-spec-utils';
 
 export function createPlugin(): ObjectSpec.Plugin {
   return {
-    additionalFiles: function(objectType: ObjectSpec.Type): Code.File[] {
+    additionalFiles: function (objectType: ObjectSpec.Type): Code.File[] {
       return [];
     },
-    transformBaseFile: function(
+    transformBaseFile: function (
       objectType: ObjectSpec.Type,
       baseFile: Code.File,
     ): Code.File {
       return baseFile;
     },
-    additionalTypes: function(objectType: ObjectSpec.Type): ObjectSpec.Type[] {
+    additionalTypes: function (objectType: ObjectSpec.Type): ObjectSpec.Type[] {
       return [];
     },
-    attributes: function(objectType: ObjectSpec.Type): ObjectSpec.Attribute[] {
+    attributes: function (objectType: ObjectSpec.Type): ObjectSpec.Attribute[] {
       return [];
     },
-    classMethods: function(objectType: ObjectSpec.Type): ObjC.Method[] {
+    classMethods: function (objectType: ObjectSpec.Type): ObjC.Method[] {
       return [];
     },
-    transformFileRequest: function(
+    transformFileRequest: function (
       request: FileWriter.Request,
     ): FileWriter.Request {
       return request;
     },
-    fileType: function(objectType: ObjectSpec.Type): Code.FileType | null {
+    fileType: function (objectType: ObjectSpec.Type): Code.FileType | null {
       return null;
     },
-    forwardDeclarations: function(
+    forwardDeclarations: function (
       objectType: ObjectSpec.Type,
     ): ObjC.ForwardDeclaration[] {
       return objectType.includes.indexOf('UseForwardDeclarations') !== -1
         ? ImmutableImportUtils.forwardClassDeclarationsForObjectType(objectType)
         : [];
     },
-    functions: function(objectType: ObjectSpec.Type): ObjC.Function[] {
+    functions: function (objectType: ObjectSpec.Type): ObjC.Function[] {
       return [];
     },
-    headerComments: function(objectType: ObjectSpec.Type): ObjC.Comment[] {
+    headerComments: function (objectType: ObjectSpec.Type): ObjC.Comment[] {
       return [];
     },
-    implementedProtocols: function(
+    implementedProtocols: function (
       objectType: ObjectSpec.Type,
     ): ObjC.ImplementedProtocol[] {
       return [];
     },
     imports: ImmutableImportUtils.importsForObjectType,
     instanceMethods: ImmutableInitializerUtils.initializerMethodsForObjectType,
-    macros: function(valueType: ObjectSpec.Type): ObjC.Macro[] {
+    macros: function (valueType: ObjectSpec.Type): ObjC.Macro[] {
       return [];
     },
-    properties: function(objectType: ObjectSpec.Type): ObjC.Property[] {
-      const supportsValueSemantics: boolean = ObjectSpecUtils.typeSupportsValueObjectSemantics(
-        objectType,
-      );
-      return objectType.attributes.map(attribute =>
+    properties: function (objectType: ObjectSpec.Type): ObjC.Property[] {
+      const supportsValueSemantics: boolean =
+        ObjectSpecUtils.typeSupportsValueObjectSemantics(objectType);
+      return objectType.attributes.map((attribute) =>
         ImmutablePropertyUtils.propertyFromAttribute(
           supportsValueSemantics,
           attribute,
@@ -79,18 +78,18 @@ export function createPlugin(): ObjectSpec.Plugin {
       );
     },
     requiredIncludesToRun: ['RMImmutableProperties'],
-    staticConstants: function(objectType: ObjectSpec.Type): ObjC.Constant[] {
+    staticConstants: function (objectType: ObjectSpec.Type): ObjC.Constant[] {
       return [];
     },
-    validationErrors: function(objectType: ObjectSpec.Type): Error.Error[] {
+    validationErrors: function (objectType: ObjectSpec.Type): Error.Error[] {
       return [];
     },
-    nullability: function(
+    nullability: function (
       objectType: ObjectSpec.Type,
     ): ObjC.ClassNullability | null {
       return null;
     },
-    subclassingRestricted: function(objectType: ObjectSpec.Type): boolean {
+    subclassingRestricted: function (objectType: ObjectSpec.Type): boolean {
       return false;
     },
   };

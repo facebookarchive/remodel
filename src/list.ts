@@ -58,10 +58,10 @@ export function isEmpty<T>(list: List<T>): boolean {
 
 export function length<T>(list: List<T>): number {
   return list.match(
-    function() {
+    function () {
       return 0;
     },
-    function(val: T, next: List<T>) {
+    function (val: T, next: List<T>) {
       return 1 + length(next);
     },
   );
@@ -76,7 +76,7 @@ function returnJustHead<T>(val: T, tail: List<T>): T | null {
 }
 
 export function head<T>(list: List<T>): T | null {
-  return list.match(function() {
+  return list.match(function () {
     return null;
   }, returnJustHead);
 }
@@ -86,17 +86,17 @@ function returnTail<T>(head: T, tail: List<T>): List<T> {
 }
 
 export function tail<T>(list: List<T>): List<T> {
-  return list.match(function() {
+  return list.match(function () {
     return of<T>();
   }, returnTail);
 }
 
 function prependToAll<T>(seperator: T, list: List<T>): List<T> {
   return list.match(
-    function() {
+    function () {
       return list;
     },
-    function(head: T, tail: List<T>) {
+    function (head: T, tail: List<T>) {
       return cons(seperator, cons(head, prependToAll(seperator, tail)));
     },
   );
@@ -104,10 +104,10 @@ function prependToAll<T>(seperator: T, list: List<T>): List<T> {
 
 export function intersperse<T>(seperator: T, list: List<T>): List<T> {
   return list.match(
-    function() {
+    function () {
       return list;
     },
-    function(head: T, tail: List<T>) {
+    function (head: T, tail: List<T>) {
       return cons(head, prependToAll(seperator, tail));
     },
   );
@@ -120,7 +120,7 @@ export function append<T>(list1: List<T>, list2: List<T>): List<T> {
     return list2;
   } else {
     return foldr(
-      function(soFar: List<T>, thisVal: T) {
+      function (soFar: List<T>, thisVal: T) {
         return cons(thisVal, soFar);
       },
       list2,
@@ -131,7 +131,7 @@ export function append<T>(list1: List<T>, list2: List<T>): List<T> {
 
 export function filter<T>(f: (t: T) => boolean, list: List<T>): List<T> {
   return foldr(
-    function(soFar: List<T>, val: T) {
+    function (soFar: List<T>, val: T) {
       if (f(val)) {
         return cons(val, soFar);
       } else {
@@ -145,10 +145,10 @@ export function filter<T>(f: (t: T) => boolean, list: List<T>): List<T> {
 
 export function map<T, U>(f: (t: T) => U, list: List<T>): List<U> {
   return list.match(
-    function() {
+    function () {
       return of<U>();
     },
-    function(val: T, next: List<T>) {
+    function (val: T, next: List<T>) {
       return new List<U>(ListType.cons, f(val), map(f, next));
     },
   );
@@ -160,10 +160,10 @@ export function foldl<T, U>(
   list: List<T>,
 ): U {
   return list.match(
-    function() {
+    function () {
       return initialValue;
     },
-    function(val: T, next: List<T>) {
+    function (val: T, next: List<T>) {
       return foldl(f, f(initialValue, val), next);
     },
   );
@@ -175,10 +175,10 @@ export function foldr<T, U>(
   list: List<T>,
 ): U {
   return list.match(
-    function() {
+    function () {
       return initialValue;
     },
-    function(val: T, next: List<T>) {
+    function (val: T, next: List<T>) {
       return f(foldr(f, initialValue, next), val);
     },
   );
@@ -186,7 +186,7 @@ export function foldr<T, U>(
 
 export function reverse<T>(listToReverse: List<T>): List<T> {
   return foldl(
-    function(soFar: List<T>, val: T): List<T> {
+    function (soFar: List<T>, val: T): List<T> {
       return cons(val, soFar);
     },
     of<T>(),
@@ -195,14 +195,14 @@ export function reverse<T>(listToReverse: List<T>): List<T> {
 }
 
 export function fromArray<T>(array: T[]): List<T> {
-  return array.reduceRight(function(existing: List<T>, thisOne: T) {
+  return array.reduceRight(function (existing: List<T>, thisOne: T) {
     return cons(thisOne, existing);
   }, of<T>());
 }
 
 export function toArray<T>(list: List<T>): T[] {
   return foldl(
-    function(soFar: T[], thisOne: T) {
+    function (soFar: T[], thisOne: T) {
       soFar.push(thisOne);
       return soFar;
     },

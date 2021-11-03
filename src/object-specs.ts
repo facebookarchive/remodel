@@ -48,14 +48,12 @@ interface GenerationOptions {
 function evaluateUnparsedObjectSpecCreationRequest(
   request: ReadFileUtils.UnparsedObjectCreationRequest,
 ): Either.Either<Error.Error[], PathAndTypeInfo> {
-  const parseResult: Either.Either<
-    Error.Error[],
-    ObjectSpec.Type
-  > = ObjectSpecParser.parse(File.getContents(request.fileContents));
+  const parseResult: Either.Either<Error.Error[], ObjectSpec.Type> =
+    ObjectSpecParser.parse(File.getContents(request.fileContents));
   return Either.match(
-    function(errors: Error.Error[]) {
+    function (errors: Error.Error[]) {
       return Either.Left<Error.Error[], PathAndTypeInfo>(
-        errors.map(function(error: Error.Error) {
+        errors.map(function (error: Error.Error) {
           return Error.Error(
             '[' +
               File.getAbsolutePathString(request.path) +
@@ -65,7 +63,7 @@ function evaluateUnparsedObjectSpecCreationRequest(
         }),
       );
     },
-    function(foundType: ObjectSpec.Type) {
+    function (foundType: ObjectSpec.Type) {
       return Either.Right<Error.Error[], PathAndTypeInfo>({
         path: request.path,
         typeInformation: foundType,
@@ -119,15 +117,15 @@ function processObjectSpecCreationRequest(
 ): Promise.Future<
   Logging.Context<Either.Either<Error.Error[], FileWriter.FileWriteRequest>>
 > {
-  return Promise.map(function(
+  return Promise.map(function (
     creationContextEither: Either.Either<
       Error.Error[],
       ObjectSpecCreationContext
     >,
   ) {
     return Logging.munit(
-      Either.mbind(function(pathAndTypeInfo: PathAndTypeInfo) {
-        return Either.mbind(function(
+      Either.mbind(function (pathAndTypeInfo: PathAndTypeInfo) {
+        return Either.mbind(function (
           creationContext: ObjectSpecCreationContext,
         ) {
           const request: ObjectSpecCreation.Request = {
@@ -159,21 +157,21 @@ function pluginsFromPluginConfigs(
   pluginConfigs: List.List<Configuration.PluginConfig>,
 ): Either.Either<Error.Error[], List.List<ObjectSpec.Plugin>> {
   return List.foldr(
-    function(
+    function (
       soFar: Either.Either<Error.Error[], List.List<ObjectSpec.Plugin>>,
       config: Configuration.PluginConfig,
     ): Either.Either<Error.Error[], List.List<ObjectSpec.Plugin>> {
-      return Either.mbind(function(
+      return Either.mbind(function (
         list: List.List<ObjectSpec.Plugin>,
       ): Either.Either<Error.Error[], List.List<ObjectSpec.Plugin>> {
-        return Either.map(function(
+        return Either.map(function (
           maybePlugin: ObjectSpec.Plugin | null,
         ): List.List<ObjectSpec.Plugin> {
           return Maybe.match(
-            function(plugin: ObjectSpec.Plugin) {
+            function (plugin: ObjectSpec.Plugin) {
               return List.cons(plugin, list);
             },
-            function() {
+            function () {
               return list;
             },
             maybePlugin,
@@ -195,23 +193,22 @@ function getObjectSpecCreationContext(
   configurationContext: Configuration.ConfigurationContext,
   parsedArgs: CommandLine.Arguments,
 ): Promise.Future<Either.Either<Error.Error[], ObjectSpecCreationContext>> {
-  return Promise.mbind(function(
+  return Promise.mbind(function (
     maybePath: File.AbsoluteFilePath | null,
   ): Promise.Future<Either.Either<Error.Error[], ObjectSpecCreationContext>> {
-    const configFuture: Promise.Future<Either.Either<
-      Error.Error[],
-      Configuration.GenerationConfig
-    >> = Configuration.generateConfig(maybePath, configurationContext);
-    return Promise.map(function(
+    const configFuture: Promise.Future<
+      Either.Either<Error.Error[], Configuration.GenerationConfig>
+    > = Configuration.generateConfig(maybePath, configurationContext);
+    return Promise.map(function (
       either: Either.Either<Error.Error[], Configuration.GenerationConfig>,
     ) {
-      return Either.mbind(function(
+      return Either.mbind(function (
         configuration: Configuration.GenerationConfig,
       ): Either.Either<Error.Error[], ObjectSpecCreationContext> {
         const pluginsEither = pluginsFromPluginConfigs(
           configuration.pluginConfigs,
         );
-        return Either.map(function(
+        return Either.map(function (
           plugins: List.List<ObjectSpec.Plugin>,
         ): ObjectSpecCreationContext {
           return {
@@ -259,11 +256,12 @@ export function generate(
   configurationContext: Configuration.ConfigurationContext,
   parsedArgs: CommandLine.Arguments,
 ): Promise.Future<List.List<WriteFileUtils.ConsoleOutputResults>> {
-  const promises = parsedArgs.givenPaths.map(givenPath => {
-    const requestedPath: File.AbsoluteFilePath = PathUtils.getAbsolutePathFromDirectoryAndAbsoluteOrRelativePath(
-      File.getAbsoluteFilePath(directoryRunFrom),
-      givenPath,
-    );
+  const promises = parsedArgs.givenPaths.map((givenPath) => {
+    const requestedPath: File.AbsoluteFilePath =
+      PathUtils.getAbsolutePathFromDirectoryAndAbsoluteOrRelativePath(
+        File.getAbsoluteFilePath(directoryRunFrom),
+        givenPath,
+      );
     const outputPath: File.AbsoluteFilePath | null = outputDirectory(
       directoryRunFrom,
       parsedArgs.outputPath,
@@ -298,7 +296,7 @@ export function generate(
 
     const pluginProcessedSequence = LoggingSequenceUtils.mapLoggedSequence(
       parsedSequence,
-      context =>
+      (context) =>
         processObjectSpecCreationRequest(
           options,
           valueObjectCreationContextFuture,

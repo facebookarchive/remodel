@@ -18,9 +18,9 @@ import * as ObjectSpec from '../../object-spec';
 const ObjectSpecPlugin = Coding.createPlugin();
 const AlgebraicTypePlugin = Coding.createAlgebraicTypePlugin();
 
-describe('ObjectSpecPlugins.Coding', function() {
-  describe('#validationErrors', function() {
-    it('returns no validation errors when there are no attributes on the found type', function() {
+describe('ObjectSpecPlugins.Coding', function () {
+  describe('#validationErrors', function () {
+    it('returns no validation errors when there are no attributes on the found type', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [],
@@ -31,13 +31,12 @@ describe('ObjectSpecPlugins.Coding', function() {
         libraryName: null,
         typeName: 'Foo',
       };
-      const errors: Error.Error[] = ObjectSpecPlugin.validationErrors(
-        objectType,
-      );
+      const errors: Error.Error[] =
+        ObjectSpecPlugin.validationErrors(objectType);
       expect(errors).toEqualJSON([]);
     });
 
-    it('returns a validation error when there is an attribute with an unknown type', function() {
+    it('returns a validation error when there is an attribute with an unknown type', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
@@ -79,9 +78,8 @@ describe('ObjectSpecPlugins.Coding', function() {
         libraryName: null,
         typeName: 'Foo',
       };
-      const errors: Error.Error[] = ObjectSpecPlugin.validationErrors(
-        objectType,
-      );
+      const errors: Error.Error[] =
+        ObjectSpecPlugin.validationErrors(objectType);
       const expectedErrors: Error.Error[] = [
         Error.Error(
           'The Coding plugin does not know how to decode and encode the type "LikeStatus" from Foo.likeStatus. Did you forget to declare a backing type?',
@@ -90,7 +88,7 @@ describe('ObjectSpecPlugins.Coding', function() {
       expect(errors).toEqualJSON(expectedErrors);
     });
 
-    it('returns two validation errors when there are two attributes with unknown types', function() {
+    it('returns two validation errors when there are two attributes with unknown types', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
@@ -132,9 +130,8 @@ describe('ObjectSpecPlugins.Coding', function() {
         libraryName: null,
         typeName: 'Foo',
       };
-      const errors: Error.Error[] = ObjectSpecPlugin.validationErrors(
-        objectType,
-      );
+      const errors: Error.Error[] =
+        ObjectSpecPlugin.validationErrors(objectType);
       const expectedErrors: Error.Error[] = [
         Error.Error(
           'The Coding plugin does not know how to decode and encode the type "Name" from Foo.name. Did you forget to declare a backing type?',
@@ -146,7 +143,7 @@ describe('ObjectSpecPlugins.Coding', function() {
       expect(errors).toEqualJSON(expectedErrors);
     });
 
-    it('returns a validation error when there is an attribute with an unknown underlying type', function() {
+    it('returns a validation error when there is an attribute with an unknown underlying type', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
@@ -173,9 +170,8 @@ describe('ObjectSpecPlugins.Coding', function() {
         libraryName: null,
         typeName: 'Foo',
       };
-      const errors: Error.Error[] = ObjectSpecPlugin.validationErrors(
-        objectType,
-      );
+      const errors: Error.Error[] =
+        ObjectSpecPlugin.validationErrors(objectType);
       const expectedErrors: Error.Error[] = [
         Error.Error(
           'The Coding plugin does not know how to decode and encode the backing type "Baz" from Foo.name. Did you declare the wrong backing type?',
@@ -184,7 +180,7 @@ describe('ObjectSpecPlugins.Coding', function() {
       expect(errors).toEqualJSON(expectedErrors);
     });
 
-    it('returns a validation error when there is an attribute with legacy key with unsupported type', function() {
+    it('returns a validation error when there is an attribute with legacy key with unsupported type', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
@@ -217,9 +213,8 @@ describe('ObjectSpecPlugins.Coding', function() {
         libraryName: null,
         typeName: 'Foo',
       };
-      const errors: Error.Error[] = ObjectSpecPlugin.validationErrors(
-        objectType,
-      );
+      const errors: Error.Error[] =
+        ObjectSpecPlugin.validationErrors(objectType);
       const expectedErrors: Error.Error[] = [
         Error.Error(
           '%codingLegacyKey can\'t be used with "CGSize" at Foo.size.',
@@ -229,8 +224,8 @@ describe('ObjectSpecPlugins.Coding', function() {
     });
   });
 
-  describe('#instanceMethods', function() {
-    it('returns no instance methods when there are no attributes on the found type', function() {
+  describe('#instanceMethods', function () {
+    it('returns no instance methods when there are no attributes on the found type', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [],
@@ -241,13 +236,12 @@ describe('ObjectSpecPlugins.Coding', function() {
         libraryName: null,
         typeName: 'Foo',
       };
-      const instanceMethods: ObjC.Method[] = ObjectSpecPlugin.instanceMethods(
-        objectType,
-      );
+      const instanceMethods: ObjC.Method[] =
+        ObjectSpecPlugin.instanceMethods(objectType);
       expect(instanceMethods).toEqualJSON([]);
     });
 
-    it('returns two instance methods which will encode and decode a value, respecting the legacy key name', function() {
+    it('returns two instance methods which will encode and decode a value, respecting the legacy key name', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
@@ -281,9 +275,8 @@ describe('ObjectSpecPlugins.Coding', function() {
         typeName: 'Foo',
       };
 
-      const instanceMethods: ObjC.Method[] = ObjectSpecPlugin.instanceMethods(
-        objectType,
-      );
+      const instanceMethods: ObjC.Method[] =
+        ObjectSpecPlugin.instanceMethods(objectType);
 
       const expectedInstanceMethods: ObjC.Method[] = [
         {
@@ -347,7 +340,7 @@ describe('ObjectSpecPlugins.Coding', function() {
       expect(instanceMethods).toEqualJSON(expectedInstanceMethods);
     });
 
-    it('returns two instance methods which will encode and decode three values when called', function() {
+    it('returns two instance methods which will encode and decode three values when called', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
@@ -405,9 +398,8 @@ describe('ObjectSpecPlugins.Coding', function() {
         typeName: 'Foo',
       };
 
-      const instanceMethods: ObjC.Method[] = ObjectSpecPlugin.instanceMethods(
-        objectType,
-      );
+      const instanceMethods: ObjC.Method[] =
+        ObjectSpecPlugin.instanceMethods(objectType);
 
       const expectedInstanceMethods: ObjC.Method[] = [
         {
@@ -475,8 +467,8 @@ describe('ObjectSpecPlugins.Coding', function() {
     });
   });
 
-  describe('#imports', function() {
-    it('A correct import the found type', function() {
+  describe('#imports', function () {
+    it('A correct import the found type', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
@@ -517,8 +509,8 @@ describe('ObjectSpecPlugins.Coding', function() {
     });
   });
 
-  describe('#staticConstants', function() {
-    it('returns no constants when there are no attributes on the found type', function() {
+  describe('#staticConstants', function () {
+    it('returns no constants when there are no attributes on the found type', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [],
@@ -529,16 +521,15 @@ describe('ObjectSpecPlugins.Coding', function() {
         libraryName: null,
         typeName: 'Foo',
       };
-      const staticConstants: ObjC.Constant[] = ObjectSpecPlugin.staticConstants(
-        objectType,
-      );
+      const staticConstants: ObjC.Constant[] =
+        ObjectSpecPlugin.staticConstants(objectType);
       expect(staticConstants).toEqualJSON([]);
     });
 
     it(
       'returns a constant referencing to the key for coding when the found type ' +
         'has a single attribute',
-      function() {
+      function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
@@ -566,9 +557,8 @@ describe('ObjectSpecPlugins.Coding', function() {
           typeName: 'Foo',
         };
 
-        const staticConstants: ObjC.Constant[] = ObjectSpecPlugin.staticConstants(
-          objectType,
-        );
+        const staticConstants: ObjC.Constant[] =
+          ObjectSpecPlugin.staticConstants(objectType);
         const expectedStaticConstants: ObjC.Constant[] = [
           {
             type: {
@@ -589,7 +579,7 @@ describe('ObjectSpecPlugins.Coding', function() {
     it(
       'returns a constant referencing to the key for coding when the found type ' +
         'has a single attribute of a different name',
-      function() {
+      function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
@@ -617,9 +607,8 @@ describe('ObjectSpecPlugins.Coding', function() {
           typeName: 'Foo',
         };
 
-        const staticConstants: ObjC.Constant[] = ObjectSpecPlugin.staticConstants(
-          objectType,
-        );
+        const staticConstants: ObjC.Constant[] =
+          ObjectSpecPlugin.staticConstants(objectType);
         const expectedStaticConstants: ObjC.Constant[] = [
           {
             comments: [],
@@ -640,7 +629,7 @@ describe('ObjectSpecPlugins.Coding', function() {
     it(
       'returns two constants referencing to the key for coding when the found type ' +
         'has two attributes',
-      function() {
+      function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
@@ -683,9 +672,8 @@ describe('ObjectSpecPlugins.Coding', function() {
           typeName: 'Foo',
         };
 
-        const staticConstants: ObjC.Constant[] = ObjectSpecPlugin.staticConstants(
-          objectType,
-        );
+        const staticConstants: ObjC.Constant[] =
+          ObjectSpecPlugin.staticConstants(objectType);
         const expectedStaticConstants: ObjC.Constant[] = [
           {
             comments: [],
@@ -747,9 +735,8 @@ describe('ObjectSpecPlugins.Coding', function() {
         typeName: 'Foo',
       };
 
-      const staticConstants: ObjC.Constant[] = ObjectSpecPlugin.staticConstants(
-        objectType,
-      );
+      const staticConstants: ObjC.Constant[] =
+        ObjectSpecPlugin.staticConstants(objectType);
       const expectedConstants: ObjC.Constant[] = [
         {
           comments: [],
@@ -767,8 +754,8 @@ describe('ObjectSpecPlugins.Coding', function() {
     });
   });
 
-  describe('#decodeStatementForAttribute', function() {
-    it('returns code which will decode a BOOL value when called', function() {
+  describe('#decodeStatementForAttribute', function () {
+    it('returns code which will decode a BOOL value when called', function () {
       const attribute: Coding.CodeableAttribute = {
         name: 'doesUserLike',
         valueAccessor: '_doesUserLike',
@@ -791,7 +778,7 @@ describe('ObjectSpecPlugins.Coding', function() {
       expect(code).toEqualJSON(expectedCode);
     });
 
-    it('returns code which will decode an id value when called', function() {
+    it('returns code which will decode an id value when called', function () {
       const attribute: Coding.CodeableAttribute = {
         name: 'foo',
         valueAccessor: '_foo',
@@ -814,7 +801,7 @@ describe('ObjectSpecPlugins.Coding', function() {
       expect(code).toEqualJSON(expectedCode);
     });
 
-    it('returns code which will decode an NSObject value when called', function() {
+    it('returns code which will decode an NSObject value when called', function () {
       const attribute: Coding.CodeableAttribute = {
         name: 'name',
         valueAccessor: '_name',
@@ -837,7 +824,7 @@ describe('ObjectSpecPlugins.Coding', function() {
       expect(code).toEqualJSON(expectedCode);
     });
 
-    it('returns code which will decode an NSInteger value when called', function() {
+    it('returns code which will decode an NSInteger value when called', function () {
       const attribute: Coding.CodeableAttribute = {
         name: 'age',
         valueAccessor: '_age',
@@ -860,7 +847,7 @@ describe('ObjectSpecPlugins.Coding', function() {
       expect(code).toEqualJSON(expectedCode);
     });
 
-    it('returns code which will decode an NSUInteger value when called', function() {
+    it('returns code which will decode an NSUInteger value when called', function () {
       const attribute: Coding.CodeableAttribute = {
         name: 'age',
         valueAccessor: '_age',
@@ -883,7 +870,7 @@ describe('ObjectSpecPlugins.Coding', function() {
       expect(code).toEqualJSON(expectedCode);
     });
 
-    it('returns code which will decode a selector value when called', function() {
+    it('returns code which will decode a selector value when called', function () {
       const attribute: Coding.CodeableAttribute = {
         name: 'callbackMethod',
         valueAccessor: '_callbackMethod',
@@ -907,8 +894,8 @@ describe('ObjectSpecPlugins.Coding', function() {
     });
   });
 
-  describe('#encodeStatementForAttribute', function() {
-    it('returns code which will encode a BOOL value when called', function() {
+  describe('#encodeStatementForAttribute', function () {
+    it('returns code which will encode a BOOL value when called', function () {
       const attribute: Coding.CodeableAttribute = {
         name: 'doesUserLike',
         valueAccessor: '_doesUserLike',
@@ -931,7 +918,7 @@ describe('ObjectSpecPlugins.Coding', function() {
       expect(code).toEqualJSON(expectedCode);
     });
 
-    it('returns code which will encode an NSObject value when called', function() {
+    it('returns code which will encode an NSObject value when called', function () {
       const attribute: Coding.CodeableAttribute = {
         name: 'name',
         valueAccessor: '_name',
@@ -954,7 +941,7 @@ describe('ObjectSpecPlugins.Coding', function() {
       expect(code).toEqualJSON(expectedCode);
     });
 
-    it('returns code which will encode an NSInteger value when called', function() {
+    it('returns code which will encode an NSInteger value when called', function () {
       const attribute: Coding.CodeableAttribute = {
         name: 'age',
         valueAccessor: '_age',
@@ -977,7 +964,7 @@ describe('ObjectSpecPlugins.Coding', function() {
       expect(code).toEqualJSON(expectedCode);
     });
 
-    it('returns code which will encode an NSUInteger value when called', function() {
+    it('returns code which will encode an NSUInteger value when called', function () {
       const attribute: Coding.CodeableAttribute = {
         name: 'age',
         valueAccessor: '_age',
@@ -1000,7 +987,7 @@ describe('ObjectSpecPlugins.Coding', function() {
       expect(code).toEqualJSON(expectedCode);
     });
 
-    it('returns code which will encode a selector as a string value when called', function() {
+    it('returns code which will encode a selector as a string value when called', function () {
       const attribute: Coding.CodeableAttribute = {
         name: 'callbackMethod',
         valueAccessor: '_callbackMethod',
@@ -1025,9 +1012,9 @@ describe('ObjectSpecPlugins.Coding', function() {
   });
 });
 
-describe('AlgebraicTypePlugins.Coding', function() {
-  describe('#instanceMethods', function() {
-    it('returns two instance methods which will encode and decode two values when called', function() {
+describe('AlgebraicTypePlugins.Coding', function () {
+  describe('#instanceMethods', function () {
+    it('returns two instance methods which will encode and decode two values when called', function () {
       const algebraicType: AlgebraicType.Type = {
         annotations: {},
         name: 'Test',
@@ -1092,9 +1079,8 @@ describe('AlgebraicTypePlugins.Coding', function() {
         ],
       };
 
-      const instanceMethods: ObjC.Method[] = AlgebraicTypePlugin.instanceMethods(
-        algebraicType,
-      );
+      const instanceMethods: ObjC.Method[] =
+        AlgebraicTypePlugin.instanceMethods(algebraicType);
 
       const expectedInstanceMethods: ObjC.Method[] = [
         {
@@ -1183,11 +1169,11 @@ describe('AlgebraicTypePlugins.Coding', function() {
     });
   });
 
-  describe('#staticConstants', function() {
+  describe('#staticConstants', function () {
     it(
       'returns four constants referencing to the key for coding when the algebraic type ' +
         'has two subtypes with three cumulative attributes',
-      function() {
+      function () {
         const algebraicType: AlgebraicType.Type = {
           annotations: {},
           name: 'Test',
@@ -1252,9 +1238,8 @@ describe('AlgebraicTypePlugins.Coding', function() {
           ],
         };
 
-        const staticConstants: ObjC.Constant[] = AlgebraicTypePlugin.staticConstants(
-          algebraicType,
-        );
+        const staticConstants: ObjC.Constant[] =
+          AlgebraicTypePlugin.staticConstants(algebraicType);
         const expectedStaticConstants: ObjC.Constant[] = [
           {
             comments: [],
@@ -1303,8 +1288,8 @@ describe('AlgebraicTypePlugins.Coding', function() {
     );
   });
 
-  describe('#validationErrors', function() {
-    it('returns no validation errors when there are no attributes on the provided subtypes', function() {
+  describe('#validationErrors', function () {
+    it('returns no validation errors when there are no attributes on the provided subtypes', function () {
       const algebraicType: AlgebraicType.Type = {
         annotations: {},
         name: 'Foo',
@@ -1329,13 +1314,12 @@ describe('AlgebraicTypePlugins.Coding', function() {
         ],
       };
 
-      const errors: Error.Error[] = AlgebraicTypePlugin.validationErrors(
-        algebraicType,
-      );
+      const errors: Error.Error[] =
+        AlgebraicTypePlugin.validationErrors(algebraicType);
       expect(errors).toEqualJSON([]);
     });
 
-    it('returns a validation error when there is an attribute with an unknown type', function() {
+    it('returns a validation error when there is an attribute with an unknown type', function () {
       const algebraicType: AlgebraicType.Type = {
         annotations: {},
         name: 'Test',
@@ -1369,9 +1353,8 @@ describe('AlgebraicTypePlugins.Coding', function() {
           }),
         ],
       };
-      const errors: Error.Error[] = AlgebraicTypePlugin.validationErrors(
-        algebraicType,
-      );
+      const errors: Error.Error[] =
+        AlgebraicTypePlugin.validationErrors(algebraicType);
       const expectedErrors: Error.Error[] = [
         Error.Error(
           'The Coding plugin does not know how to decode and encode the type "Foo" from Test.someFoo. Did you forget to declare a backing type?',
@@ -1380,7 +1363,7 @@ describe('AlgebraicTypePlugins.Coding', function() {
       expect(errors).toEqualJSON(expectedErrors);
     });
 
-    it('returns two validation errors when there are two attributes with unknown types', function() {
+    it('returns two validation errors when there are two attributes with unknown types', function () {
       const algebraicType: AlgebraicType.Type = {
         annotations: {},
         name: 'Test',
@@ -1436,9 +1419,8 @@ describe('AlgebraicTypePlugins.Coding', function() {
           }),
         ],
       };
-      const errors: Error.Error[] = AlgebraicTypePlugin.validationErrors(
-        algebraicType,
-      );
+      const errors: Error.Error[] =
+        AlgebraicTypePlugin.validationErrors(algebraicType);
       const expectedErrors: Error.Error[] = [
         Error.Error(
           'The Coding plugin does not know how to decode and encode the type "Foo" from Test.someFoo. Did you forget to declare a backing type?',
@@ -1450,7 +1432,7 @@ describe('AlgebraicTypePlugins.Coding', function() {
       expect(errors).toEqualJSON(expectedErrors);
     });
 
-    it('returns a validation error when there is an attribute with an unknown underlying type', function() {
+    it('returns a validation error when there is an attribute with an unknown underlying type', function () {
       const algebraicType: AlgebraicType.Type = {
         annotations: {},
         name: 'Test',
@@ -1484,9 +1466,8 @@ describe('AlgebraicTypePlugins.Coding', function() {
           }),
         ],
       };
-      const errors: Error.Error[] = AlgebraicTypePlugin.validationErrors(
-        algebraicType,
-      );
+      const errors: Error.Error[] =
+        AlgebraicTypePlugin.validationErrors(algebraicType);
       const expectedErrors: Error.Error[] = [
         Error.Error(
           'The Coding plugin does not know how to decode and encode the backing type "SomethingRandom" from Test.someFerr. Did you declare the wrong backing type?',

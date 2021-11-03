@@ -41,7 +41,7 @@ function includeMethodInHeader(
       toImplementedProtocolString,
     );
     return Maybe.match(
-      belongsToProtocol =>
+      (belongsToProtocol) =>
         doesNotBelongToAnImplementedProtocol(
           implementedProtocolNames,
           belongsToProtocol,
@@ -92,7 +92,7 @@ function toGenericizedTypeString(
   returnType: ObjC.ReturnType,
 ): string {
   return Maybe.match(
-    type => genericizedType(returnType.modifiers, covariantTypes, type),
+    (type) => genericizedType(returnType.modifiers, covariantTypes, type),
     () => 'void',
     returnType.type,
   );
@@ -104,7 +104,8 @@ function toTypeString(returnType: ObjC.ReturnType): string {
 
 function toImportString(givenImport: ObjC.Import): string {
   return Maybe.match<string, string>(
-    lib => libraryImport(givenImport.file, lib, givenImport.requiresCPlusPlus),
+    (lib) =>
+      libraryImport(givenImport.file, lib, givenImport.requiresCPlusPlus),
     () => localImport(givenImport.file, givenImport.requiresCPlusPlus),
     givenImport.library,
   );
@@ -119,13 +120,13 @@ function isPrivateImport(givenImport: ObjC.Import): boolean {
 }
 
 function arrayWithDuplicatesRemoved(array: any[]): any[] {
-  return array.filter(function(str, pos) {
+  return array.filter(function (str, pos) {
     return array.indexOf(str) == pos;
   });
 }
 
 function returnString(str: string): () => string {
-  return function() {
+  return function () {
     return str;
   };
 }
@@ -140,7 +141,7 @@ function toPropertyModifierString(modifier: ObjC.PropertyModifier): string {
     returnString('nullable'),
     returnString('readonly'),
     returnString('readwrite'),
-    selector => `setter=${selector}`,
+    (selector) => `setter=${selector}`,
     returnString('strong'),
     returnString('weak'),
     returnString('unsafe_unretained'),
@@ -172,9 +173,8 @@ function stringReplacingCharacterAtIndexWithString(
 }
 
 export function renderableTypeReference(typeReference: string): string {
-  const indexOfFirstAsteriskAtEnd: number = indexOfFirstEndingAsterisk(
-    typeReference,
-  );
+  const indexOfFirstAsteriskAtEnd: number =
+    indexOfFirstEndingAsterisk(typeReference);
   if (
     indexOfFirstAsteriskAtEnd !== -1 &&
     typeReference.charAt(indexOfFirstAsteriskAtEnd - 1) !== ' '
@@ -206,9 +206,8 @@ function toPropertyTypeAndNameString(type: ObjC.Type, name: string): string {
 
 function toPropertyString(property: ObjC.Property): string {
   const propertyComments = property.comments.map(toCommentString).join('\n');
-  const propertyCommentsSection = codeSectionForCodeStringWithoutExtraSpace(
-    propertyComments,
-  );
+  const propertyCommentsSection =
+    codeSectionForCodeStringWithoutExtraSpace(propertyComments);
 
   return (
     toOptionalPreprocessorOpeningCodeString(property) +
@@ -255,7 +254,7 @@ function toKeywordString(
   return (
     keyword.name +
     Maybe.match(
-      arg => toKeywordArgumentString(covariantTypes, arg),
+      (arg) => toKeywordArgumentString(covariantTypes, arg),
       emptyString,
       keyword.argument,
     )
@@ -276,7 +275,7 @@ function toOptionalPreprocessorOpeningCodeString(
   }
   return (
     item.preprocessors
-      .map(function(object) {
+      .map(function (object) {
         return object.openingCode;
       })
       .join('\n') + '\n'
@@ -292,7 +291,7 @@ function toOptionalPreprocessorClosingCodeString(
   return (
     '\n' +
     item.preprocessors
-      .map(function(object) {
+      .map(function (object) {
         return object.closingCode;
       })
       .join('\n')
@@ -304,9 +303,8 @@ function toMethodHeaderString(
   method: ObjC.Method,
 ): string {
   const methodComments = method.comments.map(toCommentString).join('\n');
-  const methodCommentsSection = codeSectionForCodeStringWithoutExtraSpace(
-    methodComments,
-  );
+  const methodCommentsSection =
+    codeSectionForCodeStringWithoutExtraSpace(methodComments);
   const compilerAttributesString =
     method.compilerAttributes.length > 0
       ? ' ' + method.compilerAttributes.join(' ')
@@ -319,7 +317,7 @@ function toMethodHeaderString(
     ' (' +
     toTypeString(method.returnType) +
     ')' +
-    method.keywords.map(keyword => toKeywordString([], keyword)).join(' ') +
+    method.keywords.map((keyword) => toKeywordString([], keyword)).join(' ') +
     compilerAttributesString +
     ';' +
     toOptionalPreprocessorClosingCodeString(method)
@@ -343,7 +341,7 @@ function toMethodImplementationString(
         toGenericizedTypeString(covariantTypes, method.returnType) +
         ')' +
         method.keywords
-          .map(keyword => toKeywordString(covariantTypes, keyword))
+          .map((keyword) => toKeywordString(covariantTypes, keyword))
           .join(' ') +
         '\n' +
         '{\n' +
@@ -413,9 +411,8 @@ function toFunctionHeaderString(functionDefinition: ObjC.Function): string {
   const functionHeaderComments = functionDefinition.comments
     .map(toCommentString)
     .join('\n');
-  const functionHeaderCommentsSection = codeSectionForCodeStringWithoutExtraSpace(
-    functionHeaderComments,
-  );
+  const functionHeaderCommentsSection =
+    codeSectionForCodeStringWithoutExtraSpace(functionHeaderComments);
 
   const ifdefOpening = functionDefinition.wrappedInIfdef
     ? `#ifdef ${functionDefinition.wrappedInIfdef}\n`
@@ -441,9 +438,8 @@ function addCommaToEndOfString(str: string): string {
 
 function toNSEnumDeclaration(enumeration: ObjC.Enumeration): string {
   const enumComments = enumeration.comments.map(toCommentString).join('\n');
-  const enumCommentsSection = codeSectionForCodeStringWithoutExtraSpace(
-    enumComments,
-  );
+  const enumCommentsSection =
+    codeSectionForCodeStringWithoutExtraSpace(enumComments);
   const declaration: string =
     enumCommentsSection +
     'typedef NS_ENUM(' +
@@ -456,16 +452,13 @@ function toNSEnumDeclaration(enumeration: ObjC.Enumeration): string {
     .slice(0, values.length - 1)
     .map(addCommaToEndOfString)
     .concat(values.slice(values.length - 1));
-  return [declaration]
-    .concat(valuesContainingCommas)
-    .concat('};')
-    .join('\n');
+  return [declaration].concat(valuesContainingCommas).concat('};').join('\n');
 }
 
 function enumerationIsPublic(
   isPublic: boolean,
 ): (enumeration: ObjC.Enumeration) => boolean {
-  return function(enumeration: ObjC.Enumeration): boolean {
+  return function (enumeration: ObjC.Enumeration): boolean {
     return enumeration.isPublic === isPublic;
   };
 }
@@ -514,9 +507,8 @@ function toPostfixMacroString(macro: Macro): string {
 export function toBlockTypeParameterString(
   parameter: ObjC.BlockTypeParameter,
 ): string {
-  const nullabilityModifier: String = toNullabilityModifierStringNestingSubsequentToken(
-    parameter.nullability,
-  );
+  const nullabilityModifier: String =
+    toNullabilityModifierStringNestingSubsequentToken(parameter.nullability);
   return (
     renderableTypeReferenceNestingSubsequentToken(parameter.type.reference) +
     nullabilityModifier +
@@ -526,16 +518,15 @@ export function toBlockTypeParameterString(
 
 function toBlockTypeDeclaration(blockType: ObjC.BlockType): string {
   const blockTypeComments = blockType.comments.map(toCommentString).join('\n');
-  const blockTypeCommentsSection = codeSectionForCodeStringWithoutExtraSpace(
-    blockTypeComments,
-  );
+  const blockTypeCommentsSection =
+    codeSectionForCodeStringWithoutExtraSpace(blockTypeComments);
 
   const paramList =
     blockType.parameters.length > 0
       ? blockType.parameters.map(toBlockTypeParameterString).join(', ')
       : 'void';
   const trailingMacros = blockType.parameters.flatMap(
-    param => param.trailingMacros,
+    (param) => param.trailingMacros,
   );
 
   return (
@@ -579,7 +570,7 @@ function toBlockTypeDeclarationWithMacros(blockType: ObjC.BlockType): string {
 function blockTypeIsPublic(
   isPublic: boolean,
 ): (blockType: ObjC.BlockType) => boolean {
-  return function(blockType: ObjC.BlockType): boolean {
+  return function (blockType: ObjC.BlockType): boolean {
     return blockType.isPublic === isPublic;
   };
 }
@@ -588,7 +579,7 @@ function headerPublicNonInlineFunctionsSection(
   functions: ObjC.Function[],
 ): string {
   const functionsToIncludeInHeader = functions.filter(
-    func => func.isPublic && !func.isInline,
+    (func) => func.isPublic && !func.isInline,
   );
   if (functionsToIncludeInHeader.length > 0) {
     return (
@@ -605,7 +596,7 @@ function headerPublicInlineFunctionsSection(
   functions: ObjC.Function[],
 ): string {
   const functionsToIncludeInHeader = functions.filter(
-    func => func.isPublic && func.isInline,
+    (func) => func.isPublic && func.isInline,
   );
   return functionsToIncludeInHeader
     .map(toFunctionImplementationString)
@@ -630,10 +621,10 @@ function headerFunctionsSection(functions: ObjC.Function[]): string {
 
 function templateTypeDeclaration(templateType: CPlusPlus.TemplateType): string {
   return templateType.match(
-    function(): string {
+    function (): string {
       return 'typename';
     },
-    function(): string {
+    function (): string {
       return 'class';
     },
   );
@@ -828,9 +819,8 @@ function headerClassSection(classInfo: ObjC.Class): string {
   );
 
   const classComments = classInfo.comments.map(toCommentString).join('\n');
-  const classCommentsSection = codeSectionForCodeStringWithoutExtraSpace(
-    classComments,
-  );
+  const classCommentsSection =
+    codeSectionForCodeStringWithoutExtraSpace(classComments);
 
   const covariantTypesStr = covariantTypesString(classInfo.covariantTypes);
   const implementedProtocolsStr = implementedProtocolsString(
@@ -857,9 +847,8 @@ function headerClassSection(classInfo: ObjC.Class): string {
     .filter(blockTypeIsPublic(true))
     .map(toBlockTypeDeclaration)
     .join('\n');
-  const inlinedBlocksSection: string = codeSectionForCodeString(
-    inlinedBlocksStr,
-  );
+  const inlinedBlocksSection: string =
+    codeSectionForCodeString(inlinedBlocksStr);
 
   const instanceVariablesStr: string = classInfo.instanceVariables
     .filter(headerNeedsToIncludeInstanceVariable)
@@ -878,20 +867,21 @@ function headerClassSection(classInfo: ObjC.Class): string {
     classInfo.implementedProtocols,
   );
   const classMethodsStr = classInfo.classMethods
-    .filter(method => includeMethodInHeader(implementedProtocols, method))
+    .filter((method) => includeMethodInHeader(implementedProtocols, method))
     .map(toClassMethodHeaderString)
     .join('\n\n');
   const classMethodsSection = codeSectionForCodeString(classMethodsStr);
 
   const instanceMethodsStr = classInfo.instanceMethods
-    .filter(method => includeMethodInHeader(implementedProtocols, method))
+    .filter((method) => includeMethodInHeader(implementedProtocols, method))
     .map(toInstanceMethodHeaderString)
     .join('\n\n');
   const instanceMethodsSection = codeSectionForCodeString(instanceMethodsStr);
 
-  const postfixClassMacrosSection: string = precedingTwoSpacePaddingForCodeString(
-    macros.map(toPostfixMacroString).join('\n'),
-  );
+  const postfixClassMacrosSection: string =
+    precedingTwoSpacePaddingForCodeString(
+      macros.map(toPostfixMacroString).join('\n'),
+    );
 
   return (
     prefixClassMacrosSection +
@@ -912,13 +902,13 @@ function headerClassSection(classInfo: ObjC.Class): string {
 
 function toDeclarationString(forwardDeclaration: ObjC.ForwardDeclaration) {
   return forwardDeclaration.match<string>(
-    function(classDeclarationName: string): string {
+    function (classDeclarationName: string): string {
       return '@class ' + classDeclarationName + ';';
     },
-    function(protocolDeclarationName: string): string {
+    function (protocolDeclarationName: string): string {
       return '@protocol ' + protocolDeclarationName + ';';
     },
-    function(structTypeName: string): string {
+    function (structTypeName: string): string {
       return `typedef struct _${structTypeName} *${structTypeName}Ref;`;
     },
   );
@@ -928,9 +918,8 @@ function protocolSection(protocol: ObjC.Protocol) {
   const nullability = nullabilityMacro(protocol.nullability);
 
   const protocolComments = protocol.comments.map(toCommentString).join('\n');
-  const protocolCommentsSection = codeSectionForCodeStringWithoutExtraSpace(
-    protocolComments,
-  );
+  const protocolCommentsSection =
+    codeSectionForCodeStringWithoutExtraSpace(protocolComments);
 
   const protocolSection = codeSectionForCodeString(
     `@protocol ${protocol.name}${implementedProtocolsString(
@@ -945,13 +934,13 @@ function protocolSection(protocol: ObjC.Protocol) {
     protocol.implementedProtocols,
   );
   const classMethodsStr = protocol.classMethods
-    .filter(method => includeMethodInHeader(implementedProtocols, method))
+    .filter((method) => includeMethodInHeader(implementedProtocols, method))
     .map(toClassMethodHeaderString)
     .join('\n\n');
   const classMethodsSection = codeSectionForCodeString(classMethodsStr);
 
   const instanceMethodsStr = protocol.instanceMethods
-    .filter(method => includeMethodInHeader(implementedProtocols, method))
+    .filter((method) => includeMethodInHeader(implementedProtocols, method))
     .map(toInstanceMethodHeaderString)
     .join('\n\n');
   const instanceMethodsSection = codeSectionForCodeString(instanceMethodsStr);
@@ -1002,7 +991,7 @@ export function renderHeader(file: Code.File): string | null {
       file.functions.concat(
         FunctionUtils.flatMap(
           file.classes,
-          classInfo => classInfo.functions || [],
+          (classInfo) => classInfo.functions || [],
         ),
       ),
     ),
@@ -1012,12 +1001,12 @@ export function renderHeader(file: Code.File): string | null {
   const protocolsSection =
     protocols != null
       ? codeSectionForCodeString(
-          protocols.map(protocol => protocolSection(protocol)).join('\n\n'),
+          protocols.map((protocol) => protocolSection(protocol)).join('\n\n'),
         )
       : '';
 
   const classSection = codeSectionForCodeString(
-    file.classes.map(cls => headerClassSection(cls)).join('\n\n'),
+    file.classes.map((cls) => headerClassSection(cls)).join('\n\n'),
   );
 
   const structsStr = file.structs.map(toStructContents).join('\n');
@@ -1064,9 +1053,8 @@ function toMemorySemanticString(memorySemantic: ObjC.MemorySemantic): string {
 
 function toStaticConstantString(constant: ObjC.Constant): string {
   const constantComments = constant.comments.map(toCommentString).join('\n');
-  const constantCommentsSection = codeSectionForCodeStringWithoutExtraSpace(
-    constantComments,
-  );
+  const constantCommentsSection =
+    codeSectionForCodeStringWithoutExtraSpace(constantComments);
 
   return (
     constantCommentsSection +
@@ -1084,9 +1072,8 @@ function toStaticConstantString(constant: ObjC.Constant): string {
 
 function toglobalVariablestring(global: ObjC.GlobalVariable): string {
   const constantComments = global.comments.map(toCommentString).join('\n');
-  const constantCommentsSection = codeSectionForCodeStringWithoutExtraSpace(
-    constantComments,
-  );
+  const constantCommentsSection =
+    codeSectionForCodeStringWithoutExtraSpace(constantComments);
   return `${constantCommentsSection}${global.type.reference} ${global.name} = ${global.value};`;
 }
 
@@ -1105,7 +1092,7 @@ function qualifierForFunction(functionDefinition: ObjC.Function): string {
 function toInlinableFuncModifierString(
   modifiers: ObjC.KeywordArgumentModifier[] | undefined,
 ): string {
-  const modifierStrings = (modifiers || []).map(function(modifier) {
+  const modifierStrings = (modifiers || []).map(function (modifier) {
     const modifierString = toKeywordArgumentModifierString(modifier);
     return modifierString.indexOf('__') == 0
       ? modifierString
@@ -1117,7 +1104,7 @@ function toInlinableFuncModifierString(
 
 function toFunctionReturnTypeString(returnType: ObjC.ReturnType): string {
   const typeString = Maybe.match(
-    type => genericizedType([], [], type),
+    (type) => genericizedType([], [], type),
     () => 'void',
     returnType.type,
   );
@@ -1147,9 +1134,8 @@ function declarationCommentsForFunctionImplementation(
     const functionDeclarationComments = functionDefinition.comments
       .map(toCommentString)
       .join('\n');
-    const functionDeclarationCommentsSection = codeSectionForCodeStringWithoutExtraSpace(
-      functionDeclarationComments,
-    );
+    const functionDeclarationCommentsSection =
+      codeSectionForCodeStringWithoutExtraSpace(functionDeclarationComments);
 
     return functionDeclarationCommentsSection;
   } else {
@@ -1216,7 +1202,7 @@ export function toFunctionImplementationString(
     functionDeclarationForFunction(functionDefinition) +
     ' {\n' +
     functionDefinition.code
-      .map(line => indentFunctionCode(StringUtils.indent(2), line))
+      .map((line) => indentFunctionCode(StringUtils.indent(2), line))
       .join('\n') +
     '\n}' +
     ifdefClosing
@@ -1241,9 +1227,8 @@ function toInstanceVariableString(
   const instanceVariableComments = instanceVariable.comments
     .map(toCommentString)
     .join('\n');
-  const instanceVariableCommentsSection = codeSectionForCodeStringWithoutExtraSpace(
-    instanceVariableComments,
-  );
+  const instanceVariableCommentsSection =
+    codeSectionForCodeStringWithoutExtraSpace(instanceVariableComments);
   const memorySemantics: string = instanceVariable.modifiers
     .map(toInstanceVariableModifierString)
     .join(' ');
@@ -1299,7 +1284,7 @@ function implementationClassSection(classInfo: ObjC.Class): string {
       : '\n';
   const classMethodsStr: string = classInfo.classMethods
     .filter(methodIsNotUnavailableNSObjectMethod)
-    .map(method =>
+    .map((method) =>
       toClassMethodImplementationString(classInfo.covariantTypes, method),
     )
     .join('\n\n');
@@ -1307,20 +1292,21 @@ function implementationClassSection(classInfo: ObjC.Class): string {
   const instanceMethodsSection = Maybe.catMaybes(
     classInfo.instanceMethods
       .filter(methodIsNotUnavailableNSObjectMethod)
-      .map(method =>
+      .map((method) =>
         toInstanceMethodImplementationString(classInfo.covariantTypes, method),
       ),
   ).join('\n\n');
 
   const functionsStr = (classInfo.functions || [])
-    .filter(func => !(func.isInline && func.isPublic))
+    .filter((func) => !(func.isInline && func.isPublic))
     .map(toFunctionImplementationString)
     .join('\n\n');
   const functionsSection = codeSectionForCodeString(functionsStr);
 
-  const postfixClassMacrosSection: string = precedingTwoSpacePaddingForCodeString(
-    macros.map(toPostfixMacroString).join('\n'),
-  );
+  const postfixClassMacrosSection: string =
+    precedingTwoSpacePaddingForCodeString(
+      macros.map(toPostfixMacroString).join('\n'),
+    );
 
   return (
     (
@@ -1351,7 +1337,7 @@ function codeSectionForCodeStringWithoutExtraSpace(codeStr: string): string {
 function importIsPublic(
   isPublic: boolean,
 ): (importToCheck: ObjC.Import) => boolean {
-  return function(importToCheck: ObjC.Import): boolean {
+  return function (importToCheck: ObjC.Import): boolean {
     return importToCheck.isPublic == isPublic;
   };
 }
@@ -1427,12 +1413,10 @@ export function renderImplementation(file: Code.File): string | null {
     const diagnosticIgnoresStr = file.diagnosticIgnores
       .map(toDiagnosticIgnoreString)
       .join('\n');
-    const diagnosticIgnoresSection = diagnosticIgnoreSectionFromStr(
-      diagnosticIgnoresStr,
-    );
-    const diagnosticIgnoresEndSection = diagnosticIgnoreEndSectionFromStr(
-      diagnosticIgnoresStr,
-    );
+    const diagnosticIgnoresSection =
+      diagnosticIgnoreSectionFromStr(diagnosticIgnoresStr);
+    const diagnosticIgnoresEndSection =
+      diagnosticIgnoreEndSectionFromStr(diagnosticIgnoresStr);
 
     const macros = fileMacros(file);
 
@@ -1466,15 +1450,15 @@ export function renderImplementation(file: Code.File): string | null {
     const macrosSection = codeSectionForCodeString(macrosStr);
 
     const staticFunctionProtoStr = file.functions
-      .filter(func => !func.isInline && !func.isPublic)
-      .map(func => functionDeclarationForFunction(func) + ';')
+      .filter((func) => !func.isInline && !func.isPublic)
+      .map((func) => functionDeclarationForFunction(func) + ';')
       .join('\n');
     const staticFunctionProtoSection = codeSectionForCodeString(
       staticFunctionProtoStr,
     );
 
     const functionStr = file.functions
-      .filter(func => !(func.isInline && func.isPublic))
+      .filter((func) => !(func.isInline && func.isPublic))
       .map(toFunctionImplementationString)
       .join('\n\n');
     const functionsSection = codeSectionForCodeString(functionStr);

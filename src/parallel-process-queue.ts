@@ -75,9 +75,8 @@ export function findFiles(
       fileExtension: fileExtension,
     },
   };
-  const source: LazySequence.Source<File.AbsoluteFilePath> = LazySequence.source<
-    File.AbsoluteFilePath
-  >();
+  const source: LazySequence.Source<File.AbsoluteFilePath> =
+    LazySequence.source<File.AbsoluteFilePath>();
   requestIdToCount = requestIdToCount.set(localRequestId, 1);
   requestIdToSequenceSource = requestIdToSequenceSource.set(
     localRequestId,

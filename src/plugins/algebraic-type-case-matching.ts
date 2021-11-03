@@ -19,7 +19,7 @@ function keywordsForAttributes(
   const assumeNonnull = algebraicType.includes.indexOf('RMAssumeNonnull') > 0;
   const usesNullability =
     assumeNonnull ||
-    attributes.some(attribute =>
+    attributes.some((attribute) =>
       attribute.nullability.match(
         /* inherited */ () => false,
         /* nonnull   */ () => true,
@@ -63,7 +63,7 @@ function keywordsForSubtype(
   subtype: AlgebraicType.Subtype,
 ): ObjC.Keyword[] {
   return subtype.match(
-    subtype => {
+    (subtype) => {
       const attributes = subtype.attributes;
       if (attributes.length === 0) {
         return [
@@ -83,7 +83,7 @@ function keywordsForSubtype(
         return keywords;
       }
     },
-    attribute => keywordsForAttributes(algebraicType, [attribute]),
+    (attribute) => keywordsForAttributes(algebraicType, [attribute]),
   );
 }
 
@@ -97,7 +97,7 @@ function codeForMatchMethod(
     subtype,
   )}`;
 
-  const setterStatements = attributes.flatMap(attribute => [
+  const setterStatements = attributes.flatMap((attribute) => [
     `  if (${attribute.name}) {`,
     `    *${
       attribute.name
@@ -137,8 +137,8 @@ function commentsForMatchMethod(
   ];
 
   const paramComments = ObjCCommentUtils.paramCommentsFromAttributes(attributes)
-    .filter(content => content.trim().length !== 0)
-    .map(content => ({
+    .filter((content) => content.trim().length !== 0)
+    .map((content) => ({
       content: ` *${content}`,
     }));
 
@@ -152,7 +152,7 @@ function commentsForMatchMethod(
 function instanceMethodsForPlugin(
   algebraicType: AlgebraicType.Type,
 ): ObjC.Method[] {
-  return algebraicType.subtypes.map(subtype => {
+  return algebraicType.subtypes.map((subtype) => {
     const attributes = AlgebraicTypeUtils.attributesFromSubtype(subtype);
 
     return {
@@ -189,7 +189,7 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
     blockTypes: () => [],
     classMethods: () => [],
     enumerations: () => [],
-    transformFileRequest: writeRequest => writeRequest,
+    transformFileRequest: (writeRequest) => writeRequest,
     fileType: () => null,
     forwardDeclarations: () => [],
     functions: () => [],

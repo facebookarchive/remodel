@@ -11,9 +11,9 @@
 import * as Maybe from '../maybe';
 import * as Queue from '../queue';
 
-describe('Queue', function() {
-  describe('#dequeue', function() {
-    it('gives back nothing when nothing has been added', function() {
+describe('Queue', function () {
+  describe('#dequeue', function () {
+    it('gives back nothing when nothing has been added', function () {
       const queue: Queue.Queue<number> = Queue.Empty<number>();
       const result: Queue.DequeueResult<number> = Queue.dequeue(queue);
 
@@ -25,7 +25,7 @@ describe('Queue', function() {
       expect(result).toEqualJSON(expectedResult);
     });
 
-    it('gives back a single value and an empty queue one thing has been added', function() {
+    it('gives back a single value and an empty queue one thing has been added', function () {
       const queue: Queue.Queue<number> = Queue.Empty<number>();
       const updatedQueue = Queue.enqueue(1, queue);
       const result: Queue.DequeueResult<number> = Queue.dequeue(updatedQueue);
@@ -38,7 +38,7 @@ describe('Queue', function() {
       expect(result).toEqualJSON(expectedResult);
     });
 
-    it('gives back a single value and a non empty queue two things has been added', function() {
+    it('gives back a single value and a non empty queue two things has been added', function () {
       const queue: Queue.Queue<number> = Queue.Empty<number>();
       const updatedQueue1 = Queue.enqueue(1, queue);
       const updatedQueue2 = Queue.enqueue(2, updatedQueue1);
@@ -55,13 +55,12 @@ describe('Queue', function() {
     it(
       'gives back a single value and an empty queue two things has been added and then ' +
         'dequeued',
-      function() {
+      function () {
         const queue: Queue.Queue<number> = Queue.Empty<number>();
         const updatedQueue1 = Queue.enqueue(1, queue);
         const updatedQueue2 = Queue.enqueue(2, updatedQueue1);
-        const result1: Queue.DequeueResult<number> = Queue.dequeue(
-          updatedQueue2,
-        );
+        const result1: Queue.DequeueResult<number> =
+          Queue.dequeue(updatedQueue2);
         const result2: Queue.DequeueResult<number> = Queue.dequeue(
           result1.queue,
         );

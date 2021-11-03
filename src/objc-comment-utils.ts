@@ -19,7 +19,7 @@ export function commentsAsBlockFromStringArray(
     return [];
   }
 
-  const commentBody = commentsAsStrings.map(function(
+  const commentBody = commentsAsStrings.map(function (
     comment: string,
   ): ObjC.Comment {
     return {content: ' *' + commentWithFirstSpaceIfNecessary(comment)};
@@ -31,7 +31,7 @@ export function commentsAsBlockFromStringArray(
 export function singleLineCommentsBlockFromStringArray(
   commentsAsStrings: string[],
 ): ObjC.Comment[] {
-  return commentsAsStrings.map(comment => {
+  return commentsAsStrings.map((comment) => {
     return {content: ['//', comment].filter(Boolean).join(' ')};
   });
 }

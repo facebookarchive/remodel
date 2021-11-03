@@ -46,10 +46,10 @@ export function map<T, U, V>(
   f: (u: U) => V,
   either: Either<T, U>,
 ): Either<T, V> {
-  const left = function(t: T) {
+  const left = function (t: T) {
     return Left<T, V>(either.left!);
   };
-  const right = function(u: U) {
+  const right = function (u: U) {
     return Right<T, V>(f(either.right!));
   };
   return match(left, right, either);
@@ -59,10 +59,10 @@ export function mbind<T, U, V>(
   f: (u: U) => Either<T, V>,
   either: Either<T, U>,
 ): Either<T, V> {
-  const left = function(t: T) {
+  const left = function (t: T) {
     return Left<T, V>(either.left!);
   };
-  const right = function(u: U) {
+  const right = function (u: U) {
     return f(either.right!);
   };
   return match(left, right, either);
@@ -77,11 +77,7 @@ export function and<T, A, B>(
   b: Either<T, B>,
 ): Either<T, [A, B]> {
   return mbind(
-    rightA =>
-      mbind(
-        rightB => Right<T, [A, B]>([rightA, rightB]),
-        b,
-      ),
+    (rightA) => mbind((rightB) => Right<T, [A, B]>([rightA, rightB]), b),
     a,
   );
 }

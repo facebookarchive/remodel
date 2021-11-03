@@ -19,9 +19,9 @@ import * as ObjectSpec from '../object-spec';
 
 const ABSOLUTE_PATH_OF_CURRENT_DIRECTORY = File.getAbsoluteFilePath(__dirname);
 
-describe('requireObjectSpecPlugin', function() {
-  describe('#requireObjectSpecPlugin', function() {
-    it('correctly imports a valid plugin', function() {
+describe('requireObjectSpecPlugin', function () {
+  describe('#requireObjectSpecPlugin', function () {
+    it('correctly imports a valid plugin', function () {
       const pluginFileContents =
         'function createPlugin() {\n' +
         '    return {\n' +
@@ -41,23 +41,21 @@ describe('requireObjectSpecPlugin', function() {
       fs.mkdirSync(__dirname + '/tmp');
       fs.writeFileSync(__dirname + '/tmp/somePlugin.js', pluginFileContents);
 
-      const either: Either.Either<
-        Error.Error[],
-        ObjectSpec.Plugin | null
-      > = RequirePlugin.requireObjectSpecPlugin(
-        PathUtils.getAbsolutePathFromDirectoryAndRelativePath(
-          ABSOLUTE_PATH_OF_CURRENT_DIRECTORY,
-          '/tmp/somePlugin',
-        ),
-      );
+      const either: Either.Either<Error.Error[], ObjectSpec.Plugin | null> =
+        RequirePlugin.requireObjectSpecPlugin(
+          PathUtils.getAbsolutePathFromDirectoryAndRelativePath(
+            ABSOLUTE_PATH_OF_CURRENT_DIRECTORY,
+            '/tmp/somePlugin',
+          ),
+        );
 
       Either.match(
-        function(errors: Error.Error[]) {
+        function (errors: Error.Error[]) {
           expect(true).toBe(false); // should not be an error
         },
-        function(maybePlugin: ObjectSpec.Plugin | null) {
+        function (maybePlugin: ObjectSpec.Plugin | null) {
           Maybe.match(
-            function(plugin: ObjectSpec.Plugin) {
+            function (plugin: ObjectSpec.Plugin) {
               const typeInformation: ObjectSpec.Type = {
                 annotations: {},
                 attributes: [],
@@ -81,7 +79,7 @@ describe('requireObjectSpecPlugin', function() {
               expect(plugin.requiredIncludesToRun).toEqualJSON([]);
               expect(plugin.staticConstants(typeInformation)).toEqualJSON([]);
             },
-            function() {
+            function () {
               expect(true).toBe(false); // should not be an empty maybe
             },
             maybePlugin,
@@ -96,7 +94,7 @@ describe('requireObjectSpecPlugin', function() {
     it(
       'returns an empty maybe when the module does implement createPlugin' +
         'method',
-      function() {
+      function () {
         const pluginFileContents =
           'function createSomethingElse() {\n' +
           '    return { };\n' +
@@ -106,26 +104,24 @@ describe('requireObjectSpecPlugin', function() {
         fs.mkdirSync(__dirname + '/tmp');
         fs.writeFileSync(__dirname + '/tmp/somePlugin1.js', pluginFileContents);
 
-        const either: Either.Either<
-          Error.Error[],
-          ObjectSpec.Plugin | null
-        > = RequirePlugin.requireObjectSpecPlugin(
-          PathUtils.getAbsolutePathFromDirectoryAndRelativePath(
-            ABSOLUTE_PATH_OF_CURRENT_DIRECTORY,
-            '/tmp/somePlugin1',
-          ),
-        );
+        const either: Either.Either<Error.Error[], ObjectSpec.Plugin | null> =
+          RequirePlugin.requireObjectSpecPlugin(
+            PathUtils.getAbsolutePathFromDirectoryAndRelativePath(
+              ABSOLUTE_PATH_OF_CURRENT_DIRECTORY,
+              '/tmp/somePlugin1',
+            ),
+          );
 
         Either.match(
-          function(errors: Error.Error[]) {
+          function (errors: Error.Error[]) {
             expect(errors).toBe(false);
           },
-          function(maybePlugin: ObjectSpec.Plugin | null) {
+          function (maybePlugin: ObjectSpec.Plugin | null) {
             Maybe.match(
-              function(plugin: ObjectSpec.Plugin) {
+              function (plugin: ObjectSpec.Plugin) {
                 expect('should not be an real value').toBe(false);
               },
-              function() {},
+              function () {},
               maybePlugin,
             );
           },
@@ -136,16 +132,14 @@ describe('requireObjectSpecPlugin', function() {
         fs.rmdirSync(__dirname + '/tmp');
       },
     );
-    it('returns an error when the module does not actually exist', function() {
-      const plugin: Either.Either<
-        Error.Error[],
-        ObjectSpec.Plugin | null
-      > = RequirePlugin.requireObjectSpecPlugin(
-        PathUtils.getAbsolutePathFromDirectoryAndRelativePath(
-          ABSOLUTE_PATH_OF_CURRENT_DIRECTORY,
-          '/tmp/somePlugin2',
-        ),
-      );
+    it('returns an error when the module does not actually exist', function () {
+      const plugin: Either.Either<Error.Error[], ObjectSpec.Plugin | null> =
+        RequirePlugin.requireObjectSpecPlugin(
+          PathUtils.getAbsolutePathFromDirectoryAndRelativePath(
+            ABSOLUTE_PATH_OF_CURRENT_DIRECTORY,
+            '/tmp/somePlugin2',
+          ),
+        );
 
       const expectedPlugin = Either.Left<
         Error.Error[],

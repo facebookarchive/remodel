@@ -79,11 +79,9 @@ const BASE_PLUGINS: List.List<string> = List.of(
 function evaluateUnparsedAlgebraicTypeCreationRequest(
   request: ReadFileUtils.UnparsedObjectCreationRequest,
 ): Either.Either<Error.Error[], PathAndTypeInfo> {
-  const parseResult: Either.Either<
-    Error.Error[],
-    AlgebraicType.Type
-  > = AlgebraicTypeParser.parse(File.getContents(request.fileContents));
-  return Either.map(function(foundType: AlgebraicType.Type) {
+  const parseResult: Either.Either<Error.Error[], AlgebraicType.Type> =
+    AlgebraicTypeParser.parse(File.getContents(request.fileContents));
+  return Either.map(function (foundType: AlgebraicType.Type) {
     return {path: request.path, typeInformation: foundType};
   }, parseResult);
 }
@@ -132,15 +130,15 @@ function processAlgebraicTypeCreationRequest(
 ): Promise.Future<
   Logging.Context<Either.Either<Error.Error[], FileWriter.FileWriteRequest>>
 > {
-  return Promise.map(function(
+  return Promise.map(function (
     creationContextEither: Either.Either<
       Error.Error[],
       AlgebraicTypeCreationContext
     >,
   ) {
     return Logging.munit(
-      Either.mbind(function(pathAndTypeInfo: PathAndTypeInfo) {
-        return Either.mbind(function(
+      Either.mbind(function (pathAndTypeInfo: PathAndTypeInfo) {
+        return Either.mbind(function (
           creationContext: AlgebraicTypeCreationContext,
         ) {
           const request: AlgebraicTypeCreation.Request = {
@@ -172,21 +170,21 @@ function pluginsFromPluginConfigs(
   pluginConfigs: List.List<Configuration.PluginConfig>,
 ): Either.Either<Error.Error[], List.List<AlgebraicType.Plugin>> {
   return List.foldr(
-    function(
+    function (
       soFar: Either.Either<Error.Error[], List.List<AlgebraicType.Plugin>>,
       config: Configuration.PluginConfig,
     ): Either.Either<Error.Error[], List.List<AlgebraicType.Plugin>> {
-      return Either.mbind(function(
+      return Either.mbind(function (
         list: List.List<AlgebraicType.Plugin>,
       ): Either.Either<Error.Error[], List.List<AlgebraicType.Plugin>> {
-        return Either.map(function(
+        return Either.map(function (
           maybePlugin: AlgebraicType.Plugin | null,
         ): List.List<AlgebraicType.Plugin> {
           return Maybe.match(
-            function(plugin: AlgebraicType.Plugin) {
+            function (plugin: AlgebraicType.Plugin) {
               return List.cons(plugin, list);
             },
-            function() {
+            function () {
               return list;
             },
             maybePlugin,
@@ -207,7 +205,7 @@ function getAlgebraicTypeCreationContext(
   findConfigFuture: Promise.Future<File.AbsoluteFilePath | null>,
   parsedArgs: CommandLine.Arguments,
 ): Promise.Future<Either.Either<Error.Error[], AlgebraicTypeCreationContext>> {
-  return Promise.mbind(function(
+  return Promise.mbind(function (
     maybePath: File.AbsoluteFilePath | null,
   ): Promise.Future<
     Either.Either<Error.Error[], AlgebraicTypeCreationContext>
@@ -216,30 +214,29 @@ function getAlgebraicTypeCreationContext(
       basePlugins: BASE_PLUGINS,
       baseIncludes: BASE_INCLUDES,
     };
-    const configFuture: Promise.Future<Either.Either<
-      Error.Error[],
-      Configuration.GenerationConfig
-    >> = Configuration.generateConfig(maybePath, configurationContext);
+    const configFuture: Promise.Future<
+      Either.Either<Error.Error[], Configuration.GenerationConfig>
+    > = Configuration.generateConfig(maybePath, configurationContext);
 
-    return Promise.map(function(
+    return Promise.map(function (
       either: Either.Either<Error.Error[], Configuration.GenerationConfig>,
     ): Either.Either<Error.Error[], AlgebraicTypeCreationContext> {
       return Either.match(
-        function(
+        function (
           error: Error.Error[],
         ): Either.Either<Error.Error[], AlgebraicTypeCreationContext> {
           return Either.Left<Error.Error[], AlgebraicTypeCreationContext>(
             error,
           );
         },
-        function(
+        function (
           configuration: Configuration.GenerationConfig,
         ): Either.Either<Error.Error[], AlgebraicTypeCreationContext> {
           const pluginsEither: Either.Either<
             Error.Error[],
             List.List<AlgebraicType.Plugin>
           > = pluginsFromPluginConfigs(configuration.pluginConfigs);
-          return Either.map(function(
+          return Either.map(function (
             plugins: List.List<AlgebraicType.Plugin>,
           ): AlgebraicTypeCreationContext {
             return {
@@ -285,11 +282,12 @@ export function generate(
   optionalConfigPath: string | undefined,
   parsedArgs: CommandLine.Arguments,
 ): Promise.Future<List.List<WriteFileUtils.ConsoleOutputResults>> {
-  const promises = parsedArgs.givenPaths.map(givenPath => {
-    const requestedPath: File.AbsoluteFilePath = PathUtils.getAbsolutePathFromDirectoryAndAbsoluteOrRelativePath(
-      File.getAbsoluteFilePath(directoryRunFrom),
-      givenPath,
-    );
+  const promises = parsedArgs.givenPaths.map((givenPath) => {
+    const requestedPath: File.AbsoluteFilePath =
+      PathUtils.getAbsolutePathFromDirectoryAndAbsoluteOrRelativePath(
+        File.getAbsoluteFilePath(directoryRunFrom),
+        givenPath,
+      );
     const outputPath: File.AbsoluteFilePath | null = outputDirectory(
       directoryRunFrom,
       parsedArgs.outputPath,
@@ -323,7 +321,7 @@ export function generate(
 
     const pluginProcessedSequence = LoggingSequenceUtils.mapLoggedSequence(
       parsedSequence,
-      either =>
+      (either) =>
         processAlgebraicTypeCreationRequest(
           options,
           algebraicTypeCreationContextFuture,

@@ -197,7 +197,7 @@ function renderSection(section: CPlusPlus.ClassSection): string {
   // add members
   result = result.concat(
     section.members
-      .map(member => {
+      .map((member) => {
         return typeToString(member.type) + member.name + ';';
       })
       .map(StringUtils.indent(2)),
@@ -209,7 +209,7 @@ function renderSection(section: CPlusPlus.ClassSection): string {
 function spaceOutGroups(groups: string[][]): string[] {
   var result: string[] = [];
 
-  groups.forEach(lines => {
+  groups.forEach((lines) => {
     if (result.length > 0 && lines.length > 0) {
       result.push('');
     }

@@ -17,9 +17,9 @@ import * as ObjectSpec from '../../object-spec';
 const ObjectSpecPlugin = InitNewUnavailable.createPlugin();
 const AlgebraicTypePlugin = InitNewUnavailable.createAlgebraicTypePlugin();
 
-describe('ObjectSpecPlugins.InitNewUnavailable', function() {
-  describe('#instanceMethods', function() {
-    it('generates no instance or class methods, if no attributes are given', function() {
+describe('ObjectSpecPlugins.InitNewUnavailable', function () {
+  describe('#instanceMethods', function () {
+    it('generates no instance or class methods, if no attributes are given', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [],
@@ -31,20 +31,18 @@ describe('ObjectSpecPlugins.InitNewUnavailable', function() {
         typeName: 'Foo',
       };
 
-      const instanceMethods: ObjC.Method[] = ObjectSpecPlugin.instanceMethods(
-        objectType,
-      );
+      const instanceMethods: ObjC.Method[] =
+        ObjectSpecPlugin.instanceMethods(objectType);
       const expectedInstanceMethods: ObjC.Method[] = [];
       expect(instanceMethods).toEqualJSON(expectedInstanceMethods);
 
-      const classMethods: ObjC.Method[] = ObjectSpecPlugin.classMethods(
-        objectType,
-      );
+      const classMethods: ObjC.Method[] =
+        ObjectSpecPlugin.classMethods(objectType);
       const expectedClassMethods: ObjC.Method[] = [];
       expect(classMethods).toEqualJSON(expectedClassMethods);
     });
 
-    it('generates unavailable init/new instance methods, if at least one attribute is given', function() {
+    it('generates unavailable init/new instance methods, if at least one attribute is given', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
@@ -72,9 +70,8 @@ describe('ObjectSpecPlugins.InitNewUnavailable', function() {
         typeName: 'Foo',
       };
 
-      const instanceMethods: ObjC.Method[] = ObjectSpecPlugin.instanceMethods(
-        objectType,
-      );
+      const instanceMethods: ObjC.Method[] =
+        ObjectSpecPlugin.instanceMethods(objectType);
       const expectedInstanceMethods: ObjC.Method[] = [
         {
           preprocessors: [],
@@ -99,9 +96,8 @@ describe('ObjectSpecPlugins.InitNewUnavailable', function() {
       ];
       expect(instanceMethods).toEqualJSON(expectedInstanceMethods);
 
-      const classMethods: ObjC.Method[] = ObjectSpecPlugin.classMethods(
-        objectType,
-      );
+      const classMethods: ObjC.Method[] =
+        ObjectSpecPlugin.classMethods(objectType);
       const expectedClassMethods: ObjC.Method[] = [
         {
           preprocessors: [],
@@ -129,9 +125,9 @@ describe('ObjectSpecPlugins.InitNewUnavailable', function() {
   });
 });
 
-describe('AlgebraicTypePlugins.InitNewUnavailable', function() {
-  describe('#instanceMethods', function() {
-    it('always generates unavailable init/new methods for ADTs', function() {
+describe('AlgebraicTypePlugins.InitNewUnavailable', function () {
+  describe('#instanceMethods', function () {
+    it('always generates unavailable init/new methods for ADTs', function () {
       const algebraicType: AlgebraicType.Type = {
         annotations: {},
         name: 'Foo',
@@ -150,9 +146,8 @@ describe('AlgebraicTypePlugins.InitNewUnavailable', function() {
         ],
       };
 
-      const instanceMethods: ObjC.Method[] = AlgebraicTypePlugin.instanceMethods(
-        algebraicType,
-      );
+      const instanceMethods: ObjC.Method[] =
+        AlgebraicTypePlugin.instanceMethods(algebraicType);
       const expectedInstanceMethods: ObjC.Method[] = [
         {
           preprocessors: [],
@@ -177,9 +172,8 @@ describe('AlgebraicTypePlugins.InitNewUnavailable', function() {
       ];
       expect(instanceMethods).toEqualJSON(expectedInstanceMethods);
 
-      const classMethods: ObjC.Method[] = AlgebraicTypePlugin.classMethods(
-        algebraicType,
-      );
+      const classMethods: ObjC.Method[] =
+        AlgebraicTypePlugin.classMethods(algebraicType);
       const expectedClassMethods: ObjC.Method[] = [
         {
           preprocessors: [],

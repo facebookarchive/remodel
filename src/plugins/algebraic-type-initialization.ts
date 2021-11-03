@@ -111,7 +111,7 @@ function keywordsForNamedAttributeSubtype(
 
 function commentsForSubtype(subtype: AlgebraicType.Subtype): string[] {
   return subtype.match(
-    function(
+    function (
       namedAttributeCollectionSubtype: AlgebraicType.NamedAttributeCollectionSubtype,
     ) {
       return ObjCCommentUtils.prefixedParamCommentsFromAttributes(
@@ -119,7 +119,7 @@ function commentsForSubtype(subtype: AlgebraicType.Subtype): string[] {
         namedAttributeCollectionSubtype.attributes,
       );
     },
-    function(attribute: AlgebraicType.SubtypeAttribute) {
+    function (attribute: AlgebraicType.SubtypeAttribute) {
       return attribute.comments;
     },
   );
@@ -129,12 +129,12 @@ export function keywordsForSubtype(
   subtype: AlgebraicType.Subtype,
 ): ObjC.Keyword[] {
   return subtype.match(
-    function(
+    function (
       namedAttributeCollectionSubtype: AlgebraicType.NamedAttributeCollectionSubtype,
     ) {
       return keywordsForNamedAttributeSubtype(namedAttributeCollectionSubtype);
     },
-    function(attribute: AlgebraicType.SubtypeAttribute) {
+    function (attribute: AlgebraicType.SubtypeAttribute) {
       return [
         {
           argument: keywordArgumentFromAttribute(attribute),
@@ -147,12 +147,12 @@ export function keywordsForSubtype(
 
 function swiftNameForSubtype(subtype: AlgebraicType.Subtype): string | null {
   return subtype.match(
-    collection => {
+    (collection) => {
       if (collection.attributes.length > 0) {
         const name = StringUtils.swiftCaseForString(collection.name);
         const keywords = collection.attributes
           .map(
-            attribute => `${StringUtils.swiftCaseForString(attribute.name)}:`,
+            (attribute) => `${StringUtils.swiftCaseForString(attribute.name)}:`,
           )
           .join('');
 
@@ -161,7 +161,7 @@ function swiftNameForSubtype(subtype: AlgebraicType.Subtype): string | null {
         return null;
       }
     },
-    attribute => null,
+    (attribute) => null,
   );
 }
 
@@ -210,14 +210,13 @@ function initializationClassMethodForSubtype(
   ];
   const assumeNonnull: boolean =
     algebraicType.includes.indexOf('RMAssumeNonnull') >= 0;
-  const attributes: AlgebraicType.SubtypeAttribute[] = AlgebraicTypeUtils.attributesFromSubtype(
-    subtype,
-  );
+  const attributes: AlgebraicType.SubtypeAttribute[] =
+    AlgebraicTypeUtils.attributesFromSubtype(subtype);
   const requiredParameterAssertions: string[] = attributes
     .filter(canAssertExistenceForTypeOfAttribute)
-    .filter(attribute => isRequiredAttribute(assumeNonnull, attribute))
+    .filter((attribute) => isRequiredAttribute(assumeNonnull, attribute))
     .map(toRequiredAssertion);
-  const setterStatements: string[] = attributes.map(attribute =>
+  const setterStatements: string[] = attributes.map((attribute) =>
     internalValueSettingCodeForAttribute(subtype, attribute),
   );
 
@@ -255,9 +254,8 @@ function internalImportForFileWithName(name: string): ObjC.Import {
 function instanceVariableForEnumeration(
   algebraicType: AlgebraicType.Type,
 ): ObjC.InstanceVariable {
-  const enumerationName: string = AlgebraicTypeUtils.EnumerationNameForAlgebraicType(
-    algebraicType,
-  );
+  const enumerationName: string =
+    AlgebraicTypeUtils.EnumerationNameForAlgebraicType(algebraicType);
   return {
     name: AlgebraicTypeUtils.nameForInstanceVariableStoringSubtype(),
     comments: [],
@@ -292,13 +290,13 @@ function instanceVariableFromAttribute(
 function instanceVariablesForImplementationOfAlgebraicType(
   algebraicType: AlgebraicType.Type,
 ): ObjC.InstanceVariable[] {
-  const enumerationInstanceVariable: ObjC.InstanceVariable = instanceVariableForEnumeration(
-    algebraicType,
-  );
-  const attributeInstanceVariables: ObjC.InstanceVariable[] = AlgebraicTypeUtils.mapAttributesWithSubtypeFromSubtypes(
-    algebraicType.subtypes,
-    instanceVariableFromAttribute,
-  );
+  const enumerationInstanceVariable: ObjC.InstanceVariable =
+    instanceVariableForEnumeration(algebraicType);
+  const attributeInstanceVariables: ObjC.InstanceVariable[] =
+    AlgebraicTypeUtils.mapAttributesWithSubtypeFromSubtypes(
+      algebraicType.subtypes,
+      instanceVariableFromAttribute,
+    );
   return [enumerationInstanceVariable].concat(attributeInstanceVariables);
 }
 
@@ -312,9 +310,8 @@ function isImportRequiredForTypeLookup(
   algebraicType: AlgebraicType.Type,
   typeLookup: ObjectGeneration.TypeLookup,
 ): boolean {
-  const needsImportsForAllTypeLookups = makePublicImportsForAlgebraicType(
-    algebraicType,
-  );
+  const needsImportsForAllTypeLookups =
+    makePublicImportsForAlgebraicType(algebraicType);
   return (
     typeLookup.name !== algebraicType.name &&
     (!typeLookup.canForwardDeclare || needsImportsForAllTypeLookups)
@@ -333,7 +330,7 @@ function enumerationForSubtypesOfAlgebraicType(
   return {
     name: AlgebraicTypeUtils.EnumerationNameForAlgebraicType(algebraicType),
     underlyingType: 'NSUInteger',
-    values: algebraicType.subtypes.map(subtype =>
+    values: algebraicType.subtypes.map((subtype) =>
       AlgebraicTypeUtils.EnumerationValueNameForSubtype(algebraicType, subtype),
     ),
     isPublic: false,
@@ -350,9 +347,8 @@ function buildAlgebraicTypeValidationErrors(
   soFar: ValidationErrorReductionTracker,
   subtype: AlgebraicType.Subtype,
 ): ValidationErrorReductionTracker {
-  const subtypeName: string = AlgebraicTypeUtils.subtypeNameFromSubtype(
-    subtype,
-  );
+  const subtypeName: string =
+    AlgebraicTypeUtils.subtypeNameFromSubtype(subtype);
   if (Map.containsKey(subtypeName, soFar.seenSubtypeNames)) {
     const error: Error.Error = Error.Error(
       'Algebraic types cannot have two subtypes with the same name, but found two or more subtypes with the name ' +
@@ -376,39 +372,39 @@ function buildAlgebraicTypeValidationErrors(
 
 export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
   return {
-    additionalFiles: function(algebraicType: AlgebraicType.Type): Code.File[] {
+    additionalFiles: function (algebraicType: AlgebraicType.Type): Code.File[] {
       return [];
     },
-    transformBaseFile: function(
+    transformBaseFile: function (
       algebraicType: AlgebraicType.Type,
       baseFile: Code.File,
     ): Code.File {
       return baseFile;
     },
-    blockTypes: function(algebraicType: AlgebraicType.Type): ObjC.BlockType[] {
+    blockTypes: function (algebraicType: AlgebraicType.Type): ObjC.BlockType[] {
       return [];
     },
-    classMethods: function(algebraicType: AlgebraicType.Type): ObjC.Method[] {
-      return algebraicType.subtypes.map(subtype =>
+    classMethods: function (algebraicType: AlgebraicType.Type): ObjC.Method[] {
+      return algebraicType.subtypes.map((subtype) =>
         initializationClassMethodForSubtype(algebraicType, subtype),
       );
     },
-    enumerations: function(
+    enumerations: function (
       algebraicType: AlgebraicType.Type,
     ): ObjC.Enumeration[] {
       return [enumerationForSubtypesOfAlgebraicType(algebraicType)];
     },
-    transformFileRequest: function(
+    transformFileRequest: function (
       request: FileWriter.Request,
     ): FileWriter.Request {
       return request;
     },
-    fileType: function(
+    fileType: function (
       algebraicType: AlgebraicType.Type,
     ): Code.FileType | null {
       return null;
     },
-    forwardDeclarations: function(
+    forwardDeclarations: function (
       algebraicType: AlgebraicType.Type,
     ): ObjC.ForwardDeclaration[] {
       if (makePublicImportsForAlgebraicType(algebraicType)) {
@@ -418,7 +414,7 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
         algebraicType.subtypes,
       );
       return ([] as ObjC.ForwardDeclaration[]).concat(
-        ...attributes.map(a =>
+        ...attributes.map((a) =>
           ObjCImportUtils.forwardDeclarationsForAttributeType(
             a.type.name,
             a.type.underlyingType,
@@ -429,15 +425,15 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
         ),
       );
     },
-    functions: function(algebraicType: AlgebraicType.Type): ObjC.Function[] {
+    functions: function (algebraicType: AlgebraicType.Type): ObjC.Function[] {
       return [];
     },
-    headerComments: function(
+    headerComments: function (
       algebraicType: AlgebraicType.Type,
     ): ObjC.Comment[] {
       return [];
     },
-    implementedProtocols: function(
+    implementedProtocols: function (
       algebraicType: AlgebraicType.Type,
     ): ObjC.ImplementedProtocol[] {
       return [];
@@ -449,14 +445,13 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
         PUBLIC_FOUNDATION_IMPORT,
         internalImportForFileWithName(algebraicType.name),
       ];
-      const makePublicImports = makePublicImportsForAlgebraicType(
-        algebraicType,
-      );
+      const makePublicImports =
+        makePublicImportsForAlgebraicType(algebraicType);
       const typeLookupImports = algebraicType.typeLookups
-        .filter(typeLookup =>
+        .filter((typeLookup) =>
           isImportRequiredForTypeLookup(algebraicType, typeLookup),
         )
-        .map(typeLookup =>
+        .map((typeLookup) =>
           ObjCImportUtils.importForTypeLookup(
             algebraicType.libraryName,
             makePublicImports || !typeLookup.canForwardDeclare,
@@ -469,13 +464,13 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
       const attributeImports: ObjC.Import[] = skipAttributeImports
         ? []
         : AlgebraicTypeUtils.allAttributesFromSubtypes(algebraicType.subtypes)
-            .filter(attribute =>
+            .filter((attribute) =>
               ObjCImportUtils.shouldIncludeImportForType(
                 algebraicType.typeLookups,
                 attribute.type.name,
               ),
             )
-            .map(attribute =>
+            .map((attribute) =>
               ObjCImportUtils.importForAttribute(
                 attribute.type.name,
                 attribute.type.underlyingType,
@@ -487,26 +482,26 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
             );
       return baseImports.concat(typeLookupImports).concat(attributeImports);
     },
-    instanceMethods: function(
+    instanceMethods: function (
       algebraicType: AlgebraicType.Type,
     ): ObjC.Method[] {
       return [];
     },
-    instanceVariables: function(
+    instanceVariables: function (
       algebraicType: AlgebraicType.Type,
     ): ObjC.InstanceVariable[] {
       return instanceVariablesForImplementationOfAlgebraicType(algebraicType);
     },
-    macros: function(algebraicType: AlgebraicType.Type): ObjC.Macro[] {
+    macros: function (algebraicType: AlgebraicType.Type): ObjC.Macro[] {
       return [];
     },
     requiredIncludesToRun: ['AlgebraicTypeInitialization'],
-    staticConstants: function(
+    staticConstants: function (
       algebraicType: AlgebraicType.Type,
     ): ObjC.Constant[] {
       return [];
     },
-    validationErrors: function(
+    validationErrors: function (
       algebraicType: AlgebraicType.Type,
     ): Error.Error[] {
       const initialReductionTracker: ValidationErrorReductionTracker = {
@@ -520,12 +515,12 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
         ).errors,
       );
     },
-    nullability: function(
+    nullability: function (
       algebraicType: AlgebraicType.Type,
     ): ObjC.ClassNullability | null {
       return null;
     },
-    subclassingRestricted: function(
+    subclassingRestricted: function (
       algebraicType: AlgebraicType.Type,
     ): boolean {
       return false;

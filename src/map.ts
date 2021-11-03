@@ -57,7 +57,7 @@ export function foldl<K, V, R>(
 ): R {
   var currentValue: R = initialValue;
   const immutableMap: Immutable.Map<K, V> = map.map;
-  immutableMap.forEach(function(value?: V, key?: K) {
+  immutableMap.forEach(function (value?: V, key?: K) {
     if (value != undefined && key != undefined) {
       currentValue = f(currentValue, key, value);
     }

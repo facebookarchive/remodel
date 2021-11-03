@@ -113,8 +113,8 @@ export function shouldIncludeImportForType(
 ) {
   return (
     !isSystemType(typeName) &&
-    typeLookups.filter(lookup => typeLookupHasName(typeName, lookup)).length ==
-      0
+    typeLookups.filter((lookup) => typeLookupHasName(typeName, lookup))
+      .length == 0
   );
 }
 
@@ -149,7 +149,7 @@ function* classForwardDeclarations(
   typeLookups: ObjectGeneration.TypeLookup[],
 ): Generator<ObjC.ForwardDeclaration> {
   if (!isSystemType(typeName)) {
-    if (!typeLookups.some(t => t.name === typeName && !t.canForwardDeclare)) {
+    if (!typeLookups.some((t) => t.name === typeName && !t.canForwardDeclare)) {
       yield ObjC.ForwardDeclaration.ForwardClassDeclaration(typeName);
     }
   }
@@ -216,7 +216,7 @@ function* classImports(
   // Protocols are imported only when there is a matching type lookup.
   // Otherwise, they are forward declared only.
   if (conformingProtocol != null && importMode != ObjectImportMode.none) {
-    const lookup = typeLookups.find(t => t.name === conformingProtocol);
+    const lookup = typeLookups.find((t) => t.name === conformingProtocol);
     if (lookup != null) {
       yield {
         library: lookup?.library ?? objectLibrary,
@@ -237,7 +237,7 @@ function* classImports(
       yield knownImport;
     }
   } else {
-    const lookup = typeLookups.find(t => t.name === typeName);
+    const lookup = typeLookups.find((t) => t.name === typeName);
     if (
       underlyingType === 'NSObject' &&
       importMode == ObjectImportMode.none &&

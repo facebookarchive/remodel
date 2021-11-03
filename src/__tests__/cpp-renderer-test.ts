@@ -129,9 +129,9 @@ function buildClass(): CPlusPlus.Class {
   };
 }
 
-describe('CPlusPlus Rendering', function() {
-  describe('EmitFunction', function() {
-    it('emits a simple function declaration', function() {
+describe('CPlusPlus Rendering', function () {
+  describe('EmitFunction', function () {
+    it('emits a simple function declaration', function () {
       let funct: CPlusPlus.Function = {
         name: 'MyFunction',
         returnType: {
@@ -145,19 +145,17 @@ describe('CPlusPlus Rendering', function() {
         params: [],
       };
 
-      const renderedOutput: string = CppRenderer.renderFunctionDeclaration(
-        funct,
-      ).join('\n');
+      const renderedOutput: string =
+        CppRenderer.renderFunctionDeclaration(funct).join('\n');
 
       const expectedOutput = 'void MyFunction();';
 
       expect(renderedOutput).toEqualJSON(expectedOutput);
     });
 
-    it('emits a function declaration with return type and params', function() {
-      const renderedOutput: string = CppRenderer.renderFunctionDeclaration(
-        complexFunc,
-      ).join('\n');
+    it('emits a function declaration with return type and params', function () {
+      const renderedOutput: string =
+        CppRenderer.renderFunctionDeclaration(complexFunc).join('\n');
 
       const expectedOutput =
         'Foobar *MyFunction(const MyStruct &param1, int param2);';
@@ -165,7 +163,7 @@ describe('CPlusPlus Rendering', function() {
       expect(renderedOutput).toEqualJSON(expectedOutput);
     });
 
-    it('emits a function definition with empty body', function() {
+    it('emits a function definition with empty body', function () {
       const renderedOutput: string = CppRenderer.renderFunctionDefinition(
         buildFunctionWithEmptyBody(),
       ).join('\n');
@@ -176,7 +174,7 @@ describe('CPlusPlus Rendering', function() {
       expect(renderedOutput).toEqualJSON(expectedOutput);
     });
 
-    it('emits a full class declaration', function() {
+    it('emits a full class declaration', function () {
       const renderedOutput: string = CppRenderer.renderClassDeclaration(
         buildClass(),
       ).join('\n');
@@ -197,7 +195,7 @@ describe('CPlusPlus Rendering', function() {
       expect(renderedOutput).toEqual(expectedOutput);
     });
 
-    it('emits a full class definition', function() {
+    it('emits a full class definition', function () {
       const renderedDefinition: string = CppRenderer.renderClassDefinition(
         buildClass(),
       ).join('\n');

@@ -15,9 +15,9 @@ import * as ObjC from '../../objc';
 
 const Plugin = FetchStatus.createPlugin();
 
-describe('Plugins.FetchStatus', function() {
-  describe('#attributes', function() {
-    it('returns a fetch status attribute', function() {
+describe('Plugins.FetchStatus', function () {
+  describe('#attributes', function () {
+    it('returns a fetch status attribute', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [],
@@ -52,8 +52,8 @@ describe('Plugins.FetchStatus', function() {
       expect(attributes).toEqualJSON(expectedAttributes);
     });
   });
-  describe('#additionalTypes', function() {
-    it('returns a fetch-status type with correct attributes', function() {
+  describe('#additionalTypes', function () {
+    it('returns a fetch-status type with correct attributes', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
@@ -81,9 +81,8 @@ describe('Plugins.FetchStatus', function() {
         typeName: 'Foo',
       };
 
-      const additionalType: ObjectSpec.Type = Plugin.additionalTypes(
-        objectType,
-      )[0];
+      const additionalType: ObjectSpec.Type =
+        Plugin.additionalTypes(objectType)[0];
 
       const expectedValueType: ObjectSpec.Type = {
         annotations: {},

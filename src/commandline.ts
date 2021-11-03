@@ -90,7 +90,7 @@ function findInArray(
 function sanitizeEmitOption(arg: any): string[] {
   const sanitized = sanitizeArrayArg(arg);
   if (
-    findInArray(sanitized, function(element) {
+    findInArray(sanitized, function (element) {
       return element.toLowerCase() == 'all';
     }) === true
   ) {

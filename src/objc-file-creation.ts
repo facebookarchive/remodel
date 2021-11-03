@@ -20,14 +20,17 @@ function fileRequest(
   fileName: string,
   contents: string | null,
 ): FileWriter.Request | null {
-  return Maybe.mbind(function(fileContents: string): FileWriter.Request | null {
+  return Maybe.mbind(function (
+    fileContents: string,
+  ): FileWriter.Request | null {
     return FileWriter.Request(
       File.getAbsoluteFilePath(
         path.join(File.getAbsolutePathString(containingFolderPath), fileName),
       ),
       fileContents,
     );
-  }, contents);
+  },
+  contents);
 }
 
 function fileNameIncludingExtension(
@@ -42,10 +45,10 @@ function requestsMaybeContainingRequest(
   request: FileWriter.Request | null,
 ): List.List<FileWriter.Request> {
   return Maybe.match(
-    function(fileRequest: FileWriter.Request): List.List<FileWriter.Request> {
+    function (fileRequest: FileWriter.Request): List.List<FileWriter.Request> {
       return List.cons(fileRequest, existingRequests);
     },
-    function() {
+    function () {
       return existingRequests;
     },
     request,
@@ -90,9 +93,8 @@ export function fileCreationRequest(
     implementationContents,
   );
 
-  const baseRequests: List.List<FileWriter.Request> = List.of<
-    FileWriter.Request
-  >();
+  const baseRequests: List.List<FileWriter.Request> =
+    List.of<FileWriter.Request>();
   const requests = requestsMaybeContainingRequest(
     requestsMaybeContainingRequest(baseRequests, headerRequest),
     implementationRequest,

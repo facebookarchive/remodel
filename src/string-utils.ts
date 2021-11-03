@@ -22,7 +22,7 @@ function indentFunc(spaces: number, str: string): string {
 }
 
 export function indent(spaces: number): (str: string) => string {
-  return str => indentFunc(spaces, str);
+  return (str) => indentFunc(spaces, str);
 }
 
 export function capitalize(str: string): string {
@@ -55,9 +55,8 @@ function prefixIncludingFirstCharacterOfNameFromString(
 }
 
 export function prefixForString(stringIncludingPrefix: string): string {
-  const prefixIncludingFirstCharacter: string = prefixIncludingFirstCharacterOfNameFromString(
-    stringIncludingPrefix,
-  );
+  const prefixIncludingFirstCharacter: string =
+    prefixIncludingFirstCharacterOfNameFromString(stringIncludingPrefix);
   return prefixIncludingFirstCharacter == ''
     ? stringIncludingPrefix
     : stringIncludingPrefix.substr(0, prefixIncludingFirstCharacter.length - 1);
@@ -66,9 +65,8 @@ export function prefixForString(stringIncludingPrefix: string): string {
 export function stringRemovingCapitalizedPrefix(
   stringIncludingPrefix: string,
 ): string {
-  const prefixIncludingFirstCharacter: string = prefixIncludingFirstCharacterOfNameFromString(
-    stringIncludingPrefix,
-  );
+  const prefixIncludingFirstCharacter: string =
+    prefixIncludingFirstCharacterOfNameFromString(stringIncludingPrefix);
   return stringIncludingPrefix.substring(
     prefixIncludingFirstCharacter.length - 1,
   );

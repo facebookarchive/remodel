@@ -13,9 +13,9 @@ import * as List from '../list';
 import * as Logging from '../logging';
 import * as Maybe from '../maybe';
 
-describe('CommandLine', function() {
-  describe('#parseArgs', function() {
-    it('returns an error when no arguments are passed in', function() {
+describe('CommandLine', function () {
+  describe('#parseArgs', function () {
+    it('returns an error when no arguments are passed in', function () {
       const args: string[] = [];
       const parsedArgs = CommandLine.parseArgs(args);
 
@@ -24,7 +24,7 @@ describe('CommandLine', function() {
       expect(parsedArgs).toEqualJSON(expectedResult);
     });
 
-    it('gives the default levels for everything when only a path is provided', function() {
+    it('gives the default levels for everything when only a path is provided', function () {
       const args: string[] = ['project/to/generate'];
       const parsedArgs = CommandLine.parseArgs(args);
 
@@ -53,7 +53,7 @@ describe('CommandLine', function() {
       expect(parsedArgs).toEqualJSON(expectedResult);
     });
 
-    it('decreases the minimal level to one when --verbose is provided', function() {
+    it('decreases the minimal level to one when --verbose is provided', function () {
       const args: string[] = ['--verbose', 'project/to/generate'];
       const parsedArgs = CommandLine.parseArgs(args);
 
@@ -82,7 +82,7 @@ describe('CommandLine', function() {
       expect(parsedArgs).toEqualJSON(expectedResult);
     });
 
-    it('includes perf logging when --perf-log is provided', function() {
+    it('includes perf logging when --perf-log is provided', function () {
       const args: string[] = ['--perf-log', 'project/to/generate'];
       const parsedArgs = CommandLine.parseArgs(args);
 
@@ -112,7 +112,7 @@ describe('CommandLine', function() {
       expect(parsedArgs).toEqualJSON(expectedResult);
     });
 
-    it('includes debug logging when --debug is provided', function() {
+    it('includes debug logging when --debug is provided', function () {
       const args: string[] = ['--debug', 'project/to/generate'];
       const parsedArgs = CommandLine.parseArgs(args);
 
@@ -142,7 +142,7 @@ describe('CommandLine', function() {
       expect(parsedArgs).toEqualJSON(expectedResult);
     });
 
-    it('includes dry run when --dry-run is provided', function() {
+    it('includes dry run when --dry-run is provided', function () {
       const args: string[] = ['--dry-run', 'project/to/generate'];
       const parsedArgs = CommandLine.parseArgs(args);
 
@@ -171,7 +171,7 @@ describe('CommandLine', function() {
       expect(parsedArgs).toEqualJSON(expectedResult);
     });
 
-    it('includes no logging info when --silent is provided', function() {
+    it('includes no logging info when --silent is provided', function () {
       const args: string[] = [
         '--debug',
         '--perf-log',
@@ -202,7 +202,7 @@ describe('CommandLine', function() {
       expect(parsedArgs).toEqualJSON(expectedResult);
     });
 
-    it('includes valueObjectConfigPath', function() {
+    it('includes valueObjectConfigPath', function () {
       const args: string[] = [
         'project/to/generate',
         '--value-object-config-path',
@@ -235,7 +235,7 @@ describe('CommandLine', function() {
       expect(parsedArgs).toEqualJSON(expectedResult);
     });
 
-    it('includes objectConfigPath', function() {
+    it('includes objectConfigPath', function () {
       const args: string[] = [
         'project/to/generate',
         '--object-config-path',
@@ -268,7 +268,7 @@ describe('CommandLine', function() {
       expect(parsedArgs).toEqualJSON(expectedResult);
     });
 
-    it('includes an output directory when --output-path is passed', function() {
+    it('includes an output directory when --output-path is passed', function () {
       const args: string[] = [
         '--output-path=path/to/output',
         'project/to/generate',
@@ -300,7 +300,7 @@ describe('CommandLine', function() {
       expect(parsedArgs).toEqualJSON(expectedResult);
     });
 
-    it('includes a list of includes and excludes if specified', function() {
+    it('includes a list of includes and excludes if specified', function () {
       const args: string[] = [
         'project/to/generate',
         '--include=PluginOne',
@@ -334,7 +334,7 @@ describe('CommandLine', function() {
       expect(parsedArgs).toEqualJSON(expectedResult);
     });
 
-    it('returns nothing when both --headers-only and implementation-only are passed', function() {
+    it('returns nothing when both --headers-only and implementation-only are passed', function () {
       const args: string[] = ['--headers-only', '--implementation-only'];
       const parsedArgs = CommandLine.parseArgs(args);
 
@@ -343,7 +343,7 @@ describe('CommandLine', function() {
       expect(parsedArgs).toEqualJSON(expectedResult);
     });
 
-    it('includes a list of things to emit', function() {
+    it('includes a list of things to emit', function () {
       const args: string[] = [
         'project/to/generate',
         '--include=PluginOne',
@@ -378,7 +378,7 @@ describe('CommandLine', function() {
       expect(parsedArgs).toEqualJSON(expectedResult);
     });
 
-    it('emitting "all" ensures empty output list, even if other emit options are present', function() {
+    it('emitting "all" ensures empty output list, even if other emit options are present', function () {
       const args: string[] = [
         'project/to/generate',
         '--include=PluginOne',
@@ -413,7 +413,7 @@ describe('CommandLine', function() {
       expect(parsedArgs).toEqualJSON(expectedResult);
     });
 
-    it('returns nothing when only --verbose is provided', function() {
+    it('returns nothing when only --verbose is provided', function () {
       const args: string[] = ['--verbose'];
       const parsedArgs = CommandLine.parseArgs(args);
 

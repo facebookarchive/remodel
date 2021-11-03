@@ -12,16 +12,16 @@ import * as Functor from '../functor';
 import * as List from '../list';
 import * as Promise from '../promise';
 
-describe('Promise', function() {
-  describe('#then', function() {
+describe('Promise', function () {
+  describe('#then', function () {
     it(
       'calls then synchronously when the promise is created with an ' +
         'initial value',
-      function() {
+      function () {
         const promise: Promise.Promise<number> = Promise.resolved<number>(3);
         const future: Promise.Future<number> = promise.getFuture();
         var wasCalled: boolean = false;
-        Promise.then(function(val: number) {
+        Promise.then(function (val: number) {
           expect(val).toBe(3);
           wasCalled = true;
         }, future);
@@ -32,13 +32,13 @@ describe('Promise', function() {
     it(
       'should not call then handler until a value is given when a promise is ' +
         'not provided with an initial value',
-      function() {
+      function () {
         const promise: Promise.Promise<number> = Promise.pending<number>();
         const future: Promise.Future<number> = promise.getFuture();
         var wasCalledAtTheCorrectTime = false;
         var wasCalled = false;
 
-        Promise.then(function(val: number) {
+        Promise.then(function (val: number) {
           wasCalled = true;
           expect(wasCalledAtTheCorrectTime).toBe(true);
           expect(val).toBe(3);
@@ -51,24 +51,24 @@ describe('Promise', function() {
       },
     );
   });
-  describe('#map', function() {
+  describe('#map', function () {
     it(
       'should allow the mapping of the value of the future and produce a new ' +
         'future that gets resolved when the underlying one does',
-      function() {
+      function () {
         const promise: Promise.Promise<number> = Promise.pending<number>();
         const future: Promise.Future<number> = promise.getFuture();
         var wasCalledAtTheCorrectTime = false;
         var wasCalled = false;
 
-        const mappedFuture: Promise.Future<string> = Promise.map(function(
+        const mappedFuture: Promise.Future<string> = Promise.map(function (
           val: number,
         ) {
           return val.toString();
         },
         future);
 
-        Promise.then(function(val: string) {
+        Promise.then(function (val: string) {
           wasCalled = true;
           expect(wasCalledAtTheCorrectTime).toBe(true);
           expect(val).toBe('3');
@@ -84,27 +84,27 @@ describe('Promise', function() {
     it(
       'should allow the mapping of the value of the future and produce a new ' +
         'future that gets resolved when the underlying one does multiple times',
-      function() {
+      function () {
         const promise: Promise.Promise<number> = Promise.pending<number>();
         const future: Promise.Future<number> = promise.getFuture();
         var wasCalledAtTheCorrectTime = false;
         var wasCalled = false;
 
-        const mappedFuture: Promise.Future<number> = Promise.map(function(
+        const mappedFuture: Promise.Future<number> = Promise.map(function (
           val: number,
         ) {
           return val + 3;
         },
         future);
 
-        const mappedFuture2: Promise.Future<string> = Promise.map(function(
+        const mappedFuture2: Promise.Future<string> = Promise.map(function (
           val: number,
         ) {
           return val.toString();
         },
         mappedFuture);
 
-        Promise.then(function(val: string) {
+        Promise.then(function (val: string) {
           wasCalled = true;
           expect(wasCalledAtTheCorrectTime).toBe(true);
           expect(val).toBe('6');
@@ -120,26 +120,26 @@ describe('Promise', function() {
     it(
       'should allow the mapping of the value of the future and produce a new ' +
         'future when the future is created with a value',
-      function() {
+      function () {
         const promise: Promise.Promise<number> = Promise.resolved<number>(3);
         const future: Promise.Future<number> = promise.getFuture();
         var wasCalled: boolean = false;
 
-        const mappedFuture: Promise.Future<number> = Promise.map(function(
+        const mappedFuture: Promise.Future<number> = Promise.map(function (
           val: number,
         ) {
           return val + 3;
         },
         future);
 
-        const mappedFuture2: Promise.Future<string> = Promise.map(function(
+        const mappedFuture2: Promise.Future<string> = Promise.map(function (
           val: number,
         ) {
           return val.toString();
         },
         mappedFuture);
 
-        Promise.then(function(val: string) {
+        Promise.then(function (val: string) {
           wasCalled = true;
           expect(val).toBe('6');
         }, mappedFuture2);
@@ -148,16 +148,16 @@ describe('Promise', function() {
       },
     );
 
-    it('should implement the functor interface on future', function() {
+    it('should implement the functor interface on future', function () {
       const promise: Promise.Promise<number> = Promise.resolved<number>(3);
       const future: Promise.Future<number> = promise.getFuture();
       var wasCalled: boolean = false;
 
-      const mappedFuture = Functor.map(function(val: number) {
+      const mappedFuture = Functor.map(function (val: number) {
         return val + 3;
       }, future);
 
-      Promise.then(function(val: number) {
+      Promise.then(function (val: number) {
         wasCalled = true;
         expect(val).toBe(6);
       }, <Promise.Future<number>>mappedFuture);
@@ -166,25 +166,25 @@ describe('Promise', function() {
     });
   });
 
-  describe('#mbind', function() {
+  describe('#mbind', function () {
     it(
       'should allow the binding of the value of the future and produce a new ' +
         'future that gets resolved when the underlying one does',
-      function() {
+      function () {
         const promise: Promise.Promise<number> = Promise.pending<number>();
         const boundPromise: Promise.Promise<string> = Promise.pending<string>();
         const future: Promise.Future<number> = promise.getFuture();
         var wasCalledAtTheCorrectTime = false;
         var wasCalled = false;
 
-        const boundFuture: Promise.Future<string> = Promise.mbind(function(
+        const boundFuture: Promise.Future<string> = Promise.mbind(function (
           val: number,
         ) {
           return boundPromise.getFuture();
         },
         future);
 
-        Promise.then(function(val: string) {
+        Promise.then(function (val: string) {
           wasCalled = true;
           expect(wasCalledAtTheCorrectTime).toBe(true);
           expect(val).toBe('6');
@@ -203,25 +203,24 @@ describe('Promise', function() {
     it(
       'should allow the binding of the value of the future and produce a new ' +
         'future when the base promise is resolved',
-      function() {
+      function () {
         const promise: Promise.Promise<number> = Promise.resolved<number>(3);
-        const pendingPromise: Promise.Promise<number> = Promise.pending<
-          number
-        >();
+        const pendingPromise: Promise.Promise<number> =
+          Promise.pending<number>();
         const future: Promise.Future<number> = promise.getFuture();
         var wasCalledAtTheCorrectTime = false;
         var wasCalled = false;
 
-        const boundFuture: Promise.Future<string> = Promise.mbind(function(
+        const boundFuture: Promise.Future<string> = Promise.mbind(function (
           val: number,
         ) {
-          return Promise.map(function(incomingVal: number) {
+          return Promise.map(function (incomingVal: number) {
             return (incomingVal + val).toString();
           }, pendingPromise.getFuture());
         },
         future);
 
-        Promise.then(function(val: string) {
+        Promise.then(function (val: string) {
           wasCalled = true;
           expect(wasCalledAtTheCorrectTime).toBe(true);
           expect(val).toBe('6');
@@ -234,11 +233,11 @@ describe('Promise', function() {
       },
     );
 
-    it('provides a unit function for the promise monad', function() {
+    it('provides a unit function for the promise monad', function () {
       const num: number = 3;
       const future: Promise.Future<number> = Promise.munit(num);
       var wasCalled: boolean = false;
-      Promise.then(function(val: number) {
+      Promise.then(function (val: number) {
         expect(val).toBe(3);
         wasCalled = true;
       }, future);
@@ -246,17 +245,16 @@ describe('Promise', function() {
     });
   });
 
-  describe('#aapply', function() {
+  describe('#aapply', function () {
     it(
       'takes a future of a function from A to B and a future of A and ' +
         'returns a future of B',
-      function() {
-        const func: (a: number) => string = function(num: number) {
+      function () {
+        const func: (a: number) => string = function (num: number) {
           return num.toString();
         };
-        const futureFunc: Promise.Future<(
-          a: number,
-        ) => string> = Promise.resolved(func).getFuture();
+        const futureFunc: Promise.Future<(a: number) => string> =
+          Promise.resolved(func).getFuture();
         const numPromise: Promise.Promise<number> = Promise.pending<number>();
         var wasCalled: boolean = false;
 
@@ -265,7 +263,7 @@ describe('Promise', function() {
           numPromise.getFuture(),
         );
 
-        Promise.then(function(val: string) {
+        Promise.then(function (val: string) {
           expect(val).toBe('3');
           wasCalled = true;
         }, resultingFuture);
@@ -277,11 +275,11 @@ describe('Promise', function() {
     );
   });
 
-  describe('#all', function() {
+  describe('#all', function () {
     it(
       'takes a list of futures and returns a promise of the list of ' +
         'values',
-      function() {
+      function () {
         const promise1: Promise.Promise<number> = Promise.pending<number>();
         const promise2: Promise.Promise<number> = Promise.pending<number>();
         var wasCalled = false;
@@ -290,7 +288,7 @@ describe('Promise', function() {
           List.of(promise1.getFuture(), promise2.getFuture()),
         );
 
-        Promise.then(function(list: List.List<number>) {
+        Promise.then(function (list: List.List<number>) {
           wasCalled = true;
           expect(list).toEqualJSON(List.of(2, 3));
         }, promiseOfList);
@@ -306,7 +304,7 @@ describe('Promise', function() {
     it(
       'takes an array of futures and returns a promise of the array of ' +
         'values even when the resolution order is different',
-      function() {
+      function () {
         const promise1: Promise.Promise<number> = Promise.pending<number>();
         const promise2: Promise.Promise<number> = Promise.pending<number>();
         var wasCalled = false;
@@ -315,7 +313,7 @@ describe('Promise', function() {
           List.of(promise1.getFuture(), promise2.getFuture()),
         );
 
-        Promise.then(function(list: List.List<number>) {
+        Promise.then(function (list: List.List<number>) {
           wasCalled = true;
           expect(list).toEqualJSON(List.of(2, 3));
         }, promiseOfList);

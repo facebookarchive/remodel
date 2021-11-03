@@ -14,9 +14,9 @@ import * as Maybe from '../maybe';
 import * as ObjC from '../objc';
 import * as ObjCRenderer from '../objc-renderer';
 
-describe('ObjCRenderer', function() {
-  describe('#renderHeader', function() {
-    it('renders the class comments of a class header', function() {
+describe('ObjCRenderer', function () {
+  describe('#renderHeader', function () {
+    it('renders the class comments of a class header', function () {
       const fileToRender: Code.File = {
         name: 'RMSomeValue',
         type: Code.FileType.ObjectiveC,
@@ -245,9 +245,8 @@ describe('ObjCRenderer', function() {
         macros: [],
       };
 
-      const renderedOutput: string | null = ObjCRenderer.renderHeader(
-        fileToRender,
-      );
+      const renderedOutput: string | null =
+        ObjCRenderer.renderHeader(fileToRender);
 
       const expectedOutput: string | null =
         '// Copyright something something. All Rights Reserved.\n\n' +
@@ -274,7 +273,7 @@ describe('ObjCRenderer', function() {
       expect(renderedOutput).toEqualJSON(expectedOutput);
     });
 
-    it('renders the base case of a class header', function() {
+    it('renders the base case of a class header', function () {
       const fileToRender: Code.File = {
         name: 'RMSomeValue',
         type: Code.FileType.ObjectiveC,
@@ -483,9 +482,8 @@ describe('ObjCRenderer', function() {
         macros: [],
       };
 
-      const renderedOutput: string | null = ObjCRenderer.renderHeader(
-        fileToRender,
-      );
+      const renderedOutput: string | null =
+        ObjCRenderer.renderHeader(fileToRender);
 
       const expectedOutput: string | null =
         '// Copyright something something. All Rights Reserved.\n\n' +
@@ -508,7 +506,7 @@ describe('ObjCRenderer', function() {
     it(
       'renders the base case of a class header with a different base class and ' +
         'diagnostic ignores',
-      function() {
+      function () {
         const fileToRender: Code.File = {
           name: 'RMSomeValue',
           type: Code.FileType.ObjectiveC,
@@ -723,9 +721,8 @@ describe('ObjCRenderer', function() {
           macros: [],
         };
 
-        const renderedOutput: string | null = ObjCRenderer.renderHeader(
-          fileToRender,
-        );
+        const renderedOutput: string | null =
+          ObjCRenderer.renderHeader(fileToRender);
 
         const expectedOutput: string | null =
           '// Copyright something something. All Rights Reserved.\n\n' +
@@ -747,7 +744,7 @@ describe('ObjCRenderer', function() {
       },
     );
 
-    it('renders a class without any imports', function() {
+    it('renders a class without any imports', function () {
       const fileToRender: Code.File = {
         name: 'RMSomeValue',
         type: Code.FileType.ObjectiveC,
@@ -904,9 +901,8 @@ describe('ObjCRenderer', function() {
         macros: [],
       };
 
-      const renderedOutput: string | null = ObjCRenderer.renderHeader(
-        fileToRender,
-      );
+      const renderedOutput: string | null =
+        ObjCRenderer.renderHeader(fileToRender);
 
       const expectedOutput: string | null =
         '@interface RMSomeValue : NSObject\n' +
@@ -922,7 +918,7 @@ describe('ObjCRenderer', function() {
       expect(renderedOutput).toEqualJSON(expectedOutput);
     });
 
-    it('renders a class with no properties', function() {
+    it('renders a class with no properties', function () {
       const fileToRender: Code.File = {
         name: 'RMSomeValue',
         type: Code.FileType.ObjectiveC,
@@ -1036,9 +1032,8 @@ describe('ObjCRenderer', function() {
         macros: [],
       };
 
-      const renderedOutput: string | null = ObjCRenderer.renderHeader(
-        fileToRender,
-      );
+      const renderedOutput: string | null =
+        ObjCRenderer.renderHeader(fileToRender);
 
       const expectedOutput: string | null =
         '#import <RMLibrary/RMSomething.h>\n' +
@@ -1052,7 +1047,7 @@ describe('ObjCRenderer', function() {
       expect(renderedOutput).toEqualJSON(expectedOutput);
     });
 
-    it('renders a class with a preprocessor wrapped method', function() {
+    it('renders a class with a preprocessor wrapped method', function () {
       const fileToRender: Code.File = {
         name: 'RMSomeValue',
         type: Code.FileType.ObjectiveC,
@@ -1171,9 +1166,8 @@ describe('ObjCRenderer', function() {
         macros: [],
       };
 
-      const renderedOutput: string | null = ObjCRenderer.renderHeader(
-        fileToRender,
-      );
+      const renderedOutput: string | null =
+        ObjCRenderer.renderHeader(fileToRender);
 
       const expectedOutput: string | null =
         '#import <RMLibrary/RMSomething.h>\n' +
@@ -1189,7 +1183,7 @@ describe('ObjCRenderer', function() {
       expect(renderedOutput).toEqualJSON(expectedOutput);
     });
 
-    it('renders a class header with no instance methods', function() {
+    it('renders a class header with no instance methods', function () {
       const fileToRender: Code.File = {
         name: 'RMSomeValue',
         type: Code.FileType.ObjectiveC,
@@ -1266,9 +1260,8 @@ describe('ObjCRenderer', function() {
         macros: [],
       };
 
-      const renderedOutput: string | null = ObjCRenderer.renderHeader(
-        fileToRender,
-      );
+      const renderedOutput: string | null =
+        ObjCRenderer.renderHeader(fileToRender);
 
       const expectedOutput: string | null =
         '#import <RMLibrary/RMSomething.h>\n' +
@@ -1286,7 +1279,7 @@ describe('ObjCRenderer', function() {
     it(
       'renders a class header with one public function and does ' +
         'not include a non-public function in the header',
-      function() {
+      function () {
         const fileToRender: Code.File = {
           name: 'RMSomeValue',
           type: Code.FileType.ObjectiveC,
@@ -1403,9 +1396,8 @@ describe('ObjCRenderer', function() {
           macros: [],
         };
 
-        const renderedOutput: string | null = ObjCRenderer.renderHeader(
-          fileToRender,
-        );
+        const renderedOutput: string | null =
+          ObjCRenderer.renderHeader(fileToRender);
 
         const expectedOutput: string | null =
           '#import <RMLibrary/RMSomething.h>\n' +
@@ -1429,7 +1421,7 @@ describe('ObjCRenderer', function() {
       },
     );
 
-    it('renders a class header with a public enum when the file contains an public enumeration', function() {
+    it('renders a class header with a public enum when the file contains an public enumeration', function () {
       const fileToRender: Code.File = {
         name: 'RMSomeValue',
         type: Code.FileType.ObjectiveC,
@@ -1508,9 +1500,8 @@ describe('ObjCRenderer', function() {
         macros: [],
       };
 
-      const renderedOutput: string | null = ObjCRenderer.renderHeader(
-        fileToRender,
-      );
+      const renderedOutput: string | null =
+        ObjCRenderer.renderHeader(fileToRender);
 
       const expectedOutput: string | null =
         '#import <RMLibrary/RMSomething.h>\n' +
@@ -1528,7 +1519,7 @@ describe('ObjCRenderer', function() {
       expect(renderedOutput).toEqualJSON(expectedOutput);
     });
 
-    it('renders a class header with public block definitions when the file contains two block types', function() {
+    it('renders a class header with public block definitions when the file contains two block types', function () {
       const fileToRender: Code.File = {
         name: 'RMSomeValue',
         type: Code.FileType.ObjectiveC,
@@ -1630,9 +1621,8 @@ describe('ObjCRenderer', function() {
         macros: [],
       };
 
-      const renderedOutput: string | null = ObjCRenderer.renderHeader(
-        fileToRender,
-      );
+      const renderedOutput: string | null =
+        ObjCRenderer.renderHeader(fileToRender);
 
       const expectedOutput: string | null =
         '#import <RMLibrary/RMSomething.h>\n' +
@@ -1651,7 +1641,7 @@ describe('ObjCRenderer', function() {
     it(
       'renders a class header with no functions when the only provided function ' +
         'is non-public',
-      function() {
+      function () {
         const fileToRender: Code.File = {
           name: 'RMSomeValue',
           type: Code.FileType.ObjectiveC,
@@ -1712,9 +1702,8 @@ describe('ObjCRenderer', function() {
           macros: [],
         };
 
-        const renderedOutput: string | null = ObjCRenderer.renderHeader(
-          fileToRender,
-        );
+        const renderedOutput: string | null =
+          ObjCRenderer.renderHeader(fileToRender);
 
         const expectedOutput: string | null =
           '#import <RMLibrary/RMSomething.h>\n' +
@@ -1727,7 +1716,7 @@ describe('ObjCRenderer', function() {
       },
     );
 
-    it('renders a class header with two implemented protocols', function() {
+    it('renders a class header with two implemented protocols', function () {
       const fileToRender: Code.File = {
         name: 'RMSomeValue',
         type: Code.FileType.ObjectiveC,
@@ -1811,9 +1800,8 @@ describe('ObjCRenderer', function() {
         macros: [],
       };
 
-      const renderedOutput: string | null = ObjCRenderer.renderHeader(
-        fileToRender,
-      );
+      const renderedOutput: string | null =
+        ObjCRenderer.renderHeader(fileToRender);
 
       const expectedOutput: string | null =
         '#import <RMLibrary/RMSomething.h>\n' +
@@ -1828,7 +1816,7 @@ describe('ObjCRenderer', function() {
       expect(renderedOutput).toEqualJSON(expectedOutput);
     });
 
-    it('renders a class header with an import and forward declaration', function() {
+    it('renders a class header with an import and forward declaration', function () {
       const fileToRender: Code.File = {
         name: 'RMSomeValue',
         type: Code.FileType.ObjectiveC,
@@ -1915,9 +1903,8 @@ describe('ObjCRenderer', function() {
         macros: [],
       };
 
-      const renderedOutput: string | null = ObjCRenderer.renderHeader(
-        fileToRender,
-      );
+      const renderedOutput: string | null =
+        ObjCRenderer.renderHeader(fileToRender);
 
       const expectedOutput: string | null =
         '#import <RMLibrary/RMSomething.h>\n\n' +
@@ -1937,7 +1924,7 @@ describe('ObjCRenderer', function() {
     it(
       'renders a class header with a single void instance method with comments and two ' +
         'properties, one of which has comments.',
-      function() {
+      function () {
         const fileToRender: Code.File = {
           name: 'RMSomeValue',
           type: Code.FileType.ObjectiveC,
@@ -2029,9 +2016,8 @@ describe('ObjCRenderer', function() {
           macros: [],
         };
 
-        const renderedOutput: string | null = ObjCRenderer.renderHeader(
-          fileToRender,
-        );
+        const renderedOutput: string | null =
+          ObjCRenderer.renderHeader(fileToRender);
 
         const expectedOutput: string | null =
           '#import <RMLibrary/RMSomething.h>\n' +
@@ -2054,7 +2040,7 @@ describe('ObjCRenderer', function() {
     it(
       'renders a header containing a namespace with a templated function ' +
         'when the file contains that',
-      function() {
+      function () {
         const fileToRender: Code.File = {
           name: 'RMSomeValue',
           type: Code.FileType.ObjectiveC,
@@ -2106,9 +2092,8 @@ describe('ObjCRenderer', function() {
           macros: [],
         };
 
-        const renderedOutput: string | null = ObjCRenderer.renderHeader(
-          fileToRender,
-        );
+        const renderedOutput: string | null =
+          ObjCRenderer.renderHeader(fileToRender);
 
         const expectedOutput: string | null =
           '#import <RMLibrary/RMSomething.h>\n' +
@@ -2124,7 +2109,7 @@ describe('ObjCRenderer', function() {
       },
     );
 
-    it('renders a header containing the given method compiler attributes', function() {
+    it('renders a header containing the given method compiler attributes', function () {
       const fileToRender: Code.File = {
         name: 'RMSomeValue',
         type: Code.FileType.ObjectiveC,
@@ -2234,9 +2219,8 @@ describe('ObjCRenderer', function() {
         macros: [],
       };
 
-      const renderedOutput: string | null = ObjCRenderer.renderHeader(
-        fileToRender,
-      );
+      const renderedOutput: string | null =
+        ObjCRenderer.renderHeader(fileToRender);
 
       const expectedOutput: string | null =
         '@interface RMSomeValue : NSObject\n' +
@@ -2251,7 +2235,7 @@ describe('ObjCRenderer', function() {
       expect(renderedOutput).toEqualJSON(expectedOutput);
     });
 
-    it('renders a header containing method return type modifiers', function() {
+    it('renders a header containing method return type modifiers', function () {
       const fileToRender: Code.File = {
         name: 'RMSomeValue',
         type: Code.FileType.ObjectiveC,
@@ -2361,9 +2345,8 @@ describe('ObjCRenderer', function() {
         macros: [],
       };
 
-      const renderedOutput: string | null = ObjCRenderer.renderHeader(
-        fileToRender,
-      );
+      const renderedOutput: string | null =
+        ObjCRenderer.renderHeader(fileToRender);
 
       const expectedOutput: string | null =
         '@interface RMSomeValue : NSObject\n' +
@@ -2378,7 +2361,7 @@ describe('ObjCRenderer', function() {
       expect(renderedOutput).toEqualJSON(expectedOutput);
     });
 
-    it('includes covariantTypes in the header file', function() {
+    it('includes covariantTypes in the header file', function () {
       const fileToRender: Code.File = {
         name: 'RMSomeValue',
         type: Code.FileType.ObjectiveC,
@@ -2459,9 +2442,8 @@ describe('ObjCRenderer', function() {
         macros: [],
       };
 
-      const renderedOutput: string | null = ObjCRenderer.renderHeader(
-        fileToRender,
-      );
+      const renderedOutput: string | null =
+        ObjCRenderer.renderHeader(fileToRender);
 
       const expectedOutput: string | null =
         '#import <RMLibrary/RMSomething.h>\n' +
@@ -2475,7 +2457,7 @@ describe('ObjCRenderer', function() {
       expect(renderedOutput).toEqualJSON(expectedOutput);
     });
 
-    it('supports multiple covariantTypes in the header file', function() {
+    it('supports multiple covariantTypes in the header file', function () {
       const fileToRender: Code.File = {
         name: 'RMSomeValue',
         type: Code.FileType.ObjectiveC,
@@ -2545,9 +2527,8 @@ describe('ObjCRenderer', function() {
         macros: [],
       };
 
-      const renderedOutput: string | null = ObjCRenderer.renderHeader(
-        fileToRender,
-      );
+      const renderedOutput: string | null =
+        ObjCRenderer.renderHeader(fileToRender);
 
       const expectedOutput: string | null =
         '#import <RMLibrary/RMSomething.h>\n' +
@@ -2561,7 +2542,7 @@ describe('ObjCRenderer', function() {
       expect(renderedOutput).toEqualJSON(expectedOutput);
     });
 
-    it('dedupes protocols in the class header', function() {
+    it('dedupes protocols in the class header', function () {
       const fileToRender: Code.File = {
         name: 'RMSomeValue',
         type: Code.FileType.ObjectiveC,
@@ -2618,9 +2599,8 @@ describe('ObjCRenderer', function() {
         macros: [],
       };
 
-      const renderedOutput: string | null = ObjCRenderer.renderHeader(
-        fileToRender,
-      );
+      const renderedOutput: string | null =
+        ObjCRenderer.renderHeader(fileToRender);
 
       const expectedOutput: string | null =
         '@interface RMSomeValue : NSObject <NSCoding>\n' +
@@ -2633,8 +2613,8 @@ describe('ObjCRenderer', function() {
     });
   });
 
-  describe('#renderImplementation', function() {
-    it('renders the base case of a class header', function() {
+  describe('#renderImplementation', function () {
+    it('renders the base case of a class header', function () {
       const fileToRender: Code.File = {
         name: 'RMSomeValue',
         type: Code.FileType.ObjectiveC,
@@ -2890,7 +2870,7 @@ describe('ObjCRenderer', function() {
       expect(renderedOutput).toEqualJSON(expectedOutput);
     });
 
-    it('renders a class file which contains static constants', function() {
+    it('renders a class file which contains static constants', function () {
       const fileToRender: Code.File = {
         name: 'RMSomeValue',
         type: Code.FileType.ObjectiveC,
@@ -3065,7 +3045,7 @@ describe('ObjCRenderer', function() {
       expect(renderedOutput).toEqualJSON(expectedOutput);
     });
 
-    it('renders the base case of a class header where methods are wrapped by preprocessor macros', function() {
+    it('renders the base case of a class header where methods are wrapped by preprocessor macros', function () {
       const fileToRender: Code.File = {
         name: 'RMSomeValue',
         type: Code.FileType.ObjectiveC,
@@ -3335,7 +3315,7 @@ describe('ObjCRenderer', function() {
       expect(renderedOutput).toEqualJSON(expectedOutput);
     });
 
-    it('renders a class file which contains functions', function() {
+    it('renders a class file which contains functions', function () {
       const fileToRender: Code.File = {
         name: 'RMSomeValue',
         type: Code.FileType.ObjectiveC,
@@ -3453,7 +3433,7 @@ describe('ObjCRenderer', function() {
       expect(renderedOutput).toEqual(expectedOutput);
     });
 
-    it('replaces return type with id for covariantTypes in implementation file', function() {
+    it('replaces return type with id for covariantTypes in implementation file', function () {
       const fileToRender: Code.File = {
         name: 'RMSomeValue',
         type: Code.FileType.ObjectiveC,
@@ -3554,7 +3534,7 @@ describe('ObjCRenderer', function() {
       expect(renderedOutput).toEqualJSON(expectedOutput);
     });
 
-    it('replaces parameter type with id for covariantTypes in implementation file', function() {
+    it('replaces parameter type with id for covariantTypes in implementation file', function () {
       const fileToRender: Code.File = {
         name: 'RMSomeValue',
         type: Code.FileType.ObjectiveC,
@@ -3644,7 +3624,7 @@ describe('ObjCRenderer', function() {
       expect(renderedOutput).toEqualJSON(expectedOutput);
     });
 
-    it('renders a class file which contains enumerations', function() {
+    it('renders a class file which contains enumerations', function () {
       const fileToRender: Code.File = {
         name: 'RMSomeValue',
         type: Code.FileType.ObjectiveC,
@@ -3738,7 +3718,7 @@ describe('ObjCRenderer', function() {
       expect(renderedOutput).toEqualJSON(expectedOutput);
     });
 
-    it('renders a header file with visibility specified', function() {
+    it('renders a header file with visibility specified', function () {
       const fileToRender: Code.File = {
         name: 'RMSomeValue',
         type: Code.FileType.ObjectiveC,
@@ -3818,7 +3798,7 @@ describe('ObjCRenderer', function() {
     it(
       'does not render an implementation for a file which only contains public ' +
         'enumerations',
-      function() {
+      function () {
         const fileToRender: Code.File = {
           name: 'RMSomeValue',
           type: Code.FileType.ObjectiveC,
@@ -3855,7 +3835,7 @@ describe('ObjCRenderer', function() {
       },
     );
 
-    it('renders an implementation file with private block definitions when the file contains one private block type', function() {
+    it('renders an implementation file with private block definitions when the file contains one private block type', function () {
       const fileToRender: Code.File = {
         name: 'RMSomeValue',
         type: Code.FileType.ObjectiveC,
@@ -3947,7 +3927,7 @@ describe('ObjCRenderer', function() {
     it(
       'does not render an implementation for a file which only contains public ' +
         'block types',
-      function() {
+      function () {
         const fileToRender: Code.File = {
           name: 'RMSomeValue',
           type: Code.FileType.ObjectiveC,
@@ -3999,7 +3979,7 @@ describe('ObjCRenderer', function() {
       },
     );
 
-    it('does not render an implementation file which only contains an empty class', function() {
+    it('does not render an implementation file which only contains an empty class', function () {
       const fileToRender: Code.File = {
         name: 'RMSomeValue',
         type: Code.FileType.ObjectiveC,
@@ -4042,7 +4022,7 @@ describe('ObjCRenderer', function() {
     it(
       'does not render an implementation file which only contains public or package access ' +
         'internal variables',
-      function() {
+      function () {
         const fileToRender: Code.File = {
           name: 'RMSomeValue',
           type: Code.FileType.ObjectiveC,
@@ -4104,7 +4084,7 @@ describe('ObjCRenderer', function() {
       },
     );
 
-    it('does not render an implementation file which is empty', function() {
+    it('does not render an implementation file which is empty', function () {
       const fileToRender: Code.File = {
         name: 'RMSomeValue',
         type: Code.FileType.ObjectiveC,
@@ -4129,7 +4109,7 @@ describe('ObjCRenderer', function() {
       expect(renderedOutput).toEqualJSON(expectedOutput);
     });
 
-    it('renders file level nullability annotations', function() {
+    it('renders file level nullability annotations', function () {
       const fileToRender: Code.File = {
         name: 'RMSomeValue',
         type: Code.FileType.ObjectiveC,
@@ -4188,9 +4168,8 @@ NS_ASSUME_NONNULL_END\n`
 
       expect(renderedOutput).toEqualJSON(expectedOutput);
 
-      const renderedHeader: string | null = ObjCRenderer.renderHeader(
-        fileToRender,
-      );
+      const renderedHeader: string | null =
+        ObjCRenderer.renderHeader(fileToRender);
 
       const expectedHeader: string | null = <string>`NS_ASSUME_NONNULL_BEGIN
 
@@ -4314,9 +4293,8 @@ static int RMSomeFunction(BOOL parameter) {
         macros: [],
       };
 
-      const renderedOutput: string | null = ObjCRenderer.renderHeader(
-        fileToRender,
-      );
+      const renderedOutput: string | null =
+        ObjCRenderer.renderHeader(fileToRender);
 
       const expectedOutput: string | null = <string>(
         `static inline int RMSomeFunction(BOOL parameter) {
@@ -4385,9 +4363,8 @@ static int RMSomeFunction(BOOL parameter) {
         macros: [],
       };
 
-      const renderedOutput: string | null = ObjCRenderer.renderHeader(
-        fileToRender,
-      );
+      const renderedOutput: string | null =
+        ObjCRenderer.renderHeader(fileToRender);
       const expectedOutput: string | null =
         '__attribute__((objc_subclassing_restricted))\n' +
         '@interface RMSomeValue : NSObject <RMTestProtocol>\n\n' +
@@ -4475,8 +4452,8 @@ static int RMSomeFunction(BOOL parameter) {
     });
   });
 
-  describe('#toKeywordArgumentString', function() {
-    it('outputs a type and name when provided a simple keyword argument', function() {
+  describe('#toKeywordArgumentString', function () {
+    it('outputs a type and name when provided a simple keyword argument', function () {
       const keywordArgument: ObjC.KeywordArgument = {
         name: 'value1',
         modifiers: [],
@@ -4493,7 +4470,7 @@ static int RMSomeFunction(BOOL parameter) {
       expect(argumentString).toEqualJSON(expectedArgumentString);
     });
 
-    it('outputs an argument string with a nonnull modifier', function() {
+    it('outputs an argument string with a nonnull modifier', function () {
       const keywordArgument: ObjC.KeywordArgument = {
         name: 'value1',
         modifiers: [ObjC.KeywordArgumentModifier.Nonnull()],
@@ -4510,7 +4487,7 @@ static int RMSomeFunction(BOOL parameter) {
       expect(argumentString).toEqualJSON(expectedArgumentString);
     });
 
-    it('outputs an argument string with a nullable modifier', function() {
+    it('outputs an argument string with a nullable modifier', function () {
       const keywordArgument: ObjC.KeywordArgument = {
         name: 'value1',
         modifiers: [ObjC.KeywordArgumentModifier.Nullable()],
@@ -4527,7 +4504,7 @@ static int RMSomeFunction(BOOL parameter) {
       expect(argumentString).toEqualJSON(expectedArgumentString);
     });
 
-    it('outputs an argument string with a generic replaced by id', function() {
+    it('outputs an argument string with a generic replaced by id', function () {
       const keywordArgument: ObjC.KeywordArgument = {
         name: 'value1',
         modifiers: [],
@@ -4545,14 +4522,14 @@ static int RMSomeFunction(BOOL parameter) {
     });
   });
 
-  describe('#indexOfFirstEndingAsterisk', function() {
-    it('returns -1 when the string does not contain an asterisk', function() {
+  describe('#indexOfFirstEndingAsterisk', function () {
+    it('returns -1 when the string does not contain an asterisk', function () {
       const str: string = 'foo';
       const index: number = ObjCRenderer.indexOfFirstEndingAsterisk(str);
       expect(index).toEqualJSON(-1);
     });
 
-    it('returns 3 when the string has an asterisk as its fourth and last character', function() {
+    it('returns 3 when the string has an asterisk as its fourth and last character', function () {
       const str: string = 'foo*';
       const index: number = ObjCRenderer.indexOfFirstEndingAsterisk(str);
       expect(index).toEqualJSON(3);
@@ -4561,14 +4538,14 @@ static int RMSomeFunction(BOOL parameter) {
     it(
       'returns 3 when the string has an asterisk as its fourth and last character ' +
         'as well as an asterisk in the middle',
-      function() {
+      function () {
         const str: string = 'f*o*';
         const index: number = ObjCRenderer.indexOfFirstEndingAsterisk(str);
         expect(index).toEqualJSON(3);
       },
     );
 
-    it('returns 3 when the string has an asterisk as its fourth and fifth characters', function() {
+    it('returns 3 when the string has an asterisk as its fourth and fifth characters', function () {
       const str: string = 'foo**';
       const index: number = ObjCRenderer.indexOfFirstEndingAsterisk(str);
       expect(index).toEqualJSON(3);
@@ -4577,7 +4554,7 @@ static int RMSomeFunction(BOOL parameter) {
     it(
       'returns 4 when the string has an asterisk as its fifth character ' +
         'with a space before it',
-      function() {
+      function () {
         const str: string = 'foo *';
         const index: number = ObjCRenderer.indexOfFirstEndingAsterisk(str);
         expect(index).toEqualJSON(4);
@@ -4585,8 +4562,8 @@ static int RMSomeFunction(BOOL parameter) {
     );
   });
 
-  describe('#renderableTypeReference', function() {
-    it('returns a type reference with a space before its ending asterisk', function() {
+  describe('#renderableTypeReference', function () {
+    it('returns a type reference with a space before its ending asterisk', function () {
       const type: string = 'Foo*';
       const renderableType: string = ObjCRenderer.renderableTypeReference(type);
       expect(renderableType).toEqualJSON('Foo *');
@@ -4595,11 +4572,10 @@ static int RMSomeFunction(BOOL parameter) {
     it(
       'returns a type reference with a space before its ending asterisk when ' +
         'it already has a space before the asterisk',
-      function() {
+      function () {
         const type: string = 'Foo *';
-        const renderableType: string = ObjCRenderer.renderableTypeReference(
-          type,
-        );
+        const renderableType: string =
+          ObjCRenderer.renderableTypeReference(type);
         expect(renderableType).toEqualJSON('Foo *');
       },
     );
@@ -4607,25 +4583,23 @@ static int RMSomeFunction(BOOL parameter) {
     it(
       'returns a type reference with a space before its ending asterisk when ' +
         'it contains generics',
-      function() {
+      function () {
         const type: string = 'Foo<Bar *, Baz *>*';
-        const renderableType: string = ObjCRenderer.renderableTypeReference(
-          type,
-        );
+        const renderableType: string =
+          ObjCRenderer.renderableTypeReference(type);
         expect(renderableType).toEqualJSON('Foo<Bar *, Baz *> *');
       },
     );
   });
 
-  describe('#renderableTypeReferenceNestingSubsequentToken', function() {
+  describe('#renderableTypeReferenceNestingSubsequentToken', function () {
     it(
       'returns a type reference with a space before its ending asterisk when ' +
         'it contains generics',
-      function() {
+      function () {
         const type: string = 'Foo<Bar *, Baz *>*';
-        const renderableType: string = ObjCRenderer.renderableTypeReferenceNestingSubsequentToken(
-          type,
-        );
+        const renderableType: string =
+          ObjCRenderer.renderableTypeReferenceNestingSubsequentToken(type);
         expect(renderableType).toEqualJSON('Foo<Bar *, Baz *> *');
       },
     );

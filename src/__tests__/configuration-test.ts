@@ -21,12 +21,12 @@ import * as PathUtils from '../path-utils';
 const ONE_LEVEL_UP = path.resolve(__dirname, '../');
 const PATH_BEFORE_FILES = File.getAbsoluteFilePath(ONE_LEVEL_UP + '/plugins/');
 
-describe('Configuration', function() {
-  describe('#parseConfig', function() {
+describe('Configuration', function () {
+  describe('#parseConfig', function () {
     it(
       'should give the default plugins when there is an empty object in the ' +
         'config',
-      function() {
+      function () {
         const contents = File.Contents('{\n}');
         const configurationContext: Configuration.ConfigurationContext = {
           basePlugins: List.of<string>('some-plugin', 'another-plugin'),
@@ -67,7 +67,7 @@ describe('Configuration', function() {
     it(
       'should give the default plugins and the given base class when the base ' +
         'class is explicitly given',
-      function() {
+      function () {
         const fileContents =
           '{\n' +
           '  "customBaseClass": { "className": "RMSomeObject" }\n' +
@@ -112,7 +112,7 @@ describe('Configuration', function() {
     it(
       'should give the default plugins and the given diagnostic ignores ' +
         'when some ignores are explicitly given',
-      function() {
+      function () {
         const fileContents =
           '{\n' +
           '  "diagnosticIgnores": ["-Wprotocol", "-Wincomplete-implementation"]\n' +
@@ -160,7 +160,7 @@ describe('Configuration', function() {
     it(
       'should exclude one of the base plugins when told ' +
         'to exclude it in the config file',
-      function() {
+      function () {
         const fileContents =
           '{\n' +
           '  "defaultExcludes": [\n' +
@@ -207,7 +207,7 @@ describe('Configuration', function() {
     it(
       'should include one of the base plugins when told ' +
         'to include it in the config file',
-      function() {
+      function () {
         const fileContents =
           '{\n' +
           '  "defaultIncludes": [\n' +
@@ -251,7 +251,7 @@ describe('Configuration', function() {
       },
     );
 
-    it('should allow the including of custom plugins', function() {
+    it('should allow the including of custom plugins', function () {
       const fileContents =
         '{\n' +
         '  "defaultIncludes": [\n' +
@@ -306,7 +306,7 @@ describe('Configuration', function() {
       expect(result).toEqualJSON(expectedResult);
     });
 
-    it('should give an error when given a malformed config file', function() {
+    it('should give an error when given a malformed config file', function () {
       const contents = File.Contents('{\n');
       const configurationContext: Configuration.ConfigurationContext = {
         basePlugins: List.of<string>('some-plugin', 'another-plugin'),

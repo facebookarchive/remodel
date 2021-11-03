@@ -20,10 +20,10 @@ export function match<T, U>(
 export function catMaybes<T>(maybes: (T | null | undefined)[]): T[] {
   return maybes.reduce((soFar, thisVal) => {
     return match(
-      function(val: T) {
+      function (val: T) {
         return soFar.concat(val);
       },
-      function() {
+      function () {
         return soFar;
       },
       thisVal,
@@ -60,7 +60,7 @@ export function and<A, B>(
 
 export function or<T>(a: T | null, b: T | null): T | null {
   return match(
-    aValue => aValue,
+    (aValue) => aValue,
     () => b,
     a,
   );

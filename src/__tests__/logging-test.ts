@@ -11,13 +11,13 @@
 import * as List from '../list';
 import * as Logging from '../logging';
 
-describe('Logging', function() {
-  describe('#evaluate', function() {
+describe('Logging', function () {
+  describe('#evaluate', function () {
     it(
       'should call the logger when the logging context was created with ' +
         'a debug and it is interested in that and it has a level greater ' +
         'than the min',
-      function() {
+      function () {
         const context: Logging.Context<number> = Logging.Debug(
           8,
           'Something',
@@ -27,7 +27,7 @@ describe('Logging', function() {
         const logger: Logging.Logger = {
           interestedLoggingTypes: List.of(Logging.LoggingType.debug),
           minimalLevel: 5,
-          processLog: function(
+          processLog: function (
             type: Logging.LoggingType,
             time: Date,
             info: string,
@@ -48,7 +48,7 @@ describe('Logging', function() {
       'should not call the logger when the logging context was created with ' +
         'a debug and it is interested in that and but it has a level less ' +
         'than the min',
-      function() {
+      function () {
         const context: Logging.Context<number> = Logging.Debug(
           1,
           'Something',
@@ -58,7 +58,7 @@ describe('Logging', function() {
         const logger: Logging.Logger = {
           interestedLoggingTypes: List.of(Logging.LoggingType.debug),
           minimalLevel: 5,
-          processLog: function(
+          processLog: function (
             type: Logging.LoggingType,
             time: Date,
             info: string,
@@ -77,7 +77,7 @@ describe('Logging', function() {
       'should call the logger when the logging context was created with ' +
         'a debug and it is interested in that and it has a less than the ' +
         'min',
-      function() {
+      function () {
         const context: Logging.Context<number> = Logging.Debug(
           5,
           'Something',
@@ -87,7 +87,7 @@ describe('Logging', function() {
         const logger: Logging.Logger = {
           interestedLoggingTypes: List.of(Logging.LoggingType.debug),
           minimalLevel: 5,
-          processLog: function(
+          processLog: function (
             type: Logging.LoggingType,
             time: Date,
             info: string,
@@ -108,7 +108,7 @@ describe('Logging', function() {
       'should call the logger when the logging context was created with ' +
         'a debug and it is interested in that and other things and it has a ' +
         'priority greater than the min ',
-      function() {
+      function () {
         const context: Logging.Context<number> = Logging.Debug(
           5,
           'Something',
@@ -121,7 +121,7 @@ describe('Logging', function() {
             Logging.LoggingType.info,
           ),
           minimalLevel: 3,
-          processLog: function(
+          processLog: function (
             type: Logging.LoggingType,
             time: Date,
             info: string,
@@ -142,7 +142,7 @@ describe('Logging', function() {
       'should call the logger when the logging context was created with ' +
         'a debug and it is interested other things even if it has a ' +
         'priority greater than the min ',
-      function() {
+      function () {
         const context: Logging.Context<number> = Logging.Debug(
           5,
           'Something',
@@ -155,7 +155,7 @@ describe('Logging', function() {
             Logging.LoggingType.info,
           ),
           minimalLevel: 3,
-          processLog: function(
+          processLog: function (
             type: Logging.LoggingType,
             time: Date,
             info: string,
@@ -171,17 +171,17 @@ describe('Logging', function() {
     );
   });
 
-  describe('#map', function() {
+  describe('#map', function () {
     it(
       'maps the value of the context to the result of calling the function ' +
         'with the current value without affecting the logged info',
-      function() {
+      function () {
         const context: Logging.Context<number> = Logging.Debug(
           8,
           'Something',
           3,
         );
-        const mappedContext: Logging.Context<string> = Logging.map(function(
+        const mappedContext: Logging.Context<string> = Logging.map(function (
           num: number,
         ) {
           return num.toString();
@@ -196,17 +196,17 @@ describe('Logging', function() {
     );
   });
 
-  describe('#mbind', function() {
+  describe('#mbind', function () {
     it(
       'binds the value of the context to the result of calling the function ' +
         'with the current value',
-      function() {
+      function () {
         const context: Logging.Context<number> = Logging.Debug(
           8,
           'Something',
           3,
         );
-        const newContext: Logging.Context<string> = Logging.mbind(function(
+        const newContext: Logging.Context<string> = Logging.mbind(function (
           num: number,
         ) {
           return Logging.Debug(4, 'Something Else', num.toString());
@@ -223,13 +223,13 @@ describe('Logging', function() {
     it(
       'binds and combines both the logging contexts when the given logger ' +
         'is interested in both events',
-      function() {
+      function () {
         const context: Logging.Context<number> = Logging.Debug(
           8,
           'Something',
           3,
         );
-        const newContext: Logging.Context<string> = Logging.mbind(function(
+        const newContext: Logging.Context<string> = Logging.mbind(function (
           num: number,
         ) {
           return Logging.Info(4, 'Something Else', num.toString());
@@ -247,7 +247,7 @@ describe('Logging', function() {
             Logging.LoggingType.info,
           ),
           minimalLevel: 1,
-          processLog: function(
+          processLog: function (
             type: Logging.LoggingType,
             time: Date,
             info: string,
@@ -270,13 +270,13 @@ describe('Logging', function() {
     it(
       'binds and combines both logging contexts but it does not log the event ' +
         'the passed logger is not interested in',
-      function() {
+      function () {
         const context: Logging.Context<number> = Logging.Performance(
           8,
           'Something',
           3,
         );
-        const newContext: Logging.Context<string> = Logging.mbind(function(
+        const newContext: Logging.Context<string> = Logging.mbind(function (
           num: number,
         ) {
           return Logging.Warn(4, 'Something Else', num.toString());
@@ -293,7 +293,7 @@ describe('Logging', function() {
             Logging.LoggingType.info,
           ),
           minimalLevel: 1,
-          processLog: function(
+          processLog: function (
             type: Logging.LoggingType,
             time: Date,
             info: string,
@@ -316,7 +316,7 @@ describe('Logging', function() {
       'binds and combines both the logging contexts when the given logger ' +
         'is interested in both events but it only logs the one that has not ' +
         'previously been logged when one has been evaluated already',
-      function() {
+      function () {
         const context: Logging.Context<number> = Logging.Error(
           8,
           'Something',
@@ -334,7 +334,7 @@ describe('Logging', function() {
             Logging.LoggingType.info,
           ),
           minimalLevel: 1,
-          processLog: function(
+          processLog: function (
             type: Logging.LoggingType,
             time: Date,
             info: string,
@@ -348,7 +348,7 @@ describe('Logging', function() {
           context,
         );
 
-        const newContext: Logging.Context<string> = Logging.mbind(function(
+        const newContext: Logging.Context<string> = Logging.mbind(function (
           num: number,
         ) {
           return Logging.Info(4, 'Something Else', num.toString());
@@ -367,14 +367,14 @@ describe('Logging', function() {
     );
   });
 
-  describe('#munit', function() {
-    it('puts a value into a logging context without anything to log', function() {
+  describe('#munit', function () {
+    it('puts a value into a logging context without anything to log', function () {
       const context: Logging.Context<number> = Logging.munit(3);
       var wasCalled: boolean = false;
       const logger: Logging.Logger = {
         interestedLoggingTypes: List.of(Logging.LoggingType.debug),
         minimalLevel: 5,
-        processLog: function(
+        processLog: function (
           type: Logging.LoggingType,
           time: Date,
           info: string,

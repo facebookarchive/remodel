@@ -18,9 +18,9 @@ import * as ObjectSpec from '../../object-spec';
 const ObjectSpecPlugin = Equality.createPlugin();
 const AlgebraicTypePlugin = Equality.createAlgebraicTypePlugin();
 
-describe('ObjectSpecPlugins.Equality', function() {
-  describe('#validationErrors', function() {
-    it('returns no validation errors when there are no attributes on the found type', function() {
+describe('ObjectSpecPlugins.Equality', function () {
+  describe('#validationErrors', function () {
+    it('returns no validation errors when there are no attributes on the found type', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [],
@@ -31,13 +31,12 @@ describe('ObjectSpecPlugins.Equality', function() {
         typeLookups: [],
         typeName: 'Foo',
       };
-      const errors: Error.Error[] = ObjectSpecPlugin.validationErrors(
-        objectType,
-      );
+      const errors: Error.Error[] =
+        ObjectSpecPlugin.validationErrors(objectType);
       expect(errors).toEqualJSON([]);
     });
 
-    it('returns a validation error when there is an attribute with an unknown type', function() {
+    it('returns a validation error when there is an attribute with an unknown type', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
@@ -79,9 +78,8 @@ describe('ObjectSpecPlugins.Equality', function() {
         typeLookups: [],
         typeName: 'Foo',
       };
-      const errors: Error.Error[] = ObjectSpecPlugin.validationErrors(
-        objectType,
-      );
+      const errors: Error.Error[] =
+        ObjectSpecPlugin.validationErrors(objectType);
       const expectedErrors: Error.Error[] = [
         Error.Error(
           'The Equality plugin does not know how to compare or hash the type "LikeStatus" from Foo.likeStatus. Did you forget to declare a backing type?',
@@ -90,7 +88,7 @@ describe('ObjectSpecPlugins.Equality', function() {
       expect(errors).toEqualJSON(expectedErrors);
     });
 
-    it('returns two validation errors when there are two attributes with unknown types', function() {
+    it('returns two validation errors when there are two attributes with unknown types', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
@@ -132,9 +130,8 @@ describe('ObjectSpecPlugins.Equality', function() {
         typeLookups: [],
         typeName: 'Foo',
       };
-      const errors: Error.Error[] = ObjectSpecPlugin.validationErrors(
-        objectType,
-      );
+      const errors: Error.Error[] =
+        ObjectSpecPlugin.validationErrors(objectType);
       const expectedErrors: Error.Error[] = [
         Error.Error(
           'The Equality plugin does not know how to compare or hash the type "Name" from Foo.name. Did you forget to declare a backing type?',
@@ -146,7 +143,7 @@ describe('ObjectSpecPlugins.Equality', function() {
       expect(errors).toEqualJSON(expectedErrors);
     });
 
-    it('returns a validation error when there is an attribute with an unknown underlying type', function() {
+    it('returns a validation error when there is an attribute with an unknown underlying type', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
@@ -173,9 +170,8 @@ describe('ObjectSpecPlugins.Equality', function() {
         typeLookups: [],
         typeName: 'Foo',
       };
-      const errors: Error.Error[] = ObjectSpecPlugin.validationErrors(
-        objectType,
-      );
+      const errors: Error.Error[] =
+        ObjectSpecPlugin.validationErrors(objectType);
       const expectedErrors: Error.Error[] = [
         Error.Error(
           'The Equality plugin does not know how to compare or hash the backing type "Baz" from Foo.name. Did you declare the wrong backing type?',
@@ -185,11 +181,11 @@ describe('ObjectSpecPlugins.Equality', function() {
     });
   });
 
-  describe('#imports', function() {
+  describe('#imports', function () {
     it(
       'returns an import for objc/runtime when an attribute with a SEL ' +
         'type is included',
-      function() {
+      function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
@@ -243,11 +239,11 @@ describe('ObjectSpecPlugins.Equality', function() {
     );
   });
 
-  describe('#instanceMethods', function() {
+  describe('#instanceMethods', function () {
     it(
       'returns hash and equality methods when provided a value type that ' +
         'has some attributes',
-      function() {
+      function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
@@ -440,9 +436,8 @@ describe('ObjectSpecPlugins.Equality', function() {
           typeName: 'Foo',
         };
 
-        const instanceMethods: ObjC.Method[] = ObjectSpecPlugin.instanceMethods(
-          objectType,
-        );
+        const instanceMethods: ObjC.Method[] =
+          ObjectSpecPlugin.instanceMethods(objectType);
 
         const expectedInstanceMethods: ObjC.Method[] = [
           {
@@ -534,7 +529,7 @@ describe('ObjectSpecPlugins.Equality', function() {
     it(
       'returns hash and equality methods when provided a value type that ' +
         'has some different attributes',
-      function() {
+      function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
@@ -577,9 +572,8 @@ describe('ObjectSpecPlugins.Equality', function() {
           typeName: 'Foo',
         };
 
-        const instanceMethods: ObjC.Method[] = ObjectSpecPlugin.instanceMethods(
-          objectType,
-        );
+        const instanceMethods: ObjC.Method[] =
+          ObjectSpecPlugin.instanceMethods(objectType);
 
         const expectedInstanceMethods: ObjC.Method[] = [
           {
@@ -661,7 +655,7 @@ describe('ObjectSpecPlugins.Equality', function() {
     it(
       'returns no instance methods when provided a value type that ' +
         'does not have attributes',
-      function() {
+      function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [],
@@ -673,20 +667,19 @@ describe('ObjectSpecPlugins.Equality', function() {
           typeName: 'Foo',
         };
 
-        const instanceMethods: ObjC.Method[] = ObjectSpecPlugin.instanceMethods(
-          objectType,
-        );
+        const instanceMethods: ObjC.Method[] =
+          ObjectSpecPlugin.instanceMethods(objectType);
         const expectedInstanceMethods: ObjC.Method[] = [];
         expect(instanceMethods).toEqualJSON(expectedInstanceMethods);
       },
     );
   });
 
-  describe('#functions', function() {
+  describe('#functions', function () {
     it(
       'does not return functions when provided a value type that ' +
         'does not have attributes',
-      function() {
+      function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [],
@@ -698,9 +691,8 @@ describe('ObjectSpecPlugins.Equality', function() {
           typeName: 'Foo',
         };
 
-        const functions: ObjC.Function[] = ObjectSpecPlugin.functions(
-          objectType,
-        );
+        const functions: ObjC.Function[] =
+          ObjectSpecPlugin.functions(objectType);
         const expectedFunctions: ObjC.Method[] = [];
         expect(functions).toEqualJSON(expectedFunctions);
       },
@@ -709,7 +701,7 @@ describe('ObjectSpecPlugins.Equality', function() {
     it(
       'returns float equality and hash functions when provided a value type that ' +
         'contains attributes which require float functions',
-      function() {
+      function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
@@ -737,9 +729,8 @@ describe('ObjectSpecPlugins.Equality', function() {
           typeName: 'Foo',
         };
 
-        const functions: ObjC.Function[] = ObjectSpecPlugin.functions(
-          objectType,
-        );
+        const functions: ObjC.Function[] =
+          ObjectSpecPlugin.functions(objectType);
         const expectedFunctions: ObjC.Function[] = [
           {
             comments: [],
@@ -830,7 +821,7 @@ describe('ObjectSpecPlugins.Equality', function() {
     it(
       'returns only one float equality and hash function when provided a ' +
         'value type that contains two attributes which require float functions',
-      function() {
+      function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
@@ -873,9 +864,8 @@ describe('ObjectSpecPlugins.Equality', function() {
           typeName: 'Foo',
         };
 
-        const functions: ObjC.Function[] = ObjectSpecPlugin.functions(
-          objectType,
-        );
+        const functions: ObjC.Function[] =
+          ObjectSpecPlugin.functions(objectType);
         const expectedFunctions: ObjC.Function[] = [
           {
             comments: [],
@@ -966,7 +956,7 @@ describe('ObjectSpecPlugins.Equality', function() {
     it(
       'returns double equality and hash functions when provided a value type that ' +
         'contains attributes which require double functions',
-      function() {
+      function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
@@ -994,9 +984,8 @@ describe('ObjectSpecPlugins.Equality', function() {
           typeName: 'Foo',
         };
 
-        const functions: ObjC.Function[] = ObjectSpecPlugin.functions(
-          objectType,
-        );
+        const functions: ObjC.Function[] =
+          ObjectSpecPlugin.functions(objectType);
         const expectedFunctions: ObjC.Function[] = [
           {
             comments: [],
@@ -1078,7 +1067,7 @@ describe('ObjectSpecPlugins.Equality', function() {
       'returns CGFloat, float and double equality and hash functions when ' +
         'provided a value type that contains attributes which require ' +
         'float, double, and CGFloat functions',
-      function() {
+      function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
@@ -1106,9 +1095,8 @@ describe('ObjectSpecPlugins.Equality', function() {
           typeName: 'Foo',
         };
 
-        const functions: ObjC.Function[] = ObjectSpecPlugin.functions(
-          objectType,
-        );
+        const functions: ObjC.Function[] =
+          ObjectSpecPlugin.functions(objectType);
         const expectedFunctions: ObjC.Function[] = [
           {
             comments: [],
@@ -1346,9 +1334,9 @@ describe('ObjectSpecPlugins.Equality', function() {
   });
 });
 
-describe('AlgebraicTypePlugins.Equality', function() {
-  describe('#validationErrors', function() {
-    it('returns no validation errors when there are no attributes on the provided subtypes', function() {
+describe('AlgebraicTypePlugins.Equality', function () {
+  describe('#validationErrors', function () {
+    it('returns no validation errors when there are no attributes on the provided subtypes', function () {
       const algebraicType: AlgebraicType.Type = {
         annotations: {},
         name: 'Foo',
@@ -1373,13 +1361,12 @@ describe('AlgebraicTypePlugins.Equality', function() {
         ],
       };
 
-      const errors: Error.Error[] = AlgebraicTypePlugin.validationErrors(
-        algebraicType,
-      );
+      const errors: Error.Error[] =
+        AlgebraicTypePlugin.validationErrors(algebraicType);
       expect(errors).toEqualJSON([]);
     });
 
-    it('returns a validation error when there is an attribute with an unknown type', function() {
+    it('returns a validation error when there is an attribute with an unknown type', function () {
       const algebraicType: AlgebraicType.Type = {
         annotations: {},
         name: 'Test',
@@ -1406,9 +1393,8 @@ describe('AlgebraicTypePlugins.Equality', function() {
           }),
         ],
       };
-      const errors: Error.Error[] = AlgebraicTypePlugin.validationErrors(
-        algebraicType,
-      );
+      const errors: Error.Error[] =
+        AlgebraicTypePlugin.validationErrors(algebraicType);
       const expectedErrors: Error.Error[] = [
         Error.Error(
           'The Equality plugin does not know how to compare or hash the type "Foo" from Test.someFoo. Did you forget to declare a backing type?',
@@ -1417,7 +1403,7 @@ describe('AlgebraicTypePlugins.Equality', function() {
       expect(errors).toEqualJSON(expectedErrors);
     });
 
-    it('returns two validation errors when there are two attributes with unknown types', function() {
+    it('returns two validation errors when there are two attributes with unknown types', function () {
       const algebraicType: AlgebraicType.Type = {
         annotations: {},
         name: 'Test',
@@ -1473,9 +1459,8 @@ describe('AlgebraicTypePlugins.Equality', function() {
           }),
         ],
       };
-      const errors: Error.Error[] = AlgebraicTypePlugin.validationErrors(
-        algebraicType,
-      );
+      const errors: Error.Error[] =
+        AlgebraicTypePlugin.validationErrors(algebraicType);
       const expectedErrors: Error.Error[] = [
         Error.Error(
           'The Equality plugin does not know how to compare or hash the type "Foo" from Test.someFoo. Did you forget to declare a backing type?',
@@ -1487,7 +1472,7 @@ describe('AlgebraicTypePlugins.Equality', function() {
       expect(errors).toEqualJSON(expectedErrors);
     });
 
-    it('returns a validation error when there is an attribute with an unknown underlying type', function() {
+    it('returns a validation error when there is an attribute with an unknown underlying type', function () {
       const algebraicType: AlgebraicType.Type = {
         annotations: {},
         name: 'Test',
@@ -1514,9 +1499,8 @@ describe('AlgebraicTypePlugins.Equality', function() {
           }),
         ],
       };
-      const errors: Error.Error[] = AlgebraicTypePlugin.validationErrors(
-        algebraicType,
-      );
+      const errors: Error.Error[] =
+        AlgebraicTypePlugin.validationErrors(algebraicType);
       const expectedErrors: Error.Error[] = [
         Error.Error(
           'The Equality plugin does not know how to compare or hash the backing type "SomethingRandom" from Test.someFerr. Did you declare the wrong backing type?',

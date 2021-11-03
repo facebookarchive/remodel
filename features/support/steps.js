@@ -58,7 +58,7 @@ function fastrun(args, tmpDirectoryPath, callback) {
 function run(cmd, tmpDirectoryPath, callback) {
   var localCommand = 'cd ' + tmpDirectoryPath + ' && ' + cmd;
 
-  exec(localCommand, function(error, stdout, stderr) {
+  exec(localCommand, function (error, stdout, stderr) {
     callback();
   });
 }
@@ -79,7 +79,7 @@ function toFeatureFileDocstring(s) {
     `${sixSpaces}"""\n` +
     s
       .split('\n')
-      .map(line => (line === '' ? line : `${sixSpaces}${line}`))
+      .map((line) => (line === '' ? line : `${sixSpaces}${line}`))
       .join('\n') +
     `\n${sixSpaces}"""`
   );
@@ -94,16 +94,15 @@ function fixFeature(testCase, expected, actual) {
   fs.writeFileSync(uri, patched);
 }
 
-Given(/^a file named "([^"]*)" with:$/, function(
-  fileName,
-  fileContent,
-  callback,
-) {
-  writeFile(fileName, fileContent, this.tmpDirectoryPath);
-  callback();
-});
+Given(
+  /^a file named "([^"]*)" with:$/,
+  function (fileName, fileContent, callback) {
+    writeFile(fileName, fileContent, this.tmpDirectoryPath);
+    callback();
+  },
+);
 
-When(/^I run `([^`]*)`$/, function(cmd, callback) {
+When(/^I run `([^`]*)`$/, function (cmd, callback) {
   cmd = unescape(cmd);
   const knownCommand = '../../bin/generate ';
   if (cmd.indexOf(knownCommand) === 0) {
@@ -113,45 +112,44 @@ When(/^I run `([^`]*)`$/, function(cmd, callback) {
   }
 });
 
-Given(/^a directory named "([^"]*)":$/, function(dirName, callback) {
+Given(/^a directory named "([^"]*)":$/, function (dirName, callback) {
   mkdirp.sync(this.tmpDirectoryPath + '/' + dirName);
   callback();
 });
 
-Then(/^the file "([^"]*)" should contain:$/, function(
-  fileName,
-  expectedContents,
-  callback,
-) {
-  var fileLocation = this.tmpDirectoryPath + '/' + fileName;
-  var actualContents = fs.readFileSync(fileLocation, 'utf8');
-  if (this.parameters.forceResnapshot) {
-    fixFeature(this.testCase, expectedContents, actualContents);
-    callback();
-    return;
-  }
-  if (actualContents.indexOf(expectedContents) !== -1) {
-    callback();
-  } else {
-    if (this.parameters.resnapshot) {
+Then(
+  /^the file "([^"]*)" should contain:$/,
+  function (fileName, expectedContents, callback) {
+    var fileLocation = this.tmpDirectoryPath + '/' + fileName;
+    var actualContents = fs.readFileSync(fileLocation, 'utf8');
+    if (this.parameters.forceResnapshot) {
       fixFeature(this.testCase, expectedContents, actualContents);
+      callback();
+      return;
     }
-    var differences = diff
-      .diffLines(actualContents, expectedContents)
-      .map(displayDiff)
-      .join('\n');
-    callback(
-      'Within "' +
-        this.tmpDirectoryPath +
-        ' the file "' +
-        fileName +
-        ' did had the following differences: \n' +
-        differences,
-    );
-  }
-});
+    if (actualContents.indexOf(expectedContents) !== -1) {
+      callback();
+    } else {
+      if (this.parameters.resnapshot) {
+        fixFeature(this.testCase, expectedContents, actualContents);
+      }
+      var differences = diff
+        .diffLines(actualContents, expectedContents)
+        .map(displayDiff)
+        .join('\n');
+      callback(
+        'Within "' +
+          this.tmpDirectoryPath +
+          ' the file "' +
+          fileName +
+          ' did had the following differences: \n' +
+          differences,
+      );
+    }
+  },
+);
 
-Then(/^the file "([^"]*)" should not exist$/, function(fileName, callback) {
+Then(/^the file "([^"]*)" should not exist$/, function (fileName, callback) {
   var fileLocation = this.tmpDirectoryPath + '/' + fileName;
   if (!fs.existsSync(fileLocation)) {
     callback();

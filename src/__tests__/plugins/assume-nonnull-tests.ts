@@ -18,9 +18,9 @@ import * as ObjectSpec from '../../object-spec';
 const ObjectSpecPlugin = AssumeNonnull.createPlugin();
 const AlgebraicTypePlugin = AssumeNonnull.createAlgebraicTypePlugin();
 
-describe('ObjectSpecPlugins.AssumeNonnull', function() {
-  describe('#imports', function() {
-    it('Foundation was found', function() {
+describe('ObjectSpecPlugins.AssumeNonnull', function () {
+  describe('#imports', function () {
+    it('Foundation was found', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [],
@@ -45,8 +45,8 @@ describe('ObjectSpecPlugins.AssumeNonnull', function() {
     });
   });
 
-  describe('#nullability', function() {
-    it('AssumeNonnull macro was found', function() {
+  describe('#nullability', function () {
+    it('AssumeNonnull macro was found', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [],
@@ -65,9 +65,9 @@ describe('ObjectSpecPlugins.AssumeNonnull', function() {
   });
 });
 
-describe('AlgebraicTypePlugins.AssumeNonnull', function() {
-  describe('#imports', function() {
-    it('Foundation was found', function() {
+describe('AlgebraicTypePlugins.AssumeNonnull', function () {
+  describe('#imports', function () {
+    it('Foundation was found', function () {
       const algebraicType: AlgebraicType.Type = {
         annotations: {},
         name: 'Foo',
@@ -92,8 +92,8 @@ describe('AlgebraicTypePlugins.AssumeNonnull', function() {
     });
   });
 
-  describe('#nullability', function() {
-    it('AssumeNonnull macro was found', function() {
+  describe('#nullability', function () {
+    it('AssumeNonnull macro was found', function () {
       const algebraicType: AlgebraicType.Type = {
         annotations: {},
         name: 'Foo',

@@ -46,10 +46,11 @@ const BASE_CLASS_KEY = 'customBaseClass';
 const BASE_CLASS_NAME_KEY = 'className';
 const BASE_CLASS_LIBRARY_NAME_KEY = 'libraryName';
 const DIAGNOSTIC_IGNORES = 'diagnosticIgnores';
-const PATH_TO_PLUGINS_DIR = PathUtils.getAbsolutePathFromDirectoryAndRelativePath(
-  File.getAbsoluteFilePath(__dirname),
-  '/plugins',
-);
+const PATH_TO_PLUGINS_DIR =
+  PathUtils.getAbsolutePathFromDirectoryAndRelativePath(
+    File.getAbsoluteFilePath(__dirname),
+    '/plugins',
+  );
 const NSOBJECT_BASE_CLASS = {
   className: 'NSObject',
   libraryName: null,
@@ -85,7 +86,7 @@ function parseJson(
 
 function parsedJsonToDefaultExcludesMap(parsed: any): Map.Map<string, string> {
   const defaultExcludes: string[] = parsed[DEFAULT_EXCLUDES_KEY] || [];
-  return defaultExcludes.reduce(function(
+  return defaultExcludes.reduce(function (
     soFar: Map.Map<string, string>,
     defaultExclude: string,
   ) {
@@ -104,7 +105,7 @@ function parsedJsonToPluginCollectionInfo(
   parsed: any,
 ): PluginCollectionInfo {
   const customPluginPaths = parsed[CUSTOM_PLUGIN_PATHS] || [];
-  const customPluginPathsList = customPluginPaths.reduceRight(function(
+  const customPluginPathsList = customPluginPaths.reduceRight(function (
     soFar: List.List<string>,
     thisPath: string,
   ) {
@@ -127,7 +128,7 @@ function scriptConfigFromPluginCollectionInfo(
     info.basePlugins,
   );
   const additionalPluginConfigs = List.map(
-    plugin => pluginConfigForAdditionalPlugin(configFilePath, plugin),
+    (plugin) => pluginConfigForAdditionalPlugin(configFilePath, plugin),
     info.customPluginPaths,
   );
   return List.append(basePluginConfigs, additionalPluginConfigs);
@@ -167,7 +168,7 @@ function includesApplyingExcludesMap(
   includes: List.List<string>,
   defaultExcludesMap: Map.Map<string, string>,
 ): List.List<string> {
-  return List.filter(function(include: string): boolean {
+  return List.filter(function (include: string): boolean {
     return !Map.containsKey(include, defaultExcludesMap);
   }, includes);
 }
@@ -195,20 +196,20 @@ function parse(
     parsedJson,
   );
   const pluginCollectionEither = Either.map(
-    json =>
+    (json) =>
       parsedJsonToPluginCollectionInfo(configurationContext.basePlugins, json),
     parsedJson,
   );
   const scriptConfigEither = Either.map(
-    pluginCollection =>
+    (pluginCollection) =>
       scriptConfigFromPluginCollectionInfo(configFilePath, pluginCollection),
     pluginCollectionEither,
   );
-  return Either.mbind(function(baseClass: ObjC.BaseClass) {
-    return Either.mbind(function(pluginConfigs: List.List<PluginConfig>) {
-      return Either.mbind(function(diagnosticIgnores: List.List<string>) {
-        return Either.mbind(function(defaultIncludes: List.List<string>) {
-          return Either.map(function(
+  return Either.mbind(function (baseClass: ObjC.BaseClass) {
+    return Either.mbind(function (pluginConfigs: List.List<PluginConfig>) {
+      return Either.mbind(function (diagnosticIgnores: List.List<string>) {
+        return Either.mbind(function (defaultIncludes: List.List<string>) {
+          return Either.map(function (
             defaultExcludesMap: Map.Map<string, string>,
           ): GenerationConfig {
             const combinedIncludes = includesWithAdditionalIncludes(
@@ -248,9 +249,8 @@ function pluginConfigForAdditionalPlugin(
   configFilePath: File.AbsoluteFilePath,
   relativePath: string,
 ) {
-  let startLocation = PathUtils.getDirectoryPathFromAbsolutePath(
-    configFilePath,
-  );
+  let startLocation =
+    PathUtils.getDirectoryPathFromAbsolutePath(configFilePath);
   const pluginDirVariable = '$PLUGIN_DIR/';
   if (relativePath.indexOf(pluginDirVariable) === 0) {
     startLocation = PATH_TO_PLUGINS_DIR;
@@ -270,20 +270,22 @@ export function generateConfig(
   configurationContext: ConfigurationContext,
 ): Promise.Future<Either.Either<Error.Error[], GenerationConfig>> {
   return Maybe.match(
-    function(
+    function (
       path: File.AbsoluteFilePath,
     ): Promise.Future<Either.Either<Error.Error[], GenerationConfig>> {
-      return Promise.map(function(
+      return Promise.map(function (
         either: Either.Either<Error.Error[], File.Contents>,
       ): Either.Either<Error.Error[], GenerationConfig> {
         return Either.mbind(
-          contents => parse(configurationContext, path, contents),
+          (contents) => parse(configurationContext, path, contents),
           either,
         );
       },
       FileReader.read(path));
     },
-    function(): Promise.Future<Either.Either<Error.Error[], GenerationConfig>> {
+    function (): Promise.Future<
+      Either.Either<Error.Error[], GenerationConfig>
+    > {
       const pluginConfigs = List.map(
         builtinPluginPathToPluginConfig,
         configurationContext.basePlugins,

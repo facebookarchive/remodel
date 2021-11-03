@@ -30,15 +30,14 @@ export function findFilesAndDirectories(
   directoryOrFileToScan: File.AbsoluteFilePath,
   fileExtension: string,
 ): Promise.Future<Either.Either<Error.Error, FilesAndDirectories>> {
-  const promise = Promise.pending<
-    Either.Either<Error.Error, FilesAndDirectories>
-  >();
+  const promise =
+    Promise.pending<Either.Either<Error.Error, FilesAndDirectories>>();
   const fileExtensionPath: string = '.' + fileExtension;
   const absolutePath: string = File.getAbsolutePathString(
     directoryOrFileToScan,
   );
   if (pathIsToFileWithExtensionType(fileExtensionPath, absolutePath)) {
-    fs.stat(absolutePath, function(err, stats) {
+    fs.stat(absolutePath, function (err, stats) {
       if (err) {
         const message = absolutePath + ' does not exist';
         promise.setValue(
@@ -55,49 +54,52 @@ export function findFilesAndDirectories(
       }
     });
   } else {
-    fs.readdir(File.getAbsolutePathString(directoryOrFileToScan), function(
-      err,
-      files,
-    ) {
-      if (err) {
-        promise.setValue(
-          Either.Left<Error.Error, FilesAndDirectories>(
-            Error.Error(err.message),
-          ),
-        );
-      } else {
-        const stats = files.reduce(
-          function(
-            soFar: FilesAndDirectories,
-            str: string,
-          ): FilesAndDirectories {
-            const fullPath: File.AbsoluteFilePath = PathUtils.getAbsolutePathFromDirectoryAndRelativePath(
-              directoryOrFileToScan,
-              str,
-            );
-            const indexOfPeriod = str.indexOf('.');
-            if (indexOfPeriod === -1) {
-              soFar.foundPotentialDirectories.push(fullPath);
-              return soFar;
-            } else if (indexOfPeriod === 0) {
-              return soFar;
-            } else {
-              if (
-                str.indexOf(
-                  fileExtensionPath,
-                  str.length - fileExtensionPath.length,
-                ) !== -1
-              ) {
-                soFar.foundFilePaths.push(fullPath);
+    fs.readdir(
+      File.getAbsolutePathString(directoryOrFileToScan),
+      function (err, files) {
+        if (err) {
+          promise.setValue(
+            Either.Left<Error.Error, FilesAndDirectories>(
+              Error.Error(err.message),
+            ),
+          );
+        } else {
+          const stats = files.reduce(
+            function (
+              soFar: FilesAndDirectories,
+              str: string,
+            ): FilesAndDirectories {
+              const fullPath: File.AbsoluteFilePath =
+                PathUtils.getAbsolutePathFromDirectoryAndRelativePath(
+                  directoryOrFileToScan,
+                  str,
+                );
+              const indexOfPeriod = str.indexOf('.');
+              if (indexOfPeriod === -1) {
+                soFar.foundPotentialDirectories.push(fullPath);
+                return soFar;
+              } else if (indexOfPeriod === 0) {
+                return soFar;
+              } else {
+                if (
+                  str.indexOf(
+                    fileExtensionPath,
+                    str.length - fileExtensionPath.length,
+                  ) !== -1
+                ) {
+                  soFar.foundFilePaths.push(fullPath);
+                }
+                return soFar;
               }
-              return soFar;
-            }
-          },
-          {foundPotentialDirectories: [], foundFilePaths: []},
-        );
-        promise.setValue(Either.Right<Error.Error, FilesAndDirectories>(stats));
-      }
-    });
+            },
+            {foundPotentialDirectories: [], foundFilePaths: []},
+          );
+          promise.setValue(
+            Either.Right<Error.Error, FilesAndDirectories>(stats),
+          );
+        }
+      },
+    );
   }
   return promise.getFuture();
 }
@@ -107,7 +109,7 @@ function findFile(
   directory: string,
 ): Promise.Future<File.AbsoluteFilePath | null> {
   const promise = Promise.pending<File.AbsoluteFilePath | null>();
-  fs.readdir(directory, function(err, files) {
+  fs.readdir(directory, function (err, files) {
     if (files != null && files.indexOf(fileName) !== -1) {
       promise.setValue(File.getAbsoluteFilePath(directory + '/' + fileName));
     } else {
@@ -121,14 +123,14 @@ function searchForConfigWithStringPath(
   fileName: string,
   searchPath: string,
 ): Promise.Future<File.AbsoluteFilePath | null> {
-  return Promise.mbind(function(
+  return Promise.mbind(function (
     maybe: File.AbsoluteFilePath | null,
   ): Promise.Future<File.AbsoluteFilePath | null> {
     return Maybe.match(
-      function(foundPath: File.AbsoluteFilePath) {
+      function (foundPath: File.AbsoluteFilePath) {
         return Promise.munit(foundPath);
       },
-      function() {
+      function () {
         const nextPath = path.resolve(searchPath, '../');
         if (nextPath === searchPath) {
           return Promise.munit(null);

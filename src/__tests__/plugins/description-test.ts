@@ -18,10 +18,10 @@ import * as ObjectSpec from '../../object-spec';
 const AlgebraicTypePlugin = Description.createAlgebraicTypePlugin();
 const ObjectSpecPlugin = Description.createPlugin();
 
-describe('ObjectSpecPlugins.Description', function() {
-  describe('Value Object', function() {
-    describe('#validationErrors', function() {
-      it('returns no validation errors when there are no attributes on the found type', function() {
+describe('ObjectSpecPlugins.Description', function () {
+  describe('Value Object', function () {
+    describe('#validationErrors', function () {
+      it('returns no validation errors when there are no attributes on the found type', function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [],
@@ -32,13 +32,12 @@ describe('ObjectSpecPlugins.Description', function() {
           typeLookups: [],
           typeName: 'Foo',
         };
-        const errors: Error.Error[] = ObjectSpecPlugin.validationErrors(
-          objectType,
-        );
+        const errors: Error.Error[] =
+          ObjectSpecPlugin.validationErrors(objectType);
         expect(errors).toEqualJSON([]);
       });
 
-      it('returns a validation error when there is an attribute with an unknown type', function() {
+      it('returns a validation error when there is an attribute with an unknown type', function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
@@ -80,9 +79,8 @@ describe('ObjectSpecPlugins.Description', function() {
           typeLookups: [],
           typeName: 'Foo',
         };
-        const errors: Error.Error[] = ObjectSpecPlugin.validationErrors(
-          objectType,
-        );
+        const errors: Error.Error[] =
+          ObjectSpecPlugin.validationErrors(objectType);
         const expectedErrors: Error.Error[] = [
           Error.Error(
             'The Description plugin does not know how to format the type "LikeStatus" from Foo.likeStatus. Did you forget to declare a backing type?',
@@ -91,7 +89,7 @@ describe('ObjectSpecPlugins.Description', function() {
         expect(errors).toEqualJSON(expectedErrors);
       });
 
-      it('returns two validation errors when there are two attributes with unknown types', function() {
+      it('returns two validation errors when there are two attributes with unknown types', function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
@@ -133,9 +131,8 @@ describe('ObjectSpecPlugins.Description', function() {
           typeLookups: [],
           typeName: 'Foo',
         };
-        const errors: Error.Error[] = ObjectSpecPlugin.validationErrors(
-          objectType,
-        );
+        const errors: Error.Error[] =
+          ObjectSpecPlugin.validationErrors(objectType);
         const expectedErrors: Error.Error[] = [
           Error.Error(
             'The Description plugin does not know how to format the type "Name" from Foo.name. Did you forget to declare a backing type?',
@@ -147,7 +144,7 @@ describe('ObjectSpecPlugins.Description', function() {
         expect(errors).toEqualJSON(expectedErrors);
       });
 
-      it('returns a validation error when there is an attribute with an unknown underlying type', function() {
+      it('returns a validation error when there is an attribute with an unknown underlying type', function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
@@ -174,9 +171,8 @@ describe('ObjectSpecPlugins.Description', function() {
           typeLookups: [],
           typeName: 'Foo',
         };
-        const errors: Error.Error[] = ObjectSpecPlugin.validationErrors(
-          objectType,
-        );
+        const errors: Error.Error[] =
+          ObjectSpecPlugin.validationErrors(objectType);
         const expectedErrors: Error.Error[] = [
           Error.Error(
             'The Description plugin does not know how to format the backing type "Baz" from Foo.name. Did you declare the wrong backing type?',
@@ -186,8 +182,8 @@ describe('ObjectSpecPlugins.Description', function() {
       });
     });
 
-    describe('#imports', function() {
-      it('correctly finds imports for description functions that require them', function() {
+    describe('#imports', function () {
+      it('correctly finds imports for description functions that require them', function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
@@ -227,8 +223,8 @@ describe('ObjectSpecPlugins.Description', function() {
       });
     });
 
-    describe('#instanceMethods', function() {
-      it('returns no instance methods when there are no attributes on the found type', function() {
+    describe('#instanceMethods', function () {
+      it('returns no instance methods when there are no attributes on the found type', function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [],
@@ -239,13 +235,12 @@ describe('ObjectSpecPlugins.Description', function() {
           typeLookups: [],
           typeName: 'Foo',
         };
-        const instanceMethods: ObjC.Method[] = ObjectSpecPlugin.instanceMethods(
-          objectType,
-        );
+        const instanceMethods: ObjC.Method[] =
+          ObjectSpecPlugin.instanceMethods(objectType);
         expect(instanceMethods).toEqualJSON([]);
       });
 
-      it('returns an instance method which will output a BOOL attribute when called', function() {
+      it('returns an instance method which will output a BOOL attribute when called', function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
@@ -273,9 +268,8 @@ describe('ObjectSpecPlugins.Description', function() {
           typeName: 'Foo',
         };
 
-        const instanceMethods: ObjC.Method[] = ObjectSpecPlugin.instanceMethods(
-          objectType,
-        );
+        const instanceMethods: ObjC.Method[] =
+          ObjectSpecPlugin.instanceMethods(objectType);
 
         const expectedInstanceMethods: ObjC.Method[] = [
           {
@@ -305,7 +299,7 @@ describe('ObjectSpecPlugins.Description', function() {
         expect(instanceMethods).toEqualJSON(expectedInstanceMethods);
       });
 
-      it('returns an instance method which will output an NSString* attribute when called', function() {
+      it('returns an instance method which will output an NSString* attribute when called', function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
@@ -333,9 +327,8 @@ describe('ObjectSpecPlugins.Description', function() {
           typeName: 'Foo',
         };
 
-        const instanceMethods: ObjC.Method[] = ObjectSpecPlugin.instanceMethods(
-          objectType,
-        );
+        const instanceMethods: ObjC.Method[] =
+          ObjectSpecPlugin.instanceMethods(objectType);
 
         const expectedInstanceMethods: ObjC.Method[] = [
           {
@@ -365,7 +358,7 @@ describe('ObjectSpecPlugins.Description', function() {
         expect(instanceMethods).toEqualJSON(expectedInstanceMethods);
       });
 
-      it('returns an instance method which will output an id attribute when called', function() {
+      it('returns an instance method which will output an id attribute when called', function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
@@ -393,9 +386,8 @@ describe('ObjectSpecPlugins.Description', function() {
           typeName: 'Foo',
         };
 
-        const instanceMethods: ObjC.Method[] = ObjectSpecPlugin.instanceMethods(
-          objectType,
-        );
+        const instanceMethods: ObjC.Method[] =
+          ObjectSpecPlugin.instanceMethods(objectType);
 
         const expectedInstanceMethods: ObjC.Method[] = [
           {
@@ -425,7 +417,7 @@ describe('ObjectSpecPlugins.Description', function() {
         expect(instanceMethods).toEqualJSON(expectedInstanceMethods);
       });
 
-      it('returns an instance method which will output an NSInteger attribute when called', function() {
+      it('returns an instance method which will output an NSInteger attribute when called', function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
@@ -453,9 +445,8 @@ describe('ObjectSpecPlugins.Description', function() {
           typeName: 'Foo',
         };
 
-        const instanceMethods: ObjC.Method[] = ObjectSpecPlugin.instanceMethods(
-          objectType,
-        );
+        const instanceMethods: ObjC.Method[] =
+          ObjectSpecPlugin.instanceMethods(objectType);
 
         const expectedInstanceMethods: ObjC.Method[] = [
           {
@@ -485,7 +476,7 @@ describe('ObjectSpecPlugins.Description', function() {
         expect(instanceMethods).toEqualJSON(expectedInstanceMethods);
       });
 
-      it('returns an instance method which will output an NSUInteger attribute when called', function() {
+      it('returns an instance method which will output an NSUInteger attribute when called', function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
@@ -513,9 +504,8 @@ describe('ObjectSpecPlugins.Description', function() {
           typeName: 'Foo',
         };
 
-        const instanceMethods: ObjC.Method[] = ObjectSpecPlugin.instanceMethods(
-          objectType,
-        );
+        const instanceMethods: ObjC.Method[] =
+          ObjectSpecPlugin.instanceMethods(objectType);
 
         const expectedInstanceMethods: ObjC.Method[] = [
           {
@@ -545,7 +535,7 @@ describe('ObjectSpecPlugins.Description', function() {
         expect(instanceMethods).toEqualJSON(expectedInstanceMethods);
       });
 
-      it('returns an instance method which will output a double attribute when called', function() {
+      it('returns an instance method which will output a double attribute when called', function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
@@ -573,9 +563,8 @@ describe('ObjectSpecPlugins.Description', function() {
           typeName: 'Foo',
         };
 
-        const instanceMethods: ObjC.Method[] = ObjectSpecPlugin.instanceMethods(
-          objectType,
-        );
+        const instanceMethods: ObjC.Method[] =
+          ObjectSpecPlugin.instanceMethods(objectType);
 
         const expectedInstanceMethods: ObjC.Method[] = [
           {
@@ -605,7 +594,7 @@ describe('ObjectSpecPlugins.Description', function() {
         expect(instanceMethods).toEqualJSON(expectedInstanceMethods);
       });
 
-      it('returns an instance method which will output a float attribute when called', function() {
+      it('returns an instance method which will output a float attribute when called', function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
@@ -633,9 +622,8 @@ describe('ObjectSpecPlugins.Description', function() {
           typeName: 'Foo',
         };
 
-        const instanceMethods: ObjC.Method[] = ObjectSpecPlugin.instanceMethods(
-          objectType,
-        );
+        const instanceMethods: ObjC.Method[] =
+          ObjectSpecPlugin.instanceMethods(objectType);
 
         const expectedInstanceMethods: ObjC.Method[] = [
           {
@@ -665,7 +653,7 @@ describe('ObjectSpecPlugins.Description', function() {
         expect(instanceMethods).toEqualJSON(expectedInstanceMethods);
       });
 
-      it('returns an instance method which will output a CGFloat attribute when called', function() {
+      it('returns an instance method which will output a CGFloat attribute when called', function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
@@ -693,9 +681,8 @@ describe('ObjectSpecPlugins.Description', function() {
           typeName: 'Foo',
         };
 
-        const instanceMethods: ObjC.Method[] = ObjectSpecPlugin.instanceMethods(
-          objectType,
-        );
+        const instanceMethods: ObjC.Method[] =
+          ObjectSpecPlugin.instanceMethods(objectType);
 
         const expectedInstanceMethods: ObjC.Method[] = [
           {
@@ -725,7 +712,7 @@ describe('ObjectSpecPlugins.Description', function() {
         expect(instanceMethods).toEqualJSON(expectedInstanceMethods);
       });
 
-      it('returns an instance method which will output an NSTimeInterval attribute when called', function() {
+      it('returns an instance method which will output an NSTimeInterval attribute when called', function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
@@ -753,9 +740,8 @@ describe('ObjectSpecPlugins.Description', function() {
           typeName: 'Foo',
         };
 
-        const instanceMethods: ObjC.Method[] = ObjectSpecPlugin.instanceMethods(
-          objectType,
-        );
+        const instanceMethods: ObjC.Method[] =
+          ObjectSpecPlugin.instanceMethods(objectType);
 
         const expectedInstanceMethods: ObjC.Method[] = [
           {
@@ -785,7 +771,7 @@ describe('ObjectSpecPlugins.Description', function() {
         expect(instanceMethods).toEqualJSON(expectedInstanceMethods);
       });
 
-      it('returns an instance method which will output a uintptr_t attribute when called', function() {
+      it('returns an instance method which will output a uintptr_t attribute when called', function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
@@ -813,9 +799,8 @@ describe('ObjectSpecPlugins.Description', function() {
           typeName: 'Foo',
         };
 
-        const instanceMethods: ObjC.Method[] = ObjectSpecPlugin.instanceMethods(
-          objectType,
-        );
+        const instanceMethods: ObjC.Method[] =
+          ObjectSpecPlugin.instanceMethods(objectType);
 
         const expectedInstanceMethods: ObjC.Method[] = [
           {
@@ -845,7 +830,7 @@ describe('ObjectSpecPlugins.Description', function() {
         expect(instanceMethods).toEqualJSON(expectedInstanceMethods);
       });
 
-      it('returns an instance method which will output an uint64_t attribute when called', function() {
+      it('returns an instance method which will output an uint64_t attribute when called', function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
@@ -873,9 +858,8 @@ describe('ObjectSpecPlugins.Description', function() {
           typeName: 'Foo',
         };
 
-        const instanceMethods: ObjC.Method[] = ObjectSpecPlugin.instanceMethods(
-          objectType,
-        );
+        const instanceMethods: ObjC.Method[] =
+          ObjectSpecPlugin.instanceMethods(objectType);
 
         const expectedInstanceMethods: ObjC.Method[] = [
           {
@@ -905,7 +889,7 @@ describe('ObjectSpecPlugins.Description', function() {
         expect(instanceMethods).toEqualJSON(expectedInstanceMethods);
       });
 
-      it('returns an instance method which will output an int32_t attribute when called', function() {
+      it('returns an instance method which will output an int32_t attribute when called', function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
@@ -933,9 +917,8 @@ describe('ObjectSpecPlugins.Description', function() {
           typeName: 'Foo',
         };
 
-        const instanceMethods: ObjC.Method[] = ObjectSpecPlugin.instanceMethods(
-          objectType,
-        );
+        const instanceMethods: ObjC.Method[] =
+          ObjectSpecPlugin.instanceMethods(objectType);
 
         const expectedInstanceMethods: ObjC.Method[] = [
           {
@@ -965,7 +948,7 @@ describe('ObjectSpecPlugins.Description', function() {
         expect(instanceMethods).toEqualJSON(expectedInstanceMethods);
       });
 
-      it('returns an instance method which will output an int64_t attribute when called', function() {
+      it('returns an instance method which will output an int64_t attribute when called', function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
@@ -993,9 +976,8 @@ describe('ObjectSpecPlugins.Description', function() {
           typeName: 'Foo',
         };
 
-        const instanceMethods: ObjC.Method[] = ObjectSpecPlugin.instanceMethods(
-          objectType,
-        );
+        const instanceMethods: ObjC.Method[] =
+          ObjectSpecPlugin.instanceMethods(objectType);
 
         const expectedInstanceMethods: ObjC.Method[] = [
           {
@@ -1028,7 +1010,7 @@ describe('ObjectSpecPlugins.Description', function() {
       it(
         'returns an instance method which will output an NSUInteger attribute ' +
           'when called and the attribute type has an underlying type of NSUInteger',
-        function() {
+        function () {
           const objectType: ObjectSpec.Type = {
             annotations: {},
             attributes: [
@@ -1056,9 +1038,8 @@ describe('ObjectSpecPlugins.Description', function() {
             typeName: 'Foo',
           };
 
-          const instanceMethods: ObjC.Method[] = ObjectSpecPlugin.instanceMethods(
-            objectType,
-          );
+          const instanceMethods: ObjC.Method[] =
+            ObjectSpecPlugin.instanceMethods(objectType);
 
           const expectedInstanceMethods: ObjC.Method[] = [
             {
@@ -1089,7 +1070,7 @@ describe('ObjectSpecPlugins.Description', function() {
         },
       );
 
-      it('returns an instance method which will output a selector attribute when called', function() {
+      it('returns an instance method which will output a selector attribute when called', function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
@@ -1117,9 +1098,8 @@ describe('ObjectSpecPlugins.Description', function() {
           typeName: 'Foo',
         };
 
-        const instanceMethods: ObjC.Method[] = ObjectSpecPlugin.instanceMethods(
-          objectType,
-        );
+        const instanceMethods: ObjC.Method[] =
+          ObjectSpecPlugin.instanceMethods(objectType);
 
         const expectedInstanceMethods: ObjC.Method[] = [
           {
@@ -1149,7 +1129,7 @@ describe('ObjectSpecPlugins.Description', function() {
         expect(instanceMethods).toEqualJSON(expectedInstanceMethods);
       });
 
-      it('returns an instance method which will output an NSRange attribute when called', function() {
+      it('returns an instance method which will output an NSRange attribute when called', function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
@@ -1177,9 +1157,8 @@ describe('ObjectSpecPlugins.Description', function() {
           typeName: 'Foo',
         };
 
-        const instanceMethods: ObjC.Method[] = ObjectSpecPlugin.instanceMethods(
-          objectType,
-        );
+        const instanceMethods: ObjC.Method[] =
+          ObjectSpecPlugin.instanceMethods(objectType);
 
         const expectedInstanceMethods: ObjC.Method[] = [
           {
@@ -1209,7 +1188,7 @@ describe('ObjectSpecPlugins.Description', function() {
         expect(instanceMethods).toEqualJSON(expectedInstanceMethods);
       });
 
-      it('returns an instance method which will output a CGRect attribute when called', function() {
+      it('returns an instance method which will output a CGRect attribute when called', function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
@@ -1237,9 +1216,8 @@ describe('ObjectSpecPlugins.Description', function() {
           typeName: 'Foo',
         };
 
-        const instanceMethods: ObjC.Method[] = ObjectSpecPlugin.instanceMethods(
-          objectType,
-        );
+        const instanceMethods: ObjC.Method[] =
+          ObjectSpecPlugin.instanceMethods(objectType);
 
         const expectedInstanceMethods: ObjC.Method[] = [
           {
@@ -1269,7 +1247,7 @@ describe('ObjectSpecPlugins.Description', function() {
         expect(instanceMethods).toEqualJSON(expectedInstanceMethods);
       });
 
-      it('returns an instance method which will output a CGPoint attribute when called', function() {
+      it('returns an instance method which will output a CGPoint attribute when called', function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
@@ -1297,9 +1275,8 @@ describe('ObjectSpecPlugins.Description', function() {
           typeName: 'Foo',
         };
 
-        const instanceMethods: ObjC.Method[] = ObjectSpecPlugin.instanceMethods(
-          objectType,
-        );
+        const instanceMethods: ObjC.Method[] =
+          ObjectSpecPlugin.instanceMethods(objectType);
 
         const expectedInstanceMethods: ObjC.Method[] = [
           {
@@ -1329,7 +1306,7 @@ describe('ObjectSpecPlugins.Description', function() {
         expect(instanceMethods).toEqualJSON(expectedInstanceMethods);
       });
 
-      it('returns an instance method which will output a CGSize attribute when called', function() {
+      it('returns an instance method which will output a CGSize attribute when called', function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
@@ -1357,9 +1334,8 @@ describe('ObjectSpecPlugins.Description', function() {
           typeName: 'Foo',
         };
 
-        const instanceMethods: ObjC.Method[] = ObjectSpecPlugin.instanceMethods(
-          objectType,
-        );
+        const instanceMethods: ObjC.Method[] =
+          ObjectSpecPlugin.instanceMethods(objectType);
 
         const expectedInstanceMethods: ObjC.Method[] = [
           {
@@ -1389,7 +1365,7 @@ describe('ObjectSpecPlugins.Description', function() {
         expect(instanceMethods).toEqualJSON(expectedInstanceMethods);
       });
 
-      it('returns an instance method which will output a UIEdgeInsets attribute when called', function() {
+      it('returns an instance method which will output a UIEdgeInsets attribute when called', function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
@@ -1416,9 +1392,8 @@ describe('ObjectSpecPlugins.Description', function() {
           typeLookups: [],
           typeName: 'Foo',
         };
-        const instanceMethods: ObjC.Method[] = ObjectSpecPlugin.instanceMethods(
-          objectType,
-        );
+        const instanceMethods: ObjC.Method[] =
+          ObjectSpecPlugin.instanceMethods(objectType);
 
         const expectedInstanceMethods: ObjC.Method[] = [
           {
@@ -1450,9 +1425,9 @@ describe('ObjectSpecPlugins.Description', function() {
     });
   });
 });
-describe('AlgebraicTypePlugins.Description', function() {
-  describe('#imports', function() {
-    it('correctly finds imports for description functions that require them', function() {
+describe('AlgebraicTypePlugins.Description', function () {
+  describe('#imports', function () {
+    it('correctly finds imports for description functions that require them', function () {
       const algebraicType: AlgebraicType.Type = {
         annotations: {},
         name: 'Test',
@@ -1529,11 +1504,11 @@ describe('AlgebraicTypePlugins.Description', function() {
       expect(imports).toEqualJSON(expectedImports);
     });
   });
-  describe('#instanceMethods', function() {
+  describe('#instanceMethods', function () {
     it(
       'returns an instance method which will output a different description ' +
         'depending on which subtype is being represented',
-      function() {
+      function () {
         const algebraicType: AlgebraicType.Type = {
           annotations: {},
           name: 'Test',
@@ -1598,9 +1573,8 @@ describe('AlgebraicTypePlugins.Description', function() {
           ],
         };
 
-        const instanceMethods: ObjC.Method[] = AlgebraicTypePlugin.instanceMethods(
-          algebraicType,
-        );
+        const instanceMethods: ObjC.Method[] =
+          AlgebraicTypePlugin.instanceMethods(algebraicType);
 
         const expectedInstanceMethods: ObjC.Method[] = [
           {
@@ -1641,8 +1615,8 @@ describe('AlgebraicTypePlugins.Description', function() {
     );
   });
 
-  describe('#validationErrors', function() {
-    it('returns no validation errors when there are no attributes on the provided subtypes', function() {
+  describe('#validationErrors', function () {
+    it('returns no validation errors when there are no attributes on the provided subtypes', function () {
       const algebraicType: AlgebraicType.Type = {
         annotations: {},
         name: 'Foo',
@@ -1667,12 +1641,11 @@ describe('AlgebraicTypePlugins.Description', function() {
         ],
       };
 
-      const errors: Error.Error[] = AlgebraicTypePlugin.validationErrors(
-        algebraicType,
-      );
+      const errors: Error.Error[] =
+        AlgebraicTypePlugin.validationErrors(algebraicType);
       expect(errors).toEqualJSON([]);
     });
-    it('returns a validation error when there is an attribute with an unknown type', function() {
+    it('returns a validation error when there is an attribute with an unknown type', function () {
       const algebraicType: AlgebraicType.Type = {
         annotations: {},
         name: 'Test',
@@ -1706,9 +1679,8 @@ describe('AlgebraicTypePlugins.Description', function() {
           }),
         ],
       };
-      const errors: Error.Error[] = AlgebraicTypePlugin.validationErrors(
-        algebraicType,
-      );
+      const errors: Error.Error[] =
+        AlgebraicTypePlugin.validationErrors(algebraicType);
       const expectedErrors: Error.Error[] = [
         Error.Error(
           'The Description plugin does not know how to format the type "Foo" from Test.someFoo. Did you forget to declare a backing type?',
@@ -1716,7 +1688,7 @@ describe('AlgebraicTypePlugins.Description', function() {
       ];
       expect(errors).toEqualJSON(expectedErrors);
     });
-    it('returns two validation errors when there are two attributes with unknown types', function() {
+    it('returns two validation errors when there are two attributes with unknown types', function () {
       const algebraicType: AlgebraicType.Type = {
         annotations: {},
         name: 'Test',
@@ -1765,9 +1737,8 @@ describe('AlgebraicTypePlugins.Description', function() {
           }),
         ],
       };
-      const errors: Error.Error[] = AlgebraicTypePlugin.validationErrors(
-        algebraicType,
-      );
+      const errors: Error.Error[] =
+        AlgebraicTypePlugin.validationErrors(algebraicType);
       const expectedErrors: Error.Error[] = [
         Error.Error(
           'The Description plugin does not know how to format the type "Foo" from Test.someFoo. Did you forget to declare a backing type?',
@@ -1778,7 +1749,7 @@ describe('AlgebraicTypePlugins.Description', function() {
       ];
       expect(errors).toEqualJSON(expectedErrors);
     });
-    it('returns a validation error when there is an attribute with an unknown underlying type', function() {
+    it('returns a validation error when there is an attribute with an unknown underlying type', function () {
       const algebraicType: AlgebraicType.Type = {
         annotations: {},
         name: 'Test',
@@ -1812,9 +1783,8 @@ describe('AlgebraicTypePlugins.Description', function() {
           }),
         ],
       };
-      const errors: Error.Error[] = AlgebraicTypePlugin.validationErrors(
-        algebraicType,
-      );
+      const errors: Error.Error[] =
+        AlgebraicTypePlugin.validationErrors(algebraicType);
       const expectedErrors: Error.Error[] = [
         Error.Error(
           'The Description plugin does not know how to format the backing type "SomethingRandom" from Test.someFerr. Did you declare the wrong backing type?',

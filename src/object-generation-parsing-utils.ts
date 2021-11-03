@@ -50,12 +50,12 @@ export function libraryNameFromAnnotations(annotations: {
     'library',
   );
   return Maybe.match(
-    function(annotationValues: {[key: string]: string}[]) {
+    function (annotationValues: {[key: string]: string}[]) {
       return libraryNameFromAnnotation(
         annotationValues[annotationValues.length - 1],
       );
     },
-    function() {
+    function () {
       return null;
     },
     libraryDefinitions,
@@ -81,7 +81,7 @@ function importAnnotationFromAnnotations(annotations: {
     annotations,
     'import',
   );
-  return Maybe.map(function(annotationValues: {[key: string]: string}[]) {
+  return Maybe.map(function (annotationValues: {[key: string]: string}[]) {
     return annotationValues[annotationValues.length - 1];
   }, importDefinitions);
 }
@@ -92,10 +92,10 @@ export function valueFromImportAnnotationFromAnnotations(
 ): string | null {
   const importAnnotation = importAnnotationFromAnnotations(annotations);
   return Maybe.match(
-    function(annotation: {[key: string]: string}) {
+    function (annotation: {[key: string]: string}) {
       return annotation[key] != null ? annotation[key] : null;
     },
-    function() {
+    function () {
       return null;
     },
     importAnnotation,
@@ -117,7 +117,7 @@ function collectTypeLookups(
   typeDefinition: {[key: string]: string},
 ): Either.Either<Error.Error[], ObjectGeneration.TypeLookup[]> {
   if (typeDefinition['name'] != null) {
-    return Either.map(function(typeLookups: ObjectGeneration.TypeLookup[]) {
+    return Either.map(function (typeLookups: ObjectGeneration.TypeLookup[]) {
       return typeLookups.concat({
         name: typeDefinition['name'],
         library: possiblyUndefinedStringToMaybe(typeDefinition['library']),
@@ -130,12 +130,12 @@ function collectTypeLookups(
     }, soFar);
   } else {
     return Either.match(
-      function(errors: Error.Error[]) {
+      function (errors: Error.Error[]) {
         return Either.Left<Error.Error[], ObjectGeneration.TypeLookup[]>(
           errors.concat(Error.Error('Invalid type annotation')),
         );
       },
-      function(typeLookups: ObjectGeneration.TypeLookup[]) {
+      function (typeLookups: ObjectGeneration.TypeLookup[]) {
         return Either.Left<Error.Error[], ObjectGeneration.TypeLookup[]>([
           Error.Error('Invalid type annotation'),
         ]);
@@ -150,13 +150,13 @@ export function typeLookupsFromRawAnnotations(annotations: {
 }): Either.Either<Error.Error[], ObjectGeneration.TypeLookup[]> {
   const typeDefinitions = annotationValuesFromAnnotations(annotations, 'type');
   return Maybe.match(
-    function(annotationValues: {[key: string]: string}[]) {
+    function (annotationValues: {[key: string]: string}[]) {
       return annotationValues.reduce(
         collectTypeLookups,
         Either.Right<Error.Error[], ObjectGeneration.TypeLookup[]>([]),
       );
     },
-    function() {
+    function () {
       return Either.Right<Error.Error[], ObjectGeneration.TypeLookup[]>([]);
     },
     typeDefinitions,
@@ -167,8 +167,8 @@ export function typeLookupsFromAnnotations(
   annotations: ObjectGeneration.Annotation[] | null,
 ): Either.Either<Error.Error[], ObjectGeneration.TypeLookup[]> {
   return Maybe.match(
-    function(annotations: ObjectGeneration.Annotation[]) {
-      const annotationProperties = annotations.map(function(
+    function (annotations: ObjectGeneration.Annotation[]) {
+      const annotationProperties = annotations.map(function (
         annotation: ObjectGeneration.Annotation,
       ): {[key: string]: string} {
         return annotation.properties;
@@ -178,7 +178,7 @@ export function typeLookupsFromAnnotations(
         Either.Right<Error.Error[], ObjectGeneration.TypeLookup[]>([]),
       );
     },
-    function() {
+    function () {
       return Either.Right<Error.Error[], ObjectGeneration.TypeLookup[]>([]);
     },
     annotations,
@@ -192,7 +192,7 @@ export function foundAnnotationFromParsedAnnotations(parsedAnnotations: {
   for (const parsedAnnotationName in parsedAnnotations) {
     foundAnnotations[parsedAnnotationName] = parsedAnnotations[
       parsedAnnotationName
-    ].map(function(parsedInstance: {
+    ].map(function (parsedInstance: {
       [key: string]: string;
     }): ObjectGeneration.Annotation {
       return {

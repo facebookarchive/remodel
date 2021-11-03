@@ -10,14 +10,14 @@
 
 import * as Maybe from '../maybe';
 
-describe('Maybe', function() {
-  describe('#match', function() {
-    it('should return the just value when created as a just', function() {
+describe('Maybe', function () {
+  describe('#match', function () {
+    it('should return the just value when created as a just', function () {
       const maybe: number | null = 3;
-      const just = function(num: number) {
+      const just = function (num: number) {
         return num.toString();
       };
-      const nothing = function() {
+      const nothing = function () {
         return '';
       };
       const val: string = Maybe.match(just, nothing, maybe);
@@ -25,12 +25,12 @@ describe('Maybe', function() {
       expect(val).toBe('3');
     });
 
-    it('should return the nothing value when created as nothing', function() {
+    it('should return the nothing value when created as nothing', function () {
       const maybe: number | null = null;
-      const just = function(num: number) {
+      const just = function (num: number) {
         return num.toString();
       };
-      const nothing = function() {
+      const nothing = function () {
         return '';
       };
       const val: string = Maybe.match(just, nothing, maybe);
@@ -39,16 +39,16 @@ describe('Maybe', function() {
     });
   });
 
-  describe('#map', function() {
-    it('applies the map when the maybe is a just', function() {
+  describe('#map', function () {
+    it('applies the map when the maybe is a just', function () {
       const maybe: number | null = 3;
-      const mappedMaybe = Maybe.map(function(num: number) {
+      const mappedMaybe = Maybe.map(function (num: number) {
         return num + '3';
       }, maybe);
-      const just = function(num: string) {
+      const just = function (num: string) {
         return num;
       };
-      const nothing = function() {
+      const nothing = function () {
         return '';
       };
       const val: string = Maybe.match(just, nothing, mappedMaybe);
@@ -56,15 +56,15 @@ describe('Maybe', function() {
       expect(val).toEqualJSON('33');
     });
 
-    it('does not apply the map when the maybe is a nothing', function() {
+    it('does not apply the map when the maybe is a nothing', function () {
       const maybe: number | null = null;
-      const mappedMaybe = Maybe.map(function(num: number) {
+      const mappedMaybe = Maybe.map(function (num: number) {
         return num + '3';
       }, maybe);
-      const just = function(num: string) {
+      const just = function (num: string) {
         return num;
       };
-      const nothing = function() {
+      const nothing = function () {
         return '';
       };
       const val: string = Maybe.match(just, nothing, mappedMaybe);
@@ -73,16 +73,16 @@ describe('Maybe', function() {
     });
   });
 
-  describe('#mbind', function() {
-    it('applies the bind when the maybe is a just', function() {
+  describe('#mbind', function () {
+    it('applies the bind when the maybe is a just', function () {
       const maybe: number | null = 3;
-      const boundMaybe = Maybe.mbind(function(num: number) {
+      const boundMaybe = Maybe.mbind(function (num: number) {
         return num.toString();
       }, maybe);
-      const just = function(num: string) {
+      const just = function (num: string) {
         return num;
       };
-      const nothing = function() {
+      const nothing = function () {
         return '';
       };
       const val: string = Maybe.match(just, nothing, boundMaybe);
@@ -90,15 +90,15 @@ describe('Maybe', function() {
       expect(val).toEqualJSON('3');
     });
 
-    it('does not apply the bind when the maybe is a nothing', function() {
+    it('does not apply the bind when the maybe is a nothing', function () {
       const maybe: number | null = null;
-      const boundMaybe = Maybe.mbind(function(num: number) {
+      const boundMaybe = Maybe.mbind(function (num: number) {
         return num.toString();
       }, maybe);
-      const just = function(num: string) {
+      const just = function (num: string) {
         return num;
       };
-      const nothing = function() {
+      const nothing = function () {
         return '';
       };
       const val: string = Maybe.match(just, nothing, boundMaybe);
@@ -107,8 +107,8 @@ describe('Maybe', function() {
     });
   });
 
-  describe('#catMaybes', function() {
-    it('removes some nulls but returns the values from the non-null items', function() {
+  describe('#catMaybes', function () {
+    it('removes some nulls but returns the values from the non-null items', function () {
       const maybes: (number | null)[] = [2, null, 4];
       const numbers: number[] = Maybe.catMaybes(maybes);
 

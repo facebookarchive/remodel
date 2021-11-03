@@ -17,19 +17,18 @@ import * as fsExtra from 'fs-extra';
 import * as Maybe from '../maybe';
 import * as Promise from '../promise';
 
-describe('FileFinder', function() {
-  describe('#findFilesAndDirectories', function() {
-    it('returns a promise for empty when given a directory that is empty', function(finished) {
+describe('FileFinder', function () {
+  describe('#findFilesAndDirectories', function () {
+    it('returns a promise for empty when given a directory that is empty', function (finished) {
       fsExtra.removeSync(__dirname + '/tmp');
       fs.mkdirSync(__dirname + '/tmp');
-      const future: Promise.Future<Either.Either<
-        Error.Error,
-        FileFinder.FilesAndDirectories
-      >> = FileFinder.findFilesAndDirectories(
+      const future: Promise.Future<
+        Either.Either<Error.Error, FileFinder.FilesAndDirectories>
+      > = FileFinder.findFilesAndDirectories(
         File.getAbsoluteFilePath(__dirname + '/tmp'),
         'value',
       );
-      Promise.then(function(
+      Promise.then(function (
         result: Either.Either<Error.Error, FileFinder.FilesAndDirectories>,
       ) {
         const expectedResult: Either.Either<
@@ -49,18 +48,17 @@ describe('FileFinder', function() {
     it(
       'returns a promise for only a single value when given a path that contains' +
         'that one value',
-      function(finished) {
+      function (finished) {
         fsExtra.removeSync(__dirname + '/tmp');
         fs.mkdirSync(__dirname + '/tmp');
         fs.writeFileSync(__dirname + '/tmp/test.value', '');
-        const future: Promise.Future<Either.Either<
-          Error.Error,
-          FileFinder.FilesAndDirectories
-        >> = FileFinder.findFilesAndDirectories(
+        const future: Promise.Future<
+          Either.Either<Error.Error, FileFinder.FilesAndDirectories>
+        > = FileFinder.findFilesAndDirectories(
           File.getAbsoluteFilePath(__dirname + '/tmp/test.value'),
           'value',
         );
-        Promise.then(function(
+        Promise.then(function (
           result: Either.Either<Error.Error, FileFinder.FilesAndDirectories>,
         ) {
           const expectedResult: Either.Either<
@@ -81,18 +79,17 @@ describe('FileFinder', function() {
     it(
       'returns a promise for only a single value when given a path that contains' +
         'that one value and a substring of the suffix',
-      function(finished) {
+      function (finished) {
         fsExtra.removeSync(__dirname + '/tmp');
         fs.mkdirSync(__dirname + '/tmp');
         fs.writeFileSync(__dirname + '/tmp/suf-test.suf', '');
-        const future: Promise.Future<Either.Either<
-          Error.Error,
-          FileFinder.FilesAndDirectories
-        >> = FileFinder.findFilesAndDirectories(
+        const future: Promise.Future<
+          Either.Either<Error.Error, FileFinder.FilesAndDirectories>
+        > = FileFinder.findFilesAndDirectories(
           File.getAbsoluteFilePath(__dirname + '/tmp/suf-test.suf'),
           'suf',
         );
-        Promise.then(function(
+        Promise.then(function (
           result: Either.Either<Error.Error, FileFinder.FilesAndDirectories>,
         ) {
           const expectedResult: Either.Either<
@@ -113,17 +110,16 @@ describe('FileFinder', function() {
     it(
       'returns a promise for an error when given a path that contains' +
         'that one value but that value does not exist',
-      function(finished) {
+      function (finished) {
         fsExtra.removeSync(__dirname + '/tmp');
         fs.mkdirSync(__dirname + '/tmp');
-        const future: Promise.Future<Either.Either<
-          Error.Error,
-          FileFinder.FilesAndDirectories
-        >> = FileFinder.findFilesAndDirectories(
+        const future: Promise.Future<
+          Either.Either<Error.Error, FileFinder.FilesAndDirectories>
+        > = FileFinder.findFilesAndDirectories(
           File.getAbsoluteFilePath(__dirname + '/tmp/test.value'),
           'value',
         );
-        Promise.then(function(
+        Promise.then(function (
           result: Either.Either<Error.Error, FileFinder.FilesAndDirectories>,
         ) {
           const expectedResult = Either.Left<
@@ -141,18 +137,17 @@ describe('FileFinder', function() {
     it(
       'returns a promise for only a single value when given a directory that only ' +
         'contains one value and no other directories',
-      function(finished) {
+      function (finished) {
         fsExtra.removeSync(__dirname + '/tmp');
         fs.mkdirSync(__dirname + '/tmp');
         fs.writeFileSync(__dirname + '/tmp/test.value', '');
-        const future: Promise.Future<Either.Either<
-          Error.Error,
-          FileFinder.FilesAndDirectories
-        >> = FileFinder.findFilesAndDirectories(
+        const future: Promise.Future<
+          Either.Either<Error.Error, FileFinder.FilesAndDirectories>
+        > = FileFinder.findFilesAndDirectories(
           File.getAbsoluteFilePath(__dirname + '/tmp'),
           'value',
         );
-        Promise.then(function(
+        Promise.then(function (
           result: Either.Either<Error.Error, FileFinder.FilesAndDirectories>,
         ) {
           const expectedResult: Either.Either<
@@ -173,19 +168,18 @@ describe('FileFinder', function() {
     it(
       'returns a promise for only a single value when given a directory that ' +
         'contains one value and one file that contains the text .value, but not as its suffix',
-      function(finished) {
+      function (finished) {
         fsExtra.removeSync(__dirname + '/tmp');
         fs.mkdirSync(__dirname + '/tmp');
         fs.writeFileSync(__dirname + '/tmp/test.value', '');
         fs.writeFileSync(__dirname + '/tmp/test.value_ignore', '');
-        const future: Promise.Future<Either.Either<
-          Error.Error,
-          FileFinder.FilesAndDirectories
-        >> = FileFinder.findFilesAndDirectories(
+        const future: Promise.Future<
+          Either.Either<Error.Error, FileFinder.FilesAndDirectories>
+        > = FileFinder.findFilesAndDirectories(
           File.getAbsoluteFilePath(__dirname + '/tmp'),
           'value',
         );
-        Promise.then(function(
+        Promise.then(function (
           result: Either.Either<Error.Error, FileFinder.FilesAndDirectories>,
         ) {
           const expectedResult: Either.Either<
@@ -206,19 +200,18 @@ describe('FileFinder', function() {
     it(
       'returns a promise for multiple values when given a directory that only ' +
         'contains value and no other directories',
-      function(finished) {
+      function (finished) {
         fsExtra.removeSync(__dirname + '/tmp');
         fs.mkdirSync(__dirname + '/tmp');
         fs.writeFileSync(__dirname + '/tmp/test.value', '');
         fs.writeFileSync(__dirname + '/tmp/test2.value', '');
-        const future: Promise.Future<Either.Either<
-          Error.Error,
-          FileFinder.FilesAndDirectories
-        >> = FileFinder.findFilesAndDirectories(
+        const future: Promise.Future<
+          Either.Either<Error.Error, FileFinder.FilesAndDirectories>
+        > = FileFinder.findFilesAndDirectories(
           File.getAbsoluteFilePath(__dirname + '/tmp'),
           'value',
         );
-        Promise.then(function(
+        Promise.then(function (
           result: Either.Either<Error.Error, FileFinder.FilesAndDirectories>,
         ) {
           const expectedResult: Either.Either<
@@ -242,19 +235,18 @@ describe('FileFinder', function() {
     it(
       'returns a promise for one value when given a directory that only ' +
         'contains one value and no other directories but other files',
-      function(finished) {
+      function (finished) {
         fsExtra.removeSync(__dirname + '/tmp');
         fs.mkdirSync(__dirname + '/tmp');
         fs.writeFileSync(__dirname + '/tmp/test.value', '');
         fs.writeFileSync(__dirname + '/tmp/test2.enumValue', '');
-        const future: Promise.Future<Either.Either<
-          Error.Error,
-          FileFinder.FilesAndDirectories
-        >> = FileFinder.findFilesAndDirectories(
+        const future: Promise.Future<
+          Either.Either<Error.Error, FileFinder.FilesAndDirectories>
+        > = FileFinder.findFilesAndDirectories(
           File.getAbsoluteFilePath(__dirname + '/tmp'),
           'value',
         );
-        Promise.then(function(
+        Promise.then(function (
           result: Either.Either<Error.Error, FileFinder.FilesAndDirectories>,
         ) {
           const expectedResult: Either.Either<
@@ -275,7 +267,7 @@ describe('FileFinder', function() {
     it(
       'returns a promise for multiple values and directories when given a ' +
         'directory that contains values and other directories',
-      function(finished) {
+      function (finished) {
         fsExtra.removeSync(__dirname + '/tmp');
         fs.mkdirSync(__dirname + '/tmp');
         fs.writeFileSync(__dirname + '/tmp/test.value', '');
@@ -283,14 +275,13 @@ describe('FileFinder', function() {
         fs.writeFileSync(__dirname + '/tmp/README', '');
         fs.mkdirSync(__dirname + '/tmp/tmp2');
         fs.mkdirSync(__dirname + '/tmp/tmp3');
-        const future: Promise.Future<Either.Either<
-          Error.Error,
-          FileFinder.FilesAndDirectories
-        >> = FileFinder.findFilesAndDirectories(
+        const future: Promise.Future<
+          Either.Either<Error.Error, FileFinder.FilesAndDirectories>
+        > = FileFinder.findFilesAndDirectories(
           File.getAbsoluteFilePath(__dirname + '/tmp'),
           'value',
         );
-        Promise.then(function(
+        Promise.then(function (
           result: Either.Either<Error.Error, FileFinder.FilesAndDirectories>,
         ) {
           const expectedResult: Either.Either<
@@ -318,25 +309,24 @@ describe('FileFinder', function() {
     it(
       'returns a promise for an error when given a something that is not a ' +
         'directory',
-      function(finished) {
+      function (finished) {
         fsExtra.removeSync(__dirname + '/tmp');
         fs.mkdirSync(__dirname + '/tmp');
         fs.writeFileSync(__dirname + '/tmp/README', '');
-        const future: Promise.Future<Either.Either<
-          Error.Error,
-          FileFinder.FilesAndDirectories
-        >> = FileFinder.findFilesAndDirectories(
+        const future: Promise.Future<
+          Either.Either<Error.Error, FileFinder.FilesAndDirectories>
+        > = FileFinder.findFilesAndDirectories(
           File.getAbsoluteFilePath(__dirname + '/tmp/README'),
           'value',
         );
-        Promise.then(function(
+        Promise.then(function (
           result: Either.Either<Error.Error, FileFinder.FilesAndDirectories>,
         ) {
           const isError = Either.match(
-            function() {
+            function () {
               return true;
             },
-            function() {
+            function () {
               return false;
             },
             result,
@@ -350,19 +340,20 @@ describe('FileFinder', function() {
     );
   });
 
-  describe('#searchForConfig', function() {
+  describe('#searchForConfig', function () {
     it(
       'returns just the path to the file when it is in the given working ' +
         'directory',
-      function(finished) {
+      function (finished) {
         fsExtra.removeSync(__dirname + '/tmp');
         fs.mkdirSync(__dirname + '/tmp');
         fs.writeFileSync(__dirname + '/tmp/.valueObjectConfig', '');
-        const future: Promise.Future<File.AbsoluteFilePath | null> = FileFinder.searchForConfig(
-          '.valueObjectConfig',
-          File.getAbsoluteFilePath(__dirname + '/tmp'),
-        );
-        Promise.then(function(result: File.AbsoluteFilePath | null) {
+        const future: Promise.Future<File.AbsoluteFilePath | null> =
+          FileFinder.searchForConfig(
+            '.valueObjectConfig',
+            File.getAbsoluteFilePath(__dirname + '/tmp'),
+          );
+        Promise.then(function (result: File.AbsoluteFilePath | null) {
           const expectedResult = File.getAbsoluteFilePath(
             __dirname + '/tmp/.valueObjectConfig',
           );
@@ -376,15 +367,16 @@ describe('FileFinder', function() {
     it(
       'returns just the path to the file when it is in the directory one level above ' +
         'the working directory',
-      function(finished) {
+      function (finished) {
         fsExtra.removeSync(__dirname + '/tmp');
         fs.mkdirSync(__dirname + '/tmp');
         fs.writeFileSync(__dirname + '/.valueObjectConfig', '');
-        const future: Promise.Future<File.AbsoluteFilePath | null> = FileFinder.searchForConfig(
-          '.valueObjectConfig',
-          File.getAbsoluteFilePath(__dirname + '/tmp'),
-        );
-        Promise.then(function(result: File.AbsoluteFilePath | null) {
+        const future: Promise.Future<File.AbsoluteFilePath | null> =
+          FileFinder.searchForConfig(
+            '.valueObjectConfig',
+            File.getAbsoluteFilePath(__dirname + '/tmp'),
+          );
+        Promise.then(function (result: File.AbsoluteFilePath | null) {
           const expectedResult = File.getAbsoluteFilePath(
             __dirname + '/.valueObjectConfig',
           );
@@ -398,16 +390,17 @@ describe('FileFinder', function() {
     it(
       'returns just the path to the file when it is in the directory two levels above ' +
         'the working directory',
-      function(finished) {
+      function (finished) {
         fsExtra.removeSync(__dirname + '/tmp');
         fs.mkdirSync(__dirname + '/tmp');
         fs.mkdirSync(__dirname + '/tmp/tmp2');
         fs.writeFileSync(__dirname + '/.valueObjectConfig', '');
-        const future: Promise.Future<File.AbsoluteFilePath | null> = FileFinder.searchForConfig(
-          '.valueObjectConfig',
-          File.getAbsoluteFilePath(__dirname + '/tmp/tmp2'),
-        );
-        Promise.then(function(result: File.AbsoluteFilePath | null) {
+        const future: Promise.Future<File.AbsoluteFilePath | null> =
+          FileFinder.searchForConfig(
+            '.valueObjectConfig',
+            File.getAbsoluteFilePath(__dirname + '/tmp/tmp2'),
+          );
+        Promise.then(function (result: File.AbsoluteFilePath | null) {
           const expectedResult = File.getAbsoluteFilePath(
             __dirname + '/.valueObjectConfig',
           );
@@ -420,14 +413,15 @@ describe('FileFinder', function() {
     it(
       'returns nothing when the object does not exist all the way up to the ' +
         'root of the file system',
-      function(finished) {
+      function (finished) {
         fsExtra.removeSync(__dirname + '/tmp');
         fs.mkdirSync(__dirname + '/tmp');
-        const future: Promise.Future<File.AbsoluteFilePath | null> = FileFinder.searchForConfig(
-          '.someCrazyFileThatDoesntExist',
-          File.getAbsoluteFilePath(__dirname + '/tmp'),
-        );
-        Promise.then(function(result: File.AbsoluteFilePath | null) {
+        const future: Promise.Future<File.AbsoluteFilePath | null> =
+          FileFinder.searchForConfig(
+            '.someCrazyFileThatDoesntExist',
+            File.getAbsoluteFilePath(__dirname + '/tmp'),
+          );
+        Promise.then(function (result: File.AbsoluteFilePath | null) {
           const expectedResult = null;
           expect(result).toEqualJSON(expectedResult);
           fsExtra.removeSync(__dirname + '/tmp');
@@ -437,15 +431,16 @@ describe('FileFinder', function() {
     );
   });
 
-  describe('#findConfigAtPath', function() {
-    it('returns just the path to the file when we specify the path exactly', function(finished) {
+  describe('#findConfigAtPath', function () {
+    it('returns just the path to the file when we specify the path exactly', function (finished) {
       fsExtra.removeSync(__dirname + '/tmp');
       fs.mkdirSync(__dirname + '/tmp');
       fs.writeFileSync(__dirname + '/tmp/.valueObjectConfig', '');
-      const future: Promise.Future<File.AbsoluteFilePath | null> = FileFinder.findConfigAtPath(
-        File.getAbsoluteFilePath(__dirname + '/tmp/.valueObjectConfig'),
-      );
-      Promise.then(function(result: File.AbsoluteFilePath | null) {
+      const future: Promise.Future<File.AbsoluteFilePath | null> =
+        FileFinder.findConfigAtPath(
+          File.getAbsoluteFilePath(__dirname + '/tmp/.valueObjectConfig'),
+        );
+      Promise.then(function (result: File.AbsoluteFilePath | null) {
         const expectedResult = File.getAbsoluteFilePath(
           __dirname + '/tmp/.valueObjectConfig',
         );
@@ -455,14 +450,15 @@ describe('FileFinder', function() {
       }, future);
     });
 
-    it('Does not return path if not at location', function(finished) {
+    it('Does not return path if not at location', function (finished) {
       fsExtra.removeSync(__dirname + '/tmp');
       fs.mkdirSync(__dirname + '/tmp');
       fs.writeFileSync(__dirname + '/.valueObjectConfig', '');
-      const future: Promise.Future<File.AbsoluteFilePath | null> = FileFinder.findConfigAtPath(
-        File.getAbsoluteFilePath(__dirname + '/tmp/.valueObjectConfig'),
-      );
-      Promise.then(function(result: File.AbsoluteFilePath | null) {
+      const future: Promise.Future<File.AbsoluteFilePath | null> =
+        FileFinder.findConfigAtPath(
+          File.getAbsoluteFilePath(__dirname + '/tmp/.valueObjectConfig'),
+        );
+      Promise.then(function (result: File.AbsoluteFilePath | null) {
         const expectedResult = null;
         expect(result).toEqualJSON(expectedResult);
         fsExtra.removeSync(__dirname + '/tmp');

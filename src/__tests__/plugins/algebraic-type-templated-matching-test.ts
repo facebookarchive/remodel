@@ -17,9 +17,9 @@ import * as ObjC from '../../objc';
 
 const Plugin = AlgebraicTypeTemplatedMatching.createAlgebraicTypePlugin();
 
-describe('Plugins.AlgebraicTypeTemplatedMatching', function() {
-  describe('#additionalFiles', function() {
-    it('returns a header and implementation for matching on an algebraic type', function() {
+describe('Plugins.AlgebraicTypeTemplatedMatching', function () {
+  describe('#additionalFiles', function () {
+    it('returns a header and implementation for matching on an algebraic type', function () {
       const algebraicType: AlgebraicType.Type = {
         annotations: {},
         name: 'RMTest',
@@ -90,9 +90,8 @@ describe('Plugins.AlgebraicTypeTemplatedMatching', function() {
         ],
       };
 
-      const additionalFiles: Code.File[] = Plugin.additionalFiles(
-        algebraicType,
-      );
+      const additionalFiles: Code.File[] =
+        Plugin.additionalFiles(algebraicType);
 
       const expectedFile: Code.File = {
         name: 'RMTestTemplatedMatchingHelpers',

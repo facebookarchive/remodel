@@ -114,9 +114,8 @@ function matcherFunctionCodeForAlgebraicType(
     'static T match(' +
     functionParameterProvider(algebraicType).join(', ') +
     ') {';
-  const matcherFunctionParameterName: string = matcherFunctionParameterNameForAlgebraicType(
-    algebraicType,
-  );
+  const matcherFunctionParameterName: string =
+    matcherFunctionParameterNameForAlgebraicType(algebraicType);
   const assertionCode: string =
     'NSCAssert(' +
     matcherFunctionParameterName +
@@ -135,16 +134,17 @@ function matcherFunctionCodeForAlgebraicType(
     [],
   );
 
-  const keywordPartsForMatchInvocation: string[] = algebraicType.subtypes.reduce(
-    (soFar, subtype, idx) =>
-      AlgebraicTypeUtilsForMatching.buildKeywordPartsForInvokingMatchMethodForSubtype(
-        algebraicType,
-        soFar,
-        subtype,
-        idx,
-      ),
-    [],
-  );
+  const keywordPartsForMatchInvocation: string[] =
+    algebraicType.subtypes.reduce(
+      (soFar, subtype, idx) =>
+        AlgebraicTypeUtilsForMatching.buildKeywordPartsForInvokingMatchMethodForSubtype(
+          algebraicType,
+          soFar,
+          subtype,
+          idx,
+        ),
+      [],
+    );
   const matchInvocationCode: string =
     '[' +
     matcherFunctionParameterName +
@@ -256,9 +256,10 @@ function matchingFileForAlgebraicType(
     enumerations: [],
     blockTypes: [],
     comments: [],
-    forwardDeclarations: AlgebraicTypeUtilsForMatching.forwardDeclarationsForAlgebraicType(
-      algebraicType,
-    ),
+    forwardDeclarations:
+      AlgebraicTypeUtilsForMatching.forwardDeclarationsForAlgebraicType(
+        algebraicType,
+      ),
     staticConstants: [],
     globalVariables: [],
     functions: [],
@@ -273,10 +274,10 @@ function matchingFileForAlgebraicType(
 
 export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
   return {
-    additionalFiles: function(algebraicType: AlgebraicType.Type): Code.File[] {
+    additionalFiles: function (algebraicType: AlgebraicType.Type): Code.File[] {
       return [matchingFileForAlgebraicType(algebraicType, false)];
     },
-    transformBaseFile: function(
+    transformBaseFile: function (
       algebraicType: AlgebraicType.Type,
       baseFile: Code.File,
     ): Code.File {
@@ -286,75 +287,75 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
       baseFile.structs.push(structForMatchingAlgebraicType(algebraicType));
       return baseFile;
     },
-    blockTypes: function(algebraicType: AlgebraicType.Type): ObjC.BlockType[] {
+    blockTypes: function (algebraicType: AlgebraicType.Type): ObjC.BlockType[] {
       return [];
     },
-    classMethods: function(algebraicType: AlgebraicType.Type): ObjC.Method[] {
+    classMethods: function (algebraicType: AlgebraicType.Type): ObjC.Method[] {
       return [];
     },
-    enumerations: function(
+    enumerations: function (
       algebraicType: AlgebraicType.Type,
     ): ObjC.Enumeration[] {
       return [];
     },
-    transformFileRequest: function(
+    transformFileRequest: function (
       request: FileWriter.Request,
     ): FileWriter.Request {
       return request;
     },
-    fileType: function(
+    fileType: function (
       algebraicType: AlgebraicType.Type,
     ): Code.FileType | null {
       return null;
     },
     forwardDeclarations:
       AlgebraicTypeUtilsForMatching.forwardDeclarationsForAlgebraicType,
-    functions: function(algebraicType: AlgebraicType.Type): ObjC.Function[] {
+    functions: function (algebraicType: AlgebraicType.Type): ObjC.Function[] {
       return [];
     },
-    headerComments: function(
+    headerComments: function (
       algebraicType: AlgebraicType.Type,
     ): ObjC.Comment[] {
       return [];
     },
-    implementedProtocols: function(
+    implementedProtocols: function (
       algebraicType: AlgebraicType.Type,
     ): ObjC.ImplementedProtocol[] {
       return [];
     },
-    imports: function(algebraicType: AlgebraicType.Type): ObjC.Import[] {
+    imports: function (algebraicType: AlgebraicType.Type): ObjC.Import[] {
       return [];
     },
-    instanceMethods: function(
+    instanceMethods: function (
       algebraicType: AlgebraicType.Type,
     ): ObjC.Method[] {
       return [];
     },
-    instanceVariables: function(
+    instanceVariables: function (
       algebraicType: AlgebraicType.Type,
     ): ObjC.InstanceVariable[] {
       return [];
     },
-    macros: function(algebraicType: AlgebraicType.Type): ObjC.Macro[] {
+    macros: function (algebraicType: AlgebraicType.Type): ObjC.Macro[] {
       return [];
     },
     requiredIncludesToRun: ['TemplatedMatching'],
-    staticConstants: function(
+    staticConstants: function (
       algebraicType: AlgebraicType.Type,
     ): ObjC.Constant[] {
       return [];
     },
-    validationErrors: function(
+    validationErrors: function (
       algebraicType: AlgebraicType.Type,
     ): Error.Error[] {
       return [];
     },
-    nullability: function(
+    nullability: function (
       algebraicType: AlgebraicType.Type,
     ): ObjC.ClassNullability | null {
       return null;
     },
-    subclassingRestricted: function(
+    subclassingRestricted: function (
       algebraicType: AlgebraicType.Type,
     ): boolean {
       return false;

@@ -42,14 +42,14 @@ function codingValidatorFunction(
       modifiers: [],
     },
     code: attributes
-      .filter(attribute =>
+      .filter((attribute) =>
         shouldValidateNSCodingConformanceOfAttribute(
           supportsValueSemantics,
           attribute,
         ),
       )
       .map(
-        attribute =>
+        (attribute) =>
           `id<NSCoding> ${attribute.name}_must_conform_to_NSCoding __unused = (${attribute.type.reference})nil;`,
       ),
     isInline: false,
@@ -66,7 +66,7 @@ export function createPlugin(): ObjectSpec.Plugin {
     classMethods: empty(),
     fileType: nothing(),
     forwardDeclarations: empty(),
-    functions: objectType => [
+    functions: (objectType) => [
       codingValidatorFunction(
         ObjectSpecUtils.typeSupportsValueObjectSemantics(objectType),
         objectType.attributes,
@@ -81,18 +81,18 @@ export function createPlugin(): ObjectSpec.Plugin {
     requiredIncludesToRun: ['RMCodingTypeSafety'],
     staticConstants: empty(),
     transformBaseFile: (_, file) => file,
-    transformFileRequest: file => file,
+    transformFileRequest: (file) => file,
     validationErrors: empty(),
     nullability: nothing(),
-    subclassingRestricted: _ => false,
+    subclassingRestricted: (_) => false,
   };
 }
 
 // Utilities to make definitions shorter.
 function nothing<T, R>(): (_: T) => R | null {
-  return _ => null;
+  return (_) => null;
 }
 
 function empty<T, R>(): (_: T) => R[] {
-  return _ => [];
+  return (_) => [];
 }

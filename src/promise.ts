@@ -33,7 +33,7 @@ export class Promise<T> {
 
   setValue(val: T) {
     this.sharedState.value = val;
-    this.sharedState.thenHandlers.forEach(function(f) {
+    this.sharedState.thenHandlers.forEach(function (f) {
       f(val);
     });
   }
@@ -73,7 +73,7 @@ export function then<T>(f: (v: T) => void, future: Future<T>): void {
 
 export function map<T, U>(f: (v: T) => U, future: Future<T>): Future<U> {
   const pendingPromise = pending<U>();
-  then(function(val: T) {
+  then(function (val: T) {
     pendingPromise.setValue(f(val));
   }, future);
   return pendingPromise.getFuture();
@@ -84,8 +84,8 @@ export function mbind<T, U>(
   future: Future<T>,
 ): Future<U> {
   const pendingPromise: Promise<U> = pending<U>();
-  then(function(val: T) {
-    then(function(val2: U) {
+  then(function (val: T) {
+    then(function (val2: U) {
       pendingPromise.setValue(val2);
     }, f(val));
   }, future);
@@ -100,21 +100,21 @@ export function aapply<T, U>(
   futureFunc: Future<(a: T) => U>,
   futureVal: Future<T>,
 ): Future<U> {
-  return mbind(function(t: T) {
-    return map(function(f: (a: T) => U) {
+  return mbind(function (t: T) {
+    return map(function (f: (a: T) => U) {
       return f(t);
     }, futureFunc);
   }, futureVal);
 }
 
 export function all<T>(futures: List.List<Future<T>>): Future<List.List<T>> {
-  const partialFutures = List.map(function(future: Future<T>) {
-    return map(function(val: T) {
+  const partialFutures = List.map(function (future: Future<T>) {
+    return map(function (val: T) {
       return (result: List.List<T>) => List.cons(val, result);
     }, future);
   }, futures);
   return List.foldr(
-    function(
+    function (
       soFarFuture: Future<List.List<T>>,
       thisFuture: Future<(list: List.List<T>) => List.List<T>>,
     ) {

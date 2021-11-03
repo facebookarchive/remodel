@@ -23,7 +23,7 @@ export function forwardClassDeclarationsForObjectType(
   objectType: ObjectSpec.Type,
 ): ObjC.ForwardDeclaration[] {
   return ([] as ObjC.ForwardDeclaration[]).concat(
-    ...objectType.attributes.map(a =>
+    ...objectType.attributes.map((a) =>
       ObjCImportUtils.forwardDeclarationsForAttributeType(
         a.type.name,
         a.type.underlyingType,
@@ -58,7 +58,7 @@ export function importsForObjectType(
       library: null,
     },
   ].concat(
-    ...objectType.attributes.map(a =>
+    ...objectType.attributes.map((a) =>
       ObjCImportUtils.importsForAttributeType(
         a.type.name,
         a.type.underlyingType,

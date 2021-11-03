@@ -14,9 +14,9 @@ import * as ObjCImportUtils from '../objc-import-utils';
 import * as ObjectGeneration from '../object-generation';
 import * as ObjectSpec from '../object-spec';
 
-describe('ObjCImportUtils', function() {
-  describe('#importForTypeLookup', function() {
-    it('creates an import', function() {
+describe('ObjCImportUtils', function () {
+  describe('#importForTypeLookup', function () {
+    it('creates an import', function () {
       const typeLookup: ObjectGeneration.TypeLookup = {
         name: 'RMSomeType',
         library: null,
@@ -40,7 +40,7 @@ describe('ObjCImportUtils', function() {
       expect(importValue).toEqualJSON(expectedImport);
     });
 
-    it('creates a different import', function() {
+    it('creates a different import', function () {
       const typeLookup: ObjectGeneration.TypeLookup = {
         name: 'RMSomeType',
         library: null,
@@ -64,7 +64,7 @@ describe('ObjCImportUtils', function() {
       expect(importValue).toEqualJSON(expectedImport);
     });
 
-    it('creates an import containing a library', function() {
+    it('creates an import containing a library', function () {
       const typeLookup: ObjectGeneration.TypeLookup = {
         name: 'RMSomeOtherType',
         library: 'RMSomeLibrary',
@@ -91,7 +91,7 @@ describe('ObjCImportUtils', function() {
     it(
       'creates an import containing the default library when it is provided ' +
         'and the type lookup does not contain a library',
-      function() {
+      function () {
         const typeLookup: ObjectGeneration.TypeLookup = {
           name: 'RMSomeOtherType',
           library: null,

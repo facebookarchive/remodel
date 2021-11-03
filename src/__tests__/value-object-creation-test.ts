@@ -20,33 +20,33 @@ import * as ObjectSpec from '../object-spec';
 import * as ObjectSpecCreation from '../object-spec-creation';
 import * as OutputControl from '../output-control';
 
-describe('ObjectSpecCreation', function() {
-  describe('#fileWriteRequests', function() {
+describe('ObjectSpecCreation', function () {
+  describe('#fileWriteRequests', function () {
     it(
       'returns a header and implementation including the instance methods ' +
         'when there is a single plugin that returns instance methods',
-      function() {
+      function () {
         const Plugin: ObjectSpec.Plugin = {
           requiredIncludesToRun: [],
-          imports: function(objectType: ObjectSpec.Type): ObjC.Import[] {
+          imports: function (objectType: ObjectSpec.Type): ObjC.Import[] {
             return [];
           },
-          transformFileRequest: function(
+          transformFileRequest: function (
             request: FileWriter.Request,
           ): FileWriter.Request {
             return request;
           },
-          fileType: function(
+          fileType: function (
             objectType: ObjectSpec.Type,
           ): Code.FileType | null {
             return null;
           },
-          forwardDeclarations: function(
+          forwardDeclarations: function (
             objectType: ObjectSpec.Type,
           ): ObjC.ForwardDeclaration[] {
             return [];
           },
-          headerComments: function(
+          headerComments: function (
             objectType: ObjectSpec.Type,
           ): ObjC.Comment[] {
             return [
@@ -56,7 +56,7 @@ describe('ObjectSpecCreation', function() {
               },
             ];
           },
-          instanceMethods: function(
+          instanceMethods: function (
             objectType: ObjectSpec.Type,
           ): ObjC.Method[] {
             const instanceMethods: ObjC.Method[] = [
@@ -85,58 +85,58 @@ describe('ObjectSpecCreation', function() {
             ];
             return instanceMethods;
           },
-          additionalFiles: function(objectType: ObjectSpec.Type): Code.File[] {
+          additionalFiles: function (objectType: ObjectSpec.Type): Code.File[] {
             return [];
           },
-          transformBaseFile: function(
+          transformBaseFile: function (
             objectType: ObjectSpec.Type,
             baseFile: Code.File,
           ): Code.File {
             return baseFile;
           },
-          additionalTypes: function(
+          additionalTypes: function (
             objectType: ObjectSpec.Type,
           ): ObjectSpec.Type[] {
             return [];
           },
-          attributes: function(
+          attributes: function (
             objectType: ObjectSpec.Type,
           ): ObjectSpec.Attribute[] {
             return [];
           },
-          properties: function(objectType: ObjectSpec.Type): ObjC.Property[] {
+          properties: function (objectType: ObjectSpec.Type): ObjC.Property[] {
             return [];
           },
-          classMethods: function(objectType: ObjectSpec.Type): ObjC.Method[] {
+          classMethods: function (objectType: ObjectSpec.Type): ObjC.Method[] {
             return [];
           },
-          staticConstants: function(
+          staticConstants: function (
             objectType: ObjectSpec.Type,
           ): ObjC.Constant[] {
             return [];
           },
-          implementedProtocols: function(
+          implementedProtocols: function (
             objectType: ObjectSpec.Type,
           ): ObjC.ImplementedProtocol[] {
             return [];
           },
-          functions: function(objectType: ObjectSpec.Type): ObjC.Function[] {
+          functions: function (objectType: ObjectSpec.Type): ObjC.Function[] {
             return [];
           },
-          macros: function(valueType: ObjectSpec.Type): ObjC.Macro[] {
+          macros: function (valueType: ObjectSpec.Type): ObjC.Macro[] {
             return [];
           },
-          validationErrors: function(
+          validationErrors: function (
             objectType: ObjectSpec.Type,
           ): Error.Error[] {
             return [];
           },
-          nullability: function(
+          nullability: function (
             objectType: ObjectSpec.Type,
           ): ObjC.ClassNullability | null {
             return null;
           },
-          subclassingRestricted: function(
+          subclassingRestricted: function (
             objectType: ObjectSpec.Type,
           ): boolean {
             return false;
@@ -218,38 +218,38 @@ describe('ObjectSpecCreation', function() {
     it(
       'returns two headers and implementations when there is a single plugin ' +
         'which returns an additional header and implementation',
-      function() {
+      function () {
         const Plugin: ObjectSpec.Plugin = {
           requiredIncludesToRun: [],
-          imports: function(objectType: ObjectSpec.Type): ObjC.Import[] {
+          imports: function (objectType: ObjectSpec.Type): ObjC.Import[] {
             return [];
           },
-          transformFileRequest: function(
+          transformFileRequest: function (
             request: FileWriter.Request,
           ): FileWriter.Request {
             return request;
           },
-          fileType: function(
+          fileType: function (
             objectType: ObjectSpec.Type,
           ): Code.FileType | null {
             return null;
           },
-          forwardDeclarations: function(
+          forwardDeclarations: function (
             objectType: ObjectSpec.Type,
           ): ObjC.ForwardDeclaration[] {
             return [];
           },
-          instanceMethods: function(
+          instanceMethods: function (
             objectType: ObjectSpec.Type,
           ): ObjC.Method[] {
             return [];
           },
-          headerComments: function(
+          headerComments: function (
             objectType: ObjectSpec.Type,
           ): ObjC.Comment[] {
             return [];
           },
-          additionalFiles: function(objectType: ObjectSpec.Type): Code.File[] {
+          additionalFiles: function (objectType: ObjectSpec.Type): Code.File[] {
             return [
               {
                 name: 'FooMore',
@@ -286,55 +286,55 @@ describe('ObjectSpecCreation', function() {
               },
             ];
           },
-          transformBaseFile: function(
+          transformBaseFile: function (
             objectType: ObjectSpec.Type,
             baseFile: Code.File,
           ): Code.File {
             return baseFile;
           },
-          additionalTypes: function(
+          additionalTypes: function (
             objectType: ObjectSpec.Type,
           ): ObjectSpec.Type[] {
             return [];
           },
-          attributes: function(
+          attributes: function (
             objectType: ObjectSpec.Type,
           ): ObjectSpec.Attribute[] {
             return [];
           },
-          properties: function(objectType: ObjectSpec.Type): ObjC.Property[] {
+          properties: function (objectType: ObjectSpec.Type): ObjC.Property[] {
             return [];
           },
-          classMethods: function(objectType: ObjectSpec.Type): ObjC.Method[] {
+          classMethods: function (objectType: ObjectSpec.Type): ObjC.Method[] {
             return [];
           },
-          staticConstants: function(
+          staticConstants: function (
             objectType: ObjectSpec.Type,
           ): ObjC.Constant[] {
             return [];
           },
-          implementedProtocols: function(
+          implementedProtocols: function (
             objectType: ObjectSpec.Type,
           ): ObjC.ImplementedProtocol[] {
             return [{name: 'NSCopying'}];
           },
-          functions: function(objectType: ObjectSpec.Type): ObjC.Function[] {
+          functions: function (objectType: ObjectSpec.Type): ObjC.Function[] {
             return [];
           },
-          macros: function(valueType: ObjectSpec.Type): ObjC.Macro[] {
+          macros: function (valueType: ObjectSpec.Type): ObjC.Macro[] {
             return [];
           },
-          validationErrors: function(
+          validationErrors: function (
             objectType: ObjectSpec.Type,
           ): Error.Error[] {
             return [];
           },
-          nullability: function(
+          nullability: function (
             objectType: ObjectSpec.Type,
           ): ObjC.ClassNullability | null {
             return null;
           },
-          subclassingRestricted: function(
+          subclassingRestricted: function (
             objectType: ObjectSpec.Type,
           ): boolean {
             return false;
@@ -400,47 +400,47 @@ describe('ObjectSpecCreation', function() {
     it(
       'returns multiple types when there is ' +
         'a single plugin that returns multiple methods',
-      function() {
+      function () {
         const Plugin: ObjectSpec.Plugin = {
           requiredIncludesToRun: [],
-          imports: function(objectType: ObjectSpec.Type): ObjC.Import[] {
+          imports: function (objectType: ObjectSpec.Type): ObjC.Import[] {
             return [];
           },
-          transformFileRequest: function(
+          transformFileRequest: function (
             request: FileWriter.Request,
           ): FileWriter.Request {
             return request;
           },
-          fileType: function(
+          fileType: function (
             objectType: ObjectSpec.Type,
           ): Code.FileType | null {
             return null;
           },
-          forwardDeclarations: function(
+          forwardDeclarations: function (
             objectType: ObjectSpec.Type,
           ): ObjC.ForwardDeclaration[] {
             return [];
           },
-          headerComments: function(
+          headerComments: function (
             objectType: ObjectSpec.Type,
           ): ObjC.Comment[] {
             return [];
           },
-          instanceMethods: function(
+          instanceMethods: function (
             objectType: ObjectSpec.Type,
           ): ObjC.Method[] {
             return [];
           },
-          additionalFiles: function(objectType: ObjectSpec.Type): Code.File[] {
+          additionalFiles: function (objectType: ObjectSpec.Type): Code.File[] {
             return [];
           },
-          transformBaseFile: function(
+          transformBaseFile: function (
             objectType: ObjectSpec.Type,
             baseFile: Code.File,
           ): Code.File {
             return baseFile;
           },
-          additionalTypes: function(
+          additionalTypes: function (
             objectType: ObjectSpec.Type,
           ): ObjectSpec.Type[] {
             return [
@@ -466,44 +466,44 @@ describe('ObjectSpecCreation', function() {
               },
             ];
           },
-          attributes: function(
+          attributes: function (
             objectType: ObjectSpec.Type,
           ): ObjectSpec.Attribute[] {
             return [];
           },
-          properties: function(objectType: ObjectSpec.Type): ObjC.Property[] {
+          properties: function (objectType: ObjectSpec.Type): ObjC.Property[] {
             return [];
           },
-          classMethods: function(objectType: ObjectSpec.Type): ObjC.Method[] {
+          classMethods: function (objectType: ObjectSpec.Type): ObjC.Method[] {
             return [];
           },
-          staticConstants: function(
+          staticConstants: function (
             objectType: ObjectSpec.Type,
           ): ObjC.Constant[] {
             return [];
           },
-          implementedProtocols: function(
+          implementedProtocols: function (
             objectType: ObjectSpec.Type,
           ): ObjC.ImplementedProtocol[] {
             return [{name: 'NSCopying'}];
           },
-          functions: function(objectType: ObjectSpec.Type): ObjC.Function[] {
+          functions: function (objectType: ObjectSpec.Type): ObjC.Function[] {
             return [];
           },
-          macros: function(valueType: ObjectSpec.Type): ObjC.Macro[] {
+          macros: function (valueType: ObjectSpec.Type): ObjC.Macro[] {
             return [];
           },
-          validationErrors: function(
+          validationErrors: function (
             objectType: ObjectSpec.Type,
           ): Error.Error[] {
             return [];
           },
-          nullability: function(
+          nullability: function (
             objectType: ObjectSpec.Type,
           ): ObjC.ClassNullability | null {
             return null;
           },
-          subclassingRestricted: function(
+          subclassingRestricted: function (
             objectType: ObjectSpec.Type,
           ): boolean {
             return false;
@@ -587,33 +587,33 @@ describe('ObjectSpecCreation', function() {
       'returns a header not including the instance methods ' +
         'from a plugin does not have its required includes fulfilled' +
         'and that having a empty ObjectSpec does not produce an @interface declaration',
-      function() {
+      function () {
         const Plugin: ObjectSpec.Plugin = {
           requiredIncludesToRun: ['Test'],
-          imports: function(objectType: ObjectSpec.Type): ObjC.Import[] {
+          imports: function (objectType: ObjectSpec.Type): ObjC.Import[] {
             return [];
           },
-          transformFileRequest: function(
+          transformFileRequest: function (
             request: FileWriter.Request,
           ): FileWriter.Request {
             return request;
           },
-          fileType: function(
+          fileType: function (
             objectType: ObjectSpec.Type,
           ): Code.FileType | null {
             return null;
           },
-          forwardDeclarations: function(
+          forwardDeclarations: function (
             objectType: ObjectSpec.Type,
           ): ObjC.ForwardDeclaration[] {
             return [];
           },
-          headerComments: function(
+          headerComments: function (
             objectType: ObjectSpec.Type,
           ): ObjC.Comment[] {
             return [];
           },
-          instanceMethods: function(
+          instanceMethods: function (
             objectType: ObjectSpec.Type,
           ): ObjC.Method[] {
             const instanceMethods: ObjC.Method[] = [
@@ -640,58 +640,58 @@ describe('ObjectSpecCreation', function() {
             ];
             return instanceMethods;
           },
-          additionalFiles: function(objectType: ObjectSpec.Type): Code.File[] {
+          additionalFiles: function (objectType: ObjectSpec.Type): Code.File[] {
             return [];
           },
-          transformBaseFile: function(
+          transformBaseFile: function (
             objectType: ObjectSpec.Type,
             baseFile: Code.File,
           ): Code.File {
             return baseFile;
           },
-          additionalTypes: function(
+          additionalTypes: function (
             objectType: ObjectSpec.Type,
           ): ObjectSpec.Type[] {
             return [];
           },
-          attributes: function(
+          attributes: function (
             objectType: ObjectSpec.Type,
           ): ObjectSpec.Attribute[] {
             return [];
           },
-          properties: function(objectType: ObjectSpec.Type): ObjC.Property[] {
+          properties: function (objectType: ObjectSpec.Type): ObjC.Property[] {
             return [];
           },
-          classMethods: function(objectType: ObjectSpec.Type): ObjC.Method[] {
+          classMethods: function (objectType: ObjectSpec.Type): ObjC.Method[] {
             return [];
           },
-          staticConstants: function(
+          staticConstants: function (
             objectType: ObjectSpec.Type,
           ): ObjC.Constant[] {
             return [];
           },
-          implementedProtocols: function(
+          implementedProtocols: function (
             objectType: ObjectSpec.Type,
           ): ObjC.ImplementedProtocol[] {
             return [];
           },
-          functions: function(objectType: ObjectSpec.Type): ObjC.Function[] {
+          functions: function (objectType: ObjectSpec.Type): ObjC.Function[] {
             return [];
           },
-          macros: function(valueType: ObjectSpec.Type): ObjC.Macro[] {
+          macros: function (valueType: ObjectSpec.Type): ObjC.Macro[] {
             return [];
           },
-          validationErrors: function(
+          validationErrors: function (
             objectType: ObjectSpec.Type,
           ): Error.Error[] {
             return [];
           },
-          nullability: function(
+          nullability: function (
             objectType: ObjectSpec.Type,
           ): ObjC.ClassNullability | null {
             return null;
           },
-          subclassingRestricted: function(
+          subclassingRestricted: function (
             objectType: ObjectSpec.Type,
           ): boolean {
             return false;
@@ -750,33 +750,33 @@ describe('ObjectSpecCreation', function() {
     it(
       'orders the initilizers at the top and the rest of the methods ' +
         'alphabetically there are multiple initializers and methods',
-      function() {
+      function () {
         const Plugin: ObjectSpec.Plugin = {
           requiredIncludesToRun: [],
-          imports: function(objectType: ObjectSpec.Type): ObjC.Import[] {
+          imports: function (objectType: ObjectSpec.Type): ObjC.Import[] {
             return [];
           },
-          transformFileRequest: function(
+          transformFileRequest: function (
             request: FileWriter.Request,
           ): FileWriter.Request {
             return request;
           },
-          fileType: function(
+          fileType: function (
             objectType: ObjectSpec.Type,
           ): Code.FileType | null {
             return null;
           },
-          forwardDeclarations: function(
+          forwardDeclarations: function (
             objectType: ObjectSpec.Type,
           ): ObjC.ForwardDeclaration[] {
             return [];
           },
-          headerComments: function(
+          headerComments: function (
             objectType: ObjectSpec.Type,
           ): ObjC.Comment[] {
             return [];
           },
-          instanceMethods: function(
+          instanceMethods: function (
             objectType: ObjectSpec.Type,
           ): ObjC.Method[] {
             const instanceMethods: ObjC.Method[] = [
@@ -845,58 +845,58 @@ describe('ObjectSpecCreation', function() {
             ];
             return instanceMethods;
           },
-          additionalFiles: function(objectType: ObjectSpec.Type): Code.File[] {
+          additionalFiles: function (objectType: ObjectSpec.Type): Code.File[] {
             return [];
           },
-          transformBaseFile: function(
+          transformBaseFile: function (
             objectType: ObjectSpec.Type,
             baseFile: Code.File,
           ): Code.File {
             return baseFile;
           },
-          additionalTypes: function(
+          additionalTypes: function (
             objectType: ObjectSpec.Type,
           ): ObjectSpec.Type[] {
             return [];
           },
-          attributes: function(
+          attributes: function (
             objectType: ObjectSpec.Type,
           ): ObjectSpec.Attribute[] {
             return [];
           },
-          properties: function(objectType: ObjectSpec.Type): ObjC.Property[] {
+          properties: function (objectType: ObjectSpec.Type): ObjC.Property[] {
             return [];
           },
-          classMethods: function(objectType: ObjectSpec.Type): ObjC.Method[] {
+          classMethods: function (objectType: ObjectSpec.Type): ObjC.Method[] {
             return [];
           },
-          staticConstants: function(
+          staticConstants: function (
             objectType: ObjectSpec.Type,
           ): ObjC.Constant[] {
             return [];
           },
-          implementedProtocols: function(
+          implementedProtocols: function (
             objectType: ObjectSpec.Type,
           ): ObjC.ImplementedProtocol[] {
             return [];
           },
-          functions: function(objectType: ObjectSpec.Type): ObjC.Function[] {
+          functions: function (objectType: ObjectSpec.Type): ObjC.Function[] {
             return [];
           },
-          macros: function(valueType: ObjectSpec.Type): ObjC.Macro[] {
+          macros: function (valueType: ObjectSpec.Type): ObjC.Macro[] {
             return [];
           },
-          validationErrors: function(
+          validationErrors: function (
             objectType: ObjectSpec.Type,
           ): Error.Error[] {
             return [];
           },
-          nullability: function(
+          nullability: function (
             objectType: ObjectSpec.Type,
           ): ObjC.ClassNullability | null {
             return null;
           },
-          subclassingRestricted: function(
+          subclassingRestricted: function (
             objectType: ObjectSpec.Type,
           ): boolean {
             return false;
@@ -992,89 +992,89 @@ describe('ObjectSpecCreation', function() {
     it(
       'returns errors returned from the plugin if it returns a ' +
         'validation error',
-      function() {
+      function () {
         const Plugin: ObjectSpec.Plugin = {
           requiredIncludesToRun: [],
-          additionalTypes: function(
+          additionalTypes: function (
             objectType: ObjectSpec.Type,
           ): ObjectSpec.Type[] {
             return [];
           },
-          attributes: function(
+          attributes: function (
             objectType: ObjectSpec.Type,
           ): ObjectSpec.Attribute[] {
             return [];
           },
-          imports: function(objectType: ObjectSpec.Type): ObjC.Import[] {
+          imports: function (objectType: ObjectSpec.Type): ObjC.Import[] {
             return [];
           },
-          transformFileRequest: function(
+          transformFileRequest: function (
             request: FileWriter.Request,
           ): FileWriter.Request {
             return request;
           },
-          fileType: function(
+          fileType: function (
             objectType: ObjectSpec.Type,
           ): Code.FileType | null {
             return null;
           },
-          forwardDeclarations: function(
+          forwardDeclarations: function (
             objectType: ObjectSpec.Type,
           ): ObjC.ForwardDeclaration[] {
             return [];
           },
-          headerComments: function(
+          headerComments: function (
             objectType: ObjectSpec.Type,
           ): ObjC.Comment[] {
             return [];
           },
-          instanceMethods: function(
+          instanceMethods: function (
             objectType: ObjectSpec.Type,
           ): ObjC.Method[] {
             return [];
           },
-          additionalFiles: function(objectType: ObjectSpec.Type): Code.File[] {
+          additionalFiles: function (objectType: ObjectSpec.Type): Code.File[] {
             return [];
           },
-          transformBaseFile: function(
+          transformBaseFile: function (
             objectType: ObjectSpec.Type,
             baseFile: Code.File,
           ): Code.File {
             return baseFile;
           },
-          properties: function(objectType: ObjectSpec.Type): ObjC.Property[] {
+          properties: function (objectType: ObjectSpec.Type): ObjC.Property[] {
             return [];
           },
-          classMethods: function(objectType: ObjectSpec.Type): ObjC.Method[] {
+          classMethods: function (objectType: ObjectSpec.Type): ObjC.Method[] {
             return [];
           },
-          staticConstants: function(
+          staticConstants: function (
             objectType: ObjectSpec.Type,
           ): ObjC.Constant[] {
             return [];
           },
-          implementedProtocols: function(
+          implementedProtocols: function (
             objectType: ObjectSpec.Type,
           ): ObjC.ImplementedProtocol[] {
             return [];
           },
-          functions: function(objectType: ObjectSpec.Type): ObjC.Function[] {
+          functions: function (objectType: ObjectSpec.Type): ObjC.Function[] {
             return [];
           },
-          macros: function(valueType: ObjectSpec.Type): ObjC.Macro[] {
+          macros: function (valueType: ObjectSpec.Type): ObjC.Macro[] {
             return [];
           },
-          validationErrors: function(
+          validationErrors: function (
             objectType: ObjectSpec.Type,
           ): Error.Error[] {
             return [Error.Error('Some error')];
           },
-          nullability: function(
+          nullability: function (
             objectType: ObjectSpec.Type,
           ): ObjC.ClassNullability | null {
             return null;
           },
-          subclassingRestricted: function(
+          subclassingRestricted: function (
             objectType: ObjectSpec.Type,
           ): boolean {
             return false;
@@ -1129,89 +1129,89 @@ describe('ObjectSpecCreation', function() {
     it(
       'returns errors returned from two plugins if both return ' +
         'validation errors',
-      function() {
+      function () {
         const Plugin1: ObjectSpec.Plugin = {
           requiredIncludesToRun: [],
-          additionalTypes: function(
+          additionalTypes: function (
             objectType: ObjectSpec.Type,
           ): ObjectSpec.Type[] {
             return [];
           },
-          attributes: function(
+          attributes: function (
             objectType: ObjectSpec.Type,
           ): ObjectSpec.Attribute[] {
             return [];
           },
-          imports: function(objectType: ObjectSpec.Type): ObjC.Import[] {
+          imports: function (objectType: ObjectSpec.Type): ObjC.Import[] {
             return [];
           },
-          transformFileRequest: function(
+          transformFileRequest: function (
             request: FileWriter.Request,
           ): FileWriter.Request {
             return request;
           },
-          fileType: function(
+          fileType: function (
             objectType: ObjectSpec.Type,
           ): Code.FileType | null {
             return null;
           },
-          forwardDeclarations: function(
+          forwardDeclarations: function (
             objectType: ObjectSpec.Type,
           ): ObjC.ForwardDeclaration[] {
             return [];
           },
-          headerComments: function(
+          headerComments: function (
             objectType: ObjectSpec.Type,
           ): ObjC.Comment[] {
             return [];
           },
-          instanceMethods: function(
+          instanceMethods: function (
             objectType: ObjectSpec.Type,
           ): ObjC.Method[] {
             return [];
           },
-          additionalFiles: function(objectType: ObjectSpec.Type): Code.File[] {
+          additionalFiles: function (objectType: ObjectSpec.Type): Code.File[] {
             return [];
           },
-          transformBaseFile: function(
+          transformBaseFile: function (
             objectType: ObjectSpec.Type,
             baseFile: Code.File,
           ): Code.File {
             return baseFile;
           },
-          properties: function(objectType: ObjectSpec.Type): ObjC.Property[] {
+          properties: function (objectType: ObjectSpec.Type): ObjC.Property[] {
             return [];
           },
-          classMethods: function(objectType: ObjectSpec.Type): ObjC.Method[] {
+          classMethods: function (objectType: ObjectSpec.Type): ObjC.Method[] {
             return [];
           },
-          staticConstants: function(
+          staticConstants: function (
             objectType: ObjectSpec.Type,
           ): ObjC.Constant[] {
             return [];
           },
-          implementedProtocols: function(
+          implementedProtocols: function (
             objectType: ObjectSpec.Type,
           ): ObjC.ImplementedProtocol[] {
             return [];
           },
-          functions: function(objectType: ObjectSpec.Type): ObjC.Function[] {
+          functions: function (objectType: ObjectSpec.Type): ObjC.Function[] {
             return [];
           },
-          macros: function(valueType: ObjectSpec.Type): ObjC.Macro[] {
+          macros: function (valueType: ObjectSpec.Type): ObjC.Macro[] {
             return [];
           },
-          validationErrors: function(
+          validationErrors: function (
             objectType: ObjectSpec.Type,
           ): Error.Error[] {
             return [Error.Error('Some error'), Error.Error('Another error')];
           },
-          nullability: function(
+          nullability: function (
             objectType: ObjectSpec.Type,
           ): ObjC.ClassNullability | null {
             return null;
           },
-          subclassingRestricted: function(
+          subclassingRestricted: function (
             objectType: ObjectSpec.Type,
           ): boolean {
             return false;
@@ -1219,86 +1219,86 @@ describe('ObjectSpecCreation', function() {
         };
         const Plugin2: ObjectSpec.Plugin = {
           requiredIncludesToRun: [],
-          additionalTypes: function(
+          additionalTypes: function (
             objectType: ObjectSpec.Type,
           ): ObjectSpec.Type[] {
             return [];
           },
-          attributes: function(
+          attributes: function (
             objectType: ObjectSpec.Type,
           ): ObjectSpec.Attribute[] {
             return [];
           },
-          imports: function(objectType: ObjectSpec.Type): ObjC.Import[] {
+          imports: function (objectType: ObjectSpec.Type): ObjC.Import[] {
             return [];
           },
-          transformFileRequest: function(
+          transformFileRequest: function (
             request: FileWriter.Request,
           ): FileWriter.Request {
             return request;
           },
-          fileType: function(
+          fileType: function (
             objectType: ObjectSpec.Type,
           ): Code.FileType | null {
             return null;
           },
-          forwardDeclarations: function(
+          forwardDeclarations: function (
             objectType: ObjectSpec.Type,
           ): ObjC.ForwardDeclaration[] {
             return [];
           },
-          headerComments: function(
+          headerComments: function (
             objectType: ObjectSpec.Type,
           ): ObjC.Comment[] {
             return [];
           },
-          instanceMethods: function(
+          instanceMethods: function (
             objectType: ObjectSpec.Type,
           ): ObjC.Method[] {
             return [];
           },
-          additionalFiles: function(objectType: ObjectSpec.Type): Code.File[] {
+          additionalFiles: function (objectType: ObjectSpec.Type): Code.File[] {
             return [];
           },
-          transformBaseFile: function(
+          transformBaseFile: function (
             objectType: ObjectSpec.Type,
             baseFile: Code.File,
           ): Code.File {
             return baseFile;
           },
-          properties: function(objectType: ObjectSpec.Type): ObjC.Property[] {
+          properties: function (objectType: ObjectSpec.Type): ObjC.Property[] {
             return [];
           },
-          classMethods: function(objectType: ObjectSpec.Type): ObjC.Method[] {
+          classMethods: function (objectType: ObjectSpec.Type): ObjC.Method[] {
             return [];
           },
-          staticConstants: function(
+          staticConstants: function (
             objectType: ObjectSpec.Type,
           ): ObjC.Constant[] {
             return [];
           },
-          implementedProtocols: function(
+          implementedProtocols: function (
             objectType: ObjectSpec.Type,
           ): ObjC.ImplementedProtocol[] {
             return [];
           },
-          functions: function(objectType: ObjectSpec.Type): ObjC.Function[] {
+          functions: function (objectType: ObjectSpec.Type): ObjC.Function[] {
             return [];
           },
-          macros: function(valueType: ObjectSpec.Type): ObjC.Macro[] {
+          macros: function (valueType: ObjectSpec.Type): ObjC.Macro[] {
             return [];
           },
-          validationErrors: function(
+          validationErrors: function (
             objectType: ObjectSpec.Type,
           ): Error.Error[] {
             return [Error.Error('Yet another error')];
           },
-          nullability: function(
+          nullability: function (
             objectType: ObjectSpec.Type,
           ): ObjC.ClassNullability | null {
             return null;
           },
-          subclassingRestricted: function(
+          subclassingRestricted: function (
             objectType: ObjectSpec.Type,
           ): boolean {
             return false;
@@ -1355,33 +1355,33 @@ describe('ObjectSpecCreation', function() {
     it(
       'combines the initilizers of multiple plugins when given multiple plugins ' +
         'to create an object from',
-      function() {
+      function () {
         const Plugin1: ObjectSpec.Plugin = {
           requiredIncludesToRun: [],
-          imports: function(objectType: ObjectSpec.Type): ObjC.Import[] {
+          imports: function (objectType: ObjectSpec.Type): ObjC.Import[] {
             return [];
           },
-          transformFileRequest: function(
+          transformFileRequest: function (
             request: FileWriter.Request,
           ): FileWriter.Request {
             return request;
           },
-          fileType: function(
+          fileType: function (
             objectType: ObjectSpec.Type,
           ): Code.FileType | null {
             return null;
           },
-          forwardDeclarations: function(
+          forwardDeclarations: function (
             objectType: ObjectSpec.Type,
           ): ObjC.ForwardDeclaration[] {
             return [];
           },
-          headerComments: function(
+          headerComments: function (
             objectType: ObjectSpec.Type,
           ): ObjC.Comment[] {
             return [];
           },
-          instanceMethods: function(
+          instanceMethods: function (
             objectType: ObjectSpec.Type,
           ): ObjC.Method[] {
             const instanceMethods: ObjC.Method[] = [
@@ -1430,58 +1430,58 @@ describe('ObjectSpecCreation', function() {
             ];
             return instanceMethods;
           },
-          additionalFiles: function(objectType: ObjectSpec.Type): Code.File[] {
+          additionalFiles: function (objectType: ObjectSpec.Type): Code.File[] {
             return [];
           },
-          transformBaseFile: function(
+          transformBaseFile: function (
             objectType: ObjectSpec.Type,
             baseFile: Code.File,
           ): Code.File {
             return baseFile;
           },
-          additionalTypes: function(
+          additionalTypes: function (
             objectType: ObjectSpec.Type,
           ): ObjectSpec.Type[] {
             return [];
           },
-          attributes: function(
+          attributes: function (
             objectType: ObjectSpec.Type,
           ): ObjectSpec.Attribute[] {
             return [];
           },
-          properties: function(objectType: ObjectSpec.Type): ObjC.Property[] {
+          properties: function (objectType: ObjectSpec.Type): ObjC.Property[] {
             return [];
           },
-          classMethods: function(objectType: ObjectSpec.Type): ObjC.Method[] {
+          classMethods: function (objectType: ObjectSpec.Type): ObjC.Method[] {
             return [];
           },
-          staticConstants: function(
+          staticConstants: function (
             objectType: ObjectSpec.Type,
           ): ObjC.Constant[] {
             return [];
           },
-          implementedProtocols: function(
+          implementedProtocols: function (
             objectType: ObjectSpec.Type,
           ): ObjC.ImplementedProtocol[] {
             return [];
           },
-          functions: function(objectType: ObjectSpec.Type): ObjC.Function[] {
+          functions: function (objectType: ObjectSpec.Type): ObjC.Function[] {
             return [];
           },
-          macros: function(valueType: ObjectSpec.Type): ObjC.Macro[] {
+          macros: function (valueType: ObjectSpec.Type): ObjC.Macro[] {
             return [];
           },
-          validationErrors: function(
+          validationErrors: function (
             objectType: ObjectSpec.Type,
           ): Error.Error[] {
             return [];
           },
-          nullability: function(
+          nullability: function (
             objectType: ObjectSpec.Type,
           ): ObjC.ClassNullability | null {
             return null;
           },
-          subclassingRestricted: function(
+          subclassingRestricted: function (
             objectType: ObjectSpec.Type,
           ): boolean {
             return false;
@@ -1489,30 +1489,30 @@ describe('ObjectSpecCreation', function() {
         };
         const Plugin2: ObjectSpec.Plugin = {
           requiredIncludesToRun: [],
-          imports: function(objectType: ObjectSpec.Type): ObjC.Import[] {
+          imports: function (objectType: ObjectSpec.Type): ObjC.Import[] {
             return [];
           },
-          transformFileRequest: function(
+          transformFileRequest: function (
             request: FileWriter.Request,
           ): FileWriter.Request {
             return request;
           },
-          fileType: function(
+          fileType: function (
             objectType: ObjectSpec.Type,
           ): Code.FileType | null {
             return null;
           },
-          forwardDeclarations: function(
+          forwardDeclarations: function (
             objectType: ObjectSpec.Type,
           ): ObjC.ForwardDeclaration[] {
             return [];
           },
-          headerComments: function(
+          headerComments: function (
             objectType: ObjectSpec.Type,
           ): ObjC.Comment[] {
             return [];
           },
-          instanceMethods: function(
+          instanceMethods: function (
             objectType: ObjectSpec.Type,
           ): ObjC.Method[] {
             const instanceMethods: ObjC.Method[] = [
@@ -1539,58 +1539,58 @@ describe('ObjectSpecCreation', function() {
             ];
             return instanceMethods;
           },
-          additionalFiles: function(objectType: ObjectSpec.Type): Code.File[] {
+          additionalFiles: function (objectType: ObjectSpec.Type): Code.File[] {
             return [];
           },
-          transformBaseFile: function(
+          transformBaseFile: function (
             objectType: ObjectSpec.Type,
             baseFile: Code.File,
           ): Code.File {
             return baseFile;
           },
-          additionalTypes: function(
+          additionalTypes: function (
             objectType: ObjectSpec.Type,
           ): ObjectSpec.Type[] {
             return [];
           },
-          attributes: function(
+          attributes: function (
             objectType: ObjectSpec.Type,
           ): ObjectSpec.Attribute[] {
             return [];
           },
-          properties: function(objectType: ObjectSpec.Type): ObjC.Property[] {
+          properties: function (objectType: ObjectSpec.Type): ObjC.Property[] {
             return [];
           },
-          classMethods: function(objectType: ObjectSpec.Type): ObjC.Method[] {
+          classMethods: function (objectType: ObjectSpec.Type): ObjC.Method[] {
             return [];
           },
-          staticConstants: function(
+          staticConstants: function (
             objectType: ObjectSpec.Type,
           ): ObjC.Constant[] {
             return [];
           },
-          implementedProtocols: function(
+          implementedProtocols: function (
             objectType: ObjectSpec.Type,
           ): ObjC.ImplementedProtocol[] {
             return [];
           },
-          functions: function(objectType: ObjectSpec.Type): ObjC.Function[] {
+          functions: function (objectType: ObjectSpec.Type): ObjC.Function[] {
             return [];
           },
-          macros: function(valueType: ObjectSpec.Type): ObjC.Macro[] {
+          macros: function (valueType: ObjectSpec.Type): ObjC.Macro[] {
             return [];
           },
-          validationErrors: function(
+          validationErrors: function (
             objectType: ObjectSpec.Type,
           ): Error.Error[] {
             return [];
           },
-          nullability: function(
+          nullability: function (
             objectType: ObjectSpec.Type,
           ): ObjC.ClassNullability | null {
             return null;
           },
-          subclassingRestricted: function(
+          subclassingRestricted: function (
             objectType: ObjectSpec.Type,
           ): boolean {
             return false;
@@ -1686,13 +1686,13 @@ describe('ObjectSpecCreation', function() {
     it(
       'combines multiple file transformations when given multiple plugins ' +
         'that each transform the file write request',
-      function() {
+      function () {
         const Plugin1: ObjectSpec.Plugin = {
           requiredIncludesToRun: [],
-          imports: function(objectType: ObjectSpec.Type): ObjC.Import[] {
+          imports: function (objectType: ObjectSpec.Type): ObjC.Import[] {
             return [];
           },
-          transformFileRequest: function(
+          transformFileRequest: function (
             request: FileWriter.Request,
           ): FileWriter.Request {
             const newRequest: FileWriter.Request = {
@@ -1701,22 +1701,22 @@ describe('ObjectSpecCreation', function() {
             };
             return newRequest;
           },
-          fileType: function(
+          fileType: function (
             objectType: ObjectSpec.Type,
           ): Code.FileType | null {
             return null;
           },
-          forwardDeclarations: function(
+          forwardDeclarations: function (
             objectType: ObjectSpec.Type,
           ): ObjC.ForwardDeclaration[] {
             return [];
           },
-          headerComments: function(
+          headerComments: function (
             objectType: ObjectSpec.Type,
           ): ObjC.Comment[] {
             return [];
           },
-          instanceMethods: function(
+          instanceMethods: function (
             objectType: ObjectSpec.Type,
           ): ObjC.Method[] {
             const instanceMethods: ObjC.Method[] = [
@@ -1765,58 +1765,58 @@ describe('ObjectSpecCreation', function() {
             ];
             return instanceMethods;
           },
-          additionalFiles: function(objectType: ObjectSpec.Type): Code.File[] {
+          additionalFiles: function (objectType: ObjectSpec.Type): Code.File[] {
             return [];
           },
-          transformBaseFile: function(
+          transformBaseFile: function (
             objectType: ObjectSpec.Type,
             baseFile: Code.File,
           ): Code.File {
             return baseFile;
           },
-          additionalTypes: function(
+          additionalTypes: function (
             objectType: ObjectSpec.Type,
           ): ObjectSpec.Type[] {
             return [];
           },
-          attributes: function(
+          attributes: function (
             objectType: ObjectSpec.Type,
           ): ObjectSpec.Attribute[] {
             return [];
           },
-          properties: function(objectType: ObjectSpec.Type): ObjC.Property[] {
+          properties: function (objectType: ObjectSpec.Type): ObjC.Property[] {
             return [];
           },
-          classMethods: function(objectType: ObjectSpec.Type): ObjC.Method[] {
+          classMethods: function (objectType: ObjectSpec.Type): ObjC.Method[] {
             return [];
           },
-          staticConstants: function(
+          staticConstants: function (
             objectType: ObjectSpec.Type,
           ): ObjC.Constant[] {
             return [];
           },
-          implementedProtocols: function(
+          implementedProtocols: function (
             objectType: ObjectSpec.Type,
           ): ObjC.ImplementedProtocol[] {
             return [];
           },
-          functions: function(objectType: ObjectSpec.Type): ObjC.Function[] {
+          functions: function (objectType: ObjectSpec.Type): ObjC.Function[] {
             return [];
           },
-          macros: function(valueType: ObjectSpec.Type): ObjC.Macro[] {
+          macros: function (valueType: ObjectSpec.Type): ObjC.Macro[] {
             return [];
           },
-          validationErrors: function(
+          validationErrors: function (
             objectType: ObjectSpec.Type,
           ): Error.Error[] {
             return [];
           },
-          nullability: function(
+          nullability: function (
             objectType: ObjectSpec.Type,
           ): ObjC.ClassNullability | null {
             return null;
           },
-          subclassingRestricted: function(
+          subclassingRestricted: function (
             objectType: ObjectSpec.Type,
           ): boolean {
             return false;
@@ -1824,10 +1824,10 @@ describe('ObjectSpecCreation', function() {
         };
         const Plugin2: ObjectSpec.Plugin = {
           requiredIncludesToRun: [],
-          imports: function(objectType: ObjectSpec.Type): ObjC.Import[] {
+          imports: function (objectType: ObjectSpec.Type): ObjC.Import[] {
             return [];
           },
-          transformFileRequest: function(
+          transformFileRequest: function (
             request: FileWriter.Request,
           ): FileWriter.Request {
             const newRequest: FileWriter.Request = {
@@ -1836,22 +1836,22 @@ describe('ObjectSpecCreation', function() {
             };
             return newRequest;
           },
-          fileType: function(
+          fileType: function (
             objectType: ObjectSpec.Type,
           ): Code.FileType | null {
             return null;
           },
-          forwardDeclarations: function(
+          forwardDeclarations: function (
             objectType: ObjectSpec.Type,
           ): ObjC.ForwardDeclaration[] {
             return [];
           },
-          headerComments: function(
+          headerComments: function (
             objectType: ObjectSpec.Type,
           ): ObjC.Comment[] {
             return [];
           },
-          instanceMethods: function(
+          instanceMethods: function (
             objectType: ObjectSpec.Type,
           ): ObjC.Method[] {
             const instanceMethods: ObjC.Method[] = [
@@ -1878,58 +1878,58 @@ describe('ObjectSpecCreation', function() {
             ];
             return instanceMethods;
           },
-          additionalFiles: function(objectType: ObjectSpec.Type): Code.File[] {
+          additionalFiles: function (objectType: ObjectSpec.Type): Code.File[] {
             return [];
           },
-          transformBaseFile: function(
+          transformBaseFile: function (
             objectType: ObjectSpec.Type,
             baseFile: Code.File,
           ): Code.File {
             return baseFile;
           },
-          additionalTypes: function(
+          additionalTypes: function (
             objectType: ObjectSpec.Type,
           ): ObjectSpec.Type[] {
             return [];
           },
-          attributes: function(
+          attributes: function (
             objectType: ObjectSpec.Type,
           ): ObjectSpec.Attribute[] {
             return [];
           },
-          properties: function(objectType: ObjectSpec.Type): ObjC.Property[] {
+          properties: function (objectType: ObjectSpec.Type): ObjC.Property[] {
             return [];
           },
-          classMethods: function(objectType: ObjectSpec.Type): ObjC.Method[] {
+          classMethods: function (objectType: ObjectSpec.Type): ObjC.Method[] {
             return [];
           },
-          staticConstants: function(
+          staticConstants: function (
             objectType: ObjectSpec.Type,
           ): ObjC.Constant[] {
             return [];
           },
-          implementedProtocols: function(
+          implementedProtocols: function (
             objectType: ObjectSpec.Type,
           ): ObjC.ImplementedProtocol[] {
             return [];
           },
-          functions: function(objectType: ObjectSpec.Type): ObjC.Function[] {
+          functions: function (objectType: ObjectSpec.Type): ObjC.Function[] {
             return [];
           },
-          macros: function(valueType: ObjectSpec.Type): ObjC.Macro[] {
+          macros: function (valueType: ObjectSpec.Type): ObjC.Macro[] {
             return [];
           },
-          validationErrors: function(
+          validationErrors: function (
             objectType: ObjectSpec.Type,
           ): Error.Error[] {
             return [];
           },
-          nullability: function(
+          nullability: function (
             objectType: ObjectSpec.Type,
           ): ObjC.ClassNullability | null {
             return null;
           },
-          subclassingRestricted: function(
+          subclassingRestricted: function (
             objectType: ObjectSpec.Type,
           ): boolean {
             return false;
@@ -2026,31 +2026,31 @@ describe('ObjectSpecCreation', function() {
       },
     );
 
-    it('writes the output files into a given output directory', function() {
+    it('writes the output files into a given output directory', function () {
       const Plugin: ObjectSpec.Plugin = {
         requiredIncludesToRun: [],
-        imports: function(objectType: ObjectSpec.Type): ObjC.Import[] {
+        imports: function (objectType: ObjectSpec.Type): ObjC.Import[] {
           return [];
         },
-        transformFileRequest: function(
+        transformFileRequest: function (
           request: FileWriter.Request,
         ): FileWriter.Request {
           return request;
         },
-        fileType: function(objectType: ObjectSpec.Type): Code.FileType | null {
+        fileType: function (objectType: ObjectSpec.Type): Code.FileType | null {
           return null;
         },
-        forwardDeclarations: function(
+        forwardDeclarations: function (
           objectType: ObjectSpec.Type,
         ): ObjC.ForwardDeclaration[] {
           return [];
         },
-        headerComments: function(objectType: ObjectSpec.Type): ObjC.Comment[] {
+        headerComments: function (objectType: ObjectSpec.Type): ObjC.Comment[] {
           return [
             {content: '// Copyright something something. All Rights Reserved.'},
           ];
         },
-        instanceMethods: function(objectType: ObjectSpec.Type): ObjC.Method[] {
+        instanceMethods: function (objectType: ObjectSpec.Type): ObjC.Method[] {
           const instanceMethods: ObjC.Method[] = [
             {
               preprocessors: [],
@@ -2077,56 +2077,58 @@ describe('ObjectSpecCreation', function() {
           ];
           return instanceMethods;
         },
-        additionalFiles: function(objectType: ObjectSpec.Type): Code.File[] {
+        additionalFiles: function (objectType: ObjectSpec.Type): Code.File[] {
           return [];
         },
-        transformBaseFile: function(
+        transformBaseFile: function (
           objectType: ObjectSpec.Type,
           baseFile: Code.File,
         ): Code.File {
           return baseFile;
         },
-        additionalTypes: function(
+        additionalTypes: function (
           objectType: ObjectSpec.Type,
         ): ObjectSpec.Type[] {
           return [];
         },
-        attributes: function(
+        attributes: function (
           objectType: ObjectSpec.Type,
         ): ObjectSpec.Attribute[] {
           return [];
         },
-        properties: function(objectType: ObjectSpec.Type): ObjC.Property[] {
+        properties: function (objectType: ObjectSpec.Type): ObjC.Property[] {
           return [];
         },
-        classMethods: function(objectType: ObjectSpec.Type): ObjC.Method[] {
+        classMethods: function (objectType: ObjectSpec.Type): ObjC.Method[] {
           return [];
         },
-        staticConstants: function(
+        staticConstants: function (
           objectType: ObjectSpec.Type,
         ): ObjC.Constant[] {
           return [];
         },
-        implementedProtocols: function(
+        implementedProtocols: function (
           objectType: ObjectSpec.Type,
         ): ObjC.ImplementedProtocol[] {
           return [];
         },
-        functions: function(objectType: ObjectSpec.Type): ObjC.Function[] {
+        functions: function (objectType: ObjectSpec.Type): ObjC.Function[] {
           return [];
         },
-        macros: function(valueType: ObjectSpec.Type): ObjC.Macro[] {
+        macros: function (valueType: ObjectSpec.Type): ObjC.Macro[] {
           return [];
         },
-        validationErrors: function(objectType: ObjectSpec.Type): Error.Error[] {
+        validationErrors: function (
+          objectType: ObjectSpec.Type,
+        ): Error.Error[] {
           return [];
         },
-        nullability: function(
+        nullability: function (
           objectType: ObjectSpec.Type,
         ): ObjC.ClassNullability | null {
           return null;
         },
-        subclassingRestricted: function(objectType: ObjectSpec.Type): boolean {
+        subclassingRestricted: function (objectType: ObjectSpec.Type): boolean {
           return false;
         },
       };

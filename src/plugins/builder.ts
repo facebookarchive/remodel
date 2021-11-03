@@ -78,7 +78,7 @@ function openingBrace(): string {
 function indentationForItemAtIndexWithOffset(
   offset: number,
 ): (index: number) => string {
-  return function(index: number): string {
+  return function (index: number): string {
     const indentation = offset - index;
     return StringUtils.stringContainingSpaces(
       indentation > 0 ? indentation : 0,
@@ -120,9 +120,8 @@ function codeForBuilderFromExistingObjectClassMethodForValueType(
   objectType: ObjectSpec.Type,
 ): string[] {
   const returnOpening: string = 'return ';
-  const openingBracesForWithMethodInvocations: string[] = objectType.attributes.map(
-    openingBrace,
-  );
+  const openingBracesForWithMethodInvocations: string[] =
+    objectType.attributes.map(openingBrace);
   const builderCreationCall: string =
     '[' +
     nameOfBuilderForValueTypeWithName(objectType.typeName) +
@@ -134,22 +133,23 @@ function codeForBuilderFromExistingObjectClassMethodForValueType(
     openingBracesForWithMethodInvocations.join('') +
     builderCreationCall;
 
-  const indentationProvider: (
-    index: number,
-  ) => string = indentationForItemAtIndexWithOffset(
-    returnOpening.length + openingBracesForWithMethodInvocations.length,
-  );
-  const existingObjectName: string = keywordArgumentNameForBuilderFromExistingObjectClassMethodForValueType(
-    objectType,
-  );
-  const linesForBuildingValuesIntoBuilder: string[] = objectType.attributes.reduce(
-    toWithInvocationCallForBuilderFromExistingObjectClassMethodForAttribute.bind(
-      null,
-      indentationProvider,
-      existingObjectName,
-    ),
-    [],
-  );
+  const indentationProvider: (index: number) => string =
+    indentationForItemAtIndexWithOffset(
+      returnOpening.length + openingBracesForWithMethodInvocations.length,
+    );
+  const existingObjectName: string =
+    keywordArgumentNameForBuilderFromExistingObjectClassMethodForValueType(
+      objectType,
+    );
+  const linesForBuildingValuesIntoBuilder: string[] =
+    objectType.attributes.reduce(
+      toWithInvocationCallForBuilderFromExistingObjectClassMethodForAttribute.bind(
+        null,
+        indentationProvider,
+        existingObjectName,
+      ),
+      [],
+    );
 
   const code: string[] = [openingLine].concat(
     linesForBuildingValuesIntoBuilder,
@@ -254,9 +254,8 @@ function valueToAssignIntoInternalStateForAttribute(
   supportsValueSemantics: boolean,
   attribute: ObjectSpec.Attribute,
 ): string {
-  const keywordArgumentName: string = keywordArgumentNameForAttribute(
-    attribute,
-  );
+  const keywordArgumentName: string =
+    keywordArgumentNameForAttribute(attribute);
   if (
     ObjectSpecCodeUtils.shouldCopyIncomingValueForAttribute(
       supportsValueSemantics,
@@ -293,9 +292,10 @@ function withInstanceMethodForAttribute(
         name: keywordNameForAttribute(attribute),
         argument: {
           name: keywordArgumentNameForAttribute(attribute),
-          modifiers: ObjCNullabilityUtils.keywordArgumentModifiersForNullability(
-            attribute.nullability,
-          ),
+          modifiers:
+            ObjCNullabilityUtils.keywordArgumentModifiersForNullability(
+              attribute.nullability,
+            ),
           type: {
             name: attribute.type.name,
             reference: attribute.type.reference,
@@ -334,7 +334,7 @@ export function importsForTypeLookupsOfObjectType(
   const needsImportsForAllTypeLookups =
     objectType.includes.indexOf('UseForwardDeclarations') !== -1;
   return objectType.typeLookups
-    .map(function(typeLookup: ObjectGeneration.TypeLookup): ObjC.Import {
+    .map(function (typeLookup: ObjectGeneration.TypeLookup): ObjC.Import {
       if (!typeLookup.canForwardDeclare) {
         return ObjCImportUtils.importForTypeLookup(
           objectType.libraryName,
@@ -351,7 +351,7 @@ export function importsForTypeLookupsOfObjectType(
         return null!;
       }
     })
-    .filter(function(maybeImport: ObjC.Import): boolean {
+    .filter(function (maybeImport: ObjC.Import): boolean {
       return maybeImport != null;
     });
 }
@@ -364,9 +364,8 @@ function importsForBuilder(
   objectType: ObjectSpec.Type,
   forBaseFile: boolean,
 ): ObjC.Import[] {
-  const typeLookupImports: ObjC.Import[] = importsForTypeLookupsOfObjectType(
-    objectType,
-  );
+  const typeLookupImports: ObjC.Import[] =
+    importsForTypeLookupsOfObjectType(objectType);
 
   const makePublicImports = makePublicImportsForValueType(objectType);
   const skipAttributeImports =
@@ -376,13 +375,13 @@ function importsForBuilder(
   const attributeImports: ObjC.Import[] = skipAttributeImports
     ? []
     : objectType.attributes
-        .filter(attribute =>
+        .filter((attribute) =>
           ObjCImportUtils.shouldIncludeImportForType(
             objectType.typeLookups,
             attribute.type.name,
           ),
         )
-        .map(function(attribute: ObjectSpec.Attribute): ObjC.Import {
+        .map(function (attribute: ObjectSpec.Attribute): ObjC.Import {
           return ObjCImportUtils.importForAttribute(
             attribute.type.name,
             attribute.type.underlyingType,
@@ -440,7 +439,7 @@ function classesForBuilder(objectType: ObjectSpec.Type): ObjC.Class[] {
       instanceMethods: [
         buildObjectInstanceMethodForValueType(objectType),
       ].concat(
-        objectType.attributes.map(attribute =>
+        objectType.attributes.map((attribute) =>
           withInstanceMethodForAttribute(
             ObjectSpecUtils.typeSupportsValueObjectSemantics(objectType),
             attribute,
@@ -492,10 +491,10 @@ function builderFileForValueType(
 
 export function createPlugin(): ObjectSpec.Plugin {
   return {
-    additionalFiles: function(objectType: ObjectSpec.Type): Code.File[] {
+    additionalFiles: function (objectType: ObjectSpec.Type): Code.File[] {
       return [builderFileForValueType(objectType, false)];
     },
-    transformBaseFile: function(
+    transformBaseFile: function (
       objectType: ObjectSpec.Type,
       baseFile: Code.File,
     ): Code.File {
@@ -508,64 +507,64 @@ export function createPlugin(): ObjectSpec.Plugin {
       baseFile.classes = baseFile.classes.concat(classesForBuilder(objectType));
       return baseFile;
     },
-    additionalTypes: function(objectType: ObjectSpec.Type): ObjectSpec.Type[] {
+    additionalTypes: function (objectType: ObjectSpec.Type): ObjectSpec.Type[] {
       return [];
     },
-    attributes: function(objectType: ObjectSpec.Type): ObjectSpec.Attribute[] {
+    attributes: function (objectType: ObjectSpec.Type): ObjectSpec.Attribute[] {
       return [];
     },
-    classMethods: function(objectType: ObjectSpec.Type): ObjC.Method[] {
+    classMethods: function (objectType: ObjectSpec.Type): ObjC.Method[] {
       return [];
     },
-    transformFileRequest: function(
+    transformFileRequest: function (
       request: FileWriter.Request,
     ): FileWriter.Request {
       return request;
     },
-    fileType: function(objectType: ObjectSpec.Type): Code.FileType | null {
+    fileType: function (objectType: ObjectSpec.Type): Code.FileType | null {
       return null;
     },
-    forwardDeclarations: function(
+    forwardDeclarations: function (
       objectType: ObjectSpec.Type,
     ): ObjC.ForwardDeclaration[] {
       return [];
     },
-    functions: function(objectType: ObjectSpec.Type): ObjC.Function[] {
+    functions: function (objectType: ObjectSpec.Type): ObjC.Function[] {
       return [];
     },
-    headerComments: function(objectType: ObjectSpec.Type): ObjC.Comment[] {
+    headerComments: function (objectType: ObjectSpec.Type): ObjC.Comment[] {
       return [];
     },
-    implementedProtocols: function(
+    implementedProtocols: function (
       objectType: ObjectSpec.Type,
     ): ObjC.ImplementedProtocol[] {
       return [];
     },
-    imports: function(objectType: ObjectSpec.Type): ObjC.Import[] {
+    imports: function (objectType: ObjectSpec.Type): ObjC.Import[] {
       return [];
     },
-    instanceMethods: function(objectType: ObjectSpec.Type): ObjC.Method[] {
+    instanceMethods: function (objectType: ObjectSpec.Type): ObjC.Method[] {
       return [];
     },
-    macros: function(valueType: ObjectSpec.Type): ObjC.Macro[] {
+    macros: function (valueType: ObjectSpec.Type): ObjC.Macro[] {
       return [];
     },
-    properties: function(objectType: ObjectSpec.Type): ObjC.Property[] {
+    properties: function (objectType: ObjectSpec.Type): ObjC.Property[] {
       return [];
     },
     requiredIncludesToRun: ['RMBuilder'],
-    staticConstants: function(objectType: ObjectSpec.Type): ObjC.Constant[] {
+    staticConstants: function (objectType: ObjectSpec.Type): ObjC.Constant[] {
       return [];
     },
-    validationErrors: function(objectType: ObjectSpec.Type): Error.Error[] {
+    validationErrors: function (objectType: ObjectSpec.Type): Error.Error[] {
       return [];
     },
-    nullability: function(
+    nullability: function (
       objectType: ObjectSpec.Type,
     ): ObjC.ClassNullability | null {
       return null;
     },
-    subclassingRestricted: function(objectType: ObjectSpec.Type): boolean {
+    subclassingRestricted: function (objectType: ObjectSpec.Type): boolean {
       return false;
     },
   };

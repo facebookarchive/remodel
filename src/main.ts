@@ -21,7 +21,7 @@ function flattenResults(
   results: List.List<ConsoleOutputResults>,
 ): ConsoleOutputResults {
   return List.foldl(
-    function(currentValue, result) {
+    function (currentValue, result) {
       return {
         errorCount: currentValue.errorCount + result.errorCount,
         successCount: currentValue.successCount + result.successCount,
@@ -44,7 +44,7 @@ export function main(
   testEnv?: boolean,
 ): Promise.Future<List.List<List.List<ConsoleOutputResults>>> | undefined {
   return Maybe.match(
-    function(args) {
+    function (args) {
       const valueObjectsFuture = ObjectSpecs.generate(
         process.cwd(),
         'value',
@@ -71,7 +71,7 @@ export function main(
         List.of(valueObjectsFuture, objectsFuture, algebraicTypesFuture),
       );
 
-      Promise.then(function(results) {
+      Promise.then(function (results) {
         const aggregatedResult = aggregateResults(results);
 
         if (!testEnv) {
@@ -101,7 +101,7 @@ export function main(
       }, promise);
       return promise;
     },
-    function() {
+    function () {
       console.log('Expected use: ./generate [flags] pathToDirectory');
       if (!testEnv) {
         ParallelProcessQueue.shutDown();

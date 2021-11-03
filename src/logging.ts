@@ -125,10 +125,10 @@ export function evaluate<T>(logger: Logger, context: Context<T>): Context<T> {
     logger.interestedLoggingTypes,
   );
   return List.foldr(
-    function(context: Context<T>, logInfo: LogInfo) {
+    function (context: Context<T>, logInfo: LogInfo) {
       const maybeValue: boolean | null = Map.get(logInfo.loggingType, map);
       return Maybe.match(
-        function(bool: boolean) {
+        function (bool: boolean) {
           if (logger.minimalLevel <= logInfo.level) {
             logger.processLog(logInfo.loggingType, logInfo.time, logInfo.info);
           }
@@ -138,7 +138,7 @@ export function evaluate<T>(logger: Logger, context: Context<T>): Context<T> {
             context.value,
           );
         },
-        function() {
+        function () {
           return new Context<T>(
             context.evaluatedLogInfos,
             List.cons(logInfo, context.evaluatedLogInfos),

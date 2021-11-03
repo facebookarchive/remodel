@@ -17,12 +17,12 @@ import * as ObjectSpec from '../../object-spec';
 
 const Plugin = Builder.createPlugin();
 
-describe('Plugins.Builder', function() {
-  describe('#additionalFiles', function() {
+describe('Plugins.Builder', function () {
+  describe('#additionalFiles', function () {
     it(
       'returns a header and an implementation for a builder when provided a ' +
         'value type that has no attributes',
-      function() {
+      function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [],
@@ -169,7 +169,7 @@ describe('Plugins.Builder', function() {
     it(
       'returns a header and an implementation for a builder when provided a ' +
         'value type that has no attributes and a different name',
-      function() {
+      function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [],
@@ -316,7 +316,7 @@ describe('Plugins.Builder', function() {
     it(
       'returns a header and an implementation for a builder when provided a ' +
         'value type that has a bunch of attributes and supports value semantics',
-      function() {
+      function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
@@ -641,7 +641,7 @@ describe('Plugins.Builder', function() {
     it(
       'returns a header and an implementation for a builder when provided a ' +
         'value type that has a bunch of attributes and does not supports value semantics',
-      function() {
+      function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
@@ -964,8 +964,8 @@ describe('Plugins.Builder', function() {
     );
   });
 
-  describe('#importsForTypeLookupsOfObjectType', function() {
-    it('returns an import for a type which cannot be forward declared', function() {
+  describe('#importsForTypeLookupsOfObjectType', function () {
+    it('returns an import for a type which cannot be forward declared', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [],
@@ -984,9 +984,8 @@ describe('Plugins.Builder', function() {
         typeName: 'FooBarBaz',
       };
 
-      const imports: ObjC.Import[] = Builder.importsForTypeLookupsOfObjectType(
-        objectType,
-      );
+      const imports: ObjC.Import[] =
+        Builder.importsForTypeLookupsOfObjectType(objectType);
 
       const expectedImports: ObjC.Import[] = [
         {
@@ -1003,7 +1002,7 @@ describe('Plugins.Builder', function() {
     it(
       'returns an import for a type which cannot be forward declared containing ' +
         'the default library',
-      function() {
+      function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [],
@@ -1022,9 +1021,8 @@ describe('Plugins.Builder', function() {
           typeName: 'FooBarBaz',
         };
 
-        const imports: ObjC.Import[] = Builder.importsForTypeLookupsOfObjectType(
-          objectType,
-        );
+        const imports: ObjC.Import[] =
+          Builder.importsForTypeLookupsOfObjectType(objectType);
 
         const expectedImports: ObjC.Import[] = [
           {
@@ -1039,7 +1037,7 @@ describe('Plugins.Builder', function() {
       },
     );
 
-    it('does not return an import for a type which can be forward declared', function() {
+    it('does not return an import for a type which can be forward declared', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [],
@@ -1058,15 +1056,14 @@ describe('Plugins.Builder', function() {
         typeName: 'FooBarBaz',
       };
 
-      const imports: ObjC.Import[] = Builder.importsForTypeLookupsOfObjectType(
-        objectType,
-      );
+      const imports: ObjC.Import[] =
+        Builder.importsForTypeLookupsOfObjectType(objectType);
       const expectedImports: ObjC.Import[] = [];
 
       expect(imports).toEqualJSON(expectedImports);
     });
 
-    it('does return a private import if UseForwardDeclarations is used', function() {
+    it('does return a private import if UseForwardDeclarations is used', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [],
@@ -1085,9 +1082,8 @@ describe('Plugins.Builder', function() {
         typeName: 'FooBarBaz',
       };
 
-      const imports: ObjC.Import[] = Builder.importsForTypeLookupsOfObjectType(
-        objectType,
-      );
+      const imports: ObjC.Import[] =
+        Builder.importsForTypeLookupsOfObjectType(objectType);
 
       const expectedImports: ObjC.Import[] = [
         {

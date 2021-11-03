@@ -10,24 +10,24 @@
 
 import * as Functor from '../functor';
 
-describe('Functor', function() {
-  describe('#map', function() {
-    it('should map over arrays', function() {
+describe('Functor', function () {
+  describe('#map', function () {
+    it('should map over arrays', function () {
       const numbers: number[] = [1, 2, 3, 4];
-      const doubledNumbers = Functor.map(function(num: number) {
+      const doubledNumbers = Functor.map(function (num: number) {
         return num * 2;
       }, numbers);
 
       expect(doubledNumbers).toEqualJSON([2, 4, 6, 8]);
     });
 
-    it('should map over a custom functor', function() {
+    it('should map over a custom functor', function () {
       const functor = {
-        map: function(funct) {
+        map: function (funct) {
           return funct(3) + 1;
         },
       };
-      const result = Functor.map(function(num: number) {
+      const result = Functor.map(function (num: number) {
         return num * 2;
       }, functor);
 
@@ -35,12 +35,12 @@ describe('Functor', function() {
     });
   });
 
-  describe('#pipeline2', function() {
-    it('should sequentially apply the maps', function() {
-      const multiplyByTwo = function(a: number) {
+  describe('#pipeline2', function () {
+    it('should sequentially apply the maps', function () {
+      const multiplyByTwo = function (a: number) {
         return a * 2;
       };
-      const subtractByTwo = function(a: number) {
+      const subtractByTwo = function (a: number) {
         return a - 2;
       };
 
@@ -50,12 +50,12 @@ describe('Functor', function() {
     });
   });
 
-  describe('#pipeline3', function() {
-    it('should sequentially apply the maps', function() {
-      const multiplyByTwo = function(a: number) {
+  describe('#pipeline3', function () {
+    it('should sequentially apply the maps', function () {
+      const multiplyByTwo = function (a: number) {
         return a * 2;
       };
-      const subtractByTwo = function(a: number) {
+      const subtractByTwo = function (a: number) {
         return a - 2;
       };
 
@@ -70,12 +70,12 @@ describe('Functor', function() {
     });
   });
 
-  describe('#pipeline4', function() {
-    it('should sequentially apply the maps', function() {
-      const multiplyByTwo = function(a: number) {
+  describe('#pipeline4', function () {
+    it('should sequentially apply the maps', function () {
+      const multiplyByTwo = function (a: number) {
         return a * 2;
       };
-      const subtractByTwo = function(a: number) {
+      const subtractByTwo = function (a: number) {
         return a - 2;
       };
 
@@ -91,12 +91,12 @@ describe('Functor', function() {
     });
   });
 
-  describe('#pipeline5', function() {
-    it('should sequentially apply the maps', function() {
-      const multiplyByTwo = function(a: number) {
+  describe('#pipeline5', function () {
+    it('should sequentially apply the maps', function () {
+      const multiplyByTwo = function (a: number) {
         return a * 2;
       };
-      const subtractByTwo = function(a: number) {
+      const subtractByTwo = function (a: number) {
         return a - 2;
       };
 
@@ -113,12 +113,12 @@ describe('Functor', function() {
     });
   });
 
-  describe('#pipeline6', function() {
-    it('should sequentially apply the maps', function() {
-      const multiplyByTwo = function(a: number) {
+  describe('#pipeline6', function () {
+    it('should sequentially apply the maps', function () {
+      const multiplyByTwo = function (a: number) {
         return a * 2;
       };
-      const subtractByTwo = function(a: number) {
+      const subtractByTwo = function (a: number) {
         return a - 2;
       };
 

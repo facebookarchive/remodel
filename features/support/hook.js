@@ -26,7 +26,7 @@ function isFirstBeforeRun() {
   }
 }
 
-Before(function(testCase) {
+Before(function (testCase) {
   if (isFirstBeforeRun() && fs.existsSync(TMP_DIR_PATH)) {
     remove.removeSync(TMP_DIR_PATH);
   }

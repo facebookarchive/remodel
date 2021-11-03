@@ -14,10 +14,9 @@ import * as Promise from './promise';
 export function read(
   path: File.AbsoluteFilePath,
 ): Promise.Future<Either.Either<Error.Error[], File.Contents>> {
-  const promise = Promise.pending<
-    Either.Either<Error.Error[], File.Contents>
-  >();
-  fs.readFile(File.getAbsolutePathString(path), 'utf8', function(err, data) {
+  const promise =
+    Promise.pending<Either.Either<Error.Error[], File.Contents>>();
+  fs.readFile(File.getAbsolutePathString(path), 'utf8', function (err, data) {
     if (err) {
       promise.setValue(
         Either.Left<Error.Error[], File.Contents>([Error.Error(err.message)]),

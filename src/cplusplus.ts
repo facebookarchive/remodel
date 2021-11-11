@@ -66,8 +66,15 @@ export enum TypePassBy {
   Pointer,
 }
 
+export enum NullabilitySpecifier {
+  Inherited,
+  Nonnull,
+  Nullable,
+}
+
 export interface TypeQualifier {
   passBy: TypePassBy;
+  nullability: NullabilitySpecifier;
   is_const: boolean;
 }
 
@@ -118,7 +125,13 @@ export interface ClassSection {
   methods: Function[];
 }
 
+export enum ClassNullability {
+  default,
+  assumeNonnull,
+}
+
 export interface Class {
   name: string;
+  nullability: ClassNullability;
   sections: ClassSection[];
 }

@@ -8,7 +8,23 @@
 import * as CPlusPlus from './cplusplus';
 import * as StringUtils from './string-utils';
 
-function typeToString(type: CPlusPlus.Type): string {
+function nullabilityString(
+  nullability: CPlusPlus.NullabilitySpecifier,
+): string {
+  switch (nullability) {
+    case CPlusPlus.NullabilitySpecifier.Inherited:
+      return '';
+    case CPlusPlus.NullabilitySpecifier.Nonnull:
+      return '_Nonnull ';
+    case CPlusPlus.NullabilitySpecifier.Nullable:
+      return '_Nullable ';
+  }
+}
+
+function typeToString(
+  type: CPlusPlus.Type,
+  includeNullability: boolean,
+): string {
   var result = '';
 
   if (type.qualifier.is_const) {
@@ -26,6 +42,9 @@ function typeToString(type: CPlusPlus.Type): string {
       break;
     case CPlusPlus.TypePassBy.Pointer:
       result += ' *';
+      if (includeNullability) {
+        result += nullabilityString(type.qualifier.nullability);
+      }
       break;
   }
 
@@ -33,7 +52,7 @@ function typeToString(type: CPlusPlus.Type): string {
 }
 
 function renderParam(param: CPlusPlus.FunctionParam): string {
-  return typeToString(param.type) + param.name;
+  return typeToString(param.type, true) + param.name;
 }
 
 function renderParameters(params: CPlusPlus.FunctionParam[]): string {
@@ -112,7 +131,7 @@ function renderConstructorDefinition(
 
 export function renderFunctionDeclaration(funct: CPlusPlus.Function): string[] {
   var opener =
-    typeToString(funct.returnType) +
+    typeToString(funct.returnType, true) +
     funct.name +
     '(' +
     renderParameters(funct.params) +
@@ -129,7 +148,7 @@ export function renderFunctionDefinitionCore(
   var classQualifier = className.length > 0 ? className + '::' : '';
 
   var opener =
-    typeToString(funct.returnType) +
+    typeToString(funct.returnType, true) +
     classQualifier +
     funct.name +
     '(' +
@@ -198,7 +217,7 @@ function renderSection(section: CPlusPlus.ClassSection): string {
   result = result.concat(
     section.members
       .map((member) => {
-        return typeToString(member.type) + member.name + ';';
+        return typeToString(member.type, false) + member.name + ';';
       })
       .map(StringUtils.indent(2)),
   );
@@ -221,7 +240,16 @@ function spaceOutGroups(groups: string[][]): string[] {
 
 export function renderClassDeclaration(klass: CPlusPlus.Class): string[] {
   var sections = klass.sections.map(renderSection).join('\n\n');
-  return ['class ' + klass.name + ' {'].concat([sections]).concat(['};']);
+  var wholeClass = ['class ' + klass.name + ' {']
+    .concat([sections])
+    .concat(['};']);
+  if (klass.nullability == CPlusPlus.ClassNullability.assumeNonnull) {
+    return ['NS_ASSUME_NONNULL_BEGIN']
+      .concat(wholeClass)
+      .concat(['NS_ASSUME_NONNULL_END']);
+  } else {
+    return wholeClass;
+  }
 }
 
 export function renderClassDefinition(klass: CPlusPlus.Class): string[] {

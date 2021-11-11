@@ -17,6 +17,7 @@ const complexFunc: CPlusPlus.Function = {
     baseType: 'Foobar',
     qualifier: {
       passBy: CPlusPlus.TypePassBy.Pointer,
+      nullability: CPlusPlus.NullabilitySpecifier.Inherited,
       is_const: false,
     },
   },
@@ -28,6 +29,7 @@ const complexFunc: CPlusPlus.Function = {
         baseType: 'MyStruct',
         qualifier: {
           passBy: CPlusPlus.TypePassBy.Reference,
+          nullability: CPlusPlus.NullabilitySpecifier.Inherited,
           is_const: true,
         },
       },
@@ -38,6 +40,18 @@ const complexFunc: CPlusPlus.Function = {
         baseType: 'int',
         qualifier: {
           passBy: CPlusPlus.TypePassBy.Value,
+          nullability: CPlusPlus.NullabilitySpecifier.Inherited,
+          is_const: false,
+        },
+      },
+    },
+    {
+      name: 'param3',
+      type: {
+        baseType: 'NSString',
+        qualifier: {
+          passBy: CPlusPlus.TypePassBy.Pointer,
+          nullability: CPlusPlus.NullabilitySpecifier.Nonnull,
           is_const: false,
         },
       },
@@ -61,6 +75,7 @@ function buildFunctionWithEmptyBody(): CPlusPlus.Function {
 function buildClass(): CPlusPlus.Class {
   return {
     name: 'MyClass',
+    nullability: CPlusPlus.ClassNullability.assumeNonnull,
     sections: [
       {
         visibility: CPlusPlus.ClassSectionVisibility.Public,
@@ -78,6 +93,7 @@ function buildClass(): CPlusPlus.Class {
                   baseType: 'FBFoobar',
                   qualifier: {
                     passBy: CPlusPlus.TypePassBy.Pointer,
+                    nullability: CPlusPlus.NullabilitySpecifier.Inherited,
                     is_const: false,
                   },
                 },
@@ -109,6 +125,7 @@ function buildClass(): CPlusPlus.Class {
               baseType: 'int',
               qualifier: {
                 passBy: CPlusPlus.TypePassBy.Value,
+                nullability: CPlusPlus.NullabilitySpecifier.Inherited,
                 is_const: false,
               },
             },
@@ -119,6 +136,7 @@ function buildClass(): CPlusPlus.Class {
               baseType: 'NSString',
               qualifier: {
                 passBy: CPlusPlus.TypePassBy.Pointer,
+                nullability: CPlusPlus.NullabilitySpecifier.Inherited,
                 is_const: false,
               },
             },
@@ -138,6 +156,7 @@ describe('CPlusPlus Rendering', function () {
           baseType: 'void',
           qualifier: {
             passBy: CPlusPlus.TypePassBy.Value,
+            nullability: CPlusPlus.NullabilitySpecifier.Inherited,
             is_const: false,
           },
         },
@@ -158,7 +177,7 @@ describe('CPlusPlus Rendering', function () {
         CppRenderer.renderFunctionDeclaration(complexFunc).join('\n');
 
       const expectedOutput =
-        'Foobar *MyFunction(const MyStruct &param1, int param2);';
+        'Foobar *MyFunction(const MyStruct &param1, int param2, NSString *_Nonnull param3);';
 
       expect(renderedOutput).toEqualJSON(expectedOutput);
     });
@@ -169,7 +188,7 @@ describe('CPlusPlus Rendering', function () {
       ).join('\n');
 
       const expectedOutput =
-        'Foobar *MyFunction(const MyStruct &param1, int param2) {}';
+        'Foobar *MyFunction(const MyStruct &param1, int param2, NSString *_Nonnull param3) {}';
 
       expect(renderedOutput).toEqualJSON(expectedOutput);
     });
@@ -180,17 +199,19 @@ describe('CPlusPlus Rendering', function () {
       ).join('\n');
 
       const expectedOutput =
+        'NS_ASSUME_NONNULL_BEGIN\n' +
         'class MyClass {\n' +
         'public:\n' +
         '  MyClass() = default;\n' +
         '  MyClass(FBFoobar *input);\n' +
         '\n' +
-        '  Foobar *MyFunction(const MyStruct &param1, int param2) const;\n' +
+        '  Foobar *MyFunction(const MyStruct &param1, int param2, NSString *_Nonnull param3) const;\n' +
         '\n' +
         'private:\n' +
         '  int field1_;\n' +
         '  NSString *text_;\n' +
-        '};';
+        '};\n' +
+        'NS_ASSUME_NONNULL_END';
 
       expect(renderedOutput).toEqual(expectedOutput);
     });
@@ -205,7 +226,7 @@ describe('CPlusPlus Rendering', function () {
         '  field1_(input.intValue),\n' +
         '  text_(input.text) {}\n' +
         '\n' +
-        'Foobar *MyClass::MyFunction(const MyStruct &param1, int param2) const\n' +
+        'Foobar *MyClass::MyFunction(const MyStruct &param1, int param2, NSString *_Nonnull param3) const\n' +
         '{\n' +
         '  return [Foobar new];\n' +
         '}';

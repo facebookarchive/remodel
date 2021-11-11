@@ -5,6 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import * as CLangCommon from './clang-common';
+
 enum TemplateTypeType {
   typenameTemplate,
   classTemplate,
@@ -66,15 +68,9 @@ export enum TypePassBy {
   Pointer,
 }
 
-export enum NullabilitySpecifier {
-  Inherited,
-  Nonnull,
-  Nullable,
-}
-
 export interface TypeQualifier {
   passBy: TypePassBy;
-  nullability: NullabilitySpecifier;
+  nullability: CLangCommon.Nullability;
   is_const: boolean;
 }
 

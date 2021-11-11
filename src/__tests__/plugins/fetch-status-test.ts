@@ -9,9 +9,8 @@
 ///<reference path='../../type-defs/jasmine-test-additions.d.ts'/>
 
 import * as FetchStatus from '../../plugins/fetch-status';
-import * as Maybe from '../../maybe';
+import * as CLangCommon from '../../clang-common';
 import * as ObjectSpec from '../../object-spec';
-import * as ObjC from '../../objc';
 
 const Plugin = FetchStatus.createPlugin();
 
@@ -36,7 +35,7 @@ describe('Plugins.FetchStatus', function () {
           annotations: {},
           comments: [],
           name: 'fetchStatus',
-          nullability: ObjC.Nullability.Inherited(),
+          nullability: CLangCommon.Nullability.Inherited(),
           type: {
             fileTypeIsDefinedIn: null,
             libraryTypeIsDefinedIn: 'FooLib',
@@ -61,7 +60,7 @@ describe('Plugins.FetchStatus', function () {
             annotations: {},
             comments: [],
             name: 'someUnsignedInteger',
-            nullability: ObjC.Nullability.Inherited(),
+            nullability: CLangCommon.Nullability.Inherited(),
             type: {
               fileTypeIsDefinedIn: null,
               libraryTypeIsDefinedIn: null,
@@ -91,7 +90,7 @@ describe('Plugins.FetchStatus', function () {
             annotations: {},
             comments: [],
             name: 'hasFetchedSomeUnsignedInteger',
-            nullability: ObjC.Nullability.Inherited(),
+            nullability: CLangCommon.Nullability.Inherited(),
             type: {
               fileTypeIsDefinedIn: null,
               libraryTypeIsDefinedIn: null,

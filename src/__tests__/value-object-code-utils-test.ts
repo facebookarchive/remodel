@@ -8,10 +8,9 @@
 ///<reference path='../type-defs/jasmine.d.ts'/>
 ///<reference path='../type-defs/jasmine-test-additions.d.ts'/>
 
-import * as Maybe from '../maybe';
+import * as CLangCommon from '../clang-common';
 import * as ObjectSpec from '../object-spec';
 import * as ObjectSpecCodeUtils from '../object-spec-code-utils';
-import * as ObjC from '../objc';
 
 function valueGenerator(attribute: ObjectSpec.Attribute): string {
   return attribute.name;
@@ -73,7 +72,7 @@ describe('ObjectSpecCodeUtils', function () {
             annotations: {},
             comments: [],
             name: 'name',
-            nullability: ObjC.Nullability.Inherited(),
+            nullability: CLangCommon.Nullability.Inherited(),
             type: {
               fileTypeIsDefinedIn: null,
               libraryTypeIsDefinedIn: null,
@@ -111,7 +110,7 @@ describe('ObjectSpecCodeUtils', function () {
             annotations: {},
             comments: [],
             name: 'age',
-            nullability: ObjC.Nullability.Inherited(),
+            nullability: CLangCommon.Nullability.Inherited(),
             type: {
               fileTypeIsDefinedIn: null,
               libraryTypeIsDefinedIn: null,
@@ -148,7 +147,7 @@ describe('ObjectSpecCodeUtils', function () {
             annotations: {},
             comments: [],
             name: 'name',
-            nullability: ObjC.Nullability.Inherited(),
+            nullability: CLangCommon.Nullability.Inherited(),
             type: {
               fileTypeIsDefinedIn: null,
               libraryTypeIsDefinedIn: null,
@@ -163,7 +162,7 @@ describe('ObjectSpecCodeUtils', function () {
             annotations: {},
             comments: [],
             name: 'age',
-            nullability: ObjC.Nullability.Inherited(),
+            nullability: CLangCommon.Nullability.Inherited(),
             type: {
               fileTypeIsDefinedIn: null,
               libraryTypeIsDefinedIn: null,

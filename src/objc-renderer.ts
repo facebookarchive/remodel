@@ -6,6 +6,7 @@
  */
 
 import * as Code from './code';
+import * as CLangCommon from './clang-common';
 import * as CPlusPlus from './cplusplus';
 import * as CppRenderer from './cpp-renderer';
 import * as FunctionUtils from './function-utils';
@@ -672,7 +673,7 @@ function toCppClassDefinition(klass: CPlusPlus.Class) {
 }
 
 function toNullabilityModifierStringNestingSubsequentToken(
-  nullability: ObjC.Nullability,
+  nullability: CLangCommon.Nullability,
 ): string {
   return nullability.match(
     returnString(''),

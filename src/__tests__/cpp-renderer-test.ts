@@ -8,6 +8,7 @@
 ///<reference path='../type-defs/jasmine.d.ts'/>
 ///<reference path='../type-defs/jasmine-test-additions.d.ts'/>
 
+import * as CLangCommon from '../clang-common';
 import * as CPlusPlus from '../cplusplus';
 import * as CppRenderer from '../cpp-renderer';
 
@@ -17,7 +18,7 @@ const complexFunc: CPlusPlus.Function = {
     baseType: 'Foobar',
     qualifier: {
       passBy: CPlusPlus.TypePassBy.Pointer,
-      nullability: CPlusPlus.NullabilitySpecifier.Inherited,
+      nullability: CLangCommon.Nullability.Inherited(),
       is_const: false,
     },
   },
@@ -29,7 +30,7 @@ const complexFunc: CPlusPlus.Function = {
         baseType: 'MyStruct',
         qualifier: {
           passBy: CPlusPlus.TypePassBy.Reference,
-          nullability: CPlusPlus.NullabilitySpecifier.Inherited,
+          nullability: CLangCommon.Nullability.Inherited(),
           is_const: true,
         },
       },
@@ -40,7 +41,7 @@ const complexFunc: CPlusPlus.Function = {
         baseType: 'int',
         qualifier: {
           passBy: CPlusPlus.TypePassBy.Value,
-          nullability: CPlusPlus.NullabilitySpecifier.Inherited,
+          nullability: CLangCommon.Nullability.Inherited(),
           is_const: false,
         },
       },
@@ -51,7 +52,7 @@ const complexFunc: CPlusPlus.Function = {
         baseType: 'NSString',
         qualifier: {
           passBy: CPlusPlus.TypePassBy.Pointer,
-          nullability: CPlusPlus.NullabilitySpecifier.Nonnull,
+          nullability: CLangCommon.Nullability.Nonnull(),
           is_const: false,
         },
       },
@@ -93,7 +94,7 @@ function buildClass(): CPlusPlus.Class {
                   baseType: 'FBFoobar',
                   qualifier: {
                     passBy: CPlusPlus.TypePassBy.Pointer,
-                    nullability: CPlusPlus.NullabilitySpecifier.Inherited,
+                    nullability: CLangCommon.Nullability.Inherited(),
                     is_const: false,
                   },
                 },
@@ -125,7 +126,7 @@ function buildClass(): CPlusPlus.Class {
               baseType: 'int',
               qualifier: {
                 passBy: CPlusPlus.TypePassBy.Value,
-                nullability: CPlusPlus.NullabilitySpecifier.Inherited,
+                nullability: CLangCommon.Nullability.Inherited(),
                 is_const: false,
               },
             },
@@ -136,7 +137,7 @@ function buildClass(): CPlusPlus.Class {
               baseType: 'NSString',
               qualifier: {
                 passBy: CPlusPlus.TypePassBy.Pointer,
-                nullability: CPlusPlus.NullabilitySpecifier.Inherited,
+                nullability: CLangCommon.Nullability.Inherited(),
                 is_const: false,
               },
             },
@@ -156,7 +157,7 @@ describe('CPlusPlus Rendering', function () {
           baseType: 'void',
           qualifier: {
             passBy: CPlusPlus.TypePassBy.Value,
-            nullability: CPlusPlus.NullabilitySpecifier.Inherited,
+            nullability: CLangCommon.Nullability.Inherited(),
             is_const: false,
           },
         },

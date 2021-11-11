@@ -10,9 +10,8 @@
 
 import * as AlgebraicType from '../../algebraic-type';
 import * as AlgebraicTypeInitialization from '../../plugins/algebraic-type-initialization';
-import * as Code from '../../code';
 import * as Error from '../../error';
-import * as Maybe from '../../maybe';
+import * as CLangCommon from '../../clang-common';
 import * as ObjC from '../../objc';
 
 const AlgebraicTypePlugin =
@@ -137,7 +136,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function () {
                 annotations: {},
                 name: 'someFoo',
                 comments: [],
-                nullability: ObjC.Nullability.Inherited(),
+                nullability: CLangCommon.Nullability.Inherited(),
                 type: {
                   name: 'Foo',
                   reference: 'Foo *',
@@ -152,7 +151,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function () {
                 annotations: {},
                 name: 'someBool',
                 comments: [],
-                nullability: ObjC.Nullability.Inherited(),
+                nullability: CLangCommon.Nullability.Inherited(),
                 type: {
                   name: 'BOOL',
                   reference: 'BOOL',
@@ -170,7 +169,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function () {
             annotations: {},
             name: 'singleAttributeSubtype',
             comments: [],
-            nullability: ObjC.Nullability.Inherited(),
+            nullability: CLangCommon.Nullability.Inherited(),
             type: {
               name: 'SingleAttributeType',
               reference: 'SingleAttributeType *',
@@ -231,7 +230,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function () {
               annotations: {},
               name: 'someFoo',
               comments: [],
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
               type: {
                 name: 'Foo',
                 reference: 'Foo *',
@@ -356,7 +355,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function () {
                   annotations: {},
                   name: 'someString',
                   comments: [],
-                  nullability: ObjC.Nullability.Inherited(),
+                  nullability: CLangCommon.Nullability.Inherited(),
                   type: {
                     name: 'NSString',
                     reference: 'NSString *',
@@ -371,7 +370,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function () {
                   annotations: {},
                   name: 'someUnsignedInteger',
                   comments: [],
-                  nullability: ObjC.Nullability.Inherited(),
+                  nullability: CLangCommon.Nullability.Inherited(),
                   type: {
                     name: 'NSUInteger',
                     reference: 'NSUInteger',
@@ -389,7 +388,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function () {
               annotations: {},
               name: 'singleAttributeSubtype',
               comments: [],
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
               type: {
                 name: 'SingleAttributeType',
                 reference: 'SingleAttributeType *',
@@ -507,7 +506,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function () {
                 annotations: {},
                 name: 'URL',
                 comments: [],
-                nullability: ObjC.Nullability.Inherited(),
+                nullability: CLangCommon.Nullability.Inherited(),
                 type: {
                   name: 'NSURL',
                   reference: 'NSURL *',
@@ -522,7 +521,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function () {
                 annotations: {},
                 name: 'URLProp',
                 comments: [],
-                nullability: ObjC.Nullability.Inherited(),
+                nullability: CLangCommon.Nullability.Inherited(),
                 type: {
                   name: 'NSURL',
                   reference: 'NSURL *',
@@ -537,7 +536,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function () {
                 annotations: {},
                 name: 'someURL',
                 comments: [],
-                nullability: ObjC.Nullability.Inherited(),
+                nullability: CLangCommon.Nullability.Inherited(),
                 type: {
                   name: 'NSURL',
                   reference: 'NSURL *',
@@ -552,7 +551,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function () {
                 annotations: {},
                 name: 'string',
                 comments: [],
-                nullability: ObjC.Nullability.Inherited(),
+                nullability: CLangCommon.Nullability.Inherited(),
                 type: {
                   name: 'NSString',
                   reference: 'NSString *',
@@ -567,7 +566,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function () {
                 annotations: {},
                 name: 'someString',
                 comments: [],
-                nullability: ObjC.Nullability.Inherited(),
+                nullability: CLangCommon.Nullability.Inherited(),
                 type: {
                   name: 'NSString',
                   reference: 'NSString *',
@@ -614,7 +613,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function () {
                   annotations: {},
                   name: 'someString',
                   comments: [],
-                  nullability: ObjC.Nullability.Inherited(),
+                  nullability: CLangCommon.Nullability.Inherited(),
                   type: {
                     name: 'NSString',
                     reference: 'NSString *',
@@ -629,7 +628,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function () {
                   annotations: {},
                   name: 'someUnsignedInteger',
                   comments: [],
-                  nullability: ObjC.Nullability.Inherited(),
+                  nullability: CLangCommon.Nullability.Inherited(),
                   type: {
                     name: 'NSUInteger',
                     reference: 'NSUInteger',
@@ -647,7 +646,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function () {
               annotations: {},
               name: 'singleAttributeSubtype',
               comments: [],
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
               type: {
                 name: 'SingleAttributeType',
                 reference: 'SingleAttributeType *',
@@ -729,7 +728,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function () {
                 annotations: {},
                 name: 'someString',
                 comments: [],
-                nullability: ObjC.Nullability.Inherited(),
+                nullability: CLangCommon.Nullability.Inherited(),
                 type: {
                   name: 'NSString',
                   reference: 'NSString *',
@@ -744,7 +743,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function () {
                 annotations: {},
                 name: 'someUnsignedInteger',
                 comments: [],
-                nullability: ObjC.Nullability.Inherited(),
+                nullability: CLangCommon.Nullability.Inherited(),
                 type: {
                   name: 'NSUInteger',
                   reference: 'NSUInteger',
@@ -762,7 +761,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function () {
             annotations: {},
             name: 'singleAttributeSubtype',
             comments: [],
-            nullability: ObjC.Nullability.Inherited(),
+            nullability: CLangCommon.Nullability.Inherited(),
             type: {
               name: 'SingleAttributeType',
               reference: 'SingleAttributeType *',
@@ -839,7 +838,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function () {
                 annotations: {},
                 name: 'someFoo',
                 comments: [],
-                nullability: ObjC.Nullability.Inherited(),
+                nullability: CLangCommon.Nullability.Inherited(),
                 type: {
                   name: 'Foo',
                   reference: 'Foo *',
@@ -861,7 +860,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function () {
                 annotations: {},
                 name: 'anotherFoo',
                 comments: [],
-                nullability: ObjC.Nullability.Inherited(),
+                nullability: CLangCommon.Nullability.Inherited(),
                 type: {
                   name: 'Foo',
                   reference: 'Foo *',
@@ -901,7 +900,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function () {
             annotations: {},
             name: 'singleAttributeSubtype',
             comments: [],
-            nullability: ObjC.Nullability.Inherited(),
+            nullability: CLangCommon.Nullability.Inherited(),
             type: {
               name: 'SingleAttributeType',
               reference: 'SingleAttributeType *',
@@ -916,7 +915,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function () {
             annotations: {},
             name: 'singleAttributeSubtype',
             comments: [],
-            nullability: ObjC.Nullability.Inherited(),
+            nullability: CLangCommon.Nullability.Inherited(),
             type: {
               name: 'SingleAttributeType',
               reference: 'SingleAttributeType *',
@@ -957,7 +956,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function () {
                 annotations: {},
                 name: 'someFoo',
                 comments: [],
-                nullability: ObjC.Nullability.Inherited(),
+                nullability: CLangCommon.Nullability.Inherited(),
                 type: {
                   name: 'Foo',
                   reference: 'Foo *',
@@ -975,7 +974,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function () {
             annotations: {},
             name: 'someSubtype',
             comments: [],
-            nullability: ObjC.Nullability.Inherited(),
+            nullability: CLangCommon.Nullability.Inherited(),
             type: {
               name: 'NSString',
               reference: 'NSString *',
@@ -1018,7 +1017,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function () {
                 annotations: {},
                 name: 'someFoo',
                 comments: [],
-                nullability: ObjC.Nullability.Inherited(),
+                nullability: CLangCommon.Nullability.Inherited(),
                 type: {
                   name: 'Foo',
                   reference:
@@ -1088,7 +1087,7 @@ describe('AlgebraicTypePlugins.AlgebraicTypeInitialization', function () {
                   annotations: {},
                   name: 'someFoo',
                   comments: [],
-                  nullability: ObjC.Nullability.Inherited(),
+                  nullability: CLangCommon.Nullability.Inherited(),
                   type: {
                     name: 'AnotherTest',
                     reference: 'AnotherTest *',

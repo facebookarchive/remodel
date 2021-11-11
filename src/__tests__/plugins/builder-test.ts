@@ -10,9 +10,8 @@
 
 import * as Builder from '../../plugins/builder';
 import * as Code from '../../code';
-import * as Maybe from '../../maybe';
+import * as CLangCommon from '../../clang-common';
 import * as ObjC from '../../objc';
-import * as ObjectGeneration from '../../object-generation';
 import * as ObjectSpec from '../../object-spec';
 
 const Plugin = Builder.createPlugin();
@@ -324,7 +323,7 @@ describe('Plugins.Builder', function () {
               annotations: {},
               comments: [],
               name: 'someUnsignedInteger',
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
               type: {
                 fileTypeIsDefinedIn: null,
                 libraryTypeIsDefinedIn: null,
@@ -339,7 +338,7 @@ describe('Plugins.Builder', function () {
               annotations: {},
               comments: [],
               name: 'someCustomObject',
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
               type: {
                 fileTypeIsDefinedIn: null,
                 libraryTypeIsDefinedIn: null,
@@ -354,7 +353,7 @@ describe('Plugins.Builder', function () {
               annotations: {},
               comments: [],
               name: 'someBool',
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
               type: {
                 fileTypeIsDefinedIn: null,
                 libraryTypeIsDefinedIn: null,
@@ -649,7 +648,7 @@ describe('Plugins.Builder', function () {
               annotations: {},
               comments: [],
               name: 'someUnsignedInteger',
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
               type: {
                 fileTypeIsDefinedIn: null,
                 libraryTypeIsDefinedIn: null,
@@ -664,7 +663,7 @@ describe('Plugins.Builder', function () {
               annotations: {},
               comments: [],
               name: 'someCustomObject',
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
               type: {
                 fileTypeIsDefinedIn: null,
                 libraryTypeIsDefinedIn: null,
@@ -679,7 +678,7 @@ describe('Plugins.Builder', function () {
               annotations: {},
               comments: [],
               name: 'someBool',
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
               type: {
                 fileTypeIsDefinedIn: null,
                 libraryTypeIsDefinedIn: null,

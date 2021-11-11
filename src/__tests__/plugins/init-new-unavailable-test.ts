@@ -10,7 +10,7 @@
 
 import * as AlgebraicType from '../../algebraic-type';
 import * as InitNewUnavailable from '../../plugins/init-new-unavailable';
-import * as Maybe from '../../maybe';
+import * as CLangCommon from '../../clang-common';
 import * as ObjC from '../../objc';
 import * as ObjectSpec from '../../object-spec';
 
@@ -50,7 +50,7 @@ describe('ObjectSpecPlugins.InitNewUnavailable', function () {
             annotations: {},
             comments: [],
             name: 'value',
-            nullability: ObjC.Nullability.Inherited(),
+            nullability: CLangCommon.Nullability.Inherited(),
             type: {
               fileTypeIsDefinedIn: null,
               libraryTypeIsDefinedIn: null,

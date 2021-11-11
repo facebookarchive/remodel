@@ -7,8 +7,8 @@
 
 import * as Either from './either';
 import * as Error from './error';
+import * as CLangCommon from './clang-common';
 import * as Maybe from './maybe';
-import * as ObjC from './objc';
 import * as ObjectGeneration from './object-generation';
 
 export function possiblyUndefinedStringToMaybe(
@@ -64,13 +64,13 @@ export function libraryNameFromAnnotations(annotations: {
 
 export function nullabilityFromParseResultAnnotations(annotations: {
   [name: string]: {[key: string]: string}[];
-}): ObjC.Nullability {
+}): CLangCommon.Nullability {
   if (annotations['nonnull'] !== undefined) {
-    return ObjC.Nullability.Nonnull();
+    return CLangCommon.Nullability.Nonnull();
   } else if (annotations['nullable'] !== undefined) {
-    return ObjC.Nullability.Nullable();
+    return CLangCommon.Nullability.Nullable();
   } else {
-    return ObjC.Nullability.Inherited();
+    return CLangCommon.Nullability.Inherited();
   }
 }
 

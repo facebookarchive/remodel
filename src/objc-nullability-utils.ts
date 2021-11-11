@@ -5,11 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import * as CLangCommon from './clang-common';
 import * as ObjC from './objc';
 import * as ObjCTypeUtils from './objc-type-utils';
 
 export function keywordArgumentModifiersForNullability(
-  nullability: ObjC.Nullability,
+  nullability: CLangCommon.Nullability,
 ): ObjC.KeywordArgumentModifier[] {
   return nullability.match(
     function inherited() {
@@ -25,7 +26,7 @@ export function keywordArgumentModifiersForNullability(
 }
 
 export function propertyModifiersForNullability(
-  nullability: ObjC.Nullability,
+  nullability: CLangCommon.Nullability,
 ): ObjC.PropertyModifier[] {
   return nullability.match(
     function inherited() {
@@ -42,7 +43,7 @@ export function propertyModifiersForNullability(
 
 export function shouldProtectFromNilValuesForNullability(
   assumeNonnull: boolean,
-  nullability: ObjC.Nullability,
+  nullability: CLangCommon.Nullability,
 ): boolean {
   return nullability.match(
     function inherited() {
@@ -59,7 +60,7 @@ export function shouldProtectFromNilValuesForNullability(
 
 export function nullabilityRequiresNonnullProtection(
   assumeNonnull: boolean,
-  attributeNullabilities: ObjC.Nullability[],
+  attributeNullabilities: CLangCommon.Nullability[],
 ): boolean {
   return attributeNullabilities.some((nullability) =>
     shouldProtectFromNilValuesForNullability(assumeNonnull, nullability),

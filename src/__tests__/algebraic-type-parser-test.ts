@@ -10,7 +10,7 @@
 
 import * as Either from '../either';
 import * as Error from '../error';
-import * as Maybe from '../maybe';
+import * as CLangCommon from '../clang-common';
 import * as AlgebraicType from '../algebraic-type';
 import * as AlgebraicTypeParser from '../algebraic-type-parser';
 import * as ObjC from '../objc';
@@ -39,7 +39,7 @@ describe('AlgebraicTypeParser', function () {
               {
                 annotations: {},
                 name: 'someUnsignedInt',
-                nullability: ObjC.Nullability.Inherited(),
+                nullability: CLangCommon.Nullability.Inherited(),
                 type: {
                   fileTypeIsDefinedIn: null,
                   libraryTypeIsDefinedIn: null,
@@ -79,7 +79,7 @@ describe('AlgebraicTypeParser', function () {
           AlgebraicType.Subtype.SingleAttributeSubtypeDefinition({
             annotations: {},
             name: 'rmObjectProperty',
-            nullability: ObjC.Nullability.Inherited(),
+            nullability: CLangCommon.Nullability.Inherited(),
             type: {
               fileTypeIsDefinedIn: null,
               libraryTypeIsDefinedIn: null,
@@ -146,7 +146,7 @@ describe('AlgebraicTypeParser', function () {
               ],
             },
             name: 'rmObjectProperty',
-            nullability: ObjC.Nullability.Inherited(),
+            nullability: CLangCommon.Nullability.Inherited(),
             type: {
               fileTypeIsDefinedIn: 'RMSomeOtherFile',
               libraryTypeIsDefinedIn: 'RMCustomLibrary',
@@ -216,7 +216,7 @@ describe('AlgebraicTypeParser', function () {
                   },
                   comments: [],
                   name: 'someBlah',
-                  nullability: ObjC.Nullability.Inherited(),
+                  nullability: CLangCommon.Nullability.Inherited(),
                   type: {
                     fileTypeIsDefinedIn: 'RMSomeOtherFile',
                     libraryTypeIsDefinedIn: 'RMCustomLibrary',
@@ -231,7 +231,7 @@ describe('AlgebraicTypeParser', function () {
                   annotations: {},
                   comments: [],
                   name: 'someValue',
-                  nullability: ObjC.Nullability.Inherited(),
+                  nullability: CLangCommon.Nullability.Inherited(),
                   type: {
                     fileTypeIsDefinedIn: null,
                     libraryTypeIsDefinedIn: null,
@@ -286,7 +286,7 @@ describe('AlgebraicTypeParser', function () {
                 },
                 comments: [],
                 name: 'someBlah',
-                nullability: ObjC.Nullability.Nullable(),
+                nullability: CLangCommon.Nullability.Nullable(),
                 type: {
                   fileTypeIsDefinedIn: null,
                   libraryTypeIsDefinedIn: null,
@@ -307,7 +307,7 @@ describe('AlgebraicTypeParser', function () {
                 },
                 comments: [],
                 name: 'someValue',
-                nullability: ObjC.Nullability.Nonnull(),
+                nullability: CLangCommon.Nullability.Nonnull(),
                 type: {
                   fileTypeIsDefinedIn: null,
                   libraryTypeIsDefinedIn: null,
@@ -357,7 +357,7 @@ describe('AlgebraicTypeParser', function () {
                 annotations: {},
                 comments: [],
                 name: 'multiple',
-                nullability: ObjC.Nullability.Inherited(),
+                nullability: CLangCommon.Nullability.Inherited(),
                 type: {
                   fileTypeIsDefinedIn: null,
                   libraryTypeIsDefinedIn: null,
@@ -394,7 +394,7 @@ describe('AlgebraicTypeParser', function () {
                 annotations: {},
                 comments: [],
                 name: 'nested',
-                nullability: ObjC.Nullability.Inherited(),
+                nullability: CLangCommon.Nullability.Inherited(),
                 type: {
                   fileTypeIsDefinedIn: null,
                   libraryTypeIsDefinedIn: null,
@@ -433,7 +433,7 @@ describe('AlgebraicTypeParser', function () {
                 annotations: {},
                 comments: [],
                 name: 'protocols',
-                nullability: ObjC.Nullability.Inherited(),
+                nullability: CLangCommon.Nullability.Inherited(),
                 type: {
                   fileTypeIsDefinedIn: null,
                   libraryTypeIsDefinedIn: null,
@@ -466,7 +466,7 @@ describe('AlgebraicTypeParser', function () {
                 annotations: {},
                 comments: [],
                 name: 'ckAction',
-                nullability: ObjC.Nullability.Inherited(),
+                nullability: CLangCommon.Nullability.Inherited(),
                 type: {
                   fileTypeIsDefinedIn: null,
                   libraryTypeIsDefinedIn: null,
@@ -569,7 +569,7 @@ describe('AlgebraicTypeParser', function () {
                   conformingProtocol: null,
                   referencedGenericTypes: [],
                 },
-                nullability: ObjC.Nullability.Inherited(),
+                nullability: CLangCommon.Nullability.Inherited(),
               },
             ],
           }),

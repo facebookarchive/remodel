@@ -10,8 +10,7 @@
 
 import * as Either from '../either';
 import * as Error from '../error';
-import * as Maybe from '../maybe';
-import * as ObjC from '../objc';
+import * as CLangCommon from '../clang-common';
 import * as ObjectSpec from '../object-spec';
 import * as ObjectSpecParser from '../object-spec-parser';
 
@@ -32,7 +31,7 @@ describe('ObjectSpecParser', function () {
             annotations: {},
             comments: [],
             name: 'someArray',
-            nullability: ObjC.Nullability.Inherited(),
+            nullability: CLangCommon.Nullability.Inherited(),
             type: {
               fileTypeIsDefinedIn: null,
               libraryTypeIsDefinedIn: null,
@@ -47,7 +46,7 @@ describe('ObjectSpecParser', function () {
             annotations: {},
             comments: [],
             name: 'someBoolean',
-            nullability: ObjC.Nullability.Inherited(),
+            nullability: CLangCommon.Nullability.Inherited(),
             type: {
               fileTypeIsDefinedIn: null,
               libraryTypeIsDefinedIn: null,
@@ -126,7 +125,7 @@ describe('ObjectSpecParser', function () {
               },
               comments: [],
               name: 'someBlah',
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
               type: {
                 fileTypeIsDefinedIn: 'RMSomeOtherFile',
                 libraryTypeIsDefinedIn: 'RMCustomLibrary',
@@ -141,7 +140,7 @@ describe('ObjectSpecParser', function () {
               annotations: {},
               comments: [],
               name: 'someValue',
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
               type: {
                 fileTypeIsDefinedIn: null,
                 libraryTypeIsDefinedIn: null,
@@ -211,7 +210,7 @@ describe('ObjectSpecParser', function () {
             },
             comments: [],
             name: 'someBlah',
-            nullability: ObjC.Nullability.Nullable(),
+            nullability: CLangCommon.Nullability.Nullable(),
             type: {
               fileTypeIsDefinedIn: null,
               libraryTypeIsDefinedIn: null,
@@ -232,7 +231,7 @@ describe('ObjectSpecParser', function () {
             },
             comments: [],
             name: 'someValue',
-            nullability: ObjC.Nullability.Nonnull(),
+            nullability: CLangCommon.Nullability.Nonnull(),
             type: {
               fileTypeIsDefinedIn: null,
               libraryTypeIsDefinedIn: null,
@@ -282,7 +281,7 @@ describe('ObjectSpecParser', function () {
             annotations: {},
             comments: [],
             name: 'multiple',
-            nullability: ObjC.Nullability.Inherited(),
+            nullability: CLangCommon.Nullability.Inherited(),
             type: {
               fileTypeIsDefinedIn: null,
               libraryTypeIsDefinedIn: null,
@@ -319,7 +318,7 @@ describe('ObjectSpecParser', function () {
             annotations: {},
             comments: [],
             name: 'nested',
-            nullability: ObjC.Nullability.Inherited(),
+            nullability: CLangCommon.Nullability.Inherited(),
             type: {
               fileTypeIsDefinedIn: null,
               libraryTypeIsDefinedIn: null,
@@ -358,7 +357,7 @@ describe('ObjectSpecParser', function () {
             annotations: {},
             comments: [],
             name: 'protocols',
-            nullability: ObjC.Nullability.Inherited(),
+            nullability: CLangCommon.Nullability.Inherited(),
             type: {
               fileTypeIsDefinedIn: null,
               libraryTypeIsDefinedIn: null,
@@ -391,7 +390,7 @@ describe('ObjectSpecParser', function () {
             annotations: {},
             comments: [],
             name: 'ckAction',
-            nullability: ObjC.Nullability.Inherited(),
+            nullability: CLangCommon.Nullability.Inherited(),
             type: {
               fileTypeIsDefinedIn: null,
               libraryTypeIsDefinedIn: null,
@@ -450,7 +449,7 @@ describe('ObjectSpecParser', function () {
             annotations: {},
             comments: [],
             name: 'foo',
-            nullability: ObjC.Nullability.Inherited(),
+            nullability: CLangCommon.Nullability.Inherited(),
             type: {
               fileTypeIsDefinedIn: null,
               libraryTypeIsDefinedIn: null,

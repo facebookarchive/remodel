@@ -8,7 +8,7 @@
 import * as Code from './code';
 import * as Error from './error';
 import * as FileWriter from './file-writer';
-import * as Maybe from './maybe';
+import * as CLangCommon from './clang-common';
 import * as ObjC from './objc';
 import * as ObjectGeneration from './object-generation';
 
@@ -26,7 +26,7 @@ export interface Attribute {
   annotations: ObjectGeneration.AnnotationMap;
   comments: string[];
   name: string;
-  nullability: ObjC.Nullability;
+  nullability: CLangCommon.Nullability;
   type: AttributeType;
 }
 

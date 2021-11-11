@@ -10,7 +10,7 @@
 
 import * as Code from '../code';
 import * as CPlusPlus from '../cplusplus';
-import * as Maybe from '../maybe';
+import * as CLangCommon from '../clang-common';
 import * as ObjC from '../objc';
 import * as ObjCRenderer from '../objc-renderer';
 
@@ -1554,7 +1554,7 @@ describe('ObjCRenderer', function () {
                   name: 'NSString',
                   reference: 'NSString *',
                 },
-                nullability: ObjC.Nullability.Inherited(),
+                nullability: CLangCommon.Nullability.Inherited(),
               },
               {
                 name: 'someUnsignedInteger',
@@ -1562,7 +1562,7 @@ describe('ObjCRenderer', function () {
                   name: 'NSUInteger',
                   reference: 'NSUInteger',
                 },
-                nullability: ObjC.Nullability.Inherited(),
+                nullability: CLangCommon.Nullability.Inherited(),
               },
             ],
             returnType: {type: null, modifiers: []},
@@ -1579,7 +1579,7 @@ describe('ObjCRenderer', function () {
                   name: 'BOOL',
                   reference: 'BOOL',
                 },
-                nullability: ObjC.Nullability.Inherited(),
+                nullability: CLangCommon.Nullability.Inherited(),
               },
             ],
             returnType: {
@@ -3859,7 +3859,7 @@ describe('ObjCRenderer', function () {
                   name: 'NSString',
                   reference: 'NSString *',
                 },
-                nullability: ObjC.Nullability.Inherited(),
+                nullability: CLangCommon.Nullability.Inherited(),
               },
               {
                 name: 'someUnsignedInteger',
@@ -3867,7 +3867,7 @@ describe('ObjCRenderer', function () {
                   name: 'NSUInteger',
                   reference: 'NSUInteger',
                 },
-                nullability: ObjC.Nullability.Inherited(),
+                nullability: CLangCommon.Nullability.Inherited(),
               },
             ],
             returnType: {type: null, modifiers: []},
@@ -3884,7 +3884,7 @@ describe('ObjCRenderer', function () {
                   name: 'BOOL',
                   reference: 'BOOL',
                 },
-                nullability: ObjC.Nullability.Inherited(),
+                nullability: CLangCommon.Nullability.Inherited(),
               },
             ],
             returnType: {
@@ -3944,7 +3944,7 @@ describe('ObjCRenderer', function () {
                     name: 'NSString',
                     reference: 'NSString *',
                   },
-                  nullability: ObjC.Nullability.Inherited(),
+                  nullability: CLangCommon.Nullability.Inherited(),
                 },
                 {
                   name: 'someUnsignedInteger',
@@ -3952,7 +3952,7 @@ describe('ObjCRenderer', function () {
                     name: 'NSUInteger',
                     reference: 'NSUInteger',
                   },
-                  nullability: ObjC.Nullability.Inherited(),
+                  nullability: CLangCommon.Nullability.Inherited(),
                 },
               ],
               returnType: {type: null, modifiers: []},
@@ -4702,7 +4702,7 @@ static int RMSomeFunction(BOOL parameter) {
               name: 'NSInteger',
               reference: 'NSInteger',
             },
-            nullability: ObjC.Nullability.Inherited(),
+            nullability: CLangCommon.Nullability.Inherited(),
           },
           {
             comments: [
@@ -4714,7 +4714,7 @@ static int RMSomeFunction(BOOL parameter) {
               name: 'RMSomething',
               reference: 'RMSomething *',
             },
-            nullability: ObjC.Nullability.Nonnull(),
+            nullability: CLangCommon.Nullability.Nonnull(),
           },
         ],
       };

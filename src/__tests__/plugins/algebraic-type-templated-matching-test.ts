@@ -11,9 +11,8 @@
 import * as AlgebraicTypeTemplatedMatching from '../../plugins/algebraic-type-templated-matching';
 import * as Code from '../../code';
 import * as CPlusPlus from '../../cplusplus';
-import * as Maybe from '../../maybe';
+import * as CLangCommon from '../../clang-common';
 import * as AlgebraicType from '../../algebraic-type';
-import * as ObjC from '../../objc';
 
 const Plugin = AlgebraicTypeTemplatedMatching.createAlgebraicTypePlugin();
 
@@ -37,7 +36,7 @@ describe('Plugins.AlgebraicTypeTemplatedMatching', function () {
                 annotations: {},
                 name: 'someString',
                 comments: [],
-                nullability: ObjC.Nullability.Inherited(),
+                nullability: CLangCommon.Nullability.Inherited(),
                 type: {
                   name: 'NSString',
                   reference: 'NSString *',
@@ -52,7 +51,7 @@ describe('Plugins.AlgebraicTypeTemplatedMatching', function () {
                 annotations: {},
                 name: 'someUnsignedInteger',
                 comments: [],
-                nullability: ObjC.Nullability.Inherited(),
+                nullability: CLangCommon.Nullability.Inherited(),
                 type: {
                   name: 'NSUInteger',
                   reference: 'NSUInteger',
@@ -76,7 +75,7 @@ describe('Plugins.AlgebraicTypeTemplatedMatching', function () {
             annotations: {},
             name: 'coolSingleAttributeSubtype',
             comments: [],
-            nullability: ObjC.Nullability.Inherited(),
+            nullability: CLangCommon.Nullability.Inherited(),
             type: {
               name: 'SingleAttributeType',
               reference: 'SingleAttributeType *',

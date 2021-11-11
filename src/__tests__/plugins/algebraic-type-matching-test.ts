@@ -13,8 +13,7 @@ import * as AlgebraicTypeBoolMatching from '../../plugins/algebraic-type-matchin
 import * as AlgebraicTypeIntegerMatching from '../../plugins/algebraic-type-matching-integer';
 import * as AlgebraicTypeDoubleMatching from '../../plugins/algebraic-type-matching-double';
 import * as AlgebraicTypeGenericMatching from '../../plugins/algebraic-type-matching-generic';
-import * as Code from '../../code';
-import * as Maybe from '../../maybe';
+import * as CLangCommon from '../../clang-common';
 import * as ObjC from '../../objc';
 import * as AlgebraicType from '../../algebraic-type';
 
@@ -42,7 +41,7 @@ function algebraicTestTypeWithTwoSubtypes(): AlgebraicType.Type {
             annotations: {},
             name: 'someString',
             comments: [],
-            nullability: ObjC.Nullability.Inherited(),
+            nullability: CLangCommon.Nullability.Inherited(),
             type: {
               name: 'NSString',
               reference: 'NSString *',
@@ -57,7 +56,7 @@ function algebraicTestTypeWithTwoSubtypes(): AlgebraicType.Type {
             annotations: {},
             name: 'someUnsignedInteger',
             comments: [],
-            nullability: ObjC.Nullability.Inherited(),
+            nullability: CLangCommon.Nullability.Inherited(),
             type: {
               name: 'NSUInteger',
               reference: 'NSUInteger',
@@ -74,7 +73,7 @@ function algebraicTestTypeWithTwoSubtypes(): AlgebraicType.Type {
       AlgebraicType.Subtype.SingleAttributeSubtypeDefinition({
         annotations: {},
         name: 'singleAttributeSubtype',
-        nullability: ObjC.Nullability.Inherited(),
+        nullability: CLangCommon.Nullability.Inherited(),
         comments: [],
         type: {
           name: 'SingleAttributeType',
@@ -108,7 +107,7 @@ describe('Plugins.AlgebraicTypeVoidMatching', function () {
                 name: 'NSString',
                 reference: 'NSString *',
               },
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
             },
             {
               name: 'someUnsignedInteger',
@@ -116,7 +115,7 @@ describe('Plugins.AlgebraicTypeVoidMatching', function () {
                 name: 'NSUInteger',
                 reference: 'NSUInteger',
               },
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
             },
           ],
           returnType: {type: null, modifiers: []},
@@ -133,7 +132,7 @@ describe('Plugins.AlgebraicTypeVoidMatching', function () {
                 name: 'SingleAttributeType',
                 reference: 'SingleAttributeType *',
               },
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
             },
           ],
           returnType: {type: null, modifiers: []},
@@ -232,7 +231,7 @@ describe('Plugins.AlgebraicTypeBoolMatching', function () {
                 name: 'NSString',
                 reference: 'NSString *',
               },
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
             },
             {
               name: 'someUnsignedInteger',
@@ -240,7 +239,7 @@ describe('Plugins.AlgebraicTypeBoolMatching', function () {
                 name: 'NSUInteger',
                 reference: 'NSUInteger',
               },
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
             },
           ],
           returnType: {
@@ -263,7 +262,7 @@ describe('Plugins.AlgebraicTypeBoolMatching', function () {
                 name: 'SingleAttributeType',
                 reference: 'SingleAttributeType *',
               },
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
             },
           ],
           returnType: {
@@ -377,7 +376,7 @@ describe('Plugins.AlgebraicTypeIntegerMatching', function () {
                 name: 'NSString',
                 reference: 'NSString *',
               },
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
             },
             {
               name: 'someUnsignedInteger',
@@ -385,7 +384,7 @@ describe('Plugins.AlgebraicTypeIntegerMatching', function () {
                 name: 'NSUInteger',
                 reference: 'NSUInteger',
               },
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
             },
           ],
           returnType: {
@@ -408,7 +407,7 @@ describe('Plugins.AlgebraicTypeIntegerMatching', function () {
                 name: 'SingleAttributeType',
                 reference: 'SingleAttributeType *',
               },
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
             },
           ],
           returnType: {
@@ -522,7 +521,7 @@ describe('Plugins.AlgebraicTypeDoubleMatching', function () {
                 name: 'NSString',
                 reference: 'NSString *',
               },
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
             },
             {
               name: 'someUnsignedInteger',
@@ -530,7 +529,7 @@ describe('Plugins.AlgebraicTypeDoubleMatching', function () {
                 name: 'NSUInteger',
                 reference: 'NSUInteger',
               },
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
             },
           ],
           returnType: {
@@ -553,7 +552,7 @@ describe('Plugins.AlgebraicTypeDoubleMatching', function () {
                 name: 'SingleAttributeType',
                 reference: 'SingleAttributeType *',
               },
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
             },
           ],
           returnType: {
@@ -678,7 +677,7 @@ describe('Plugins.AlgebraicTypeGenericMatching', function () {
                 name: 'NSString',
                 reference: 'NSString *',
               },
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
             },
             {
               name: 'someUnsignedInteger',
@@ -686,7 +685,7 @@ describe('Plugins.AlgebraicTypeGenericMatching', function () {
                 name: 'NSUInteger',
                 reference: 'NSUInteger',
               },
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
             },
           ],
           returnType: {
@@ -709,7 +708,7 @@ describe('Plugins.AlgebraicTypeGenericMatching', function () {
                 name: 'SingleAttributeType',
                 reference: 'SingleAttributeType *',
               },
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
             },
           ],
           returnType: {

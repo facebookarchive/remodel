@@ -10,7 +10,7 @@ import * as AlgebraicTypeUtils from '../algebraic-type-utils';
 import * as Code from '../code';
 import * as Error from '../error';
 import * as FileWriter from '../file-writer';
-import * as Maybe from '../maybe';
+import * as CLangCommon from '../clang-common';
 import * as ObjC from '../objc';
 import * as ObjCNullabilityUtils from '../objc-nullability-utils';
 import * as ObjectSpec from '../object-spec';
@@ -43,7 +43,7 @@ function canAssertExistenceForTypeOfAlgebraicTypeSubtypeAttribute(
 
 function parameterAssertMacroArray(
   assumeNonnull: boolean,
-  attributeNullabilities: ObjC.Nullability[],
+  attributeNullabilities: CLangCommon.Nullability[],
 ): ObjC.Macro[] {
   if (
     ObjCNullabilityUtils.nullabilityRequiresNonnullProtection(

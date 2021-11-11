@@ -11,7 +11,7 @@
 import * as AlgebraicType from '../../algebraic-type';
 import * as Equality from '../../plugins/equality';
 import * as Error from '../../error';
-import * as Maybe from '../../maybe';
+import * as CLangCommon from '../../clang-common';
 import * as ObjC from '../../objc';
 import * as ObjectSpec from '../../object-spec';
 
@@ -44,7 +44,7 @@ describe('ObjectSpecPlugins.Equality', function () {
             annotations: {},
             comments: [],
             name: 'name',
-            nullability: ObjC.Nullability.Inherited(),
+            nullability: CLangCommon.Nullability.Inherited(),
             type: {
               fileTypeIsDefinedIn: null,
               libraryTypeIsDefinedIn: null,
@@ -59,7 +59,7 @@ describe('ObjectSpecPlugins.Equality', function () {
             annotations: {},
             comments: [],
             name: 'likeStatus',
-            nullability: ObjC.Nullability.Inherited(),
+            nullability: CLangCommon.Nullability.Inherited(),
             type: {
               fileTypeIsDefinedIn: null,
               libraryTypeIsDefinedIn: null,
@@ -96,7 +96,7 @@ describe('ObjectSpecPlugins.Equality', function () {
             annotations: {},
             comments: [],
             name: 'name',
-            nullability: ObjC.Nullability.Inherited(),
+            nullability: CLangCommon.Nullability.Inherited(),
             type: {
               fileTypeIsDefinedIn: null,
               libraryTypeIsDefinedIn: null,
@@ -111,7 +111,7 @@ describe('ObjectSpecPlugins.Equality', function () {
             annotations: {},
             comments: [],
             name: 'likeStatus',
-            nullability: ObjC.Nullability.Inherited(),
+            nullability: CLangCommon.Nullability.Inherited(),
             type: {
               fileTypeIsDefinedIn: null,
               libraryTypeIsDefinedIn: null,
@@ -151,7 +151,7 @@ describe('ObjectSpecPlugins.Equality', function () {
             annotations: {},
             comments: [],
             name: 'name',
-            nullability: ObjC.Nullability.Inherited(),
+            nullability: CLangCommon.Nullability.Inherited(),
             type: {
               fileTypeIsDefinedIn: null,
               libraryTypeIsDefinedIn: null,
@@ -193,7 +193,7 @@ describe('ObjectSpecPlugins.Equality', function () {
               annotations: {},
               comments: [],
               name: 'someAction',
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
               type: {
                 fileTypeIsDefinedIn: null,
                 libraryTypeIsDefinedIn: null,
@@ -208,7 +208,7 @@ describe('ObjectSpecPlugins.Equality', function () {
               annotations: {},
               comments: [],
               name: 'name',
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
               type: {
                 fileTypeIsDefinedIn: null,
                 libraryTypeIsDefinedIn: null,
@@ -251,7 +251,7 @@ describe('ObjectSpecPlugins.Equality', function () {
               annotations: {},
               comments: [],
               name: 'someUnsignedInteger',
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
               type: {
                 fileTypeIsDefinedIn: null,
                 libraryTypeIsDefinedIn: null,
@@ -266,7 +266,7 @@ describe('ObjectSpecPlugins.Equality', function () {
               annotations: {},
               comments: [],
               name: 'someInteger',
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
               type: {
                 fileTypeIsDefinedIn: null,
                 libraryTypeIsDefinedIn: null,
@@ -281,7 +281,7 @@ describe('ObjectSpecPlugins.Equality', function () {
               annotations: {},
               comments: [],
               name: 'someString',
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
               type: {
                 fileTypeIsDefinedIn: null,
                 libraryTypeIsDefinedIn: null,
@@ -296,7 +296,7 @@ describe('ObjectSpecPlugins.Equality', function () {
               annotations: {},
               comments: [],
               name: 'someFloat',
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
               type: {
                 fileTypeIsDefinedIn: null,
                 libraryTypeIsDefinedIn: null,
@@ -311,7 +311,7 @@ describe('ObjectSpecPlugins.Equality', function () {
               annotations: {},
               comments: [],
               name: 'someDouble',
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
               type: {
                 fileTypeIsDefinedIn: null,
                 libraryTypeIsDefinedIn: null,
@@ -326,7 +326,7 @@ describe('ObjectSpecPlugins.Equality', function () {
               annotations: {},
               comments: [],
               name: 'someBool',
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
               type: {
                 fileTypeIsDefinedIn: null,
                 libraryTypeIsDefinedIn: null,
@@ -341,7 +341,7 @@ describe('ObjectSpecPlugins.Equality', function () {
               annotations: {},
               comments: [],
               name: 'someCGFloat',
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
               type: {
                 fileTypeIsDefinedIn: null,
                 libraryTypeIsDefinedIn: null,
@@ -356,7 +356,7 @@ describe('ObjectSpecPlugins.Equality', function () {
               annotations: {},
               comments: [],
               name: 'someRect',
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
               type: {
                 fileTypeIsDefinedIn: null,
                 libraryTypeIsDefinedIn: null,
@@ -371,7 +371,7 @@ describe('ObjectSpecPlugins.Equality', function () {
               annotations: {},
               comments: [],
               name: 'somePoint',
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
               type: {
                 fileTypeIsDefinedIn: null,
                 libraryTypeIsDefinedIn: null,
@@ -386,7 +386,7 @@ describe('ObjectSpecPlugins.Equality', function () {
               annotations: {},
               comments: [],
               name: 'someSize',
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
               type: {
                 fileTypeIsDefinedIn: null,
                 libraryTypeIsDefinedIn: null,
@@ -401,7 +401,7 @@ describe('ObjectSpecPlugins.Equality', function () {
               annotations: {},
               comments: [],
               name: 'someEdgeInsets',
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
               type: {
                 fileTypeIsDefinedIn: null,
                 libraryTypeIsDefinedIn: null,
@@ -416,7 +416,7 @@ describe('ObjectSpecPlugins.Equality', function () {
               annotations: {},
               comments: [],
               name: 'someRange',
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
               type: {
                 fileTypeIsDefinedIn: null,
                 libraryTypeIsDefinedIn: null,
@@ -537,7 +537,7 @@ describe('ObjectSpecPlugins.Equality', function () {
               annotations: {},
               comments: [],
               name: 'someDouble',
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
               type: {
                 fileTypeIsDefinedIn: null,
                 libraryTypeIsDefinedIn: null,
@@ -552,7 +552,7 @@ describe('ObjectSpecPlugins.Equality', function () {
               annotations: {},
               comments: [],
               name: 'something',
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
               type: {
                 fileTypeIsDefinedIn: null,
                 libraryTypeIsDefinedIn: null,
@@ -709,7 +709,7 @@ describe('ObjectSpecPlugins.Equality', function () {
               annotations: {},
               comments: [],
               name: 'someFloat',
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
               type: {
                 fileTypeIsDefinedIn: null,
                 libraryTypeIsDefinedIn: null,
@@ -829,7 +829,7 @@ describe('ObjectSpecPlugins.Equality', function () {
               annotations: {},
               comments: [],
               name: 'someFloat',
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
               type: {
                 fileTypeIsDefinedIn: null,
                 libraryTypeIsDefinedIn: null,
@@ -844,7 +844,7 @@ describe('ObjectSpecPlugins.Equality', function () {
               annotations: {},
               comments: [],
               name: 'anotherFloat',
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
               type: {
                 fileTypeIsDefinedIn: null,
                 libraryTypeIsDefinedIn: null,
@@ -964,7 +964,7 @@ describe('ObjectSpecPlugins.Equality', function () {
               annotations: {},
               comments: [],
               name: 'someTypeBackedByDouble',
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
               type: {
                 fileTypeIsDefinedIn: null,
                 libraryTypeIsDefinedIn: null,
@@ -1075,7 +1075,7 @@ describe('ObjectSpecPlugins.Equality', function () {
               annotations: {},
               comments: [],
               name: 'someCGFloat',
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
               type: {
                 fileTypeIsDefinedIn: null,
                 libraryTypeIsDefinedIn: null,
@@ -1380,7 +1380,7 @@ describe('AlgebraicTypePlugins.Equality', function () {
             annotations: {},
             name: 'someFoo',
             comments: [],
-            nullability: ObjC.Nullability.Inherited(),
+            nullability: CLangCommon.Nullability.Inherited(),
             type: {
               name: 'Foo',
               reference: 'Foo *',
@@ -1421,7 +1421,7 @@ describe('AlgebraicTypePlugins.Equality', function () {
                 annotations: {},
                 name: 'someFoo',
                 comments: [],
-                nullability: ObjC.Nullability.Inherited(),
+                nullability: CLangCommon.Nullability.Inherited(),
                 type: {
                   name: 'Foo',
                   reference: 'Foo *',
@@ -1443,7 +1443,7 @@ describe('AlgebraicTypePlugins.Equality', function () {
                 annotations: {},
                 name: 'someFerr',
                 comments: [],
-                nullability: ObjC.Nullability.Inherited(),
+                nullability: CLangCommon.Nullability.Inherited(),
                 type: {
                   name: 'Ferr',
                   reference: 'Ferr',
@@ -1486,7 +1486,7 @@ describe('AlgebraicTypePlugins.Equality', function () {
             annotations: {},
             name: 'someFerr',
             comments: [],
-            nullability: ObjC.Nullability.Inherited(),
+            nullability: CLangCommon.Nullability.Inherited(),
             type: {
               name: 'Ferr',
               reference: 'Ferr',

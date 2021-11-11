@@ -5,20 +5,22 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import * as CLangCommon from './clang-common';
 import * as CPlusPlus from './cplusplus';
 import * as StringUtils from './string-utils';
 
-function nullabilityString(
-  nullability: CPlusPlus.NullabilitySpecifier,
-): string {
-  switch (nullability) {
-    case CPlusPlus.NullabilitySpecifier.Inherited:
-      return '';
-    case CPlusPlus.NullabilitySpecifier.Nonnull:
-      return '_Nonnull ';
-    case CPlusPlus.NullabilitySpecifier.Nullable:
-      return '_Nullable ';
-  }
+function returnString(str: string): () => string {
+  return function () {
+    return str;
+  };
+}
+
+function nullabilityString(nullability: CLangCommon.Nullability): string {
+  return nullability.match(
+    /* inherited */ returnString(''),
+    /* nonnull */ returnString('_Nonnull '),
+    /* nullable */ returnString('_Nullable '),
+  );
 }
 
 function typeToString(

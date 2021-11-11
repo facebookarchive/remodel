@@ -10,7 +10,7 @@
 
 import * as ImmutableProperties from '../../plugins/immutable-properties';
 import * as ImmutablePropertyUtils from '../../immutable-property-utils';
-import * as Maybe from '../../maybe';
+import * as CLangCommon from '../../clang-common';
 import * as ObjC from '../../objc';
 import * as ObjectSpec from '../../object-spec';
 
@@ -48,7 +48,7 @@ describe('Plugins.ImmutableProperties', function () {
               annotations: {},
               comments: [],
               name: 'value',
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
               type: {
                 fileTypeIsDefinedIn: null,
                 libraryTypeIsDefinedIn: null,
@@ -121,7 +121,7 @@ describe('Plugins.ImmutableProperties', function () {
               annotations: {},
               comments: [],
               name: 'value',
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
               type: {
                 fileTypeIsDefinedIn: null,
                 libraryTypeIsDefinedIn: null,
@@ -194,7 +194,7 @@ describe('Plugins.ImmutableProperties', function () {
               annotations: {},
               comments: [],
               name: 'value',
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
               type: {
                 fileTypeIsDefinedIn: null,
                 libraryTypeIsDefinedIn: null,
@@ -209,7 +209,7 @@ describe('Plugins.ImmutableProperties', function () {
               annotations: {},
               comments: [],
               name: 'value2',
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
               type: {
                 fileTypeIsDefinedIn: null,
                 libraryTypeIsDefinedIn: null,
@@ -224,7 +224,7 @@ describe('Plugins.ImmutableProperties', function () {
               annotations: {},
               comments: [],
               name: 'value3',
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
               type: {
                 fileTypeIsDefinedIn: null,
                 libraryTypeIsDefinedIn: null,
@@ -239,7 +239,7 @@ describe('Plugins.ImmutableProperties', function () {
               annotations: {},
               comments: [],
               name: 'value4',
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
               type: {
                 fileTypeIsDefinedIn: null,
                 libraryTypeIsDefinedIn: null,
@@ -348,7 +348,7 @@ describe('Plugins.ImmutableProperties', function () {
               annotations: {},
               comments: [],
               name: 'value',
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
               type: {
                 fileTypeIsDefinedIn: null,
                 libraryTypeIsDefinedIn: null,
@@ -363,7 +363,7 @@ describe('Plugins.ImmutableProperties', function () {
               annotations: {},
               comments: [],
               name: 'value2',
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
               type: {
                 fileTypeIsDefinedIn: null,
                 libraryTypeIsDefinedIn: null,
@@ -378,7 +378,7 @@ describe('Plugins.ImmutableProperties', function () {
               annotations: {},
               comments: [],
               name: 'value3',
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
               type: {
                 fileTypeIsDefinedIn: null,
                 libraryTypeIsDefinedIn: null,
@@ -393,7 +393,7 @@ describe('Plugins.ImmutableProperties', function () {
               annotations: {},
               comments: [],
               name: 'value4',
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
               type: {
                 fileTypeIsDefinedIn: null,
                 libraryTypeIsDefinedIn: null,
@@ -581,7 +581,7 @@ describe('Plugins.ImmutableProperties', function () {
             annotations: {},
             comments: [],
             name: 'something',
-            nullability: ObjC.Nullability.Inherited(),
+            nullability: CLangCommon.Nullability.Inherited(),
             type: {
               fileTypeIsDefinedIn: null,
               libraryTypeIsDefinedIn: null,
@@ -680,7 +680,7 @@ describe('Plugins.ImmutableProperties', function () {
               annotations: {},
               comments: [],
               name: 'something',
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
               type: {
                 fileTypeIsDefinedIn: null,
                 libraryTypeIsDefinedIn: null,
@@ -724,7 +724,7 @@ describe('Plugins.ImmutableProperties', function () {
               annotations: {},
               comments: [],
               name: 'something',
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
               type: {
                 fileTypeIsDefinedIn: null,
                 libraryTypeIsDefinedIn: null,
@@ -768,7 +768,7 @@ describe('Plugins.ImmutableProperties', function () {
               annotations: {},
               comments: [],
               name: 'something',
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
               type: {
                 fileTypeIsDefinedIn: 'RMSomeOtherFile',
                 libraryTypeIsDefinedIn: null,
@@ -812,7 +812,7 @@ describe('Plugins.ImmutableProperties', function () {
               annotations: {},
               comments: [],
               name: 'something',
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
               type: {
                 fileTypeIsDefinedIn: 'RMSomeOtherFile',
                 libraryTypeIsDefinedIn: 'RMSomeOtherLibrary',
@@ -856,7 +856,7 @@ describe('Plugins.ImmutableProperties', function () {
               annotations: {},
               comments: [],
               name: 'something',
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
               type: {
                 fileTypeIsDefinedIn: 'RMSomeOtherFile',
                 libraryTypeIsDefinedIn: 'RMSomeOtherLibrary',
@@ -900,7 +900,7 @@ describe('Plugins.ImmutableProperties', function () {
               annotations: {},
               comments: [],
               name: 'something',
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
               type: {
                 fileTypeIsDefinedIn: null,
                 libraryTypeIsDefinedIn: 'RMSomeOtherLibrary',
@@ -941,7 +941,7 @@ describe('Plugins.ImmutableProperties', function () {
             annotations: {},
             comments: [],
             name: 'something',
-            nullability: ObjC.Nullability.Inherited(),
+            nullability: CLangCommon.Nullability.Inherited(),
             type: {
               fileTypeIsDefinedIn: null,
               libraryTypeIsDefinedIn: null,
@@ -989,7 +989,7 @@ describe('Plugins.ImmutableProperties', function () {
             annotations: {},
             comments: [],
             name: 'something',
-            nullability: ObjC.Nullability.Inherited(),
+            nullability: CLangCommon.Nullability.Inherited(),
             type: {
               fileTypeIsDefinedIn: null,
               libraryTypeIsDefinedIn: null,
@@ -1037,7 +1037,7 @@ describe('Plugins.ImmutableProperties', function () {
             annotations: {},
             comments: [],
             name: 'something',
-            nullability: ObjC.Nullability.Inherited(),
+            nullability: CLangCommon.Nullability.Inherited(),
             type: {
               fileTypeIsDefinedIn: null,
               libraryTypeIsDefinedIn: null,
@@ -1085,7 +1085,7 @@ describe('Plugins.ImmutableProperties', function () {
             annotations: {},
             comments: [],
             name: 'something',
-            nullability: ObjC.Nullability.Inherited(),
+            nullability: CLangCommon.Nullability.Inherited(),
             type: {
               fileTypeIsDefinedIn: null,
               libraryTypeIsDefinedIn: null,
@@ -1133,7 +1133,7 @@ describe('Plugins.ImmutableProperties', function () {
             annotations: {},
             comments: [],
             name: 'something',
-            nullability: ObjC.Nullability.Inherited(),
+            nullability: CLangCommon.Nullability.Inherited(),
             type: {
               fileTypeIsDefinedIn: null,
               libraryTypeIsDefinedIn: null,
@@ -1187,7 +1187,7 @@ describe('Plugins.ImmutableProperties', function () {
             annotations: {},
             comments: [],
             name: 'something',
-            nullability: ObjC.Nullability.Inherited(),
+            nullability: CLangCommon.Nullability.Inherited(),
             type: {
               fileTypeIsDefinedIn: null,
               libraryTypeIsDefinedIn: null,
@@ -1241,7 +1241,7 @@ describe('Plugins.ImmutableProperties', function () {
             annotations: {},
             comments: [],
             name: 'something',
-            nullability: ObjC.Nullability.Inherited(),
+            nullability: CLangCommon.Nullability.Inherited(),
             type: {
               fileTypeIsDefinedIn: null,
               libraryTypeIsDefinedIn: null,
@@ -1295,7 +1295,7 @@ describe('Plugins.ImmutableProperties', function () {
             annotations: {},
             comments: [],
             name: 'something',
-            nullability: ObjC.Nullability.Inherited(),
+            nullability: CLangCommon.Nullability.Inherited(),
             type: {
               fileTypeIsDefinedIn: null,
               libraryTypeIsDefinedIn: null,
@@ -1343,7 +1343,7 @@ describe('Plugins.ImmutableProperties', function () {
             annotations: {},
             comments: [],
             name: 'something',
-            nullability: ObjC.Nullability.Inherited(),
+            nullability: CLangCommon.Nullability.Inherited(),
             type: {
               fileTypeIsDefinedIn: null,
               libraryTypeIsDefinedIn: null,
@@ -1397,7 +1397,7 @@ describe('Plugins.ImmutableProperties', function () {
             annotations: {},
             comments: [],
             name: 'something',
-            nullability: ObjC.Nullability.Inherited(),
+            nullability: CLangCommon.Nullability.Inherited(),
             type: {
               fileTypeIsDefinedIn: null,
               libraryTypeIsDefinedIn: null,
@@ -1451,7 +1451,7 @@ describe('Plugins.ImmutableProperties', function () {
             annotations: {},
             comments: [],
             name: 'something',
-            nullability: ObjC.Nullability.Inherited(),
+            nullability: CLangCommon.Nullability.Inherited(),
             type: {
               fileTypeIsDefinedIn: null,
               libraryTypeIsDefinedIn: null,
@@ -1499,7 +1499,7 @@ describe('Plugins.ImmutableProperties', function () {
             annotations: {},
             comments: [],
             name: 'something',
-            nullability: ObjC.Nullability.Inherited(),
+            nullability: CLangCommon.Nullability.Inherited(),
             type: {
               fileTypeIsDefinedIn: null,
               libraryTypeIsDefinedIn: null,
@@ -1547,7 +1547,7 @@ describe('Plugins.ImmutableProperties', function () {
             annotations: {},
             comments: [],
             name: 'something',
-            nullability: ObjC.Nullability.Inherited(),
+            nullability: CLangCommon.Nullability.Inherited(),
             type: {
               fileTypeIsDefinedIn: null,
               libraryTypeIsDefinedIn: null,
@@ -1595,7 +1595,7 @@ describe('Plugins.ImmutableProperties', function () {
             annotations: {},
             comments: [],
             name: 'something',
-            nullability: ObjC.Nullability.Inherited(),
+            nullability: CLangCommon.Nullability.Inherited(),
             type: {
               fileTypeIsDefinedIn: null,
               libraryTypeIsDefinedIn: null,
@@ -1643,7 +1643,7 @@ describe('Plugins.ImmutableProperties', function () {
             annotations: {},
             comments: [],
             name: 'something',
-            nullability: ObjC.Nullability.Inherited(),
+            nullability: CLangCommon.Nullability.Inherited(),
             type: {
               fileTypeIsDefinedIn: null,
               libraryTypeIsDefinedIn: null,
@@ -1691,7 +1691,7 @@ describe('Plugins.ImmutableProperties', function () {
             annotations: {},
             comments: [],
             name: 'something',
-            nullability: ObjC.Nullability.Inherited(),
+            nullability: CLangCommon.Nullability.Inherited(),
             type: {
               fileTypeIsDefinedIn: null,
               libraryTypeIsDefinedIn: null,
@@ -1739,7 +1739,7 @@ describe('Plugins.ImmutableProperties', function () {
             annotations: {},
             comments: [],
             name: 'something',
-            nullability: ObjC.Nullability.Inherited(),
+            nullability: CLangCommon.Nullability.Inherited(),
             type: {
               fileTypeIsDefinedIn: null,
               libraryTypeIsDefinedIn: null,
@@ -1806,7 +1806,7 @@ describe('Plugins.ImmutableProperties', function () {
             annotations: {},
             comments: [],
             name: 'value',
-            nullability: ObjC.Nullability.Inherited(),
+            nullability: CLangCommon.Nullability.Inherited(),
             type: {
               fileTypeIsDefinedIn: null,
               libraryTypeIsDefinedIn: null,
@@ -1856,7 +1856,7 @@ describe('Plugins.ImmutableProperties', function () {
             annotations: {},
             comments: [],
             name: 'value',
-            nullability: ObjC.Nullability.Inherited(),
+            nullability: CLangCommon.Nullability.Inherited(),
             type: {
               fileTypeIsDefinedIn: null,
               libraryTypeIsDefinedIn: null,
@@ -1910,7 +1910,7 @@ describe('Plugins.ImmutableProperties', function () {
               annotations: {},
               comments: [],
               name: 'value',
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
               type: {
                 fileTypeIsDefinedIn: null,
                 libraryTypeIsDefinedIn: null,
@@ -1960,7 +1960,7 @@ describe('Plugins.ImmutableProperties', function () {
         annotations: {},
         comments: [],
         name: 'value',
-        nullability: ObjC.Nullability.Inherited(),
+        nullability: CLangCommon.Nullability.Inherited(),
         type: {
           fileTypeIsDefinedIn: null,
           libraryTypeIsDefinedIn: null,
@@ -1982,7 +1982,7 @@ describe('Plugins.ImmutableProperties', function () {
         annotations: {},
         comments: [],
         name: 'value',
-        nullability: ObjC.Nullability.Inherited(),
+        nullability: CLangCommon.Nullability.Inherited(),
         type: {
           fileTypeIsDefinedIn: null,
           libraryTypeIsDefinedIn: null,
@@ -2004,7 +2004,7 @@ describe('Plugins.ImmutableProperties', function () {
         annotations: {},
         comments: [],
         name: 'value',
-        nullability: ObjC.Nullability.Inherited(),
+        nullability: CLangCommon.Nullability.Inherited(),
         type: {
           fileTypeIsDefinedIn: null,
           libraryTypeIsDefinedIn: null,
@@ -2026,7 +2026,7 @@ describe('Plugins.ImmutableProperties', function () {
         annotations: {},
         comments: [],
         name: 'value',
-        nullability: ObjC.Nullability.Nonnull(),
+        nullability: CLangCommon.Nullability.Nonnull(),
         type: {
           fileTypeIsDefinedIn: null,
           libraryTypeIsDefinedIn: null,
@@ -2048,7 +2048,7 @@ describe('Plugins.ImmutableProperties', function () {
         annotations: {},
         comments: [],
         name: 'value',
-        nullability: ObjC.Nullability.Nullable(),
+        nullability: CLangCommon.Nullability.Nullable(),
         type: {
           fileTypeIsDefinedIn: null,
           libraryTypeIsDefinedIn: null,
@@ -2078,7 +2078,7 @@ describe('Plugins.ImmutableProperties', function () {
               annotations: {},
               comments: [],
               name: 'value',
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
               type: {
                 fileTypeIsDefinedIn: null,
                 libraryTypeIsDefinedIn: null,
@@ -2115,7 +2115,7 @@ describe('Plugins.ImmutableProperties', function () {
             annotations: {},
             comments: [],
             name: 'value',
-            nullability: ObjC.Nullability.Inherited(),
+            nullability: CLangCommon.Nullability.Inherited(),
             type: {
               fileTypeIsDefinedIn: null,
               libraryTypeIsDefinedIn: null,

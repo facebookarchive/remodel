@@ -8,7 +8,7 @@
 import * as Code from '../code';
 import * as Error from '../error';
 import * as FileWriter from '../file-writer';
-import * as Maybe from '../maybe';
+import * as CLangCommon from '../clang-common';
 import * as ObjC from '../objc';
 import * as StringUtils from '../string-utils';
 import * as ObjectSpec from '../object-spec';
@@ -39,7 +39,7 @@ function fetchStatusAttributeForAttribute(
     annotations: {},
     comments: [],
     name: nameOfFetchStatusAttributeForAttribute(attribute.name),
-    nullability: ObjC.Nullability.Inherited(),
+    nullability: CLangCommon.Nullability.Inherited(),
     type: {
       fileTypeIsDefinedIn: null,
       libraryTypeIsDefinedIn: null,
@@ -86,7 +86,7 @@ function fetchStatusAttributeForValueType(
     annotations: {},
     comments: [],
     name: 'fetchStatus',
-    nullability: ObjC.Nullability.Inherited(),
+    nullability: CLangCommon.Nullability.Inherited(),
     type: {
       fileTypeIsDefinedIn: null,
       libraryTypeIsDefinedIn: objectType.libraryName,

@@ -11,7 +11,7 @@
 import * as AlgebraicType from '../../algebraic-type';
 import * as Description from '../../plugins/description';
 import * as Error from '../../error';
-import * as Maybe from '../../maybe';
+import * as CLangCommon from '../../clang-common';
 import * as ObjC from '../../objc';
 import * as ObjectSpec from '../../object-spec';
 
@@ -45,7 +45,7 @@ describe('ObjectSpecPlugins.Description', function () {
               annotations: {},
               comments: [],
               name: 'name',
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
               type: {
                 fileTypeIsDefinedIn: null,
                 libraryTypeIsDefinedIn: null,
@@ -60,7 +60,7 @@ describe('ObjectSpecPlugins.Description', function () {
               annotations: {},
               comments: [],
               name: 'likeStatus',
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
               type: {
                 fileTypeIsDefinedIn: null,
                 libraryTypeIsDefinedIn: null,
@@ -97,7 +97,7 @@ describe('ObjectSpecPlugins.Description', function () {
               annotations: {},
               comments: [],
               name: 'name',
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
               type: {
                 fileTypeIsDefinedIn: null,
                 libraryTypeIsDefinedIn: null,
@@ -112,7 +112,7 @@ describe('ObjectSpecPlugins.Description', function () {
               annotations: {},
               comments: [],
               name: 'likeStatus',
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
               type: {
                 fileTypeIsDefinedIn: null,
                 libraryTypeIsDefinedIn: null,
@@ -152,7 +152,7 @@ describe('ObjectSpecPlugins.Description', function () {
               annotations: {},
               comments: [],
               name: 'name',
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
               type: {
                 fileTypeIsDefinedIn: null,
                 libraryTypeIsDefinedIn: null,
@@ -191,7 +191,7 @@ describe('ObjectSpecPlugins.Description', function () {
               annotations: {},
               comments: [],
               name: 'rect',
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
               type: {
                 fileTypeIsDefinedIn: null,
                 libraryTypeIsDefinedIn: null,
@@ -248,7 +248,7 @@ describe('ObjectSpecPlugins.Description', function () {
               annotations: {},
               comments: [],
               name: 'doesUserLike',
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
               type: {
                 fileTypeIsDefinedIn: null,
                 libraryTypeIsDefinedIn: null,
@@ -307,7 +307,7 @@ describe('ObjectSpecPlugins.Description', function () {
               annotations: {},
               comments: [],
               name: 'name',
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
               type: {
                 fileTypeIsDefinedIn: null,
                 libraryTypeIsDefinedIn: null,
@@ -366,7 +366,7 @@ describe('ObjectSpecPlugins.Description', function () {
               annotations: {},
               comments: [],
               name: 'something',
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
               type: {
                 fileTypeIsDefinedIn: null,
                 libraryTypeIsDefinedIn: null,
@@ -425,7 +425,7 @@ describe('ObjectSpecPlugins.Description', function () {
               annotations: {},
               comments: [],
               name: 'age',
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
               type: {
                 fileTypeIsDefinedIn: null,
                 libraryTypeIsDefinedIn: null,
@@ -484,7 +484,7 @@ describe('ObjectSpecPlugins.Description', function () {
               annotations: {},
               comments: [],
               name: 'age',
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
               type: {
                 fileTypeIsDefinedIn: null,
                 libraryTypeIsDefinedIn: null,
@@ -543,7 +543,7 @@ describe('ObjectSpecPlugins.Description', function () {
               annotations: {},
               comments: [],
               name: 'age',
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
               type: {
                 fileTypeIsDefinedIn: null,
                 libraryTypeIsDefinedIn: null,
@@ -602,7 +602,7 @@ describe('ObjectSpecPlugins.Description', function () {
               annotations: {},
               comments: [],
               name: 'age',
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
               type: {
                 fileTypeIsDefinedIn: null,
                 libraryTypeIsDefinedIn: null,
@@ -661,7 +661,7 @@ describe('ObjectSpecPlugins.Description', function () {
               annotations: {},
               comments: [],
               name: 'age',
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
               type: {
                 fileTypeIsDefinedIn: null,
                 libraryTypeIsDefinedIn: null,
@@ -720,7 +720,7 @@ describe('ObjectSpecPlugins.Description', function () {
               annotations: {},
               comments: [],
               name: 'age',
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
               type: {
                 fileTypeIsDefinedIn: null,
                 libraryTypeIsDefinedIn: null,
@@ -779,7 +779,7 @@ describe('ObjectSpecPlugins.Description', function () {
               annotations: {},
               comments: [],
               name: 'age',
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
               type: {
                 fileTypeIsDefinedIn: null,
                 libraryTypeIsDefinedIn: null,
@@ -838,7 +838,7 @@ describe('ObjectSpecPlugins.Description', function () {
               annotations: {},
               comments: [],
               name: 'age',
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
               type: {
                 fileTypeIsDefinedIn: null,
                 libraryTypeIsDefinedIn: null,
@@ -897,7 +897,7 @@ describe('ObjectSpecPlugins.Description', function () {
               annotations: {},
               comments: [],
               name: 'age',
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
               type: {
                 fileTypeIsDefinedIn: null,
                 libraryTypeIsDefinedIn: null,
@@ -956,7 +956,7 @@ describe('ObjectSpecPlugins.Description', function () {
               annotations: {},
               comments: [],
               name: 'age',
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
               type: {
                 fileTypeIsDefinedIn: null,
                 libraryTypeIsDefinedIn: null,
@@ -1018,7 +1018,7 @@ describe('ObjectSpecPlugins.Description', function () {
                 annotations: {},
                 comments: [],
                 name: 'age',
-                nullability: ObjC.Nullability.Inherited(),
+                nullability: CLangCommon.Nullability.Inherited(),
                 type: {
                   fileTypeIsDefinedIn: null,
                   libraryTypeIsDefinedIn: null,
@@ -1078,7 +1078,7 @@ describe('ObjectSpecPlugins.Description', function () {
               annotations: {},
               comments: [],
               name: 'action',
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
               type: {
                 fileTypeIsDefinedIn: null,
                 libraryTypeIsDefinedIn: null,
@@ -1137,7 +1137,7 @@ describe('ObjectSpecPlugins.Description', function () {
               annotations: {},
               comments: [],
               name: 'range',
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
               type: {
                 fileTypeIsDefinedIn: null,
                 libraryTypeIsDefinedIn: null,
@@ -1196,7 +1196,7 @@ describe('ObjectSpecPlugins.Description', function () {
               annotations: {},
               comments: [],
               name: 'rect',
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
               type: {
                 fileTypeIsDefinedIn: null,
                 libraryTypeIsDefinedIn: null,
@@ -1255,7 +1255,7 @@ describe('ObjectSpecPlugins.Description', function () {
               annotations: {},
               comments: [],
               name: 'origin',
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
               type: {
                 fileTypeIsDefinedIn: null,
                 libraryTypeIsDefinedIn: null,
@@ -1314,7 +1314,7 @@ describe('ObjectSpecPlugins.Description', function () {
               annotations: {},
               comments: [],
               name: 'size',
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
               type: {
                 fileTypeIsDefinedIn: null,
                 libraryTypeIsDefinedIn: null,
@@ -1373,7 +1373,7 @@ describe('ObjectSpecPlugins.Description', function () {
               annotations: {},
               comments: [],
               name: 'insets',
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
               type: {
                 fileTypeIsDefinedIn: null,
                 libraryTypeIsDefinedIn: null,
@@ -1445,7 +1445,7 @@ describe('AlgebraicTypePlugins.Description', function () {
                 annotations: {},
                 name: 'someString',
                 comments: [],
-                nullability: ObjC.Nullability.Inherited(),
+                nullability: CLangCommon.Nullability.Inherited(),
                 type: {
                   name: 'NSString',
                   reference: 'NSString *',
@@ -1460,7 +1460,7 @@ describe('AlgebraicTypePlugins.Description', function () {
                 annotations: {},
                 name: 'someUnsignedInteger',
                 comments: [],
-                nullability: ObjC.Nullability.Inherited(),
+                nullability: CLangCommon.Nullability.Inherited(),
                 type: {
                   name: 'NSUInteger',
                   reference: 'NSUInteger',
@@ -1478,7 +1478,7 @@ describe('AlgebraicTypePlugins.Description', function () {
             annotations: {},
             name: 'coolSingleAttributeRectSubtype',
             comments: [],
-            nullability: ObjC.Nullability.Inherited(),
+            nullability: CLangCommon.Nullability.Inherited(),
             type: {
               name: 'CGRect',
               reference: 'CGRect',
@@ -1526,7 +1526,7 @@ describe('AlgebraicTypePlugins.Description', function () {
                   annotations: {},
                   name: 'someString',
                   comments: [],
-                  nullability: ObjC.Nullability.Inherited(),
+                  nullability: CLangCommon.Nullability.Inherited(),
                   type: {
                     name: 'NSString',
                     reference: 'NSString *',
@@ -1541,7 +1541,7 @@ describe('AlgebraicTypePlugins.Description', function () {
                   annotations: {},
                   name: 'someUnsignedInteger',
                   comments: [],
-                  nullability: ObjC.Nullability.Inherited(),
+                  nullability: CLangCommon.Nullability.Inherited(),
                   type: {
                     name: 'NSUInteger',
                     reference: 'NSUInteger',
@@ -1559,7 +1559,7 @@ describe('AlgebraicTypePlugins.Description', function () {
               annotations: {},
               name: 'coolSingleAttributeBoolSubtype',
               comments: [],
-              nullability: ObjC.Nullability.Inherited(),
+              nullability: CLangCommon.Nullability.Inherited(),
               type: {
                 name: 'BOOL',
                 reference: 'BOOL',
@@ -1663,7 +1663,7 @@ describe('AlgebraicTypePlugins.Description', function () {
                 annotations: {},
                 name: 'someFoo',
                 comments: [],
-                nullability: ObjC.Nullability.Inherited(),
+                nullability: CLangCommon.Nullability.Inherited(),
                 type: {
                   name: 'Foo',
                   reference: 'Foo *',
@@ -1706,7 +1706,7 @@ describe('AlgebraicTypePlugins.Description', function () {
                 annotations: {},
                 name: 'someFoo',
                 comments: [],
-                nullability: ObjC.Nullability.Inherited(),
+                nullability: CLangCommon.Nullability.Inherited(),
                 type: {
                   name: 'Foo',
                   reference: 'Foo *',
@@ -1724,7 +1724,7 @@ describe('AlgebraicTypePlugins.Description', function () {
             annotations: {},
             name: 'someFerr',
             comments: [],
-            nullability: ObjC.Nullability.Inherited(),
+            nullability: CLangCommon.Nullability.Inherited(),
             type: {
               name: 'Ferr',
               reference: 'Ferr',
@@ -1767,7 +1767,7 @@ describe('AlgebraicTypePlugins.Description', function () {
                 annotations: {},
                 name: 'someFerr',
                 comments: [],
-                nullability: ObjC.Nullability.Inherited(),
+                nullability: CLangCommon.Nullability.Inherited(),
                 type: {
                   name: 'Ferr',
                   reference: 'Ferr',

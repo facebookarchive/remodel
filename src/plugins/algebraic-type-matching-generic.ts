@@ -11,7 +11,6 @@ import * as AlgebraicTypeUtilsForMatching from '../algebraic-type-utils-for-matc
 import * as Code from '../code';
 import * as Error from '../error';
 import * as FileWriter from '../file-writer';
-import * as Maybe from '../maybe';
 import * as ObjC from '../objc';
 import * as StringUtils from '../string-utils';
 

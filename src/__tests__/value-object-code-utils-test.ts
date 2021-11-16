@@ -8,8 +8,8 @@
 ///<reference path='../type-defs/jasmine.d.ts'/>
 ///<reference path='../type-defs/jasmine-test-additions.d.ts'/>
 
-import * as CLangCommon from '../clang-common';
 import * as ObjectSpec from '../object-spec';
+import * as ObjectSpecHelpers from '../object-spec-helpers';
 import * as ObjectSpecCodeUtils from '../object-spec-code-utils';
 
 function valueGenerator(attribute: ObjectSpec.Attribute): string {
@@ -68,21 +68,14 @@ describe('ObjectSpecCodeUtils', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
-          {
-            annotations: {},
-            comments: [],
-            name: 'name',
-            nullability: CLangCommon.Nullability.Inherited(),
-            type: {
-              fileTypeIsDefinedIn: null,
-              libraryTypeIsDefinedIn: null,
-              name: 'NSString',
-              reference: 'NSString *',
-              underlyingType: 'NSObject',
-              conformingProtocol: null,
-              referencedGenericTypes: [],
-            },
-          },
+          new ObjectSpecHelpers.AttributeBuilder(
+            'name',
+            new ObjectSpecHelpers.AttributeTypeBuilder(
+              'NSString',
+              'NSString *',
+              'NSObject',
+            ),
+          ).asObject(),
         ],
         comments: [],
         typeLookups: [],
@@ -106,21 +99,14 @@ describe('ObjectSpecCodeUtils', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
-          {
-            annotations: {},
-            comments: [],
-            name: 'age',
-            nullability: CLangCommon.Nullability.Inherited(),
-            type: {
-              fileTypeIsDefinedIn: null,
-              libraryTypeIsDefinedIn: null,
-              name: 'NSUInteger',
-              reference: 'NSUInteger',
-              underlyingType: null,
-              conformingProtocol: null,
-              referencedGenericTypes: [],
-            },
-          },
+          new ObjectSpecHelpers.AttributeBuilder(
+            'age',
+            new ObjectSpecHelpers.AttributeTypeBuilder(
+              'NSUInteger',
+              'NSUInteger',
+              null,
+            ),
+          ).asObject(),
         ],
         comments: [],
         typeLookups: [],
@@ -143,36 +129,22 @@ describe('ObjectSpecCodeUtils', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
-          {
-            annotations: {},
-            comments: [],
-            name: 'name',
-            nullability: CLangCommon.Nullability.Inherited(),
-            type: {
-              fileTypeIsDefinedIn: null,
-              libraryTypeIsDefinedIn: null,
-              name: 'NSString',
-              reference: 'NSString *',
-              underlyingType: 'NSObject',
-              conformingProtocol: null,
-              referencedGenericTypes: [],
-            },
-          },
-          {
-            annotations: {},
-            comments: [],
-            name: 'age',
-            nullability: CLangCommon.Nullability.Inherited(),
-            type: {
-              fileTypeIsDefinedIn: null,
-              libraryTypeIsDefinedIn: null,
-              name: 'NSUInteger',
-              reference: 'NSUInteger',
-              underlyingType: null,
-              conformingProtocol: null,
-              referencedGenericTypes: [],
-            },
-          },
+          new ObjectSpecHelpers.AttributeBuilder(
+            'name',
+            new ObjectSpecHelpers.AttributeTypeBuilder(
+              'NSString',
+              'NSString *',
+              'NSObject',
+            ),
+          ).asObject(),
+          new ObjectSpecHelpers.AttributeBuilder(
+            'age',
+            new ObjectSpecHelpers.AttributeTypeBuilder(
+              'NSUInteger',
+              'NSUInteger',
+              null,
+            ),
+          ).asObject(),
         ],
         comments: [],
         typeLookups: [],

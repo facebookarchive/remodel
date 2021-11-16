@@ -8,10 +8,11 @@
 ///<reference path='../type-defs/jasmine.d.ts'/>
 ///<reference path='../type-defs/jasmine-test-additions.d.ts'/>
 
+import * as CLangCommon from '../clang-common';
 import * as Either from '../either';
 import * as Error from '../error';
-import * as CLangCommon from '../clang-common';
 import * as ObjectSpec from '../object-spec';
+import * as ObjectSpecHelpers from '../object-spec-helpers';
 import * as ObjectSpecParser from '../object-spec-parser';
 
 describe('ObjectSpecParser', function () {
@@ -27,36 +28,18 @@ describe('ObjectSpecParser', function () {
       const expectedFoundType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
-          {
-            annotations: {},
-            comments: [],
-            name: 'someArray',
-            nullability: CLangCommon.Nullability.Inherited(),
-            type: {
-              fileTypeIsDefinedIn: null,
-              libraryTypeIsDefinedIn: null,
-              name: 'NSArray',
-              reference: 'NSArray*',
-              underlyingType: 'NSObject',
-              conformingProtocol: null,
-              referencedGenericTypes: [],
-            },
-          },
-          {
-            annotations: {},
-            comments: [],
-            name: 'someBoolean',
-            nullability: CLangCommon.Nullability.Inherited(),
-            type: {
-              fileTypeIsDefinedIn: null,
-              libraryTypeIsDefinedIn: null,
-              name: 'BOOL',
-              reference: 'BOOL',
-              underlyingType: null,
-              conformingProtocol: null,
-              referencedGenericTypes: [],
-            },
-          },
+          new ObjectSpecHelpers.AttributeBuilder(
+            'someArray',
+            new ObjectSpecHelpers.AttributeTypeBuilder(
+              'NSArray',
+              'NSArray*',
+              'NSObject',
+            ),
+          ).asObject(),
+          new ObjectSpecHelpers.AttributeBuilder(
+            'someBoolean',
+            new ObjectSpecHelpers.AttributeTypeBuilder('BOOL', 'BOOL', null),
+          ).asObject(),
         ],
         comments: [],
         typeLookups: [],
@@ -112,8 +95,17 @@ describe('ObjectSpecParser', function () {
             ],
           },
           attributes: [
-            {
-              annotations: {
+            new ObjectSpecHelpers.AttributeBuilder(
+              'someBlah',
+              new ObjectSpecHelpers.AttributeTypeBuilder(
+                'RMBlah',
+                'RMBlah*',
+                'NSObject',
+              )
+                .withFileTypeIsDefinedIn('RMSomeOtherFile')
+                .withLibraryTypeIsDefinedIn('RMCustomLibrary'),
+            )
+              .withAnnotations({
                 import: [
                   {
                     properties: {
@@ -122,35 +114,16 @@ describe('ObjectSpecParser', function () {
                     },
                   },
                 ],
-              },
-              comments: [],
-              name: 'someBlah',
-              nullability: CLangCommon.Nullability.Inherited(),
-              type: {
-                fileTypeIsDefinedIn: 'RMSomeOtherFile',
-                libraryTypeIsDefinedIn: 'RMCustomLibrary',
-                name: 'RMBlah',
-                reference: 'RMBlah*',
-                underlyingType: 'NSObject',
-                conformingProtocol: null,
-                referencedGenericTypes: [],
-              },
-            },
-            {
-              annotations: {},
-              comments: [],
-              name: 'someValue',
-              nullability: CLangCommon.Nullability.Inherited(),
-              type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
-                name: 'RMSomeValue',
-                reference: 'RMSomeValue',
-                underlyingType: 'BOOL',
-                conformingProtocol: null,
-                referencedGenericTypes: [],
-              },
-            },
+              })
+              .asObject(),
+            new ObjectSpecHelpers.AttributeBuilder(
+              'someValue',
+              new ObjectSpecHelpers.AttributeTypeBuilder(
+                'RMSomeValue',
+                'RMSomeValue',
+                'BOOL',
+              ),
+            ).asObject(),
           ],
           comments: [],
           typeLookups: [
@@ -200,48 +173,40 @@ describe('ObjectSpecParser', function () {
           ],
         },
         attributes: [
-          {
-            annotations: {
+          new ObjectSpecHelpers.AttributeBuilder(
+            'someBlah',
+            new ObjectSpecHelpers.AttributeTypeBuilder(
+              'RMBlah',
+              'RMBlah*',
+              'NSObject',
+            ),
+          )
+            .withAnnotations({
               nullable: [
                 {
                   properties: {},
                 },
               ],
-            },
-            comments: [],
-            name: 'someBlah',
-            nullability: CLangCommon.Nullability.Nullable(),
-            type: {
-              fileTypeIsDefinedIn: null,
-              libraryTypeIsDefinedIn: null,
-              name: 'RMBlah',
-              reference: 'RMBlah*',
-              underlyingType: 'NSObject',
-              conformingProtocol: null,
-              referencedGenericTypes: [],
-            },
-          },
-          {
-            annotations: {
+            })
+            .withNullability(CLangCommon.Nullability.Nullable())
+            .asObject(),
+          new ObjectSpecHelpers.AttributeBuilder(
+            'someValue',
+            new ObjectSpecHelpers.AttributeTypeBuilder(
+              'RMBlah',
+              'RMBlah*',
+              'NSObject',
+            ),
+          )
+            .withAnnotations({
               nonnull: [
                 {
                   properties: {},
                 },
               ],
-            },
-            comments: [],
-            name: 'someValue',
-            nullability: CLangCommon.Nullability.Nonnull(),
-            type: {
-              fileTypeIsDefinedIn: null,
-              libraryTypeIsDefinedIn: null,
-              name: 'RMBlah',
-              reference: 'RMBlah*',
-              underlyingType: 'NSObject',
-              conformingProtocol: null,
-              referencedGenericTypes: [],
-            },
-          },
+            })
+            .withNullability(CLangCommon.Nullability.Nonnull())
+            .asObject(),
         ],
         comments: [],
         typeLookups: [],
@@ -277,154 +242,122 @@ describe('ObjectSpecParser', function () {
           ],
         },
         attributes: [
-          {
-            annotations: {},
-            comments: [],
-            name: 'multiple',
-            nullability: CLangCommon.Nullability.Inherited(),
-            type: {
-              fileTypeIsDefinedIn: null,
-              libraryTypeIsDefinedIn: null,
-              name: 'NSEvolvedDictionary',
-              reference:
-                'NSEvolvedDictionary<BOOL, NSFoo *, NSBar *, NSInteger>*',
-              underlyingType: 'NSObject',
-              conformingProtocol: null,
-              referencedGenericTypes: [
-                {
-                  name: 'BOOL',
-                  conformingProtocol: null,
-                  referencedGenericTypes: [],
-                },
-                {
-                  name: 'NSFoo',
-                  conformingProtocol: null,
-                  referencedGenericTypes: [],
-                },
-                {
-                  name: 'NSBar',
-                  conformingProtocol: null,
-                  referencedGenericTypes: [],
-                },
-                {
-                  name: 'NSInteger',
-                  conformingProtocol: null,
-                  referencedGenericTypes: [],
-                },
-              ],
-            },
-          },
-          {
-            annotations: {},
-            comments: [],
-            name: 'nested',
-            nullability: CLangCommon.Nullability.Inherited(),
-            type: {
-              fileTypeIsDefinedIn: null,
-              libraryTypeIsDefinedIn: null,
-              name: 'NSArray',
-              reference:
-                'NSArray<NSDictionary<NSArray<NSString *>, NSString *> *>*',
-              underlyingType: 'NSObject',
-              conformingProtocol: null,
-              referencedGenericTypes: [
-                {
-                  name: 'NSDictionary',
-                  conformingProtocol: null,
-                  referencedGenericTypes: [
-                    {
-                      name: 'NSArray',
-                      conformingProtocol: null,
-                      referencedGenericTypes: [
-                        {
-                          name: 'NSString',
-                          conformingProtocol: null,
-                          referencedGenericTypes: [],
-                        },
-                      ],
-                    },
-                    {
-                      name: 'NSString',
-                      conformingProtocol: null,
-                      referencedGenericTypes: [],
-                    },
-                  ],
-                },
-              ],
-            },
-          },
-          {
-            annotations: {},
-            comments: [],
-            name: 'protocols',
-            nullability: CLangCommon.Nullability.Inherited(),
-            type: {
-              fileTypeIsDefinedIn: null,
-              libraryTypeIsDefinedIn: null,
-              name: 'NSDictionary',
-              reference:
-                'NSDictionary<id<FooProtocol>, NSArray<id<BarProtocol>> *>*',
-              underlyingType: 'NSObject',
-              conformingProtocol: null,
-              referencedGenericTypes: [
-                {
-                  name: 'id',
-                  conformingProtocol: 'FooProtocol',
-                  referencedGenericTypes: [],
-                },
-                {
-                  name: 'NSArray',
-                  conformingProtocol: null,
-                  referencedGenericTypes: [
-                    {
-                      name: 'id',
-                      conformingProtocol: 'BarProtocol',
-                      referencedGenericTypes: [],
-                    },
-                  ],
-                },
-              ],
-            },
-          },
-          {
-            annotations: {},
-            comments: [],
-            name: 'ckAction',
-            nullability: CLangCommon.Nullability.Inherited(),
-            type: {
-              fileTypeIsDefinedIn: null,
-              libraryTypeIsDefinedIn: null,
-              name: 'CKAction',
-              reference:
-                'CKAction<NSDictionary<NSArray<NSString *> *, id<FooProtocol>> *>',
-              underlyingType: 'NSObject',
-              conformingProtocol: null,
-              referencedGenericTypes: [
-                {
-                  name: 'NSDictionary',
-                  conformingProtocol: null,
-                  referencedGenericTypes: [
-                    {
-                      name: 'NSArray',
-                      conformingProtocol: null,
-                      referencedGenericTypes: [
-                        {
-                          name: 'NSString',
-                          conformingProtocol: null,
-                          referencedGenericTypes: [],
-                        },
-                      ],
-                    },
-                    {
-                      name: 'id',
-                      conformingProtocol: 'FooProtocol',
-                      referencedGenericTypes: [],
-                    },
-                  ],
-                },
-              ],
-            },
-          },
+          new ObjectSpecHelpers.AttributeBuilder(
+            'multiple',
+            new ObjectSpecHelpers.AttributeTypeBuilder(
+              'NSEvolvedDictionary',
+              'NSEvolvedDictionary<BOOL, NSFoo *, NSBar *, NSInteger>*',
+              'NSObject',
+            ).withReferencedGenericTypes([
+              {
+                name: 'BOOL',
+                conformingProtocol: null,
+                referencedGenericTypes: [],
+              },
+              {
+                name: 'NSFoo',
+                conformingProtocol: null,
+                referencedGenericTypes: [],
+              },
+              {
+                name: 'NSBar',
+                conformingProtocol: null,
+                referencedGenericTypes: [],
+              },
+              {
+                name: 'NSInteger',
+                conformingProtocol: null,
+                referencedGenericTypes: [],
+              },
+            ]),
+          ).asObject(),
+          new ObjectSpecHelpers.AttributeBuilder(
+            'nested',
+            new ObjectSpecHelpers.AttributeTypeBuilder(
+              'NSArray',
+              'NSArray<NSDictionary<NSArray<NSString *>, NSString *> *>*',
+              'NSObject',
+            ).withReferencedGenericTypes([
+              {
+                name: 'NSDictionary',
+                conformingProtocol: null,
+                referencedGenericTypes: [
+                  {
+                    name: 'NSArray',
+                    conformingProtocol: null,
+                    referencedGenericTypes: [
+                      {
+                        name: 'NSString',
+                        conformingProtocol: null,
+                        referencedGenericTypes: [],
+                      },
+                    ],
+                  },
+                  {
+                    name: 'NSString',
+                    conformingProtocol: null,
+                    referencedGenericTypes: [],
+                  },
+                ],
+              },
+            ]),
+          ).asObject(),
+          new ObjectSpecHelpers.AttributeBuilder(
+            'protocols',
+            new ObjectSpecHelpers.AttributeTypeBuilder(
+              'NSDictionary',
+              'NSDictionary<id<FooProtocol>, NSArray<id<BarProtocol>> *>*',
+              'NSObject',
+            ).withReferencedGenericTypes([
+              {
+                name: 'id',
+                conformingProtocol: 'FooProtocol',
+                referencedGenericTypes: [],
+              },
+              {
+                name: 'NSArray',
+                conformingProtocol: null,
+                referencedGenericTypes: [
+                  {
+                    name: 'id',
+                    conformingProtocol: 'BarProtocol',
+                    referencedGenericTypes: [],
+                  },
+                ],
+              },
+            ]),
+          ).asObject(),
+          new ObjectSpecHelpers.AttributeBuilder(
+            'ckAction',
+            new ObjectSpecHelpers.AttributeTypeBuilder(
+              'CKAction',
+              'CKAction<NSDictionary<NSArray<NSString *> *, id<FooProtocol>> *>',
+              'NSObject',
+            ).withReferencedGenericTypes([
+              {
+                name: 'NSDictionary',
+                conformingProtocol: null,
+                referencedGenericTypes: [
+                  {
+                    name: 'NSArray',
+                    conformingProtocol: null,
+                    referencedGenericTypes: [
+                      {
+                        name: 'NSString',
+                        conformingProtocol: null,
+                        referencedGenericTypes: [],
+                      },
+                    ],
+                  },
+                  {
+                    name: 'id',
+                    conformingProtocol: 'FooProtocol',
+                    referencedGenericTypes: [],
+                  },
+                ],
+              },
+            ]),
+          ).asObject(),
         ],
         comments: [],
         typeLookups: [],
@@ -445,21 +378,14 @@ describe('ObjectSpecParser', function () {
       const expectedFoundType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
-          {
-            annotations: {},
-            comments: [],
-            name: 'foo',
-            nullability: CLangCommon.Nullability.Inherited(),
-            type: {
-              fileTypeIsDefinedIn: null,
-              libraryTypeIsDefinedIn: null,
-              name: 'FBFoo',
-              reference: 'FBFoo<>*',
-              underlyingType: 'NSObject',
-              conformingProtocol: null,
-              referencedGenericTypes: [],
-            },
-          },
+          new ObjectSpecHelpers.AttributeBuilder(
+            'foo',
+            new ObjectSpecHelpers.AttributeTypeBuilder(
+              'FBFoo',
+              'FBFoo<>*',
+              'NSObject',
+            ),
+          ).asObject(),
         ],
         comments: [],
         typeLookups: [],

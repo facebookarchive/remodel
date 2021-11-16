@@ -9,8 +9,8 @@
 ///<reference path='../../type-defs/jasmine-test-additions.d.ts'/>
 
 import * as FetchStatus from '../../plugins/fetch-status';
-import * as CLangCommon from '../../clang-common';
 import * as ObjectSpec from '../../object-spec';
+import * as ObjectSpecHelpers from '../../object-spec-helpers';
 
 const Plugin = FetchStatus.createPlugin();
 
@@ -31,21 +31,14 @@ describe('Plugins.FetchStatus', function () {
       const attributes: ObjectSpec.Attribute[] = Plugin.attributes(objectType);
 
       const expectedAttributes: ObjectSpec.Attribute[] = [
-        {
-          annotations: {},
-          comments: [],
-          name: 'fetchStatus',
-          nullability: CLangCommon.Nullability.Inherited(),
-          type: {
-            fileTypeIsDefinedIn: null,
-            libraryTypeIsDefinedIn: 'FooLib',
-            name: 'FooFetchStatus',
-            reference: 'FooFetchStatus *',
-            underlyingType: 'NSObject',
-            conformingProtocol: null,
-            referencedGenericTypes: [],
-          },
-        },
+        new ObjectSpecHelpers.AttributeBuilder(
+          'fetchStatus',
+          new ObjectSpecHelpers.AttributeTypeBuilder(
+            'FooFetchStatus',
+            'FooFetchStatus *',
+            'NSObject',
+          ).withLibraryTypeIsDefinedIn('FooLib'),
+        ).asObject(),
       ];
 
       expect(attributes).toEqualJSON(expectedAttributes);
@@ -56,21 +49,14 @@ describe('Plugins.FetchStatus', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
-          {
-            annotations: {},
-            comments: [],
-            name: 'someUnsignedInteger',
-            nullability: CLangCommon.Nullability.Inherited(),
-            type: {
-              fileTypeIsDefinedIn: null,
-              libraryTypeIsDefinedIn: null,
-              name: 'NSUInteger',
-              reference: 'NSUInteger',
-              underlyingType: null,
-              conformingProtocol: null,
-              referencedGenericTypes: [],
-            },
-          },
+          new ObjectSpecHelpers.AttributeBuilder(
+            'someUnsignedInteger',
+            new ObjectSpecHelpers.AttributeTypeBuilder(
+              'NSUInteger',
+              'NSUInteger',
+              null,
+            ),
+          ).asObject(),
         ],
         comments: [],
         typeLookups: [],
@@ -86,21 +72,10 @@ describe('Plugins.FetchStatus', function () {
       const expectedValueType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
-          {
-            annotations: {},
-            comments: [],
-            name: 'hasFetchedSomeUnsignedInteger',
-            nullability: CLangCommon.Nullability.Inherited(),
-            type: {
-              fileTypeIsDefinedIn: null,
-              libraryTypeIsDefinedIn: null,
-              name: 'BOOL',
-              reference: 'BOOL',
-              underlyingType: null,
-              conformingProtocol: null,
-              referencedGenericTypes: [],
-            },
-          },
+          new ObjectSpecHelpers.AttributeBuilder(
+            'hasFetchedSomeUnsignedInteger',
+            new ObjectSpecHelpers.AttributeTypeBuilder('BOOL', 'BOOL', null),
+          ).asObject(),
         ],
         comments: [],
         typeLookups: [],

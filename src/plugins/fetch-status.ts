@@ -12,6 +12,7 @@ import * as CLangCommon from '../clang-common';
 import * as ObjC from '../objc';
 import * as StringUtils from '../string-utils';
 import * as ObjectSpec from '../object-spec';
+import * as ObjectSpecHelpers from '../object-spec-helpers';
 import * as ObjectSpecUtils from '../object-spec-utils';
 
 function nameOfFetchStatusForValueTypeWithName(valueTypeName: string): string {
@@ -35,21 +36,10 @@ function isFetchStatusAttribute(
 function fetchStatusAttributeForAttribute(
   attribute: ObjectSpec.Attribute,
 ): ObjectSpec.Attribute {
-  return {
-    annotations: {},
-    comments: [],
-    name: nameOfFetchStatusAttributeForAttribute(attribute.name),
-    nullability: CLangCommon.Nullability.Inherited(),
-    type: {
-      fileTypeIsDefinedIn: null,
-      libraryTypeIsDefinedIn: null,
-      name: 'BOOL',
-      reference: 'BOOL',
-      underlyingType: null,
-      conformingProtocol: null,
-      referencedGenericTypes: [],
-    },
-  };
+  return new ObjectSpecHelpers.AttributeBuilder(
+    nameOfFetchStatusAttributeForAttribute(attribute.name),
+    new ObjectSpecHelpers.AttributeTypeBuilder('BOOL', 'BOOL', null),
+  ).asObject();
 }
 
 function fetchedAttributesForValueType(objectType: ObjectSpec.Type) {
@@ -82,22 +72,14 @@ function fetchStatusAttributeForValueType(
     objectType.typeName,
   );
 
-  return {
-    annotations: {},
-    comments: [],
-    name: 'fetchStatus',
-    nullability: CLangCommon.Nullability.Inherited(),
-    type: {
-      fileTypeIsDefinedIn: null,
-      libraryTypeIsDefinedIn: objectType.libraryName,
-      name: fetchStatusTypeName,
-      reference:
-        ObjectSpecUtils.typeReferenceForValueTypeWithName(fetchStatusTypeName),
-      underlyingType: 'NSObject',
-      conformingProtocol: null,
-      referencedGenericTypes: [],
-    },
-  };
+  return new ObjectSpecHelpers.AttributeBuilder(
+    'fetchStatus',
+    new ObjectSpecHelpers.AttributeTypeBuilder(
+      fetchStatusTypeName,
+      ObjectSpecUtils.typeReferenceForValueTypeWithName(fetchStatusTypeName),
+      'NSObject',
+    ).withLibraryTypeIsDefinedIn(objectType.libraryName),
+  ).asObject();
 }
 
 export function createPlugin(): ObjectSpec.Plugin {

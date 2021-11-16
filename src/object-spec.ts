@@ -11,6 +11,7 @@ import * as FileWriter from './file-writer';
 import * as CLangCommon from './clang-common';
 import * as ObjC from './objc';
 import * as ObjectGeneration from './object-generation';
+import internal = require('assert');
 
 export interface AttributeType {
   fileTypeIsDefinedIn: string | null;

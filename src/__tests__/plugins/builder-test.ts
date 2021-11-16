@@ -13,6 +13,7 @@ import * as Code from '../../code';
 import * as CLangCommon from '../../clang-common';
 import * as ObjC from '../../objc';
 import * as ObjectSpec from '../../object-spec';
+import * as ObjectSpecHelpers from '../../object-spec-helpers';
 
 const Plugin = Builder.createPlugin();
 
@@ -319,51 +320,26 @@ describe('Plugins.Builder', function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
-            {
-              annotations: {},
-              comments: [],
-              name: 'someUnsignedInteger',
-              nullability: CLangCommon.Nullability.Inherited(),
-              type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
-                name: 'NSUInteger',
-                reference: 'NSUInteger',
-                underlyingType: null,
-                conformingProtocol: null,
-                referencedGenericTypes: [],
-              },
-            },
-            {
-              annotations: {},
-              comments: [],
-              name: 'someCustomObject',
-              nullability: CLangCommon.Nullability.Inherited(),
-              type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
-                name: 'RMCustomObject',
-                reference: 'RMCustomObject *',
-                underlyingType: 'NSObject',
-                conformingProtocol: null,
-                referencedGenericTypes: [],
-              },
-            },
-            {
-              annotations: {},
-              comments: [],
-              name: 'someBool',
-              nullability: CLangCommon.Nullability.Inherited(),
-              type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
-                name: 'BOOL',
-                reference: 'BOOL',
-                underlyingType: null,
-                conformingProtocol: null,
-                referencedGenericTypes: [],
-              },
-            },
+            new ObjectSpecHelpers.AttributeBuilder(
+              'someUnsignedInteger',
+              new ObjectSpecHelpers.AttributeTypeBuilder(
+                'NSUInteger',
+                'NSUInteger',
+                null,
+              ),
+            ).asObject(),
+            new ObjectSpecHelpers.AttributeBuilder(
+              'someCustomObject',
+              new ObjectSpecHelpers.AttributeTypeBuilder(
+                'RMCustomObject',
+                'RMCustomObject *',
+                'NSObject',
+              ),
+            ).asObject(),
+            new ObjectSpecHelpers.AttributeBuilder(
+              'someBool',
+              new ObjectSpecHelpers.AttributeTypeBuilder('BOOL', 'BOOL', null),
+            ).asObject(),
           ],
           comments: [],
           excludes: [],
@@ -644,51 +620,26 @@ describe('Plugins.Builder', function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
-            {
-              annotations: {},
-              comments: [],
-              name: 'someUnsignedInteger',
-              nullability: CLangCommon.Nullability.Inherited(),
-              type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
-                name: 'NSUInteger',
-                reference: 'NSUInteger',
-                underlyingType: null,
-                conformingProtocol: null,
-                referencedGenericTypes: [],
-              },
-            },
-            {
-              annotations: {},
-              comments: [],
-              name: 'someCustomObject',
-              nullability: CLangCommon.Nullability.Inherited(),
-              type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
-                name: 'RMCustomObject',
-                reference: 'RMCustomObject *',
-                underlyingType: 'NSObject',
-                conformingProtocol: null,
-                referencedGenericTypes: [],
-              },
-            },
-            {
-              annotations: {},
-              comments: [],
-              name: 'someBool',
-              nullability: CLangCommon.Nullability.Inherited(),
-              type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
-                name: 'BOOL',
-                reference: 'BOOL',
-                underlyingType: null,
-                conformingProtocol: null,
-                referencedGenericTypes: [],
-              },
-            },
+            new ObjectSpecHelpers.AttributeBuilder(
+              'someUnsignedInteger',
+              new ObjectSpecHelpers.AttributeTypeBuilder(
+                'NSUInteger',
+                'NSUInteger',
+                null,
+              ),
+            ).asObject(),
+            new ObjectSpecHelpers.AttributeBuilder(
+              'someCustomObject',
+              new ObjectSpecHelpers.AttributeTypeBuilder(
+                'RMCustomObject',
+                'RMCustomObject *',
+                'NSObject',
+              ),
+            ).asObject(),
+            new ObjectSpecHelpers.AttributeBuilder(
+              'someBool',
+              new ObjectSpecHelpers.AttributeTypeBuilder('BOOL', 'BOOL', null),
+            ).asObject(),
           ],
           comments: [],
           excludes: [],

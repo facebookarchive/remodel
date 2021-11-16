@@ -8,11 +8,12 @@
 ///<reference path='../../type-defs/jasmine.d.ts'/>
 ///<reference path='../../type-defs/jasmine-test-additions.d.ts'/>
 
+import * as CLangCommon from '../../clang-common';
 import * as ImmutableProperties from '../../plugins/immutable-properties';
 import * as ImmutablePropertyUtils from '../../immutable-property-utils';
-import * as CLangCommon from '../../clang-common';
 import * as ObjC from '../../objc';
 import * as ObjectSpec from '../../object-spec';
+import * as ObjectSpecHelpers from '../../object-spec-helpers';
 
 const Plugin = ImmutableProperties.createPlugin();
 
@@ -44,21 +45,14 @@ describe('Plugins.ImmutableProperties', function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
-            {
-              annotations: {},
-              comments: [],
-              name: 'value',
-              nullability: CLangCommon.Nullability.Inherited(),
-              type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
-                name: 'NSString',
-                reference: 'NSString *',
-                underlyingType: 'NSObject',
-                conformingProtocol: null,
-                referencedGenericTypes: [],
-              },
-            },
+            new ObjectSpecHelpers.AttributeBuilder(
+              'value',
+              new ObjectSpecHelpers.AttributeTypeBuilder(
+                'NSString',
+                'NSString *',
+                'NSObject',
+              ),
+            ).asObject(),
           ],
           comments: [],
           typeLookups: [],
@@ -117,21 +111,14 @@ describe('Plugins.ImmutableProperties', function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
-            {
-              annotations: {},
-              comments: [],
-              name: 'value',
-              nullability: CLangCommon.Nullability.Inherited(),
-              type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
-                name: 'NSString',
-                reference: 'NSString *',
-                underlyingType: 'NSObject',
-                conformingProtocol: null,
-                referencedGenericTypes: [],
-              },
-            },
+            new ObjectSpecHelpers.AttributeBuilder(
+              'value',
+              new ObjectSpecHelpers.AttributeTypeBuilder(
+                'NSString',
+                'NSString *',
+                'NSObject',
+              ),
+            ).asObject(),
           ],
           comments: [],
           typeLookups: [],
@@ -190,66 +177,30 @@ describe('Plugins.ImmutableProperties', function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
-            {
-              annotations: {},
-              comments: [],
-              name: 'value',
-              nullability: CLangCommon.Nullability.Inherited(),
-              type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
-                name: 'NSString',
-                reference: 'NSString *',
-                underlyingType: 'NSObject',
-                conformingProtocol: null,
-                referencedGenericTypes: [],
-              },
-            },
-            {
-              annotations: {},
-              comments: [],
-              name: 'value2',
-              nullability: CLangCommon.Nullability.Inherited(),
-              type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
-                name: 'BOOL',
-                reference: 'BOOL',
-                underlyingType: null,
-                conformingProtocol: null,
-                referencedGenericTypes: [],
-              },
-            },
-            {
-              annotations: {},
-              comments: [],
-              name: 'value3',
-              nullability: CLangCommon.Nullability.Inherited(),
-              type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
-                name: 'RMAnotherSomething',
-                reference: 'RMAnotherSomething *',
-                underlyingType: 'NSObject',
-                conformingProtocol: null,
-                referencedGenericTypes: [],
-              },
-            },
-            {
-              annotations: {},
-              comments: [],
-              name: 'value4',
-              nullability: CLangCommon.Nullability.Inherited(),
-              type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
-                name: 'id',
-                reference: 'id',
-                underlyingType: null,
-                conformingProtocol: null,
-                referencedGenericTypes: [],
-              },
-            },
+            new ObjectSpecHelpers.AttributeBuilder(
+              'value',
+              new ObjectSpecHelpers.AttributeTypeBuilder(
+                'NSString',
+                'NSString *',
+                'NSObject',
+              ),
+            ).asObject(),
+            new ObjectSpecHelpers.AttributeBuilder(
+              'value2',
+              new ObjectSpecHelpers.AttributeTypeBuilder('BOOL', 'BOOL', null),
+            ).asObject(),
+            new ObjectSpecHelpers.AttributeBuilder(
+              'value3',
+              new ObjectSpecHelpers.AttributeTypeBuilder(
+                'RMAnotherSomething',
+                'RMAnotherSomething *',
+                'NSObject',
+              ),
+            ).asObject(),
+            new ObjectSpecHelpers.AttributeBuilder(
+              'value4',
+              new ObjectSpecHelpers.AttributeTypeBuilder('id', 'id', null),
+            ).asObject(),
           ],
           comments: [],
           typeLookups: [],
@@ -344,66 +295,30 @@ describe('Plugins.ImmutableProperties', function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
-            {
-              annotations: {},
-              comments: [],
-              name: 'value',
-              nullability: CLangCommon.Nullability.Inherited(),
-              type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
-                name: 'NSString',
-                reference: 'NSString *',
-                underlyingType: 'NSObject',
-                conformingProtocol: null,
-                referencedGenericTypes: [],
-              },
-            },
-            {
-              annotations: {},
-              comments: [],
-              name: 'value2',
-              nullability: CLangCommon.Nullability.Inherited(),
-              type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
-                name: 'BOOL',
-                reference: 'BOOL',
-                underlyingType: null,
-                conformingProtocol: null,
-                referencedGenericTypes: [],
-              },
-            },
-            {
-              annotations: {},
-              comments: [],
-              name: 'value3',
-              nullability: CLangCommon.Nullability.Inherited(),
-              type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
-                name: 'RMAnotherSomething',
-                reference: 'RMAnotherSomething *',
-                underlyingType: 'NSObject',
-                conformingProtocol: null,
-                referencedGenericTypes: [],
-              },
-            },
-            {
-              annotations: {},
-              comments: [],
-              name: 'value4',
-              nullability: CLangCommon.Nullability.Inherited(),
-              type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
-                name: 'id',
-                reference: 'id',
-                underlyingType: null,
-                conformingProtocol: null,
-                referencedGenericTypes: [],
-              },
-            },
+            new ObjectSpecHelpers.AttributeBuilder(
+              'value',
+              new ObjectSpecHelpers.AttributeTypeBuilder(
+                'NSString',
+                'NSString *',
+                'NSObject',
+              ),
+            ).asObject(),
+            new ObjectSpecHelpers.AttributeBuilder(
+              'value2',
+              new ObjectSpecHelpers.AttributeTypeBuilder('BOOL', 'BOOL', null),
+            ).asObject(),
+            new ObjectSpecHelpers.AttributeBuilder(
+              'value3',
+              new ObjectSpecHelpers.AttributeTypeBuilder(
+                'RMAnotherSomething',
+                'RMAnotherSomething *',
+                'NSObject',
+              ),
+            ).asObject(),
+            new ObjectSpecHelpers.AttributeBuilder(
+              'value4',
+              new ObjectSpecHelpers.AttributeTypeBuilder('id', 'id', null),
+            ).asObject(),
           ],
           comments: [],
           typeLookups: [],
@@ -577,27 +492,20 @@ describe('Plugins.ImmutableProperties', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
-          {
-            annotations: {},
-            comments: [],
-            name: 'something',
-            nullability: CLangCommon.Nullability.Inherited(),
-            type: {
-              fileTypeIsDefinedIn: null,
-              libraryTypeIsDefinedIn: null,
-              name: 'Foo',
-              reference: 'Foo<Scumbag *> *',
-              underlyingType: 'NSObject',
-              conformingProtocol: null,
-              referencedGenericTypes: [
-                {
-                  name: 'Scumbag',
-                  conformingProtocol: null,
-                  referencedGenericTypes: [],
-                },
-              ],
-            },
-          },
+          new ObjectSpecHelpers.AttributeBuilder(
+            'something',
+            new ObjectSpecHelpers.AttributeTypeBuilder(
+              'Foo',
+              'Foo<Scumbag *> *',
+              'NSObject',
+            ).withReferencedGenericTypes([
+              {
+                name: 'Scumbag',
+                conformingProtocol: null,
+                referencedGenericTypes: [],
+              },
+            ]),
+          ).asObject(),
         ],
         comments: [],
         typeLookups: [
@@ -676,21 +584,14 @@ describe('Plugins.ImmutableProperties', function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
-            {
-              annotations: {},
-              comments: [],
-              name: 'something',
-              nullability: CLangCommon.Nullability.Inherited(),
-              type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
-                name: 'RMSomethingElse',
-                reference: 'RMSomethingElse *',
-                underlyingType: 'NSObject',
-                conformingProtocol: null,
-                referencedGenericTypes: [],
-              },
-            },
+            new ObjectSpecHelpers.AttributeBuilder(
+              'something',
+              new ObjectSpecHelpers.AttributeTypeBuilder(
+                'RMSomethingElse',
+                'RMSomethingElse *',
+                'NSObject',
+              ),
+            ).asObject(),
           ],
           comments: [],
           typeLookups: [],
@@ -720,21 +621,14 @@ describe('Plugins.ImmutableProperties', function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
-            {
-              annotations: {},
-              comments: [],
-              name: 'something',
-              nullability: CLangCommon.Nullability.Inherited(),
-              type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
-                name: 'RMSomethingElse',
-                reference: 'RMSomethingElse *',
-                underlyingType: 'NSObject',
-                conformingProtocol: null,
-                referencedGenericTypes: [],
-              },
-            },
+            new ObjectSpecHelpers.AttributeBuilder(
+              'something',
+              new ObjectSpecHelpers.AttributeTypeBuilder(
+                'RMSomethingElse',
+                'RMSomethingElse *',
+                'NSObject',
+              ),
+            ).asObject(),
           ],
           comments: [],
           typeLookups: [],
@@ -764,21 +658,14 @@ describe('Plugins.ImmutableProperties', function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
-            {
-              annotations: {},
-              comments: [],
-              name: 'something',
-              nullability: CLangCommon.Nullability.Inherited(),
-              type: {
-                fileTypeIsDefinedIn: 'RMSomeOtherFile',
-                libraryTypeIsDefinedIn: null,
-                name: 'RMSomethingElse',
-                reference: 'RMSomethingElse *',
-                underlyingType: 'NSObject',
-                conformingProtocol: null,
-                referencedGenericTypes: [],
-              },
-            },
+            new ObjectSpecHelpers.AttributeBuilder(
+              'something',
+              new ObjectSpecHelpers.AttributeTypeBuilder(
+                'RMSomethingElse',
+                'RMSomethingElse *',
+                'NSObject',
+              ).withFileTypeIsDefinedIn('RMSomeOtherFile'),
+            ).asObject(),
           ],
           comments: [],
           typeLookups: [],
@@ -808,21 +695,16 @@ describe('Plugins.ImmutableProperties', function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
-            {
-              annotations: {},
-              comments: [],
-              name: 'something',
-              nullability: CLangCommon.Nullability.Inherited(),
-              type: {
-                fileTypeIsDefinedIn: 'RMSomeOtherFile',
-                libraryTypeIsDefinedIn: 'RMSomeOtherLibrary',
-                name: 'RMSomethingElse',
-                reference: 'RMSomethingElse *',
-                underlyingType: 'NSObject',
-                conformingProtocol: null,
-                referencedGenericTypes: [],
-              },
-            },
+            new ObjectSpecHelpers.AttributeBuilder(
+              'something',
+              new ObjectSpecHelpers.AttributeTypeBuilder(
+                'RMSomethingElse',
+                'RMSomethingElse *',
+                'NSObject',
+              )
+                .withFileTypeIsDefinedIn('RMSomeOtherFile')
+                .withLibraryTypeIsDefinedIn('RMSomeOtherLibrary'),
+            ).asObject(),
           ],
           comments: [],
           typeLookups: [],
@@ -852,21 +734,16 @@ describe('Plugins.ImmutableProperties', function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
-            {
-              annotations: {},
-              comments: [],
-              name: 'something',
-              nullability: CLangCommon.Nullability.Inherited(),
-              type: {
-                fileTypeIsDefinedIn: 'RMSomeOtherFile',
-                libraryTypeIsDefinedIn: 'RMSomeOtherLibrary',
-                name: 'RMSomethingElse',
-                reference: 'RMSomethingElse *',
-                underlyingType: 'NSObject',
-                conformingProtocol: null,
-                referencedGenericTypes: [],
-              },
-            },
+            new ObjectSpecHelpers.AttributeBuilder(
+              'something',
+              new ObjectSpecHelpers.AttributeTypeBuilder(
+                'RMSomethingElse',
+                'RMSomethingElse *',
+                'NSObject',
+              )
+                .withFileTypeIsDefinedIn('RMSomeOtherFile')
+                .withLibraryTypeIsDefinedIn('RMSomeOtherLibrary'),
+            ).asObject(),
           ],
           comments: [],
           typeLookups: [],
@@ -896,21 +773,14 @@ describe('Plugins.ImmutableProperties', function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
-            {
-              annotations: {},
-              comments: [],
-              name: 'something',
-              nullability: CLangCommon.Nullability.Inherited(),
-              type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: 'RMSomeOtherLibrary',
-                name: 'RMSomethingElse',
-                reference: 'RMSomethingElse *',
-                underlyingType: 'NSObject',
-                conformingProtocol: null,
-                referencedGenericTypes: [],
-              },
-            },
+            new ObjectSpecHelpers.AttributeBuilder(
+              'something',
+              new ObjectSpecHelpers.AttributeTypeBuilder(
+                'RMSomethingElse',
+                'RMSomethingElse *',
+                'NSObject',
+              ).withLibraryTypeIsDefinedIn('RMSomeOtherLibrary'),
+            ).asObject(),
           ],
           comments: [],
           typeLookups: [],
@@ -937,21 +807,10 @@ describe('Plugins.ImmutableProperties', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
-          {
-            annotations: {},
-            comments: [],
-            name: 'something',
-            nullability: CLangCommon.Nullability.Inherited(),
-            type: {
-              fileTypeIsDefinedIn: null,
-              libraryTypeIsDefinedIn: null,
-              name: 'BOOL',
-              reference: 'BOOL',
-              underlyingType: null,
-              conformingProtocol: null,
-              referencedGenericTypes: [],
-            },
-          },
+          new ObjectSpecHelpers.AttributeBuilder(
+            'something',
+            new ObjectSpecHelpers.AttributeTypeBuilder('BOOL', 'BOOL', null),
+          ).asObject(),
         ],
         comments: [],
         typeLookups: [],
@@ -985,21 +844,14 @@ describe('Plugins.ImmutableProperties', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
-          {
-            annotations: {},
-            comments: [],
-            name: 'something',
-            nullability: CLangCommon.Nullability.Inherited(),
-            type: {
-              fileTypeIsDefinedIn: null,
-              libraryTypeIsDefinedIn: null,
-              name: 'double',
-              reference: 'double',
-              underlyingType: null,
-              conformingProtocol: null,
-              referencedGenericTypes: [],
-            },
-          },
+          new ObjectSpecHelpers.AttributeBuilder(
+            'something',
+            new ObjectSpecHelpers.AttributeTypeBuilder(
+              'double',
+              'double',
+              null,
+            ),
+          ).asObject(),
         ],
         comments: [],
         typeLookups: [],
@@ -1033,21 +885,10 @@ describe('Plugins.ImmutableProperties', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
-          {
-            annotations: {},
-            comments: [],
-            name: 'something',
-            nullability: CLangCommon.Nullability.Inherited(),
-            type: {
-              fileTypeIsDefinedIn: null,
-              libraryTypeIsDefinedIn: null,
-              name: 'float',
-              reference: 'float',
-              underlyingType: null,
-              conformingProtocol: null,
-              referencedGenericTypes: [],
-            },
-          },
+          new ObjectSpecHelpers.AttributeBuilder(
+            'something',
+            new ObjectSpecHelpers.AttributeTypeBuilder('float', 'float', null),
+          ).asObject(),
         ],
         comments: [],
         typeLookups: [],
@@ -1081,21 +922,14 @@ describe('Plugins.ImmutableProperties', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
-          {
-            annotations: {},
-            comments: [],
-            name: 'something',
-            nullability: CLangCommon.Nullability.Inherited(),
-            type: {
-              fileTypeIsDefinedIn: null,
-              libraryTypeIsDefinedIn: null,
-              name: 'NSTimeInterval',
-              reference: 'NSTimeInterval',
-              underlyingType: null,
-              conformingProtocol: null,
-              referencedGenericTypes: [],
-            },
-          },
+          new ObjectSpecHelpers.AttributeBuilder(
+            'something',
+            new ObjectSpecHelpers.AttributeTypeBuilder(
+              'NSTimeInterval',
+              'NSTimeInterval',
+              null,
+            ),
+          ).asObject(),
         ],
         comments: [],
         typeLookups: [],
@@ -1129,21 +963,14 @@ describe('Plugins.ImmutableProperties', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
-          {
-            annotations: {},
-            comments: [],
-            name: 'something',
-            nullability: CLangCommon.Nullability.Inherited(),
-            type: {
-              fileTypeIsDefinedIn: null,
-              libraryTypeIsDefinedIn: null,
-              name: 'CGFloat',
-              reference: 'CGFloat',
-              underlyingType: null,
-              conformingProtocol: null,
-              referencedGenericTypes: [],
-            },
-          },
+          new ObjectSpecHelpers.AttributeBuilder(
+            'something',
+            new ObjectSpecHelpers.AttributeTypeBuilder(
+              'CGFloat',
+              'CGFloat',
+              null,
+            ),
+          ).asObject(),
         ],
         comments: [],
         typeLookups: [],
@@ -1183,21 +1010,14 @@ describe('Plugins.ImmutableProperties', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
-          {
-            annotations: {},
-            comments: [],
-            name: 'something',
-            nullability: CLangCommon.Nullability.Inherited(),
-            type: {
-              fileTypeIsDefinedIn: null,
-              libraryTypeIsDefinedIn: null,
-              name: 'CGRect',
-              reference: 'CGRect',
-              underlyingType: null,
-              conformingProtocol: null,
-              referencedGenericTypes: [],
-            },
-          },
+          new ObjectSpecHelpers.AttributeBuilder(
+            'something',
+            new ObjectSpecHelpers.AttributeTypeBuilder(
+              'CGRect',
+              'CGRect',
+              null,
+            ),
+          ).asObject(),
         ],
         comments: [],
         typeLookups: [],
@@ -1237,21 +1057,14 @@ describe('Plugins.ImmutableProperties', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
-          {
-            annotations: {},
-            comments: [],
-            name: 'something',
-            nullability: CLangCommon.Nullability.Inherited(),
-            type: {
-              fileTypeIsDefinedIn: null,
-              libraryTypeIsDefinedIn: null,
-              name: 'CGPoint',
-              reference: 'CGPoint',
-              underlyingType: null,
-              conformingProtocol: null,
-              referencedGenericTypes: [],
-            },
-          },
+          new ObjectSpecHelpers.AttributeBuilder(
+            'something',
+            new ObjectSpecHelpers.AttributeTypeBuilder(
+              'CGPoint',
+              'CGPoint',
+              null,
+            ),
+          ).asObject(),
         ],
         comments: [],
         typeLookups: [],
@@ -1291,21 +1104,10 @@ describe('Plugins.ImmutableProperties', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
-          {
-            annotations: {},
-            comments: [],
-            name: 'something',
-            nullability: CLangCommon.Nullability.Inherited(),
-            type: {
-              fileTypeIsDefinedIn: null,
-              libraryTypeIsDefinedIn: null,
-              name: 'SEL',
-              reference: 'SEL',
-              underlyingType: null,
-              conformingProtocol: null,
-              referencedGenericTypes: [],
-            },
-          },
+          new ObjectSpecHelpers.AttributeBuilder(
+            'something',
+            new ObjectSpecHelpers.AttributeTypeBuilder('SEL', 'SEL', null),
+          ).asObject(),
         ],
         comments: [],
         typeLookups: [],
@@ -1339,21 +1141,14 @@ describe('Plugins.ImmutableProperties', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
-          {
-            annotations: {},
-            comments: [],
-            name: 'something',
-            nullability: CLangCommon.Nullability.Inherited(),
-            type: {
-              fileTypeIsDefinedIn: null,
-              libraryTypeIsDefinedIn: null,
-              name: 'CGSize',
-              reference: 'CGSize',
-              underlyingType: null,
-              conformingProtocol: null,
-              referencedGenericTypes: [],
-            },
-          },
+          new ObjectSpecHelpers.AttributeBuilder(
+            'something',
+            new ObjectSpecHelpers.AttributeTypeBuilder(
+              'CGSize',
+              'CGSize',
+              null,
+            ),
+          ).asObject(),
         ],
         comments: [],
         typeLookups: [],
@@ -1393,21 +1188,14 @@ describe('Plugins.ImmutableProperties', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
-          {
-            annotations: {},
-            comments: [],
-            name: 'something',
-            nullability: CLangCommon.Nullability.Inherited(),
-            type: {
-              fileTypeIsDefinedIn: null,
-              libraryTypeIsDefinedIn: null,
-              name: 'UIEdgeInsets',
-              reference: 'UIEdgeInsets',
-              underlyingType: null,
-              conformingProtocol: null,
-              referencedGenericTypes: [],
-            },
-          },
+          new ObjectSpecHelpers.AttributeBuilder(
+            'something',
+            new ObjectSpecHelpers.AttributeTypeBuilder(
+              'UIEdgeInsets',
+              'UIEdgeInsets',
+              null,
+            ),
+          ).asObject(),
         ],
         comments: [],
         typeLookups: [],
@@ -1447,21 +1235,14 @@ describe('Plugins.ImmutableProperties', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
-          {
-            annotations: {},
-            comments: [],
-            name: 'something',
-            nullability: CLangCommon.Nullability.Inherited(),
-            type: {
-              fileTypeIsDefinedIn: null,
-              libraryTypeIsDefinedIn: null,
-              name: 'int32_t',
-              reference: 'int32_t',
-              underlyingType: null,
-              conformingProtocol: null,
-              referencedGenericTypes: [],
-            },
-          },
+          new ObjectSpecHelpers.AttributeBuilder(
+            'something',
+            new ObjectSpecHelpers.AttributeTypeBuilder(
+              'int32_t',
+              'int32_t',
+              null,
+            ),
+          ).asObject(),
         ],
         comments: [],
         typeLookups: [],
@@ -1495,21 +1276,14 @@ describe('Plugins.ImmutableProperties', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
-          {
-            annotations: {},
-            comments: [],
-            name: 'something',
-            nullability: CLangCommon.Nullability.Inherited(),
-            type: {
-              fileTypeIsDefinedIn: null,
-              libraryTypeIsDefinedIn: null,
-              name: 'int64_t',
-              reference: 'int64_t',
-              underlyingType: null,
-              conformingProtocol: null,
-              referencedGenericTypes: [],
-            },
-          },
+          new ObjectSpecHelpers.AttributeBuilder(
+            'something',
+            new ObjectSpecHelpers.AttributeTypeBuilder(
+              'int64_t',
+              'int64_t',
+              null,
+            ),
+          ).asObject(),
         ],
         comments: [],
         typeLookups: [],
@@ -1543,21 +1317,14 @@ describe('Plugins.ImmutableProperties', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
-          {
-            annotations: {},
-            comments: [],
-            name: 'something',
-            nullability: CLangCommon.Nullability.Inherited(),
-            type: {
-              fileTypeIsDefinedIn: null,
-              libraryTypeIsDefinedIn: null,
-              name: 'uint32_t',
-              reference: 'uint32_t',
-              underlyingType: null,
-              conformingProtocol: null,
-              referencedGenericTypes: [],
-            },
-          },
+          new ObjectSpecHelpers.AttributeBuilder(
+            'something',
+            new ObjectSpecHelpers.AttributeTypeBuilder(
+              'uint32_t',
+              'uint32_t',
+              null,
+            ),
+          ).asObject(),
         ],
         comments: [],
         typeLookups: [],
@@ -1591,21 +1358,14 @@ describe('Plugins.ImmutableProperties', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
-          {
-            annotations: {},
-            comments: [],
-            name: 'something',
-            nullability: CLangCommon.Nullability.Inherited(),
-            type: {
-              fileTypeIsDefinedIn: null,
-              libraryTypeIsDefinedIn: null,
-              name: 'uint64_t',
-              reference: 'uint64_t',
-              underlyingType: null,
-              conformingProtocol: null,
-              referencedGenericTypes: [],
-            },
-          },
+          new ObjectSpecHelpers.AttributeBuilder(
+            'something',
+            new ObjectSpecHelpers.AttributeTypeBuilder(
+              'uint64_t',
+              'uint64_t',
+              null,
+            ),
+          ).asObject(),
         ],
         comments: [],
         typeLookups: [],
@@ -1639,21 +1399,14 @@ describe('Plugins.ImmutableProperties', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
-          {
-            annotations: {},
-            comments: [],
-            name: 'something',
-            nullability: CLangCommon.Nullability.Inherited(),
-            type: {
-              fileTypeIsDefinedIn: null,
-              libraryTypeIsDefinedIn: null,
-              name: 'NSUInteger',
-              reference: 'NSUInteger',
-              underlyingType: null,
-              conformingProtocol: null,
-              referencedGenericTypes: [],
-            },
-          },
+          new ObjectSpecHelpers.AttributeBuilder(
+            'something',
+            new ObjectSpecHelpers.AttributeTypeBuilder(
+              'NSUInteger',
+              'NSUInteger',
+              null,
+            ),
+          ).asObject(),
         ],
         comments: [],
         typeLookups: [],
@@ -1687,21 +1440,14 @@ describe('Plugins.ImmutableProperties', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
-          {
-            annotations: {},
-            comments: [],
-            name: 'something',
-            nullability: CLangCommon.Nullability.Inherited(),
-            type: {
-              fileTypeIsDefinedIn: null,
-              libraryTypeIsDefinedIn: null,
-              name: 'NSInteger',
-              reference: 'NSInteger',
-              underlyingType: null,
-              conformingProtocol: null,
-              referencedGenericTypes: [],
-            },
-          },
+          new ObjectSpecHelpers.AttributeBuilder(
+            'something',
+            new ObjectSpecHelpers.AttributeTypeBuilder(
+              'NSInteger',
+              'NSInteger',
+              null,
+            ),
+          ).asObject(),
         ],
         comments: [],
         typeLookups: [],
@@ -1735,21 +1481,14 @@ describe('Plugins.ImmutableProperties', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
-          {
-            annotations: {},
-            comments: [],
-            name: 'something',
-            nullability: CLangCommon.Nullability.Inherited(),
-            type: {
-              fileTypeIsDefinedIn: null,
-              libraryTypeIsDefinedIn: null,
-              name: 'NSString',
-              reference: 'NSString *',
-              underlyingType: 'NSObject',
-              conformingProtocol: null,
-              referencedGenericTypes: [],
-            },
-          },
+          new ObjectSpecHelpers.AttributeBuilder(
+            'something',
+            new ObjectSpecHelpers.AttributeTypeBuilder(
+              'NSString',
+              'NSString *',
+              'NSObject',
+            ),
+          ).asObject(),
         ],
         comments: [],
         typeLookups: [],
@@ -1802,21 +1541,10 @@ describe('Plugins.ImmutableProperties', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
-          {
-            annotations: {},
-            comments: [],
-            name: 'value',
-            nullability: CLangCommon.Nullability.Inherited(),
-            type: {
-              fileTypeIsDefinedIn: null,
-              libraryTypeIsDefinedIn: null,
-              name: 'BOOL',
-              reference: 'BOOL',
-              underlyingType: null,
-              conformingProtocol: null,
-              referencedGenericTypes: [],
-            },
-          },
+          new ObjectSpecHelpers.AttributeBuilder(
+            'value',
+            new ObjectSpecHelpers.AttributeTypeBuilder('BOOL', 'BOOL', null),
+          ).asObject(),
         ],
         comments: [],
         typeLookups: [],
@@ -1852,21 +1580,14 @@ describe('Plugins.ImmutableProperties', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
-          {
-            annotations: {},
-            comments: [],
-            name: 'value',
-            nullability: CLangCommon.Nullability.Inherited(),
-            type: {
-              fileTypeIsDefinedIn: null,
-              libraryTypeIsDefinedIn: null,
-              name: 'RMSomething',
-              reference: 'RMSomething *',
-              underlyingType: 'NSObject',
-              conformingProtocol: null,
-              referencedGenericTypes: [],
-            },
-          },
+          new ObjectSpecHelpers.AttributeBuilder(
+            'value',
+            new ObjectSpecHelpers.AttributeTypeBuilder(
+              'RMSomething',
+              'RMSomething *',
+              'NSObject',
+            ),
+          ).asObject(),
         ],
         comments: [],
         typeLookups: [],
@@ -1906,21 +1627,14 @@ describe('Plugins.ImmutableProperties', function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
-            {
-              annotations: {},
-              comments: [],
-              name: 'value',
-              nullability: CLangCommon.Nullability.Inherited(),
-              type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
-                name: 'RMSomething',
-                reference: 'RMSomething *',
-                underlyingType: 'NSObject',
-                conformingProtocol: null,
-                referencedGenericTypes: [],
-              },
-            },
+            new ObjectSpecHelpers.AttributeBuilder(
+              'value',
+              new ObjectSpecHelpers.AttributeTypeBuilder(
+                'RMSomething',
+                'RMSomething *',
+                'NSObject',
+              ),
+            ).asObject(),
           ],
           comments: [],
           typeLookups: [],
@@ -1956,21 +1670,15 @@ describe('Plugins.ImmutableProperties', function () {
 
   describe('#propertyModifiersFromAttribute', function () {
     it('returns a copyable property for an NSObject attribute with value semantics enabled', function () {
-      const attribute: ObjectSpec.Attribute = {
-        annotations: {},
-        comments: [],
-        name: 'value',
-        nullability: CLangCommon.Nullability.Inherited(),
-        type: {
-          fileTypeIsDefinedIn: null,
-          libraryTypeIsDefinedIn: null,
-          name: 'RMSomething',
-          reference: 'RMSomething *',
-          underlyingType: 'NSObject',
-          conformingProtocol: null,
-          referencedGenericTypes: [],
-        },
-      };
+      const attribute: ObjectSpec.Attribute =
+        new ObjectSpecHelpers.AttributeBuilder(
+          'value',
+          new ObjectSpecHelpers.AttributeTypeBuilder(
+            'RMSomething',
+            'RMSomething *',
+            'NSObject',
+          ),
+        ).asObject();
 
       const modifiers: ObjC.PropertyModifier[] =
         ImmutablePropertyUtils.propertyModifiersFromAttribute(true, attribute);
@@ -1978,21 +1686,15 @@ describe('Plugins.ImmutableProperties', function () {
     });
 
     it('returns a copyable property for an NSObject attribute with value semantics disabled', function () {
-      const attribute: ObjectSpec.Attribute = {
-        annotations: {},
-        comments: [],
-        name: 'value',
-        nullability: CLangCommon.Nullability.Inherited(),
-        type: {
-          fileTypeIsDefinedIn: null,
-          libraryTypeIsDefinedIn: null,
-          name: 'RMSomething',
-          reference: 'RMSomething *',
-          underlyingType: 'NSObject',
-          conformingProtocol: null,
-          referencedGenericTypes: [],
-        },
-      };
+      const attribute: ObjectSpec.Attribute =
+        new ObjectSpecHelpers.AttributeBuilder(
+          'value',
+          new ObjectSpecHelpers.AttributeTypeBuilder(
+            'RMSomething',
+            'RMSomething *',
+            'NSObject',
+          ),
+        ).asObject();
 
       const modifiers: ObjC.PropertyModifier[] =
         ImmutablePropertyUtils.propertyModifiersFromAttribute(false, attribute);
@@ -2000,21 +1702,15 @@ describe('Plugins.ImmutableProperties', function () {
     });
 
     it('returns a non-copyable property for an NSObject attribute', function () {
-      const attribute: ObjectSpec.Attribute = {
-        annotations: {},
-        comments: [],
-        name: 'value',
-        nullability: CLangCommon.Nullability.Inherited(),
-        type: {
-          fileTypeIsDefinedIn: null,
-          libraryTypeIsDefinedIn: null,
-          name: 'Foo',
-          reference: 'Foo',
-          underlyingType: 'NSUInteger',
-          conformingProtocol: null,
-          referencedGenericTypes: [],
-        },
-      };
+      const attribute: ObjectSpec.Attribute =
+        new ObjectSpecHelpers.AttributeBuilder(
+          'value',
+          new ObjectSpecHelpers.AttributeTypeBuilder(
+            'Foo',
+            'Foo',
+            'NSUInteger',
+          ),
+        ).asObject();
 
       const modifiers: ObjC.PropertyModifier[] =
         ImmutablePropertyUtils.propertyModifiersFromAttribute(true, attribute);
@@ -2022,21 +1718,17 @@ describe('Plugins.ImmutableProperties', function () {
     });
 
     it('returns a nonnull property for a nonnull attribute', function () {
-      const attribute: ObjectSpec.Attribute = {
-        annotations: {},
-        comments: [],
-        name: 'value',
-        nullability: CLangCommon.Nullability.Nonnull(),
-        type: {
-          fileTypeIsDefinedIn: null,
-          libraryTypeIsDefinedIn: null,
-          name: 'RMSomething',
-          reference: 'RMSomething *',
-          underlyingType: 'NSObject',
-          conformingProtocol: null,
-          referencedGenericTypes: [],
-        },
-      };
+      const attribute: ObjectSpec.Attribute =
+        new ObjectSpecHelpers.AttributeBuilder(
+          'value',
+          new ObjectSpecHelpers.AttributeTypeBuilder(
+            'RMSomething',
+            'RMSomething *',
+            'NSObject',
+          ),
+        )
+          .withNullability(CLangCommon.Nullability.Nonnull())
+          .asObject();
 
       const modifiers: ObjC.PropertyModifier[] =
         ImmutablePropertyUtils.propertyModifiersFromAttribute(true, attribute);
@@ -2044,21 +1736,17 @@ describe('Plugins.ImmutableProperties', function () {
     });
 
     it('returns a nullable property for an nullable attribute', function () {
-      const attribute: ObjectSpec.Attribute = {
-        annotations: {},
-        comments: [],
-        name: 'value',
-        nullability: CLangCommon.Nullability.Nullable(),
-        type: {
-          fileTypeIsDefinedIn: null,
-          libraryTypeIsDefinedIn: null,
-          name: 'RMSomething',
-          reference: 'RMSomething *',
-          underlyingType: 'NSObject',
-          conformingProtocol: null,
-          referencedGenericTypes: [],
-        },
-      };
+      const attribute: ObjectSpec.Attribute =
+        new ObjectSpecHelpers.AttributeBuilder(
+          'value',
+          new ObjectSpecHelpers.AttributeTypeBuilder(
+            'RMSomething',
+            'RMSomething *',
+            'NSObject',
+          ),
+        )
+          .withNullability(CLangCommon.Nullability.Nullable())
+          .asObject();
 
       const modifiers: ObjC.PropertyModifier[] =
         ImmutablePropertyUtils.propertyModifiersFromAttribute(true, attribute);
@@ -2074,21 +1762,14 @@ describe('Plugins.ImmutableProperties', function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
-            {
-              annotations: {},
-              comments: [],
-              name: 'value',
-              nullability: CLangCommon.Nullability.Inherited(),
-              type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
-                name: 'Foo',
-                reference: 'Foo *',
-                underlyingType: 'NSObject',
-                conformingProtocol: 'Bar',
-                referencedGenericTypes: [],
-              },
-            },
+            new ObjectSpecHelpers.AttributeBuilder(
+              'value',
+              new ObjectSpecHelpers.AttributeTypeBuilder(
+                'Foo',
+                'Foo *',
+                'NSObject',
+              ).withConformingProtocol('Bar'),
+            ).asObject(),
           ],
           comments: [],
           typeLookups: [],
@@ -2111,32 +1792,25 @@ describe('Plugins.ImmutableProperties', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
-          {
-            annotations: {},
-            comments: [],
-            name: 'value',
-            nullability: CLangCommon.Nullability.Inherited(),
-            type: {
-              fileTypeIsDefinedIn: null,
-              libraryTypeIsDefinedIn: null,
-              name: 'NSDictionary',
-              reference: 'NSDictionary<Foo<Bar> *, id<Baz>> *',
-              underlyingType: 'NSObject',
-              conformingProtocol: null,
-              referencedGenericTypes: [
-                {
-                  name: 'Foo',
-                  conformingProtocol: 'Bar',
-                  referencedGenericTypes: [],
-                },
-                {
-                  name: 'id',
-                  conformingProtocol: 'Baz',
-                  referencedGenericTypes: [],
-                },
-              ],
-            },
-          },
+          new ObjectSpecHelpers.AttributeBuilder(
+            'value',
+            new ObjectSpecHelpers.AttributeTypeBuilder(
+              'NSDictionary',
+              'NSDictionary<Foo<Bar> *, id<Baz>> *',
+              'NSObject',
+            ).withReferencedGenericTypes([
+              {
+                name: 'Foo',
+                conformingProtocol: 'Bar',
+                referencedGenericTypes: [],
+              },
+              {
+                name: 'id',
+                conformingProtocol: 'Baz',
+                referencedGenericTypes: [],
+              },
+            ]),
+          ).asObject(),
         ],
         comments: [],
         typeLookups: [],

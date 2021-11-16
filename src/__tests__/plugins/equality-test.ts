@@ -14,6 +14,7 @@ import * as Error from '../../error';
 import * as CLangCommon from '../../clang-common';
 import * as ObjC from '../../objc';
 import * as ObjectSpec from '../../object-spec';
+import * as ObjectSpecHelpers from '../../object-spec-helpers';
 
 const ObjectSpecPlugin = Equality.createPlugin();
 const AlgebraicTypePlugin = Equality.createAlgebraicTypePlugin();
@@ -40,36 +41,22 @@ describe('ObjectSpecPlugins.Equality', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
-          {
-            annotations: {},
-            comments: [],
-            name: 'name',
-            nullability: CLangCommon.Nullability.Inherited(),
-            type: {
-              fileTypeIsDefinedIn: null,
-              libraryTypeIsDefinedIn: null,
-              name: 'NSString',
-              reference: 'NSString *',
-              underlyingType: 'NSObject',
-              conformingProtocol: null,
-              referencedGenericTypes: [],
-            },
-          },
-          {
-            annotations: {},
-            comments: [],
-            name: 'likeStatus',
-            nullability: CLangCommon.Nullability.Inherited(),
-            type: {
-              fileTypeIsDefinedIn: null,
-              libraryTypeIsDefinedIn: null,
-              name: 'LikeStatus',
-              reference: 'LikeStatus',
-              underlyingType: null,
-              conformingProtocol: null,
-              referencedGenericTypes: [],
-            },
-          },
+          new ObjectSpecHelpers.AttributeBuilder(
+            'name',
+            new ObjectSpecHelpers.AttributeTypeBuilder(
+              'NSString',
+              'NSString *',
+              'NSObject',
+            ),
+          ).asObject(),
+          new ObjectSpecHelpers.AttributeBuilder(
+            'likeStatus',
+            new ObjectSpecHelpers.AttributeTypeBuilder(
+              'LikeStatus',
+              'LikeStatus',
+              null,
+            ),
+          ).asObject(),
         ],
         comments: [],
         excludes: [],
@@ -92,36 +79,18 @@ describe('ObjectSpecPlugins.Equality', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
-          {
-            annotations: {},
-            comments: [],
-            name: 'name',
-            nullability: CLangCommon.Nullability.Inherited(),
-            type: {
-              fileTypeIsDefinedIn: null,
-              libraryTypeIsDefinedIn: null,
-              name: 'Name',
-              reference: 'Name',
-              underlyingType: null,
-              conformingProtocol: null,
-              referencedGenericTypes: [],
-            },
-          },
-          {
-            annotations: {},
-            comments: [],
-            name: 'likeStatus',
-            nullability: CLangCommon.Nullability.Inherited(),
-            type: {
-              fileTypeIsDefinedIn: null,
-              libraryTypeIsDefinedIn: null,
-              name: 'LikeStatus',
-              reference: 'LikeStatus',
-              underlyingType: null,
-              conformingProtocol: null,
-              referencedGenericTypes: [],
-            },
-          },
+          new ObjectSpecHelpers.AttributeBuilder(
+            'name',
+            new ObjectSpecHelpers.AttributeTypeBuilder('Name', 'Name', null),
+          ).asObject(),
+          new ObjectSpecHelpers.AttributeBuilder(
+            'likeStatus',
+            new ObjectSpecHelpers.AttributeTypeBuilder(
+              'LikeStatus',
+              'LikeStatus',
+              null,
+            ),
+          ).asObject(),
         ],
         comments: [],
         excludes: [],
@@ -147,21 +116,14 @@ describe('ObjectSpecPlugins.Equality', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
-          {
-            annotations: {},
-            comments: [],
-            name: 'name',
-            nullability: CLangCommon.Nullability.Inherited(),
-            type: {
-              fileTypeIsDefinedIn: null,
-              libraryTypeIsDefinedIn: null,
-              name: 'FooBar',
-              reference: 'FooBar',
-              underlyingType: 'Baz',
-              conformingProtocol: null,
-              referencedGenericTypes: [],
-            },
-          },
+          new ObjectSpecHelpers.AttributeBuilder(
+            'name',
+            new ObjectSpecHelpers.AttributeTypeBuilder(
+              'FooBar',
+              'FooBar',
+              'Baz',
+            ),
+          ).asObject(),
         ],
         comments: [],
         excludes: [],
@@ -189,36 +151,18 @@ describe('ObjectSpecPlugins.Equality', function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
-            {
-              annotations: {},
-              comments: [],
-              name: 'someAction',
-              nullability: CLangCommon.Nullability.Inherited(),
-              type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
-                name: 'SEL',
-                reference: 'SEL',
-                underlyingType: null,
-                conformingProtocol: null,
-                referencedGenericTypes: [],
-              },
-            },
-            {
-              annotations: {},
-              comments: [],
-              name: 'name',
-              nullability: CLangCommon.Nullability.Inherited(),
-              type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
-                name: 'NSString',
-                reference: 'NSString *',
-                underlyingType: 'NSObject',
-                conformingProtocol: null,
-                referencedGenericTypes: [],
-              },
-            },
+            new ObjectSpecHelpers.AttributeBuilder(
+              'someAction',
+              new ObjectSpecHelpers.AttributeTypeBuilder('SEL', 'SEL', null),
+            ).asObject(),
+            new ObjectSpecHelpers.AttributeBuilder(
+              'name',
+              new ObjectSpecHelpers.AttributeTypeBuilder(
+                'NSString',
+                'NSString *',
+                'NSObject',
+              ),
+            ).asObject(),
           ],
           comments: [],
           excludes: [],
@@ -247,186 +191,98 @@ describe('ObjectSpecPlugins.Equality', function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
-            {
-              annotations: {},
-              comments: [],
-              name: 'someUnsignedInteger',
-              nullability: CLangCommon.Nullability.Inherited(),
-              type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
-                name: 'NSUInteger',
-                reference: 'NSUInteger',
-                underlyingType: null,
-                conformingProtocol: null,
-                referencedGenericTypes: [],
-              },
-            },
-            {
-              annotations: {},
-              comments: [],
-              name: 'someInteger',
-              nullability: CLangCommon.Nullability.Inherited(),
-              type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
-                name: 'NSInteger',
-                reference: 'NSInteger',
-                underlyingType: null,
-                conformingProtocol: null,
-                referencedGenericTypes: [],
-              },
-            },
-            {
-              annotations: {},
-              comments: [],
-              name: 'someString',
-              nullability: CLangCommon.Nullability.Inherited(),
-              type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
-                name: 'NSString',
-                reference: 'NSString *',
-                underlyingType: 'NSObject',
-                conformingProtocol: null,
-                referencedGenericTypes: [],
-              },
-            },
-            {
-              annotations: {},
-              comments: [],
-              name: 'someFloat',
-              nullability: CLangCommon.Nullability.Inherited(),
-              type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
-                name: 'float',
-                reference: 'float',
-                underlyingType: null,
-                conformingProtocol: null,
-                referencedGenericTypes: [],
-              },
-            },
-            {
-              annotations: {},
-              comments: [],
-              name: 'someDouble',
-              nullability: CLangCommon.Nullability.Inherited(),
-              type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
-                name: 'double',
-                reference: 'double',
-                underlyingType: null,
-                conformingProtocol: null,
-                referencedGenericTypes: [],
-              },
-            },
-            {
-              annotations: {},
-              comments: [],
-              name: 'someBool',
-              nullability: CLangCommon.Nullability.Inherited(),
-              type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
-                name: 'BOOL',
-                reference: 'BOOL',
-                underlyingType: null,
-                conformingProtocol: null,
-                referencedGenericTypes: [],
-              },
-            },
-            {
-              annotations: {},
-              comments: [],
-              name: 'someCGFloat',
-              nullability: CLangCommon.Nullability.Inherited(),
-              type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
-                name: 'CGFloat',
-                reference: 'CGFloat',
-                underlyingType: null,
-                conformingProtocol: null,
-                referencedGenericTypes: [],
-              },
-            },
-            {
-              annotations: {},
-              comments: [],
-              name: 'someRect',
-              nullability: CLangCommon.Nullability.Inherited(),
-              type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
-                name: 'CGRect',
-                reference: 'CGRect',
-                underlyingType: null,
-                conformingProtocol: null,
-                referencedGenericTypes: [],
-              },
-            },
-            {
-              annotations: {},
-              comments: [],
-              name: 'somePoint',
-              nullability: CLangCommon.Nullability.Inherited(),
-              type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
-                name: 'CGPoint',
-                reference: 'CGPoint',
-                underlyingType: null,
-                conformingProtocol: null,
-                referencedGenericTypes: [],
-              },
-            },
-            {
-              annotations: {},
-              comments: [],
-              name: 'someSize',
-              nullability: CLangCommon.Nullability.Inherited(),
-              type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
-                name: 'CGSize',
-                reference: 'CGSize',
-                underlyingType: null,
-                conformingProtocol: null,
-                referencedGenericTypes: [],
-              },
-            },
-            {
-              annotations: {},
-              comments: [],
-              name: 'someEdgeInsets',
-              nullability: CLangCommon.Nullability.Inherited(),
-              type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
-                name: 'UIEdgeInsets',
-                reference: 'UIEdgeInsets',
-                underlyingType: null,
-                conformingProtocol: null,
-                referencedGenericTypes: [],
-              },
-            },
-            {
-              annotations: {},
-              comments: [],
-              name: 'someRange',
-              nullability: CLangCommon.Nullability.Inherited(),
-              type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
-                name: 'NSRange',
-                reference: 'NSRange',
-                underlyingType: null,
-                conformingProtocol: null,
-                referencedGenericTypes: [],
-              },
-            },
+            new ObjectSpecHelpers.AttributeBuilder(
+              'someUnsignedInteger',
+              new ObjectSpecHelpers.AttributeTypeBuilder(
+                'NSUInteger',
+                'NSUInteger',
+                null,
+              ),
+            ).asObject(),
+            new ObjectSpecHelpers.AttributeBuilder(
+              'someInteger',
+              new ObjectSpecHelpers.AttributeTypeBuilder(
+                'NSInteger',
+                'NSInteger',
+                null,
+              ),
+            ).asObject(),
+            new ObjectSpecHelpers.AttributeBuilder(
+              'someString',
+              new ObjectSpecHelpers.AttributeTypeBuilder(
+                'NSString',
+                'NSString *',
+                'NSObject',
+              ),
+            ).asObject(),
+            new ObjectSpecHelpers.AttributeBuilder(
+              'someFloat',
+              new ObjectSpecHelpers.AttributeTypeBuilder(
+                'float',
+                'float',
+                null,
+              ),
+            ).asObject(),
+            new ObjectSpecHelpers.AttributeBuilder(
+              'someDouble',
+              new ObjectSpecHelpers.AttributeTypeBuilder(
+                'double',
+                'double',
+                null,
+              ),
+            ).asObject(),
+            new ObjectSpecHelpers.AttributeBuilder(
+              'someBool',
+              new ObjectSpecHelpers.AttributeTypeBuilder('BOOL', 'BOOL', null),
+            ).asObject(),
+            new ObjectSpecHelpers.AttributeBuilder(
+              'someCGFloat',
+              new ObjectSpecHelpers.AttributeTypeBuilder(
+                'CGFloat',
+                'CGFloat',
+                null,
+              ),
+            ).asObject(),
+            new ObjectSpecHelpers.AttributeBuilder(
+              'someRect',
+              new ObjectSpecHelpers.AttributeTypeBuilder(
+                'CGRect',
+                'CGRect',
+                null,
+              ),
+            ).asObject(),
+            new ObjectSpecHelpers.AttributeBuilder(
+              'somePoint',
+              new ObjectSpecHelpers.AttributeTypeBuilder(
+                'CGPoint',
+                'CGPoint',
+                null,
+              ),
+            ).asObject(),
+            new ObjectSpecHelpers.AttributeBuilder(
+              'someSize',
+              new ObjectSpecHelpers.AttributeTypeBuilder(
+                'CGSize',
+                'CGSize',
+                null,
+              ),
+            ).asObject(),
+            new ObjectSpecHelpers.AttributeBuilder(
+              'someEdgeInsets',
+              new ObjectSpecHelpers.AttributeTypeBuilder(
+                'UIEdgeInsets',
+                'UIEdgeInsets',
+                null,
+              ),
+            ).asObject(),
+            new ObjectSpecHelpers.AttributeBuilder(
+              'someRange',
+              new ObjectSpecHelpers.AttributeTypeBuilder(
+                'NSRange',
+                'NSRange',
+                null,
+              ),
+            ).asObject(),
           ],
           comments: [],
           excludes: [],
@@ -533,36 +389,18 @@ describe('ObjectSpecPlugins.Equality', function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
-            {
-              annotations: {},
-              comments: [],
-              name: 'someDouble',
-              nullability: CLangCommon.Nullability.Inherited(),
-              type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
-                name: 'double',
-                reference: 'double',
-                underlyingType: null,
-                conformingProtocol: null,
-                referencedGenericTypes: [],
-              },
-            },
-            {
-              annotations: {},
-              comments: [],
-              name: 'something',
-              nullability: CLangCommon.Nullability.Inherited(),
-              type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
-                name: 'id',
-                reference: 'id',
-                underlyingType: null,
-                conformingProtocol: null,
-                referencedGenericTypes: [],
-              },
-            },
+            new ObjectSpecHelpers.AttributeBuilder(
+              'someDouble',
+              new ObjectSpecHelpers.AttributeTypeBuilder(
+                'double',
+                'double',
+                null,
+              ),
+            ).asObject(),
+            new ObjectSpecHelpers.AttributeBuilder(
+              'something',
+              new ObjectSpecHelpers.AttributeTypeBuilder('id', 'id', null),
+            ).asObject(),
           ],
           comments: [],
           excludes: [],
@@ -705,21 +543,14 @@ describe('ObjectSpecPlugins.Equality', function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
-            {
-              annotations: {},
-              comments: [],
-              name: 'someFloat',
-              nullability: CLangCommon.Nullability.Inherited(),
-              type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
-                name: 'float',
-                reference: 'float',
-                underlyingType: null,
-                conformingProtocol: null,
-                referencedGenericTypes: [],
-              },
-            },
+            new ObjectSpecHelpers.AttributeBuilder(
+              'someFloat',
+              new ObjectSpecHelpers.AttributeTypeBuilder(
+                'float',
+                'float',
+                null,
+              ),
+            ).asObject(),
           ],
           comments: [],
           excludes: [],
@@ -825,36 +656,22 @@ describe('ObjectSpecPlugins.Equality', function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
-            {
-              annotations: {},
-              comments: [],
-              name: 'someFloat',
-              nullability: CLangCommon.Nullability.Inherited(),
-              type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
-                name: 'float',
-                reference: 'float',
-                underlyingType: null,
-                conformingProtocol: null,
-                referencedGenericTypes: [],
-              },
-            },
-            {
-              annotations: {},
-              comments: [],
-              name: 'anotherFloat',
-              nullability: CLangCommon.Nullability.Inherited(),
-              type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
-                name: 'float',
-                reference: 'float',
-                underlyingType: null,
-                conformingProtocol: null,
-                referencedGenericTypes: [],
-              },
-            },
+            new ObjectSpecHelpers.AttributeBuilder(
+              'someFloat',
+              new ObjectSpecHelpers.AttributeTypeBuilder(
+                'float',
+                'float',
+                null,
+              ),
+            ).asObject(),
+            new ObjectSpecHelpers.AttributeBuilder(
+              'anotherFloat',
+              new ObjectSpecHelpers.AttributeTypeBuilder(
+                'float',
+                'float',
+                null,
+              ),
+            ).asObject(),
           ],
           comments: [],
           excludes: [],
@@ -960,21 +777,14 @@ describe('ObjectSpecPlugins.Equality', function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
-            {
-              annotations: {},
-              comments: [],
-              name: 'someTypeBackedByDouble',
-              nullability: CLangCommon.Nullability.Inherited(),
-              type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
-                name: 'Derrrpppppp',
-                reference: 'Derrrpppppp',
-                underlyingType: 'double',
-                conformingProtocol: null,
-                referencedGenericTypes: [],
-              },
-            },
+            new ObjectSpecHelpers.AttributeBuilder(
+              'someTypeBackedByDouble',
+              new ObjectSpecHelpers.AttributeTypeBuilder(
+                'Derrrpppppp',
+                'Derrrpppppp',
+                'double',
+              ),
+            ).asObject(),
           ],
           comments: [],
           excludes: [],
@@ -1071,21 +881,14 @@ describe('ObjectSpecPlugins.Equality', function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
-            {
-              annotations: {},
-              comments: [],
-              name: 'someCGFloat',
-              nullability: CLangCommon.Nullability.Inherited(),
-              type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
-                name: 'CGFloat',
-                reference: 'CGFloat',
-                underlyingType: null,
-                conformingProtocol: null,
-                referencedGenericTypes: [],
-              },
-            },
+            new ObjectSpecHelpers.AttributeBuilder(
+              'someCGFloat',
+              new ObjectSpecHelpers.AttributeTypeBuilder(
+                'CGFloat',
+                'CGFloat',
+                null,
+              ),
+            ).asObject(),
           ],
           comments: [],
           excludes: [],

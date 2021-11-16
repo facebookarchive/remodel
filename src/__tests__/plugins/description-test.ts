@@ -14,6 +14,7 @@ import * as Error from '../../error';
 import * as CLangCommon from '../../clang-common';
 import * as ObjC from '../../objc';
 import * as ObjectSpec from '../../object-spec';
+import * as ObjectSpecHelpers from '../../object-spec-helpers';
 
 const AlgebraicTypePlugin = Description.createAlgebraicTypePlugin();
 const ObjectSpecPlugin = Description.createPlugin();
@@ -41,36 +42,22 @@ describe('ObjectSpecPlugins.Description', function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
-            {
-              annotations: {},
-              comments: [],
-              name: 'name',
-              nullability: CLangCommon.Nullability.Inherited(),
-              type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
-                name: 'NSString',
-                reference: 'NSString *',
-                underlyingType: 'NSObject',
-                conformingProtocol: null,
-                referencedGenericTypes: [],
-              },
-            },
-            {
-              annotations: {},
-              comments: [],
-              name: 'likeStatus',
-              nullability: CLangCommon.Nullability.Inherited(),
-              type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
-                name: 'LikeStatus',
-                reference: 'LikeStatus',
-                underlyingType: null,
-                conformingProtocol: null,
-                referencedGenericTypes: [],
-              },
-            },
+            new ObjectSpecHelpers.AttributeBuilder(
+              'name',
+              new ObjectSpecHelpers.AttributeTypeBuilder(
+                'NSString',
+                'NSString *',
+                'NSObject',
+              ),
+            ).asObject(),
+            new ObjectSpecHelpers.AttributeBuilder(
+              'likeStatus',
+              new ObjectSpecHelpers.AttributeTypeBuilder(
+                'LikeStatus',
+                'LikeStatus',
+                null,
+              ),
+            ).asObject(),
           ],
           comments: [],
           excludes: [],
@@ -93,36 +80,18 @@ describe('ObjectSpecPlugins.Description', function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
-            {
-              annotations: {},
-              comments: [],
-              name: 'name',
-              nullability: CLangCommon.Nullability.Inherited(),
-              type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
-                name: 'Name',
-                reference: 'Name',
-                underlyingType: null,
-                conformingProtocol: null,
-                referencedGenericTypes: [],
-              },
-            },
-            {
-              annotations: {},
-              comments: [],
-              name: 'likeStatus',
-              nullability: CLangCommon.Nullability.Inherited(),
-              type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
-                name: 'LikeStatus',
-                reference: 'LikeStatus',
-                underlyingType: null,
-                conformingProtocol: null,
-                referencedGenericTypes: [],
-              },
-            },
+            new ObjectSpecHelpers.AttributeBuilder(
+              'name',
+              new ObjectSpecHelpers.AttributeTypeBuilder('Name', 'Name', null),
+            ).asObject(),
+            new ObjectSpecHelpers.AttributeBuilder(
+              'likeStatus',
+              new ObjectSpecHelpers.AttributeTypeBuilder(
+                'LikeStatus',
+                'LikeStatus',
+                null,
+              ),
+            ).asObject(),
           ],
           comments: [],
           excludes: [],
@@ -141,6 +110,7 @@ describe('ObjectSpecPlugins.Description', function () {
             'The Description plugin does not know how to format the type "LikeStatus" from Foo.likeStatus. Did you forget to declare a backing type?',
           ),
         ];
+
         expect(errors).toEqualJSON(expectedErrors);
       });
 
@@ -148,21 +118,14 @@ describe('ObjectSpecPlugins.Description', function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
-            {
-              annotations: {},
-              comments: [],
-              name: 'name',
-              nullability: CLangCommon.Nullability.Inherited(),
-              type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
-                name: 'FooBar',
-                reference: 'FooBar',
-                underlyingType: 'Baz',
-                conformingProtocol: null,
-                referencedGenericTypes: [],
-              },
-            },
+            new ObjectSpecHelpers.AttributeBuilder(
+              'name',
+              new ObjectSpecHelpers.AttributeTypeBuilder(
+                'FooBar',
+                'FooBar',
+                'Baz',
+              ),
+            ).asObject(),
           ],
           comments: [],
           excludes: [],
@@ -187,21 +150,14 @@ describe('ObjectSpecPlugins.Description', function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
-            {
-              annotations: {},
-              comments: [],
-              name: 'rect',
-              nullability: CLangCommon.Nullability.Inherited(),
-              type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
-                name: 'CGRect',
-                reference: 'CGRect',
-                underlyingType: null,
-                conformingProtocol: null,
-                referencedGenericTypes: [],
-              },
-            },
+            new ObjectSpecHelpers.AttributeBuilder(
+              'rect',
+              new ObjectSpecHelpers.AttributeTypeBuilder(
+                'CGRect',
+                'CGRect',
+                null,
+              ),
+            ).asObject(),
           ],
           comments: [],
           excludes: [],
@@ -244,21 +200,10 @@ describe('ObjectSpecPlugins.Description', function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
-            {
-              annotations: {},
-              comments: [],
-              name: 'doesUserLike',
-              nullability: CLangCommon.Nullability.Inherited(),
-              type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
-                name: 'BOOL',
-                reference: 'BOOL',
-                underlyingType: null,
-                conformingProtocol: null,
-                referencedGenericTypes: [],
-              },
-            },
+            new ObjectSpecHelpers.AttributeBuilder(
+              'doesUserLike',
+              new ObjectSpecHelpers.AttributeTypeBuilder('BOOL', 'BOOL', null),
+            ).asObject(),
           ],
           comments: [],
           excludes: [],
@@ -303,21 +248,14 @@ describe('ObjectSpecPlugins.Description', function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
-            {
-              annotations: {},
-              comments: [],
-              name: 'name',
-              nullability: CLangCommon.Nullability.Inherited(),
-              type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
-                name: 'NSString',
-                reference: 'NSString *',
-                underlyingType: 'NSObject',
-                conformingProtocol: null,
-                referencedGenericTypes: [],
-              },
-            },
+            new ObjectSpecHelpers.AttributeBuilder(
+              'name',
+              new ObjectSpecHelpers.AttributeTypeBuilder(
+                'NSString',
+                'NSString *',
+                'NSObject',
+              ),
+            ).asObject(),
           ],
           comments: [],
           excludes: [],
@@ -362,21 +300,10 @@ describe('ObjectSpecPlugins.Description', function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
-            {
-              annotations: {},
-              comments: [],
-              name: 'something',
-              nullability: CLangCommon.Nullability.Inherited(),
-              type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
-                name: 'id',
-                reference: 'id',
-                underlyingType: null,
-                conformingProtocol: null,
-                referencedGenericTypes: [],
-              },
-            },
+            new ObjectSpecHelpers.AttributeBuilder(
+              'something',
+              new ObjectSpecHelpers.AttributeTypeBuilder('id', 'id', null),
+            ).asObject(),
           ],
           comments: [],
           excludes: [],
@@ -421,21 +348,14 @@ describe('ObjectSpecPlugins.Description', function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
-            {
-              annotations: {},
-              comments: [],
-              name: 'age',
-              nullability: CLangCommon.Nullability.Inherited(),
-              type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
-                name: 'NSInteger',
-                reference: 'NSInteger',
-                underlyingType: null,
-                conformingProtocol: null,
-                referencedGenericTypes: [],
-              },
-            },
+            new ObjectSpecHelpers.AttributeBuilder(
+              'age',
+              new ObjectSpecHelpers.AttributeTypeBuilder(
+                'NSInteger',
+                'NSInteger',
+                null,
+              ),
+            ).asObject(),
           ],
           comments: [],
           excludes: [],
@@ -480,21 +400,14 @@ describe('ObjectSpecPlugins.Description', function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
-            {
-              annotations: {},
-              comments: [],
-              name: 'age',
-              nullability: CLangCommon.Nullability.Inherited(),
-              type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
-                name: 'NSUInteger',
-                reference: 'NSUInteger',
-                underlyingType: null,
-                conformingProtocol: null,
-                referencedGenericTypes: [],
-              },
-            },
+            new ObjectSpecHelpers.AttributeBuilder(
+              'age',
+              new ObjectSpecHelpers.AttributeTypeBuilder(
+                'NSUInteger',
+                'NSUInteger',
+                null,
+              ),
+            ).asObject(),
           ],
           comments: [],
           excludes: [],
@@ -539,21 +452,14 @@ describe('ObjectSpecPlugins.Description', function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
-            {
-              annotations: {},
-              comments: [],
-              name: 'age',
-              nullability: CLangCommon.Nullability.Inherited(),
-              type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
-                name: 'double',
-                reference: 'double',
-                underlyingType: null,
-                conformingProtocol: null,
-                referencedGenericTypes: [],
-              },
-            },
+            new ObjectSpecHelpers.AttributeBuilder(
+              'age',
+              new ObjectSpecHelpers.AttributeTypeBuilder(
+                'double',
+                'double',
+                null,
+              ),
+            ).asObject(),
           ],
           comments: [],
           excludes: [],
@@ -598,21 +504,14 @@ describe('ObjectSpecPlugins.Description', function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
-            {
-              annotations: {},
-              comments: [],
-              name: 'age',
-              nullability: CLangCommon.Nullability.Inherited(),
-              type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
-                name: 'float',
-                reference: 'float',
-                underlyingType: null,
-                conformingProtocol: null,
-                referencedGenericTypes: [],
-              },
-            },
+            new ObjectSpecHelpers.AttributeBuilder(
+              'age',
+              new ObjectSpecHelpers.AttributeTypeBuilder(
+                'float',
+                'float',
+                null,
+              ),
+            ).asObject(),
           ],
           comments: [],
           excludes: [],
@@ -657,21 +556,14 @@ describe('ObjectSpecPlugins.Description', function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
-            {
-              annotations: {},
-              comments: [],
-              name: 'age',
-              nullability: CLangCommon.Nullability.Inherited(),
-              type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
-                name: 'CGFloat',
-                reference: 'CGFloat',
-                underlyingType: null,
-                conformingProtocol: null,
-                referencedGenericTypes: [],
-              },
-            },
+            new ObjectSpecHelpers.AttributeBuilder(
+              'age',
+              new ObjectSpecHelpers.AttributeTypeBuilder(
+                'CGFloat',
+                'CGFloat',
+                null,
+              ),
+            ).asObject(),
           ],
           comments: [],
           excludes: [],
@@ -716,21 +608,14 @@ describe('ObjectSpecPlugins.Description', function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
-            {
-              annotations: {},
-              comments: [],
-              name: 'age',
-              nullability: CLangCommon.Nullability.Inherited(),
-              type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
-                name: 'NSTimeInterval',
-                reference: 'NSTimeInterval',
-                underlyingType: null,
-                conformingProtocol: null,
-                referencedGenericTypes: [],
-              },
-            },
+            new ObjectSpecHelpers.AttributeBuilder(
+              'age',
+              new ObjectSpecHelpers.AttributeTypeBuilder(
+                'NSTimeInterval',
+                'NSTimeInterval',
+                null,
+              ),
+            ).asObject(),
           ],
           comments: [],
           excludes: [],
@@ -775,21 +660,14 @@ describe('ObjectSpecPlugins.Description', function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
-            {
-              annotations: {},
-              comments: [],
-              name: 'age',
-              nullability: CLangCommon.Nullability.Inherited(),
-              type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
-                name: 'uintptr_t',
-                reference: 'uintptr_t',
-                underlyingType: null,
-                conformingProtocol: null,
-                referencedGenericTypes: [],
-              },
-            },
+            new ObjectSpecHelpers.AttributeBuilder(
+              'age',
+              new ObjectSpecHelpers.AttributeTypeBuilder(
+                'uintptr_t',
+                'uintptr_t',
+                null,
+              ),
+            ).asObject(),
           ],
           comments: [],
           excludes: [],
@@ -834,21 +712,14 @@ describe('ObjectSpecPlugins.Description', function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
-            {
-              annotations: {},
-              comments: [],
-              name: 'age',
-              nullability: CLangCommon.Nullability.Inherited(),
-              type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
-                name: 'uint64_t',
-                reference: 'uint64_t',
-                underlyingType: null,
-                conformingProtocol: null,
-                referencedGenericTypes: [],
-              },
-            },
+            new ObjectSpecHelpers.AttributeBuilder(
+              'age',
+              new ObjectSpecHelpers.AttributeTypeBuilder(
+                'uint64_t',
+                'uint64_t',
+                null,
+              ),
+            ).asObject(),
           ],
           comments: [],
           excludes: [],
@@ -893,21 +764,14 @@ describe('ObjectSpecPlugins.Description', function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
-            {
-              annotations: {},
-              comments: [],
-              name: 'age',
-              nullability: CLangCommon.Nullability.Inherited(),
-              type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
-                name: 'int32_t',
-                reference: 'int32_t',
-                underlyingType: null,
-                conformingProtocol: null,
-                referencedGenericTypes: [],
-              },
-            },
+            new ObjectSpecHelpers.AttributeBuilder(
+              'age',
+              new ObjectSpecHelpers.AttributeTypeBuilder(
+                'int32_t',
+                'int32_t',
+                null,
+              ),
+            ).asObject(),
           ],
           comments: [],
           excludes: [],
@@ -952,21 +816,14 @@ describe('ObjectSpecPlugins.Description', function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
-            {
-              annotations: {},
-              comments: [],
-              name: 'age',
-              nullability: CLangCommon.Nullability.Inherited(),
-              type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
-                name: 'int64_t',
-                reference: 'int64_t',
-                underlyingType: null,
-                conformingProtocol: null,
-                referencedGenericTypes: [],
-              },
-            },
+            new ObjectSpecHelpers.AttributeBuilder(
+              'age',
+              new ObjectSpecHelpers.AttributeTypeBuilder(
+                'int64_t',
+                'int64_t',
+                null,
+              ),
+            ).asObject(),
           ],
           comments: [],
           excludes: [],
@@ -1014,21 +871,14 @@ describe('ObjectSpecPlugins.Description', function () {
           const objectType: ObjectSpec.Type = {
             annotations: {},
             attributes: [
-              {
-                annotations: {},
-                comments: [],
-                name: 'age',
-                nullability: CLangCommon.Nullability.Inherited(),
-                type: {
-                  fileTypeIsDefinedIn: null,
-                  libraryTypeIsDefinedIn: null,
-                  name: 'SomeEnum',
-                  reference: 'SomeEnum',
-                  underlyingType: 'NSUInteger',
-                  conformingProtocol: null,
-                  referencedGenericTypes: [],
-                },
-              },
+              new ObjectSpecHelpers.AttributeBuilder(
+                'age',
+                new ObjectSpecHelpers.AttributeTypeBuilder(
+                  'SomeEnum',
+                  'SomeEnum',
+                  'NSUInteger',
+                ),
+              ).asObject(),
             ],
             comments: [],
             excludes: [],
@@ -1074,21 +924,10 @@ describe('ObjectSpecPlugins.Description', function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
-            {
-              annotations: {},
-              comments: [],
-              name: 'action',
-              nullability: CLangCommon.Nullability.Inherited(),
-              type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
-                name: 'SEL',
-                reference: 'SEL',
-                underlyingType: null,
-                conformingProtocol: null,
-                referencedGenericTypes: [],
-              },
-            },
+            new ObjectSpecHelpers.AttributeBuilder(
+              'action',
+              new ObjectSpecHelpers.AttributeTypeBuilder('SEL', 'SEL', null),
+            ).asObject(),
           ],
           comments: [],
           excludes: [],
@@ -1133,21 +972,14 @@ describe('ObjectSpecPlugins.Description', function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
-            {
-              annotations: {},
-              comments: [],
-              name: 'range',
-              nullability: CLangCommon.Nullability.Inherited(),
-              type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
-                name: 'NSRange',
-                reference: 'NSRange',
-                underlyingType: null,
-                conformingProtocol: null,
-                referencedGenericTypes: [],
-              },
-            },
+            new ObjectSpecHelpers.AttributeBuilder(
+              'range',
+              new ObjectSpecHelpers.AttributeTypeBuilder(
+                'NSRange',
+                'NSRange',
+                null,
+              ),
+            ).asObject(),
           ],
           comments: [],
           excludes: [],
@@ -1192,21 +1024,14 @@ describe('ObjectSpecPlugins.Description', function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
-            {
-              annotations: {},
-              comments: [],
-              name: 'rect',
-              nullability: CLangCommon.Nullability.Inherited(),
-              type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
-                name: 'CGRect',
-                reference: 'CGRect',
-                underlyingType: null,
-                conformingProtocol: null,
-                referencedGenericTypes: [],
-              },
-            },
+            new ObjectSpecHelpers.AttributeBuilder(
+              'rect',
+              new ObjectSpecHelpers.AttributeTypeBuilder(
+                'CGRect',
+                'CGRect',
+                null,
+              ),
+            ).asObject(),
           ],
           comments: [],
           excludes: [],
@@ -1251,21 +1076,14 @@ describe('ObjectSpecPlugins.Description', function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
-            {
-              annotations: {},
-              comments: [],
-              name: 'origin',
-              nullability: CLangCommon.Nullability.Inherited(),
-              type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
-                name: 'CGPoint',
-                reference: 'CGPoint',
-                underlyingType: null,
-                conformingProtocol: null,
-                referencedGenericTypes: [],
-              },
-            },
+            new ObjectSpecHelpers.AttributeBuilder(
+              'origin',
+              new ObjectSpecHelpers.AttributeTypeBuilder(
+                'CGPoint',
+                'CGPoint',
+                null,
+              ),
+            ).asObject(),
           ],
           comments: [],
           excludes: [],
@@ -1310,21 +1128,14 @@ describe('ObjectSpecPlugins.Description', function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
-            {
-              annotations: {},
-              comments: [],
-              name: 'size',
-              nullability: CLangCommon.Nullability.Inherited(),
-              type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
-                name: 'CGSize',
-                reference: 'CGSize',
-                underlyingType: null,
-                conformingProtocol: null,
-                referencedGenericTypes: [],
-              },
-            },
+            new ObjectSpecHelpers.AttributeBuilder(
+              'size',
+              new ObjectSpecHelpers.AttributeTypeBuilder(
+                'CGSize',
+                'CGSize',
+                null,
+              ),
+            ).asObject(),
           ],
           comments: [],
           excludes: [],
@@ -1369,21 +1180,14 @@ describe('ObjectSpecPlugins.Description', function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
-            {
-              annotations: {},
-              comments: [],
-              name: 'insets',
-              nullability: CLangCommon.Nullability.Inherited(),
-              type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
-                name: 'UIEdgeInsets',
-                reference: 'UIEdgeInsets',
-                underlyingType: null,
-                conformingProtocol: null,
-                referencedGenericTypes: [],
-              },
-            },
+            new ObjectSpecHelpers.AttributeBuilder(
+              'insets',
+              new ObjectSpecHelpers.AttributeTypeBuilder(
+                'UIEdgeInsets',
+                'UIEdgeInsets',
+                null,
+              ),
+            ).asObject(),
           ],
           comments: [],
           excludes: [],
@@ -1747,6 +1551,7 @@ describe('AlgebraicTypePlugins.Description', function () {
           'The Description plugin does not know how to format the type "Ferr" from Test.someFerr. Did you forget to declare a backing type?',
         ),
       ];
+
       expect(errors).toEqualJSON(expectedErrors);
     });
     it('returns a validation error when there is an attribute with an unknown underlying type', function () {

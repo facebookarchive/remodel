@@ -14,6 +14,7 @@ import * as Error from '../../error';
 import * as CLangCommon from '../../clang-common';
 import * as ObjC from '../../objc';
 import * as ObjectSpec from '../../object-spec';
+import * as ObjectSpecHelpers from '../../object-spec-helpers';
 
 const ObjectSpecPlugin = Coding.createPlugin();
 const AlgebraicTypePlugin = Coding.createAlgebraicTypePlugin();
@@ -40,36 +41,22 @@ describe('ObjectSpecPlugins.Coding', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
-          {
-            annotations: {},
-            comments: [],
-            name: 'name',
-            nullability: CLangCommon.Nullability.Inherited(),
-            type: {
-              fileTypeIsDefinedIn: null,
-              libraryTypeIsDefinedIn: null,
-              name: 'NSString',
-              reference: 'NSString *',
-              underlyingType: 'NSObject',
-              conformingProtocol: null,
-              referencedGenericTypes: [],
-            },
-          },
-          {
-            annotations: {},
-            comments: [],
-            name: 'likeStatus',
-            nullability: CLangCommon.Nullability.Inherited(),
-            type: {
-              fileTypeIsDefinedIn: null,
-              libraryTypeIsDefinedIn: null,
-              name: 'LikeStatus',
-              reference: 'LikeStatus',
-              underlyingType: null,
-              conformingProtocol: null,
-              referencedGenericTypes: [],
-            },
-          },
+          new ObjectSpecHelpers.AttributeBuilder(
+            'name',
+            new ObjectSpecHelpers.AttributeTypeBuilder(
+              'NSString',
+              'NSString *',
+              'NSObject',
+            ),
+          ).asObject(),
+          new ObjectSpecHelpers.AttributeBuilder(
+            'likeStatus',
+            new ObjectSpecHelpers.AttributeTypeBuilder(
+              'LikeStatus',
+              'LikeStatus',
+              null,
+            ),
+          ).asObject(),
         ],
         comments: [],
         typeLookups: [],
@@ -92,36 +79,18 @@ describe('ObjectSpecPlugins.Coding', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
-          {
-            annotations: {},
-            comments: [],
-            name: 'name',
-            nullability: CLangCommon.Nullability.Inherited(),
-            type: {
-              fileTypeIsDefinedIn: null,
-              libraryTypeIsDefinedIn: null,
-              name: 'Name',
-              reference: 'Name',
-              underlyingType: null,
-              conformingProtocol: null,
-              referencedGenericTypes: [],
-            },
-          },
-          {
-            annotations: {},
-            comments: [],
-            name: 'likeStatus',
-            nullability: CLangCommon.Nullability.Inherited(),
-            type: {
-              fileTypeIsDefinedIn: null,
-              libraryTypeIsDefinedIn: null,
-              name: 'LikeStatus',
-              reference: 'LikeStatus',
-              underlyingType: null,
-              conformingProtocol: null,
-              referencedGenericTypes: [],
-            },
-          },
+          new ObjectSpecHelpers.AttributeBuilder(
+            'name',
+            new ObjectSpecHelpers.AttributeTypeBuilder('Name', 'Name', null),
+          ).asObject(),
+          new ObjectSpecHelpers.AttributeBuilder(
+            'likeStatus',
+            new ObjectSpecHelpers.AttributeTypeBuilder(
+              'LikeStatus',
+              'LikeStatus',
+              null,
+            ),
+          ).asObject(),
         ],
         comments: [],
         typeLookups: [],
@@ -147,21 +116,14 @@ describe('ObjectSpecPlugins.Coding', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
-          {
-            annotations: {},
-            comments: [],
-            name: 'name',
-            nullability: CLangCommon.Nullability.Inherited(),
-            type: {
-              fileTypeIsDefinedIn: null,
-              libraryTypeIsDefinedIn: null,
-              name: 'FooBar',
-              reference: 'FooBar',
-              underlyingType: 'Baz',
-              conformingProtocol: null,
-              referencedGenericTypes: [],
-            },
-          },
+          new ObjectSpecHelpers.AttributeBuilder(
+            'name',
+            new ObjectSpecHelpers.AttributeTypeBuilder(
+              'FooBar',
+              'FooBar',
+              'Baz',
+            ),
+          ).asObject(),
         ],
         comments: [],
         typeLookups: [],
@@ -184,27 +146,22 @@ describe('ObjectSpecPlugins.Coding', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
-          {
-            annotations: {
+          new ObjectSpecHelpers.AttributeBuilder(
+            'size',
+            new ObjectSpecHelpers.AttributeTypeBuilder(
+              'CGSize',
+              'CGSize',
+              null,
+            ),
+          )
+            .withAnnotations({
               codingLegacyKey: [
                 {
                   properties: {name: 'legacySizeCodingKey'},
                 },
               ],
-            },
-            comments: [],
-            name: 'size',
-            nullability: CLangCommon.Nullability.Inherited(),
-            type: {
-              fileTypeIsDefinedIn: null,
-              libraryTypeIsDefinedIn: null,
-              name: 'CGSize',
-              reference: 'CGSize',
-              underlyingType: null,
-              conformingProtocol: null,
-              referencedGenericTypes: [],
-            },
-          },
+            })
+            .asObject(),
         ],
         comments: [],
         typeLookups: [],
@@ -245,27 +202,22 @@ describe('ObjectSpecPlugins.Coding', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
-          {
-            annotations: {
+          new ObjectSpecHelpers.AttributeBuilder(
+            'name',
+            new ObjectSpecHelpers.AttributeTypeBuilder(
+              'NSString',
+              'NSString *',
+              'NSObject',
+            ),
+          )
+            .withAnnotations({
               codingLegacyKey: [
                 {
                   properties: {name: 'oldNameKey'},
                 },
               ],
-            },
-            comments: [],
-            name: 'name',
-            nullability: CLangCommon.Nullability.Inherited(),
-            type: {
-              fileTypeIsDefinedIn: null,
-              libraryTypeIsDefinedIn: null,
-              name: 'NSString',
-              reference: 'NSString *',
-              underlyingType: 'NSObject',
-              conformingProtocol: null,
-              referencedGenericTypes: [],
-            },
-          },
+            })
+            .asObject(),
         ],
         comments: [],
         typeLookups: [],
@@ -344,51 +296,22 @@ describe('ObjectSpecPlugins.Coding', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
-          {
-            annotations: {},
-            comments: [],
-            name: 'name',
-            nullability: CLangCommon.Nullability.Inherited(),
-            type: {
-              fileTypeIsDefinedIn: null,
-              libraryTypeIsDefinedIn: null,
-              name: 'NSString',
-              reference: 'NSString *',
-              underlyingType: 'NSObject',
-              conformingProtocol: null,
-              referencedGenericTypes: [],
-            },
-          },
-          {
-            annotations: {},
-            comments: [],
-            name: 'doesUserLike',
-            nullability: CLangCommon.Nullability.Inherited(),
-            type: {
-              fileTypeIsDefinedIn: null,
-              libraryTypeIsDefinedIn: null,
-              name: 'BOOL',
-              reference: 'BOOL',
-              underlyingType: null,
-              conformingProtocol: null,
-              referencedGenericTypes: [],
-            },
-          },
-          {
-            annotations: {},
-            comments: [],
-            name: 'someObject',
-            nullability: CLangCommon.Nullability.Inherited(),
-            type: {
-              fileTypeIsDefinedIn: null,
-              libraryTypeIsDefinedIn: null,
-              name: 'id',
-              reference: 'id',
-              underlyingType: null,
-              conformingProtocol: null,
-              referencedGenericTypes: [],
-            },
-          },
+          new ObjectSpecHelpers.AttributeBuilder(
+            'name',
+            new ObjectSpecHelpers.AttributeTypeBuilder(
+              'NSString',
+              'NSString *',
+              'NSObject',
+            ),
+          ).asObject(),
+          new ObjectSpecHelpers.AttributeBuilder(
+            'doesUserLike',
+            new ObjectSpecHelpers.AttributeTypeBuilder('BOOL', 'BOOL', null),
+          ).asObject(),
+          new ObjectSpecHelpers.AttributeBuilder(
+            'someObject',
+            new ObjectSpecHelpers.AttributeTypeBuilder('id', 'id', null),
+          ).asObject(),
         ],
         comments: [],
         typeLookups: [],
@@ -472,21 +395,14 @@ describe('ObjectSpecPlugins.Coding', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
-          {
-            annotations: {},
-            comments: [],
-            name: 'size',
-            nullability: CLangCommon.Nullability.Inherited(),
-            type: {
-              fileTypeIsDefinedIn: null,
-              libraryTypeIsDefinedIn: null,
-              name: 'CGSize',
-              reference: 'CGSize',
-              underlyingType: null,
-              conformingProtocol: null,
-              referencedGenericTypes: [],
-            },
-          },
+          new ObjectSpecHelpers.AttributeBuilder(
+            'size',
+            new ObjectSpecHelpers.AttributeTypeBuilder(
+              'CGSize',
+              'CGSize',
+              null,
+            ),
+          ).asObject(),
         ],
         comments: [],
         typeLookups: [],
@@ -533,21 +449,14 @@ describe('ObjectSpecPlugins.Coding', function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
-            {
-              annotations: {},
-              comments: [],
-              name: 'name',
-              nullability: CLangCommon.Nullability.Inherited(),
-              type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
-                name: 'NSString',
-                reference: 'NSString *',
-                underlyingType: 'NSObject',
-                conformingProtocol: null,
-                referencedGenericTypes: [],
-              },
-            },
+            new ObjectSpecHelpers.AttributeBuilder(
+              'name',
+              new ObjectSpecHelpers.AttributeTypeBuilder(
+                'NSString',
+                'NSString *',
+                'NSObject',
+              ),
+            ).asObject(),
           ],
           comments: [],
           typeLookups: [],
@@ -583,21 +492,14 @@ describe('ObjectSpecPlugins.Coding', function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
-            {
-              annotations: {},
-              comments: [],
-              name: 'givenName',
-              nullability: CLangCommon.Nullability.Inherited(),
-              type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
-                name: 'NSString',
-                reference: 'NSString *',
-                underlyingType: 'NSObject',
-                conformingProtocol: null,
-                referencedGenericTypes: [],
-              },
-            },
+            new ObjectSpecHelpers.AttributeBuilder(
+              'givenName',
+              new ObjectSpecHelpers.AttributeTypeBuilder(
+                'NSString',
+                'NSString *',
+                'NSObject',
+              ),
+            ).asObject(),
           ],
           comments: [],
           typeLookups: [],
@@ -633,36 +535,22 @@ describe('ObjectSpecPlugins.Coding', function () {
         const objectType: ObjectSpec.Type = {
           annotations: {},
           attributes: [
-            {
-              annotations: {},
-              comments: [],
-              name: 'givenName',
-              nullability: CLangCommon.Nullability.Inherited(),
-              type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
-                name: 'NSString',
-                reference: 'NSString *',
-                underlyingType: 'NSObject',
-                conformingProtocol: null,
-                referencedGenericTypes: [],
-              },
-            },
-            {
-              annotations: {},
-              comments: [],
-              name: 'age',
-              nullability: CLangCommon.Nullability.Inherited(),
-              type: {
-                fileTypeIsDefinedIn: null,
-                libraryTypeIsDefinedIn: null,
-                name: 'NSUInteger',
-                reference: 'NSUInteger',
-                underlyingType: null,
-                conformingProtocol: null,
-                referencedGenericTypes: [],
-              },
-            },
+            new ObjectSpecHelpers.AttributeBuilder(
+              'givenName',
+              new ObjectSpecHelpers.AttributeTypeBuilder(
+                'NSString',
+                'NSString *',
+                'NSObject',
+              ),
+            ).asObject(),
+            new ObjectSpecHelpers.AttributeBuilder(
+              'age',
+              new ObjectSpecHelpers.AttributeTypeBuilder(
+                'NSUInteger',
+                'NSUInteger',
+                null,
+              ),
+            ).asObject(),
           ],
           comments: [],
           typeLookups: [],
@@ -705,27 +593,22 @@ describe('ObjectSpecPlugins.Coding', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
-          {
-            annotations: {
+          new ObjectSpecHelpers.AttributeBuilder(
+            'test',
+            new ObjectSpecHelpers.AttributeTypeBuilder(
+              'NSString',
+              'NSString *',
+              'NSObject',
+            ),
+          )
+            .withAnnotations({
               codingKey: [
                 {
                   properties: {name: 'test_custom_key'},
                 },
               ],
-            },
-            comments: [],
-            name: 'test',
-            nullability: CLangCommon.Nullability.Inherited(),
-            type: {
-              fileTypeIsDefinedIn: null,
-              libraryTypeIsDefinedIn: null,
-              name: 'NSString',
-              reference: 'NSString *',
-              underlyingType: 'NSObject',
-              conformingProtocol: null,
-              referencedGenericTypes: [],
-            },
-          },
+            })
+            .asObject(),
         ],
         comments: [],
         typeLookups: [],

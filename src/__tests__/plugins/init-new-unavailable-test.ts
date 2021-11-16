@@ -10,9 +10,9 @@
 
 import * as AlgebraicType from '../../algebraic-type';
 import * as InitNewUnavailable from '../../plugins/init-new-unavailable';
-import * as CLangCommon from '../../clang-common';
 import * as ObjC from '../../objc';
 import * as ObjectSpec from '../../object-spec';
+import * as ObjectSpecHelpers from '../../object-spec-helpers';
 
 const ObjectSpecPlugin = InitNewUnavailable.createPlugin();
 const AlgebraicTypePlugin = InitNewUnavailable.createAlgebraicTypePlugin();
@@ -46,21 +46,14 @@ describe('ObjectSpecPlugins.InitNewUnavailable', function () {
       const objectType: ObjectSpec.Type = {
         annotations: {},
         attributes: [
-          {
-            annotations: {},
-            comments: [],
-            name: 'value',
-            nullability: CLangCommon.Nullability.Inherited(),
-            type: {
-              fileTypeIsDefinedIn: null,
-              libraryTypeIsDefinedIn: null,
-              name: 'NSString',
-              reference: 'NSString *',
-              underlyingType: 'NSObject',
-              conformingProtocol: null,
-              referencedGenericTypes: [],
-            },
-          },
+          new ObjectSpecHelpers.AttributeBuilder(
+            'value',
+            new ObjectSpecHelpers.AttributeTypeBuilder(
+              'NSString',
+              'NSString *',
+              'NSObject',
+            ),
+          ).asObject(),
         ],
         comments: [],
         typeLookups: [],

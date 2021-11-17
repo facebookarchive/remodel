@@ -23,13 +23,15 @@ export interface AttributeType {
   referencedGenericTypes: ObjC.ReferencedGenericType[];
 }
 
-export interface Attribute {
+export interface BaseAttribute {
   annotations: ObjectGeneration.AnnotationMap;
   comments: string[];
   name: string;
   nullability: CLangCommon.Nullability;
   type: AttributeType;
 }
+
+export interface Attribute extends BaseAttribute {}
 
 export interface Type {
   annotations: ObjectGeneration.AnnotationMap;

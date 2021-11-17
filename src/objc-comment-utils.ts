@@ -40,7 +40,9 @@ function repeat(string: string, times: number): string {
   return times > 1 ? string + repeat(string, times - 1) : string;
 }
 
-function paramCommentsFromAttribute(attribute: ObjectSpec.Attribute): string[] {
+function paramCommentsFromAttribute(
+  attribute: ObjectSpec.BaseAttribute,
+): string[] {
   // for the first comment line, we'll append it directly to the
   // @param prefix, for the latter attributes, we'll align them
   // by prepending the same number of spaces to each line
@@ -55,14 +57,14 @@ function paramCommentsFromAttribute(attribute: ObjectSpec.Attribute): string[] {
 }
 
 export function paramCommentsFromAttributes(
-  attributes: ObjectSpec.Attribute[],
+  attributes: ObjectSpec.BaseAttribute[],
 ): string[] {
   return ([] as string[]).concat(...attributes.map(paramCommentsFromAttribute));
 }
 
 export function prefixedParamCommentsFromAttributes(
   prefix: string[],
-  attributes: ObjectSpec.Attribute[],
+  attributes: ObjectSpec.BaseAttribute[],
 ): string[] {
   const paramComments = paramCommentsFromAttributes(attributes);
 

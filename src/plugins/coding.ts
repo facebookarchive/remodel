@@ -83,7 +83,7 @@ function legacyCodingKeyNameForAnnotation(
 }
 
 function legacyCodingKeyNamesForAttribute(
-  attribute: ObjectSpec.Attribute,
+  attribute: ObjectSpec.BaseAttribute,
 ): string[] {
   const legacyKeyAnnotations = attribute.annotations['codingLegacyKey'];
   if (legacyKeyAnnotations && legacyKeyAnnotations.length > 0) {
@@ -94,7 +94,7 @@ function legacyCodingKeyNamesForAttribute(
 }
 
 export function codingAttributeForValueAttribute(
-  attribute: ObjectSpec.Attribute,
+  attribute: ObjectSpec.BaseAttribute,
 ): CodeableAttribute {
   const codingKeys = codingKeysFromAnnotations(attribute.annotations);
   const constantValue =

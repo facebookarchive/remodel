@@ -11,24 +11,11 @@ import * as FileWriter from './file-writer';
 import * as CLangCommon from './clang-common';
 import * as ObjC from './objc';
 import * as ObjectGeneration from './object-generation';
+import * as ObjectSpec from './object-spec';
 
-export interface SubtypeAttributeType {
-  fileTypeIsDefinedIn: string | null;
-  libraryTypeIsDefinedIn: string | null;
-  name: string;
-  reference: string;
-  underlyingType: string | null;
-  conformingProtocol: string | null;
-  referencedGenericTypes: ObjC.ReferencedGenericType[];
-}
+export interface SubtypeAttributeType extends ObjectSpec.AttributeType {}
 
-export interface SubtypeAttribute {
-  annotations: ObjectGeneration.AnnotationMap;
-  comments: string[];
-  name: string;
-  nullability: CLangCommon.Nullability;
-  type: SubtypeAttributeType;
-}
+export interface SubtypeAttribute extends ObjectSpec.BaseAttribute {}
 
 export enum SubtypeDefinitionType {
   namedAttributeCollection,

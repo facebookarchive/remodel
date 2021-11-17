@@ -98,7 +98,7 @@ export function methodInvocationForConstructor(
   return '[[' + allocationPart + '] ' + invocationPart + ']';
 }
 
-export function ivarForAttribute(attribute: ObjectSpec.Attribute): string {
+export function ivarForAttribute(attribute: ObjectSpec.BaseAttribute): string {
   return '_' + attribute.name;
 }
 
@@ -120,7 +120,7 @@ function propertyModifierForCopyable(
 }
 
 export function computeTypeOfAttribute(
-  attribute: ObjectSpec.Attribute,
+  attribute: ObjectSpec.BaseAttribute,
 ): ObjC.Type {
   return Maybe.match(
     typeForUnderlyingType,
@@ -135,7 +135,7 @@ export function computeTypeOfAttribute(
 }
 
 export function computeOriginalTypeOfAttribute(
-  attribute: ObjectSpec.Attribute,
+  attribute: ObjectSpec.BaseAttribute,
 ): ObjC.Type {
   return {
     name: attribute.type.name,
@@ -145,7 +145,7 @@ export function computeOriginalTypeOfAttribute(
 
 export function propertyOwnershipModifierForAttribute(
   supportsValueSemantics: boolean,
-  attribute: ObjectSpec.Attribute,
+  attribute: ObjectSpec.BaseAttribute,
 ): ObjC.PropertyModifier | undefined {
   const type = computeTypeOfAttribute(attribute);
   if (type === null) {
@@ -237,7 +237,7 @@ export function propertyOwnershipModifierForAttribute(
 
 export function shouldCopyIncomingValueForAttribute(
   supportsValueSemantics: boolean,
-  attribute: ObjectSpec.Attribute,
+  attribute: ObjectSpec.BaseAttribute,
 ): boolean {
   if (attribute.annotations['copy'] !== undefined) {
     return true;

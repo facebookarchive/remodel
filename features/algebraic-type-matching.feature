@@ -42,7 +42,7 @@ Feature: Outputting expected Algebraic Type matching methods
 
       - (instancetype)init NS_UNAVAILABLE;
 
-      - (BOOL)matchBooleanSubtypeA:(NS_NOESCAPE __unsafe_unretained SimpleADTBooleanSubtypeAMatchHandler)subtypeAMatchHandler subtypeB:(NS_NOESCAPE __unsafe_unretained SimpleADTBooleanSubtypeBMatchHandler)subtypeBMatchHandler NS_SWIFT_NAME(match(subtypeA:subtypeB:));
+      - (BOOL)matchBooleanSubtypeA:(NS_NOESCAPE __unsafe_unretained SimpleADTBooleanSubtypeAMatchHandler)subtypeAMatchHandler subtypeB:(NS_NOESCAPE __unsafe_unretained SimpleADTBooleanSubtypeBMatchHandler)subtypeBMatchHandler NS_SWIFT_NAME(match(subtypeA:subtypeB:)) __attribute__((warn_unused_result));
 
       @end
 
@@ -195,7 +195,7 @@ Feature: Outputting expected Algebraic Type matching methods
 
       - (instancetype)init NS_UNAVAILABLE;
 
-      - (NSInteger)matchIntegerSubtypeA:(NS_NOESCAPE __unsafe_unretained SimpleADTIntegerSubtypeAMatchHandler)subtypeAMatchHandler subtypeB:(NS_NOESCAPE __unsafe_unretained SimpleADTIntegerSubtypeBMatchHandler)subtypeBMatchHandler NS_SWIFT_NAME(match(subtypeA:subtypeB:));
+      - (NSInteger)matchIntegerSubtypeA:(NS_NOESCAPE __unsafe_unretained SimpleADTIntegerSubtypeAMatchHandler)subtypeAMatchHandler subtypeB:(NS_NOESCAPE __unsafe_unretained SimpleADTIntegerSubtypeBMatchHandler)subtypeBMatchHandler NS_SWIFT_NAME(match(subtypeA:subtypeB:)) __attribute__((warn_unused_result));
 
       @end
 
@@ -348,7 +348,7 @@ Feature: Outputting expected Algebraic Type matching methods
 
       - (instancetype)init NS_UNAVAILABLE;
 
-      - (double)matchDoubleSubtypeA:(NS_NOESCAPE __unsafe_unretained SimpleADTDoubleSubtypeAMatchHandler)subtypeAMatchHandler subtypeB:(NS_NOESCAPE __unsafe_unretained SimpleADTDoubleSubtypeBMatchHandler)subtypeBMatchHandler NS_SWIFT_NAME(match(subtypeA:subtypeB:));
+      - (double)matchDoubleSubtypeA:(NS_NOESCAPE __unsafe_unretained SimpleADTDoubleSubtypeAMatchHandler)subtypeAMatchHandler subtypeB:(NS_NOESCAPE __unsafe_unretained SimpleADTDoubleSubtypeBMatchHandler)subtypeBMatchHandler NS_SWIFT_NAME(match(subtypeA:subtypeB:)) __attribute__((warn_unused_result));
 
       @end
 

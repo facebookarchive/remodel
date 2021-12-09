@@ -464,7 +464,12 @@ export function instanceMethodForMatchingSubtypesOfAlgebraicType(
     belongsToProtocol: null,
     code: matcherCodeForAlgebraicType(algebraicType, matchingBlockType),
     comments: [],
-    compilerAttributes: [swiftNameForAlgebraicTypeMatcher(algebraicType)],
+    compilerAttributes: [
+      swiftNameForAlgebraicTypeMatcher(algebraicType),
+    ].concat(
+      // when the matcher returns void, this type is null
+      matchingBlockType == null ? [] : '__attribute__((warn_unused_result))',
+    ),
     keywords: instanceMethodKeywordsForMatchingSubtypesOfAlgebraicType(
       algebraicType,
       matchingBlockType,

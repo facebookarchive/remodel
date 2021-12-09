@@ -311,6 +311,7 @@ describe('Plugins.AlgebraicTypeBoolMatching', function () {
         ],
         compilerAttributes: [
           'NS_SWIFT_NAME(match(someSubtype:singleAttributeSubtype:))',
+          '__attribute__((warn_unused_result))',
         ],
         comments: [],
         keywords: [
@@ -456,6 +457,7 @@ describe('Plugins.AlgebraicTypeIntegerMatching', function () {
         ],
         compilerAttributes: [
           'NS_SWIFT_NAME(match(someSubtype:singleAttributeSubtype:))',
+          '__attribute__((warn_unused_result))',
         ],
         comments: [],
         keywords: [
@@ -601,6 +603,7 @@ describe('Plugins.AlgebraicTypeDoubleMatching', function () {
         ],
         compilerAttributes: [
           'NS_SWIFT_NAME(match(someSubtype:singleAttributeSubtype:))',
+          '__attribute__((warn_unused_result))',
         ],
         comments: [],
         keywords: [

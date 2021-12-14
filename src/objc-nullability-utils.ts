@@ -143,3 +143,13 @@ export function canAssertExistenceForType(type: ObjC.Type): boolean {
     type,
   );
 }
+
+export function canBeNullable(type: ObjC.Type): boolean {
+  /** The first clause handles known types, the second clause handles custom
+   * pointer types, and the last clause accounts for protocols on id types. */
+  return (
+    ObjCTypeUtils.isObject(type) ||
+    type.reference.indexOf('*') !== -1 ||
+    type.reference.startsWith('id<')
+  );
+}

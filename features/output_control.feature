@@ -146,6 +146,11 @@ Feature: Controlling exactly what is output when generating files.
     When I run `../../bin/generate project --output-single-file`
     Then the file "project/values/RMValueTypeSingleFile.h" should contain:
       """
+      // Copyright 2004-present Facebook. All Rights Reserved.
+      //
+      // Remodel documentation links:
+      // Internal wiki: https://fburl.com/remodel
+      // Github: https://github.com/facebook/remodel
       /**
        * This file is generated using the remodel generation script.
        * The name of the input file is RMValueTypeSingleFile.adtValue
@@ -204,6 +209,11 @@ Feature: Controlling exactly what is output when generating files.
       """
    And the file "project/values/RMValueTypeSingleFile.m" should contain:
       """
+      // Copyright 2004-present Facebook. All Rights Reserved.
+      //
+      // Remodel documentation links:
+      // Internal wiki: https://fburl.com/remodel
+      // Github: https://github.com/facebook/remodel
       /**
        * This file is generated using the remodel generation script.
        * The name of the input file is RMValueTypeSingleFile.adtValue
@@ -328,6 +338,7 @@ Feature: Controlling exactly what is output when generating files.
       - (instancetype)withItemTwo:(NSNumber *)itemTwo;
 
       @end
+
       """
    And the file "project/values/RMValueTypeSingleFile.m" should contain:
       """
@@ -451,6 +462,11 @@ Feature: Controlling exactly what is output when generating files.
     When I run `../../bin/generate project --output-single-file`
     Then the file "project/values/RMValueTypeSingleFile.h" should contain:
       """
+      // Copyright 2004-present Facebook. All Rights Reserved.
+      //
+      // Remodel documentation links:
+      // Internal wiki: https://fburl.com/remodel
+      // Github: https://github.com/facebook/remodel
       /**
        * This file is generated using the remodel generation script.
        * The name of the input file is RMValueTypeSingleFile.adtValue
@@ -487,9 +503,15 @@ Feature: Controlling exactly what is output when generating files.
       + (ObjectType)match:(RMValueTypeSingleFile *)valueTypeSingleFile optionOne:(NS_NOESCAPE __unsafe_unretained RMValueTypeSingleFileObjectTypeOptionOneMatchHandler)optionOneMatchHandler optionTwo:(NS_NOESCAPE __unsafe_unretained RMValueTypeSingleFileObjectTypeOptionTwoMatchHandler)optionTwoMatchHandler;
 
       @end
+
       """
    And the file "project/values/RMValueTypeSingleFile.m" should contain:
       """
+      // Copyright 2004-present Facebook. All Rights Reserved.
+      //
+      // Remodel documentation links:
+      // Internal wiki: https://fburl.com/remodel
+      // Github: https://github.com/facebook/remodel
       /**
        * This file is generated using the remodel generation script.
        * The name of the input file is RMValueTypeSingleFile.adtValue
@@ -560,6 +582,28 @@ Feature: Controlling exactly what is output when generating files.
       }
 
       @end
+
+      @implementation RMValueTypeSingleFileMatcher
+
+      + (id)match:(RMValueTypeSingleFile *)valueTypeSingleFile optionOne:(NS_NOESCAPE __unsafe_unretained RMValueTypeSingleFileObjectTypeOptionOneMatchHandler)optionOneMatchHandler optionTwo:(NS_NOESCAPE __unsafe_unretained RMValueTypeSingleFileObjectTypeOptionTwoMatchHandler)optionTwoMatchHandler
+      {
+        __block id result = nil;
+
+        RMValueTypeSingleFileOptionOneMatchHandler __unsafe_unretained matchOptionOne = ^(void) {
+          result = optionOneMatchHandler();
+        };
+
+        RMValueTypeSingleFileOptionTwoMatchHandler __unsafe_unretained matchOptionTwo = ^(void) {
+          result = optionTwoMatchHandler();
+        };
+
+        [valueTypeSingleFile matchOptionOne:matchOptionOne optionTwo:matchOptionTwo];
+
+        return result;
+      }
+
+      @end
+
       """
   @announce
   Scenario: Generating FetchStatus with Builder as single file
@@ -753,6 +797,96 @@ Feature: Controlling exactly what is output when generating files.
       - (instancetype)withFetchStatus:(RMValueTypeSingleFileFetchStatus *)fetchStatus
       {
         _fetchStatus = [fetchStatus copy];
+        return self;
+      }
+
+      @end
+
+      @implementation RMValueTypeSingleFileFetchStatus
+
+      - (instancetype)initWithHasFetchedItemOne:(BOOL)hasFetchedItemOne hasFetchedItemTwo:(BOOL)hasFetchedItemTwo
+      {
+        if ((self = [super init])) {
+          _hasFetchedItemOne = hasFetchedItemOne;
+          _hasFetchedItemTwo = hasFetchedItemTwo;
+        }
+
+        return self;
+      }
+
+      - (id)copyWithZone:(nullable NSZone *)zone
+      {
+        return self;
+      }
+
+      - (NSString *)description
+      {
+        return [NSString stringWithFormat:@"%@ - \n\t hasFetchedItemOne: %@; \n\t hasFetchedItemTwo: %@; \n", [super description], _hasFetchedItemOne ? @"YES" : @"NO", _hasFetchedItemTwo ? @"YES" : @"NO"];
+      }
+
+      - (NSUInteger)hash
+      {
+        NSUInteger subhashes[] = {(NSUInteger)_hasFetchedItemOne, (NSUInteger)_hasFetchedItemTwo};
+        NSUInteger result = subhashes[0];
+        for (int ii = 1; ii < 2; ++ii) {
+          unsigned long long base = (((unsigned long long)result) << 32 | subhashes[ii]);
+          base = (~base) + (base << 18);
+          base ^= (base >> 31);
+          base *=  21;
+          base ^= (base >> 11);
+          base += (base << 6);
+          base ^= (base >> 22);
+          result = base;
+        }
+        return result;
+      }
+
+      - (BOOL)isEqual:(RMValueTypeSingleFileFetchStatus *)object
+      {
+        if (self == object) {
+          return YES;
+        } else if (object == nil || ![object isKindOfClass:[self class]]) {
+          return NO;
+        }
+        return
+          _hasFetchedItemOne == object->_hasFetchedItemOne &&
+          _hasFetchedItemTwo == object->_hasFetchedItemTwo;
+      }
+
+      @end
+
+      @implementation RMValueTypeSingleFileFetchStatusBuilder
+      {
+        BOOL _hasFetchedItemOne;
+        BOOL _hasFetchedItemTwo;
+      }
+
+      + (instancetype)valueTypeSingleFileFetchStatus
+      {
+        return [RMValueTypeSingleFileFetchStatusBuilder new];
+      }
+
+      + (instancetype)valueTypeSingleFileFetchStatusFromExistingValueTypeSingleFileFetchStatus:(RMValueTypeSingleFileFetchStatus *)existingValueTypeSingleFileFetchStatus
+      {
+        return [[[RMValueTypeSingleFileFetchStatusBuilder valueTypeSingleFileFetchStatus]
+                 withHasFetchedItemOne:existingValueTypeSingleFileFetchStatus.hasFetchedItemOne]
+                withHasFetchedItemTwo:existingValueTypeSingleFileFetchStatus.hasFetchedItemTwo];
+      }
+
+      - (RMValueTypeSingleFileFetchStatus *)build
+      {
+        return [[RMValueTypeSingleFileFetchStatus alloc] initWithHasFetchedItemOne:_hasFetchedItemOne hasFetchedItemTwo:_hasFetchedItemTwo];
+      }
+
+      - (instancetype)withHasFetchedItemOne:(BOOL)hasFetchedItemOne
+      {
+        _hasFetchedItemOne = hasFetchedItemOne;
+        return self;
+      }
+
+      - (instancetype)withHasFetchedItemTwo:(BOOL)hasFetchedItemTwo
+      {
+        _hasFetchedItemTwo = hasFetchedItemTwo;
         return self;
       }
 

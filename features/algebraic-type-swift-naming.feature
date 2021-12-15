@@ -100,4 +100,5 @@ Feature: Name Certain Methods Differently for Swift
       - (void)matchXYZSubtype:(NS_NOESCAPE __unsafe_unretained SimpleADTXYZSubtypeMatchHandler)xYZSubtypeMatchHandler middleXYZSubtype:(NS_NOESCAPE __unsafe_unretained SimpleADTMiddleXYZSubtypeMatchHandler)middleXYZSubtypeMatchHandler subtypeXYZ:(NS_NOESCAPE __unsafe_unretained SimpleADTSubtypeXYZMatchHandler)subtypeXYZMatchHandler xYZ:(NS_NOESCAPE __unsafe_unretained SimpleADTXYZMatchHandler)xYZMatchHandler standardSubtype:(NS_NOESCAPE __unsafe_unretained SimpleADTStandardSubtypeMatchHandler)standardSubtypeMatchHandler NS_SWIFT_NAME(match(xyzSubtype:middleXYZSubtype:subtypeXYZ:xyz:standardSubtype:));
 
       @end
+
       """

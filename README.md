@@ -2,6 +2,8 @@
 
 # Remodel
 
+[![Support Ukraine](https://img.shields.io/badge/Support-Ukraine-FFD500?style=flat&labelColor=005BBB)](https://opensource.fb.com/support-ukraine)
+
 ## An Objective-C code generation tool specialized for quickly creating and editing model objects
 
 Remodel is a tool that helps iOS and OS X developers avoid repetitive code by generating Objective-C models that support coding, value comparison, and immutability.

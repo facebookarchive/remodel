@@ -209,8 +209,8 @@ describe('CPlusPlus Rendering', function () {
         '  Foobar *MyFunction(const MyStruct &param1, int param2, NSString *_Nonnull param3) const;\n' +
         '\n' +
         'private:\n' +
-        '  int field1_;\n' +
-        '  NSString *text_;\n' +
+        '  int field1_{};\n' +
+        '  NSString *text_{};\n' +
         '};\n' +
         'NS_ASSUME_NONNULL_END';
 

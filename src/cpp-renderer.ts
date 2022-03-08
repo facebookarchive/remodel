@@ -219,7 +219,7 @@ function renderSection(section: CPlusPlus.ClassSection): string {
   result = result.concat(
     section.members
       .map((member) => {
-        return typeToString(member.type, false) + member.name + ';';
+        return typeToString(member.type, false) + member.name + '{};';
       })
       .map(StringUtils.indent(2)),
   );

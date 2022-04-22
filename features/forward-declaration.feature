@@ -611,14 +611,15 @@ Feature: Outputting Value Objects With Forward Declarations
 
       + (instancetype)pageFromExistingPage:(RMPage *)existingPage
       {
-        return [[[[[[[[RMPageBuilder page]
-                      withWorldVc:existingPage.worldVc]
-                     withProxy:existingPage.proxy]
-                    withHelloObj:existingPage.helloObj]
-                   withFollowers:existingPage.followers]
-                  withX:existingPage.x]
-                 withPrimitives:existingPage.primitives]
-                withBla:existingPage.bla];
+        RMPageBuilder *builder = [RMPageBuilder new];
+        builder->_worldVc = [existingPage.worldVc copy];
+        builder->_proxy = [existingPage.proxy copy];
+        builder->_helloObj = [existingPage.helloObj copy];
+        builder->_followers = [existingPage.followers copy];
+        builder->_x = [existingPage.x copy];
+        builder->_primitives = existingPage.primitives;
+        builder->_bla = existingPage.bla;
+        return builder;
       }
 
       - (RMPage *)build

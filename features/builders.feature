@@ -88,14 +88,15 @@ Feature: Outputting Value Objects
 
       + (instancetype)pageFromExistingPage:(RMPage *)existingPage
       {
-        return [[[[[[[[RMPageBuilder page]
-                      withDoesUserLike:existingPage.doesUserLike]
-                     withIdentifier:existingPage.identifier]
-                    withLikeCount:existingPage.likeCount]
-                   withRating:existingPage.rating]
-                  withSomeEnumValue:existingPage.someEnumValue]
-                 withCustomLibObject:existingPage.customLibObject]
-                withSomeObject:existingPage.someObject];
+        RMPageBuilder *builder = [RMPageBuilder new];
+        builder->_doesUserLike = existingPage.doesUserLike;
+        builder->_identifier = [existingPage.identifier copy];
+        builder->_likeCount = existingPage.likeCount;
+        builder->_rating = [existingPage.rating copy];
+        builder->_someEnumValue = existingPage.someEnumValue;
+        builder->_customLibObject = [existingPage.customLibObject copy];
+        builder->_someObject = existingPage.someObject;
+        return builder;
       }
 
       - (RMPage *)build
@@ -218,10 +219,11 @@ Feature: Outputting Value Objects
 
       + (instancetype)pageFromExistingPage:(RMPage *)existingPage
       {
-        return [[[[RMPageBuilder page]
-                  withRating:existingPage.rating]
-                 withSomeEnumValue:existingPage.someEnumValue]
-                withCustomLibObject:existingPage.customLibObject];
+        RMPageBuilder *builder = [RMPageBuilder new];
+        builder->_rating = [existingPage.rating copy];
+        builder->_someEnumValue = existingPage.someEnumValue;
+        builder->_customLibObject = [existingPage.customLibObject copy];
+        return builder;
       }
 
       - (RMPage *)build

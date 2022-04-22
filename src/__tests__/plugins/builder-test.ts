@@ -98,7 +98,10 @@ describe('Plugins.Builder', function () {
                   {
                     preprocessors: [],
                     belongsToProtocol: null,
-                    code: ['return [FooBarBazBuilder fooBarBaz];'],
+                    code: [
+                      'FooBarBazBuilder *builder = [FooBarBazBuilder new];',
+                      'return builder;',
+                    ],
                     comments: [],
                     compilerAttributes: [],
                     keywords: [
@@ -245,7 +248,10 @@ describe('Plugins.Builder', function () {
                   {
                     preprocessors: [],
                     belongsToProtocol: null,
-                    code: ['return [RMFerrBuilder ferr];'],
+                    code: [
+                      'RMFerrBuilder *builder = [RMFerrBuilder new];',
+                      'return builder;',
+                    ],
                     comments: [],
                     compilerAttributes: [],
                     keywords: [
@@ -421,10 +427,11 @@ describe('Plugins.Builder', function () {
                     preprocessors: [],
                     belongsToProtocol: null,
                     code: [
-                      'return [[[[RMFerrBuilder ferr]',
-                      '          withSomeUnsignedInteger:existingFerr.someUnsignedInteger]',
-                      '         withSomeCustomObject:existingFerr.someCustomObject]',
-                      '        withSomeBool:existingFerr.someBool];',
+                      'RMFerrBuilder *builder = [RMFerrBuilder new];',
+                      'builder->_someUnsignedInteger = existingFerr.someUnsignedInteger;',
+                      'builder->_someCustomObject = [existingFerr.someCustomObject copy];',
+                      'builder->_someBool = existingFerr.someBool;',
+                      'return builder;',
                     ],
                     comments: [],
                     compilerAttributes: [],
@@ -721,10 +728,11 @@ describe('Plugins.Builder', function () {
                     preprocessors: [],
                     belongsToProtocol: null,
                     code: [
-                      'return [[[[RMFerrBuilder ferr]',
-                      '          withSomeUnsignedInteger:existingFerr.someUnsignedInteger]',
-                      '         withSomeCustomObject:existingFerr.someCustomObject]',
-                      '        withSomeBool:existingFerr.someBool];',
+                      'RMFerrBuilder *builder = [RMFerrBuilder new];',
+                      'builder->_someUnsignedInteger = existingFerr.someUnsignedInteger;',
+                      'builder->_someCustomObject = existingFerr.someCustomObject;',
+                      'builder->_someBool = existingFerr.someBool;',
+                      'return builder;',
                     ],
                     comments: [],
                     compilerAttributes: [],

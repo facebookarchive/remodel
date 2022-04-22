@@ -153,9 +153,10 @@ Feature: Controlling includes/excludes from command line
 
       + (instancetype)valueTypeFromExistingValueType:(RMValueType *)existingValueType
       {
-        return [[[RMValueTypeBuilder valueType]
-                 withDoesUserLike:existingValueType.doesUserLike]
-                withIdentifier:existingValueType.identifier];
+        RMValueTypeBuilder *builder = [RMValueTypeBuilder new];
+        builder->_doesUserLike = existingValueType.doesUserLike;
+        builder->_identifier = [existingValueType.identifier copy];
+        return builder;
       }
 
       - (RMValueType *)build

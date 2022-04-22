@@ -419,9 +419,10 @@ Feature: Controlling exactly what is output when generating files.
 
       + (instancetype)valueTypeSingleFileFromExistingValueTypeSingleFile:(RMValueTypeSingleFile *)existingValueTypeSingleFile
       {
-        return [[[RMValueTypeSingleFileBuilder valueTypeSingleFile]
-                 withItemOne:existingValueTypeSingleFile.itemOne]
-                withItemTwo:existingValueTypeSingleFile.itemTwo];
+        RMValueTypeSingleFileBuilder *builder = [RMValueTypeSingleFileBuilder new];
+        builder->_itemOne = [existingValueTypeSingleFile.itemOne copy];
+        builder->_itemTwo = [existingValueTypeSingleFile.itemTwo copy];
+        return builder;
       }
 
       - (RMValueTypeSingleFile *)build
@@ -771,10 +772,11 @@ Feature: Controlling exactly what is output when generating files.
 
       + (instancetype)valueTypeSingleFileFromExistingValueTypeSingleFile:(RMValueTypeSingleFile *)existingValueTypeSingleFile
       {
-        return [[[[RMValueTypeSingleFileBuilder valueTypeSingleFile]
-                  withItemOne:existingValueTypeSingleFile.itemOne]
-                 withItemTwo:existingValueTypeSingleFile.itemTwo]
-                withFetchStatus:existingValueTypeSingleFile.fetchStatus];
+        RMValueTypeSingleFileBuilder *builder = [RMValueTypeSingleFileBuilder new];
+        builder->_itemOne = [existingValueTypeSingleFile.itemOne copy];
+        builder->_itemTwo = [existingValueTypeSingleFile.itemTwo copy];
+        builder->_fetchStatus = [existingValueTypeSingleFile.fetchStatus copy];
+        return builder;
       }
 
       - (RMValueTypeSingleFile *)build
@@ -868,9 +870,10 @@ Feature: Controlling exactly what is output when generating files.
 
       + (instancetype)valueTypeSingleFileFetchStatusFromExistingValueTypeSingleFileFetchStatus:(RMValueTypeSingleFileFetchStatus *)existingValueTypeSingleFileFetchStatus
       {
-        return [[[RMValueTypeSingleFileFetchStatusBuilder valueTypeSingleFileFetchStatus]
-                 withHasFetchedItemOne:existingValueTypeSingleFileFetchStatus.hasFetchedItemOne]
-                withHasFetchedItemTwo:existingValueTypeSingleFileFetchStatus.hasFetchedItemTwo];
+        RMValueTypeSingleFileFetchStatusBuilder *builder = [RMValueTypeSingleFileFetchStatusBuilder new];
+        builder->_hasFetchedItemOne = existingValueTypeSingleFileFetchStatus.hasFetchedItemOne;
+        builder->_hasFetchedItemTwo = existingValueTypeSingleFileFetchStatus.hasFetchedItemTwo;
+        return builder;
       }
 
       - (RMValueTypeSingleFileFetchStatus *)build

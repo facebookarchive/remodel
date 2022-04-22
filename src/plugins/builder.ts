@@ -9,7 +9,6 @@ import * as Code from '../code';
 import * as Error from '../error';
 import * as FileWriter from '../file-writer';
 import * as ImmutableImportUtils from '../immutable-import-utils';
-import * as Maybe from '../maybe';
 import * as ObjC from '../objc';
 import * as ObjCImportUtils from '../objc-import-utils';
 import * as ObjCNullabilityUtils from '../objc-nullability-utils';
@@ -71,90 +70,36 @@ function keywordArgumentNameForBuilderFromExistingObjectClassMethodForValueType(
   );
 }
 
-function openingBrace(): string {
-  return '[';
-}
-
-function indentationForItemAtIndexWithOffset(
-  offset: number,
-): (index: number) => string {
-  return function (index: number): string {
-    const indentation = offset - index;
-    return StringUtils.stringContainingSpaces(
-      indentation > 0 ? indentation : 0,
-    );
-  };
-}
-
-function toWithInvocationCallForBuilderFromExistingObjectClassMethodForAttribute(
-  indentationProvider: (index: number) => string,
-  existingObjectName: string,
-  soFar: string[],
-  attribute: ObjectSpec.Attribute,
-  index: number,
-  array: ObjectSpec.Attribute[],
-): string[] {
-  return soFar.concat(
-    indentationProvider(index) +
-      keywordNameForAttribute(attribute) +
-      ':' +
-      existingObjectName +
-      '.' +
-      attribute.name +
-      ']',
-  );
-}
-
-function stringsWithLastItemContainingStringAtEnd(
-  strings: string[],
-  stringToIncludeAtEndOfLastString: string,
-): string[] {
-  const updatedStrings: string[] = strings.concat();
-  updatedStrings[updatedStrings.length - 1] =
-    updatedStrings[updatedStrings.length - 1] +
-    stringToIncludeAtEndOfLastString;
-  return updatedStrings;
-}
-
-function codeForBuilderFromExistingObjectClassMethodForValueType(
+function codeForBuilderClassMethod(
   objectType: ObjectSpec.Type,
+  attributes: ObjectSpec.Attribute[],
+  fromExistingObject: boolean,
 ): string[] {
-  const returnOpening: string = 'return ';
-  const openingBracesForWithMethodInvocations: string[] =
-    objectType.attributes.map(openingBrace);
-  const builderCreationCall: string =
-    '[' +
-    nameOfBuilderForValueTypeWithName(objectType.typeName) +
-    ' ' +
-    shortNameOfObjectToBuildForValueTypeWithName(objectType.typeName) +
-    ']';
-  const openingLine: string =
-    returnOpening +
-    openingBracesForWithMethodInvocations.join('') +
-    builderCreationCall;
-
-  const indentationProvider: (index: number) => string =
-    indentationForItemAtIndexWithOffset(
-      returnOpening.length + openingBracesForWithMethodInvocations.length,
-    );
-  const existingObjectName: string =
-    keywordArgumentNameForBuilderFromExistingObjectClassMethodForValueType(
-      objectType,
-    );
-  const linesForBuildingValuesIntoBuilder: string[] =
-    objectType.attributes.reduce(
-      toWithInvocationCallForBuilderFromExistingObjectClassMethodForAttribute.bind(
-        null,
-        indentationProvider,
-        existingObjectName,
-      ),
-      [],
-    );
-
-  const code: string[] = [openingLine].concat(
-    linesForBuildingValuesIntoBuilder,
+  const builderClassName = nameOfBuilderForValueTypeWithName(
+    objectType.typeName,
   );
-  return stringsWithLastItemContainingStringAtEnd(code, ';');
+  const existingAttributeValuePrefix = fromExistingObject
+    ? keywordArgumentNameForBuilderFromExistingObjectClassMethodForValueType(
+        objectType,
+      ) + '.'
+    : '';
+  const supportsValueSemantics =
+    ObjectSpecUtils.typeSupportsValueObjectSemantics(objectType);
+
+  return [
+    `${builderClassName} *builder = [${builderClassName} new];`,
+    ...attributes.map(
+      (attribute) =>
+        `builder->${ObjectSpecCodeUtils.ivarForAttribute(
+          attribute,
+        )} = ${valueToAssignIntoInternalStateForAttribute(
+          supportsValueSemantics,
+          attribute,
+          existingAttributeValuePrefix,
+        )};`,
+    ),
+    `return builder;`,
+  ];
 }
 
 function builderFromExistingObjectClassMethodForValueType(
@@ -163,7 +108,7 @@ function builderFromExistingObjectClassMethodForValueType(
   return {
     preprocessors: [],
     belongsToProtocol: null,
-    code: codeForBuilderFromExistingObjectClassMethodForValueType(objectType),
+    code: codeForBuilderClassMethod(objectType, objectType.attributes, true),
     comments: [],
     compilerAttributes: [],
     keywords: [
@@ -253,18 +198,20 @@ function keywordNameForAttribute(attribute: ObjectSpec.Attribute): string {
 function valueToAssignIntoInternalStateForAttribute(
   supportsValueSemantics: boolean,
   attribute: ObjectSpec.Attribute,
+  keywordArgumentNamePrefix?: string,
 ): string {
   const keywordArgumentName: string =
     keywordArgumentNameForAttribute(attribute);
+  const prefix = keywordArgumentNamePrefix || '';
   if (
     ObjectSpecCodeUtils.shouldCopyIncomingValueForAttribute(
       supportsValueSemantics,
       attribute,
     )
   ) {
-    return '[' + keywordArgumentName + ' copy]';
+    return `[${prefix}${keywordArgumentName} copy]`;
   } else {
-    return keywordArgumentName;
+    return `${prefix}${keywordArgumentName}`;
   }
 }
 

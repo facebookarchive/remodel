@@ -7,6 +7,7 @@
 
 import * as Maybe from './maybe';
 import * as ObjC from './objc';
+import * as ObjCNullabilityUtils from './objc-nullability-utils';
 import * as ObjCTypeUtils from './objc-type-utils';
 import * as StringUtils from './string-utils';
 import * as ObjectSpec from './object-spec';
@@ -96,6 +97,24 @@ export function methodInvocationForConstructor(
     valueGenerator,
   );
   return '[[' + allocationPart + '] ' + invocationPart + ']';
+}
+
+export function nonnullAttributes(
+  objectType: ObjectSpec.Type,
+): ObjectSpec.Attribute[] {
+  const assumeNonnull = objectType.includes.indexOf('RMAssumeNonnull') >= 0;
+
+  return objectType.attributes.filter((attribute) => {
+    const canBeNullable = ObjCNullabilityUtils.canAssertExistenceForType(
+      computeTypeOfAttribute(attribute),
+    );
+    return (
+      canBeNullable &&
+      (assumeNonnull
+        ? attribute.annotations['nullable'] === undefined
+        : attribute.annotations['nonnull'] !== undefined)
+    );
+  });
 }
 
 export function ivarForAttribute(attribute: ObjectSpec.BaseAttribute): string {

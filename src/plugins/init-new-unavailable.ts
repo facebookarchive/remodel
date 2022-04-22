@@ -9,55 +9,9 @@ import * as AlgebraicType from '../algebraic-type';
 import * as Code from '../code';
 import * as Error from '../error';
 import * as FileWriter from '../file-writer';
-import * as Maybe from '../maybe';
 import * as ObjC from '../objc';
+import * as ObjCInitUtils from '../objc-init-utils';
 import * as ObjectSpec from '../object-spec';
-
-function initUnavailableInstanceMethod(): ObjC.Method {
-  return {
-    preprocessors: [],
-    belongsToProtocol: 'NSObject',
-    code: [],
-    comments: [],
-    compilerAttributes: ['NS_UNAVAILABLE'],
-    keywords: [
-      {
-        name: 'init',
-        argument: null,
-      },
-    ],
-    returnType: {
-      type: {
-        name: 'instancetype',
-        reference: 'instancetype',
-      },
-      modifiers: [],
-    },
-  };
-}
-
-function newUnavailableClassMethod(): ObjC.Method {
-  return {
-    preprocessors: [],
-    belongsToProtocol: 'NSObject',
-    code: [],
-    comments: [],
-    compilerAttributes: ['NS_UNAVAILABLE'],
-    keywords: [
-      {
-        name: 'new',
-        argument: null,
-      },
-    ],
-    returnType: {
-      type: {
-        name: 'instancetype',
-        reference: 'instancetype',
-      },
-      modifiers: [],
-    },
-  };
-}
 
 export function createPlugin(): ObjectSpec.Plugin {
   return {
@@ -78,7 +32,7 @@ export function createPlugin(): ObjectSpec.Plugin {
     },
     classMethods: function (objectType: ObjectSpec.Type): ObjC.Method[] {
       if (objectType.attributes.length > 0) {
-        return [newUnavailableClassMethod()];
+        return [ObjCInitUtils.newUnavailableClassMethod()];
       } else {
         return [];
       }
@@ -112,7 +66,7 @@ export function createPlugin(): ObjectSpec.Plugin {
     },
     instanceMethods: function (objectType: ObjectSpec.Type): ObjC.Method[] {
       if (objectType.attributes.length > 0) {
-        return [initUnavailableInstanceMethod()];
+        return [ObjCInitUtils.initUnavailableInstanceMethod()];
       } else {
         return [];
       }
@@ -156,7 +110,7 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
       return [];
     },
     classMethods: function (algebraicType: AlgebraicType.Type): ObjC.Method[] {
-      return [newUnavailableClassMethod()];
+      return [ObjCInitUtils.newUnavailableClassMethod()];
     },
     enumerations: function (
       algebraicType: AlgebraicType.Type,
@@ -197,7 +151,7 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
     instanceMethods: function (
       algebraicType: AlgebraicType.Type,
     ): ObjC.Method[] {
-      return [initUnavailableInstanceMethod()];
+      return [ObjCInitUtils.initUnavailableInstanceMethod()];
     },
     instanceVariables: function (
       algebraicType: AlgebraicType.Type,

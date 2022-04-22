@@ -419,7 +419,7 @@ Feature: Controlling exactly what is output when generating files.
 
       + (instancetype)valueTypeSingleFileFromExistingValueTypeSingleFile:(RMValueTypeSingleFile *)existingValueTypeSingleFile
       {
-        RMValueTypeSingleFileBuilder *builder = [RMValueTypeSingleFileBuilder new];
+        RMValueTypeSingleFileBuilder *builder = [[RMValueTypeSingleFileBuilder alloc] init];
         builder->_itemOne = [existingValueTypeSingleFile.itemOne copy];
         builder->_itemTwo = [existingValueTypeSingleFile.itemTwo copy];
         return builder;
@@ -772,7 +772,7 @@ Feature: Controlling exactly what is output when generating files.
 
       + (instancetype)valueTypeSingleFileFromExistingValueTypeSingleFile:(RMValueTypeSingleFile *)existingValueTypeSingleFile
       {
-        RMValueTypeSingleFileBuilder *builder = [RMValueTypeSingleFileBuilder new];
+        RMValueTypeSingleFileBuilder *builder = [[RMValueTypeSingleFileBuilder alloc] init];
         builder->_itemOne = [existingValueTypeSingleFile.itemOne copy];
         builder->_itemTwo = [existingValueTypeSingleFile.itemTwo copy];
         builder->_fetchStatus = [existingValueTypeSingleFile.fetchStatus copy];
@@ -870,7 +870,7 @@ Feature: Controlling exactly what is output when generating files.
 
       + (instancetype)valueTypeSingleFileFetchStatusFromExistingValueTypeSingleFileFetchStatus:(RMValueTypeSingleFileFetchStatus *)existingValueTypeSingleFileFetchStatus
       {
-        RMValueTypeSingleFileFetchStatusBuilder *builder = [RMValueTypeSingleFileFetchStatusBuilder new];
+        RMValueTypeSingleFileFetchStatusBuilder *builder = [[RMValueTypeSingleFileFetchStatusBuilder alloc] init];
         builder->_hasFetchedItemOne = existingValueTypeSingleFileFetchStatus.hasFetchedItemOne;
         builder->_hasFetchedItemTwo = existingValueTypeSingleFileFetchStatus.hasFetchedItemTwo;
         return builder;

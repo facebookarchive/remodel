@@ -88,7 +88,7 @@ Feature: Outputting Value Objects
 
       + (instancetype)pageFromExistingPage:(RMPage *)existingPage
       {
-        RMPageBuilder *builder = [RMPageBuilder new];
+        RMPageBuilder *builder = [[RMPageBuilder alloc] init];
         builder->_doesUserLike = existingPage.doesUserLike;
         builder->_identifier = [existingPage.identifier copy];
         builder->_likeCount = existingPage.likeCount;
@@ -219,7 +219,7 @@ Feature: Outputting Value Objects
 
       + (instancetype)pageFromExistingPage:(RMPage *)existingPage
       {
-        RMPageBuilder *builder = [RMPageBuilder new];
+        RMPageBuilder *builder = [[RMPageBuilder alloc] init];
         builder->_rating = [existingPage.rating copy];
         builder->_someEnumValue = existingPage.someEnumValue;
         builder->_customLibObject = [existingPage.customLibObject copy];
@@ -250,5 +250,236 @@ Feature: Outputting Value Objects
       }
 
       @end
+
+      """
+
+  @announce
+  Scenario: Generating a Builder with Required Attributes
+    Given a file named "project/values/RMContact.value" with:
+      """
+      RMContact includes(RMBuilder) {
+        %nonnull NSString *firstName
+        %nullable NSString *middleName
+        %nonnull NSString *lastName
+        NSInteger age
+      }
+      """
+    And a file named "project/.valueObjectConfig" with:
+      """
+      { }
+      """
+    When I run `../../bin/generate project`
+    Then the file "project/values/RMContactBuilder.h" should contain:
+      """
+      #import <Foundation/Foundation.h>
+
+      @class RMContact;
+
+      @interface RMContactBuilder : NSObject
+
+      + (instancetype)new NS_UNAVAILABLE;
+
+      + (instancetype)contactFromExistingContact:(RMContact *)existingContact;
+
+      - (instancetype)init NS_UNAVAILABLE;
+
+      - (instancetype)initWithFirstName:(nonnull NSString *)firstName lastName:(nonnull NSString *)lastName;
+
+      - (RMContact *)build;
+
+      - (instancetype)withFirstName:(nonnull NSString *)firstName;
+
+      - (instancetype)withMiddleName:(nullable NSString *)middleName;
+
+      - (instancetype)withLastName:(nonnull NSString *)lastName;
+
+      - (instancetype)withAge:(NSInteger)age;
+
+      @end
+
+      """
+   And the file "project/values/RMContactBuilder.m" should contain:
+      """
+      #if  ! __has_feature(objc_arc)
+      #error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).
+      #endif
+
+      #import "RMContact.h"
+      #import "RMContactBuilder.h"
+
+      @implementation RMContactBuilder
+      {
+        NSString *_firstName;
+        NSString *_middleName;
+        NSString *_lastName;
+        NSInteger _age;
+      }
+
+      + (instancetype)contactFromExistingContact:(RMContact *)existingContact
+      {
+        RMContactBuilder *builder = [[RMContactBuilder alloc] initWithFirstName:existingContact.firstName lastName:existingContact.lastName];
+        builder->_middleName = [existingContact.middleName copy];
+        builder->_age = existingContact.age;
+        return builder;
+      }
+
+      - (instancetype)initWithFirstName:(nonnull NSString *)firstName lastName:(nonnull NSString *)lastName
+      {
+        if ((self = [super init]) != nil) {
+          _firstName = [firstName copy];
+          _lastName = [lastName copy];
+        }
+        return self;
+      }
+
+      - (RMContact *)build
+      {
+        return [[RMContact alloc] initWithFirstName:_firstName middleName:_middleName lastName:_lastName age:_age];
+      }
+
+      - (instancetype)withFirstName:(nonnull NSString *)firstName
+      {
+        _firstName = [firstName copy];
+        return self;
+      }
+
+      - (instancetype)withMiddleName:(nullable NSString *)middleName
+      {
+        _middleName = [middleName copy];
+        return self;
+      }
+
+      - (instancetype)withLastName:(nonnull NSString *)lastName
+      {
+        _lastName = [lastName copy];
+        return self;
+      }
+
+      - (instancetype)withAge:(NSInteger)age
+      {
+        _age = age;
+        return self;
+      }
+
+      @end
+      """
+
+  @announce
+  Scenario: Generating a Builder with Required Attributes via Assume Nonnull
+    Given a file named "project/values/RMContact.value" with:
+      """
+      RMContact includes(RMAssumeNonnull, RMBuilder) {
+        NSString *firstName
+        %nullable NSString *middleName
+        NSString *lastName
+        NSInteger age
+      }
+      """
+    And a file named "project/.valueObjectConfig" with:
+      """
+      { }
+      """
+    When I run `../../bin/generate project`
+    Then the file "project/values/RMContactBuilder.h" should contain:
+      """
+      #import <Foundation/Foundation.h>
+
+      @class RMContact;
+
+      NS_ASSUME_NONNULL_BEGIN
+
+      @interface RMContactBuilder : NSObject
+
+      + (instancetype)new NS_UNAVAILABLE;
+
+      + (instancetype)contactFromExistingContact:(RMContact *)existingContact;
+
+      - (instancetype)init NS_UNAVAILABLE;
+
+      - (instancetype)initWithFirstName:(NSString *)firstName lastName:(NSString *)lastName;
+
+      - (RMContact *)build;
+
+      - (instancetype)withFirstName:(NSString *)firstName;
+
+      - (instancetype)withMiddleName:(nullable NSString *)middleName;
+
+      - (instancetype)withLastName:(NSString *)lastName;
+
+      - (instancetype)withAge:(NSInteger)age;
+
+      @end
+
+      NS_ASSUME_NONNULL_END
+
+      """
+   And the file "project/values/RMContactBuilder.m" should contain:
+      """
+      #if  ! __has_feature(objc_arc)
+      #error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).
+      #endif
+
+      #import "RMContact.h"
+      #import "RMContactBuilder.h"
+
+      NS_ASSUME_NONNULL_BEGIN
+
+      @implementation RMContactBuilder
+      {
+        NSString *_firstName;
+        NSString *_middleName;
+        NSString *_lastName;
+        NSInteger _age;
+      }
+
+      + (instancetype)contactFromExistingContact:(RMContact *)existingContact
+      {
+        RMContactBuilder *builder = [[RMContactBuilder alloc] initWithFirstName:existingContact.firstName lastName:existingContact.lastName];
+        builder->_middleName = [existingContact.middleName copy];
+        builder->_age = existingContact.age;
+        return builder;
+      }
+
+      - (instancetype)initWithFirstName:(NSString *)firstName lastName:(NSString *)lastName
+      {
+        if ((self = [super init]) != nil) {
+          _firstName = [firstName copy];
+          _lastName = [lastName copy];
+        }
+        return self;
+      }
+
+      - (RMContact *)build
+      {
+        return [[RMContact alloc] initWithFirstName:_firstName middleName:_middleName lastName:_lastName age:_age];
+      }
+
+      - (instancetype)withFirstName:(NSString *)firstName
+      {
+        _firstName = [firstName copy];
+        return self;
+      }
+
+      - (instancetype)withMiddleName:(nullable NSString *)middleName
+      {
+        _middleName = [middleName copy];
+        return self;
+      }
+
+      - (instancetype)withLastName:(NSString *)lastName
+      {
+        _lastName = [lastName copy];
+        return self;
+      }
+
+      - (instancetype)withAge:(NSInteger)age
+      {
+        _age = age;
+        return self;
+      }
+
+      @end
+
+      NS_ASSUME_NONNULL_END
 
       """

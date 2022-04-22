@@ -99,7 +99,7 @@ describe('Plugins.Builder', function () {
                     preprocessors: [],
                     belongsToProtocol: null,
                     code: [
-                      'FooBarBazBuilder *builder = [FooBarBazBuilder new];',
+                      'FooBarBazBuilder *builder = [[FooBarBazBuilder alloc] init];',
                       'return builder;',
                     ],
                     comments: [],
@@ -249,7 +249,7 @@ describe('Plugins.Builder', function () {
                     preprocessors: [],
                     belongsToProtocol: null,
                     code: [
-                      'RMFerrBuilder *builder = [RMFerrBuilder new];',
+                      'RMFerrBuilder *builder = [[RMFerrBuilder alloc] init];',
                       'return builder;',
                     ],
                     comments: [],
@@ -427,7 +427,7 @@ describe('Plugins.Builder', function () {
                     preprocessors: [],
                     belongsToProtocol: null,
                     code: [
-                      'RMFerrBuilder *builder = [RMFerrBuilder new];',
+                      'RMFerrBuilder *builder = [[RMFerrBuilder alloc] init];',
                       'builder->_someUnsignedInteger = existingFerr.someUnsignedInteger;',
                       'builder->_someCustomObject = [existingFerr.someCustomObject copy];',
                       'builder->_someBool = existingFerr.someBool;',
@@ -728,7 +728,7 @@ describe('Plugins.Builder', function () {
                     preprocessors: [],
                     belongsToProtocol: null,
                     code: [
-                      'RMFerrBuilder *builder = [RMFerrBuilder new];',
+                      'RMFerrBuilder *builder = [[RMFerrBuilder alloc] init];',
                       'builder->_someUnsignedInteger = existingFerr.someUnsignedInteger;',
                       'builder->_someCustomObject = existingFerr.someCustomObject;',
                       'builder->_someBool = existingFerr.someBool;',

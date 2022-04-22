@@ -611,7 +611,7 @@ Feature: Outputting Value Objects With Forward Declarations
 
       + (instancetype)pageFromExistingPage:(RMPage *)existingPage
       {
-        RMPageBuilder *builder = [RMPageBuilder new];
+        RMPageBuilder *builder = [[RMPageBuilder alloc] init];
         builder->_worldVc = [existingPage.worldVc copy];
         builder->_proxy = [existingPage.proxy copy];
         builder->_helloObj = [existingPage.helloObj copy];

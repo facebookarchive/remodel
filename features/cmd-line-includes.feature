@@ -153,7 +153,7 @@ Feature: Controlling includes/excludes from command line
 
       + (instancetype)valueTypeFromExistingValueType:(RMValueType *)existingValueType
       {
-        RMValueTypeBuilder *builder = [RMValueTypeBuilder new];
+        RMValueTypeBuilder *builder = [[RMValueTypeBuilder alloc] init];
         builder->_doesUserLike = existingValueType.doesUserLike;
         builder->_identifier = [existingValueType.identifier copy];
         return builder;

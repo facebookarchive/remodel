@@ -11,6 +11,7 @@ import * as FileWriter from '../file-writer';
 import * as ImmutableImportUtils from '../immutable-import-utils';
 import * as ObjC from '../objc';
 import * as ObjCImportUtils from '../objc-import-utils';
+import * as ObjCInitUtils from '../objc-init-utils';
 import * as ObjCNullabilityUtils from '../objc-nullability-utils';
 import * as ObjectGeneration from '../object-generation';
 import * as StringUtils from '../string-utils';
@@ -70,45 +71,48 @@ function keywordArgumentNameForBuilderFromExistingObjectClassMethodForValueType(
   );
 }
 
-function codeForBuilderClassMethod(
+function builderFromExistingObjectClassMethodForValueType(
   objectType: ObjectSpec.Type,
-  attributes: ObjectSpec.Attribute[],
-  fromExistingObject: boolean,
-): string[] {
+  requiredAttributes: ObjectSpec.Attribute[],
+): ObjC.Method {
   const builderClassName = nameOfBuilderForValueTypeWithName(
     objectType.typeName,
   );
-  const existingAttributeValuePrefix = fromExistingObject
-    ? keywordArgumentNameForBuilderFromExistingObjectClassMethodForValueType(
-        objectType,
-      ) + '.'
-    : '';
+  const existingAttributeValuePrefix =
+    keywordArgumentNameForBuilderFromExistingObjectClassMethodForValueType(
+      objectType,
+    ) + '.';
+  const initializerInvocation =
+    requiredAttributes.length !== 0
+      ? keywordsForInitializerAttributes(requiredAttributes)
+          .map(
+            (keyword) =>
+              `${keyword.name}:${existingAttributeValuePrefix}${keyword.argument?.name}`,
+          )
+          .join(' ')
+      : 'init';
   const supportsValueSemantics =
     ObjectSpecUtils.typeSupportsValueObjectSemantics(objectType);
 
-  return [
-    `${builderClassName} *builder = [${builderClassName} new];`,
-    ...attributes.map(
-      (attribute) =>
-        `builder->${ObjectSpecCodeUtils.ivarForAttribute(
-          attribute,
-        )} = ${valueToAssignIntoInternalStateForAttribute(
-          supportsValueSemantics,
-          attribute,
-          existingAttributeValuePrefix,
-        )};`,
-    ),
-    `return builder;`,
-  ];
-}
-
-function builderFromExistingObjectClassMethodForValueType(
-  objectType: ObjectSpec.Type,
-): ObjC.Method {
   return {
     preprocessors: [],
     belongsToProtocol: null,
-    code: codeForBuilderClassMethod(objectType, objectType.attributes, true),
+    code: [
+      `${builderClassName} *builder = [[${builderClassName} alloc] ${initializerInvocation}];`,
+      ...objectType.attributes
+        .filter((attr) => !requiredAttributes.includes(attr))
+        .map(
+          (attribute) =>
+            `builder->${ObjectSpecCodeUtils.ivarForAttribute(
+              attribute,
+            )} = ${valueToAssignIntoInternalStateForAttribute(
+              supportsValueSemantics,
+              attribute,
+              existingAttributeValuePrefix,
+            )};`,
+        ),
+      'return builder;',
+    ],
     comments: [],
     compilerAttributes: [],
     keywords: [
@@ -149,6 +153,42 @@ function valueGeneratorForInvokingInitializerWithAttribute(
   return ObjectSpecCodeUtils.ivarForAttribute(attribute);
 }
 
+function initInstanceMethodForValueType(
+  objectType: ObjectSpec.Type,
+  requiredAttributes: ObjectSpec.Attribute[],
+): ObjC.Method {
+  const supportsValueSemantics =
+    ObjectSpecUtils.typeSupportsValueObjectSemantics(objectType);
+
+  return {
+    preprocessors: [],
+    belongsToProtocol: null,
+    code: [
+      `if ((self = [super init]) != nil) {`,
+      ...requiredAttributes.map(
+        (attribute) =>
+          `  ${ObjectSpecCodeUtils.ivarForAttribute(
+            attribute,
+          )} = ${valueToAssignIntoInternalStateForAttribute(
+            supportsValueSemantics,
+            attribute,
+          )};`,
+      ),
+      '}',
+      'return self;',
+    ],
+    comments: [],
+    compilerAttributes: [],
+    keywords: keywordsForInitializerAttributes(requiredAttributes),
+    returnType: {
+      type: {
+        name: 'instancetype',
+        reference: 'instancetype',
+      },
+      modifiers: [],
+    },
+  };
+}
 function buildObjectInstanceMethodForValueType(
   objectType: ObjectSpec.Type,
 ): ObjC.Method {
@@ -195,6 +235,38 @@ function keywordNameForAttribute(attribute: ObjectSpec.Attribute): string {
   );
 }
 
+function keywordForAttribute(
+  attribute: ObjectSpec.Attribute,
+  keywordName?: (attribute: ObjectSpec.Attribute) => string,
+): ObjC.Keyword {
+  return {
+    name: keywordName ? keywordName(attribute) : attribute.name,
+    argument: {
+      name: keywordArgumentNameForAttribute(attribute),
+      modifiers: ObjCNullabilityUtils.keywordArgumentModifiersForNullability(
+        attribute.nullability,
+      ),
+      type: {
+        name: attribute.type.name,
+        reference: attribute.type.reference,
+      },
+    },
+  };
+}
+
+function keywordsForInitializerAttributes(
+  attributes: ObjectSpec.Attribute[],
+): ObjC.Keyword[] {
+  return attributes.map((attribute, index) =>
+    keywordForAttribute(attribute, (attr) => {
+      const keywordArgumentName = keywordArgumentNameForAttribute(attr);
+      return index === 0
+        ? `initWith${StringUtils.capitalize(keywordArgumentName)}`
+        : keywordArgumentName;
+    }),
+  );
+}
+
 function valueToAssignIntoInternalStateForAttribute(
   supportsValueSemantics: boolean,
   attribute: ObjectSpec.Attribute,
@@ -234,22 +306,7 @@ function withInstanceMethodForAttribute(
     ],
     comments: [],
     compilerAttributes: [],
-    keywords: [
-      {
-        name: keywordNameForAttribute(attribute),
-        argument: {
-          name: keywordArgumentNameForAttribute(attribute),
-          modifiers:
-            ObjCNullabilityUtils.keywordArgumentModifiersForNullability(
-              attribute.nullability,
-            ),
-          type: {
-            name: attribute.type.name,
-            reference: attribute.type.reference,
-          },
-        },
-      },
-    ],
+    keywords: [keywordForAttribute(attribute, keywordNameForAttribute)],
     returnType: {
       type: {
         name: 'instancetype',
@@ -373,17 +430,30 @@ function forwardDeclarationsForBuilder(
 }
 
 function classesForBuilder(objectType: ObjectSpec.Type): ObjC.Class[] {
+  const requiredAttributes = ObjectSpecCodeUtils.nonnullAttributes(objectType);
+
   return [
     {
       baseClassName: 'NSObject',
       covariantTypes: [],
       classMethods: [
-        builderClassMethodForValueType(objectType),
-        builderFromExistingObjectClassMethodForValueType(objectType),
+        requiredAttributes.length !== 0
+          ? ObjCInitUtils.newUnavailableClassMethod()
+          : builderClassMethodForValueType(objectType),
+        builderFromExistingObjectClassMethodForValueType(
+          objectType,
+          requiredAttributes,
+        ),
       ],
       comments: [],
       inlineBlockTypedefs: [],
       instanceMethods: [
+        ...(requiredAttributes.length !== 0
+          ? [
+              ObjCInitUtils.initUnavailableInstanceMethod(),
+              initInstanceMethodForValueType(objectType, requiredAttributes),
+            ]
+          : []),
         buildObjectInstanceMethodForValueType(objectType),
       ].concat(
         objectType.attributes.map((attribute) =>

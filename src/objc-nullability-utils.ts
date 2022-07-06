@@ -22,6 +22,9 @@ export function keywordArgumentModifiersForNullability(
     function nullable() {
       return [ObjC.KeywordArgumentModifier.Nullable()];
     },
+    function null_unspecified() {
+      return [ObjC.KeywordArgumentModifier.NullUnspecified()];
+    },
   );
 }
 
@@ -38,6 +41,9 @@ export function propertyModifiersForNullability(
     function nullable() {
       return [ObjC.PropertyModifier.Nullable()];
     },
+    function null_unspecified() {
+      return [ObjC.PropertyModifier.NullUnspecified()];
+    },
   );
 }
 
@@ -53,6 +59,9 @@ export function shouldProtectFromNilValuesForNullability(
       return true;
     },
     function nullable() {
+      return false;
+    },
+    function null_unspecified() {
       return false;
     },
   );

@@ -41,6 +41,9 @@ function propertyModifiersForCopyingFromAttribute(
     function nullable() {
       return [];
     },
+    function nullUnspecified() {
+      return [];
+    },
     function readonly() {
       return [];
     },

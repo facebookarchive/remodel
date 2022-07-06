@@ -24,6 +24,7 @@ function keywordsForAttributes(
         /* inherited */ () => false,
         /* nonnull   */ () => true,
         /* nullable  */ () => true,
+        /* null_unspecified  */ () => true,
       ),
     );
 
@@ -38,6 +39,7 @@ function keywordsForAttributes(
         () => reference,
         () => (assumeNonnull ? reference : `${reference} _Nonnull`),
         () => `${reference} _Nullable`,
+        () => `${reference} _Null_unspecified`,
       );
       reference = reference.concat(' * _Nullable');
     } else {

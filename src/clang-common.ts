@@ -9,6 +9,7 @@ enum NullabilityType {
   inherited,
   nonnull,
   nullable,
+  null_unspecified,
 }
 
 export class Nullability {
@@ -30,7 +31,16 @@ export class Nullability {
     return new Nullability(NullabilityType.nullable);
   }
 
-  match<T>(inherited: () => T, nonnull: () => T, nullable: () => T) {
+  static NullUnspecified() {
+    return new Nullability(NullabilityType.null_unspecified);
+  }
+
+  match<T>(
+    inherited: () => T,
+    nonnull: () => T,
+    nullable: () => T,
+    null_unspecified: () => T,
+  ) {
     switch (this.nullabilityType) {
       case NullabilityType.inherited:
         return inherited();
@@ -38,6 +48,8 @@ export class Nullability {
         return nonnull();
       case NullabilityType.nullable:
         return nullable();
+      case NullabilityType.null_unspecified:
+        return null_unspecified();
     }
   }
 }

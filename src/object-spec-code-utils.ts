@@ -287,6 +287,9 @@ export function shouldCopyIncomingValueForAttribute(
     function nullable() {
       return false;
     },
+    function null_unspecified() {
+      return false;
+    },
     function readonly() {
       return false;
     },

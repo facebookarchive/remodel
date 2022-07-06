@@ -20,6 +20,7 @@ function nullabilityString(nullability: CLangCommon.Nullability): string {
     /* inherited */ returnString(''),
     /* nonnull */ returnString('_Nonnull '),
     /* nullable */ returnString('_Nullable '),
+    /* null_unspecified */ returnString('_Null_unspecified '),
   );
 }
 

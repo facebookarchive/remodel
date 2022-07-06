@@ -140,6 +140,7 @@ function toPropertyModifierString(modifier: ObjC.PropertyModifier): string {
     returnString('nonatomic'),
     returnString('nonnull'),
     returnString('nullable'),
+    returnString('null_unspecified'),
     returnString('readonly'),
     returnString('readwrite'),
     (selector) => `setter=${selector}`,
@@ -228,6 +229,7 @@ function toKeywordArgumentModifierString(
   return argumentModifier.match(
     returnString('nonnull'),
     returnString('nullable'),
+    returnString('null_unspecified'),
     returnString('NS_NOESCAPE'),
     returnString('__unsafe_unretained'),
   );
@@ -679,6 +681,7 @@ function toNullabilityModifierStringNestingSubsequentToken(
     returnString(''),
     returnString('_Nonnull '),
     returnString('_Nullable '),
+    returnString('_Null_unspecified '),
   );
 }
 

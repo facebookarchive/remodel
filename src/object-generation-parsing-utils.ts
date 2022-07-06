@@ -69,6 +69,8 @@ export function nullabilityFromParseResultAnnotations(annotations: {
     return CLangCommon.Nullability.Nonnull();
   } else if (annotations['nullable'] !== undefined) {
     return CLangCommon.Nullability.Nullable();
+  } else if (annotations['null-unspecified'] !== undefined) {
+    return CLangCommon.Nullability.NullUnspecified();
   } else {
     return CLangCommon.Nullability.Inherited();
   }

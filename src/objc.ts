@@ -66,6 +66,7 @@ export interface Import {
 enum KeywordArgumentModifierType {
   nonnull,
   nullable,
+  null_unspecified,
   noescape,
   unsafe_unretained,
 }
@@ -84,6 +85,12 @@ export class KeywordArgumentModifier {
     return new KeywordArgumentModifier(KeywordArgumentModifierType.nullable);
   }
 
+  static NullUnspecified() {
+    return new KeywordArgumentModifier(
+      KeywordArgumentModifierType.null_unspecified,
+    );
+  }
+
   static Noescape() {
     return new KeywordArgumentModifier(KeywordArgumentModifierType.noescape);
   }
@@ -97,6 +104,7 @@ export class KeywordArgumentModifier {
   match<T>(
     nonnull: () => T,
     nullable: () => T,
+    null_unspecified: () => T,
     noescape: () => T,
     unsafe_unretained: () => T,
   ) {
@@ -105,6 +113,8 @@ export class KeywordArgumentModifier {
         return nonnull();
       case KeywordArgumentModifierType.nullable:
         return nullable();
+      case KeywordArgumentModifierType.null_unspecified:
+        return null_unspecified();
       case KeywordArgumentModifierType.noescape:
         return noescape();
       case KeywordArgumentModifierType.unsafe_unretained:
@@ -282,6 +292,7 @@ enum PropertyModifierType {
   nonnull,
   nonatomic,
   nullable,
+  null_unspecified,
   readonly,
   readwrite,
   setter,
@@ -322,6 +333,10 @@ export class PropertyModifier {
     return new PropertyModifier(PropertyModifierType.nullable, null);
   }
 
+  static NullUnspecified() {
+    return new PropertyModifier(PropertyModifierType.null_unspecified, null);
+  }
+
   static Readonly() {
     return new PropertyModifier(PropertyModifierType.readonly, null);
   }
@@ -353,6 +368,7 @@ export class PropertyModifier {
     nonatomic: () => T,
     nonnull: () => T,
     nullable: () => T,
+    null_unspecified: () => T,
     readonly: () => T,
     readwrite: () => T,
     setter: (selector) => T,
@@ -373,6 +389,8 @@ export class PropertyModifier {
         return nonnull();
       case PropertyModifierType.nullable:
         return nullable();
+      case PropertyModifierType.null_unspecified:
+        return null_unspecified();
       case PropertyModifierType.readonly:
         return readonly();
       case PropertyModifierType.readwrite:

@@ -130,7 +130,7 @@ function* protocolForwardDeclarations(
   conformingProtocol: string | null,
   referencedGenericTypes: ObjC.ReferencedGenericType[],
 ): Generator<ObjC.ForwardDeclaration> {
-  if (conformingProtocol != null) {
+  if (conformingProtocol != null && !isSystemType(conformingProtocol)) {
     yield ObjC.ForwardDeclaration.ForwardProtocolDeclaration(
       conformingProtocol,
     );

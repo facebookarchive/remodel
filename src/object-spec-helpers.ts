@@ -66,7 +66,7 @@ export class AttributeTypeBuilder implements ObjectSpec.AttributeType {
   name: string;
   reference: string;
   underlyingType: string | null;
-  conformingProtocol: string | null;
+  conformingProtocols: string[];
   referencedGenericTypes: ObjC.ReferencedGenericType[];
 
   constructor(name: string, reference: string, underlyingType: string | null) {
@@ -75,7 +75,7 @@ export class AttributeTypeBuilder implements ObjectSpec.AttributeType {
     this.name = name;
     this.reference = reference;
     this.underlyingType = underlyingType;
-    this.conformingProtocol = null;
+    this.conformingProtocols = [];
     this.referencedGenericTypes = [];
   }
 
@@ -89,8 +89,8 @@ export class AttributeTypeBuilder implements ObjectSpec.AttributeType {
     return this;
   }
 
-  withConformingProtocol(protocol: string | null): AttributeTypeBuilder {
-    this.conformingProtocol = protocol;
+  withConformingProtocols(protocols: string[]): AttributeTypeBuilder {
+    this.conformingProtocols = protocols;
     return this;
   }
 
@@ -111,7 +111,7 @@ export class AttributeTypeBuilder implements ObjectSpec.AttributeType {
       name: this.name,
       reference: this.reference,
       underlyingType: this.underlyingType,
-      conformingProtocol: this.conformingProtocol,
+      conformingProtocols: this.conformingProtocols,
       referencedGenericTypes: this.referencedGenericTypes,
     };
   }

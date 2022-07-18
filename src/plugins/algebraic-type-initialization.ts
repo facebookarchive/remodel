@@ -418,7 +418,7 @@ export function createAlgebraicTypePlugin(): AlgebraicType.Plugin {
           ObjCImportUtils.forwardDeclarationsForAttributeType(
             a.type.name,
             a.type.underlyingType,
-            a.type.conformingProtocol,
+            a.type.conformingProtocols,
             a.type.referencedGenericTypes,
             algebraicType.typeLookups,
           ),

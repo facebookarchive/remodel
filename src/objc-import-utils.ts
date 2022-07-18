@@ -127,17 +127,20 @@ function typeDefinitionImportForKnownSystemType(
 }
 
 function* protocolForwardDeclarations(
-  conformingProtocol: string | null,
+  conformingProtocols: string[],
   referencedGenericTypes: ObjC.ReferencedGenericType[],
 ): Generator<ObjC.ForwardDeclaration> {
-  if (conformingProtocol != null && !isSystemType(conformingProtocol)) {
-    yield ObjC.ForwardDeclaration.ForwardProtocolDeclaration(
-      conformingProtocol,
-    );
+  for (const conformingProtocol of conformingProtocols) {
+    if (!isSystemType(conformingProtocol)) {
+      yield ObjC.ForwardDeclaration.ForwardProtocolDeclaration(
+        conformingProtocol,
+      );
+    }
   }
+
   for (const t of referencedGenericTypes) {
     yield* protocolForwardDeclarations(
-      t.conformingProtocol,
+      t.conformingProtocols,
       t.referencedGenericTypes,
     );
   }
@@ -165,14 +168,15 @@ function* classForwardDeclarations(
 export function forwardDeclarationsForAttributeType(
   typeName: string,
   underlyingType: string | null,
-  conformingProtocol: string | null,
+  conformingProtocols: string[],
   referencedGenericTypes: ObjC.ReferencedGenericType[],
   typeLookups: ObjectGeneration.TypeLookup[],
 ): ObjC.ForwardDeclaration[] {
   const forwardDeclarations: ObjC.ForwardDeclaration[] = [
     // Protocols are always forward declared.
-    ...protocolForwardDeclarations(conformingProtocol, referencedGenericTypes),
+    ...protocolForwardDeclarations(conformingProtocols, referencedGenericTypes),
   ];
+
   // We can only forward-declare classes that we assume to be NSObjects:
   if (underlyingType === 'NSObject') {
     forwardDeclarations.push(
@@ -202,10 +206,30 @@ export enum ObjectImportMode {
   none,
 }
 
+function* protocolImports(
+  conformingProtocol: string,
+  objectLibrary: string | null,
+  typeLookups: ObjectGeneration.TypeLookup[],
+  importMode: ObjectImportMode,
+) {
+  // Protocols are imported only when there is a matching type lookup.
+  // Otherwise, they are forward declared only.
+  const lookup = typeLookups.find((t) => t.name === conformingProtocol);
+  if (lookup != null) {
+    yield {
+      library: lookup?.library ?? objectLibrary,
+      file: `${lookup?.file ?? conformingProtocol}.h`,
+      isPublic:
+        lookup?.canForwardDeclare === false ||
+        importMode === ObjectImportMode.public,
+      requiresCPlusPlus: false,
+    };
+  }
+}
 function* classImports(
   typeName: string,
   underlyingType: string | null,
-  conformingProtocol: string | null,
+  conformingProtocols: string[],
   referencedGenericTypes: ObjC.ReferencedGenericType[],
   libraryTypeIsDefinedIn: string | null,
   fileTypeIsDefinedIn: string | null,
@@ -213,19 +237,9 @@ function* classImports(
   importMode: ObjectImportMode,
   typeLookups: ObjectGeneration.TypeLookup[],
 ): Generator<ObjC.Import> {
-  // Protocols are imported only when there is a matching type lookup.
-  // Otherwise, they are forward declared only.
-  if (conformingProtocol != null && importMode != ObjectImportMode.none) {
-    const lookup = typeLookups.find((t) => t.name === conformingProtocol);
-    if (lookup != null) {
-      yield {
-        library: lookup?.library ?? objectLibrary,
-        file: `${lookup?.file ?? conformingProtocol}.h`,
-        isPublic:
-          lookup?.canForwardDeclare === false ||
-          importMode === ObjectImportMode.public,
-        requiresCPlusPlus: false,
-      };
+  if (importMode != ObjectImportMode.none) {
+    for (const p of conformingProtocols) {
+      yield* protocolImports(p, objectLibrary, typeLookups, importMode);
     }
   }
 
@@ -260,7 +274,7 @@ function* classImports(
     yield* classImports(
       t.name,
       'NSObject', // Referenced generic types are always assumed to be NSObjects.
-      t.conformingProtocol,
+      t.conformingProtocols,
       t.referencedGenericTypes,
       // libraryTypeIsDefinedIn and fileTypeIsDefinedIn come from deprecated
       // annotations that cannot be placed on referenced generic types.
@@ -281,7 +295,7 @@ function* classImports(
 export function importsForAttributeType(
   typeName: string,
   underlyingType: string | null,
-  conformingProtocol: string | null,
+  conformingProtocols: string[],
   referencedGenericTypes: ObjC.ReferencedGenericType[],
   libraryTypeIsDefinedIn: string | null,
   fileTypeIsDefinedIn: string | null,
@@ -293,7 +307,7 @@ export function importsForAttributeType(
     ...classImports(
       typeName,
       underlyingType,
-      conformingProtocol,
+      conformingProtocols,
       referencedGenericTypes,
       libraryTypeIsDefinedIn,
       fileTypeIsDefinedIn,

@@ -392,6 +392,121 @@ Feature: Outputting Value Objects With Forward Declarations
       #pragma clang diagnostic pop
 
       """
+  Scenario: Generating forward declarations for types conforming to multiple protocols
+    Given a file named "project/values/RMPage.value" with:
+      """
+      RMPage includes(UseForwardDeclarations) {
+        UIViewController<ProtocolA, ProtocolB> *helloViewController
+        HelloClass *helloObj
+        NSArray<RMSomeType *>* users
+      }
+      """
+    And a file named "project/.valueObjectConfig" with:
+      """
+      { }
+      """
+    When I run `../../bin/generate project`
+    Then the file "project/values/RMPage.h" should contain:
+      """
+      /**
+       * This file is generated using the remodel generation script.
+       * The name of the input file is RMPage.value
+       */
+
+      #import <Foundation/Foundation.h>
+
+      @protocol ProtocolA;
+      @protocol ProtocolB;
+      @class UIViewController;
+      @class HelloClass;
+      @class RMSomeType;
+
+      @interface RMPage : NSObject <NSCopying>
+
+      @property (nonatomic, readonly, copy) UIViewController<ProtocolA, ProtocolB> *helloViewController;
+      @property (nonatomic, readonly, copy) HelloClass *helloObj;
+      @property (nonatomic, readonly, copy) NSArray<RMSomeType *> *users;
+
+      + (instancetype)new NS_UNAVAILABLE;
+
+      - (instancetype)init NS_UNAVAILABLE;
+
+      - (instancetype)initWithHelloViewController:(UIViewController<ProtocolA, ProtocolB> *)helloViewController helloObj:(HelloClass *)helloObj users:(NSArray<RMSomeType *> *)users NS_DESIGNATED_INITIALIZER;
+
+      @end
+      """
+   And the file "project/values/RMPage.m" should contain:
+      """
+      /**
+       * This file is generated using the remodel generation script.
+       * The name of the input file is RMPage.value
+       */
+
+      #if  ! __has_feature(objc_arc)
+      #error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).
+      #endif
+
+      #import "RMPage.h"
+      #import "UIViewController.h"
+      #import "HelloClass.h"
+      #import "RMSomeType.h"
+
+      @implementation RMPage
+
+      - (instancetype)initWithHelloViewController:(UIViewController<ProtocolA, ProtocolB> *)helloViewController helloObj:(HelloClass *)helloObj users:(NSArray<RMSomeType *> *)users
+      {
+        if ((self = [super init])) {
+          _helloViewController = [helloViewController copy];
+          _helloObj = [helloObj copy];
+          _users = [users copy];
+        }
+
+        return self;
+      }
+
+      - (id)copyWithZone:(nullable NSZone *)zone
+      {
+        return self;
+      }
+
+      - (NSString *)description
+      {
+        return [NSString stringWithFormat:@"%@ - \n\t helloViewController: %@; \n\t helloObj: %@; \n\t users: %@; \n", [super description], _helloViewController, _helloObj, _users];
+      }
+
+      - (NSUInteger)hash
+      {
+        NSUInteger subhashes[] = {[_helloViewController hash], [_helloObj hash], [_users hash]};
+        NSUInteger result = subhashes[0];
+        for (int ii = 1; ii < 3; ++ii) {
+          unsigned long long base = (((unsigned long long)result) << 32 | subhashes[ii]);
+          base = (~base) + (base << 18);
+          base ^= (base >> 31);
+          base *=  21;
+          base ^= (base >> 11);
+          base += (base << 6);
+          base ^= (base >> 22);
+          result = base;
+        }
+        return result;
+      }
+
+      - (BOOL)isEqual:(RMPage *)object
+      {
+        if (self == object) {
+          return YES;
+        } else if (object == nil || ![object isKindOfClass:[self class]]) {
+          return NO;
+        }
+        return
+          (_helloViewController == object->_helloViewController ? YES : [_helloViewController isEqual:object->_helloViewController]) &&
+          (_helloObj == object->_helloObj ? YES : [_helloObj isEqual:object->_helloObj]) &&
+          (_users == object->_users ? YES : [_users isEqual:object->_users]);
+      }
+
+      @end
+
+      """
   @announce
   Scenario: Generating Files with SkipImportsInImplementation results in no additional imports
     Given a file named "project/values/RMPage.value" with:

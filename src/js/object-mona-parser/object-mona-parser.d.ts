@@ -57,13 +57,13 @@ export interface ParsedAttributeType {
   name: string;
   reference: string;
   underlyingType: string;
-  conformingProtocol: string;
+  conformingProtocols: string[];
   referencedGenericTypes: ParsedReferencedGenericType[];
 }
 
 export interface ParsedReferencedGenericType {
   name: string;
-  conformingProtocol: string;
+  conformingProtocols: string[];
   referencedGenericTypes: ParsedReferencedGenericType[];
 }
 

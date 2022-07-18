@@ -227,7 +227,7 @@ describe('ObjectSpecParser', function () {
         '  NSEvolvedDictionary<BOOL, NSFoo *, NSBar *, NSInteger> *multiple\n' +
         '  NSArray<NSDictionary<NSArray<NSString *>, NSString *> *> *nested\n' +
         '  NSDictionary<id<FooProtocol>, NSArray<id<BarProtocol>> *> *protocols\n' +
-        '  CKAction<NSDictionary<NSArray<NSString *> *, id<FooProtocol>> *> ckAction\n' +
+        '  CKAction<NSDictionary<NSArray<NSString *> *, id<FooProtocol, BarProtocol>> *> ckAction\n' +
         '}';
       const actualResult: Either.Either<Error.Error[], ObjectSpec.Type> =
         ObjectSpecParser.parse(valueFileContents);
@@ -251,22 +251,22 @@ describe('ObjectSpecParser', function () {
             ).withReferencedGenericTypes([
               {
                 name: 'BOOL',
-                conformingProtocol: null,
+                conformingProtocols: [],
                 referencedGenericTypes: [],
               },
               {
                 name: 'NSFoo',
-                conformingProtocol: null,
+                conformingProtocols: [],
                 referencedGenericTypes: [],
               },
               {
                 name: 'NSBar',
-                conformingProtocol: null,
+                conformingProtocols: [],
                 referencedGenericTypes: [],
               },
               {
                 name: 'NSInteger',
-                conformingProtocol: null,
+                conformingProtocols: [],
                 referencedGenericTypes: [],
               },
             ]),
@@ -280,22 +280,22 @@ describe('ObjectSpecParser', function () {
             ).withReferencedGenericTypes([
               {
                 name: 'NSDictionary',
-                conformingProtocol: null,
+                conformingProtocols: [],
                 referencedGenericTypes: [
                   {
                     name: 'NSArray',
-                    conformingProtocol: null,
+                    conformingProtocols: [],
                     referencedGenericTypes: [
                       {
                         name: 'NSString',
-                        conformingProtocol: null,
+                        conformingProtocols: [],
                         referencedGenericTypes: [],
                       },
                     ],
                   },
                   {
                     name: 'NSString',
-                    conformingProtocol: null,
+                    conformingProtocols: [],
                     referencedGenericTypes: [],
                   },
                 ],
@@ -311,16 +311,16 @@ describe('ObjectSpecParser', function () {
             ).withReferencedGenericTypes([
               {
                 name: 'id',
-                conformingProtocol: 'FooProtocol',
+                conformingProtocols: ['FooProtocol'],
                 referencedGenericTypes: [],
               },
               {
                 name: 'NSArray',
-                conformingProtocol: null,
+                conformingProtocols: [],
                 referencedGenericTypes: [
                   {
                     name: 'id',
-                    conformingProtocol: 'BarProtocol',
+                    conformingProtocols: ['BarProtocol'],
                     referencedGenericTypes: [],
                   },
                 ],
@@ -331,27 +331,27 @@ describe('ObjectSpecParser', function () {
             'ckAction',
             new ObjectSpecHelpers.AttributeTypeBuilder(
               'CKAction',
-              'CKAction<NSDictionary<NSArray<NSString *> *, id<FooProtocol>> *>',
+              'CKAction<NSDictionary<NSArray<NSString *> *, id<FooProtocol, BarProtocol>> *>',
               'NSObject',
             ).withReferencedGenericTypes([
               {
                 name: 'NSDictionary',
-                conformingProtocol: null,
+                conformingProtocols: [],
                 referencedGenericTypes: [
                   {
                     name: 'NSArray',
-                    conformingProtocol: null,
+                    conformingProtocols: [],
                     referencedGenericTypes: [
                       {
                         name: 'NSString',
-                        conformingProtocol: null,
+                        conformingProtocols: [],
                         referencedGenericTypes: [],
                       },
                     ],
                   },
                   {
                     name: 'id',
-                    conformingProtocol: 'FooProtocol',
+                    conformingProtocols: ['FooProtocol', 'BarProtocol'],
                     referencedGenericTypes: [],
                   },
                 ],

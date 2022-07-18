@@ -597,7 +597,7 @@ export interface BaseClass {
 
 export interface ReferencedGenericType {
   name: string;
-  conformingProtocol: string | null;
+  conformingProtocols: string[];
   referencedGenericTypes: ReferencedGenericType[];
 }
 

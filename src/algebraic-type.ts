@@ -32,7 +32,7 @@ export interface NamedAttributeCollectionSubtype {
 export class Subtype {
   private definitionType: SubtypeDefinitionType;
   private singleAttribute?: SubtypeAttribute;
-  private attributeCollectionSubtype?: NamedAttributeCollectionSubtype;
+  attributeCollectionSubtype?: NamedAttributeCollectionSubtype;
 
   constructor(
     definitionType: SubtypeDefinitionType,

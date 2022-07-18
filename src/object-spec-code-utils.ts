@@ -173,15 +173,11 @@ export function propertyOwnershipModifierForAttribute(
   return ObjCTypeUtils.matchType(
     {
       id: function () {
-        return Maybe.match(
-          function (protocol) {
-            return ObjC.PropertyModifier.Assign();
-          },
-          function () {
-            return propertyModifierForCopyable(supportsValueSemantics);
-          },
-          attribute.type.conformingProtocol,
-        );
+        if (attribute.type.conformingProtocols.length != 0) {
+          return ObjC.PropertyModifier.Assign();
+        } else {
+          return propertyModifierForCopyable(supportsValueSemantics);
+        }
       },
       NSObject: function () {
         return propertyModifierForCopyable(supportsValueSemantics);

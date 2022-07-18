@@ -55,10 +55,7 @@ function foundAttributeTypeFromParsedAttributeType(
     name: type.name,
     reference: type.reference,
     underlyingType: underlyingTypeForType(type.underlyingType, type.reference),
-    conformingProtocol:
-      ObjectGenerationParsingUtils.possiblyUndefinedStringToMaybe(
-        type.conformingProtocol,
-      ),
+    conformingProtocols: type.conformingProtocols,
     referencedGenericTypes: type.referencedGenericTypes.map(
       referencedGenericTypeFromParsedAttributeType,
     ),
@@ -74,10 +71,7 @@ function referencedGenericTypeFromParsedAttributeType(
 ): ObjC.ReferencedGenericType {
   return {
     name: type.name,
-    conformingProtocol:
-      ObjectGenerationParsingUtils.possiblyUndefinedStringToMaybe(
-        type.conformingProtocol,
-      ),
+    conformingProtocols: type.conformingProtocols,
     referencedGenericTypes: type.referencedGenericTypes.map(
       referencedGenericTypeFromParsedAttributeType,
     ),

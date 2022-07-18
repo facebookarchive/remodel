@@ -283,7 +283,6 @@ describe('Plugins.ImmutableProperties', function () {
             },
           },
         ];
-
         expect(actualMethods).toEqualJSON(expectedMethods);
       },
     );
@@ -501,7 +500,7 @@ describe('Plugins.ImmutableProperties', function () {
             ).withReferencedGenericTypes([
               {
                 name: 'Scumbag',
-                conformingProtocol: null,
+                conformingProtocols: [],
                 referencedGenericTypes: [],
               },
             ]),
@@ -1768,7 +1767,7 @@ describe('Plugins.ImmutableProperties', function () {
                 'Foo',
                 'Foo *',
                 'NSObject',
-              ).withConformingProtocol('Bar'),
+              ).withConformingProtocols(['Bar']),
             ).asObject(),
           ],
           comments: [],
@@ -1801,12 +1800,12 @@ describe('Plugins.ImmutableProperties', function () {
             ).withReferencedGenericTypes([
               {
                 name: 'Foo',
-                conformingProtocol: 'Bar',
+                conformingProtocols: ['Bar'],
                 referencedGenericTypes: [],
               },
               {
                 name: 'id',
-                conformingProtocol: 'Baz',
+                conformingProtocols: ['Baz'],
                 referencedGenericTypes: [],
               },
             ]),

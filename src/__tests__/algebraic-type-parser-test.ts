@@ -44,7 +44,7 @@ describe('AlgebraicTypeParser', function () {
                   fileTypeIsDefinedIn: null,
                   libraryTypeIsDefinedIn: null,
                   underlyingType: null,
-                  conformingProtocol: null,
+                  conformingProtocols: [],
                   referencedGenericTypes: [],
                   reference: 'uint64_t',
                   name: 'uint64_t',
@@ -84,7 +84,7 @@ describe('AlgebraicTypeParser', function () {
               fileTypeIsDefinedIn: null,
               libraryTypeIsDefinedIn: null,
               underlyingType: 'NSObject',
-              conformingProtocol: null,
+              conformingProtocols: [],
               referencedGenericTypes: [],
               reference: 'RMObject*',
               name: 'RMObject',
@@ -151,7 +151,7 @@ describe('AlgebraicTypeParser', function () {
               fileTypeIsDefinedIn: 'RMSomeOtherFile',
               libraryTypeIsDefinedIn: 'RMCustomLibrary',
               underlyingType: 'NSObject',
-              conformingProtocol: null,
+              conformingProtocols: [],
               referencedGenericTypes: [],
               reference: 'RMObject*',
               name: 'RMObject',
@@ -223,7 +223,7 @@ describe('AlgebraicTypeParser', function () {
                     name: 'RMBlah',
                     reference: 'RMBlah*',
                     underlyingType: 'NSObject',
-                    conformingProtocol: null,
+                    conformingProtocols: [],
                     referencedGenericTypes: [],
                   },
                 },
@@ -238,7 +238,7 @@ describe('AlgebraicTypeParser', function () {
                     name: 'RMSomeValue',
                     reference: 'RMSomeValue',
                     underlyingType: 'BOOL',
-                    conformingProtocol: null,
+                    conformingProtocols: [],
                     referencedGenericTypes: [],
                   },
                 },
@@ -293,7 +293,7 @@ describe('AlgebraicTypeParser', function () {
                   name: 'RMBlah',
                   reference: 'RMBlah*',
                   underlyingType: 'NSObject',
-                  conformingProtocol: null,
+                  conformingProtocols: [],
                   referencedGenericTypes: [],
                 },
               },
@@ -314,7 +314,7 @@ describe('AlgebraicTypeParser', function () {
                   name: 'RMBlah',
                   reference: 'RMBlah*',
                   underlyingType: 'NSObject',
-                  conformingProtocol: null,
+                  conformingProtocols: [],
                   referencedGenericTypes: [],
                 },
               },
@@ -336,6 +336,7 @@ describe('AlgebraicTypeParser', function () {
         '    NSArray<NSDictionary<NSArray<NSString *>, NSString *> *> *nested\n' +
         '    NSDictionary<id<FooProtocol>, NSArray<id<BarProtocol>> *> *protocols\n' +
         '    CKAction<NSDictionary<NSArray<NSString *> *, id<FooProtocol>> *> ckAction\n' +
+        '    NSDictionary<id<FooProtocol,  BarProtocol>, NSArray<id<BarProtocol>> *> *multipleProtocols\n' +
         '  }\n' +
         '}';
       const actualResult: Either.Either<Error.Error[], AlgebraicType.Type> =
@@ -365,26 +366,26 @@ describe('AlgebraicTypeParser', function () {
                   reference:
                     'NSEvolvedDictionary<BOOL, NSFoo *, NSBar *, NSInteger>*',
                   underlyingType: 'NSObject',
-                  conformingProtocol: null,
+                  conformingProtocols: [],
                   referencedGenericTypes: [
                     {
                       name: 'BOOL',
-                      conformingProtocol: null,
+                      conformingProtocols: [],
                       referencedGenericTypes: [],
                     },
                     {
                       name: 'NSFoo',
-                      conformingProtocol: null,
+                      conformingProtocols: [],
                       referencedGenericTypes: [],
                     },
                     {
                       name: 'NSBar',
-                      conformingProtocol: null,
+                      conformingProtocols: [],
                       referencedGenericTypes: [],
                     },
                     {
                       name: 'NSInteger',
-                      conformingProtocol: null,
+                      conformingProtocols: [],
                       referencedGenericTypes: [],
                     },
                   ],
@@ -402,26 +403,26 @@ describe('AlgebraicTypeParser', function () {
                   reference:
                     'NSArray<NSDictionary<NSArray<NSString *>, NSString *> *>*',
                   underlyingType: 'NSObject',
-                  conformingProtocol: null,
+                  conformingProtocols: [],
                   referencedGenericTypes: [
                     {
                       name: 'NSDictionary',
-                      conformingProtocol: null,
+                      conformingProtocols: [],
                       referencedGenericTypes: [
                         {
                           name: 'NSArray',
-                          conformingProtocol: null,
+                          conformingProtocols: [],
                           referencedGenericTypes: [
                             {
                               name: 'NSString',
-                              conformingProtocol: null,
+                              conformingProtocols: [],
                               referencedGenericTypes: [],
                             },
                           ],
                         },
                         {
                           name: 'NSString',
-                          conformingProtocol: null,
+                          conformingProtocols: [],
                           referencedGenericTypes: [],
                         },
                       ],
@@ -441,20 +442,20 @@ describe('AlgebraicTypeParser', function () {
                   reference:
                     'NSDictionary<id<FooProtocol>, NSArray<id<BarProtocol>> *>*',
                   underlyingType: 'NSObject',
-                  conformingProtocol: null,
+                  conformingProtocols: [],
                   referencedGenericTypes: [
                     {
                       name: 'id',
-                      conformingProtocol: 'FooProtocol',
+                      conformingProtocols: ['FooProtocol'],
                       referencedGenericTypes: [],
                     },
                     {
                       name: 'NSArray',
-                      conformingProtocol: null,
+                      conformingProtocols: [],
                       referencedGenericTypes: [
                         {
                           name: 'id',
-                          conformingProtocol: 'BarProtocol',
+                          conformingProtocols: ['BarProtocol'],
                           referencedGenericTypes: [],
                         },
                       ],
@@ -474,26 +475,59 @@ describe('AlgebraicTypeParser', function () {
                   reference:
                     'CKAction<NSDictionary<NSArray<NSString *> *, id<FooProtocol>> *>',
                   underlyingType: 'NSObject',
-                  conformingProtocol: null,
+                  conformingProtocols: [],
                   referencedGenericTypes: [
                     {
                       name: 'NSDictionary',
-                      conformingProtocol: null,
+                      conformingProtocols: [],
                       referencedGenericTypes: [
                         {
                           name: 'NSArray',
-                          conformingProtocol: null,
+                          conformingProtocols: [],
                           referencedGenericTypes: [
                             {
                               name: 'NSString',
-                              conformingProtocol: null,
+                              conformingProtocols: [],
                               referencedGenericTypes: [],
                             },
                           ],
                         },
                         {
                           name: 'id',
-                          conformingProtocol: 'FooProtocol',
+                          conformingProtocols: ['FooProtocol'],
+                          referencedGenericTypes: [],
+                        },
+                      ],
+                    },
+                  ],
+                },
+              },
+              {
+                annotations: {},
+                comments: [],
+                name: 'multipleProtocols',
+                nullability: CLangCommon.Nullability.Inherited(),
+                type: {
+                  fileTypeIsDefinedIn: null,
+                  libraryTypeIsDefinedIn: null,
+                  name: 'NSDictionary',
+                  reference:
+                    'NSDictionary<id<FooProtocol, BarProtocol>, NSArray<id<BarProtocol>> *>*',
+                  underlyingType: 'NSObject',
+                  conformingProtocols: [],
+                  referencedGenericTypes: [
+                    {
+                      name: 'id',
+                      conformingProtocols: ['FooProtocol', 'BarProtocol'],
+                      referencedGenericTypes: [],
+                    },
+                    {
+                      name: 'NSArray',
+                      conformingProtocols: [],
+                      referencedGenericTypes: [
+                        {
+                          name: 'id',
+                          conformingProtocols: ['BarProtocol'],
                           referencedGenericTypes: [],
                         },
                       ],
@@ -566,7 +600,7 @@ describe('AlgebraicTypeParser', function () {
                   name: 'NSString',
                   reference: 'NSString*',
                   underlyingType: 'NSObject',
-                  conformingProtocol: null,
+                  conformingProtocols: [],
                   referencedGenericTypes: [],
                 },
                 nullability: CLangCommon.Nullability.Inherited(),

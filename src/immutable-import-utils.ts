@@ -27,7 +27,7 @@ export function forwardClassDeclarationsForObjectType(
       ObjCImportUtils.forwardDeclarationsForAttributeType(
         a.type.name,
         a.type.underlyingType,
-        a.type.conformingProtocol,
+        a.type.conformingProtocols,
         a.type.referencedGenericTypes,
         objectType.typeLookups,
       ),
@@ -62,7 +62,7 @@ export function importsForObjectType(
       ObjCImportUtils.importsForAttributeType(
         a.type.name,
         a.type.underlyingType,
-        a.type.conformingProtocol,
+        a.type.conformingProtocols,
         a.type.referencedGenericTypes,
         a.type.libraryTypeIsDefinedIn,
         a.type.fileTypeIsDefinedIn,

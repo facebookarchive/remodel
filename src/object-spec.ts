@@ -19,7 +19,7 @@ export interface AttributeType {
   name: string;
   reference: string;
   underlyingType: string | null;
-  conformingProtocol: string | null;
+  conformingProtocols: string[];
   referencedGenericTypes: ObjC.ReferencedGenericType[];
 }
 

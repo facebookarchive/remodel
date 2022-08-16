@@ -29,25 +29,16 @@ function matchBlockNameForSubtype(subtype: AlgebraicType.Subtype): string {
   );
 }
 
-function matcherFunctionBlockTypeForAttribute(
-  attribute: AlgebraicType.SubtypeAttribute,
-): string {
-  return (
-    ObjCRenderer.renderableTypeReferenceNestingSubsequentToken(
-      attribute.type.reference,
-    ) + attribute.name
-  );
-}
-
 function matcherFunctionParameterValueForSubtype(
   subtype: AlgebraicType.Subtype,
+  blockType: ObjC.BlockType,
 ): string {
   return (
     'T(^' +
     matchBlockNameForSubtype(subtype) +
     ')(' +
-    AlgebraicTypeUtils.attributesFromSubtype(subtype)
-      .map(matcherFunctionBlockTypeForAttribute)
+    blockType.parameters
+      .map((param) => ObjCRenderer.toBlockTypeParameterString(param))
       .join(', ') +
     ')'
   );
@@ -78,9 +69,19 @@ function blockInvocationWrapper(blockInvocation: string): string {
 function matcherFunctionCodeForAlgebraicType(
   algebraicType: AlgebraicType.Type,
 ): string[] {
+  const subtypesWithBlockTypes: Array<[AlgebraicType.Subtype, ObjC.BlockType]> =
+    algebraicType.subtypes.map((subtype) => [
+      subtype,
+      AlgebraicTypeUtils.blockTypeForSubtype(algebraicType, null, subtype),
+    ]);
+
   const matchParams = [
     matcherFunctionParameterForAlgebraicType(algebraicType),
-  ].concat(algebraicType.subtypes.map(matcherFunctionParameterValueForSubtype));
+  ].concat(
+    subtypesWithBlockTypes.map(([subtype, blockType]) =>
+      matcherFunctionParameterValueForSubtype(subtype, blockType),
+    ),
+  );
   const functionDeclaration: string =
     'static T match(' + matchParams.join(', ') + ') {';
   const matcherFunctionParameterName: string =
@@ -92,12 +93,6 @@ function matcherFunctionCodeForAlgebraicType(
     matcherFunctionParameterName +
     ' is nil");';
   const resultDeclaration: string = '__block std::unique_ptr<T> result;';
-
-  const subtypesWithBlockTypes: Array<[AlgebraicType.Subtype, ObjC.BlockType]> =
-    algebraicType.subtypes.map((subtype) => [
-      subtype,
-      AlgebraicTypeUtils.blockTypeForSubtype(algebraicType, null, subtype),
-    ]);
 
   const blockCode: string[] = subtypesWithBlockTypes.flatMap(
     ([subtype, blockType]) =>
@@ -137,8 +132,15 @@ function matcherFunctionCodeForAlgebraicType(
 function matcherFunctionShimCodeForAlgebraicType(
   algebraicType: AlgebraicType.Type,
 ): string[] {
-  const matchParams = algebraicType.subtypes
-    .map(matcherFunctionParameterValueForSubtype)
+  const subtypesWithBlockTypes: Array<[AlgebraicType.Subtype, ObjC.BlockType]> =
+    algebraicType.subtypes.map((subtype) => [
+      subtype,
+      AlgebraicTypeUtils.blockTypeForSubtype(algebraicType, null, subtype),
+    ]);
+  const matchParams = subtypesWithBlockTypes
+    .map(([subtype, blockType]) =>
+      matcherFunctionParameterValueForSubtype(subtype, blockType),
+    )
     .concat(matcherFunctionParameterForAlgebraicType(algebraicType));
   const functionDeclaration: string =
     'static T match(' + matchParams.join(', ') + ') {';

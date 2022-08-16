@@ -93,12 +93,19 @@ function matcherFunctionCodeForAlgebraicType(
     ' is nil");';
   const resultDeclaration: string = '__block std::unique_ptr<T> result;';
 
-  const blockCode: string[] = algebraicType.subtypes.flatMap((subtype) =>
-    AlgebraicTypeUtilsForMatching.buildLocalFunctionBlockDefinitionsForSubtype(
-      algebraicType,
+  const subtypesWithBlockTypes: Array<[AlgebraicType.Subtype, ObjC.BlockType]> =
+    algebraicType.subtypes.map((subtype) => [
       subtype,
-      blockInvocationWrapper,
-    ),
+      AlgebraicTypeUtils.blockTypeForSubtype(algebraicType, null, subtype),
+    ]);
+
+  const blockCode: string[] = subtypesWithBlockTypes.flatMap(
+    ([subtype, blockType]) =>
+      AlgebraicTypeUtilsForMatching.buildLocalFunctionBlockDefinitionsForSubtype(
+        subtype,
+        blockType,
+        blockInvocationWrapper,
+      ),
   );
 
   const keywordPartsForMatchInvocation: string[] = algebraicType.subtypes.map(

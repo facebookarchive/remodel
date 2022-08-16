@@ -83,8 +83,8 @@ function genericMatchingCodeForAlgebraicType(
   const matchingBlockCode: string[] = algebraicType.subtypes.flatMap(
     (subtype) =>
       AlgebraicTypeUtilsForMatching.buildLocalFunctionBlockDefinitionsForSubtype(
-        algebraicType,
         subtype,
+        AlgebraicTypeUtils.blockTypeForSubtype(algebraicType, null, subtype),
         blockInvocationWrapper,
       ),
   );

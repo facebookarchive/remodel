@@ -101,16 +101,25 @@ export function forwardDeclarationsForAlgebraicType(
   return [];
 }
 
+/**
+ * Builds a MatchHandler local variable for a given subtype, for example:
+ *
+ * ```
+ * SimpleADTFooMatchHandler __unsafe_unretained matchFoo = ^(NSString *someValue) {
+ *   result = fooMatchHandler(firstValue, secondValue);
+ * };
+ * ```
+ *
+ * @param subtype The subtype of the ADT
+ * @param blockType The type for the block; use AlgebraicTypeUtils.blockTypeForSubtype
+ * @param blockInvocationWrapper A function used to wrap the expression with the result
+ * of invoking the match handler. Usually you want this to store to a local variable.
+ */
 export function buildLocalFunctionBlockDefinitionsForSubtype(
-  algebraicType: AlgebraicType.Type,
   subtype: AlgebraicType.Subtype,
+  blockType: ObjC.BlockType,
   blockInvocationWrapper: (blockInvocation: string) => string,
 ): string[] {
-  const blockType: ObjC.BlockType = AlgebraicTypeUtils.blockTypeForSubtype(
-    algebraicType,
-    null,
-    subtype,
-  );
   const paramList =
     blockType.parameters.length > 0
       ? blockType.parameters

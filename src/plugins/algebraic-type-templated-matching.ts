@@ -12,7 +12,6 @@ import * as CPlusPlus from '../cplusplus';
 import * as Code from '../code';
 import * as Error from '../error';
 import * as FileWriter from '../file-writer';
-import * as Maybe from '../maybe';
 import * as ObjC from '../objc';
 import * as ObjCRenderer from '../objc-renderer';
 import * as StringUtils from '../string-utils';
@@ -76,20 +75,6 @@ function blockInvocationWrapper(blockInvocation: string): string {
   return 'result = std::make_unique<T>(' + blockInvocation + ');';
 }
 
-function buildLocalFunctionBlockDefinitionsForSubtype(
-  algebraicType: AlgebraicType.Type,
-  soFar: string[],
-  subtype: AlgebraicType.Subtype,
-): string[] {
-  return soFar.concat(
-    AlgebraicTypeUtilsForMatching.buildLocalFunctionBlockDefinitionsForSubtype(
-      algebraicType,
-      subtype,
-      blockInvocationWrapper,
-    ),
-  );
-}
-
 function functionParameterProviderWithAlgebraicTypeFirst(
   algebraicType: AlgebraicType.Type,
 ): string[] {
@@ -124,27 +109,22 @@ function matcherFunctionCodeForAlgebraicType(
     ' is nil");';
   const resultDeclaration: string = '__block std::unique_ptr<T> result;';
 
-  const blockCode: string[] = algebraicType.subtypes.reduce(
-    (soFar, subtype) =>
-      buildLocalFunctionBlockDefinitionsForSubtype(
-        algebraicType,
-        soFar,
-        subtype,
-      ),
-    [],
+  const blockCode: string[] = algebraicType.subtypes.flatMap((subtype) =>
+    AlgebraicTypeUtilsForMatching.buildLocalFunctionBlockDefinitionsForSubtype(
+      algebraicType,
+      subtype,
+      blockInvocationWrapper,
+    ),
   );
 
-  const keywordPartsForMatchInvocation: string[] =
-    algebraicType.subtypes.reduce(
-      (soFar, subtype, idx) =>
-        AlgebraicTypeUtilsForMatching.buildKeywordPartsForInvokingMatchMethodForSubtype(
-          algebraicType,
-          soFar,
-          subtype,
-          idx,
-        ),
-      [],
-    );
+  const keywordPartsForMatchInvocation: string[] = algebraicType.subtypes.map(
+    (subtype, idx) =>
+      AlgebraicTypeUtilsForMatching.buildCodeForInvokingMatchMethodForSubtype(
+        algebraicType,
+        subtype,
+        idx,
+      ),
+  );
   const matchInvocationCode: string =
     '[' +
     matcherFunctionParameterName +

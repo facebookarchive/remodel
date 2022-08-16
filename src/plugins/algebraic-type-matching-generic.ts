@@ -75,46 +75,28 @@ function blockInvocationWrapper(blockInvocation: string): string {
   return 'result = ' + blockInvocation + ';';
 }
 
-function buildLocalFunctionBlockDefinitionsForSubtype(
-  algebraicType: AlgebraicType.Type,
-  soFar: string[],
-  subtype: AlgebraicType.Subtype,
-): string[] {
-  return soFar.concat(
-    AlgebraicTypeUtilsForMatching.buildLocalFunctionBlockDefinitionsForSubtype(
-      algebraicType,
-      subtype,
-      blockInvocationWrapper,
-    ),
-  );
-}
-
 function genericMatchingCodeForAlgebraicType(
   algebraicType: AlgebraicType.Type,
 ): string[] {
   const localVariableDeclaration: string[] = ['__block id result = nil;', ''];
 
-  const matchingBlockCode: string[] = algebraicType.subtypes.reduce(
-    (soFar, subtype) =>
-      buildLocalFunctionBlockDefinitionsForSubtype(
+  const matchingBlockCode: string[] = algebraicType.subtypes.flatMap(
+    (subtype) =>
+      AlgebraicTypeUtilsForMatching.buildLocalFunctionBlockDefinitionsForSubtype(
         algebraicType,
-        soFar,
         subtype,
+        blockInvocationWrapper,
       ),
-    [],
   );
 
-  const keywordPartsForMatchInvocation: string[] =
-    algebraicType.subtypes.reduce(
-      (soFar, subtype, idx) =>
-        AlgebraicTypeUtilsForMatching.buildKeywordPartsForInvokingMatchMethodForSubtype(
-          algebraicType,
-          soFar,
-          subtype,
-          idx,
-        ),
-      [],
-    );
+  const keywordPartsForMatchInvocation: string[] = algebraicType.subtypes.map(
+    (subtype, idx) =>
+      AlgebraicTypeUtilsForMatching.buildCodeForInvokingMatchMethodForSubtype(
+        algebraicType,
+        subtype,
+        idx,
+      ),
+  );
   const matchInvocation: string[] = [
     '[' +
       parameterNameForAlgebraicType(algebraicType) +

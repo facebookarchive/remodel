@@ -7,7 +7,6 @@
 
 import * as AlgebraicType from './algebraic-type';
 import * as AlgebraicTypeUtils from './algebraic-type-utils';
-import * as Maybe from './maybe';
 import * as ObjC from './objc';
 import * as ObjCRenderer from './objc-renderer';
 import * as StringUtils from './string-utils';
@@ -135,12 +134,11 @@ export function buildLocalFunctionBlockDefinitionsForSubtype(
   return blockCode;
 }
 
-export function buildKeywordPartsForInvokingMatchMethodForSubtype(
+export function buildCodeForInvokingMatchMethodForSubtype(
   algebraicType: AlgebraicType.Type,
-  soFar: string[],
   subtype: AlgebraicType.Subtype,
   index: number,
-): string[] {
+): string {
   const keyword: ObjC.Keyword = keywordForInvokingMatchMethodForSubtype(
     algebraicType,
     subtype,
@@ -148,5 +146,5 @@ export function buildKeywordPartsForInvokingMatchMethodForSubtype(
   );
   const code: string =
     keyword.name + ':' + localFunctionBlockDefinitionNameForSubtype(subtype);
-  return soFar.concat(code);
+  return code;
 }

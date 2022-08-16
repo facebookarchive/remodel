@@ -48,6 +48,7 @@ export interface Template {
 
 export interface Struct {
   name: string;
+  nullability: ClassNullability;
   templates: Template[];
   code: string[][];
 }

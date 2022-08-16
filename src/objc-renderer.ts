@@ -717,12 +717,13 @@ function toObjcStructContents(struct: ObjC.Struct): string {
 }
 
 function toCppStructContents(struct: CPlusPlus.Struct): string {
+  const nullability = nullabilityMacro(struct.nullability);
   const cplusplusOpen = '#ifdef __cplusplus';
   const cplusplusClose = '#endif // __cplusplus';
   const structDeclaration = 'struct ' + struct.name + ' {' + '\n';
   const endStructDeclaration = '};';
 
-  return [cplusplusOpen]
+  return [nullability?.prefix, cplusplusOpen]
     .concat(
       struct.templates
         .map(toTemplateContents)
@@ -735,7 +736,8 @@ function toCppStructContents(struct: CPlusPlus.Struct): string {
         .map(StringUtils.indent(2)),
     )
     .concat(endStructDeclaration)
-    .concat(cplusplusClose)
+    .concat(cplusplusClose, nullability?.postfix)
+    .filter((line) => line != null)
     .join('\n');
 }
 

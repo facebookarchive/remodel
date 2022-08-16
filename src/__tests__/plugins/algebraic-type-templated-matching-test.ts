@@ -133,6 +133,7 @@ describe('Plugins.AlgebraicTypeTemplatedMatching', function () {
         structs: [
           Code.Struct.ObjectiveCPlusPlusStruct({
             name: 'RMTestMatcher',
+            nullability: CPlusPlus.ClassNullability.default,
             templates: [
               {
                 templatedTypes: [

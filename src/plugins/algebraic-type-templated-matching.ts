@@ -30,11 +30,13 @@ function matchBlockNameForSubtype(subtype: AlgebraicType.Subtype): string {
 }
 
 function matcherFunctionParameterValueForSubtype(
+  algebraicType: AlgebraicType.Type,
   subtype: AlgebraicType.Subtype,
   blockType: ObjC.BlockType,
 ): string {
   return (
     'T(^' +
+    (algebraicType.includes.includes('RMAssumeNonnull') ? '_Nonnull ' : '') +
     matchBlockNameForSubtype(subtype) +
     ')(' +
     blockType.parameters
@@ -79,7 +81,11 @@ function matcherFunctionCodeForAlgebraicType(
     matcherFunctionParameterForAlgebraicType(algebraicType),
   ].concat(
     subtypesWithBlockTypes.map(([subtype, blockType]) =>
-      matcherFunctionParameterValueForSubtype(subtype, blockType),
+      matcherFunctionParameterValueForSubtype(
+        algebraicType,
+        subtype,
+        blockType,
+      ),
     ),
   );
   const functionDeclaration: string =
@@ -139,7 +145,11 @@ function matcherFunctionShimCodeForAlgebraicType(
     ]);
   const matchParams = subtypesWithBlockTypes
     .map(([subtype, blockType]) =>
-      matcherFunctionParameterValueForSubtype(subtype, blockType),
+      matcherFunctionParameterValueForSubtype(
+        algebraicType,
+        subtype,
+        blockType,
+      ),
     )
     .concat(matcherFunctionParameterForAlgebraicType(algebraicType));
   const functionDeclaration: string =
@@ -172,6 +182,9 @@ function structForMatchingAlgebraicType(
 ): Code.Struct {
   return Code.Struct.ObjectiveCPlusPlusStruct({
     name: algebraicType.name + 'Matcher',
+    nullability: algebraicType.includes.includes('RMAssumeNonnull')
+      ? CPlusPlus.ClassNullability.assumeNonnull
+      : CPlusPlus.ClassNullability.default,
     templates: [templateForMatchingAlgebraicTypeWithCode([])],
     code: [
       matcherFunctionCodeForAlgebraicType(algebraicType),

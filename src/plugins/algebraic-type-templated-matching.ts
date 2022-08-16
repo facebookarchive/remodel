@@ -75,30 +75,14 @@ function blockInvocationWrapper(blockInvocation: string): string {
   return 'result = std::make_unique<T>(' + blockInvocation + ');';
 }
 
-function functionParameterProviderWithAlgebraicTypeFirst(
-  algebraicType: AlgebraicType.Type,
-): string[] {
-  return [matcherFunctionParameterForAlgebraicType(algebraicType)].concat(
-    algebraicType.subtypes.map(matcherFunctionParameterValueForSubtype),
-  );
-}
-
-function functionParameterProviderWithAlgebraicTypeLast(
-  algebraicType: AlgebraicType.Type,
-): string[] {
-  return algebraicType.subtypes
-    .map(matcherFunctionParameterValueForSubtype)
-    .concat(matcherFunctionParameterForAlgebraicType(algebraicType));
-}
-
 function matcherFunctionCodeForAlgebraicType(
   algebraicType: AlgebraicType.Type,
-  functionParameterProvider: (algebraicType: AlgebraicType.Type) => string[],
 ): string[] {
+  const matchParams = [
+    matcherFunctionParameterForAlgebraicType(algebraicType),
+  ].concat(algebraicType.subtypes.map(matcherFunctionParameterValueForSubtype));
   const functionDeclaration: string =
-    'static T match(' +
-    functionParameterProvider(algebraicType).join(', ') +
-    ') {';
+    'static T match(' + matchParams.join(', ') + ') {';
   const matcherFunctionParameterName: string =
     matcherFunctionParameterNameForAlgebraicType(algebraicType);
   const assertionCode: string =
@@ -146,10 +130,11 @@ function matcherFunctionCodeForAlgebraicType(
 function matcherFunctionShimCodeForAlgebraicType(
   algebraicType: AlgebraicType.Type,
 ): string[] {
+  const matchParams = algebraicType.subtypes
+    .map(matcherFunctionParameterValueForSubtype)
+    .concat(matcherFunctionParameterForAlgebraicType(algebraicType));
   const functionDeclaration: string =
-    'static T match(' +
-    functionParameterProviderWithAlgebraicTypeLast(algebraicType).join(', ') +
-    ') {';
+    'static T match(' + matchParams.join(', ') + ') {';
   return [
     functionDeclaration,
     `  return match(${matcherFunctionParameterNameForAlgebraicType(
@@ -180,10 +165,7 @@ function structForMatchingAlgebraicType(
     name: algebraicType.name + 'Matcher',
     templates: [templateForMatchingAlgebraicTypeWithCode([])],
     code: [
-      matcherFunctionCodeForAlgebraicType(
-        algebraicType,
-        functionParameterProviderWithAlgebraicTypeFirst,
-      ),
+      matcherFunctionCodeForAlgebraicType(algebraicType),
       matcherFunctionShimCodeForAlgebraicType(algebraicType),
     ],
   });

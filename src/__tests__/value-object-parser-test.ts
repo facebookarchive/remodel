@@ -226,7 +226,7 @@ describe('ObjectSpecParser', function () {
         'RMSomething {\n' +
         '  NSEvolvedDictionary<BOOL, NSFoo *, NSBar *, NSInteger> *multiple\n' +
         '  NSArray<NSDictionary<NSArray<NSString *>, NSString *> *> *nested\n' +
-        '  NSDictionary<id<FooProtocol>, NSArray<id<BarProtocol>> *> *protocols\n' +
+        '  NSDictionary<id<Foo_Protocol>, NSArray<id<BarProtocol>> *> *protocols\n' +
         '  CKAction<NSDictionary<NSArray<NSString *> *, id<FooProtocol, BarProtocol>> *> ckAction\n' +
         '}';
       const actualResult: Either.Either<Error.Error[], ObjectSpec.Type> =
@@ -306,12 +306,12 @@ describe('ObjectSpecParser', function () {
             'protocols',
             new ObjectSpecHelpers.AttributeTypeBuilder(
               'NSDictionary',
-              'NSDictionary<id<FooProtocol>, NSArray<id<BarProtocol>> *>*',
+              'NSDictionary<id<Foo_Protocol>, NSArray<id<BarProtocol>> *>*',
               'NSObject',
             ).withReferencedGenericTypes([
               {
                 name: 'id',
-                conformingProtocols: ['FooProtocol'],
+                conformingProtocols: ['Foo_Protocol'],
                 referencedGenericTypes: [],
               },
               {

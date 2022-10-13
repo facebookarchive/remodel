@@ -226,7 +226,7 @@ function foundReferencedGenericTypeFromParsedSequence(attributeTypeReferenceSect
 function conformingProtocols(){
   return mona.sequence(function(s) {
     s(mona.string('<'));
-    const values = s(mona.split(mona.text(mona.alphanum(), {min: 1}), mona.or(mona.join(mona.string(','), mona.spaces()), mona.string(','))));
+    const values = s(mona.split(mona.text(mona.or(mona.alphanum(), mona.string('_')), {min: 1}), mona.or(mona.join(mona.string(','), mona.spaces()), mona.string(','))));
     s(mona.string('>'));
 
     return mona.value(values);
